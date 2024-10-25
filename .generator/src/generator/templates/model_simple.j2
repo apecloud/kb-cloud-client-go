@@ -1,8 +1,8 @@
 {%- if model.description %}
-// {{ name }} {{ model.description|block_comment(prefix="//", first_line=False) }}{% if model.deprecated %}
+// {{ name }} {{ model.description|block_comment(prefix="//", first_line=False) }}
 {% else %}
 // NODESCRIPTION {{ name }}
-{%- endif %}
+{%- endif %} {% if model.deprecated %}
 //
 // Deprecated: This model is deprecated.{% endif %}
 type {{ name }} struct {

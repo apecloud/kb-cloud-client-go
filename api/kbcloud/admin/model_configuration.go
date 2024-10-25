@@ -11,9 +11,7 @@ import (
 )
 
 // Configuration Cluster parameters configuration, include the file name and content of the parameters
-// NODESCRIPTION Configuration
-//
-// Deprecated: This model is deprecated.
+
 type Configuration struct {
 	// The name of the configuration file
 	FileName string `json:"fileName"`

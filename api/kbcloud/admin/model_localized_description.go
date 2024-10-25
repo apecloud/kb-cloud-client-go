@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION LocalizedDescription
 type LocalizedDescription struct {
 	// NODESCRIPTION ZhCn
 	ZhCn string `json:"zh-CN"`

@@ -11,9 +11,7 @@ import (
 )
 
 // RecycleBinClusterList recycleBinClusterList is a list of KubeBlocks clusters in the recycle bin
-// NODESCRIPTION RecycleBinClusterList
-//
-// Deprecated: This model is deprecated.
+
 type RecycleBinClusterList struct {
 	// Items is the KubeBlocks cluster objects in the recycleBinClusterList
 	Items []RecycleBinClusterListItem `json:"items"`

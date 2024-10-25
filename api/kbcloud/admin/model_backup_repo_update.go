@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // BackupRepoUpdate BackupRepoUpdate is the payload to update a KubeBlocks cluster backup repo
-// NODESCRIPTION BackupRepoUpdate
-//
-// Deprecated: This model is deprecated.
+
 type BackupRepoUpdate struct {
 	// default specifies whether the backupRepo is the default backupRepo
 	Default *bool `json:"default,omitempty"`

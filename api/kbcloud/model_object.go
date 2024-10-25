@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION Object
 type Object struct {
 	// Type is the type of db object, like 'Table', 'Views', 'Functions'
 	Type *string `json:"type,omitempty"`

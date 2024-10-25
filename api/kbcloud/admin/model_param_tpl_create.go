@@ -11,9 +11,7 @@ import (
 )
 
 // ParamTplCreate parameter template create
-// NODESCRIPTION ParamTplCreate
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplCreate struct {
 	// Description of parameter template
 	Description string `json:"description"`

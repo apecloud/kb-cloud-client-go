@@ -11,9 +11,7 @@ import (
 )
 
 // Tag tag info
-// NODESCRIPTION Tag
-//
-// Deprecated: This model is deprecated.
+
 type Tag struct {
 	// The id of the tag
 	Id string `json:"id"`

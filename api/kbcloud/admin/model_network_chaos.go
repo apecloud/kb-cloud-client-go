@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION NetworkChaos
 type NetworkChaos struct {
 	// Specifies the mode of network chaos to be applied. This determines how the chaos is distributed among the target pods.
 	Mode NetworkChaosMode `json:"mode"`

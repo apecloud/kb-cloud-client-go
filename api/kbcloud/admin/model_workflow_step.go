@@ -11,9 +11,7 @@ import (
 )
 
 // WorkflowStep workflow step
-// NODESCRIPTION WorkflowStep
-//
-// Deprecated: This model is deprecated.
+
 type WorkflowStep struct {
 	// NODESCRIPTION Name
 	Name *string `json:"name,omitempty"`

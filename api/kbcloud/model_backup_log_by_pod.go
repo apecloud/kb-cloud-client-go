@@ -11,9 +11,7 @@ import (
 )
 
 // BackupLogByPod info of backup workload log
-// NODESCRIPTION BackupLogByPod
-//
-// Deprecated: This model is deprecated.
+
 type BackupLogByPod struct {
 	// logs of the backup workload
 	Log *string `json:"log,omitempty"`

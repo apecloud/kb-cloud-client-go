@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION DashboardOptionInstancePanelsItemPanelsItem
 type DashboardOptionInstancePanelsItemPanelsItem struct {
 	// NODESCRIPTION Description
 	Description *string `json:"description,omitempty"`

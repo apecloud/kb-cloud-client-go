@@ -11,9 +11,7 @@ import (
 )
 
 // OrgList OrgList is a list of Orgs
-// NODESCRIPTION OrgList
-//
-// Deprecated: This model is deprecated.
+
 type OrgList struct {
 	// Items is the list of Org objects in the list
 	Items []Org `json:"items"`

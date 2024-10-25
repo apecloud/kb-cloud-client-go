@@ -11,9 +11,7 @@ import (
 )
 
 // StorageProvisionerList StorageProvisionerList stands for stats for provisioners can be used by storage classes.
-// NODESCRIPTION StorageProvisionerList
-//
-// Deprecated: This model is deprecated.
+
 type StorageProvisionerList struct {
 	// NODESCRIPTION Items
 	Items []StorageProvisioner `json:"items"`

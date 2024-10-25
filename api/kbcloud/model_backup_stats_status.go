@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // BackupStatsStatus Number of backups for the status
-// NODESCRIPTION BackupStatsStatus
-//
-// Deprecated: This model is deprecated.
+
 type BackupStatsStatus struct {
 	// Backup status
 	Status *string `json:"status,omitempty"`

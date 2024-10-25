@@ -12,9 +12,7 @@ import (
 )
 
 // EngineVersion EngineVersionRecord
-// NODESCRIPTION EngineVersion
-//
-// Deprecated: This model is deprecated.
+
 type EngineVersion struct {
 	// Primary Key for the EngineVersionRecord
 	Id int32 `json:"id"`

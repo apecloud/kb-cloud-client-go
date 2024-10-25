@@ -11,9 +11,7 @@ import (
 )
 
 // AlertMetricList AlertMetricList is a list of alert metric
-// NODESCRIPTION AlertMetricList
-//
-// Deprecated: This model is deprecated.
+
 type AlertMetricList struct {
 	// Items is the list of alert metric objects in the list
 	Items []AlertMetric `json:"items"`

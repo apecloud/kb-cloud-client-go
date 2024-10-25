@@ -11,9 +11,7 @@ import (
 )
 
 // EnvironmentList EnvironmentList is a list of Environments
-// NODESCRIPTION EnvironmentList
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentList struct {
 	// Items is the list of Environment objects in the list
 	Items []Environment `json:"items"`

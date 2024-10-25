@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION Pagination
 type Pagination struct {
 	// NODESCRIPTION RowsCount
 	RowsCount *int32 `json:"rows_count,omitempty"`

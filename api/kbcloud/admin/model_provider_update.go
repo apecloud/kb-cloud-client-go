@@ -11,9 +11,7 @@ import (
 )
 
 // ProviderUpdate The cloud provider that needs to be updated.
-// NODESCRIPTION ProviderUpdate
-//
-// Deprecated: This model is deprecated.
+
 type ProviderUpdate struct {
 	// The logo of the cloud provider.
 	Logo string `json:"logo"`

@@ -11,9 +11,7 @@ import (
 )
 
 // Iac Create environment by IaC
-// NODESCRIPTION Iac
-//
-// Deprecated: This model is deprecated.
+
 type Iac struct {
 	// Role used to do AssumeRole action
 	Role string `json:"role"`

@@ -12,9 +12,7 @@ import (
 )
 
 // AdminUser Admin user info
-// NODESCRIPTION AdminUser
-//
-// Deprecated: This model is deprecated.
+
 type AdminUser struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`

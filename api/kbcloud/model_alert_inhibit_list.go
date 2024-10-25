@@ -11,9 +11,7 @@ import (
 )
 
 // AlertInhibitList AlertInhibitList is a list of alert inhibit
-// NODESCRIPTION AlertInhibitList
-//
-// Deprecated: This model is deprecated.
+
 type AlertInhibitList struct {
 	// Items is the list of alert inhibits in the list
 	Items []AlertInhibit `json:"items"`

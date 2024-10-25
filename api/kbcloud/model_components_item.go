@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION ComponentsItem
 type ComponentsItem struct {
 	// component name
 	Name *string `json:"name,omitempty"`

@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // Permission Permission information
-// NODESCRIPTION Permission
-//
-// Deprecated: This model is deprecated.
+
 type Permission struct {
 	// The name of the permission
 	Name *string `json:"name,omitempty"`

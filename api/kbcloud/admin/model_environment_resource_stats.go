@@ -11,9 +11,7 @@ import (
 )
 
 // EnvironmentResourceStats EnvironmentResourceStats holds the cpuStats for a environment.
-// NODESCRIPTION EnvironmentResourceStats
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`

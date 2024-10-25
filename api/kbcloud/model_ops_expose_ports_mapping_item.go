@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION OpsExposePortsMappingItem
 type OpsExposePortsMappingItem struct {
 	// NODESCRIPTION Old
 	Old *int32 `json:"old,omitempty"`

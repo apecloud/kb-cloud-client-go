@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OrgUpdate Organization update
-// NODESCRIPTION OrgUpdate
-//
-// Deprecated: This model is deprecated.
+
 type OrgUpdate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`

@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION BenchOption
 type BenchOption struct {
 	// NODESCRIPTION Pgbench
 	Pgbench bool `json:"pgbench"`

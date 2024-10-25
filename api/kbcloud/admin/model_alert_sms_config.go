@@ -11,9 +11,7 @@ import (
 )
 
 // AlertSMSConfig Alert sms config
-// NODESCRIPTION AlertSMSConfig
-//
-// Deprecated: This model is deprecated.
+
 type AlertSMSConfig struct {
 	// NODESCRIPTION Name
 	Name *string `json:"name,omitempty"`

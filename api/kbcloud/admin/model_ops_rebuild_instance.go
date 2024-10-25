@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsRebuildInstance rebuild the instances of the cluster.
-// NODESCRIPTION OpsRebuildInstance
-//
-// Deprecated: This model is deprecated.
+
 type OpsRebuildInstance struct {
 	// will ignore role check during rebuilding instance.
 	IgnoreRoleCheck *bool `json:"ignoreRoleCheck,omitempty"`

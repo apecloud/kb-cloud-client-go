@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION Memory
 type Memory struct {
 	// NODESCRIPTION MemCapacity
 	MemCapacity *string `json:"mem_capacity,omitempty"`

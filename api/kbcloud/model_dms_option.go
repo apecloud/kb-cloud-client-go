@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION DmsOption
 type DmsOption struct {
 	// NODESCRIPTION Enabled
 	Enabled bool `json:"enabled"`

@@ -11,9 +11,7 @@ import (
 )
 
 // AdminUserCreate Admin user create
-// NODESCRIPTION AdminUserCreate
-//
-// Deprecated: This model is deprecated.
+
 type AdminUserCreate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParameterHistoryList A list of parameter history
-// NODESCRIPTION ParameterHistoryList
-//
-// Deprecated: This model is deprecated.
+
 type ParameterHistoryList struct {
 	// NODESCRIPTION Items
 	Items []ParameterHistory `json:"items,omitempty"`

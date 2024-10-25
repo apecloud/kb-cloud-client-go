@@ -11,6 +11,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ClusterLicense
 type ClusterLicense struct {
 	// NODESCRIPTION Id
 	Id *string `json:"id,omitempty"`

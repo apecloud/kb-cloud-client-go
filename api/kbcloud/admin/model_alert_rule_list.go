@@ -11,9 +11,7 @@ import (
 )
 
 // AlertRuleList AlertRuleList is a list of alert rules
-// NODESCRIPTION AlertRuleList
-//
-// Deprecated: This model is deprecated.
+
 type AlertRuleList struct {
 	// Items is the list of alert rule objects in the list
 	Items []AlertRuleGroup `json:"items"`

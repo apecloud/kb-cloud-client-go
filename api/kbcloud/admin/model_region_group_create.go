@@ -11,9 +11,7 @@ import (
 )
 
 // RegionGroupCreate The region group that needs to be created.
-// NODESCRIPTION RegionGroupCreate
-//
-// Deprecated: This model is deprecated.
+
 type RegionGroupCreate struct {
 	// The name of the region group.
 	Group string `json:"group"`

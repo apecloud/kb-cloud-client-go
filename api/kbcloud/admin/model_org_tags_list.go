@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION OrgTagsList
 type OrgTagsList struct {
 	// NODESCRIPTION Items
 	Items []Tag `json:"items"`

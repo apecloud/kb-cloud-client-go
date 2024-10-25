@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION InspectionScript
 type InspectionScript struct {
 	// NODESCRIPTION Id
 	Id *int32 `json:"id,omitempty"`

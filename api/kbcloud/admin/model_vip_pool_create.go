@@ -11,9 +11,7 @@ import (
 )
 
 // VipPoolCreate VIP Pool create
-// NODESCRIPTION VipPoolCreate
-//
-// Deprecated: This model is deprecated.
+
 type VipPoolCreate struct {
 	// IP Addresses
 	Addresses string `json:"addresses"`

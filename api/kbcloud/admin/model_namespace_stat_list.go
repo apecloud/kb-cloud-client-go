@@ -11,9 +11,7 @@ import (
 )
 
 // NamespaceStatList NamespaceStatList stands for stats for environment namespaces
-// NODESCRIPTION NamespaceStatList
-//
-// Deprecated: This model is deprecated.
+
 type NamespaceStatList struct {
 	// NODESCRIPTION Items
 	Items []NamespaceInfo `json:"items"`

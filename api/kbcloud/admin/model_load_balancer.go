@@ -11,9 +11,7 @@ import (
 )
 
 // LoadBalancer The load balancer info
-// NODESCRIPTION LoadBalancer
-//
-// Deprecated: This model is deprecated.
+
 type LoadBalancer struct {
 	// Version of the load balancer
 	Version *string `json:"version,omitempty"`

@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION WorkflowCreate
 type WorkflowCreate struct {
 	// workflow type
 	Type *WorkflowType `json:"type,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // OrgMember Org Member info
-// NODESCRIPTION OrgMember
-//
-// Deprecated: This model is deprecated.
+
 type OrgMember struct {
 	// The display name of User. Read-Only
 	DisplayName *string `json:"displayName,omitempty"`

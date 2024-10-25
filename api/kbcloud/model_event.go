@@ -11,9 +11,7 @@ import (
 )
 
 // Event event is the information of operation event
-// NODESCRIPTION Event
-//
-// Deprecated: This model is deprecated.
+
 type Event struct {
 	// ID of the event
 	Id *string `json:"id,omitempty"`

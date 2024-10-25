@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION ModeOptionProxy
 type ModeOptionProxy struct {
 	// NODESCRIPTION Enabled
 	Enabled *bool `json:"enabled,omitempty"`

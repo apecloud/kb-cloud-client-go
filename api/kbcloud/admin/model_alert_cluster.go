@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION AlertCluster
 type AlertCluster struct {
 	// NODESCRIPTION Disabled
 	Disabled bool `json:"disabled"`

@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION LogDisk
 type LogDisk struct {
 	// NODESCRIPTION LogDiskCapacity
 	LogDiskCapacity *string `json:"log_disk_capacity,omitempty"`

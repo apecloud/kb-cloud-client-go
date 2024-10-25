@@ -11,9 +11,7 @@ import (
 )
 
 // Metadb_instanceMetricsList instance metrics list
-// NODESCRIPTION Metadb_instanceMetricsList
-//
-// Deprecated: This model is deprecated.
+
 type Metadb_instanceMetricsList struct {
 	// instanceMetrics list
 	Items []Metadb_instanceMetrics `json:"items"`

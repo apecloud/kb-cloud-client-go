@@ -11,12 +11,10 @@ import (
 )
 
 // BackupList BackupList is a list of backups
-// NODESCRIPTION BackupList
-//
-// Deprecated: This model is deprecated.
+
 type BackupList struct {
 	// Items is the list of backup policy objects in the list
-	Items []Backup_backup `json:"items"`
+	Items []Backup `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -28,7 +26,7 @@ type BackupList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupList(items []Backup_backup) *BackupList {
+func NewBackupList(items []Backup) *BackupList {
 	this := BackupList{}
 	this.Items = items
 	return &this
@@ -43,9 +41,9 @@ func NewBackupListWithDefaults() *BackupList {
 }
 
 // GetItems returns the Items field value.
-func (o *BackupList) GetItems() []Backup_backup {
+func (o *BackupList) GetItems() []Backup {
 	if o == nil {
-		var ret []Backup_backup
+		var ret []Backup
 		return ret
 	}
 	return o.Items
@@ -53,7 +51,7 @@ func (o *BackupList) GetItems() []Backup_backup {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *BackupList) GetItemsOk() (*[]Backup_backup, bool) {
+func (o *BackupList) GetItemsOk() (*[]Backup, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -61,7 +59,7 @@ func (o *BackupList) GetItemsOk() (*[]Backup_backup, bool) {
 }
 
 // SetItems sets field value.
-func (o *BackupList) SetItems(v []Backup_backup) {
+func (o *BackupList) SetItems(v []Backup) {
 	o.Items = v
 }
 
@@ -113,8 +111,8 @@ func (o BackupList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Backup_backup `json:"items"`
-		PageResult *PageResult      `json:"pageResult,omitempty"`
+		Items      *[]Backup   `json:"items"`
+		PageResult *PageResult `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

@@ -11,9 +11,7 @@ import (
 )
 
 // BackupList BackupList is a list of backups
-// NODESCRIPTION BackupList
-//
-// Deprecated: This model is deprecated.
+
 type BackupList struct {
 	// Items is the list of backup policy objects in the list
 	Items []Backup `json:"items"`

@@ -11,9 +11,7 @@ import (
 )
 
 // StorageClassList StorageClassList stands for stats for storage classes.
-// NODESCRIPTION StorageClassList
-//
-// Deprecated: This model is deprecated.
+
 type StorageClassList struct {
 	// the list of storage classes
 	Items []StorageClassInfo `json:"items"`

@@ -11,9 +11,7 @@ import (
 )
 
 // PersistentVolumeClaim persistentVolumeClaim provides detailed information about the PVC .
-// NODESCRIPTION PersistentVolumeClaim
-//
-// Deprecated: This model is deprecated.
+
 type PersistentVolumeClaim struct {
 	// the namespace of the PVC
 	NameSpace string `json:"nameSpace"`

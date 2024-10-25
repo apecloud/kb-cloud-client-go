@@ -11,9 +11,7 @@ import (
 )
 
 // Cluster_event event is the information of operation event
-// NODESCRIPTION Cluster_event
-//
-// Deprecated: This model is deprecated.
+
 type Cluster_event struct {
 	// ID of the event
 	Id *string `json:"id,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // Metadb_instance Instance is the information of metadb cluster instances
-// NODESCRIPTION Metadb_instance
-//
-// Deprecated: This model is deprecated.
+
 type Metadb_instance struct {
 	// Cluster name
 	Cluster string `json:"cluster"`

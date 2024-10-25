@@ -11,9 +11,7 @@ import (
 )
 
 // Ycsb ycsb is the ycsb benchmark object
-// NODESCRIPTION Ycsb
-//
-// Deprecated: This model is deprecated.
+
 type Ycsb struct {
 	// Step of benchmark
 	Step *YcsbStep `json:"step,omitempty"`

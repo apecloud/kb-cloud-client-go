@@ -11,9 +11,7 @@ import (
 )
 
 // Role Role information
-// NODESCRIPTION Role
-//
-// Deprecated: This model is deprecated.
+
 type Role struct {
 	// The name of the role
 	Name *string `json:"name,omitempty"`

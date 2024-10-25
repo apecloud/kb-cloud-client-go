@@ -11,9 +11,7 @@ import (
 )
 
 // BackupStats Backup statistic info
-// NODESCRIPTION BackupStats
-//
-// Deprecated: This model is deprecated.
+
 type BackupStats struct {
 	// Number of backups for each defferent status
 	BackupStatsStatus []BackupStatsStatus `json:"backupStatsStatus,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // PlatformParameterList platformParameter list
-// NODESCRIPTION PlatformParameterList
-//
-// Deprecated: This model is deprecated.
+
 type PlatformParameterList struct {
 	// NODESCRIPTION Items
 	Items []PlatformParameter `json:"items"`

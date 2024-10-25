@@ -11,9 +11,7 @@ import (
 )
 
 // Inspection inspection
-// NODESCRIPTION Inspection
-//
-// Deprecated: This model is deprecated.
+
 type Inspection struct {
 	// NODESCRIPTION Id
 	Id *int32 `json:"id,omitempty"`

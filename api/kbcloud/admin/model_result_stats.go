@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ResultStats
 type ResultStats struct {
 	// NODESCRIPTION ColumnsCount
 	ColumnsCount *int32 `json:"columns_count,omitempty"`

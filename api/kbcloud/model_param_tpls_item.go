@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplsItem the item of the parameter template
-// NODESCRIPTION ParamTplsItem
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplsItem struct {
 	// component type, refer to componentDef and support NamePrefix, Deprecated.
 	ComponentDefRef *string `json:"componentDefRef,omitempty"`

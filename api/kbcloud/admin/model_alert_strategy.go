@@ -12,9 +12,7 @@ import (
 )
 
 // AlertStrategy Alert strategy information
-// NODESCRIPTION AlertStrategy
-//
-// Deprecated: This model is deprecated.
+
 type AlertStrategy struct {
 	// NODESCRIPTION Id
 	Id *int32 `json:"id,omitempty"`

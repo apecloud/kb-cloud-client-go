@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ParameterConfig
 type ParameterConfig struct {
 	// NODESCRIPTION ConfigName
 	ConfigName string `json:"configName"`

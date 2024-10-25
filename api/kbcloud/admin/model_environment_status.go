@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EnvironmentStatus Environment status
-// NODESCRIPTION EnvironmentStatus
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentStatus struct {
 	// Current service state of environment.
 	Conditions []EnvironmentCondition `json:"conditions,omitempty"`

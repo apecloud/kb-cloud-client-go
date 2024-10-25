@@ -11,9 +11,7 @@ import (
 )
 
 // AggregateMetaData A series of data points for meta data, including a count and a timestamp.
-// NODESCRIPTION AggregateMetaData
-//
-// Deprecated: This model is deprecated.
+
 type AggregateMetaData struct {
 	// The total count of the metaData items.
 	Total int32 `json:"total"`

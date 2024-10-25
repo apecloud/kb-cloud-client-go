@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION AutoInspection
 type AutoInspection struct {
 	// NODESCRIPTION Id
 	Id *int32 `json:"id,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // ParamTplApplToClusterListItem parameter template applicable to the cluster information
-// NODESCRIPTION ParamTplApplToClusterListItem
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplApplToClusterListItem struct {
 	// The number of parameters in the parameter template
 	Count int32 `json:"count"`

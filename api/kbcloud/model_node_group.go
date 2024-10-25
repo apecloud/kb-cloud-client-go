@@ -11,9 +11,7 @@ import (
 )
 
 // NodeGroup NodeGroup creation info
-// NODESCRIPTION NodeGroup
-//
-// Deprecated: This model is deprecated.
+
 type NodeGroup struct {
 	// The full, unique name of this Object, name part must consist of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc'
 	Name string `json:"name"`

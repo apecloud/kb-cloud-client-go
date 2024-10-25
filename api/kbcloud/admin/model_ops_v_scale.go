@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsVScale OpsVScale is the payload to vertically scale a KubeBlocks cluster
-// NODESCRIPTION OpsVScale
-//
-// Deprecated: This model is deprecated.
+
 type OpsVScale struct {
 	// component type
 	Component *string `json:"component,omitempty"`

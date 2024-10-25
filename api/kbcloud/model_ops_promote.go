@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
-// NODESCRIPTION OpsPromote
-//
-// Deprecated: This model is deprecated.
+
 type OpsPromote struct {
 	// NODESCRIPTION ComponentName
 	ComponentName *string `json:"componentName,omitempty"`

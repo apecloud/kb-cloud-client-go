@@ -11,9 +11,7 @@ import (
 )
 
 // ProvisionConfig Configuration to provision infrastructure for this environment
-// NODESCRIPTION ProvisionConfig
-//
-// Deprecated: This model is deprecated.
+
 type ProvisionConfig struct {
 	// Register manifest for environment
 	Register Register `json:"register"`

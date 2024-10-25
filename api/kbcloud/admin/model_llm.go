@@ -12,9 +12,7 @@ import (
 )
 
 // Llm llm
-// NODESCRIPTION Llm
-//
-// Deprecated: This model is deprecated.
+
 type Llm struct {
 	// ID of the llm
 	Id string `json:"id"`

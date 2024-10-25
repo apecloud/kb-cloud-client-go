@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // InvitationSender InvitationSender is the User who send the Invitation
-// NODESCRIPTION InvitationSender
-//
-// Deprecated: This model is deprecated.
+
 type InvitationSender struct {
 	// The email of the User
 	Email *string `json:"email,omitempty"`

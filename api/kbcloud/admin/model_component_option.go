@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ComponentOption
 type ComponentOption struct {
 	// component type
 	Name string `json:"name"`

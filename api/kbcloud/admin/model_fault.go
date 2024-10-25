@@ -11,9 +11,7 @@ import (
 )
 
 // Fault response of the fault
-// NODESCRIPTION Fault
-//
-// Deprecated: This model is deprecated.
+
 type Fault struct {
 	// id of the fault
 	Id *string `json:"id,omitempty"`

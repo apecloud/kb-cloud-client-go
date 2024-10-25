@@ -12,9 +12,7 @@ import (
 )
 
 // Backup backup is the payload for KubeBlocks cluster backup
-// NODESCRIPTION Backup
-//
-// Deprecated: This model is deprecated.
+
 type Backup struct {
 	// autoBackup or not
 	AutoBackup bool `json:"autoBackup"`

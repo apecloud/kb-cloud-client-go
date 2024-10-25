@@ -11,9 +11,7 @@ import (
 )
 
 // Instance Instance is the information of KubeBlocks cluster instances
-// NODESCRIPTION Instance
-//
-// Deprecated: This model is deprecated.
+
 type Instance struct {
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`

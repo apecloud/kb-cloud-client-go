@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION BackupConfig
 type BackupConfig struct {
 	// NODESCRIPTION Schedule
 	Schedule *string `json:"schedule,omitempty"`

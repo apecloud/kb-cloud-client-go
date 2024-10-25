@@ -11,9 +11,7 @@ import (
 )
 
 // ProviderCreate The cloud provider that needs to be created.
-// NODESCRIPTION ProviderCreate
-//
-// Deprecated: This model is deprecated.
+
 type ProviderCreate struct {
 	// The name of the cloud provider.
 	Name string `json:"name"`

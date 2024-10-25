@@ -11,9 +11,7 @@ import (
 )
 
 // InvitationCreate Invitation create payload
-// NODESCRIPTION InvitationCreate
-//
-// Deprecated: This model is deprecated.
+
 type InvitationCreate struct {
 	// The email of the invitee
 	Email string `json:"email"`

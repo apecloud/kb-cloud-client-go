@@ -11,9 +11,7 @@ import (
 )
 
 // ParamTplGetItem paramTplGetItem is a list of get parameter template and parameterSpec
-// NODESCRIPTION ParamTplGetItem
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplGetItem struct {
 	// The name of the configuration spec
 	SpecName string `json:"specName"`

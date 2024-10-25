@@ -11,9 +11,7 @@ import (
 )
 
 // ParamTplCreateFromCluster parameter template create
-// NODESCRIPTION ParamTplCreateFromCluster
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplCreateFromCluster struct {
 	// Description of parameter template
 	Description string `json:"description"`

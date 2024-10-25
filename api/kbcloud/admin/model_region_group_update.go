@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RegionGroupUpdate The region group that needs to be updated.
-// NODESCRIPTION RegionGroupUpdate
-//
-// Deprecated: This model is deprecated.
+
 type RegionGroupUpdate struct {
 	// The Chinese name of the region group.
 	GroupCn *string `json:"groupCN,omitempty"`

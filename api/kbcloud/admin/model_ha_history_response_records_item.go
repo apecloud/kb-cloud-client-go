@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION HaHistoryResponseRecordsItem
 type HaHistoryResponseRecordsItem struct {
 	// NODESCRIPTION StartAt
 	StartAt int32 `json:"StartAt"`

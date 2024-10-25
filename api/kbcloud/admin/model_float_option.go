@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION FloatOption
 type FloatOption struct {
 	// NODESCRIPTION Min
 	Min float64 `json:"min"`

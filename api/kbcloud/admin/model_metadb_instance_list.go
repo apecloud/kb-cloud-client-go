@@ -11,9 +11,7 @@ import (
 )
 
 // Metadb_instanceList ClusterList is a list of metadb cluster
-// NODESCRIPTION Metadb_instanceList
-//
-// Deprecated: This model is deprecated.
+
 type Metadb_instanceList struct {
 	// Items is the list of metadb cluster objects in the list
 	Items []Metadb_instance `json:"items"`

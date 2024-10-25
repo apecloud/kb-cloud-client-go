@@ -36,7 +36,7 @@ func (a *ViewApi) GetTreeView(ctx _context.Context, orgName string, clusterName 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
 		ctx,
@@ -64,7 +64,7 @@ func (a *ViewApi) GetTreeView(ctx _context.Context, orgName string, clusterName 
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
-			var v None
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr

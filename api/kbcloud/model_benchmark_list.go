@@ -11,9 +11,7 @@ import (
 )
 
 // BenchmarkList BenchmarkList is a list of benchmarks
-// NODESCRIPTION BenchmarkList
-//
-// Deprecated: This model is deprecated.
+
 type BenchmarkList struct {
 	// Items is the list of benchmark objects in the list
 	Items []Benchmark `json:"items"`

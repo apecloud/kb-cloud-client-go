@@ -11,9 +11,7 @@ import (
 )
 
 // EngineVersionCreate EngineVersionRecord create option
-// NODESCRIPTION EngineVersionCreate
-//
-// Deprecated: This model is deprecated.
+
 type EngineVersionCreate struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`

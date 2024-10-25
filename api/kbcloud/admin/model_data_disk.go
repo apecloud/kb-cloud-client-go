@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION DataDisk
 type DataDisk struct {
 	// NODESCRIPTION DataDiskCapacity
 	DataDiskCapacity *string `json:"data_disk_capacity,omitempty"`

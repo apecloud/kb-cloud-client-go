@@ -11,9 +11,7 @@ import (
 )
 
 // EngineVersionList EngineVersionRecord list
-// NODESCRIPTION EngineVersionList
-//
-// Deprecated: This model is deprecated.
+
 type EngineVersionList struct {
 	// NODESCRIPTION Items
 	Items []EngineVersion `json:"items"`

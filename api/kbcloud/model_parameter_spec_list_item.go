@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParameterSpecListItem With the list of parameterSpecs and the configuration file name
-// NODESCRIPTION ParameterSpecListItem
-//
-// Deprecated: This model is deprecated.
+
 type ParameterSpecListItem struct {
 	// NODESCRIPTION Specs
 	Specs []ParameterSpec `json:"specs,omitempty"`

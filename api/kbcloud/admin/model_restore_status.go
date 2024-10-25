@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RestoreStatus restore status
-// NODESCRIPTION RestoreStatus
-//
-// Deprecated: This model is deprecated.
+
 type RestoreStatus struct {
 	// NODESCRIPTION Actions
 	Actions []RestoreStatusActionsItem `json:"actions,omitempty"`

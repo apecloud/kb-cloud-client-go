@@ -11,9 +11,7 @@ import (
 )
 
 // OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
-// NODESCRIPTION OpsVolumeExpand
-//
-// Deprecated: This model is deprecated.
+
 type OpsVolumeExpand struct {
 	// NODESCRIPTION Component
 	Component *string `json:"component,omitempty"`

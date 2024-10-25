@@ -12,9 +12,7 @@ import (
 )
 
 // NodeResourceStatsList NodeResourceStatsList is a list of NodeResourceStats
-// NODESCRIPTION NodeResourceStatsList
-//
-// Deprecated: This model is deprecated.
+
 type NodeResourceStatsList struct {
 	// Items is the list of NodeResourceStats objects in the list
 	Items []NodeResourceStats `json:"items"`

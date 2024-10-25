@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION Result
 type Result struct {
 	// NODESCRIPTION Pagination
 	Pagination *Pagination `json:"pagination,omitempty"`

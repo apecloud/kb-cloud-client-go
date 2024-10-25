@@ -11,9 +11,7 @@ import (
 )
 
 // AlertMetric Alert metric information
-// NODESCRIPTION AlertMetric
-//
-// Deprecated: This model is deprecated.
+
 type AlertMetric struct {
 	// NODESCRIPTION Key
 	Key string `json:"key"`

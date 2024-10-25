@@ -11,9 +11,7 @@ import (
 )
 
 // ParamTplList paramTplList is a list of parameter templates
-// NODESCRIPTION ParamTplList
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplList struct {
 	// Items is the list of parameter templates objects in the list
 	Items []ParamTplListItem `json:"items"`

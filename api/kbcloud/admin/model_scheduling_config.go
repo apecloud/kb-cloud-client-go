@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // SchedulingConfig Configuration of resource scheduling for this environment
-// NODESCRIPTION SchedulingConfig
-//
-// Deprecated: This model is deprecated.
+
 type SchedulingConfig struct {
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`

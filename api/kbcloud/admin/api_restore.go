@@ -222,11 +222,11 @@ func (a *RestoreApi) DoRestore(ctx _context.Context, orgName string, clusterName
 }
 
 // GetRestoreTimeRange Get cluster restore time ragne.
-func (a *RestoreApi) GetRestoreTimeRange(ctx _context.Context, orgName string, clusterId string) (Backup_backup, *_nethttp.Response, error) {
+func (a *RestoreApi) GetRestoreTimeRange(ctx _context.Context, orgName string, clusterId string) (Backup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue Backup_backup
+		localVarReturnValue Backup
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.GetRestoreTimeRange")

@@ -11,9 +11,7 @@ import (
 )
 
 // InstanceStorageItem Instance storage information
-// NODESCRIPTION InstanceStorageItem
-//
-// Deprecated: This model is deprecated.
+
 type InstanceStorageItem struct {
 	// Specify the name of storage, which must be unique.
 	Name string `json:"name"`

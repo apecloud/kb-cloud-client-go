@@ -11,9 +11,7 @@ import (
 )
 
 // AdminUserUpdate Admin user update
-// NODESCRIPTION AdminUserUpdate
-//
-// Deprecated: This model is deprecated.
+
 type AdminUserUpdate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`

@@ -12,9 +12,7 @@ import (
 )
 
 // Org Org info
-// NODESCRIPTION Org
-//
-// Deprecated: This model is deprecated.
+
 type Org struct {
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
 	//

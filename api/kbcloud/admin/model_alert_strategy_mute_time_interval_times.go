@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION AlertStrategyMuteTimeIntervalTimes
 type AlertStrategyMuteTimeIntervalTimes struct {
 	// Mute start time, e.g. '17:00', should be in UTC time.
 	StartTime *string `json:"startTime,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // DatabaseItem Cluster database information
-// NODESCRIPTION DatabaseItem
-//
-// Deprecated: This model is deprecated.
+
 type DatabaseItem struct {
 	// Specify the name of database, which must be unique.
 	Name string `json:"name"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // WorkflowList component management workflow list
-// NODESCRIPTION WorkflowList
-//
-// Deprecated: This model is deprecated.
+
 type WorkflowList struct {
 	// component management workflow
 	Install *Workflow `json:"install,omitempty"`

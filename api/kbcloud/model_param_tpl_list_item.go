@@ -12,9 +12,7 @@ import (
 )
 
 // ParamTplListItem parameter template information
-// NODESCRIPTION ParamTplListItem
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplListItem struct {
 	// Name of the organization
 	OrgName *string `json:"orgName,omitempty"`

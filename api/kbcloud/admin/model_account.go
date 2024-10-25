@@ -11,9 +11,7 @@ import (
 )
 
 // Account Cluster account information
-// NODESCRIPTION Account
-//
-// Deprecated: This model is deprecated.
+
 type Account struct {
 	// A list of privileges and their databases.
 	PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`

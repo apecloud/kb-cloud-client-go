@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EnvironmentStorage Storage config
-// NODESCRIPTION EnvironmentStorage
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentStorage struct {
 	// the storage name
 	Name *string `json:"name,omitempty"`

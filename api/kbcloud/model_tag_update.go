@@ -11,9 +11,7 @@ import (
 )
 
 // TagUpdate Tag update
-// NODESCRIPTION TagUpdate
-//
-// Deprecated: This model is deprecated.
+
 type TagUpdate struct {
 	// The key of the tag
 	Key string `json:"key"`

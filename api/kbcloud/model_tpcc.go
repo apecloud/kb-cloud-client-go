@@ -11,9 +11,7 @@ import (
 )
 
 // Tpcc tpcc is the tpcc benchmark object
-// NODESCRIPTION Tpcc
-//
-// Deprecated: This model is deprecated.
+
 type Tpcc struct {
 	// Step of sysbench
 	Step *TpccStep `json:"step,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // Register Register manifest for environment
-// NODESCRIPTION Register
-//
-// Deprecated: This model is deprecated.
+
 type Register struct {
 	// Configuration for privisoining environment resources
 	Type EnvironmentRegisterType `json:"type"`

@@ -11,9 +11,7 @@ import (
 )
 
 // ZoneCreate The zone that needs to be created.
-// NODESCRIPTION ZoneCreate
-//
-// Deprecated: This model is deprecated.
+
 type ZoneCreate struct {
 	// The name of the zone.
 	Name string `json:"name"`

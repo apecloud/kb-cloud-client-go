@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster
-// NODESCRIPTION ClusterUpdate
-//
-// Deprecated: This model is deprecated.
+
 type ClusterUpdate struct {
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
 	Replicas *int32 `json:"replicas,omitempty"`

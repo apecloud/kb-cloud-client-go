@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // KubernetesManifestList KubernetesManifestList is the list of Kubernetes objects in the list
-// NODESCRIPTION KubernetesManifestList
-//
-// Deprecated: This model is deprecated.
+
 type KubernetesManifestList struct {
 	// Items is the list of Kubernetes objects in the list
 	KubernetesManifests []map[string]interface{} `json:"kubernetesManifests,omitempty"`

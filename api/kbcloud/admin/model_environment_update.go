@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EnvironmentUpdate Environment info
-// NODESCRIPTION EnvironmentUpdate
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentUpdate struct {
 	// The description of the organization
 	Description common.NullableString `json:"description,omitempty"`

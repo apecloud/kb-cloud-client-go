@@ -11,9 +11,7 @@ import (
 )
 
 // FileEntryList BackupEntryList is a list of entry
-// NODESCRIPTION FileEntryList
-//
-// Deprecated: This model is deprecated.
+
 type FileEntryList struct {
 	// Items is the list of backup entry
 	Items []FileEntry `json:"items"`

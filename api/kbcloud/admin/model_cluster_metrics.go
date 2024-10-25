@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ClusterMetrics Cluster metrics
-// NODESCRIPTION ClusterMetrics
-//
-// Deprecated: This model is deprecated.
+
 type ClusterMetrics struct {
 	// NODESCRIPTION Value
 	Value []interface{} `json:"value,omitempty"`

@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION PodChaos
 type PodChaos struct {
 	// specify the mode of chaos
 	Mode PodChaosMode `json:"mode"`

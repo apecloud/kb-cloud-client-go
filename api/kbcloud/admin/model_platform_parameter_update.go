@@ -11,9 +11,7 @@ import (
 )
 
 // PlatformParameterUpdate platformParameter update
-// NODESCRIPTION PlatformParameterUpdate
-//
-// Deprecated: This model is deprecated.
+
 type PlatformParameterUpdate struct {
 	// platformParameter name
 	Name string `json:"name"`

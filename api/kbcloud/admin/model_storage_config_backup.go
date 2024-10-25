@@ -11,9 +11,7 @@ import (
 )
 
 // StorageConfigBackup the storage config for backup
-// NODESCRIPTION StorageConfigBackup
-//
-// Deprecated: This model is deprecated.
+
 type StorageConfigBackup struct {
 	// the name of storage
 	StorageName string `json:"storageName"`

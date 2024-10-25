@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION BackupOption
 type BackupOption struct {
 	// NODESCRIPTION DefaultMethod
 	DefaultMethod *string `json:"defaultMethod,omitempty"`

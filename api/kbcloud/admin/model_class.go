@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION Class
 type Class struct {
 	// NODESCRIPTION Engine
 	Engine *string `json:"engine,omitempty"`

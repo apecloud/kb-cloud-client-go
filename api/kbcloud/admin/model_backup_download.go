@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION BackupDownload
 type BackupDownload struct {
 	// the paths of file to download
 	Filepaths []string `json:"filepaths,omitempty"`

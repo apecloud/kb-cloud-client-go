@@ -11,9 +11,7 @@ import (
 )
 
 // InstanceResourceStatsList InstanceResourceStatsList is a list of InstanceResourceStats
-// NODESCRIPTION InstanceResourceStatsList
-//
-// Deprecated: This model is deprecated.
+
 type InstanceResourceStatsList struct {
 	// Items is the list of InstanceResourceStats objects in the list
 	Items []InstanceResourceStats `json:"items"`

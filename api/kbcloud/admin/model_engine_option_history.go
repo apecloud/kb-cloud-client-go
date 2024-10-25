@@ -11,6 +11,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION EngineOptionHistory
 type EngineOptionHistory struct {
 	// NODESCRIPTION ModifierId
 	ModifierId string `json:"modifierId"`

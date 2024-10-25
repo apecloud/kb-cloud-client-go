@@ -11,9 +11,7 @@ import (
 )
 
 // Sysbench sysbench is the sysbench benchmark object
-// NODESCRIPTION Sysbench
-//
-// Deprecated: This model is deprecated.
+
 type Sysbench struct {
 	// Step of sysbench
 	Step *SysbenchStep `json:"step,omitempty"`

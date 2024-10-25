@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ConfigurationList A list of cluster parameters configuration
-// NODESCRIPTION ConfigurationList
-//
-// Deprecated: This model is deprecated.
+
 type ConfigurationList struct {
 	// NODESCRIPTION Items
 	Items []Configuration `json:"items,omitempty"`

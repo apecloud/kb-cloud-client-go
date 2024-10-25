@@ -11,9 +11,7 @@ import (
 )
 
 // InstanceMetrics instance metrics
-// NODESCRIPTION InstanceMetrics
-//
-// Deprecated: This model is deprecated.
+
 type InstanceMetrics struct {
 	// the name of the instance
 	InstanceName string `json:"instanceName"`

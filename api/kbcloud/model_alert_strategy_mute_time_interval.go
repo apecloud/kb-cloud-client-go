@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION AlertStrategyMuteTimeInterval
 type AlertStrategyMuteTimeInterval struct {
 	// NODESCRIPTION Weekdays
 	Weekdays []int32 `json:"weekdays,omitempty"`

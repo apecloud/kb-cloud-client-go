@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION TagCreateItemsItem
 type TagCreateItemsItem struct {
 	// NODESCRIPTION Id
 	Id *string `json:"id,omitempty"`

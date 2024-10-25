@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION EnvironmentObjectStorage
 type EnvironmentObjectStorage struct {
 	// NODESCRIPTION Clusters
 	Clusters []RawCluster `json:"clusters,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // RoleList RoleList is a list of Roles
-// NODESCRIPTION RoleList
-//
-// Deprecated: This model is deprecated.
+
 type RoleList struct {
 	// Items is the list of Role objects in the list
 	Items []Role `json:"items"`

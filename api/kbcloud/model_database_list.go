@@ -11,9 +11,7 @@ import (
 )
 
 // DatabaseList DatabaesList is a list of Databaes
-// NODESCRIPTION DatabaseList
-//
-// Deprecated: This model is deprecated.
+
 type DatabaseList struct {
 	// Items is the list of Databases objects in the list
 	Items []DatabaseItem `json:"items"`

@@ -11,9 +11,7 @@ import (
 )
 
 // FeatureList A list of feature
-// NODESCRIPTION FeatureList
-//
-// Deprecated: This model is deprecated.
+
 type FeatureList struct {
 	// The list of feature
 	Items []Feature `json:"items"`

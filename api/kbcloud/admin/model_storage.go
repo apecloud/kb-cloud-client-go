@@ -11,9 +11,7 @@ import (
 )
 
 // Storage Storage is a specification that provides guidance accessing remote storage.
-// NODESCRIPTION Storage
-//
-// Deprecated: This model is deprecated.
+
 type Storage struct {
 	// Unique identifier for the storage
 	Id *string `json:"id,omitempty"`

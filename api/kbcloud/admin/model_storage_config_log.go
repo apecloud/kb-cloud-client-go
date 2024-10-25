@@ -11,9 +11,7 @@ import (
 )
 
 // StorageConfigLog the storage config for log
-// NODESCRIPTION StorageConfigLog
-//
-// Deprecated: This model is deprecated.
+
 type StorageConfigLog struct {
 	// the name of storage
 	StorageName string `json:"storageName"`

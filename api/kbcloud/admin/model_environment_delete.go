@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EnvironmentDelete Environment deletion option
-// NODESCRIPTION EnvironmentDelete
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentDelete struct {
 	// clean up resources in the cloud (only valid if creation is done by role ARN)
 	CleanCloudResources *bool `json:"cleanCloudResources,omitempty"`

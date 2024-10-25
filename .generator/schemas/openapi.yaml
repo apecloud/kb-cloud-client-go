@@ -165,14 +165,12 @@ paths:
           content: {}
           description: Password updated successfully.
         '400':
-          content: {}
-          description: Bad request. The request body is missing or invalid.
+          $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
           $ref: '#/components/responses/ForbiddenResponse'
         '500':
-          content: {}
           $ref: '#/components/responses/InternalServerErrorResponse'
       tags:
         - user
@@ -195,6 +193,12 @@ paths:
         '204':
           content: {}
           description: Verification code sent to user's phone
+        '400':
+          $ref: '#/components/responses/BadRequestResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -510,8 +514,7 @@ paths:
                 $ref: '#/components/schemas/orgMember'
           description: OK
         '400':
-          content: {}
-          description: BadRequest
+          $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -791,11 +794,9 @@ paths:
                 $ref: '#/components/schemas/environmentList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /api/v1/organizations/{orgName}/environments/{environmentName}:
@@ -926,8 +927,7 @@ paths:
                 $ref: '#/components/schemas/loadBalancer'
           description: A successful response.
         '403':
-          description: NoPermission
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
       tags:
@@ -1277,8 +1277,7 @@ paths:
         '403':
           $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: Not Found
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
   /api/v1/invitations/{invitationId}/accept:
     patch:
       tags:
@@ -1556,18 +1555,9 @@ paths:
               schema:
                 type: object
         '403':
-          description: Returned when the user does not have permission to access the resource.
-          content:
-            application/json:
-              schema:
-                type: object
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: Returned when the resource does not exist.
-          content:
-            application/json:
-              schema:
-                type: string
-                format: string
+          $ref: '#/components/responses/NotFoundResponse'
   /api/v1/organizations/{orgName}/clustersWithDelete/{clusterID}:
     get:
       operationId: getClusterByID
@@ -1593,17 +1583,13 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
         '401':
-          content: {}
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          content: {}
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: NotFound
+          $ref: '#/components/responses/NotFoundResponse'
         '409':
-          content: {}
-          description: Conflict
+          $ref: '#/components/responses/ConflictResponse'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances:
@@ -2687,11 +2673,6 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/opsStop'
       responses:
         '202':
           content:
@@ -2724,11 +2705,6 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/opsStart'
       responses:
         '202':
           content:
@@ -3586,17 +3562,13 @@ paths:
                 $ref: '#/components/schemas/instanceMetricsList'
           description: A successful response.
         '401':
-          content: {}
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          content: {}
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: NotFound
+          $ref: '#/components/responses/NotFoundResponse'
         '409':
-          content: {}
-          description: Conflict
+          $ref: '#/components/responses/ConflictResponse'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/runSQL:
@@ -3820,13 +3792,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/treeNode'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/NotFoundResponse'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/ConflictResponse'
       tags:
         - view
   /api/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze:
@@ -4534,11 +4506,9 @@ paths:
                 $ref: '#/components/schemas/restoreList'
           description: A successful response.
         '401':
-          content: {}
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          content: {}
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze:
     get:
       operationId: analyzeClusterRestore
@@ -4609,14 +4579,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineServiceVersions'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - serviceVersion
   /api/v1/organizations/{orgName}/backupRepo:
@@ -5998,14 +5965,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertInhibit'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     patch:
       tags:
         - alertInhibit
@@ -6031,14 +5995,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertInhibit'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
   /api/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}:
     get:
       tags:
@@ -6146,14 +6107,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineList'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     post:
       tags:
         - engine
@@ -6187,14 +6145,11 @@ paths:
               schema:
                 type: boolean
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: actionInfo
   /api/v1/environments/{environmentName}/engines:
     get:
@@ -6261,14 +6216,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineOptionList'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - engineOption
   /api/v1/engineOptions/{engineName}:
@@ -6316,14 +6268,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineLicenseList'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - engineLicense
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
@@ -7441,11 +7390,9 @@ paths:
                 $ref: '#/components/schemas/ipWhitelistList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - ipWhitelist
     post:
@@ -7913,14 +7860,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/class'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     patch:
       tags:
         - class
@@ -7939,14 +7883,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/class'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     delete:
       tags:
         - class
@@ -10457,18 +10398,21 @@ components:
           minimum: 0.5
           type: number
           description: CPU cores.
+          format: double
         memory:
           title: Memory(Gi)
           maximum: 1000
           minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
+          format: double
         storage:
           title: Storage(Gi)
           maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
+          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
         monitorEnabled:
@@ -11009,12 +10953,6 @@ components:
           type: string
       required:
         - opsRequestName
-      type: object
-    opsStop:
-      description: OpsStop is the payload to stop a KubeBlocks cluster
-      type: object
-    opsStart:
-      description: OpsStart is the payload to start a KubeBlocks cluster
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -14974,18 +14912,21 @@ components:
           minimum: 0.5
           type: number
           description: CPU cores.
+          format: double
         memory:
           title: Memory(Gi)
           maximum: 1000
           minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
+          format: double
         storage:
           title: Storage(Gi)
           maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
+          format: double
         status:
           title: Status
           type: string
@@ -15037,6 +14978,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Unauthorized
+    BadRequestResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Bad Request
     ForbiddenResponse:
       content:
         application/json:
@@ -15061,12 +15008,6 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
-    BadRequestResponse:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/APIErrorResponse'
-      description: Bad Request
   parameters:
     startTime:
       name: start

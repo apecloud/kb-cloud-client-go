@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION DmsTaskInfo
 type DmsTaskInfo struct {
 	// task id
 	Id *string `json:"id,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // InstanceStatus Status for instance
-// NODESCRIPTION InstanceStatus
-//
-// Deprecated: This model is deprecated.
+
 type InstanceStatus struct {
 	// The current phase of the cluster
 	Phase string `json:"phase"`

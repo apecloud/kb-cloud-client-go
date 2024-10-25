@@ -11,9 +11,7 @@ import (
 )
 
 // BackupRepoCreate BackupRepoCreate is the payload to create a KubeBlocks cluster backup repo
-// NODESCRIPTION BackupRepoCreate
-//
-// Deprecated: This model is deprecated.
+
 type BackupRepoCreate struct {
 	// the id of storage that backup repo used
 	StorageId string `json:"storageID"`
@@ -25,8 +23,8 @@ type BackupRepoCreate struct {
 	Name string `json:"name"`
 	// the parameters to create the storage
 	Params map[string]string `json:"params,omitempty"`
-	// NODESCRIPTION PvReclaimPolicy
-	PvReclaimPolicy Backup `json:"pvReclaimPolicy,omitempty"`
+	// Specify the reclaim policy for PVs created by this backup repo
+	PvReclaimPolicy *BackupRepoPVReclaimPolicy `json:"pvReclaimPolicy,omitempty"`
 	// Specify the capacity of the new created PVC
 	VolumeCapacity *string `json:"volumeCapacity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -188,21 +186,21 @@ func (o *BackupRepoCreate) SetParams(v map[string]string) {
 }
 
 // GetPvReclaimPolicy returns the PvReclaimPolicy field value if set, zero value otherwise.
-func (o *BackupRepoCreate) GetPvReclaimPolicy() Backup {
+func (o *BackupRepoCreate) GetPvReclaimPolicy() BackupRepoPVReclaimPolicy {
 	if o == nil || o.PvReclaimPolicy == nil {
-		var ret Backup
+		var ret BackupRepoPVReclaimPolicy
 		return ret
 	}
-	return o.PvReclaimPolicy
+	return *o.PvReclaimPolicy
 }
 
 // GetPvReclaimPolicyOk returns a tuple with the PvReclaimPolicy field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupRepoCreate) GetPvReclaimPolicyOk() (*Backup, bool) {
+func (o *BackupRepoCreate) GetPvReclaimPolicyOk() (*BackupRepoPVReclaimPolicy, bool) {
 	if o == nil || o.PvReclaimPolicy == nil {
 		return nil, false
 	}
-	return &o.PvReclaimPolicy, true
+	return o.PvReclaimPolicy, true
 }
 
 // HasPvReclaimPolicy returns a boolean if a field has been set.
@@ -210,9 +208,9 @@ func (o *BackupRepoCreate) HasPvReclaimPolicy() bool {
 	return o != nil && o.PvReclaimPolicy != nil
 }
 
-// SetPvReclaimPolicy gets a reference to the given Backup and assigns it to the PvReclaimPolicy field.
-func (o *BackupRepoCreate) SetPvReclaimPolicy(v Backup) {
-	o.PvReclaimPolicy = v
+// SetPvReclaimPolicy gets a reference to the given BackupRepoPVReclaimPolicy and assigns it to the PvReclaimPolicy field.
+func (o *BackupRepoCreate) SetPvReclaimPolicy(v BackupRepoPVReclaimPolicy) {
+	o.PvReclaimPolicy = &v
 }
 
 // GetVolumeCapacity returns the VolumeCapacity field value if set, zero value otherwise.
@@ -276,13 +274,13 @@ func (o BackupRepoCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepoCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StorageId       *string                 `json:"storageID"`
-		AccessMethod    *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
-		Default         *bool                   `json:"default,omitempty"`
-		Name            *string                 `json:"name"`
-		Params          map[string]string       `json:"params,omitempty"`
-		PvReclaimPolicy Backup                  `json:"pvReclaimPolicy,omitempty"`
-		VolumeCapacity  *string                 `json:"volumeCapacity,omitempty"`
+		StorageId       *string                    `json:"storageID"`
+		AccessMethod    *BackupRepoAccessMethod    `json:"accessMethod,omitempty"`
+		Default         *bool                      `json:"default,omitempty"`
+		Name            *string                    `json:"name"`
+		Params          map[string]string          `json:"params,omitempty"`
+		PvReclaimPolicy *BackupRepoPVReclaimPolicy `json:"pvReclaimPolicy,omitempty"`
+		VolumeCapacity  *string                    `json:"volumeCapacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -310,7 +308,11 @@ func (o *BackupRepoCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Default = all.Default
 	o.Name = *all.Name
 	o.Params = all.Params
-	o.PvReclaimPolicy = all.PvReclaimPolicy
+	if all.PvReclaimPolicy != nil && !all.PvReclaimPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.PvReclaimPolicy = all.PvReclaimPolicy
+	}
 	o.VolumeCapacity = all.VolumeCapacity
 
 	if len(additionalProperties) > 0 {

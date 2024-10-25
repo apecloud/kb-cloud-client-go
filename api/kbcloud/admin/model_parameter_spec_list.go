@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParameterSpecList A list of cluster parameterSpecs
-// NODESCRIPTION ParameterSpecList
-//
-// Deprecated: This model is deprecated.
+
 type ParameterSpecList struct {
 	// NODESCRIPTION Items
 	Items []ParameterSpecListItem `json:"items,omitempty"`

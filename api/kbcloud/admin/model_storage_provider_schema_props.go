@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageProviderSchemaProps the schema properties for storage provider parameters
-// NODESCRIPTION StorageProviderSchemaProps
-//
-// Deprecated: This model is deprecated.
+
 type StorageProviderSchemaProps struct {
 	// default value for the parameter
 	Default interface{} `json:"default,omitempty"`

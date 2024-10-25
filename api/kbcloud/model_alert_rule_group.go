@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION AlertRuleGroup
 type AlertRuleGroup struct {
 	// NODESCRIPTION Name
 	Name *string `json:"name,omitempty"`

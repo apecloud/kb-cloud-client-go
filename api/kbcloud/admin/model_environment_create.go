@@ -12,9 +12,7 @@ import (
 )
 
 // EnvironmentCreate Environment creation info
-// NODESCRIPTION EnvironmentCreate
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentCreate struct {
 	// The full, unique name of this Object in the format environments/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`

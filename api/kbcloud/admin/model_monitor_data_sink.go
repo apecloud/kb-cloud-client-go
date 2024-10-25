@@ -11,9 +11,7 @@ import (
 )
 
 // MonitorDataSink MonitorDataSink
-// NODESCRIPTION MonitorDataSink
-//
-// Deprecated: This model is deprecated.
+
 type MonitorDataSink struct {
 	// MonitorDataSink ID
 	Id string `json:"id"`

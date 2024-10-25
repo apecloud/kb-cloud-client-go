@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION CPU
 type CPU struct {
 	// NODESCRIPTION CpuCapacity
 	CpuCapacity *string `json:"cpu_capacity,omitempty"`

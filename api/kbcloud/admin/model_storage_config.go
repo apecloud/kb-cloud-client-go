@@ -11,9 +11,7 @@ import (
 )
 
 // StorageConfig Storage config for environment
-// NODESCRIPTION StorageConfig
-//
-// Deprecated: This model is deprecated.
+
 type StorageConfig struct {
 	// these storages will be created
 	Storages []EnvironmentStorage `json:"storages"`

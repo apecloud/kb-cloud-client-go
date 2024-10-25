@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // Preflight The result of preflight check
-// NODESCRIPTION Preflight
-//
-// Deprecated: This model is deprecated.
+
 type Preflight struct {
 	// NODESCRIPTION Title
 	Title *string `json:"title,omitempty"`

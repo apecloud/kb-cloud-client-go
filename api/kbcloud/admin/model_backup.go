@@ -11,11 +11,9 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Backup_backup backup is the payload for KubeBlocks cluster backup
-// NODESCRIPTION Backup_backup
-//
-// Deprecated: This model is deprecated.
-type Backup_backup struct {
+// Backup backup is the payload for KubeBlocks cluster backup
+
+type Backup struct {
 	// autoBackup or not
 	AutoBackup bool `json:"autoBackup"`
 	// Backup Method.
@@ -79,12 +77,12 @@ type Backup_backup struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewBackup_backup instantiates a new Backup_backup object.
+// NewBackup instantiates a new Backup object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackup_backup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, completionTimestamp time.Time, creationTimestamp time.Time, duration string, name string, orgName string, snapshotVolumes bool, sourceCluster string, startTimestamp time.Time, status BackupStatus, totalSize string) *Backup_backup {
-	this := Backup_backup{}
+func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, completionTimestamp time.Time, creationTimestamp time.Time, duration string, name string, orgName string, snapshotVolumes bool, sourceCluster string, startTimestamp time.Time, status BackupStatus, totalSize string) *Backup {
+	this := Backup{}
 	this.AutoBackup = autoBackup
 	this.BackupMethod = backupMethod
 	this.BackupPolicyName = backupPolicyName
@@ -102,16 +100,16 @@ func NewBackup_backup(autoBackup bool, backupMethod string, backupPolicyName str
 	return &this
 }
 
-// NewBackup_backupWithDefaults instantiates a new Backup_backup object.
+// NewBackupWithDefaults instantiates a new Backup object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewBackup_backupWithDefaults() *Backup_backup {
-	this := Backup_backup{}
+func NewBackupWithDefaults() *Backup {
+	this := Backup{}
 	return &this
 }
 
 // GetAutoBackup returns the AutoBackup field value.
-func (o *Backup_backup) GetAutoBackup() bool {
+func (o *Backup) GetAutoBackup() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -121,7 +119,7 @@ func (o *Backup_backup) GetAutoBackup() bool {
 
 // GetAutoBackupOk returns a tuple with the AutoBackup field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetAutoBackupOk() (*bool, bool) {
+func (o *Backup) GetAutoBackupOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -129,12 +127,12 @@ func (o *Backup_backup) GetAutoBackupOk() (*bool, bool) {
 }
 
 // SetAutoBackup sets field value.
-func (o *Backup_backup) SetAutoBackup(v bool) {
+func (o *Backup) SetAutoBackup(v bool) {
 	o.AutoBackup = v
 }
 
 // GetBackupMethod returns the BackupMethod field value.
-func (o *Backup_backup) GetBackupMethod() string {
+func (o *Backup) GetBackupMethod() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -144,7 +142,7 @@ func (o *Backup_backup) GetBackupMethod() string {
 
 // GetBackupMethodOk returns a tuple with the BackupMethod field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetBackupMethodOk() (*string, bool) {
+func (o *Backup) GetBackupMethodOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -152,12 +150,12 @@ func (o *Backup_backup) GetBackupMethodOk() (*string, bool) {
 }
 
 // SetBackupMethod sets field value.
-func (o *Backup_backup) SetBackupMethod(v string) {
+func (o *Backup) SetBackupMethod(v string) {
 	o.BackupMethod = v
 }
 
 // GetBackupPolicyName returns the BackupPolicyName field value.
-func (o *Backup_backup) GetBackupPolicyName() string {
+func (o *Backup) GetBackupPolicyName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -167,7 +165,7 @@ func (o *Backup_backup) GetBackupPolicyName() string {
 
 // GetBackupPolicyNameOk returns a tuple with the BackupPolicyName field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetBackupPolicyNameOk() (*string, bool) {
+func (o *Backup) GetBackupPolicyNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -175,12 +173,12 @@ func (o *Backup_backup) GetBackupPolicyNameOk() (*string, bool) {
 }
 
 // SetBackupPolicyName sets field value.
-func (o *Backup_backup) SetBackupPolicyName(v string) {
+func (o *Backup) SetBackupPolicyName(v string) {
 	o.BackupPolicyName = v
 }
 
 // GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
-func (o *Backup_backup) GetBackupRepo() string {
+func (o *Backup) GetBackupRepo() string {
 	if o == nil || o.BackupRepo == nil {
 		var ret string
 		return ret
@@ -190,7 +188,7 @@ func (o *Backup_backup) GetBackupRepo() string {
 
 // GetBackupRepoOk returns a tuple with the BackupRepo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetBackupRepoOk() (*string, bool) {
+func (o *Backup) GetBackupRepoOk() (*string, bool) {
 	if o == nil || o.BackupRepo == nil {
 		return nil, false
 	}
@@ -198,17 +196,17 @@ func (o *Backup_backup) GetBackupRepoOk() (*string, bool) {
 }
 
 // HasBackupRepo returns a boolean if a field has been set.
-func (o *Backup_backup) HasBackupRepo() bool {
+func (o *Backup) HasBackupRepo() bool {
 	return o != nil && o.BackupRepo != nil
 }
 
 // SetBackupRepo gets a reference to the given string and assigns it to the BackupRepo field.
-func (o *Backup_backup) SetBackupRepo(v string) {
+func (o *Backup) SetBackupRepo(v string) {
 	o.BackupRepo = &v
 }
 
 // GetBackupType returns the BackupType field value.
-func (o *Backup_backup) GetBackupType() BackupType {
+func (o *Backup) GetBackupType() BackupType {
 	if o == nil {
 		var ret BackupType
 		return ret
@@ -218,7 +216,7 @@ func (o *Backup_backup) GetBackupType() BackupType {
 
 // GetBackupTypeOk returns a tuple with the BackupType field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetBackupTypeOk() (*BackupType, bool) {
+func (o *Backup) GetBackupTypeOk() (*BackupType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -226,12 +224,12 @@ func (o *Backup_backup) GetBackupTypeOk() (*BackupType, bool) {
 }
 
 // SetBackupType sets field value.
-func (o *Backup_backup) SetBackupType(v BackupType) {
+func (o *Backup) SetBackupType(v BackupType) {
 	o.BackupType = v
 }
 
 // GetCompletionTimestamp returns the CompletionTimestamp field value.
-func (o *Backup_backup) GetCompletionTimestamp() time.Time {
+func (o *Backup) GetCompletionTimestamp() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -241,7 +239,7 @@ func (o *Backup_backup) GetCompletionTimestamp() time.Time {
 
 // GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetCompletionTimestampOk() (*time.Time, bool) {
+func (o *Backup) GetCompletionTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -249,12 +247,12 @@ func (o *Backup_backup) GetCompletionTimestampOk() (*time.Time, bool) {
 }
 
 // SetCompletionTimestamp sets field value.
-func (o *Backup_backup) SetCompletionTimestamp(v time.Time) {
+func (o *Backup) SetCompletionTimestamp(v time.Time) {
 	o.CompletionTimestamp = v
 }
 
 // GetCreationTimestamp returns the CreationTimestamp field value.
-func (o *Backup_backup) GetCreationTimestamp() time.Time {
+func (o *Backup) GetCreationTimestamp() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -264,7 +262,7 @@ func (o *Backup_backup) GetCreationTimestamp() time.Time {
 
 // GetCreationTimestampOk returns a tuple with the CreationTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetCreationTimestampOk() (*time.Time, bool) {
+func (o *Backup) GetCreationTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -272,12 +270,12 @@ func (o *Backup_backup) GetCreationTimestampOk() (*time.Time, bool) {
 }
 
 // SetCreationTimestamp sets field value.
-func (o *Backup_backup) SetCreationTimestamp(v time.Time) {
+func (o *Backup) SetCreationTimestamp(v time.Time) {
 	o.CreationTimestamp = v
 }
 
 // GetDuration returns the Duration field value.
-func (o *Backup_backup) GetDuration() string {
+func (o *Backup) GetDuration() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -287,7 +285,7 @@ func (o *Backup_backup) GetDuration() string {
 
 // GetDurationOk returns a tuple with the Duration field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetDurationOk() (*string, bool) {
+func (o *Backup) GetDurationOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -295,12 +293,12 @@ func (o *Backup_backup) GetDurationOk() (*string, bool) {
 }
 
 // SetDuration sets field value.
-func (o *Backup_backup) SetDuration(v string) {
+func (o *Backup) SetDuration(v string) {
 	o.Duration = v
 }
 
 // GetName returns the Name field value.
-func (o *Backup_backup) GetName() string {
+func (o *Backup) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -310,7 +308,7 @@ func (o *Backup_backup) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetNameOk() (*string, bool) {
+func (o *Backup) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -318,12 +316,12 @@ func (o *Backup_backup) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *Backup_backup) SetName(v string) {
+func (o *Backup) SetName(v string) {
 	o.Name = v
 }
 
 // GetOrgName returns the OrgName field value.
-func (o *Backup_backup) GetOrgName() string {
+func (o *Backup) GetOrgName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -333,7 +331,7 @@ func (o *Backup_backup) GetOrgName() string {
 
 // GetOrgNameOk returns a tuple with the OrgName field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetOrgNameOk() (*string, bool) {
+func (o *Backup) GetOrgNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -341,12 +339,12 @@ func (o *Backup_backup) GetOrgNameOk() (*string, bool) {
 }
 
 // SetOrgName sets field value.
-func (o *Backup_backup) SetOrgName(v string) {
+func (o *Backup) SetOrgName(v string) {
 	o.OrgName = v
 }
 
 // GetSnapshotVolumes returns the SnapshotVolumes field value.
-func (o *Backup_backup) GetSnapshotVolumes() bool {
+func (o *Backup) GetSnapshotVolumes() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -356,7 +354,7 @@ func (o *Backup_backup) GetSnapshotVolumes() bool {
 
 // GetSnapshotVolumesOk returns a tuple with the SnapshotVolumes field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetSnapshotVolumesOk() (*bool, bool) {
+func (o *Backup) GetSnapshotVolumesOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -364,12 +362,12 @@ func (o *Backup_backup) GetSnapshotVolumesOk() (*bool, bool) {
 }
 
 // SetSnapshotVolumes sets field value.
-func (o *Backup_backup) SetSnapshotVolumes(v bool) {
+func (o *Backup) SetSnapshotVolumes(v bool) {
 	o.SnapshotVolumes = v
 }
 
 // GetSourceCluster returns the SourceCluster field value.
-func (o *Backup_backup) GetSourceCluster() string {
+func (o *Backup) GetSourceCluster() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -379,7 +377,7 @@ func (o *Backup_backup) GetSourceCluster() string {
 
 // GetSourceClusterOk returns a tuple with the SourceCluster field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetSourceClusterOk() (*string, bool) {
+func (o *Backup) GetSourceClusterOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -387,12 +385,12 @@ func (o *Backup_backup) GetSourceClusterOk() (*string, bool) {
 }
 
 // SetSourceCluster sets field value.
-func (o *Backup_backup) SetSourceCluster(v string) {
+func (o *Backup) SetSourceCluster(v string) {
 	o.SourceCluster = v
 }
 
 // GetStartTimestamp returns the StartTimestamp field value.
-func (o *Backup_backup) GetStartTimestamp() time.Time {
+func (o *Backup) GetStartTimestamp() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -402,7 +400,7 @@ func (o *Backup_backup) GetStartTimestamp() time.Time {
 
 // GetStartTimestampOk returns a tuple with the StartTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetStartTimestampOk() (*time.Time, bool) {
+func (o *Backup) GetStartTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -410,12 +408,12 @@ func (o *Backup_backup) GetStartTimestampOk() (*time.Time, bool) {
 }
 
 // SetStartTimestamp sets field value.
-func (o *Backup_backup) SetStartTimestamp(v time.Time) {
+func (o *Backup) SetStartTimestamp(v time.Time) {
 	o.StartTimestamp = v
 }
 
 // GetStatus returns the Status field value.
-func (o *Backup_backup) GetStatus() BackupStatus {
+func (o *Backup) GetStatus() BackupStatus {
 	if o == nil {
 		var ret BackupStatus
 		return ret
@@ -425,7 +423,7 @@ func (o *Backup_backup) GetStatus() BackupStatus {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetStatusOk() (*BackupStatus, bool) {
+func (o *Backup) GetStatusOk() (*BackupStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -433,12 +431,12 @@ func (o *Backup_backup) GetStatusOk() (*BackupStatus, bool) {
 }
 
 // SetStatus sets field value.
-func (o *Backup_backup) SetStatus(v BackupStatus) {
+func (o *Backup) SetStatus(v BackupStatus) {
 	o.Status = v
 }
 
 // GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise.
-func (o *Backup_backup) GetTimeRangeEnd() time.Time {
+func (o *Backup) GetTimeRangeEnd() time.Time {
 	if o == nil || o.TimeRangeEnd == nil {
 		var ret time.Time
 		return ret
@@ -448,7 +446,7 @@ func (o *Backup_backup) GetTimeRangeEnd() time.Time {
 
 // GetTimeRangeEndOk returns a tuple with the TimeRangeEnd field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetTimeRangeEndOk() (*time.Time, bool) {
+func (o *Backup) GetTimeRangeEndOk() (*time.Time, bool) {
 	if o == nil || o.TimeRangeEnd == nil {
 		return nil, false
 	}
@@ -456,17 +454,17 @@ func (o *Backup_backup) GetTimeRangeEndOk() (*time.Time, bool) {
 }
 
 // HasTimeRangeEnd returns a boolean if a field has been set.
-func (o *Backup_backup) HasTimeRangeEnd() bool {
+func (o *Backup) HasTimeRangeEnd() bool {
 	return o != nil && o.TimeRangeEnd != nil
 }
 
 // SetTimeRangeEnd gets a reference to the given time.Time and assigns it to the TimeRangeEnd field.
-func (o *Backup_backup) SetTimeRangeEnd(v time.Time) {
+func (o *Backup) SetTimeRangeEnd(v time.Time) {
 	o.TimeRangeEnd = &v
 }
 
 // GetTimeRangeStart returns the TimeRangeStart field value if set, zero value otherwise.
-func (o *Backup_backup) GetTimeRangeStart() time.Time {
+func (o *Backup) GetTimeRangeStart() time.Time {
 	if o == nil || o.TimeRangeStart == nil {
 		var ret time.Time
 		return ret
@@ -476,7 +474,7 @@ func (o *Backup_backup) GetTimeRangeStart() time.Time {
 
 // GetTimeRangeStartOk returns a tuple with the TimeRangeStart field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetTimeRangeStartOk() (*time.Time, bool) {
+func (o *Backup) GetTimeRangeStartOk() (*time.Time, bool) {
 	if o == nil || o.TimeRangeStart == nil {
 		return nil, false
 	}
@@ -484,17 +482,17 @@ func (o *Backup_backup) GetTimeRangeStartOk() (*time.Time, bool) {
 }
 
 // HasTimeRangeStart returns a boolean if a field has been set.
-func (o *Backup_backup) HasTimeRangeStart() bool {
+func (o *Backup) HasTimeRangeStart() bool {
 	return o != nil && o.TimeRangeStart != nil
 }
 
 // SetTimeRangeStart gets a reference to the given time.Time and assigns it to the TimeRangeStart field.
-func (o *Backup_backup) SetTimeRangeStart(v time.Time) {
+func (o *Backup) SetTimeRangeStart(v time.Time) {
 	o.TimeRangeStart = &v
 }
 
 // GetTotalSize returns the TotalSize field value.
-func (o *Backup_backup) GetTotalSize() string {
+func (o *Backup) GetTotalSize() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -504,7 +502,7 @@ func (o *Backup_backup) GetTotalSize() string {
 
 // GetTotalSizeOk returns a tuple with the TotalSize field value
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetTotalSizeOk() (*string, bool) {
+func (o *Backup) GetTotalSizeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -512,12 +510,12 @@ func (o *Backup_backup) GetTotalSizeOk() (*string, bool) {
 }
 
 // SetTotalSize sets field value.
-func (o *Backup_backup) SetTotalSize(v string) {
+func (o *Backup) SetTotalSize(v string) {
 	o.TotalSize = v
 }
 
 // GetFailureReason returns the FailureReason field value if set, zero value otherwise.
-func (o *Backup_backup) GetFailureReason() string {
+func (o *Backup) GetFailureReason() string {
 	if o == nil || o.FailureReason == nil {
 		var ret string
 		return ret
@@ -527,7 +525,7 @@ func (o *Backup_backup) GetFailureReason() string {
 
 // GetFailureReasonOk returns a tuple with the FailureReason field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetFailureReasonOk() (*string, bool) {
+func (o *Backup) GetFailureReasonOk() (*string, bool) {
 	if o == nil || o.FailureReason == nil {
 		return nil, false
 	}
@@ -535,17 +533,17 @@ func (o *Backup_backup) GetFailureReasonOk() (*string, bool) {
 }
 
 // HasFailureReason returns a boolean if a field has been set.
-func (o *Backup_backup) HasFailureReason() bool {
+func (o *Backup) HasFailureReason() bool {
 	return o != nil && o.FailureReason != nil
 }
 
 // SetFailureReason gets a reference to the given string and assigns it to the FailureReason field.
-func (o *Backup_backup) SetFailureReason(v string) {
+func (o *Backup) SetFailureReason(v string) {
 	o.FailureReason = &v
 }
 
 // GetExtras returns the Extras field value if set, zero value otherwise.
-func (o *Backup_backup) GetExtras() string {
+func (o *Backup) GetExtras() string {
 	if o == nil || o.Extras == nil {
 		var ret string
 		return ret
@@ -555,7 +553,7 @@ func (o *Backup_backup) GetExtras() string {
 
 // GetExtrasOk returns a tuple with the Extras field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetExtrasOk() (*string, bool) {
+func (o *Backup) GetExtrasOk() (*string, bool) {
 	if o == nil || o.Extras == nil {
 		return nil, false
 	}
@@ -563,17 +561,17 @@ func (o *Backup_backup) GetExtrasOk() (*string, bool) {
 }
 
 // HasExtras returns a boolean if a field has been set.
-func (o *Backup_backup) HasExtras() bool {
+func (o *Backup) HasExtras() bool {
 	return o != nil && o.Extras != nil
 }
 
 // SetExtras gets a reference to the given string and assigns it to the Extras field.
-func (o *Backup_backup) SetExtras(v string) {
+func (o *Backup) SetExtras(v string) {
 	o.Extras = &v
 }
 
 // GetTargetPods returns the TargetPods field value if set, zero value otherwise.
-func (o *Backup_backup) GetTargetPods() []string {
+func (o *Backup) GetTargetPods() []string {
 	if o == nil || o.TargetPods == nil {
 		var ret []string
 		return ret
@@ -583,7 +581,7 @@ func (o *Backup_backup) GetTargetPods() []string {
 
 // GetTargetPodsOk returns a tuple with the TargetPods field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetTargetPodsOk() (*[]string, bool) {
+func (o *Backup) GetTargetPodsOk() (*[]string, bool) {
 	if o == nil || o.TargetPods == nil {
 		return nil, false
 	}
@@ -591,17 +589,17 @@ func (o *Backup_backup) GetTargetPodsOk() (*[]string, bool) {
 }
 
 // HasTargetPods returns a boolean if a field has been set.
-func (o *Backup_backup) HasTargetPods() bool {
+func (o *Backup) HasTargetPods() bool {
 	return o != nil && o.TargetPods != nil
 }
 
 // SetTargetPods gets a reference to the given []string and assigns it to the TargetPods field.
-func (o *Backup_backup) SetTargetPods(v []string) {
+func (o *Backup) SetTargetPods(v []string) {
 	o.TargetPods = v
 }
 
 // GetPath returns the Path field value if set, zero value otherwise.
-func (o *Backup_backup) GetPath() string {
+func (o *Backup) GetPath() string {
 	if o == nil || o.Path == nil {
 		var ret string
 		return ret
@@ -611,7 +609,7 @@ func (o *Backup_backup) GetPath() string {
 
 // GetPathOk returns a tuple with the Path field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetPathOk() (*string, bool) {
+func (o *Backup) GetPathOk() (*string, bool) {
 	if o == nil || o.Path == nil {
 		return nil, false
 	}
@@ -619,17 +617,17 @@ func (o *Backup_backup) GetPathOk() (*string, bool) {
 }
 
 // HasPath returns a boolean if a field has been set.
-func (o *Backup_backup) HasPath() bool {
+func (o *Backup) HasPath() bool {
 	return o != nil && o.Path != nil
 }
 
 // SetPath gets a reference to the given string and assigns it to the Path field.
-func (o *Backup_backup) SetPath(v string) {
+func (o *Backup) SetPath(v string) {
 	o.Path = &v
 }
 
 // GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
-func (o *Backup_backup) GetRetentionPeriod() string {
+func (o *Backup) GetRetentionPeriod() string {
 	if o == nil || o.RetentionPeriod == nil {
 		var ret string
 		return ret
@@ -639,7 +637,7 @@ func (o *Backup_backup) GetRetentionPeriod() string {
 
 // GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetRetentionPeriodOk() (*string, bool) {
+func (o *Backup) GetRetentionPeriodOk() (*string, bool) {
 	if o == nil || o.RetentionPeriod == nil {
 		return nil, false
 	}
@@ -647,17 +645,17 @@ func (o *Backup_backup) GetRetentionPeriodOk() (*string, bool) {
 }
 
 // HasRetentionPeriod returns a boolean if a field has been set.
-func (o *Backup_backup) HasRetentionPeriod() bool {
+func (o *Backup) HasRetentionPeriod() bool {
 	return o != nil && o.RetentionPeriod != nil
 }
 
 // SetRetentionPeriod gets a reference to the given string and assigns it to the RetentionPeriod field.
-func (o *Backup_backup) SetRetentionPeriod(v string) {
+func (o *Backup) SetRetentionPeriod(v string) {
 	o.RetentionPeriod = &v
 }
 
 // GetExpiration returns the Expiration field value if set, zero value otherwise.
-func (o *Backup_backup) GetExpiration() time.Time {
+func (o *Backup) GetExpiration() time.Time {
 	if o == nil || o.Expiration == nil {
 		var ret time.Time
 		return ret
@@ -667,7 +665,7 @@ func (o *Backup_backup) GetExpiration() time.Time {
 
 // GetExpirationOk returns a tuple with the Expiration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetExpirationOk() (*time.Time, bool) {
+func (o *Backup) GetExpirationOk() (*time.Time, bool) {
 	if o == nil || o.Expiration == nil {
 		return nil, false
 	}
@@ -675,17 +673,17 @@ func (o *Backup_backup) GetExpirationOk() (*time.Time, bool) {
 }
 
 // HasExpiration returns a boolean if a field has been set.
-func (o *Backup_backup) HasExpiration() bool {
+func (o *Backup) HasExpiration() bool {
 	return o != nil && o.Expiration != nil
 }
 
 // SetExpiration gets a reference to the given time.Time and assigns it to the Expiration field.
-func (o *Backup_backup) SetExpiration(v time.Time) {
+func (o *Backup) SetExpiration(v time.Time) {
 	o.Expiration = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Backup_backup) GetId() string {
+func (o *Backup) GetId() string {
 	if o == nil || o.Id == nil {
 		var ret string
 		return ret
@@ -695,7 +693,7 @@ func (o *Backup_backup) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetIdOk() (*string, bool) {
+func (o *Backup) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -703,17 +701,17 @@ func (o *Backup_backup) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *Backup_backup) HasId() bool {
+func (o *Backup) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *Backup_backup) SetId(v string) {
+func (o *Backup) SetId(v string) {
 	o.Id = &v
 }
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
-func (o *Backup_backup) GetClusterId() string {
+func (o *Backup) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
 		var ret string
 		return ret
@@ -723,7 +721,7 @@ func (o *Backup_backup) GetClusterId() string {
 
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetClusterIdOk() (*string, bool) {
+func (o *Backup) GetClusterIdOk() (*string, bool) {
 	if o == nil || o.ClusterId == nil {
 		return nil, false
 	}
@@ -731,17 +729,17 @@ func (o *Backup_backup) GetClusterIdOk() (*string, bool) {
 }
 
 // HasClusterId returns a boolean if a field has been set.
-func (o *Backup_backup) HasClusterId() bool {
+func (o *Backup) HasClusterId() bool {
 	return o != nil && o.ClusterId != nil
 }
 
 // SetClusterId gets a reference to the given string and assigns it to the ClusterId field.
-func (o *Backup_backup) SetClusterId(v string) {
+func (o *Backup) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
 // GetCloudProvider returns the CloudProvider field value if set, zero value otherwise.
-func (o *Backup_backup) GetCloudProvider() string {
+func (o *Backup) GetCloudProvider() string {
 	if o == nil || o.CloudProvider == nil {
 		var ret string
 		return ret
@@ -751,7 +749,7 @@ func (o *Backup_backup) GetCloudProvider() string {
 
 // GetCloudProviderOk returns a tuple with the CloudProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetCloudProviderOk() (*string, bool) {
+func (o *Backup) GetCloudProviderOk() (*string, bool) {
 	if o == nil || o.CloudProvider == nil {
 		return nil, false
 	}
@@ -759,17 +757,17 @@ func (o *Backup_backup) GetCloudProviderOk() (*string, bool) {
 }
 
 // HasCloudProvider returns a boolean if a field has been set.
-func (o *Backup_backup) HasCloudProvider() bool {
+func (o *Backup) HasCloudProvider() bool {
 	return o != nil && o.CloudProvider != nil
 }
 
 // SetCloudProvider gets a reference to the given string and assigns it to the CloudProvider field.
-func (o *Backup_backup) SetCloudProvider(v string) {
+func (o *Backup) SetCloudProvider(v string) {
 	o.CloudProvider = &v
 }
 
 // GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
-func (o *Backup_backup) GetCloudRegion() string {
+func (o *Backup) GetCloudRegion() string {
 	if o == nil || o.CloudRegion == nil {
 		var ret string
 		return ret
@@ -779,7 +777,7 @@ func (o *Backup_backup) GetCloudRegion() string {
 
 // GetCloudRegionOk returns a tuple with the CloudRegion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetCloudRegionOk() (*string, bool) {
+func (o *Backup) GetCloudRegionOk() (*string, bool) {
 	if o == nil || o.CloudRegion == nil {
 		return nil, false
 	}
@@ -787,17 +785,17 @@ func (o *Backup_backup) GetCloudRegionOk() (*string, bool) {
 }
 
 // HasCloudRegion returns a boolean if a field has been set.
-func (o *Backup_backup) HasCloudRegion() bool {
+func (o *Backup) HasCloudRegion() bool {
 	return o != nil && o.CloudRegion != nil
 }
 
 // SetCloudRegion gets a reference to the given string and assigns it to the CloudRegion field.
-func (o *Backup_backup) SetCloudRegion(v string) {
+func (o *Backup) SetCloudRegion(v string) {
 	o.CloudRegion = &v
 }
 
 // GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
-func (o *Backup_backup) GetEnvironmentName() string {
+func (o *Backup) GetEnvironmentName() string {
 	if o == nil || o.EnvironmentName == nil {
 		var ret string
 		return ret
@@ -807,7 +805,7 @@ func (o *Backup_backup) GetEnvironmentName() string {
 
 // GetEnvironmentNameOk returns a tuple with the EnvironmentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetEnvironmentNameOk() (*string, bool) {
+func (o *Backup) GetEnvironmentNameOk() (*string, bool) {
 	if o == nil || o.EnvironmentName == nil {
 		return nil, false
 	}
@@ -815,17 +813,17 @@ func (o *Backup_backup) GetEnvironmentNameOk() (*string, bool) {
 }
 
 // HasEnvironmentName returns a boolean if a field has been set.
-func (o *Backup_backup) HasEnvironmentName() bool {
+func (o *Backup) HasEnvironmentName() bool {
 	return o != nil && o.EnvironmentName != nil
 }
 
 // SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
-func (o *Backup_backup) SetEnvironmentName(v string) {
+func (o *Backup) SetEnvironmentName(v string) {
 	o.EnvironmentName = &v
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
-func (o *Backup_backup) GetEngine() string {
+func (o *Backup) GetEngine() string {
 	if o == nil || o.Engine == nil {
 		var ret string
 		return ret
@@ -835,7 +833,7 @@ func (o *Backup_backup) GetEngine() string {
 
 // GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Backup_backup) GetEngineOk() (*string, bool) {
+func (o *Backup) GetEngineOk() (*string, bool) {
 	if o == nil || o.Engine == nil {
 		return nil, false
 	}
@@ -843,17 +841,17 @@ func (o *Backup_backup) GetEngineOk() (*string, bool) {
 }
 
 // HasEngine returns a boolean if a field has been set.
-func (o *Backup_backup) HasEngine() bool {
+func (o *Backup) HasEngine() bool {
 	return o != nil && o.Engine != nil
 }
 
 // SetEngine gets a reference to the given string and assigns it to the Engine field.
-func (o *Backup_backup) SetEngine(v string) {
+func (o *Backup) SetEngine(v string) {
 	o.Engine = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Backup_backup) MarshalJSON() ([]byte, error) {
+func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -949,7 +947,7 @@ func (o Backup_backup) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Backup_backup) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		AutoBackup          *bool         `json:"autoBackup"`
 		BackupMethod        *string       `json:"backupMethod"`

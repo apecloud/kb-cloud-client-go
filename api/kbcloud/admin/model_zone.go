@@ -12,9 +12,7 @@ import (
 )
 
 // Zone The zone that the region has.
-// NODESCRIPTION Zone
-//
-// Deprecated: This model is deprecated.
+
 type Zone struct {
 	// The name of the zone.
 	Name string `json:"name"`

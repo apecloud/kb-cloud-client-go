@@ -11,9 +11,7 @@ import (
 )
 
 // Workflow component management workflow
-// NODESCRIPTION Workflow
-//
-// Deprecated: This model is deprecated.
+
 type Workflow struct {
 	// NODESCRIPTION Name
 	Name *string `json:"name,omitempty"`

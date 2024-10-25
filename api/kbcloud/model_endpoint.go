@@ -11,9 +11,7 @@ import (
 )
 
 // Endpoint Endpoint is the information of cluster endpoints
-// NODESCRIPTION Endpoint
-//
-// Deprecated: This model is deprecated.
+
 type Endpoint struct {
 	// title of the endpoint
 	Title string `json:"title"`

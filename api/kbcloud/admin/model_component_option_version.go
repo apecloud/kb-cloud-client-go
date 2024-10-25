@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ComponentOptionVersion
 type ComponentOptionVersion struct {
 	// component version name
 	ComponentVersionName string `json:"componentVersionName"`

@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION OpsVolumeExpandVolumesItem
 type OpsVolumeExpandVolumesItem struct {
 	// volume name
 	Name string `json:"name"`

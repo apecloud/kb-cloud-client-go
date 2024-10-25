@@ -11,9 +11,7 @@ import (
 )
 
 // VipPoolList vipPoolList is a list of vip pools
-// NODESCRIPTION VipPoolList
-//
-// Deprecated: This model is deprecated.
+
 type VipPoolList struct {
 	// Items is the list of vip pool objects in the list
 	Items []VipPool `json:"items"`

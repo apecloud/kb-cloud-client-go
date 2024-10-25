@@ -11,9 +11,7 @@ import (
 )
 
 // RestoreList restoreList is a list of restore object
-// NODESCRIPTION RestoreList
-//
-// Deprecated: This model is deprecated.
+
 type RestoreList struct {
 	// Items is the list of restore objects in the list
 	Items []Restore `json:"items"`

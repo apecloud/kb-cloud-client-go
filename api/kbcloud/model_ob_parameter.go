@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ObParameter
 type ObParameter struct {
 	// The name of the parameter
 	Name string `json:"name"`

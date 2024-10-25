@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // NetworkChaosDelay specify the delay in the chaos action
-// NODESCRIPTION NetworkChaosDelay
-//
-// Deprecated: This model is deprecated.
+
 type NetworkChaosDelay struct {
 	// specify the latency in the chaos action
 	Latency *string `json:"latency,omitempty"`

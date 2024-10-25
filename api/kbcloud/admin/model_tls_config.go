@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // TlsConfig Configuration for TLS including all certificates and keys
-// NODESCRIPTION TlsConfig
-//
-// Deprecated: This model is deprecated.
+
 type TlsConfig struct {
 	// CA Certificate
 	CaCert *string `json:"caCert,omitempty"`

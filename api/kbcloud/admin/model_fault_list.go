@@ -11,9 +11,7 @@ import (
 )
 
 // FaultList chaos list
-// NODESCRIPTION FaultList
-//
-// Deprecated: This model is deprecated.
+
 type FaultList struct {
 	// list of chaos
 	Items []Fault `json:"items"`

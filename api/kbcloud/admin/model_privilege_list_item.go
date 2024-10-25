@@ -11,9 +11,7 @@ import (
 )
 
 // PrivilegeListItem Database and its assigned privileges.
-// NODESCRIPTION PrivilegeListItem
-//
-// Deprecated: This model is deprecated.
+
 type PrivilegeListItem struct {
 	// The name of the database.
 	DatabaseName *string `json:"databaseName,omitempty"`

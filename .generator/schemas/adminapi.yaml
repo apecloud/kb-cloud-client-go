@@ -67,8 +67,7 @@ paths:
                 $ref: '#/components/schemas/adminUser'
           description: Created
         '400':
-          content: {}
-          description: Bad Request
+          $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '409':
@@ -108,8 +107,7 @@ paths:
                 $ref: '#/components/schemas/adminUser'
           description: OK
         '400':
-          content: {}
-          description: Bad Request
+          $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -371,8 +369,7 @@ paths:
                 $ref: '#/components/schemas/orgMember'
           description: OK
         '400':
-          content: {}
-          description: BadRequest
+          $ref: '#/components/responses/BadRequestResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -1082,18 +1079,9 @@ paths:
               schema:
                 type: object
         '403':
-          description: Returned when the user does not have permission to access the resource.
-          content:
-            application/json:
-              schema:
-                type: object
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: Returned when the resource does not exist.
-          content:
-            application/json:
-              schema:
-                type: string
-                format: string
+          $ref: '#/components/responses/NotFoundResponse'
   /admin/v1/organizations/{orgName}/clustersWithDelete/{clusterID}:
     get:
       operationId: getClusterByID
@@ -1119,17 +1107,13 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
         '401':
-          content: {}
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          content: {}
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: NotFound
+          $ref: '#/components/responses/NotFoundResponse'
         '409':
-          content: {}
-          description: Conflict
+          $ref: '#/components/responses/ConflictResponse'
       tags:
         - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances:
@@ -1578,13 +1562,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/treeNode'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/NotFoundResponse'
         '409':
-          description: Conflict
+          $ref: '#/components/responses/ConflictResponse'
       tags:
         - view
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze:
@@ -2023,17 +2007,13 @@ paths:
                 $ref: '#/components/schemas/instanceMetricsList'
           description: A successful response.
         '401':
-          content: {}
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          content: {}
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: NotFound
+          $ref: '#/components/responses/NotFoundResponse'
         '409':
-          content: {}
-          description: Conflict
+          $ref: '#/components/responses/ConflictResponse'
       tags:
         - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/tls:
@@ -2131,11 +2111,9 @@ paths:
                 $ref: '#/components/schemas/ipWhitelistList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - ipWhitelist
     post:
@@ -4528,11 +4506,6 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/opsStop'
       responses:
         '202':
           content:
@@ -4565,11 +4538,6 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/opsStart'
       responses:
         '202':
           content:
@@ -4884,11 +4852,9 @@ paths:
                 $ref: '#/components/schemas/nodeList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /admin/v1/kubernetes/storageclasses:
@@ -4910,11 +4876,9 @@ paths:
                 $ref: '#/components/schemas/storageClassList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /admin/v1/environments:
@@ -4961,11 +4925,9 @@ paths:
                 $ref: '#/components/schemas/environmentList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
     post:
@@ -5704,8 +5666,7 @@ paths:
                 $ref: '#/components/schemas/loadBalancer'
           description: A successful response.
         '403':
-          description: NoPermission
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
@@ -5727,8 +5688,7 @@ paths:
           description: OK
           content: {}
         '403':
-          description: NoPermission
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
@@ -5756,8 +5716,7 @@ paths:
           description: OK
           content: {}
         '403':
-          description: NoPermission
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
@@ -5779,8 +5738,7 @@ paths:
           description: OK
           content: {}
         '403':
-          description: NoPermission
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
@@ -5803,11 +5761,9 @@ paths:
                 $ref: '#/components/schemas/vipPoolList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - vipPool
     post:
@@ -6329,11 +6285,9 @@ paths:
                 $ref: '#/components/schemas/environmentObjectStorage'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /admin/v1/environmentBackupRepo:
@@ -6353,11 +6307,9 @@ paths:
                 $ref: '#/components/schemas/environmentBackupRepo'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /admin/v1/environments/{environmentName}/backupRepo:
@@ -6759,7 +6711,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/backup_backup'
+                $ref: '#/components/schemas/backup'
           description: A successful response.
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
@@ -6980,7 +6932,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/backup_backup'
+                $ref: '#/components/schemas/backup'
           description: A successful response.
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
@@ -7188,14 +7140,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineServiceVersions'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - serviceVersion
   /admin/v1/organizations/{orgName}/clustersWithDelete/restoreTimeRange:
@@ -7220,7 +7169,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/backup_backup'
+                $ref: '#/components/schemas/backup'
           description: A successful response.
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
@@ -7601,8 +7550,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFoundResponse'
         '409':
-          description: Conflict
-          content: {}
+          $ref: '#/components/responses/ConflictResponse'
     delete:
       tags:
         - alertTemplate
@@ -8618,14 +8566,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineOptionList'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - engineOption
     post:
@@ -8763,14 +8708,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineLicenseList'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - engineLicense
   /admin/v1/engineLicense:
@@ -8913,14 +8855,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineList'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     post:
       tags:
         - engine
@@ -8954,14 +8893,11 @@ paths:
               schema:
                 type: boolean
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: actionInfo
   /admin/v1/environments/{environmentName}/engines:
     get:
@@ -9086,7 +9022,7 @@ paths:
                 id:
                   type: string
                   description: the engine id to action
-        required: false
+        required: true
       responses:
         '200':
           description: A successful response.
@@ -9095,14 +9031,11 @@ paths:
               schema:
                 type: boolean
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: actionInfo
   /admin/v1/license:
     get:
@@ -9188,14 +9121,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/class'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     patch:
       tags:
         - class
@@ -9214,14 +9144,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/class'
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
     delete:
       tags:
         - class
@@ -9261,14 +9188,11 @@ paths:
           description: A successful response.
           content: {}
         '401':
-          description: Unauthorized
-          content: {}
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          description: Forbidden
-          content: {}
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: NotFound
-          content: {}
+          $ref: '#/components/responses/NotFoundResponse'
   /admin/v1/providers:
     get:
       tags:
@@ -9943,11 +9867,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/llmList'
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - llm
   /admin/v1/llm/{id}:
@@ -10791,6 +10713,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/faultList'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
     delete:
       tags:
         - fault
@@ -10813,14 +10739,9 @@ paths:
               schema:
                 type: object
         '403':
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          description: Returned when the project is not found.
-          content:
-            application/json:
-              schema:
-                type: string
-                format: string
+          $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
   /admin/v1/fault/{faultId}:
     get:
@@ -10861,6 +10782,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/fault'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
   /admin/v1/fault/networkChaos:
     post:
@@ -10881,6 +10806,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/fault'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/tenants:
     get:
@@ -12451,18 +12380,21 @@ components:
           minimum: 0.5
           type: number
           description: CPU cores.
+          format: double
         memory:
           title: Memory(Gi)
           maximum: 1000
           minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
+          format: double
         storage:
           title: Storage(Gi)
           maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
+          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
         monitorEnabled:
@@ -14529,12 +14461,6 @@ components:
         instanceName:
           type: string
       type: object
-    opsStop:
-      description: OpsStop is the payload to stop a KubeBlocks cluster
-      type: object
-    opsStart:
-      description: OpsStart is the payload to start a KubeBlocks cluster
-      type: object
     opsExposeType:
       type: string
       description: Specifies the type of exposure for the KubeBlocks cluster.
@@ -16192,620 +16118,12 @@ components:
       required:
         - items
       type: object
-    backup:
-      backup:
-        description: backup is the payload for KubeBlocks cluster backup
-        properties:
-          autoBackup:
-            description: autoBackup or not
-            type: boolean
-          backupMethod:
-            description: Backup Method.
-            type: string
-          backupPolicyName:
-            description: Which backupPolicy is applied to perform this backup
-            pattern: ^[a-z0-9]([a-z0-9\.\-]*[a-z0-9])?$
-            type: string
-          backupRepo:
-            description: backupRepo is the name of backupRepo and it is used to store the backup data
-            type: string
-          backupType:
-            $ref: '#/components/schemas/backupType'
-          completionTimestamp:
-            description: Date/time when the backup finished being processed.
-            format: date-time
-            type: string
-          creationTimestamp:
-            description: Date/time when the backup was created.
-            format: date-time
-            type: string
-          duration:
-            description: The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
-            type: string
-          name:
-            description: name of the backup
-            type: string
-          orgName:
-            description: orgName records the organization name for this backup.
-            type: string
-          snapshotVolumes:
-            description: snapshotVolumes specifies whether to take snapshots of persistent volumes to back up
-            type: boolean
-          sourceCluster:
-            description: sourceCluster records the source cluster information for this backup.
-            type: string
-          startTimestamp:
-            description: Date/time when the backup started being processed.
-            format: date-time
-            type: string
-          status:
-            $ref: '#/components/schemas/backupStatus'
-          timeRangeEnd:
-            description: timeRangeEnd records the end time of the backup.
-            format: date-time
-            type: string
-          timeRangeStart:
-            description: timeRangeStart records the start time of the backup.
-            format: date-time
-            type: string
-          totalSize:
-            description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-            type: string
-          failureReason:
-            type: string
-          extras:
-            type: string
-          targetPods:
-            type: array
-            description: backup target pods
-            items:
-              type: string
-          path:
-            description: the path of backup files
-            type: string
-          retentionPeriod:
-            description: determines a duration up to which the backup should be kept
-            type: string
-          expiration:
-            description: indicates when this backup becomes eligible for garbage collection
-            type: string
-            format: date-time
-          id:
-            description: the backup id
-            type: string
-          clusterId:
-            description: the id of cluster that backup belong to
-            type: string
-          cloudProvider:
-            description: the cloud provider
-            type: string
-          cloudRegion:
-            description: the cloud region
-            type: string
-          environmentName:
-            description: the environment name
-            type: string
-          engine:
-            description: the cluster engine
-            type: string
-        required:
-          - autoBackup
-          - backupMethod
-          - backupPolicyName
-          - backupType
-          - completionTimestamp
-          - creationTimestamp
-          - duration
-          - name
-          - orgName
-          - snapshotVolumes
-          - sourceCluster
-          - startTimestamp
-          - status
-          - totalSize
-        type: object
-      backupLogByPod:
-        description: info of backup workload log
-        properties:
-          log:
-            description: logs of the backup workload
-            type: string
-          podName:
-            description: pod name
-            type: string
-          creationTimestamp:
-            description: Date/time when the backup pod was created.
-            format: date-time
-            type: string
-        type: object
-      backupLog:
-        description: backup workload logs
-        properties:
-          items:
-            description: items is the list of backupLogByPod objects
-            items:
-              $ref: '#/components/schemas/backupLogByPod'
-            type: array
-          backupId:
-            description: backup id
-            type: string
-        type: object
-      backupCreate:
-        description: BackupCreate is the payload to create a KubeBlocks cluster backup
-        properties:
-          name:
-            description: name of the backup, if not specified, a name will be generated automatically
-            type: string
-          backupMethod:
-            description: specified the backup method
-            type: string
-        type: object
-        required:
-          - backupMethod
-      backupList:
-        description: BackupList is a list of backups
-        properties:
-          items:
-            description: Items is the list of backup policy objects in the list
-            items:
-              $ref: '#/components/schemas/backup_backup'
-            type: array
-          pageResult:
-            $ref: '#/components/schemas/pageResult'
-        required:
-          - items
-        type: object
-      backupStatsStatus:
-        description: Number of backups for the status
-        properties:
-          status:
-            description: Backup status
-            type: string
-          backupNum:
-            description: Number of backups for each status
-            format: int64
-            type: integer
-        type: object
-      backupStatsEngine:
-        description: Totalsize and number of backups for the engine
-        properties:
-          engineName:
-            description: Engine name
-            type: string
-          backupSize:
-            description: totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-            type: string
-          backupNum:
-            description: The number of backups for each engine
-            format: int64
-            type: integer
-        type: object
-      backupStats:
-        description: Backup statistic info
-        properties:
-          backupStatsStatus:
-            description: Number of backups for each defferent status
-            items:
-              $ref: '#/components/schemas/backupStatsStatus'
-            type: array
-          backupStatsEngine:
-            description: Totalsize and number of backups for each engine
-            items:
-              $ref: '#/components/schemas/backupStatsEngine'
-            type: array
-          latestBackupTime:
-            description: create time of the latest backup
-            type: string
-            format: date-time
-            nullable: true
-          latestBackupStatus:
-            description: backup status of the latest backup
-            type: string
-            nullable: true
-        type: object
-      backupPolicy:
-        description: BackupPolicy is the payload for KubeBlocks cluster backup policy
-        properties:
-          autoBackup:
-            default: false
-            description: specify whether to use auto backup
-            type: boolean
-          autoBackupMethod:
-            description: the auto backup method
-            type: string
-          pitrEnabled:
-            description: specify whether to enable point-in-time recovery
-            default: false
-            type: boolean
-          cronExpression:
-            description: the crop expression for schedule
-            type: string
-          retentionPeriod:
-            description: specify the retention period
-            type: string
-          backupRepo:
-            description: the backup repo name, which is used to store backup data
-            type: string
-          retentionPolicy:
-            $ref: '#/components/schemas/backupRetentionPolicy'
-          nextBackupTime:
-            description: the time to do next backup
-            format: date-time
-            type: string
-        type: object
-      backupRepo:
-        description: backupRepo is the payload for KubeBlocks cluster backup repo
-        properties:
-          accessMethod:
-            $ref: '#/components/schemas/backupRepoAccessMethod'
-          id:
-            description: the id of backup repo
-            type: string
-          backupNums:
-            description: backupNums specifies the number of backups in the backupRepo
-            type: integer
-          config:
-            additionalProperties:
-              type: string
-            description: config specifies the configuration of the backupRepo
-            type: object
-          createdAt:
-            description: createdAt specifies the creation time of the backupRepo
-            format: date-time
-            type: string
-          default:
-            description: default specifies whether the backupRepo is the default backupRepo
-            type: boolean
-          environmentId:
-            description: environmentId of the backupRepo
-            format: uuid
-            type: string
-          environmentName:
-            description: environmentName of the backupRepo
-            type: string
-          name:
-            description: name of the backupRepo
-            type: string
-          status:
-            description: status specifies the status of the backupRepo
-            type: string
-          storageID:
-            description: the id of storage used by backup repo
-            type: string
-          storageProvider:
-            description: storageProvider specifies the storage provider of the backupRepo
-            type: string
-          totalSize:
-            description: totalSize specifies the total size of backups in the backupRepo
-            type: string
-          failedReason:
-            type: string
-            description: failedReason specifies the reason of the backupRepo failure
-          failedMessage:
-            type: string
-            description: failedMessage specifies the message of the backupRepo failure
-        required:
-          - accessMethod
-          - config
-          - createdAt
-          - default
-          - environmentId
-          - environmentName
-          - name
-          - status
-          - storageProvider
-        type: object
-      backupRepoCreate:
-        description: BackupRepoCreate is the payload to create a KubeBlocks cluster backup repo
-        properties:
-          storageID:
-            description: the id of storage that backup repo used
-            type: string
-          accessMethod:
-            $ref: '#/components/schemas/backupRepoAccessMethod'
-          default:
-            description: default specifies whether the backupRepo is the default backupRepo
-            type: boolean
-          name:
-            description: name of the backupRepo
-            type: string
-          params:
-            type: object
-            description: the parameters to create the storage
-            additionalProperties:
-              type: string
-          pvReclaimPolicy:
-            $ref: '#/components/schemas/backup'
-          volumeCapacity:
-            description: Specify the capacity of the new created PVC
-            type: string
-        required:
-          - name
-          - storageID
-        type: object
-      backupRepoList:
-        description: BackupRepoList is a list of backupRepo
-        properties:
-          items:
-            description: Items is the list of backupRepo objects in the list
-            items:
-              $ref: '#/components/schemas/backupRepo'
-            type: array
-          pageResult:
-            $ref: '#/components/schemas/pageResult'
-        required:
-          - items
-        type: object
-      backupRepoUpdate:
-        description: BackupRepoUpdate is the payload to update a KubeBlocks cluster backup repo
-        properties:
-          default:
-            description: default specifies whether the backupRepo is the default backupRepo
-            type: boolean
-        type: object
-      restore:
-        description: create a KubeBlocks restore API
-        properties:
-          orgName:
-            description: organization name
-            type: string
-          backupName:
-            description: backup name
-            type: string
-          clusterName:
-            description: kubeBlocks cluster name
-            type: string
-          componentName:
-            description: component name of cluster
-            type: string
-          targetPodName:
-            description: target pod name
-            type: string
-          createdAt:
-            format: date-time
-            type: string
-          name:
-            description: kubeBlocks restore name
-            type: string
-          parameters:
-            description: restore parameters to inject env of the restore CR.
-            properties: {}
-            type: object
-          restoreTime:
-            description: restore time
-            type: string
-          status:
-            description: restore status
-            properties:
-              actions:
-                items:
-                  properties:
-                    message:
-                      type: string
-                    name:
-                      description: action name
-                      type: string
-                    status:
-                      description: 'action status, enum values: [Processing, Completed, Failed]'
-                      type: string
-                  type: object
-                type: array
-              completionTimestamp:
-                description: completion time
-                type: string
-              conditions:
-                items:
-                  properties:
-                    message:
-                      type: string
-                    reason:
-                      type: string
-                    type:
-                      description: conditionType
-                      type: string
-                  type: object
-                type: array
-              phase:
-                description: restore phase
-                type: string
-              startTimestamp:
-                description: start time
-                type: string
-            type: object
-        required:
-          - backupName
-          - clusterName
-          - componentName
-        type: object
-      restoreCreate:
-        description: RestoreCreate is the payload to restore a KubeBlocks cluster
-        properties:
-          environmentName:
-            description: the env name of the target environment to restore
-            type: string
-          backupId:
-            description: the id of backup to restore
-            type: string
-          cluster:
-            $ref: '#/components/schemas/cluster'
-          restoreTimeStr:
-            description: restoreTime point to restore
-            type: string
-          doReadyRestoreAfterClusterRunning:
-            description: the recovery process in the PostReady phase will be performed after the cluster is running successfully.
-            type: boolean
-          volumeRestorePolicy:
-            $ref: '#/components/schemas/volumeRestorePolicy'
-        required:
-          - environmentName
-          - backupId
-          - cluster
-        type: object
-      restoreList:
-        description: restoreList is a list of restore object
-        properties:
-          items:
-            description: Items is the list of restore objects in the list
-            items:
-              $ref: '#/components/schemas/restore'
-            type: array
-        required:
-          - items
-        type: object
-      restoreLogByPod:
-        description: info of restore workload log
-        properties:
-          log:
-            description: restore pod log
-            type: string
-          ownerObjectKey:
-            description: pod ownerReference objectkey
-            type: string
-          podName:
-            description: pod name
-            type: string
-          creationTimestamp:
-            description: Date/time when the restore pod was created.
-            format: date-time
-            type: string
-        type: object
-      restoreLog:
-        description: restore workload logs
-        properties:
-          items:
-            description: items is the list of restoreLogByPod objects
-            items:
-              $ref: '#/components/schemas/restoreLogByPod'
-            type: array
-          restoreId:
-            description: restore id
-            type: string
-        type: object
-      fileEntry:
-        description: the entry of files
-        properties:
-          IsDir:
-            description: description the entry type
-            type: boolean
-          fullPath:
-            description: the full path of file
-            type: string
-          filename:
-            description: the filename
-            type: string
-          size:
-            description: the size of entry
-            format: int64
-            type: integer
-      fileEntryList:
-        description: BackupEntryList is a list of entry
-        properties:
-          items:
-            description: Items is the list of backup entry
-            items:
-              $ref: '#/components/schemas/fileEntry'
-            type: array
-          pageResult:
-            $ref: '#/components/schemas/pageResult'
-        required:
-          - items
-        type: object
-      backupMethod:
-        description: the backup method for cluster
-        properties:
-          name:
-            description: the name of backup method
-            type: string
-          snapshotVolumes:
-            description: specifies whether to take snapshots of persistent volumes
-            type: boolean
-          backupType:
-            description: the type of backup method
-            type: string
-      backupMethodList:
-        description: a list of backup method
-        properties:
-          items:
-            description: the list of backup method
-            items:
-              $ref: '#/backupMethod'
-            type: array
-          pageResult:
-            $ref: ./common.yaml#/pageResult
-        required:
-          - items
-        type: object
-      backupDownload:
-        properties:
-          filepaths:
-            description: the paths of file to download
-            type: array
-            items:
-              type: string
-      backupView:
-        properties:
-          filepaths:
-            description: the paths of file to view
-            type: array
-            items:
-              type: string
-      backupRepoCheck:
-        properties:
-          success:
-            description: whether backup repo pass the check
-            type: boolean
-          message:
-            description: the info when failed to pass the check
-      backupRepoView:
-        properties:
-          filepath:
-            description: the router to show in backup repo
-            type: string
-      backupType:
-        enum:
-          - Full
-          - Incremental
-          - Differential
-          - Continuous
-        type: string
-        description: the type of backup
-      backupStatus:
-        description: The current status. Valid values are New, InProgress, Completed, Failed.
-        enum:
-          - New
-          - InProgress
-          - Running
-          - Completed
-          - Failed
-          - Deleting
-        type: string
-      backupRetentionPolicy:
-        type: string
-        description: backup retention policy when cluster is deleted
-        enum:
-          - All
-          - LastOne
-          - WipeOut
-      backupRepoAccessMethod:
-        description: the access method for backup repo
-        default: Tool
-        enum:
-          - Mount
-          - Tool
-        type: string
-      backupRepoPVReclaimPolicy:
-        description: Specify the reclaim policy for PVs created by this backup repo
-        enum:
-          - Retain
-          - Delete
-        type: string
-      volumeRestorePolicy:
-        default: Serial
-        description: 'the volume claim restore policy, support values: [Serial, Parallel]'
-        enum:
-          - Serial
-          - Parallel
-        type: string
+    backupRepoPVReclaimPolicy:
+      description: Specify the reclaim policy for PVs created by this backup repo
+      enum:
+        - Retain
+        - Delete
+      type: string
     backupRepoCreate:
       description: BackupRepoCreate is the payload to create a KubeBlocks cluster backup repo
       properties:
@@ -16826,7 +16144,7 @@ components:
           additionalProperties:
             type: string
         pvReclaimPolicy:
-          $ref: '#/components/schemas/backup'
+          $ref: '#/components/schemas/backupRepoPVReclaimPolicy'
         volumeCapacity:
           description: Specify the capacity of the new created PVC
           type: string
@@ -16955,7 +16273,7 @@ components:
         - Failed
         - Deleting
       type: string
-    backup_backup:
+    backup:
       description: backup is the payload for KubeBlocks cluster backup
       properties:
         autoBackup:
@@ -17102,7 +16420,7 @@ components:
         items:
           description: Items is the list of backup policy objects in the list
           items:
-            $ref: '#/components/schemas/backup_backup'
+            $ref: '#/components/schemas/backup'
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'
@@ -20557,18 +19875,21 @@ components:
           minimum: 0.5
           type: number
           description: CPU cores.
+          format: double
         memory:
           title: Memory(Gi)
           maximum: 1000
           minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
+          format: double
         storage:
           title: Storage(Gi)
           maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
+          format: double
         status:
           title: Status
           type: string
@@ -20622,6 +19943,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Unauthorized
+    BadRequestResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Bad Request
     ConflictResponse:
       content:
         application/json:
@@ -20640,12 +19967,6 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Not Found
-    BadRequestResponse:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/APIErrorResponse'
-      description: Bad Request
     InternalServerErrorResponse:
       content:
         application/json:

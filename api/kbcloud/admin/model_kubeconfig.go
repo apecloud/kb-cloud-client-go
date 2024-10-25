@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION Kubeconfig
 type Kubeconfig struct {
 	// The base64 encoded kubeconfig file contents to connect to this Kubernetes
 	Kubeconfig string `json:"kubeconfig"`

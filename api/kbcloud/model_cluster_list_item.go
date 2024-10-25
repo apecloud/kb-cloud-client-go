@@ -12,9 +12,7 @@ import (
 )
 
 // ClusterListItem KubeBlocks cluster information
-// NODESCRIPTION ClusterListItem
-//
-// Deprecated: This model is deprecated.
+
 type ClusterListItem struct {
 	// Cloud Provider
 	CloudProvider string `json:"cloudProvider"`

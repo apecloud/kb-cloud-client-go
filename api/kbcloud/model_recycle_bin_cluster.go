@@ -12,9 +12,7 @@ import (
 )
 
 // RecycleBinCluster KubeBlocks cluster(in recycle bin) information
-// NODESCRIPTION RecycleBinCluster
-//
-// Deprecated: This model is deprecated.
+
 type RecycleBinCluster struct {
 	// Cluster Recycle Bin ID
 	Id *string `json:"id,omitempty"`
@@ -47,11 +45,11 @@ type RecycleBinCluster struct {
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
 	Replicas *int32 `json:"replicas,omitempty"`
 	// CPU cores.
-	Cpu *float `json:"cpu,omitempty"`
+	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
-	Memory *float `json:"memory,omitempty"`
+	Memory *float64 `json:"memory,omitempty"`
 	// Storage size, the unit is Gi.
-	Storage *float `json:"storage,omitempty"`
+	Storage *float64 `json:"storage,omitempty"`
 	// status represents the actual status of the cluster in k8s,  it is different from the state of the cluster in recycle bin,  which means whether the cluster has been deleted by a stop opsRequest.
 	Status *string `json:"status,omitempty"`
 	// state represents whether the cluster has been deleted by a stop opsRequest,  and therefore, whether it is in the recycle bin. It is differnt from the Status of the cluster undeleted.
@@ -511,9 +509,9 @@ func (o *RecycleBinCluster) SetReplicas(v int32) {
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
-func (o *RecycleBinCluster) GetCpu() float {
+func (o *RecycleBinCluster) GetCpu() float64 {
 	if o == nil || o.Cpu == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Cpu
@@ -521,7 +519,7 @@ func (o *RecycleBinCluster) GetCpu() float {
 
 // GetCpuOk returns a tuple with the Cpu field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RecycleBinCluster) GetCpuOk() (*float, bool) {
+func (o *RecycleBinCluster) GetCpuOk() (*float64, bool) {
 	if o == nil || o.Cpu == nil {
 		return nil, false
 	}
@@ -533,15 +531,15 @@ func (o *RecycleBinCluster) HasCpu() bool {
 	return o != nil && o.Cpu != nil
 }
 
-// SetCpu gets a reference to the given float and assigns it to the Cpu field.
-func (o *RecycleBinCluster) SetCpu(v float) {
+// SetCpu gets a reference to the given float64 and assigns it to the Cpu field.
+func (o *RecycleBinCluster) SetCpu(v float64) {
 	o.Cpu = &v
 }
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
-func (o *RecycleBinCluster) GetMemory() float {
+func (o *RecycleBinCluster) GetMemory() float64 {
 	if o == nil || o.Memory == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Memory
@@ -549,7 +547,7 @@ func (o *RecycleBinCluster) GetMemory() float {
 
 // GetMemoryOk returns a tuple with the Memory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RecycleBinCluster) GetMemoryOk() (*float, bool) {
+func (o *RecycleBinCluster) GetMemoryOk() (*float64, bool) {
 	if o == nil || o.Memory == nil {
 		return nil, false
 	}
@@ -561,15 +559,15 @@ func (o *RecycleBinCluster) HasMemory() bool {
 	return o != nil && o.Memory != nil
 }
 
-// SetMemory gets a reference to the given float and assigns it to the Memory field.
-func (o *RecycleBinCluster) SetMemory(v float) {
+// SetMemory gets a reference to the given float64 and assigns it to the Memory field.
+func (o *RecycleBinCluster) SetMemory(v float64) {
 	o.Memory = &v
 }
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *RecycleBinCluster) GetStorage() float {
+func (o *RecycleBinCluster) GetStorage() float64 {
 	if o == nil || o.Storage == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Storage
@@ -577,7 +575,7 @@ func (o *RecycleBinCluster) GetStorage() float {
 
 // GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RecycleBinCluster) GetStorageOk() (*float, bool) {
+func (o *RecycleBinCluster) GetStorageOk() (*float64, bool) {
 	if o == nil || o.Storage == nil {
 		return nil, false
 	}
@@ -589,8 +587,8 @@ func (o *RecycleBinCluster) HasStorage() bool {
 	return o != nil && o.Storage != nil
 }
 
-// SetStorage gets a reference to the given float and assigns it to the Storage field.
-func (o *RecycleBinCluster) SetStorage(v float) {
+// SetStorage gets a reference to the given float64 and assigns it to the Storage field.
+func (o *RecycleBinCluster) SetStorage(v float64) {
 	o.Storage = &v
 }
 
@@ -995,9 +993,9 @@ func (o *RecycleBinCluster) UnmarshalJSON(bytes []byte) (err error) {
 		Values            map[string]interface{} `json:"values,omitempty"`
 		Version           *string                `json:"version,omitempty"`
 		Replicas          *int32                 `json:"replicas,omitempty"`
-		Cpu               *float                 `json:"cpu,omitempty"`
-		Memory            *float                 `json:"memory,omitempty"`
-		Storage           *float                 `json:"storage,omitempty"`
+		Cpu               *float64               `json:"cpu,omitempty"`
+		Memory            *float64               `json:"memory,omitempty"`
+		Storage           *float64               `json:"storage,omitempty"`
 		Status            *string                `json:"status,omitempty"`
 		State             *string                `json:"state,omitempty"`
 		Mode              *string                `json:"mode,omitempty"`

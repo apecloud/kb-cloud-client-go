@@ -12,9 +12,7 @@ import (
 )
 
 // EnvironmentStatusHistory EventEnvironmentState contains details for the current and previous state of the environment.
-// NODESCRIPTION EnvironmentStatusHistory
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentStatusHistory struct {
 	// The current state of the environment.
 	CurrentState string `json:"CurrentState"`

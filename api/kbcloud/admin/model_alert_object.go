@@ -11,9 +11,7 @@ import (
 )
 
 // AlertObject Alert object information
-// NODESCRIPTION AlertObject
-//
-// Deprecated: This model is deprecated.
+
 type AlertObject struct {
 	// NODESCRIPTION Id
 	Id *int32 `json:"id,omitempty"`

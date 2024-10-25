@@ -11,9 +11,7 @@ import (
 )
 
 // OrgMemberAdd MemberAdd is the payload for adding organization member
-// NODESCRIPTION OrgMemberAdd
-//
-// Deprecated: This model is deprecated.
+
 type OrgMemberAdd struct {
 	// The name of the role in the organization
 	Role string `json:"role"`

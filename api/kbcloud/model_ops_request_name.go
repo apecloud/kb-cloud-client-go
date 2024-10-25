@@ -11,9 +11,7 @@ import (
 )
 
 // OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest
-// NODESCRIPTION OpsRequestName
-//
-// Deprecated: This model is deprecated.
+
 type OpsRequestName struct {
 	// NODESCRIPTION OpsRequestName
 	OpsRequestName string `json:"opsRequestName"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RawBackupRepo backup repo info
-// NODESCRIPTION RawBackupRepo
-//
-// Deprecated: This model is deprecated.
+
 type RawBackupRepo struct {
 	// the backup repo name
 	Name *string `json:"name,omitempty"`

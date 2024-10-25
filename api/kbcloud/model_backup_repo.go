@@ -13,9 +13,7 @@ import (
 )
 
 // BackupRepo backupRepo is the payload for KubeBlocks cluster backup repo
-// NODESCRIPTION BackupRepo
-//
-// Deprecated: This model is deprecated.
+
 type BackupRepo struct {
 	// the access method for backup repo
 	AccessMethod BackupRepoAccessMethod `json:"accessMethod"`

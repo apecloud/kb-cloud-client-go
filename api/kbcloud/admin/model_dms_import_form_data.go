@@ -12,9 +12,7 @@ import (
 )
 
 // DmsImportFormData the data of the import task
-// NODESCRIPTION DmsImportFormData
-//
-// Deprecated: This model is deprecated.
+
 type DmsImportFormData struct {
 	// the data file, csv or other format
 	File _io.Reader `json:"file"`

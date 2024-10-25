@@ -11,9 +11,7 @@ import (
 )
 
 // ConfigurationWithRegex Cluster parameters configuration, include the file name and content of the parameters
-// NODESCRIPTION ConfigurationWithRegex
-//
-// Deprecated: This model is deprecated.
+
 type ConfigurationWithRegex struct {
 	// The name of the configuration file
 	FileName string `json:"fileName"`

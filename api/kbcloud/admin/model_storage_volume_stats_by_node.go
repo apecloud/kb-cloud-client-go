@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageVolumeStatsByNode storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
-// NODESCRIPTION StorageVolumeStatsByNode
-//
-// Deprecated: This model is deprecated.
+
 type StorageVolumeStatsByNode struct {
 	// the name of the node
 	NodeName *string `json:"nodeName,omitempty"`

@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION AutohealingListItem
 type AutohealingListItem struct {
 	// NODESCRIPTION Name
 	Name *string `json:"name,omitempty"`

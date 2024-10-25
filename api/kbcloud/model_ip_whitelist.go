@@ -12,9 +12,7 @@ import (
 )
 
 // IpWhitelist whitelist
-// NODESCRIPTION IpWhitelist
-//
-// Deprecated: This model is deprecated.
+
 type IpWhitelist struct {
 	// ID of the whitelist
 	Id string `json:"id"`

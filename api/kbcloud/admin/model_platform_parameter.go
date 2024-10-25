@@ -11,9 +11,7 @@ import (
 )
 
 // PlatformParameter platformParameter item
-// NODESCRIPTION PlatformParameter
-//
-// Deprecated: This model is deprecated.
+
 type PlatformParameter struct {
 	// platformParameter ID
 	Id string `json:"id"`

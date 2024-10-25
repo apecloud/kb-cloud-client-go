@@ -12,9 +12,7 @@ import (
 )
 
 // ApikeyCreate APIKeyCreate is the payload for creating an APIKey
-// NODESCRIPTION ApikeyCreate
-//
-// Deprecated: This model is deprecated.
+
 type ApikeyCreate struct {
 	// The description of the APIKey
 	Description string `json:"description"`

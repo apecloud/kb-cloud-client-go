@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION EngineOption
 type EngineOption struct {
 	// NODESCRIPTION EngineName
 	EngineName string `json:"engineName"`

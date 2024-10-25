@@ -11,9 +11,7 @@ import (
 )
 
 // LoadBalancerInstall Install the load balancer in the environment
-// NODESCRIPTION LoadBalancerInstall
-//
-// Deprecated: This model is deprecated.
+
 type LoadBalancerInstall struct {
 	// Type of the load balancer
 	Type LoadBalancerType `json:"type"`

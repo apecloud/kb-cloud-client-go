@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ProviderList The list of cloud providers.
-// NODESCRIPTION ProviderList
-//
-// Deprecated: This model is deprecated.
+
 type ProviderList struct {
 	// The list of cloud providers.
 	Items []Provider `json:"items,omitempty"`

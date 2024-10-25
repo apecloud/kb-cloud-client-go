@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplUpdate paramTplUpdate is the payload to update a parameter template
-// NODESCRIPTION ParamTplUpdate
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplUpdate struct {
 	// Specify parameters belongs to which spec
 	SpecName *string `json:"specName,omitempty"`

@@ -11,6 +11,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION Metadb_restore
 type Metadb_restore struct {
 	// the namespace of new cluster, default value is original namespace
 	Namespace *string `json:"namespace,omitempty"`

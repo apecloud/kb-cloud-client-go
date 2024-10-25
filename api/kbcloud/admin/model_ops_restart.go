@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsRestart OpsRestart is the payload to restart a KubeBlocks cluster
-// NODESCRIPTION OpsRestart
-//
-// Deprecated: This model is deprecated.
+
 type OpsRestart struct {
 	// component type
 	Component *string `json:"component,omitempty"`

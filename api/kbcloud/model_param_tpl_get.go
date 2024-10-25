@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplGet paramTplGet is the response of get parameter template request
-// NODESCRIPTION ParamTplGet
-//
-// Deprecated: This model is deprecated.
+
 type ParamTplGet struct {
 	// NODESCRIPTION Items
 	Items []ParamTplGetItem `json:"items,omitempty"`

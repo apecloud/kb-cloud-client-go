@@ -11,9 +11,7 @@ import (
 )
 
 // Database Cluster database information
-// NODESCRIPTION Database
-//
-// Deprecated: This model is deprecated.
+
 type Database struct {
 	// component type
 	Component *string `json:"component,omitempty"`

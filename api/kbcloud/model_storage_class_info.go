@@ -12,9 +12,7 @@ import (
 )
 
 // StorageClassInfo StorageClassInfo provides detailed information about a specific storage class.
-// NODESCRIPTION StorageClassInfo
-//
-// Deprecated: This model is deprecated.
+
 type StorageClassInfo struct {
 	// the name of the storage class
 	Name string `json:"name"`

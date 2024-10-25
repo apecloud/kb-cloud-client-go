@@ -11,9 +11,7 @@ import (
 )
 
 // APIErrorResponse API error response.
-// NODESCRIPTION APIErrorResponse
-//
-// Deprecated: This model is deprecated.
+
 type APIErrorResponse struct {
 	// The HTTP status code.
 	Code int32 `json:"code"`

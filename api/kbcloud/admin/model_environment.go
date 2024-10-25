@@ -13,9 +13,7 @@ import (
 )
 
 // Environment Environment info
-// NODESCRIPTION Environment
-//
-// Deprecated: This model is deprecated.
+
 type Environment struct {
 	// Cloud Provider
 	Provider string `json:"provider"`

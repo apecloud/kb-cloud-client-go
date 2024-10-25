@@ -12,9 +12,7 @@ import (
 )
 
 // ApikeyWithSK APIKeyWithSK is the response for creating an APIKey
-// NODESCRIPTION ApikeyWithSK
-//
-// Deprecated: This model is deprecated.
+
 type ApikeyWithSK struct {
 	// The accessKey of the APIKey
 	AccessKey string `json:"accessKey"`

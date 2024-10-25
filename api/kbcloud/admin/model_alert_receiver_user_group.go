@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION AlertReceiverUserGroup
 type AlertReceiverUserGroup struct {
 	// NODESCRIPTION EmailEnabled
 	EmailEnabled *bool `json:"emailEnabled,omitempty"`

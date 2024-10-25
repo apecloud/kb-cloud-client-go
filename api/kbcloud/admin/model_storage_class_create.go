@@ -11,9 +11,7 @@ import (
 )
 
 // StorageClassCreate StorageClassCreate provides detailed creation information about a storage class.
-// NODESCRIPTION StorageClassCreate
-//
-// Deprecated: This model is deprecated.
+
 type StorageClassCreate struct {
 	// the name of the storage class
 	Name string `json:"name"`

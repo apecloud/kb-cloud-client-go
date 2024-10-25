@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION IntegerOption
 type IntegerOption struct {
 	// NODESCRIPTION Min
 	Min int32 `json:"min"`

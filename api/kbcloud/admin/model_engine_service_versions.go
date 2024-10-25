@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION EngineServiceVersions
 type EngineServiceVersions struct {
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`

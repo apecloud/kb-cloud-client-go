@@ -11,9 +11,7 @@ import (
 )
 
 // OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster
-// NODESCRIPTION OpsHScale
-//
-// Deprecated: This model is deprecated.
+
 type OpsHScale struct {
 	// component type
 	Component *string `json:"component,omitempty"`

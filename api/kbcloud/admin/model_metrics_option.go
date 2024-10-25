@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION MetricsOption
 type MetricsOption struct {
 	// NODESCRIPTION ReplicationLag
 	ReplicationLag *MetricsOptionReplicationLag `json:"replicationLag,omitempty"`

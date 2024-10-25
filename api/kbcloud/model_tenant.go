@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION Tenant
 type Tenant struct {
 	// NODESCRIPTION Id
 	Id *string `json:"id,omitempty"`

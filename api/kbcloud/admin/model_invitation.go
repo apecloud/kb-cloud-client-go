@@ -12,9 +12,7 @@ import (
 )
 
 // Invitation Invitation info
-// NODESCRIPTION Invitation
-//
-// Deprecated: This model is deprecated.
+
 type Invitation struct {
 	// User has accepted or not
 	Accepted bool `json:"accepted"`

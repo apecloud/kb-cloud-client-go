@@ -11,9 +11,7 @@ import (
 )
 
 // RegionCreate The region that needs to be created.
-// NODESCRIPTION RegionCreate
-//
-// Deprecated: This model is deprecated.
+
 type RegionCreate struct {
 	// The name of the region.
 	Name string `json:"name"`

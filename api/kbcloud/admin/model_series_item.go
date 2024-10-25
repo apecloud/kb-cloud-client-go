@@ -11,9 +11,7 @@ import (
 )
 
 // SeriesItem A data point in a series for meta data, including a count and a timestamp.
-// NODESCRIPTION SeriesItem
-//
-// Deprecated: This model is deprecated.
+
 type SeriesItem struct {
 	// The value of the series data point.
 	Value float64 `json:"value"`

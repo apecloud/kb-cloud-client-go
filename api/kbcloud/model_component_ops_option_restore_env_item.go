@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ComponentOpsOptionRestoreEnvItem
 type ComponentOpsOptionRestoreEnvItem struct {
 	// env name
 	Name string `json:"name"`

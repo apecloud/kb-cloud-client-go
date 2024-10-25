@@ -11,9 +11,7 @@ import (
 )
 
 // ClusterExecutionLog Log entry for cluster execution
-// NODESCRIPTION ClusterExecutionLog
-//
-// Deprecated: This model is deprecated.
+
 type ClusterExecutionLog struct {
 	// Timestamp of the execution
 	Timestamp int64 `json:"timestamp"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // NetworkChaosLoss specify the loss in the chaos action
-// NODESCRIPTION NetworkChaosLoss
-//
-// Deprecated: This model is deprecated.
+
 type NetworkChaosLoss struct {
 	// specify the loss in the chaos action
 	Loss *string `json:"loss,omitempty"`

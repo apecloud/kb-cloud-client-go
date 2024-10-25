@@ -11,9 +11,7 @@ import (
 )
 
 // AlertReceiver Alert receiver information
-// NODESCRIPTION AlertReceiver
-//
-// Deprecated: This model is deprecated.
+
 type AlertReceiver struct {
 	// NODESCRIPTION CreatedAt
 	CreatedAt *time.Time `json:"createdAt,omitempty"`

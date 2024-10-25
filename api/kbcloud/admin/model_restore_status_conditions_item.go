@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION RestoreStatusConditionsItem
 type RestoreStatusConditionsItem struct {
 	// NODESCRIPTION Message
 	Message *string `json:"message,omitempty"`

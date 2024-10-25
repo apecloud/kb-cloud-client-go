@@ -16,38 +16,13 @@ import (
 // EngineApi service type
 type EngineApi common.Service
 
-// EngineActionOptionalParameters holds optional parameters for EngineAction.
-type EngineActionOptionalParameters struct {
-	ActionInfo *interface{}
-}
-
-// NewEngineActionOptionalParameters creates an empty struct for parameters.
-func NewEngineActionOptionalParameters() *EngineActionOptionalParameters {
-	this := EngineActionOptionalParameters{}
-	return &this
-}
-
-// WithActionInfo sets the corresponding parameter name and returns the struct.
-func (r *EngineActionOptionalParameters) WithActionInfo(actionInfo interface{}) *EngineActionOptionalParameters {
-	r.ActionInfo = &actionInfo
-	return r
-}
-
 // EngineAction Manage engine in environment.
-func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, engineName string, o ...EngineActionOptionalParameters) (bool, *_nethttp.Response, error) {
+func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, engineName string, actionInfo interface{}) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue bool
-		optionalParams      EngineActionOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type EngineActionOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.EngineAction")
 	if err != nil {
@@ -65,9 +40,7 @@ func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, e
 	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.ActionInfo
-	}
+	localVarPostBody = &actionInfo
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -94,7 +67,7 @@ func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, e
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v None
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -166,7 +139,7 @@ func (a *EngineApi) EngineActionInOrg(ctx _context.Context, orgName string, acti
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v None
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -511,7 +484,7 @@ func (a *EngineApi) ListEnginesInOrg(ctx _context.Context, orgName string, o ...
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v None
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr

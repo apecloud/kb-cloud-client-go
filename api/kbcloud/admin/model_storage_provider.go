@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageProvider Storage Provider comprises specifications that provide guidance accessing remote storage.
-// NODESCRIPTION StorageProvider
-//
-// Deprecated: This model is deprecated.
+
 type StorageProvider struct {
 	// Unique identifier for the storage provider
 	Id *string `json:"id,omitempty"`

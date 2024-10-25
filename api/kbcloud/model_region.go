@@ -12,9 +12,7 @@ import (
 )
 
 // Region The region that the cloud provider has.
-// NODESCRIPTION Region
-//
-// Deprecated: This model is deprecated.
+
 type Region struct {
 	// The name of the region.
 	Name string `json:"name"`

@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION Datasource
 type Datasource struct {
 	// the id of datasource
 	Id *string `json:"id,omitempty"`

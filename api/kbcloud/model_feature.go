@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION Feature
 type Feature struct {
 	// Name of a feature
 	Name string `json:"name"`

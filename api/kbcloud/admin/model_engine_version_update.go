@@ -11,9 +11,7 @@ import (
 )
 
 // EngineVersionUpdate EngineVersionRecord update option
-// NODESCRIPTION EngineVersionUpdate
-//
-// Deprecated: This model is deprecated.
+
 type EngineVersionUpdate struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`

@@ -11,9 +11,7 @@ import (
 )
 
 // InstanceMetricsList instance metrics list
-// NODESCRIPTION InstanceMetricsList
-//
-// Deprecated: This model is deprecated.
+
 type InstanceMetricsList struct {
 	// instanceMetrics list
 	Items []InstanceMetrics `json:"items"`

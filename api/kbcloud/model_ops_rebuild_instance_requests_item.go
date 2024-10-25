@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION OpsRebuildInstanceRequestsItem
 type OpsRebuildInstanceRequestsItem struct {
 	// NODESCRIPTION BackupName
 	BackupName *string `json:"backupName,omitempty"`

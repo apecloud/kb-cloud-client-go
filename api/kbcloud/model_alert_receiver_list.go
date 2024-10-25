@@ -11,9 +11,7 @@ import (
 )
 
 // AlertReceiverList AlertReceiverList is a list of alert receivers
-// NODESCRIPTION AlertReceiverList
-//
-// Deprecated: This model is deprecated.
+
 type AlertReceiverList struct {
 	// Items is the list of alert receiver objects in the list
 	Items []AlertReceiver `json:"items"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // HttpBody Represents an HTTP request or response body.
-// NODESCRIPTION HttpBody
-//
-// Deprecated: This model is deprecated.
+
 type HttpBody struct {
 	// The HTTP Content-Type header value specifying the content type of the body.
 	ContentType *string `json:"contentType,omitempty"`

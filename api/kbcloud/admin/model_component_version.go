@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ComponentVersion component version
-// NODESCRIPTION ComponentVersion
-//
-// Deprecated: This model is deprecated.
+
 type ComponentVersion struct {
 	// NODESCRIPTION Kubeblocks
 	Kubeblocks *string `json:"kubeblocks,omitempty"`

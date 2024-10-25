@@ -11,9 +11,7 @@ import (
 )
 
 // OpsRebuildInstanceInstanceParam instance params for RebuildInstance ops
-// NODESCRIPTION OpsRebuildInstanceInstanceParam
-//
-// Deprecated: This model is deprecated.
+
 type OpsRebuildInstanceInstanceParam struct {
 	// Pod name of the instance
 	Name string `json:"name"`

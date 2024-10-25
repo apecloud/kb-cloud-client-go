@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // PlatformParameterConstraints platformParameter constraints including min, max, enum, default value
-// NODESCRIPTION PlatformParameterConstraints
-//
-// Deprecated: This model is deprecated.
+
 type PlatformParameterConstraints struct {
 	// platformParameter min value
 	Min *string `json:"min,omitempty"`

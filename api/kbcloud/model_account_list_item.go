@@ -11,9 +11,7 @@ import (
 )
 
 // AccountListItem Cluster account information.
-// NODESCRIPTION AccountListItem
-//
-// Deprecated: This model is deprecated.
+
 type AccountListItem struct {
 	// Component type.
 	Component *string `json:"component,omitempty"`

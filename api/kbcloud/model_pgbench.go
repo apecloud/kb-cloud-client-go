@@ -11,9 +11,7 @@ import (
 )
 
 // Pgbench pgbench is the pgbench benchmark object
-// NODESCRIPTION Pgbench
-//
-// Deprecated: This model is deprecated.
+
 type Pgbench struct {
 	// Step of pgbench
 	Step *PgbenchStep `json:"step,omitempty"`

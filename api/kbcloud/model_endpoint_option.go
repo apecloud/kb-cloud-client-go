@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION EndpointOption
 type EndpointOption struct {
 	// NODESCRIPTION Title
 	Title LocalizedDescription `json:"title"`

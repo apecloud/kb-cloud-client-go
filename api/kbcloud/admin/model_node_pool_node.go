@@ -11,9 +11,7 @@ import (
 )
 
 // NodePoolNode Node info for environment
-// NODESCRIPTION NodePoolNode
-//
-// Deprecated: This model is deprecated.
+
 type NodePoolNode struct {
 	// NODESCRIPTION Name
 	Name string `json:"name"`

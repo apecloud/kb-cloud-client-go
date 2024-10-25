@@ -11,9 +11,7 @@ import (
 )
 
 // MonitorDataSinkCreate External Endpoint create option
-// NODESCRIPTION MonitorDataSinkCreate
-//
-// Deprecated: This model is deprecated.
+
 type MonitorDataSinkCreate struct {
 	// url for exporter(eg. url for ElasticSearch)
 	ExporterUrl string `json:"exporterUrl"`

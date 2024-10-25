@@ -12,9 +12,7 @@ import (
 )
 
 // Cluster KubeBlocks cluster information
-// NODESCRIPTION Cluster
-//
-// Deprecated: This model is deprecated.
+
 type Cluster struct {
 	// Cluster ID
 	Id interface{} `json:"id,omitempty"`
@@ -49,11 +47,11 @@ type Cluster struct {
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
 	Replicas *int32 `json:"replicas,omitempty"`
 	// CPU cores.
-	Cpu *float `json:"cpu,omitempty"`
+	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
-	Memory *float `json:"memory,omitempty"`
+	Memory *float64 `json:"memory,omitempty"`
 	// Storage size, the unit is Gi.
-	Storage *float `json:"storage,omitempty"`
+	Storage *float64 `json:"storage,omitempty"`
 	// The termination policy of cluster.
 	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 	// Specify whether the cluster enable monitoring.
@@ -599,9 +597,9 @@ func (o *Cluster) SetReplicas(v int32) {
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
-func (o *Cluster) GetCpu() float {
+func (o *Cluster) GetCpu() float64 {
 	if o == nil || o.Cpu == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Cpu
@@ -609,7 +607,7 @@ func (o *Cluster) GetCpu() float {
 
 // GetCpuOk returns a tuple with the Cpu field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetCpuOk() (*float, bool) {
+func (o *Cluster) GetCpuOk() (*float64, bool) {
 	if o == nil || o.Cpu == nil {
 		return nil, false
 	}
@@ -621,15 +619,15 @@ func (o *Cluster) HasCpu() bool {
 	return o != nil && o.Cpu != nil
 }
 
-// SetCpu gets a reference to the given float and assigns it to the Cpu field.
-func (o *Cluster) SetCpu(v float) {
+// SetCpu gets a reference to the given float64 and assigns it to the Cpu field.
+func (o *Cluster) SetCpu(v float64) {
 	o.Cpu = &v
 }
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
-func (o *Cluster) GetMemory() float {
+func (o *Cluster) GetMemory() float64 {
 	if o == nil || o.Memory == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Memory
@@ -637,7 +635,7 @@ func (o *Cluster) GetMemory() float {
 
 // GetMemoryOk returns a tuple with the Memory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetMemoryOk() (*float, bool) {
+func (o *Cluster) GetMemoryOk() (*float64, bool) {
 	if o == nil || o.Memory == nil {
 		return nil, false
 	}
@@ -649,15 +647,15 @@ func (o *Cluster) HasMemory() bool {
 	return o != nil && o.Memory != nil
 }
 
-// SetMemory gets a reference to the given float and assigns it to the Memory field.
-func (o *Cluster) SetMemory(v float) {
+// SetMemory gets a reference to the given float64 and assigns it to the Memory field.
+func (o *Cluster) SetMemory(v float64) {
 	o.Memory = &v
 }
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *Cluster) GetStorage() float {
+func (o *Cluster) GetStorage() float64 {
 	if o == nil || o.Storage == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Storage
@@ -665,7 +663,7 @@ func (o *Cluster) GetStorage() float {
 
 // GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetStorageOk() (*float, bool) {
+func (o *Cluster) GetStorageOk() (*float64, bool) {
 	if o == nil || o.Storage == nil {
 		return nil, false
 	}
@@ -677,8 +675,8 @@ func (o *Cluster) HasStorage() bool {
 	return o != nil && o.Storage != nil
 }
 
-// SetStorage gets a reference to the given float and assigns it to the Storage field.
-func (o *Cluster) SetStorage(v float) {
+// SetStorage gets a reference to the given float64 and assigns it to the Storage field.
+func (o *Cluster) SetStorage(v float64) {
 	o.Storage = &v
 }
 
@@ -1497,9 +1495,9 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		Values                  map[string]interface{}    `json:"Values,omitempty"`
 		Version                 *string                   `json:"version,omitempty"`
 		Replicas                *int32                    `json:"replicas,omitempty"`
-		Cpu                     *float                    `json:"cpu,omitempty"`
-		Memory                  *float                    `json:"memory,omitempty"`
-		Storage                 *float                    `json:"storage,omitempty"`
+		Cpu                     *float64                  `json:"cpu,omitempty"`
+		Memory                  *float64                  `json:"memory,omitempty"`
+		Storage                 *float64                  `json:"storage,omitempty"`
 		TerminationPolicy       *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 		MonitorEnabled          *bool                     `json:"monitorEnabled,omitempty"`
 		VpcEndpointEnabled      *bool                     `json:"vpcEndpointEnabled,omitempty"`

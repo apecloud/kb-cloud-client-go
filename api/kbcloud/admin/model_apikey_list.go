@@ -11,9 +11,7 @@ import (
 )
 
 // ApikeyList APIKeys is a list of APIKey objects
-// NODESCRIPTION ApikeyList
-//
-// Deprecated: This model is deprecated.
+
 type ApikeyList struct {
 	// Items is the list of APIKey objects in the list
 	Items []Apikey `json:"items"`

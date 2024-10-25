@@ -11,9 +11,7 @@ import (
 )
 
 // OpsExpose OpsExpose is the payload to expose a KubeBlocks cluster
-// NODESCRIPTION OpsExpose
-//
-// Deprecated: This model is deprecated.
+
 type OpsExpose struct {
 	// NODESCRIPTION Component
 	Component *string `json:"component,omitempty"`

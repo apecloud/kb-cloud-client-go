@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION ComponentOpsOptionDependentCustomOpsParamsItem
 type ComponentOpsOptionDependentCustomOpsParamsItem struct {
 	// parameter name.
 	Name *string `json:"name,omitempty"`

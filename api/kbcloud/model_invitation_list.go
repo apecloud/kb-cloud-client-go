@@ -11,9 +11,7 @@ import (
 )
 
 // InvitationList InvitationList is a list of invitations
-// NODESCRIPTION InvitationList
-//
-// Deprecated: This model is deprecated.
+
 type InvitationList struct {
 	// Items is the list of Invitation objects in the list
 	Items []Invitation `json:"items"`

@@ -12,9 +12,7 @@ import (
 )
 
 // AlertTemplate Alert template
-// NODESCRIPTION AlertTemplate
-//
-// Deprecated: This model is deprecated.
+
 type AlertTemplate struct {
 	// NODESCRIPTION CreatedAt
 	CreatedAt *time.Time `json:"createdAt,omitempty"`

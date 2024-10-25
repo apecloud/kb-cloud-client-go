@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION EnvironmentBackupRepo
 type EnvironmentBackupRepo struct {
 	// backup repo list
 	Items []RawBackupRepo `json:"items,omitempty"`

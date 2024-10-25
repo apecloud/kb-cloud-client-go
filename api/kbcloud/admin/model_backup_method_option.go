@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION BackupMethodOption
 type BackupMethodOption struct {
 	// NODESCRIPTION Name
 	Name string `json:"name"`

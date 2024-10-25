@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // TolerateDefaultTaints When creating a cluster, add the default tolerations from the bootstrap node to the pods
-// NODESCRIPTION TolerateDefaultTaints
-//
-// Deprecated: This model is deprecated.
+
 type TolerateDefaultTaints struct {
 	// NODESCRIPTION Enabled
 	Enabled *bool `json:"enabled,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // PersistentVolumeClaimList the List stands for stats for persistentvolumeclaims.
-// NODESCRIPTION PersistentVolumeClaimList
-//
-// Deprecated: This model is deprecated.
+
 type PersistentVolumeClaimList struct {
 	// NODESCRIPTION Items
 	Items []PersistentVolumeClaim `json:"items"`

@@ -12,9 +12,7 @@ import (
 )
 
 // RecycleBinClusterListItem information of kubeblocks cluster in recycle bin
-// NODESCRIPTION RecycleBinClusterListItem
-//
-// Deprecated: This model is deprecated.
+
 type RecycleBinClusterListItem struct {
 	// Cloud Provider
 	CloudProvider string `json:"cloudProvider"`

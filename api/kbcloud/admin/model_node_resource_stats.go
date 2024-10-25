@@ -11,9 +11,7 @@ import (
 )
 
 // NodeResourceStats ResourceStats holds the requests, limits, and available stats for a resource.
-// NODESCRIPTION NodeResourceStats
-//
-// Deprecated: This model is deprecated.
+
 type NodeResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`

@@ -11,9 +11,7 @@ import (
 )
 
 // BackupPolicy BackupPolicy is the payload for KubeBlocks cluster backup policy
-// NODESCRIPTION BackupPolicy
-//
-// Deprecated: This model is deprecated.
+
 type BackupPolicy struct {
 	// specify whether to use auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`

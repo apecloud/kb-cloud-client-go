@@ -12,9 +12,7 @@ import (
 )
 
 // Restore create a KubeBlocks restore API
-// NODESCRIPTION Restore
-//
-// Deprecated: This model is deprecated.
+
 type Restore struct {
 	// organization name
 	OrgName *string `json:"orgName,omitempty"`

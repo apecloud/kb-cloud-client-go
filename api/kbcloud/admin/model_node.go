@@ -12,9 +12,7 @@ import (
 )
 
 // Node node info
-// NODESCRIPTION Node
-//
-// Deprecated: This model is deprecated.
+
 type Node struct {
 	// CPU cores of the node
 	Cpu *int64 `json:"cpu,omitempty"`

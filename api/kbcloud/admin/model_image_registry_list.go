@@ -11,9 +11,7 @@ import (
 )
 
 // ImageRegistryList imageRegistryList is a list of imageRegistry
-// NODESCRIPTION ImageRegistryList
-//
-// Deprecated: This model is deprecated.
+
 type ImageRegistryList struct {
 	// Items is the list of imageRegistry objects in the list
 	Items []ImageRegistry `json:"items"`

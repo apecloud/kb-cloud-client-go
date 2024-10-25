@@ -11,9 +11,7 @@ import (
 )
 
 // AdminUserList Admin user list
-// NODESCRIPTION AdminUserList
-//
-// Deprecated: This model is deprecated.
+
 type AdminUserList struct {
 	// Items is the list of admin user objects in the list
 	Items []AdminUser `json:"items"`

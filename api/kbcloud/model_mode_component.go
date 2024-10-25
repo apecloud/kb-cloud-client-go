@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ModeComponent
 type ModeComponent struct {
 	// NODESCRIPTION Component
 	Component string `json:"component"`

@@ -12,9 +12,7 @@ import (
 )
 
 // ImageRegistry Represents an image registry.
-// NODESCRIPTION ImageRegistry
-//
-// Deprecated: This model is deprecated.
+
 type ImageRegistry struct {
 	// The name of the image registry.
 	Name string `json:"name"`

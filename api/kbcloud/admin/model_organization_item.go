@@ -12,9 +12,7 @@ import (
 )
 
 // OrganizationItem Organization items.
-// NODESCRIPTION OrganizationItem
-//
-// Deprecated: This model is deprecated.
+
 type OrganizationItem struct {
 	// The name of the organization.
 	Name string `json:"name"`

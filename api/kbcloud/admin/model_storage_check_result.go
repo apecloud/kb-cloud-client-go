@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageCheckResult storageCheck is the result when checking storage connectivity
-// NODESCRIPTION StorageCheckResult
-//
-// Deprecated: This model is deprecated.
+
 type StorageCheckResult struct {
 	// the result that the storage connectivity
 	Connected *bool `json:"connected,omitempty"`

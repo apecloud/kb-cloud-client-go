@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RoleUpdate Role update
-// NODESCRIPTION RoleUpdate
-//
-// Deprecated: This model is deprecated.
+
 type RoleUpdate struct {
 	// The description of the role
 	Description *string `json:"description,omitempty"`

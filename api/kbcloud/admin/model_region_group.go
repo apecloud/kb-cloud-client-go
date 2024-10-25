@@ -11,9 +11,7 @@ import (
 )
 
 // RegionGroup The region group
-// NODESCRIPTION RegionGroup
-//
-// Deprecated: This model is deprecated.
+
 type RegionGroup struct {
 	// The name of the region group
 	Group string `json:"group"`

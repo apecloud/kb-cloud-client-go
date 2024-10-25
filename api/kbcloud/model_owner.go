@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // Owner Owner related to the Event
-// NODESCRIPTION Owner
-//
-// Deprecated: This model is deprecated.
+
 type Owner struct {
 	// APIVersion is the API version of the owner.
 	ApiVersion *string `json:"apiVersion,omitempty"`

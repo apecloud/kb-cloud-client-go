@@ -12,9 +12,7 @@ import (
 )
 
 // AlertRule Alert rule information
-// NODESCRIPTION AlertRule
-//
-// Deprecated: This model is deprecated.
+
 type AlertRule struct {
 	// NODESCRIPTION Description
 	Description *string `json:"description,omitempty"`

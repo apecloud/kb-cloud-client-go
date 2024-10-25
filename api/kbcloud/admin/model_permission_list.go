@@ -11,9 +11,7 @@ import (
 )
 
 // PermissionList PermissionList is a list of Permissions
-// NODESCRIPTION PermissionList
-//
-// Deprecated: This model is deprecated.
+
 type PermissionList struct {
 	// Items is the list of Permission objects in the list
 	Items []Permission `json:"items"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RawCluster cluster info
-// NODESCRIPTION RawCluster
-//
-// Deprecated: This model is deprecated.
+
 type RawCluster struct {
 	// the cluster name in k8s
 	KubernetesName *string `json:"kubernetesName,omitempty"`

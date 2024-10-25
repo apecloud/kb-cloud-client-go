@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION DashboardOption
 type DashboardOption struct {
 	// NODESCRIPTION Component
 	Component string `json:"component"`

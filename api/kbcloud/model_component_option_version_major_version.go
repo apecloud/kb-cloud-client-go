@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION ComponentOptionVersionMajorVersion
 type ComponentOptionVersionMajorVersion struct {
 	// default major version.
 	Default *string `json:"default,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // License License info
-// NODESCRIPTION License
-//
-// Deprecated: This model is deprecated.
+
 type License struct {
 	// The kubernetes cluster ID
 	ClusterId *string `json:"clusterID,omitempty"`

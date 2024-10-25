@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // HaHistoryResponse hahistory is the payload to get ha history of a KubeBlocks cluster
-// NODESCRIPTION HaHistoryResponse
-//
-// Deprecated: This model is deprecated.
+
 type HaHistoryResponse struct {
 	// NODESCRIPTION ComponentName
 	ComponentName *string `json:"componentName,omitempty"`

@@ -12,9 +12,7 @@ import (
 )
 
 // Provider The cloud provider that the environment is running on.
-// NODESCRIPTION Provider
-//
-// Deprecated: This model is deprecated.
+
 type Provider struct {
 	// The name of the cloud provider.
 	Name string `json:"name"`

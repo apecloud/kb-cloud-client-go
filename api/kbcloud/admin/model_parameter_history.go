@@ -12,9 +12,7 @@ import (
 )
 
 // ParameterHistory The history of a parameter
-// NODESCRIPTION ParameterHistory
-//
-// Deprecated: This model is deprecated.
+
 type ParameterHistory struct {
 	// The name of the parameter
 	ParameterName string `json:"parameterName"`

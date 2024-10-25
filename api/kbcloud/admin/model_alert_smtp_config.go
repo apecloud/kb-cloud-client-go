@@ -11,9 +11,7 @@ import (
 )
 
 // AlertSMTPConfig Alert smtp config
-// NODESCRIPTION AlertSMTPConfig
-//
-// Deprecated: This model is deprecated.
+
 type AlertSMTPConfig struct {
 	// SMTP authentication information
 	SmtpAuthPassword string `json:"smtp_auth_password"`

@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION DmsTaskList
 type DmsTaskList struct {
 	// NODESCRIPTION Tasks
 	Tasks []DmsTaskInfo `json:"tasks,omitempty"`

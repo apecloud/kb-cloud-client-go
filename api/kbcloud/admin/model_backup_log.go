@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // BackupLog backup workload logs
-// NODESCRIPTION BackupLog
-//
-// Deprecated: This model is deprecated.
+
 type BackupLog struct {
 	// items is the list of backupLogByPod objects
 	Items []BackupLogByPod `json:"items,omitempty"`

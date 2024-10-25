@@ -11,9 +11,7 @@ import (
 )
 
 // EnvironmentCondition EnvironmentCondition contains details for the current condition of this environment.
-// NODESCRIPTION EnvironmentCondition
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentCondition struct {
 	// Human-readable message indicating details about last transition.
 	Message *string `json:"message,omitempty"`

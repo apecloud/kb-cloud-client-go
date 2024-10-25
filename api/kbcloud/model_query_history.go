@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION QueryHistory
 type QueryHistory struct {
 	// executed sql statements
 	Sql *string `json:"sql,omitempty"`

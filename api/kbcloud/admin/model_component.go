@@ -11,9 +11,7 @@ import (
 )
 
 // Component Component info in environment
-// NODESCRIPTION Component
-//
-// Deprecated: This model is deprecated.
+
 type Component struct {
 	// Kubernetes version of the environment
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`

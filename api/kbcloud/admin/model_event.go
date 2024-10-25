@@ -11,9 +11,7 @@ import (
 )
 
 // Event Event related to the view
-// NODESCRIPTION Event
-//
-// Deprecated: This model is deprecated.
+
 type Event struct {
 	// Group is the API group of the event.
 	Group string `json:"group"`

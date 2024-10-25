@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION EngineOptionLicense
 type EngineOptionLicense struct {
 	// Indicate whether the current cluster requires users to input the license
 	Required *bool `json:"required,omitempty"`

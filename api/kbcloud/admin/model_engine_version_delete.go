@@ -11,9 +11,7 @@ import (
 )
 
 // EngineVersionDelete EngineVersionRecord delete option
-// NODESCRIPTION EngineVersionDelete
-//
-// Deprecated: This model is deprecated.
+
 type EngineVersionDelete struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`

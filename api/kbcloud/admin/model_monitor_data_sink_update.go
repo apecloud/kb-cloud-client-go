@@ -11,9 +11,7 @@ import (
 )
 
 // MonitorDataSinkUpdate External Endpoint update option
-// NODESCRIPTION MonitorDataSinkUpdate
-//
-// Deprecated: This model is deprecated.
+
 type MonitorDataSinkUpdate struct {
 	// type of monitor data sink(logs or metrics)
 	MonitorDataSinkType common.NullableString `json:"monitorDataSinkType"`

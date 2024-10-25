@@ -11,9 +11,7 @@ import (
 )
 
 // Benchmark Benchmark is the benchmark object
-// NODESCRIPTION Benchmark
-//
-// Deprecated: This model is deprecated.
+
 type Benchmark struct {
 	// ID of benchmark
 	Id *string `json:"id,omitempty"`

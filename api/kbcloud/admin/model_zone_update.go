@@ -11,9 +11,7 @@ import (
 )
 
 // ZoneUpdate The zone that needs to be updated.
-// NODESCRIPTION ZoneUpdate
-//
-// Deprecated: This model is deprecated.
+
 type ZoneUpdate struct {
 	// The Chinese name of the zone.
 	NameCn string `json:"nameCN"`

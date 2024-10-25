@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // UserUpdate User update
-// NODESCRIPTION UserUpdate
-//
-// Deprecated: This model is deprecated.
+
 type UserUpdate struct {
 	// The display name of the user
 	DisplayName *string `json:"displayName,omitempty"`

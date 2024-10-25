@@ -11,9 +11,7 @@ import (
 )
 
 // EnvironmentStats The cumulative statistics for all environments.
-// NODESCRIPTION EnvironmentStats
-//
-// Deprecated: This model is deprecated.
+
 type EnvironmentStats struct {
 	// The total number of environments.
 	EnvTotal int32 `json:"envTotal"`

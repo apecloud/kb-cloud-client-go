@@ -11,9 +11,7 @@ import (
 )
 
 // StorageProvisioner StorageProvisioner provides detailed information about the provisioner used by storage classes.
-// NODESCRIPTION StorageProvisioner
-//
-// Deprecated: This model is deprecated.
+
 type StorageProvisioner struct {
 	// NODESCRIPTION Provisioner
 	Provisioner string `json:"provisioner"`

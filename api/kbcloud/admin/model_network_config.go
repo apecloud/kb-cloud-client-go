@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // NetworkConfig Configuration of networking for this environment
-// NODESCRIPTION NetworkConfig
-//
-// Deprecated: This model is deprecated.
+
 type NetworkConfig struct {
 	// Enable node port service for this environment
 	NodePortEnabled *bool `json:"nodePortEnabled,omitempty"`

@@ -11,9 +11,7 @@ import (
 )
 
 // OrgCreate OrgCreate is the payload for organization creation
-// NODESCRIPTION OrgCreate
-//
-// Deprecated: This model is deprecated.
+
 type OrgCreate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`

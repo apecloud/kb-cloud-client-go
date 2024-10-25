@@ -11,9 +11,7 @@ import (
 )
 
 // StorageClassInfoStatsByNodeList the List stands for stats for the storage volumes of nodes.
-// NODESCRIPTION StorageClassInfoStatsByNodeList
-//
-// Deprecated: This model is deprecated.
+
 type StorageClassInfoStatsByNodeList struct {
 	// the list of storage volumes stats by node
 	Items []StorageVolumeStatsByNode `json:"items"`

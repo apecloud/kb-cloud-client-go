@@ -11,9 +11,7 @@ import (
 )
 
 // RestoreLogByPod info of restore workload log
-// NODESCRIPTION RestoreLogByPod
-//
-// Deprecated: This model is deprecated.
+
 type RestoreLogByPod struct {
 	// restore pod log
 	Log *string `json:"log,omitempty"`

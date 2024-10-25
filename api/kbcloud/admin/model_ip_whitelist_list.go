@@ -10,6 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// NODESCRIPTION IpWhitelistList
 type IpWhitelistList struct {
 	// Items is the list of whitelist objects in the Cluster
 	Items []IpWhitelist `json:"items"`

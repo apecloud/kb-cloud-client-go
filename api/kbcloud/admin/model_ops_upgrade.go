@@ -11,9 +11,7 @@ import (
 )
 
 // OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
-// NODESCRIPTION OpsUpgrade
-//
-// Deprecated: This model is deprecated.
+
 type OpsUpgrade struct {
 	// NODESCRIPTION Version
 	Version string `json:"version"`

@@ -11,9 +11,7 @@ import (
 )
 
 // WebhookConfig Webhook config of alert receiver
-// NODESCRIPTION WebhookConfig
-//
-// Deprecated: This model is deprecated.
+
 type WebhookConfig struct {
 	// NODESCRIPTION Url
 	Url string `json:"url"`

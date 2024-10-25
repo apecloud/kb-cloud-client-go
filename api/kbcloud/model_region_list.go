@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RegionList The list of regions.
-// NODESCRIPTION RegionList
-//
-// Deprecated: This model is deprecated.
+
 type RegionList struct {
 	// The list of regions.
 	Items []Region `json:"items,omitempty"`

@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // NodeGroupUpdate NodeGroup patch info
-// NODESCRIPTION NodeGroupUpdate
-//
-// Deprecated: This model is deprecated.
+
 type NodeGroupUpdate struct {
 	// NodeGroup description
 	Description common.NullableString `json:"description,omitempty"`

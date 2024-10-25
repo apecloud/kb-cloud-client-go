@@ -11,9 +11,7 @@ import (
 )
 
 // TagCreate Tag create
-// NODESCRIPTION TagCreate
-//
-// Deprecated: This model is deprecated.
+
 type TagCreate struct {
 	// The cluster id corresponding to the tag
 	ClusterId string `json:"clusterId"`

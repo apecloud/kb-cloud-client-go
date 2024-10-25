@@ -11,9 +11,7 @@ import (
 )
 
 // BackupRepoList BackupRepoList is a list of backupRepo
-// NODESCRIPTION BackupRepoList
-//
-// Deprecated: This model is deprecated.
+
 type BackupRepoList struct {
 	// Items is the list of backupRepo objects in the list
 	Items []BackupRepo `json:"items"`

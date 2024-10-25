@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RegionGroupList The list of region group.
-// NODESCRIPTION RegionGroupList
-//
-// Deprecated: This model is deprecated.
+
 type RegionGroupList struct {
 	// The list of region group.
 	Items []RegionGroup `json:"items,omitempty"`

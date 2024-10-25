@@ -11,9 +11,7 @@ import (
 )
 
 // Metadb_backupList BackupList is a list of backups
-// NODESCRIPTION Metadb_backupList
-//
-// Deprecated: This model is deprecated.
+
 type Metadb_backupList struct {
 	// Items is the list of backup objects in the list
 	Items []Metadb_backup `json:"items"`

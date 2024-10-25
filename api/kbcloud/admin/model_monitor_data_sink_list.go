@@ -11,9 +11,7 @@ import (
 )
 
 // MonitorDataSinkList External Endpoint list
-// NODESCRIPTION MonitorDataSinkList
-//
-// Deprecated: This model is deprecated.
+
 type MonitorDataSinkList struct {
 	// NODESCRIPTION Items
 	Items []MonitorDataSink `json:"items"`

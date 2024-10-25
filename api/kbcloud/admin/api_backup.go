@@ -18,11 +18,11 @@ import (
 type BackupApi common.Service
 
 // CreateClusterBackup Create backup.
-func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate) (Backup_backup, *_nethttp.Response, error) {
+func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate) (Backup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue Backup_backup
+		localVarReturnValue Backup
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.CreateClusterBackup")
@@ -236,11 +236,11 @@ func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string,
 }
 
 // GetBackup Get backup.
-func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId string) (Backup_backup, *_nethttp.Response, error) {
+func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId string) (Backup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue Backup_backup
+		localVarReturnValue Backup
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackup")

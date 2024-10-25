@@ -296,7 +296,7 @@ def format_parameters(data, spec, replace_values=None, has_body=False, **kwargs)
             value = format_data_with_schema(
                 v["value"],
                 p["schema"],
-                name_prefix=f"datadog{kwargs.get('version', '')}.",
+                name_prefix=f"kbcloud{kwargs.get('version', '')}.",
                 replace_values=replace_values,
                 required=True,
                 **kwargs,

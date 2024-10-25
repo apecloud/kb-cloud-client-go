@@ -11,9 +11,7 @@ import (
 )
 
 // OrgMemberUpdate Org Member update
-// NODESCRIPTION OrgMemberUpdate
-//
-// Deprecated: This model is deprecated.
+
 type OrgMemberUpdate struct {
 	// The role of the User in the Org. Required
 	Role string `json:"role"`

@@ -11,9 +11,7 @@ import (
 )
 
 // OrgMemberList OrgMemberList is org member list
-// NODESCRIPTION OrgMemberList
-//
-// Deprecated: This model is deprecated.
+
 type OrgMemberList struct {
 	// Items is the list of OrgMember objects in the list
 	Items []OrgMember `json:"items"`

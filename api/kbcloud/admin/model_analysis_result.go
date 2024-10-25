@@ -6,6 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION AnalysisResult
 type AnalysisResult struct {
 	// NODESCRIPTION Explanation
 	Explanation *string `json:"explanation,omitempty"`

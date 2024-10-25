@@ -11,9 +11,7 @@ import (
 )
 
 // NamespaceInfo Namespace info
-// NODESCRIPTION NamespaceInfo
-//
-// Deprecated: This model is deprecated.
+
 type NamespaceInfo struct {
 	// Namespace
 	Namespace string `json:"namespace"`

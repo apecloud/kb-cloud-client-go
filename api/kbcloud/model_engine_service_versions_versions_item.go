@@ -6,6 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
+// NODESCRIPTION EngineServiceVersionsVersionsItem
 type EngineServiceVersionsVersionsItem struct {
 	// NODESCRIPTION MajorVersion
 	MajorVersion *string `json:"majorVersion,omitempty"`

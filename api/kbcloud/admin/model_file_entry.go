@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // FileEntry the entry of files
-// NODESCRIPTION FileEntry
-//
-// Deprecated: This model is deprecated.
+
 type FileEntry struct {
 	// description the entry type
 	IsDir *bool `json:"IsDir,omitempty"`
