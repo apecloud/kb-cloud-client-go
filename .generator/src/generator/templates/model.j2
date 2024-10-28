@@ -1,0 +1,22 @@
+{% include "partial_header.j2" %}
+package {{ package_name }}
+
+import (
+	"github.com/google/uuid"
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api"
+{#imports
+	"{{import}}"
+#}
+)
+
+{# {{ model.description.rstrip()|replace('\n', '\n# ')|indent(2) }}#}
+{% if "enum" in model -%}
+{% include "model_enum.j2" %}
+{%- elif "oneOf" in model -%}
+{% include "model_oneof.j2" %}
+{%- else -%}
+{% include "model_simple.j2" %}
+{%- endif %}
+{# keep new line #}

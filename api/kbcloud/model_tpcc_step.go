@@ -1,0 +1,70 @@
+// Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
+// This product includes software developed at ApeCloud (https://www.apecloud.com/).
+// Copyright 2022-Present ApeCloud Co., Ltd
+
+package kbcloud
+
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// TpccStep Step of sysbench
+type TpccStep string
+
+// List of TpccStep.
+const (
+	TPCCSTEP_PREPARE TpccStep = "prepare"
+	TPCCSTEP_RUN     TpccStep = "run"
+	TPCCSTEP_CLEANUP TpccStep = "cleanup"
+	TPCCSTEP_ALL     TpccStep = "all"
+)
+
+var allowedTpccStepEnumValues = []TpccStep{
+	TPCCSTEP_PREPARE,
+	TPCCSTEP_RUN,
+	TPCCSTEP_CLEANUP,
+	TPCCSTEP_ALL,
+}
+
+// GetAllowedValues returns the list of possible values.
+func (v *TpccStep) GetAllowedValues() []TpccStep {
+	return allowedTpccStepEnumValues
+}
+
+// UnmarshalJSON deserializes the given payload.
+func (v *TpccStep) UnmarshalJSON(src []byte) error {
+	var value string
+	err := common.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	*v = TpccStep(value)
+	return nil
+}
+
+// NewTpccStepFromValue returns a pointer to a valid TpccStep
+// for the value passed as argument, or an error if the value passed is not allowed by the enum.
+func NewTpccStepFromValue(v string) (*TpccStep, error) {
+	ev := TpccStep(v)
+	if ev.IsValid() {
+		return &ev, nil
+	}
+	return nil, fmt.Errorf("invalid value '%v' for TpccStep: valid values are %v", v, allowedTpccStepEnumValues)
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise.
+func (v TpccStep) IsValid() bool {
+	for _, existing := range allowedTpccStepEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to TpccStep value.
+func (v TpccStep) Ptr() *TpccStep {
+	return &v
+}
