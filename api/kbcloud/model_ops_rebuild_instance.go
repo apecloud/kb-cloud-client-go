@@ -7,12 +7,10 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsRebuildInstance rebuild the instances of the cluster.
-
 type OpsRebuildInstance struct {
 	// will ignore role check during rebuilding instance.
-	IgnoreRoleCheck *bool `json:"ignoreRoleCheck,omitempty"`
-	// NODESCRIPTION Requests
-	Requests []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
+	IgnoreRoleCheck *bool                            `json:"ignoreRoleCheck,omitempty"`
+	Requests        []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -11,7 +11,6 @@ import (
 )
 
 // EngineVersionDelete EngineVersionRecord delete option
-
 type EngineVersionDelete struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`

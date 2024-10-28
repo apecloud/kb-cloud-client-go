@@ -11,7 +11,6 @@ import (
 )
 
 // BackupList BackupList is a list of backups
-
 type BackupList struct {
 	// Items is the list of backup policy objects in the list
 	Items []Backup `json:"items"`

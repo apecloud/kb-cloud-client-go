@@ -11,7 +11,6 @@ import (
 )
 
 // EnvironmentList EnvironmentList is a list of Environments
-
 type EnvironmentList struct {
 	// Items is the list of Environment objects in the list
 	Items []Environment `json:"items"`

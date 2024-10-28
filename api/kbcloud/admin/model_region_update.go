@@ -11,7 +11,6 @@ import (
 )
 
 // RegionUpdate The region that needs to be updated.
-
 type RegionUpdate struct {
 	// The Chinese name of the region.
 	NameCn string `json:"nameCN"`

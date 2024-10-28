@@ -18,8 +18,6 @@ type ZoneApi common.Service
 
 // CreateZone Create a zone.
 // Create a zone
-// NODESCRIPTION CreateZone
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) CreateZone(ctx _context.Context, providerName string, regionName string, body ZoneCreate) (Zone, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -94,8 +92,6 @@ func (a *ZoneApi) CreateZone(ctx _context.Context, providerName string, regionNa
 
 // DeleteZone Delete a zone.
 // Delete a zone
-// NODESCRIPTION DeleteZone
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) DeleteZone(ctx _context.Context, providerName string, regionName string, zoneName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -158,8 +154,6 @@ func (a *ZoneApi) DeleteZone(ctx _context.Context, providerName string, regionNa
 
 // GetZones Get zone.
 // Get zone
-// NODESCRIPTION GetZones
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) GetZones(ctx _context.Context, providerName string, regionName string, zoneName string) (Zone, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -232,8 +226,6 @@ func (a *ZoneApi) GetZones(ctx _context.Context, providerName string, regionName
 
 // ListZones Get zone list.
 // Get zone list
-// NODESCRIPTION ListZones
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) ListZones(ctx _context.Context, providerName string, regionName string) (ZoneList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -305,8 +297,6 @@ func (a *ZoneApi) ListZones(ctx _context.Context, providerName string, regionNam
 
 // UpdateZone Update a zone.
 // Update a zone
-// NODESCRIPTION UpdateZone
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) UpdateZone(ctx _context.Context, providerName string, regionName string, zoneName string, body ZoneUpdate) (Zone, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

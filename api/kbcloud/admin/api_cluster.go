@@ -465,8 +465,6 @@ func (r *GetClusterInstanceLogOptionalParameters) WithTailLines(tailLines int32)
 
 // GetClusterInstanceLog Tail cluster instance container log.
 // read log of the specified cluster instance
-// NODESCRIPTION GetClusterInstanceLog
-// Deprecated: This API is deprecated.
 func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string, clusterName string, workloadName string, o ...GetClusterInstanceLogOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -945,8 +943,6 @@ func (r *ListClustersOptionalParameters) WithEnvName(envName string) *ListCluste
 
 // ListClusters Get cluster list.
 // Get cluster list
-// NODESCRIPTION ListClusters
-// Deprecated: This API is deprecated.
 func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptionalParameters) (ClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1208,8 +1204,6 @@ func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterN
 
 // PatchCluster Update cluster specified fields.
 // Update the specified Cluster
-// NODESCRIPTION PatchCluster
-// Deprecated: This API is deprecated.
 func (a *ClusterApi) PatchCluster(ctx _context.Context, orgName string, clusterName string, body ClusterUpdate) (Cluster, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

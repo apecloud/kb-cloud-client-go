@@ -11,9 +11,7 @@ import (
 )
 
 // EngineVersionList EngineVersionRecord list
-
 type EngineVersionList struct {
-	// NODESCRIPTION Items
 	Items []EngineVersion `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

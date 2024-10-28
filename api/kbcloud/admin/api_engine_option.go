@@ -18,8 +18,6 @@ type EngineOptionApi common.Service
 
 // ListUpgradeableServiceVersion list upgraded service version of the component.
 // list upgraded service version of the component
-// NODESCRIPTION ListUpgradeableServiceVersion
-// Deprecated: This API is deprecated.
 func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, clusterName string, orgName string, component string) (EngineServiceVersions, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -92,8 +90,6 @@ func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, cl
 
 // CreateEngineOption Create engineOption.
 // Create a new engineOption
-// NODESCRIPTION CreateEngineOption
-// Deprecated: This API is deprecated.
 func (a *EngineOptionApi) CreateEngineOption(ctx _context.Context, body EngineOption) (EngineOption, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -183,8 +179,6 @@ func (r *GetEngineOptionOptionalParameters) WithVersion(version EngineOptionVers
 
 // GetEngineOption Get engineOption.
 // Get a engineOption detail
-// NODESCRIPTION GetEngineOption
-// Deprecated: This API is deprecated.
 func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName string, o ...GetEngineOptionOptionalParameters) (EngineOption, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -266,8 +260,6 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 
 // ListEngineOptionHistory List engineOption history.
 // List a engineOption histories of a engine
-// NODESCRIPTION ListEngineOptionHistory
-// Deprecated: This API is deprecated.
 func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineName string) (EngineOptionHistoryList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -355,8 +347,6 @@ func (r *ListEngineOptionsOptionalParameters) WithVersion(version EngineOptionVe
 
 // ListEngineOptions List all engineOptions.
 // list all engineOptions
-// NODESCRIPTION ListEngineOptions
-// Deprecated: This API is deprecated.
 func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngineOptionsOptionalParameters) (EngineOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -437,8 +427,6 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 
 // UpdateEngineOption Update engineOption.
 // Update a engineOption
-// NODESCRIPTION UpdateEngineOption
-// Deprecated: This API is deprecated.
 func (a *EngineOptionApi) UpdateEngineOption(ctx _context.Context, engineName string, body EngineOption) (EngineOption, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPut

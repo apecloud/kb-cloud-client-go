@@ -11,7 +11,6 @@ import (
 )
 
 // Register Register manifest for environment
-
 type Register struct {
 	// Configuration for privisoining environment resources
 	Type EnvironmentRegisterType `json:"type"`

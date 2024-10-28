@@ -11,7 +11,6 @@ import (
 )
 
 // MonitorDataSinkCreate External Endpoint create option
-
 type MonitorDataSinkCreate struct {
 	// url for exporter(eg. url for ElasticSearch)
 	ExporterUrl string `json:"exporterUrl"`

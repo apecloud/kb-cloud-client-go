@@ -327,8 +327,6 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 
 // PatchAlertReceiver Update alert receiver.
 // partially update the alert receiver
-// NODESCRIPTION PatchAlertReceiver
-// Deprecated: This API is deprecated.
 func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName string, receiverId string, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

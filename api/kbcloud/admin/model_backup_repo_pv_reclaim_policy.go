@@ -24,7 +24,7 @@ var allowedBackupRepoPVReclaimPolicyEnumValues = []BackupRepoPVReclaimPolicy{
 	BACKUPREPOPVRECLAIMPOLICY_DELETE,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *BackupRepoPVReclaimPolicy) GetAllowedValues() []BackupRepoPVReclaimPolicy {
 	return allowedBackupRepoPVReclaimPolicyEnumValues
 }

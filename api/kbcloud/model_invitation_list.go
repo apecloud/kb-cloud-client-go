@@ -11,7 +11,6 @@ import (
 )
 
 // InvitationList InvitationList is a list of invitations
-
 type InvitationList struct {
 	// Items is the list of Invitation objects in the list
 	Items []Invitation `json:"items"`

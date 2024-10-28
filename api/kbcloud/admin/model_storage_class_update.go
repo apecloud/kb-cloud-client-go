@@ -11,7 +11,6 @@ import (
 )
 
 // StorageClassUpdate StorageClassUpdate provides the fields for updating a specific storage class.
-
 type StorageClassUpdate struct {
 	// Indicates if this is the default storage class.
 	IsDefaultClass bool `json:"isDefaultClass"`

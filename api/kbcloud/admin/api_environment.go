@@ -19,8 +19,6 @@ type EnvironmentApi common.Service
 
 // AddNodes Add nodes to environment.
 // Add nodes to environment
-// NODESCRIPTION AddNodes
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, body []NodePoolNode) ([]NodePoolNode, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -92,10 +90,63 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// CheckEnvironmentAddRecord check if environment added before.
+func (a *EnvironmentApi) CheckEnvironmentAddRecord(ctx _context.Context, body Kubeconfig) (EnvironmentAdded, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue EnvironmentAdded
+	)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CheckEnvironmentAddRecord")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/checkAddRecord"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // CordonEnvironmentNode Cordon environment node.
 // cordon the specified Environment node
-// NODESCRIPTION CordonEnvironmentNode
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) CordonEnvironmentNode(ctx _context.Context, environmentName string, nodeName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
@@ -906,8 +957,6 @@ func (a *EnvironmentApi) GetEnvironmentMetricsMonitorStats(ctx _context.Context,
 
 // GetEnvironmentNamespaceStats Get namespace stats of a environment.
 // Provides a summary of cluster statistics, aggregated and organized by namespace, for a given environment..
-// NODESCRIPTION GetEnvironmentNamespaceStats
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, environmentName string) (NamespaceStatList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1268,8 +1317,6 @@ func (a *EnvironmentApi) GetLatestComponentVersion(ctx _context.Context) (Compon
 
 // GetNode Get node info.
 // Get specified node info for environment
-// NODESCRIPTION GetNode
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, nodeName string) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1502,8 +1549,6 @@ func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName st
 
 // ListEnvNodeZone List the availability zones where the environment's nodes are located.
 // List available zones of an environment
-// NODESCRIPTION ListEnvNodeZone
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName string) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1626,8 +1671,6 @@ func (r *ListEnvironmentOptionalParameters) WithVersion(version string) *ListEnv
 
 // ListEnvironment List environments.
 // List environments
-// NODESCRIPTION ListEnvironment
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironmentOptionalParameters) (EnvironmentList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1740,8 +1783,6 @@ func (r *ListEnvironmentObjectStorageOptionalParameters) WithBody(body string) *
 
 // ListEnvironmentObjectStorage List environment object storage.
 // List environment object storage
-// NODESCRIPTION ListEnvironmentObjectStorage
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListEnvironmentObjectStorage(ctx _context.Context, o ...ListEnvironmentObjectStorageOptionalParameters) (EnvironmentObjectStorage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -1855,8 +1896,6 @@ func (r *ListKubernetesNodeOptionalParameters) WithOp(op ListKubernetesNodeOpTyp
 
 // ListKubernetesNode List Kubernetes nodes.
 // List Kubernetes nodes before registered as environment
-// NODESCRIPTION ListKubernetesNode
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfig, o ...ListKubernetesNodeOptionalParameters) (NodeList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -1946,8 +1985,6 @@ func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfi
 
 // ListKubernetesStorageClass List Kubernetes storageclass.
 // List Kubernetes storageclass before registered as environment
-// NODESCRIPTION ListKubernetesStorageClass
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body Kubeconfig) (StorageClassList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -2089,8 +2126,6 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 
 // ListNodePod List Pod in the environment node.
 // List Pod in the environment node
-// NODESCRIPTION ListNodePod
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName string, nodeName string, typeVar string) ([]map[string]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -2194,8 +2229,6 @@ func (r *ListNodesOptionalParameters) WithLabelKey(labelKey string) *ListNodesOp
 
 // ListNodes List Kubernetes nodes in an environment.
 // List Kubernetes nodes in an environment
-// NODESCRIPTION ListNodes
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string, o ...ListNodesOptionalParameters) (NodeList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -2283,8 +2316,6 @@ func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string,
 
 // PatchEnvironment Update environment.
 // partially update the specified Environment
-// NODESCRIPTION PatchEnvironment
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName string, body EnvironmentUpdate) (Environment, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -2358,8 +2389,6 @@ func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName 
 
 // PatchNodeGroup Patch node group.
 // partially update the specified NodeGroup
-// NODESCRIPTION PatchNodeGroup
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName string, nodeGroupName string, body NodeGroupUpdate) (NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -2487,10 +2516,161 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// PreflightRestoreEnvironment Preflight check before restore environment.
+func (a *EnvironmentApi) PreflightRestoreEnvironment(ctx _context.Context, body Kubeconfig) (PreflightList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue PreflightList
+	)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PreflightRestoreEnvironment")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/restorePreflight"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// RestoreEnvironmentOptionalParameters holds optional parameters for RestoreEnvironment.
+type RestoreEnvironmentOptionalParameters struct {
+	Body *string
+}
+
+// NewRestoreEnvironmentOptionalParameters creates an empty struct for parameters.
+func NewRestoreEnvironmentOptionalParameters() *RestoreEnvironmentOptionalParameters {
+	this := RestoreEnvironmentOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *RestoreEnvironmentOptionalParameters) WithBody(body string) *RestoreEnvironmentOptionalParameters {
+	r.Body = &body
+	return r
+}
+
+// RestoreEnvironment restore environment.
+func (a *EnvironmentApi) RestoreEnvironment(ctx _context.Context, o ...RestoreEnvironmentOptionalParameters) (Environment, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Environment
+		optionalParams      RestoreEnvironmentOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type RestoreEnvironmentOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.RestoreEnvironment")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/restore"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v None
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // UncordonEnvironmentNode Cordon environment node.
 // cordon the specified Environment node
-// NODESCRIPTION UncordonEnvironmentNode
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environmentName string, nodeName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch

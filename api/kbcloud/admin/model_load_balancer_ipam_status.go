@@ -24,7 +24,7 @@ var allowedLoadBalancerIpamStatusEnumValues = []LoadBalancerIpamStatus{
 	LOADBALANCERIPAMSTATUS_DISABLED,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *LoadBalancerIpamStatus) GetAllowedValues() []LoadBalancerIpamStatus {
 	return allowedLoadBalancerIpamStatusEnumValues
 }

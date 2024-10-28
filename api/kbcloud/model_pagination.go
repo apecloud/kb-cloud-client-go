@@ -6,16 +6,11 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Pagination
 type Pagination struct {
-	// NODESCRIPTION RowsCount
-	RowsCount *int32 `json:"rows_count,omitempty"`
-	// NODESCRIPTION Page
-	Page *int32 `json:"page,omitempty"`
-	// NODESCRIPTION PagesCount
+	RowsCount  *int32 `json:"rows_count,omitempty"`
+	Page       *int32 `json:"page,omitempty"`
 	PagesCount *int32 `json:"pages_count,omitempty"`
-	// NODESCRIPTION PerPage
-	PerPage *int32 `json:"per_page,omitempty"`
+	PerPage    *int32 `json:"per_page,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

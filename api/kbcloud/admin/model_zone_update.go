@@ -11,7 +11,6 @@ import (
 )
 
 // ZoneUpdate The zone that needs to be updated.
-
 type ZoneUpdate struct {
 	// The Chinese name of the zone.
 	NameCn string `json:"nameCN"`

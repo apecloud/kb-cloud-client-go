@@ -30,7 +30,7 @@ var allowedBenchmarkTypeEnumValues = []BenchmarkType{
 	BENCHMARKTYPE_YCSB,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *BenchmarkType) GetAllowedValues() []BenchmarkType {
 	return allowedBenchmarkTypeEnumValues
 }

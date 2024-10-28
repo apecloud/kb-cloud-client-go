@@ -11,7 +11,6 @@ import (
 )
 
 // OpsLicense OpsLicense is the payload to update a KubeBlocks cluster license
-
 type OpsLicense struct {
 	// component type
 	Component string `json:"component"`

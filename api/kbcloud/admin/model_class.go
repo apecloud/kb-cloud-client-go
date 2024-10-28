@@ -6,32 +6,19 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Class
 type Class struct {
-	// NODESCRIPTION Engine
-	Engine *string `json:"engine,omitempty"`
-	// NODESCRIPTION Code
-	Code *string `json:"code,omitempty"`
-	// NODESCRIPTION CodeShort
-	CodeShort *string `json:"codeShort,omitempty"`
-	// NODESCRIPTION Mode
-	Mode *string `json:"mode,omitempty"`
-	// NODESCRIPTION Cpu
-	Cpu *float64 `json:"cpu,omitempty"`
-	// NODESCRIPTION CpuRequest
-	CpuRequest *float64 `json:"cpuRequest,omitempty"`
-	// NODESCRIPTION CpuLimit
-	CpuLimit *float64 `json:"cpuLimit,omitempty"`
-	// NODESCRIPTION Memory
-	Memory *float64 `json:"memory,omitempty"`
-	// NODESCRIPTION MemoryRequest
-	MemoryRequest *float64 `json:"memoryRequest,omitempty"`
-	// NODESCRIPTION MemoryLimit
-	MemoryLimit *float64 `json:"memoryLimit,omitempty"`
-	// NODESCRIPTION Component
-	Component *string `json:"component,omitempty"`
-	// NODESCRIPTION Series
-	Series *ClassSeries `json:"series,omitempty"`
+	Engine        *string      `json:"engine,omitempty"`
+	Code          *string      `json:"code,omitempty"`
+	CodeShort     *string      `json:"codeShort,omitempty"`
+	Mode          *string      `json:"mode,omitempty"`
+	Cpu           *float64     `json:"cpu,omitempty"`
+	CpuRequest    *float64     `json:"cpuRequest,omitempty"`
+	CpuLimit      *float64     `json:"cpuLimit,omitempty"`
+	Memory        *float64     `json:"memory,omitempty"`
+	MemoryRequest *float64     `json:"memoryRequest,omitempty"`
+	MemoryLimit   *float64     `json:"memoryLimit,omitempty"`
+	Component     *string      `json:"component,omitempty"`
+	Series        *ClassSeries `json:"series,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

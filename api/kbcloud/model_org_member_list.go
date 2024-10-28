@@ -11,7 +11,6 @@ import (
 )
 
 // OrgMemberList OrgMemberList is org member list
-
 type OrgMemberList struct {
 	// Items is the list of OrgMember objects in the list
 	Items []OrgMember `json:"items"`

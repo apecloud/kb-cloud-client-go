@@ -10,20 +10,15 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ComponentOpsOption
 type ComponentOpsOption struct {
-	// NODESCRIPTION Component
 	Component string `json:"component"`
-	// NODESCRIPTION DisableHa
-	DisableHa *bool `json:"disableHA,omitempty"`
+	DisableHa *bool  `json:"disableHA,omitempty"`
 	// parameter for rebuild instance ops
 	InPlace *bool `json:"inPlace,omitempty"`
 	// indicate whether backup is required when Inplace is true
-	NeedBackupWhenInPlace *bool `json:"needBackupWhenInPlace,omitempty"`
-	// NODESCRIPTION RestoreEnv
-	RestoreEnv []ComponentOpsOptionRestoreEnvItem `json:"restoreEnv,omitempty"`
-	// NODESCRIPTION DependentCustomOps
-	DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+	NeedBackupWhenInPlace *bool                                 `json:"needBackupWhenInPlace,omitempty"`
+	RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+	DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

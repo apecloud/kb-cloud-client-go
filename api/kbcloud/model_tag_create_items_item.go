@@ -10,14 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION TagCreateItemsItem
 type TagCreateItemsItem struct {
-	// NODESCRIPTION Id
-	Id *string `json:"id,omitempty"`
-	// NODESCRIPTION Key
-	Key string `json:"key"`
-	// NODESCRIPTION Value
-	Value string `json:"value"`
+	Id    *string `json:"id,omitempty"`
+	Key   string  `json:"key"`
+	Value string  `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

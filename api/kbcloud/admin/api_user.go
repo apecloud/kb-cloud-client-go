@@ -18,8 +18,6 @@ type UserApi common.Service
 
 // CreateUserApikey Create apikey of the authenticated user.
 // Create apikey of the authenticated user
-// NODESCRIPTION CreateUserApikey
-// Deprecated: This API is deprecated.
 func (a *UserApi) CreateUserApikey(ctx _context.Context, body ApikeyCreate) (ApikeyWithSK, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -92,8 +90,6 @@ func (a *UserApi) CreateUserApikey(ctx _context.Context, body ApikeyCreate) (Api
 
 // DeleteApikey Delete apikey.
 // delete apikey
-// NODESCRIPTION DeleteApikey
-// Deprecated: This API is deprecated.
 func (a *UserApi) DeleteApikey(ctx _context.Context, keyName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -154,8 +150,6 @@ func (a *UserApi) DeleteApikey(ctx _context.Context, keyName string) (*_nethttp.
 
 // PatchAPIkey Update apikey information.
 // partially update the specified apikey
-// NODESCRIPTION PatchAPIkey
-// Deprecated: This API is deprecated.
 func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyCreate) (Apikey, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -229,8 +223,6 @@ func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyC
 
 // ReadUserApikeys Get apikeys of the authenticated user.
 // Get apikeys of the authenticated user
-// NODESCRIPTION ReadUserApikeys
-// Deprecated: This API is deprecated.
 func (a *UserApi) ReadUserApikeys(ctx _context.Context) (ApikeyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

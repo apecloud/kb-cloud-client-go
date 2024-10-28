@@ -24,7 +24,7 @@ var allowedVolumeRestorePolicyEnumValues = []VolumeRestorePolicy{
 	VOLUMERESTOREPOLICY_PARALLEL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *VolumeRestorePolicy) GetAllowedValues() []VolumeRestorePolicy {
 	return allowedVolumeRestorePolicyEnumValues
 }

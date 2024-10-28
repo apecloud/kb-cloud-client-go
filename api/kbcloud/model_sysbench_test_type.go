@@ -44,7 +44,7 @@ var allowedSysbenchTestTypeEnumValues = []SysbenchTestType{
 	SYSBENCHTESTTYPE_OLTP_READ_WRITE_PCT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *SysbenchTestType) GetAllowedValues() []SysbenchTestType {
 	return allowedSysbenchTestTypeEnumValues
 }

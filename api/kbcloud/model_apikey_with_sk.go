@@ -12,7 +12,6 @@ import (
 )
 
 // ApikeyWithSK APIKeyWithSK is the response for creating an APIKey
-
 type ApikeyWithSK struct {
 	// The accessKey of the APIKey
 	AccessKey string `json:"accessKey"`

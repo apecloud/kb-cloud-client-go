@@ -11,7 +11,6 @@ import (
 )
 
 // Iac Create environment by IaC
-
 type Iac struct {
 	// Role used to do AssumeRole action
 	Role string `json:"role"`

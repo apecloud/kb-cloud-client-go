@@ -11,7 +11,6 @@ import (
 )
 
 // EventList EventList is a list of operation event objects
-
 type EventList struct {
 	// Items is the list of operation event objects in the list
 	Items []Cluster_event `json:"items"`

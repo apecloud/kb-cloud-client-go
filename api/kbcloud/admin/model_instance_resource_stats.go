@@ -11,7 +11,6 @@ import (
 )
 
 // InstanceResourceStats InstanceResourceStats holds the requests, limits, and available stats for an instance.
-
 type InstanceResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`

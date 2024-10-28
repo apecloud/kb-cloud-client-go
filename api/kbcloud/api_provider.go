@@ -18,8 +18,6 @@ type ProviderApi common.Service
 
 // GetCloudProvider Get cloud provider.
 // Get cloud provider
-// NODESCRIPTION GetCloudProvider
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string) (Provider, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -90,8 +88,6 @@ func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string
 
 // ListCloudProviders Get cloud provider list.
 // Get cloud provider list
-// NODESCRIPTION ListCloudProviders
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) ListCloudProviders(ctx _context.Context) (ProviderList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

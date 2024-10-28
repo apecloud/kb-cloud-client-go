@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParameterHistoryList A list of parameter history
-
 type ParameterHistoryList struct {
-	// NODESCRIPTION Items
 	Items []ParameterHistory `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

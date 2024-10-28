@@ -26,7 +26,7 @@ var allowedEndpointTypeEnumValues = []EndpointType{
 	ENDPOINTTYPE_LOADBALANCER,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EndpointType) GetAllowedValues() []EndpointType {
 	return allowedEndpointTypeEnumValues
 }

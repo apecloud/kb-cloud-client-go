@@ -11,7 +11,6 @@ import (
 )
 
 // Cluster_event event is the information of operation event
-
 type Cluster_event struct {
 	// ID of the event
 	Id *string `json:"id,omitempty"`

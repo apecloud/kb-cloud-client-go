@@ -1042,7 +1042,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/cluster'
-          description: Returned when project is deleted successfully.
+          description: Returned when project is updated successfully.
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
       tags:
@@ -5009,6 +5009,44 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/restorePreflight:
+    post:
+      operationId: preflightRestoreEnvironment
+      summary: Preflight check before restore environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/kubeconfig'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preflightList'
+      tags:
+        - environment
+  /admin/v1/environments/checkAddRecord:
+    post:
+      operationId: checkEnvironmentAddRecord
+      summary: check if environment added before
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/kubeconfig'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentAdded'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -6267,6 +6305,30 @@ paths:
           $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
+  /admin/v1/environments/restore:
+    post:
+      operationId: restoreEnvironment
+      summary: restore environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/kubeConfig'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environment'
+          description: A successful response.
+        '403':
+          content: {}
+          description: Returned when the user does not have permission to access the resource.
+        '404':
+          content: {}
+          description: Returned when the resource does not exist.
+      tags:
+        - environment
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -12498,6 +12560,9 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
+        displayName:
+          description: Display name of cluster.
+          type: string
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -12550,6 +12615,9 @@ components:
           title: Tolerations
           type: string
           description: Tolerations of cluster
+        displayName:
+          description: Display name of cluster.
+          type: string
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -15197,6 +15265,10 @@ components:
           description: Extra info for environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+        overwrite:
+          type: boolean
+          description: overwrite a environment if it has been added before
+          default: false
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
       type: object
@@ -15245,13 +15317,44 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
+    environmentAdded:
+      type: object
+      properties:
+        addedBefore:
+          type: boolean
+          description: whether the environment has ever been added
+        stillInUse:
+          type: boolean
+          description: whether the environment is still in use
+        environment:
+          $ref: '#/components/schemas/environment'
+    cleanCloudResourcePolicy:
+      type: string
+      description: The policy to clean cloud resources, either `Delete` or `Retain`
+      enum:
+        - Delete
+        - Retain
+      default: Retain
     environmentDelete:
       description: Environment deletion option
       type: object
+      required:
+        - backup
+        - minio
+        - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
           description: clean up resources in the cloud (only valid if creation is done by role ARN)
+        backup:
+          description: reserve backup when delete environment
+          $ref: '#/components/schemas/cleanCloudResourcePolicy'
+        minio:
+          description: reserve minio cluster when delete environment
+          $ref: '#/components/schemas/cleanCloudResourcePolicy'
+        victoriaMetrics:
+          description: reserve vm cluster when delete environment
+          $ref: '#/components/schemas/cleanCloudResourcePolicy'
     environmentUpdate:
       type: object
       description: Environment info

@@ -11,7 +11,6 @@ import (
 )
 
 // PersistentVolumeClaim persistentVolumeClaim provides detailed information about the PVC .
-
 type PersistentVolumeClaim struct {
 	// the namespace of the PVC
 	NameSpace string `json:"nameSpace"`

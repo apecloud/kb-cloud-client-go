@@ -11,7 +11,6 @@ import (
 )
 
 // RestoreLogByPod info of restore workload log
-
 type RestoreLogByPod struct {
 	// restore pod log
 	Log *string `json:"log,omitempty"`

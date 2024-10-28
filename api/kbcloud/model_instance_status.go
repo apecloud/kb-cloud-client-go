@@ -11,7 +11,6 @@ import (
 )
 
 // InstanceStatus Status for instance
-
 type InstanceStatus struct {
 	// The current phase of the cluster
 	Phase string `json:"phase"`

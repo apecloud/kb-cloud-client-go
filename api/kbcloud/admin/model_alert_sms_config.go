@@ -11,20 +11,13 @@ import (
 )
 
 // AlertSMSConfig Alert sms config
-
 type AlertSMSConfig struct {
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION AccessKeyId
-	AccessKeyId string `json:"accessKeyID"`
-	// NODESCRIPTION AccessKeySecret
-	AccessKeySecret string `json:"accessKeySecret"`
-	// NODESCRIPTION Endpoint
-	Endpoint *string `json:"endpoint,omitempty"`
-	// NODESCRIPTION TemplateCode
-	TemplateCode string `json:"templateCode"`
-	// NODESCRIPTION SignName
-	SignName *string `json:"signName,omitempty"`
+	Name            *string `json:"name,omitempty"`
+	AccessKeyId     string  `json:"accessKeyID"`
+	AccessKeySecret string  `json:"accessKeySecret"`
+	Endpoint        *string `json:"endpoint,omitempty"`
+	TemplateCode    string  `json:"templateCode"`
+	SignName        *string `json:"signName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -10,17 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ResultStats
 type ResultStats struct {
-	// NODESCRIPTION ColumnsCount
-	ColumnsCount *int32 `json:"columns_count,omitempty"`
-	// NODESCRIPTION RowsCount
-	RowsCount *int32 `json:"rows_count,omitempty"`
-	// NODESCRIPTION RowsAffected
-	RowsAffected *int32 `json:"rows_affected,omitempty"`
-	// NODESCRIPTION QueryStartTime
-	QueryStartTime *time.Time `json:"query_start_time,omitempty"`
-	// NODESCRIPTION QueryFinishTime
+	ColumnsCount    *int32     `json:"columns_count,omitempty"`
+	RowsCount       *int32     `json:"rows_count,omitempty"`
+	RowsAffected    *int32     `json:"rows_affected,omitempty"`
+	QueryStartTime  *time.Time `json:"query_start_time,omitempty"`
 	QueryFinishTime *time.Time `json:"query_finish_time,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

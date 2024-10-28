@@ -11,7 +11,6 @@ import (
 )
 
 // Metadb_instanceMetrics instance metrics
-
 type Metadb_instanceMetrics struct {
 	// the name of the instance
 	InstanceName string `json:"instanceName"`

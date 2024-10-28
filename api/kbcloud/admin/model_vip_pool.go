@@ -11,7 +11,6 @@ import (
 )
 
 // VipPool VIP Pool
-
 type VipPool struct {
 	// IP Addresses
 	Addresses string `json:"addresses"`

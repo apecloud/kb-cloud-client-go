@@ -1,7 +1,5 @@
 {%- if model.description %}
 // {{ name }} {{ model.description|block_comment(prefix="//", first_line=False) }}
-{%- else %}
-// NODESCRIPTION {{ name }}
 {%- endif %}
 type {{ name }} {{ model|simple_type }}
 
@@ -18,7 +16,7 @@ var allowed{{ name }}EnumValues = []{{ name }}{
 	{%- endfor %}
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *{{ name }}) GetAllowedValues() []{{ name }} {
 	return allowed{{ name }}EnumValues
 }

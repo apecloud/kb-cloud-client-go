@@ -18,8 +18,6 @@ type InvitationApi common.Service
 
 // AcceptInvitation Accept invitation.
 // partially update the specified Invitation
-// NODESCRIPTION AcceptInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
@@ -104,8 +102,6 @@ func (r *CreateInvitationOptionalParameters) WithUserId(userId string) *CreateIn
 
 // CreateInvitation Create invitation.
 // create a Invitation
-// NODESCRIPTION CreateInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCreate, o ...CreateInvitationOptionalParameters) (Invitation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -192,8 +188,6 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 
 // DeleteInvitation Delete Invitation.
 // delete the specified Invitation for organization admin
-// NODESCRIPTION DeleteInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) DeleteInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -292,8 +286,6 @@ func (r *ListInvitationOptionalParameters) WithPageSize(pageSize string) *ListIn
 
 // ListInvitation List invitations.
 // list the Invitation of specified Org or User
-// NODESCRIPTION ListInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitationOptionalParameters) (InvitationList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -383,8 +375,6 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 
 // ReadInvitation Get Invitation.
 // read the specified Invitation for organization admin or invitee
-// NODESCRIPTION ReadInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string) (Invitation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -455,8 +445,6 @@ func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string
 
 // RejectInvitation Reject invitation.
 // partially update the specified Invitation
-// NODESCRIPTION RejectInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
@@ -517,8 +505,6 @@ func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId stri
 
 // ResendInvitation Resend invitation.
 // partially update the specified Invitation
-// NODESCRIPTION ResendInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) ResendInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch

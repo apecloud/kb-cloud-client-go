@@ -11,7 +11,6 @@ import (
 )
 
 // OrgMember Org Member info
-
 type OrgMember struct {
 	// The display name of User. Read-Only
 	DisplayName *string `json:"displayName,omitempty"`

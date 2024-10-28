@@ -11,7 +11,6 @@ import (
 )
 
 // AdminUserCreate Admin user create
-
 type AdminUserCreate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`

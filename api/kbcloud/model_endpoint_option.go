@@ -10,18 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EndpointOption
 type EndpointOption struct {
-	// NODESCRIPTION Title
-	Title LocalizedDescription `json:"title"`
-	// NODESCRIPTION Component
-	Component string `json:"component"`
-	// NODESCRIPTION PortName
-	PortName string `json:"portName"`
-	// NODESCRIPTION Type
-	Type []string `json:"type"`
-	// NODESCRIPTION Port
-	Port int32 `json:"port"`
+	Title     LocalizedDescription `json:"title"`
+	Component string               `json:"component"`
+	PortName  string               `json:"portName"`
+	Type      []string             `json:"type"`
+	Port      int32                `json:"port"`
 	// whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
 	SupportsSystemUse *bool `json:"supportsSystemUse,omitempty"`
 	// service name pattern, e.g. ClusterName-ComponentName or .ClusterName`

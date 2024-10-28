@@ -6,11 +6,8 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION AlertRuleGroup
 type AlertRuleGroup struct {
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Rules
+	Name  *string     `json:"name,omitempty"`
 	Rules []AlertRule `json:"rules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

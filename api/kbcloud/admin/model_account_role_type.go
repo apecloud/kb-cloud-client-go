@@ -24,7 +24,7 @@ var allowedAccountRoleTypeEnumValues = []AccountRoleType{
 	ACCOUNTROLETYPE_BASICUSER,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *AccountRoleType) GetAllowedValues() []AccountRoleType {
 	return allowedAccountRoleTypeEnumValues
 }

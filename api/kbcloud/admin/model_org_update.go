@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OrgUpdate Organization update
-
 type OrgUpdate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`

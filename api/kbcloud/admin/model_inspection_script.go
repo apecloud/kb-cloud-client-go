@@ -6,34 +6,20 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION InspectionScript
 type InspectionScript struct {
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION Engine
-	Engine *string `json:"engine,omitempty"`
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Category
-	Category *string `json:"category,omitempty"`
-	// NODESCRIPTION Type
-	Type *string `json:"type,omitempty"`
-	// NODESCRIPTION ScriptType
-	ScriptType *string `json:"scriptType,omitempty"`
-	// NODESCRIPTION Reason
-	Reason *string `json:"reason,omitempty"`
-	// NODESCRIPTION Suggestion
-	Suggestion *string `json:"suggestion,omitempty"`
-	// NODESCRIPTION Enabled
-	Enabled *bool `json:"enabled,omitempty"`
-	// NODESCRIPTION ScriptName
-	ScriptName *string `json:"scriptName,omitempty"`
-	// NODESCRIPTION Script
-	Script *string `json:"script,omitempty"`
-	// NODESCRIPTION StatusCheckName
+	Id              *int32  `json:"id,omitempty"`
+	Engine          *string `json:"engine,omitempty"`
+	Name            *string `json:"name,omitempty"`
+	Category        *string `json:"category,omitempty"`
+	Type            *string `json:"type,omitempty"`
+	ScriptType      *string `json:"scriptType,omitempty"`
+	Reason          *string `json:"reason,omitempty"`
+	Suggestion      *string `json:"suggestion,omitempty"`
+	Enabled         *bool   `json:"enabled,omitempty"`
+	ScriptName      *string `json:"scriptName,omitempty"`
+	Script          *string `json:"script,omitempty"`
 	StatusCheckName *string `json:"statusCheckName,omitempty"`
-	// NODESCRIPTION StatusCheck
-	StatusCheck *string `json:"statusCheck,omitempty"`
+	StatusCheck     *string `json:"statusCheck,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

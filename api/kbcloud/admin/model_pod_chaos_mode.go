@@ -30,7 +30,7 @@ var allowedPodChaosModeEnumValues = []PodChaosMode{
 	PODCHAOSMODE_RANDOM_MAX_PERCENT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *PodChaosMode) GetAllowedValues() []PodChaosMode {
 	return allowedPodChaosModeEnumValues
 }

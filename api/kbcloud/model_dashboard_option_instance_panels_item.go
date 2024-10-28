@@ -6,11 +6,8 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION DashboardOptionInstancePanelsItem
 type DashboardOptionInstancePanelsItem struct {
-	// NODESCRIPTION Role
-	Role *string `json:"role,omitempty"`
-	// NODESCRIPTION Panels
+	Role   *string                                       `json:"role,omitempty"`
 	Panels []DashboardOptionInstancePanelsItemPanelsItem `json:"panels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

@@ -32,7 +32,7 @@ var allowedBackupStatusEnumValues = []BackupStatus{
 	BACKUPSTATUS_DELETING,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *BackupStatus) GetAllowedValues() []BackupStatus {
 	return allowedBackupStatusEnumValues
 }

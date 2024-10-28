@@ -13,7 +13,6 @@ import (
 )
 
 // Environment Environment info
-
 type Environment struct {
 	// Cloud Provider
 	Provider string `json:"provider"`
@@ -28,9 +27,8 @@ type Environment struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`
 	// The display name of the context
-	DisplayName string `json:"displayName"`
-	// NODESCRIPTION Id
-	Id uuid.UUID `json:"id"`
+	DisplayName string    `json:"displayName"`
+	Id          uuid.UUID `json:"id"`
 	// The full, unique name of this Object in the format contexts/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`
 	// Organizations that have access for this environment

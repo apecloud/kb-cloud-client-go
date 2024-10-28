@@ -11,7 +11,6 @@ import (
 )
 
 // ApikeyList APIKeys is a list of APIKey objects
-
 type ApikeyList struct {
 	// Items is the list of APIKey objects in the list
 	Items []Apikey `json:"items"`

@@ -24,7 +24,7 @@ var allowedLoadBalancerTypeEnumValues = []LoadBalancerType{
 	LOADBALANCERTYPE_METALLB,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *LoadBalancerType) GetAllowedValues() []LoadBalancerType {
 	return allowedLoadBalancerTypeEnumValues
 }

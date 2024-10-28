@@ -6,7 +6,6 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION TreeNode
 type TreeNode struct {
 	// A string representing the level of the node.
 	Level *string `json:"level,omitempty"`

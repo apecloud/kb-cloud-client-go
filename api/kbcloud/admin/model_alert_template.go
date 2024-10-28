@@ -12,40 +12,23 @@ import (
 )
 
 // AlertTemplate Alert template
-
 type AlertTemplate struct {
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION Description
-	Description *string `json:"description,omitempty"`
-	// NODESCRIPTION EmailSubject
-	EmailSubject *string `json:"emailSubject,omitempty"`
-	// NODESCRIPTION EmailText
-	EmailText *string `json:"emailText,omitempty"`
-	// NODESCRIPTION FeishuText
-	FeishuText *string `json:"feishuText,omitempty"`
-	// NODESCRIPTION FeishuTitle
-	FeishuTitle *string `json:"feishuTitle,omitempty"`
-	// NODESCRIPTION DingdingText
-	DingdingText *string `json:"dingdingText,omitempty"`
-	// NODESCRIPTION DingdingTitle
-	DingdingTitle *string `json:"dingdingTitle,omitempty"`
-	// NODESCRIPTION WeixinText
-	WeixinText *string `json:"weixinText,omitempty"`
-	// NODESCRIPTION WeixinTitle
-	WeixinTitle *string `json:"weixinTitle,omitempty"`
-	// NODESCRIPTION WebhookText
-	WebhookText *string `json:"webhookText,omitempty"`
-	// NODESCRIPTION WebhookTitle
-	WebhookTitle *string `json:"webhookTitle,omitempty"`
-	// NODESCRIPTION Id
-	Id *string `json:"id,omitempty"`
-	// NODESCRIPTION Name
-	Name string `json:"name"`
-	// NODESCRIPTION UpdatedAt
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// NODESCRIPTION IsDefault
-	IsDefault *bool `json:"isDefault,omitempty"`
+	CreatedAt     *time.Time `json:"createdAt,omitempty"`
+	Description   *string    `json:"description,omitempty"`
+	EmailSubject  *string    `json:"emailSubject,omitempty"`
+	EmailText     *string    `json:"emailText,omitempty"`
+	FeishuText    *string    `json:"feishuText,omitempty"`
+	FeishuTitle   *string    `json:"feishuTitle,omitempty"`
+	DingdingText  *string    `json:"dingdingText,omitempty"`
+	DingdingTitle *string    `json:"dingdingTitle,omitempty"`
+	WeixinText    *string    `json:"weixinText,omitempty"`
+	WeixinTitle   *string    `json:"weixinTitle,omitempty"`
+	WebhookText   *string    `json:"webhookText,omitempty"`
+	WebhookTitle  *string    `json:"webhookTitle,omitempty"`
+	Id            *string    `json:"id,omitempty"`
+	Name          string     `json:"name"`
+	UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
+	IsDefault     *bool      `json:"isDefault,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

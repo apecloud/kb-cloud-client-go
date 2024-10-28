@@ -11,9 +11,7 @@ import (
 )
 
 // StorageProvisionerList StorageProvisionerList stands for stats for provisioners can be used by storage classes.
-
 type StorageProvisionerList struct {
-	// NODESCRIPTION Items
 	Items []StorageProvisioner `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

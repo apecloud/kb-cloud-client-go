@@ -11,7 +11,6 @@ import (
 )
 
 // TagUpdate Tag update
-
 type TagUpdate struct {
 	// The key of the tag
 	Key string `json:"key"`

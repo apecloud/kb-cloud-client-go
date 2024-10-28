@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ParamTplPartition
 type ParamTplPartition string
 
 // List of ParamTplPartition.
@@ -24,7 +23,7 @@ var allowedParamTplPartitionEnumValues = []ParamTplPartition{
 	PARAMTPLPARTITION_CUSTOM,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *ParamTplPartition) GetAllowedValues() []ParamTplPartition {
 	return allowedParamTplPartitionEnumValues
 }

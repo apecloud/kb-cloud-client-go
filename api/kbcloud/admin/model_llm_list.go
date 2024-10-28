@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION LlmList
 type LlmList struct {
 	// Items is the list of llm objects
 	Items []Llm `json:"items"`

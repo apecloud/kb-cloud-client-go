@@ -11,7 +11,6 @@ import (
 )
 
 // Event event is the information of operation event
-
 type Event struct {
 	// ID of the event
 	Id *string `json:"id,omitempty"`

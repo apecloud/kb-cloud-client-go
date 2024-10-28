@@ -6,17 +6,11 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION DataDisk
 type DataDisk struct {
-	// NODESCRIPTION DataDiskCapacity
-	DataDiskCapacity *string `json:"data_disk_capacity,omitempty"`
-	// NODESCRIPTION DataDiskAllocated
-	DataDiskAllocated *string `json:"data_disk_allocated,omitempty"`
-	// NODESCRIPTION DataDiskInUse
-	DataDiskInUse *string `json:"data_disk_in_use,omitempty"`
-	// NODESCRIPTION DataDiskHealthStatus
+	DataDiskCapacity     *string `json:"data_disk_capacity,omitempty"`
+	DataDiskAllocated    *string `json:"data_disk_allocated,omitempty"`
+	DataDiskInUse        *string `json:"data_disk_in_use,omitempty"`
 	DataDiskHealthStatus *string `json:"data_disk_health_status,omitempty"`
-	// NODESCRIPTION DataDiskAbnormalTime
 	DataDiskAbnormalTime *string `json:"data_disk_abnormal_time,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

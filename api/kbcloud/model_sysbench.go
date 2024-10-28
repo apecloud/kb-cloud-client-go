@@ -11,7 +11,6 @@ import (
 )
 
 // Sysbench sysbench is the sysbench benchmark object
-
 type Sysbench struct {
 	// Step of sysbench
 	Step *SysbenchStep `json:"step,omitempty"`

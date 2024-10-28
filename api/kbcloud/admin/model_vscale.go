@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION Vscale
 type Vscale struct {
 	// the cpu resource of vertical scale
 	Cpu string `json:"cpu"`

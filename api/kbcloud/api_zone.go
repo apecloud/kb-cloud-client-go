@@ -18,8 +18,6 @@ type ZoneApi common.Service
 
 // GetZones Get zone.
 // Get zone
-// NODESCRIPTION GetZones
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) GetZones(ctx _context.Context, providerName string, regionName string, zoneName string) (Zone, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -92,8 +90,6 @@ func (a *ZoneApi) GetZones(ctx _context.Context, providerName string, regionName
 
 // ListZones Get zone list.
 // Get zone list
-// NODESCRIPTION ListZones
-// Deprecated: This API is deprecated.
 func (a *ZoneApi) ListZones(ctx _context.Context, providerName string, regionName string) (ZoneList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

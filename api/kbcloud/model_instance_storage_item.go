@@ -11,7 +11,6 @@ import (
 )
 
 // InstanceStorageItem Instance storage information
-
 type InstanceStorageItem struct {
 	// Specify the name of storage, which must be unique.
 	Name string `json:"name"`

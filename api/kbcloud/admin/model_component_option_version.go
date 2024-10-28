@@ -10,14 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ComponentOptionVersion
 type ComponentOptionVersion struct {
 	// component version name
-	ComponentVersionName string `json:"componentVersionName"`
-	// NODESCRIPTION MinorVersion
-	MinorVersion *ComponentOptionVersionMinorVersion `json:"minorVersion,omitempty"`
-	// NODESCRIPTION MajorVersion
-	MajorVersion ComponentOptionVersionMajorVersion `json:"majorVersion"`
+	ComponentVersionName string                              `json:"componentVersionName"`
+	MinorVersion         *ComponentOptionVersionMinorVersion `json:"minorVersion,omitempty"`
+	MajorVersion         ComponentOptionVersionMajorVersion  `json:"majorVersion"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

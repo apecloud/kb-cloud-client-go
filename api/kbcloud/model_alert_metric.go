@@ -11,16 +11,11 @@ import (
 )
 
 // AlertMetric Alert metric information
-
 type AlertMetric struct {
-	// NODESCRIPTION Key
-	Key string `json:"key"`
-	// NODESCRIPTION Threshold
-	Threshold int32 `json:"threshold"`
-	// NODESCRIPTION Notation
-	Notation string `json:"notation"`
-	// NODESCRIPTION Category
-	Category *string `json:"category,omitempty"`
+	Key       string  `json:"key"`
+	Threshold int32   `json:"threshold"`
+	Notation  string  `json:"notation"`
+	Category  *string `json:"category,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

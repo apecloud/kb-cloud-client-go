@@ -295,8 +295,6 @@ func (r *AnalyzeLogsOptionalParameters) WithSortType(sortType SortType) *Analyze
 
 // AnalyzeLogs Analyze cluster error logs.
 // Analyze error logs of a cluster
-// NODESCRIPTION AnalyzeLogs
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AnalyzeLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -390,8 +388,6 @@ func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterNa
 
 // AnalyzeOps Analyze OpsRequest.
 // analyze a OpsRequest
-// NODESCRIPTION AnalyzeOps
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -699,8 +695,6 @@ func (r *AnalyzeSlowLogsOptionalParameters) WithBody(body ClusterExecutionLog) *
 
 // AnalyzeSlowLogs Analyze cluster slow logs.
 // Analyze slow logs of a cluster
-// NODESCRIPTION AnalyzeSlowLogs
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clusterName string, o ...AnalyzeSlowLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

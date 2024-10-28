@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AlertReceiverCategory
 type AlertReceiverCategory string
 
 // List of AlertReceiverCategory.
@@ -30,7 +29,7 @@ var allowedAlertReceiverCategoryEnumValues = []AlertReceiverCategory{
 	ALERTRECEIVERCATEGORY_WEBHOOK,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *AlertReceiverCategory) GetAllowedValues() []AlertReceiverCategory {
 	return allowedAlertReceiverCategoryEnumValues
 }

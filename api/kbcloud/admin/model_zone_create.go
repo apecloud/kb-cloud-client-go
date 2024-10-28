@@ -11,7 +11,6 @@ import (
 )
 
 // ZoneCreate The zone that needs to be created.
-
 type ZoneCreate struct {
 	// The name of the zone.
 	Name string `json:"name"`

@@ -28,7 +28,7 @@ var allowedBackupTypeEnumValues = []BackupType{
 	BACKUPTYPE_CONTINUOUS,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *BackupType) GetAllowedValues() []BackupType {
 	return allowedBackupTypeEnumValues
 }

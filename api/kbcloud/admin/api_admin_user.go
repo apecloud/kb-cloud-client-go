@@ -18,8 +18,6 @@ type AdminUserApi common.Service
 
 // CreateAdminUser Create a new admin user.
 // Create a new admin user
-// NODESCRIPTION CreateAdminUser
-// Deprecated: This API is deprecated.
 func (a *AdminUserApi) CreateAdminUser(ctx _context.Context, body AdminUserCreate) (AdminUser, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -92,8 +90,6 @@ func (a *AdminUserApi) CreateAdminUser(ctx _context.Context, body AdminUserCreat
 
 // DeleteAdminUser delete admin user.
 // delete admin user
-// NODESCRIPTION DeleteAdminUser
-// Deprecated: This API is deprecated.
 func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -154,8 +150,6 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*
 
 // ListAdminUsers Get all admin users.
 // Get all admin users
-// NODESCRIPTION ListAdminUsers
-// Deprecated: This API is deprecated.
 func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) ([]AdminUserList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -225,8 +219,6 @@ func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) ([]AdminUserList, *_
 
 // PatchAdminUser Update admin user information.
 // Update the current Admin User info
-// NODESCRIPTION PatchAdminUser
-// Deprecated: This API is deprecated.
 func (a *AdminUserApi) PatchAdminUser(ctx _context.Context, body AdminUserUpdate) (AdminUser, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -299,8 +291,6 @@ func (a *AdminUserApi) PatchAdminUser(ctx _context.Context, body AdminUserUpdate
 
 // ReadAdminUser Get authenticated admin user.
 // Get authenticated login admin user info
-// NODESCRIPTION ReadAdminUser
-// Deprecated: This API is deprecated.
 func (a *AdminUserApi) ReadAdminUser(ctx _context.Context) (AdminUser, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

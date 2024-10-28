@@ -11,7 +11,6 @@ import (
 )
 
 // ClusterExecutionLog Log entry for cluster execution
-
 type ClusterExecutionLog struct {
 	// Timestamp of the execution
 	Timestamp int64 `json:"timestamp"`

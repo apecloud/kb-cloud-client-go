@@ -11,7 +11,6 @@ import (
 )
 
 // EnvironmentStats The cumulative statistics for all environments.
-
 type EnvironmentStats struct {
 	// The total number of environments.
 	EnvTotal int32 `json:"envTotal"`

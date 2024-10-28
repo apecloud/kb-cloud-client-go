@@ -70,8 +70,6 @@ func (r *QueryClusterEventsOptionalParameters) WithEnd(end int64) *QueryClusterE
 
 // QueryClusterEvents Query operation events.
 // Query events of clusters
-// NODESCRIPTION QueryClusterEvents
-// Deprecated: This API is deprecated.
 func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

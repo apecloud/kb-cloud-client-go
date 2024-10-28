@@ -24,7 +24,7 @@ var allowedEventResultStatusEnumValues = []EventResultStatus{
 	EVENTRESULTSTATUS_FAILED,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EventResultStatus) GetAllowedValues() []EventResultStatus {
 	return allowedEventResultStatusEnumValues
 }

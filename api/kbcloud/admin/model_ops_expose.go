@@ -11,18 +11,14 @@ import (
 )
 
 // OpsExpose OpsExpose is the payload to expose a KubeBlocks cluster
-
 type OpsExpose struct {
-	// NODESCRIPTION Component
 	Component *string `json:"component,omitempty"`
-	// NODESCRIPTION Enable
-	Enable bool `json:"enable"`
+	Enable    bool    `json:"enable"`
 	// Specifies the type of exposure for the KubeBlocks cluster.
 	Type OpsExposeType `json:"type"`
 	// Specifies the type of service for the KubeBlocks cluster.
-	VpcServiceType *OpsExposeVPCServiceType `json:"vpcServiceType,omitempty"`
-	// NODESCRIPTION PortsMapping
-	PortsMapping []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
+	VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
+	PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

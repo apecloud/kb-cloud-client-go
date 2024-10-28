@@ -40,7 +40,7 @@ var allowedEnvironmentStateEnumValues = []EnvironmentState{
 	ENVIRONMENTSTATE_UPDATING,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EnvironmentState) GetAllowedValues() []EnvironmentState {
 	return allowedEnvironmentStateEnumValues
 }

@@ -18,8 +18,6 @@ type RoleApi common.Service
 
 // BatchAddRolePermissions Batch add permissions to a role.
 // Batch add permissions to a role
-// NODESCRIPTION BatchAddRolePermissions
-// Deprecated: This API is deprecated.
 func (a *RoleApi) BatchAddRolePermissions(ctx _context.Context, orgName string, roleName string, body []string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -84,8 +82,6 @@ func (a *RoleApi) BatchAddRolePermissions(ctx _context.Context, orgName string, 
 
 // BatchRemoveRolePermissions Batch remove permissions from a role.
 // Batch remove permissions from a role
-// NODESCRIPTION BatchRemoveRolePermissions
-// Deprecated: This API is deprecated.
 func (a *RoleApi) BatchRemoveRolePermissions(ctx _context.Context, orgName string, roleName string, body []string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -150,8 +146,6 @@ func (a *RoleApi) BatchRemoveRolePermissions(ctx _context.Context, orgName strin
 
 // CreateRole Create role.
 // Create role
-// NODESCRIPTION CreateRole
-// Deprecated: This API is deprecated.
 func (a *RoleApi) CreateRole(ctx _context.Context, orgName string, body RoleCreate) (Role, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -225,8 +219,6 @@ func (a *RoleApi) CreateRole(ctx _context.Context, orgName string, body RoleCrea
 
 // DeleteRoleByName Delete role by name.
 // Delete role by name
-// NODESCRIPTION DeleteRoleByName
-// Deprecated: This API is deprecated.
 func (a *RoleApi) DeleteRoleByName(ctx _context.Context, orgName string, roleName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -288,8 +280,6 @@ func (a *RoleApi) DeleteRoleByName(ctx _context.Context, orgName string, roleNam
 
 // GetRoleByName Get role by name.
 // Get role by name
-// NODESCRIPTION GetRoleByName
-// Deprecated: This API is deprecated.
 func (a *RoleApi) GetRoleByName(ctx _context.Context, orgName string, roleName string) (Role, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -361,8 +351,6 @@ func (a *RoleApi) GetRoleByName(ctx _context.Context, orgName string, roleName s
 
 // ListPermissions List all permissions.
 // List all permissions
-// NODESCRIPTION ListPermissions
-// Deprecated: This API is deprecated.
 func (a *RoleApi) ListPermissions(ctx _context.Context) (PermissionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -432,8 +420,6 @@ func (a *RoleApi) ListPermissions(ctx _context.Context) (PermissionList, *_netht
 
 // ListRolePermissions List permissions of a role.
 // List permissions of a role
-// NODESCRIPTION ListRolePermissions
-// Deprecated: This API is deprecated.
 func (a *RoleApi) ListRolePermissions(ctx _context.Context, orgName string, roleName string) (PermissionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -505,8 +491,6 @@ func (a *RoleApi) ListRolePermissions(ctx _context.Context, orgName string, role
 
 // ListRoles List roles of a organization.
 // List roles of a organization
-// NODESCRIPTION ListRoles
-// Deprecated: This API is deprecated.
 func (a *RoleApi) ListRoles(ctx _context.Context, orgName string) (RoleList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -577,8 +561,6 @@ func (a *RoleApi) ListRoles(ctx _context.Context, orgName string) (RoleList, *_n
 
 // UpdateRoleByName Update role by name.
 // Update role by name
-// NODESCRIPTION UpdateRoleByName
-// Deprecated: This API is deprecated.
 func (a *RoleApi) UpdateRoleByName(ctx _context.Context, orgName string, roleName string, body RoleUpdate) (Role, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

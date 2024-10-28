@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ClassSeries
 type ClassSeries string
 
 // List of ClassSeries.
@@ -24,7 +23,7 @@ var allowedClassSeriesEnumValues = []ClassSeries{
 	CLASSSERIES_EXCLUSIVE,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *ClassSeries) GetAllowedValues() []ClassSeries {
 	return allowedClassSeriesEnumValues
 }

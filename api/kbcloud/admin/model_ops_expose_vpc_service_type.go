@@ -24,7 +24,7 @@ var allowedOpsExposeVPCServiceTypeEnumValues = []OpsExposeVPCServiceType{
 	OPSEXPOSEVPCSERVICETYPE_NODEPORT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *OpsExposeVPCServiceType) GetAllowedValues() []OpsExposeVPCServiceType {
 	return allowedOpsExposeVPCServiceTypeEnumValues
 }

@@ -7,7 +7,6 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // UserUpdate User update
-
 type UserUpdate struct {
 	// The display name of the user
 	DisplayName *string `json:"displayName,omitempty"`

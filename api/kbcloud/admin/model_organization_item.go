@@ -12,7 +12,6 @@ import (
 )
 
 // OrganizationItem Organization items.
-
 type OrganizationItem struct {
 	// The name of the organization.
 	Name string `json:"name"`

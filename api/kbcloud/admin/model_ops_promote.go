@@ -7,12 +7,9 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
-
 type OpsPromote struct {
-	// NODESCRIPTION ComponentName
 	ComponentName *string `json:"componentName,omitempty"`
-	// NODESCRIPTION InstanceName
-	InstanceName *string `json:"instanceName,omitempty"`
+	InstanceName  *string `json:"instanceName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

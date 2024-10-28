@@ -10,13 +10,9 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AutohealingListItem
 type AutohealingListItem struct {
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION CreatedAt
+	Name      *string    `json:"name,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION UpdatedAt
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// component to be rebuilt
 	ComponentName *string `json:"componentName,omitempty"`
@@ -27,16 +23,12 @@ type AutohealingListItem struct {
 	// current phase of rebuild job
 	Phase *string `json:"phase,omitempty"`
 	// whether the job is started
-	Started *bool `json:"started,omitempty"`
-	// NODESCRIPTION StartMessage
+	Started      *bool   `json:"started,omitempty"`
 	StartMessage *string `json:"startMessage,omitempty"`
 	// whether the job is finished
-	Finished *bool `json:"finished,omitempty"`
-	// NODESCRIPTION FinishMessage
-	FinishMessage *string `json:"finishMessage,omitempty"`
-	// NODESCRIPTION BackupName
-	BackupName *string `json:"backupName,omitempty"`
-	// NODESCRIPTION RebuildInstanceOpsRequestName
+	Finished                      *bool   `json:"finished,omitempty"`
+	FinishMessage                 *string `json:"finishMessage,omitempty"`
+	BackupName                    *string `json:"backupName,omitempty"`
 	RebuildInstanceOpsRequestName *string `json:"rebuildInstanceOpsRequestName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

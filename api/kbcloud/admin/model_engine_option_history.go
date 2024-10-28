@@ -11,16 +11,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineOptionHistory
 type EngineOptionHistory struct {
-	// NODESCRIPTION ModifierId
-	ModifierId string `json:"modifierId"`
-	// NODESCRIPTION ModifierEmail
-	ModifierEmail string `json:"modifierEmail"`
-	// NODESCRIPTION Option
-	Option EngineOption `json:"option"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt time.Time `json:"createdAt"`
+	ModifierId    string       `json:"modifierId"`
+	ModifierEmail string       `json:"modifierEmail"`
+	Option        EngineOption `json:"option"`
+	CreatedAt     time.Time    `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

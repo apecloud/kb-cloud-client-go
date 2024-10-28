@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION DmsTaskInfo
 type DmsTaskInfo struct {
 	// task id
 	Id *string `json:"id,omitempty"`
@@ -21,10 +20,8 @@ type DmsTaskInfo struct {
 	// task status
 	Status *string `json:"status,omitempty"`
 	// task type
-	Type *string `json:"type,omitempty"`
-	// NODESCRIPTION UpdatedAt
+	Type      *string    `json:"type,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// NODESCRIPTION CreatedAt
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

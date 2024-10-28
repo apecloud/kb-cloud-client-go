@@ -11,7 +11,6 @@ import (
 )
 
 // InstanceResourceStatsList InstanceResourceStatsList is a list of InstanceResourceStats
-
 type InstanceResourceStatsList struct {
 	// Items is the list of InstanceResourceStats objects in the list
 	Items []InstanceResourceStats `json:"items"`

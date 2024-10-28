@@ -24,7 +24,7 @@ var allowedEventResourceTypeEnumValues = []EventResourceType{
 	EVENTRESOURCETYPE_ROLE,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EventResourceType) GetAllowedValues() []EventResourceType {
 	return allowedEventResourceTypeEnumValues
 }

@@ -11,7 +11,6 @@ import (
 )
 
 // Instance Instance is the information of KubeBlocks cluster instances
-
 type Instance struct {
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`

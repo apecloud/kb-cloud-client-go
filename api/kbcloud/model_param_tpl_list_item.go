@@ -12,7 +12,6 @@ import (
 )
 
 // ParamTplListItem parameter template information
-
 type ParamTplListItem struct {
 	// Name of the organization
 	OrgName *string `json:"orgName,omitempty"`

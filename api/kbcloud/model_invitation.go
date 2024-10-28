@@ -12,7 +12,6 @@ import (
 )
 
 // Invitation Invitation info
-
 type Invitation struct {
 	// User has accepted or not
 	Accepted bool `json:"accepted"`

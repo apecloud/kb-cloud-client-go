@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AlertStatus
 type AlertStatus string
 
 // List of AlertStatus.
@@ -24,7 +23,7 @@ var allowedAlertStatusEnumValues = []AlertStatus{
 	ALERTSTATUS_FIRING,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *AlertStatus) GetAllowedValues() []AlertStatus {
 	return allowedAlertStatusEnumValues
 }

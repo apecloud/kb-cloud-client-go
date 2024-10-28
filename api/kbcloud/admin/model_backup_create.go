@@ -11,7 +11,6 @@ import (
 )
 
 // BackupCreate BackupCreate is the payload to create a KubeBlocks cluster backup
-
 type BackupCreate struct {
 	// name of the backup, if not specified, a name will be generated automatically
 	Name *string `json:"name,omitempty"`

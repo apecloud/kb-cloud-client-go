@@ -11,7 +11,6 @@ import (
 )
 
 // RegionGroupCreate The region group that needs to be created.
-
 type RegionGroupCreate struct {
 	// The name of the region group.
 	Group string `json:"group"`

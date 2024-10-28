@@ -7,22 +7,14 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // AlertInhibit Alert object information
-
 type AlertInhibit struct {
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Description
-	Description *string `json:"description,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
-	// NODESCRIPTION SourceMatch
+	Id          *int32              `json:"id,omitempty"`
+	Name        *string             `json:"name,omitempty"`
+	Description *string             `json:"description,omitempty"`
+	OrgName     *string             `json:"orgName,omitempty"`
 	SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
-	// NODESCRIPTION TargetMatch
 	TargetMatch map[string][]string `json:"targetMatch,omitempty"`
-	// NODESCRIPTION Equal
-	Equal []string `json:"equal,omitempty"`
+	Equal       []string            `json:"equal,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

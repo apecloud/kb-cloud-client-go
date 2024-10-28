@@ -52,10 +52,7 @@ func (r *{{ operationId }}OptionalParameters) With{{ name|camel_case }}({{ name|
 
 // {{ operationId }} {{ operation.summary }}.
 {%- if operation.description %}
-{{ operation.description|block_comment(prefix="//") }}{% if operation.deprecated %}
-{% else %}
-// NODESCRIPTION {{ operationId }}
-{%- endif %}
+{{ operation.description|block_comment(prefix="//") }} {%- endif %}{% if operation.deprecated %}
 // Deprecated: This API is deprecated.{% endif %}
 func (a *{{ classname }}) {{ operationId }}(ctx _context.Context{% for name, parameter in operation|parameters if parameter.required or parameter.in == "path" %}, {{ name|variable_name}} {{ get_type_for_parameter(parameter) }}{% endfor %}{%- for name, parameter in operation|parameters if not parameter.required and parameter.in != "path" %}{%- if loop.first %}, o ...{{ operationId }}OptionalParameters{% endif %}{% endfor %}) ({% if returnType %}{{ returnType }}, {% endif %}*_nethttp.Response, error) {
 	var (

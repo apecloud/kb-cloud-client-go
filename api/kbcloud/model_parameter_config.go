@@ -10,20 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ParameterConfig
 type ParameterConfig struct {
-	// NODESCRIPTION ConfigName
-	ConfigName string `json:"configName"`
-	// NODESCRIPTION SpecName
-	SpecName string `json:"specName"`
-	// NODESCRIPTION Constraint
-	Constraint string `json:"constraint"`
-	// NODESCRIPTION Regex
-	Regex string `json:"regex"`
-	// NODESCRIPTION ConfigTplName
-	ConfigTplName string `json:"configTplName"`
-	// NODESCRIPTION InitOptions
-	InitOptions map[string]interface{} `json:"initOptions,omitempty"`
+	ConfigName    string                 `json:"configName"`
+	SpecName      string                 `json:"specName"`
+	Constraint    string                 `json:"constraint"`
+	Regex         string                 `json:"regex"`
+	ConfigTplName string                 `json:"configTplName"`
+	InitOptions   map[string]interface{} `json:"initOptions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

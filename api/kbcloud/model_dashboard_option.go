@@ -10,15 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION DashboardOption
 type DashboardOption struct {
-	// NODESCRIPTION Component
-	Component string `json:"component"`
-	// NODESCRIPTION DashboardUid
-	DashboardUid string `json:"dashboardUid"`
-	// NODESCRIPTION Variables
-	Variables map[string]string `json:"variables"`
-	// NODESCRIPTION InstancePanels
+	Component      string                              `json:"component"`
+	DashboardUid   string                              `json:"dashboardUid"`
+	Variables      map[string]string                   `json:"variables"`
 	InstancePanels []DashboardOptionInstancePanelsItem `json:"instancePanels"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

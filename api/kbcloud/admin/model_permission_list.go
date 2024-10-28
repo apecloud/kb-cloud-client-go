@@ -11,7 +11,6 @@ import (
 )
 
 // PermissionList PermissionList is a list of Permissions
-
 type PermissionList struct {
 	// Items is the list of Permission objects in the list
 	Items []Permission `json:"items"`

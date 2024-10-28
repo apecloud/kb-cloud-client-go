@@ -457,8 +457,6 @@ func (a *ParamTplApi) ListParamTpls(ctx _context.Context, o ...ListParamTplsOpti
 
 // PatchParamTpl Update configuration template.
 // partially update the parameter template
-// NODESCRIPTION PatchParamTpl
-// Deprecated: This API is deprecated.
 func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramTplName string, body ParamTplUpdate) (ParamTplListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

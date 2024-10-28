@@ -11,11 +11,8 @@ import (
 )
 
 // OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
-
 type OpsUpgrade struct {
-	// NODESCRIPTION Version
-	Version string `json:"version"`
-	// NODESCRIPTION Component
+	Version   string  `json:"version"`
 	Component *string `json:"component,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

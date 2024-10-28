@@ -10,16 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION IntegerOption
 type IntegerOption struct {
-	// NODESCRIPTION Min
-	Min int32 `json:"min"`
-	// NODESCRIPTION Max
-	Max int32 `json:"max"`
-	// NODESCRIPTION Default
+	Min     int32 `json:"min"`
+	Max     int32 `json:"max"`
 	Default int32 `json:"default"`
-	// NODESCRIPTION Step
-	Step int32 `json:"step"`
+	Step    int32 `json:"step"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

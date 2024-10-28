@@ -12,7 +12,6 @@ import (
 )
 
 // Region The region that the cloud provider has.
-
 type Region struct {
 	// The name of the region.
 	Name string `json:"name"`

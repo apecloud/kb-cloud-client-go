@@ -11,9 +11,7 @@ import (
 )
 
 // WebhookConfig Webhook config of alert receiver
-
 type WebhookConfig struct {
-	// NODESCRIPTION Url
 	Url string `json:"url"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

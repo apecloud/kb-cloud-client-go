@@ -6,12 +6,9 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION AlertStrategyMuteTimeInterval
 type AlertStrategyMuteTimeInterval struct {
-	// NODESCRIPTION Weekdays
-	Weekdays []int32 `json:"weekdays,omitempty"`
-	// NODESCRIPTION Times
-	Times *AlertStrategyMuteTimeIntervalTimes `json:"times,omitempty"`
+	Weekdays []int32                             `json:"weekdays,omitempty"`
+	Times    *AlertStrategyMuteTimeIntervalTimes `json:"times,omitempty"`
 	// Only mute once for `onceMinutes` minutes
 	OnceMinutes *int32 `json:"onceMinutes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

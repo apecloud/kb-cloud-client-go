@@ -11,7 +11,6 @@ import (
 )
 
 // MonitorDataSink MonitorDataSink
-
 type MonitorDataSink struct {
 	// MonitorDataSink ID
 	Id string `json:"id"`

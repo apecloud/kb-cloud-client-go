@@ -11,7 +11,6 @@ import (
 )
 
 // AdminUserUpdate Admin user update
-
 type AdminUserUpdate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`

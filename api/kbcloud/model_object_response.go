@@ -6,7 +6,6 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION ObjectResponse
 type ObjectResponse struct {
 	// The data of the Object
 	Data map[string]interface{} `json:"data,omitempty"`

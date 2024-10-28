@@ -11,7 +11,6 @@ import (
 )
 
 // AlertSMTPConfig Alert smtp config
-
 type AlertSMTPConfig struct {
 	// SMTP authentication information
 	SmtpAuthPassword string `json:"smtp_auth_password"`

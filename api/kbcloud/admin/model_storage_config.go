@@ -11,7 +11,6 @@ import (
 )
 
 // StorageConfig Storage config for environment
-
 type StorageConfig struct {
 	// these storages will be created
 	Storages []EnvironmentStorage `json:"storages"`

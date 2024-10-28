@@ -7,13 +7,9 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // PreflightList The preflight results
-
 type PreflightList struct {
-	// NODESCRIPTION Pass
 	Pass []Preflight `json:"pass,omitempty"`
-	// NODESCRIPTION Warn
 	Warn []Preflight `json:"warn,omitempty"`
-	// NODESCRIPTION Fail
 	Fail []Preflight `json:"fail,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

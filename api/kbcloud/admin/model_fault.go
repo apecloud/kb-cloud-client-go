@@ -11,7 +11,6 @@ import (
 )
 
 // Fault response of the fault
-
 type Fault struct {
 	// id of the fault
 	Id *string `json:"id,omitempty"`

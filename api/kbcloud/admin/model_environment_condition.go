@@ -11,7 +11,6 @@ import (
 )
 
 // EnvironmentCondition EnvironmentCondition contains details for the current condition of this environment.
-
 type EnvironmentCondition struct {
 	// Human-readable message indicating details about last transition.
 	Message *string `json:"message,omitempty"`

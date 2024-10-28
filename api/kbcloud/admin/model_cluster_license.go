@@ -11,16 +11,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ClusterLicense
 type ClusterLicense struct {
-	// NODESCRIPTION Id
-	Id *string `json:"id,omitempty"`
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION ExpiredAt
-	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
-	// NODESCRIPTION Key
-	Key *_io.Reader `json:"key,omitempty"`
+	Id        *string     `json:"id,omitempty"`
+	Name      *string     `json:"name,omitempty"`
+	ExpiredAt *time.Time  `json:"expiredAt,omitempty"`
+	Key       *_io.Reader `json:"key,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

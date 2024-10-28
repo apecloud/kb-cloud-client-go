@@ -10,11 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION LicenseOption
 type LicenseOption struct {
-	// NODESCRIPTION Component
-	Component string `json:"component"`
-	// NODESCRIPTION OpsDefName
+	Component  string `json:"component"`
 	OpsDefName string `json:"opsDefName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

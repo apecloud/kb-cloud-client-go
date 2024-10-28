@@ -6,9 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION EnvironmentObjectStorage
 type EnvironmentObjectStorage struct {
-	// NODESCRIPTION Clusters
 	Clusters []RawCluster `json:"clusters,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

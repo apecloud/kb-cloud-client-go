@@ -11,7 +11,6 @@ import (
 )
 
 // RoleList RoleList is a list of Roles
-
 type RoleList struct {
 	// Items is the list of Role objects in the list
 	Items []Role `json:"items"`

@@ -6,12 +6,9 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION RestoreStatusConditionsItem
 type RestoreStatusConditionsItem struct {
-	// NODESCRIPTION Message
 	Message *string `json:"message,omitempty"`
-	// NODESCRIPTION Reason
-	Reason *string `json:"reason,omitempty"`
+	Reason  *string `json:"reason,omitempty"`
 	// conditionType
 	Type *string `json:"type,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

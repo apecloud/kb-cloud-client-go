@@ -11,7 +11,6 @@ import (
 )
 
 // EnvironmentResourceStats EnvironmentResourceStats holds the cpuStats for a environment.
-
 type EnvironmentResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`

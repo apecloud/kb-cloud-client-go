@@ -18,8 +18,6 @@ type EngineLicenseApi common.Service
 
 // CreateEngineLicense Create engineLicense.
 // Create a new engineLicense
-// NODESCRIPTION CreateEngineLicense
-// Deprecated: This API is deprecated.
 func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile _io.Reader) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -97,8 +95,6 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 
 // DeleteEngineLicense Delete engine license.
 // delete an engine license
-// NODESCRIPTION DeleteEngineLicense
-// Deprecated: This API is deprecated.
 func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId int32) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -159,8 +155,6 @@ func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId i
 
 // EngineLicense Get engineLicense.
 // Get a engineLicense detail
-// NODESCRIPTION EngineLicense
-// Deprecated: This API is deprecated.
 func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int32) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -248,8 +242,6 @@ func (r *ListEngineLicensesOptionalParameters) WithEngineName(engineName string)
 
 // ListEngineLicenses List all engineLicenses.
 // list all engineLicenses
-// NODESCRIPTION ListEngineLicenses
-// Deprecated: This API is deprecated.
 func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEngineLicensesOptionalParameters) (EngineLicenseList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

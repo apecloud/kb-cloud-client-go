@@ -6,13 +6,9 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Memory
 type Memory struct {
-	// NODESCRIPTION MemCapacity
 	MemCapacity *string `json:"mem_capacity,omitempty"`
-	// NODESCRIPTION MemoryLimit
 	MemoryLimit *string `json:"memory_limit,omitempty"`
-	// NODESCRIPTION MemAssigned
 	MemAssigned *string `json:"mem_assigned,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

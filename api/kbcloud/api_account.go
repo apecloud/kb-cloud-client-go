@@ -18,8 +18,6 @@ type AccountApi common.Service
 
 // CreateAccount Create cluster account.
 // create an account in cluster
-// NODESCRIPTION CreateAccount
-// Deprecated: This API is deprecated.
 func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -84,8 +82,6 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 
 // DeleteAccount Delete cluster account.
 // delete an account in cluster
-// NODESCRIPTION DeleteAccount
-// Deprecated: This API is deprecated.
 func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, clusterName string, accountName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -148,8 +144,6 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 
 // GetDSN Get cluster dsn.
 // get dsn by username
-// NODESCRIPTION GetDSN
-// Deprecated: This API is deprecated.
 func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName string, accountName string) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -239,8 +233,6 @@ func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *List
 
 // ListAccounts List cluster accounts.
 // list accounts in cluster
-// NODESCRIPTION ListAccounts
-// Deprecated: This API is deprecated.
 func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -323,8 +315,6 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 
 // UpdateAccount update cluster account.
 // update an account in cluster
-// NODESCRIPTION UpdateAccount
-// Deprecated: This API is deprecated.
 func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body Account) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
@@ -390,8 +380,6 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 
 // UpdateAccountPrivileges update account privileges.
 // update privileges of account
-// NODESCRIPTION UpdateAccountPrivileges
-// Deprecated: This API is deprecated.
 func (a *AccountApi) UpdateAccountPrivileges(ctx _context.Context, orgName string, clusterName string, accountName string, body []PrivilegeListItem) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch

@@ -13,7 +13,6 @@ import (
 )
 
 // Environment Environment info
-
 type Environment struct {
 	// Provider
 	Provider string `json:"provider"`

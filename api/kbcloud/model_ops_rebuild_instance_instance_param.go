@@ -11,7 +11,6 @@ import (
 )
 
 // OpsRebuildInstanceInstanceParam instance params for RebuildInstance ops
-
 type OpsRebuildInstanceInstanceParam struct {
 	// Pod name of the instance
 	Name string `json:"name"`

@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AlertSeverity
 type AlertSeverity string
 
 // List of AlertSeverity.
@@ -26,7 +25,7 @@ var allowedAlertSeverityEnumValues = []AlertSeverity{
 	ALERTSEVERITY_INFO,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *AlertSeverity) GetAllowedValues() []AlertSeverity {
 	return allowedAlertSeverityEnumValues
 }

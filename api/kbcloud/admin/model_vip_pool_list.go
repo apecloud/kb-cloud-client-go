@@ -11,7 +11,6 @@ import (
 )
 
 // VipPoolList vipPoolList is a list of vip pools
-
 type VipPoolList struct {
 	// Items is the list of vip pool objects in the list
 	Items []VipPool `json:"items"`

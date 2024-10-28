@@ -1,7 +1,5 @@
 {%- if model.description %}
 // {{ name }} {{ model.description|block_comment(prefix="//", first_line=False) }}
-{% else %}
-// NODESCRIPTION {{ name }}
 {%- endif %} {% if model.deprecated %}
 //
 // Deprecated: This model is deprecated.{% endif %}
@@ -24,8 +22,6 @@ type {{ name }} struct {
 {%- set dataType = get_type(schema, alternative_name=name + propertyName, render_nullable=True) %}
 {%- if schema.description %}
 	// {{ schema.description|block_comment(prefix="//", first_line=False)|indent("\t") }}
-{%- else %}
-	// NODESCRIPTION {{ propertyName }}
 {%- endif %}
 {%- if schema.deprecated %}
 	// Deprecated

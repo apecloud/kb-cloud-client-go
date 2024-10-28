@@ -11,7 +11,6 @@ import (
 )
 
 // ConfigurationWithRegex Cluster parameters configuration, include the file name and content of the parameters
-
 type ConfigurationWithRegex struct {
 	// The name of the configuration file
 	FileName string `json:"fileName"`

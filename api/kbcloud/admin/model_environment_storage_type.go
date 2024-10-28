@@ -24,7 +24,7 @@ var allowedEnvironmentStorageTypeEnumValues = []EnvironmentStorageType{
 	ENVIRONMENTSTORAGETYPE_LOCAL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EnvironmentStorageType) GetAllowedValues() []EnvironmentStorageType {
 	return allowedEnvironmentStorageTypeEnumValues
 }

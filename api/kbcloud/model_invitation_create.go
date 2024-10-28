@@ -11,7 +11,6 @@ import (
 )
 
 // InvitationCreate Invitation create payload
-
 type InvitationCreate struct {
 	// The email of the invitee
 	Email string `json:"email"`

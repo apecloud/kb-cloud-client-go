@@ -12,7 +12,6 @@ import (
 )
 
 // Llm llm
-
 type Llm struct {
 	// ID of the llm
 	Id string `json:"id"`

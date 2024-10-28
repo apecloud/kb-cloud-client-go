@@ -18,8 +18,6 @@ type OpsrequestApi common.Service
 
 // CancelOps Cancel OpsRequest.
 // cancel a OpsRequest
-// NODESCRIPTION CancelOps
-// Deprecated: This API is deprecated.
 func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost

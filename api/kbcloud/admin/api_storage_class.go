@@ -18,8 +18,6 @@ type StorageClassApi common.Service
 
 // CreateStorageClass create storage class.
 // Create storage class for the specified environment.
-// NODESCRIPTION CreateStorageClass
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentName string, body StorageClassCreate) (StorageClassInfo, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -102,8 +100,6 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 
 // DeleteStorageClass Delete storage class.
 // Delete the storage class for the specified environment.
-// NODESCRIPTION DeleteStorageClass
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentName string, storageClassName string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -201,8 +197,6 @@ func (r *GetStorageClassOptionalParameters) WithWithStatsByNode(withStatsByNode 
 
 // GetStorageClass get storage class.
 // get the storage class for the specified environment.
-// NODESCRIPTION GetStorageClass
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName string, storageClassName string, o ...GetStorageClassOptionalParameters) (StorageClassInfo, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -294,8 +288,6 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 
 // ListStorageClassPvcs get persistentvolumeclaim list of the storage class.
 // get the persistentvolumeclaim list related to the specified storage class for the specified environment.
-// NODESCRIPTION ListStorageClassPvcs
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environmentName string, storageClassName string, pageId int64, pageSize int64) (PersistentVolumeClaimList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -378,8 +370,6 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 
 // ListStorageClasses List storage classes of a environment.
 // Provides a summary of storage class statistics.
-// NODESCRIPTION ListStorageClasses
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentName string) (StorageClassList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -459,8 +449,6 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 
 // ListStorageProvisioners List the provisioners that can be used by storage class of a environment.
 // Provides a summary of storage provisioners statistics.
-// NODESCRIPTION ListStorageProvisioners
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environmentName string) (StorageProvisionerList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -540,8 +528,6 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 
 // UpdateStorageClass Update storage class.
 // Updates the  storage class for the specified environment.
-// NODESCRIPTION UpdateStorageClass
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentName string, storageClassName string, body StorageClassUpdate) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

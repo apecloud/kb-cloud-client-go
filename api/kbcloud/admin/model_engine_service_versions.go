@@ -6,14 +6,11 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION EngineServiceVersions
 type EngineServiceVersions struct {
 	// component type, refer to componentDef and support NamePrefix
-	Component *string `json:"component,omitempty"`
-	// NODESCRIPTION UpgradeableVersions
-	UpgradeableVersions []string `json:"upgradeableVersions,omitempty"`
-	// NODESCRIPTION Versions
-	Versions []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
+	Component           *string                             `json:"component,omitempty"`
+	UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
+	Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

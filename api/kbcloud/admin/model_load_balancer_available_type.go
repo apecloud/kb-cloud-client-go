@@ -28,7 +28,7 @@ var allowedLoadBalancerAvailableTypeEnumValues = []LoadBalancerAvailableType{
 	LOADBALANCERAVAILABLETYPE_UNKNOWN,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *LoadBalancerAvailableType) GetAllowedValues() []LoadBalancerAvailableType {
 	return allowedLoadBalancerAvailableTypeEnumValues
 }

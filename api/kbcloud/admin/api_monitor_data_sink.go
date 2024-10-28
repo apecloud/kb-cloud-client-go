@@ -18,8 +18,6 @@ type MonitorDataSinkApi common.Service
 
 // CreateMonitorDataSink Create monitor data sink.
 // Create monitor data sink
-// NODESCRIPTION CreateMonitorDataSink
-// Deprecated: This API is deprecated.
 func (a *MonitorDataSinkApi) CreateMonitorDataSink(ctx _context.Context, body MonitorDataSinkCreate) (MonitorDataSink, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -151,8 +149,6 @@ func (a *MonitorDataSinkApi) DeleteMonitorDataSink(ctx _context.Context, monitor
 
 // ListMonitorDataSinks Get monitor data sink list.
 // Get monitor data sink list
-// NODESCRIPTION ListMonitorDataSinks
-// Deprecated: This API is deprecated.
 func (a *MonitorDataSinkApi) ListMonitorDataSinks(ctx _context.Context, environmentName string) (MonitorDataSinkList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -223,8 +219,6 @@ func (a *MonitorDataSinkApi) ListMonitorDataSinks(ctx _context.Context, environm
 
 // PatchMonitorDataSink Update the specified monitor data sink.
 // Update the specified monitor data sink
-// NODESCRIPTION PatchMonitorDataSink
-// Deprecated: This API is deprecated.
 func (a *MonitorDataSinkApi) PatchMonitorDataSink(ctx _context.Context, monitorDataSinkId string, body MonitorDataSinkUpdate) (MonitorDataSink, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

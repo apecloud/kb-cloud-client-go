@@ -42,8 +42,6 @@ func (r *QueryClusterMetricsOptionalParameters) WithEnd(end int64) *QueryCluster
 
 // QueryClusterMetrics Query cluster metrics.
 // Query cluster metrics by specified metric name and instance name, support instant and range query
-// NODESCRIPTION QueryClusterMetrics
-// Deprecated: This API is deprecated.
 func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, o ...QueryClusterMetricsOptionalParameters) (ClusterMetrics, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

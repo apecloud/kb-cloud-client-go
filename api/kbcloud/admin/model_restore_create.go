@@ -11,7 +11,6 @@ import (
 )
 
 // RestoreCreate RestoreCreate is the payload to restore a KubeBlocks cluster
-
 type RestoreCreate struct {
 	// the env name of the target environment to restore
 	EnvironmentName string `json:"environmentName"`

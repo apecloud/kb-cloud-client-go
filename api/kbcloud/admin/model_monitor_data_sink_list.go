@@ -11,9 +11,7 @@ import (
 )
 
 // MonitorDataSinkList External Endpoint list
-
 type MonitorDataSinkList struct {
-	// NODESCRIPTION Items
 	Items []MonitorDataSink `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

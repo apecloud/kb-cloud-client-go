@@ -11,7 +11,6 @@ import (
 )
 
 // PlatformParameterUpdate platformParameter update
-
 type PlatformParameterUpdate struct {
 	// platformParameter name
 	Name string `json:"name"`

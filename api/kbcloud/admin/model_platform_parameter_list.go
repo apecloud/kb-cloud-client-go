@@ -11,9 +11,7 @@ import (
 )
 
 // PlatformParameterList platformParameter list
-
 type PlatformParameterList struct {
-	// NODESCRIPTION Items
 	Items []PlatformParameter `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

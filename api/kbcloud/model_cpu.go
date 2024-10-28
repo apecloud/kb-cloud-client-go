@@ -6,15 +6,10 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION CPU
 type CPU struct {
-	// NODESCRIPTION CpuCapacity
-	CpuCapacity *string `json:"cpu_capacity,omitempty"`
-	// NODESCRIPTION CpuCapacityMax
+	CpuCapacity    *string `json:"cpu_capacity,omitempty"`
 	CpuCapacityMax *string `json:"cpu_capacity_max,omitempty"`
-	// NODESCRIPTION CpuAssigned
-	CpuAssigned *string `json:"cpu_assigned,omitempty"`
-	// NODESCRIPTION CpuAssignedMax
+	CpuAssigned    *string `json:"cpu_assigned,omitempty"`
 	CpuAssignedMax *string `json:"cpu_assigned_max,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

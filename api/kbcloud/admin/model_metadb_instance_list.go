@@ -11,7 +11,6 @@ import (
 )
 
 // Metadb_instanceList ClusterList is a list of metadb cluster
-
 type Metadb_instanceList struct {
 	// Items is the list of metadb cluster objects in the list
 	Items []Metadb_instance `json:"items"`

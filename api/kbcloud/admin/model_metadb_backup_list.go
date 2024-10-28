@@ -11,7 +11,6 @@ import (
 )
 
 // Metadb_backupList BackupList is a list of backups
-
 type Metadb_backupList struct {
 	// Items is the list of backup objects in the list
 	Items []Metadb_backup `json:"items"`

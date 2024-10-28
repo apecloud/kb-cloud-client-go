@@ -11,7 +11,6 @@ import (
 )
 
 // Database Cluster database information
-
 type Database struct {
 	// component type
 	Component *string `json:"component,omitempty"`

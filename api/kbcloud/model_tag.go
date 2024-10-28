@@ -11,7 +11,6 @@ import (
 )
 
 // Tag tag info
-
 type Tag struct {
 	// The id of the tag
 	Id string `json:"id"`

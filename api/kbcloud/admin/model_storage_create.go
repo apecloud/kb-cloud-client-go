@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageCreate storageCreate is the schema for the storage create request
-
 type StorageCreate struct {
 	// Name of the storage
 	Name *string `json:"name,omitempty"`

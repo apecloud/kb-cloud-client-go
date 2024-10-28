@@ -12,7 +12,6 @@ import (
 )
 
 // Provider The cloud provider that the environment is running on.
-
 type Provider struct {
 	// The name of the cloud provider.
 	Name string `json:"name"`

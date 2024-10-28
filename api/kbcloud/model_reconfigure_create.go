@@ -11,7 +11,6 @@ import (
 )
 
 // ReconfigureCreate ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
-
 type ReconfigureCreate struct {
 	// component type
 	Component *string `json:"component,omitempty"`

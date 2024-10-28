@@ -7,11 +7,8 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ClusterMetrics Cluster metrics
-
 type ClusterMetrics struct {
-	// NODESCRIPTION Value
-	Value []interface{} `json:"value,omitempty"`
-	// NODESCRIPTION Values
+	Value  []interface{}   `json:"value,omitempty"`
 	Values [][]interface{} `json:"values,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

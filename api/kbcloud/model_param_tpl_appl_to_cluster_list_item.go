@@ -11,7 +11,6 @@ import (
 )
 
 // ParamTplApplToClusterListItem parameter template applicable to the cluster information
-
 type ParamTplApplToClusterListItem struct {
 	// The number of parameters in the parameter template
 	Count int32 `json:"count"`

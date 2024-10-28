@@ -10,14 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION PodChaos
 type PodChaos struct {
 	// specify the mode of chaos
 	Mode PodChaosMode `json:"mode"`
 	// the id of cluster to perform chaos
-	ClusterId string `json:"clusterID"`
-	// NODESCRIPTION Value
-	Value *string `json:"value,omitempty"`
+	ClusterId string  `json:"clusterID"`
+	Value     *string `json:"value,omitempty"`
 	// specify the action to be performed
 	Action PodChaosAction `json:"action"`
 	// specify the duration of the chaos action

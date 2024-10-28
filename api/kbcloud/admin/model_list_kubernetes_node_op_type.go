@@ -24,7 +24,7 @@ var allowedListKubernetesNodeOpTypeEnumValues = []ListKubernetesNodeOpType{
 	LISTKUBERNETESNODEOPTYPE_NOTIN,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *ListKubernetesNodeOpType) GetAllowedValues() []ListKubernetesNodeOpType {
 	return allowedListKubernetesNodeOpTypeEnumValues
 }

@@ -18,8 +18,6 @@ type DatabaseApi common.Service
 
 // CreateDatabase Create cluster database.
 // create a database in cluster
-// NODESCRIPTION CreateDatabase
-// Deprecated: This API is deprecated.
 func (a *DatabaseApi) CreateDatabase(ctx _context.Context, orgName string, clusterName string, body Database) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -84,8 +82,6 @@ func (a *DatabaseApi) CreateDatabase(ctx _context.Context, orgName string, clust
 
 // DeleteDatabase Delete cluster database.
 // delete a database in cluster
-// NODESCRIPTION DeleteDatabase
-// Deprecated: This API is deprecated.
 func (a *DatabaseApi) DeleteDatabase(ctx _context.Context, orgName string, clusterName string, databaseName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -148,8 +144,6 @@ func (a *DatabaseApi) DeleteDatabase(ctx _context.Context, orgName string, clust
 
 // ListDatabases List cluster databases.
 // list databases in cluster
-// NODESCRIPTION ListDatabases
-// Deprecated: This API is deprecated.
 func (a *DatabaseApi) ListDatabases(ctx _context.Context, orgName string, clusterName string) (DatabaseList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

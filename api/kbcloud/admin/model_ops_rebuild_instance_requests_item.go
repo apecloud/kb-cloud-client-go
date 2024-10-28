@@ -10,12 +10,9 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION OpsRebuildInstanceRequestsItem
 type OpsRebuildInstanceRequestsItem struct {
-	// NODESCRIPTION BackupName
-	BackupName *string `json:"backupName,omitempty"`
-	// NODESCRIPTION Instances
-	Instances []OpsRebuildInstanceInstanceParam `json:"instances"`
+	BackupName *string                           `json:"backupName,omitempty"`
+	Instances  []OpsRebuildInstanceInstanceParam `json:"instances"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

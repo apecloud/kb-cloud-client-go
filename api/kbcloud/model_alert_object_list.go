@@ -11,7 +11,6 @@ import (
 )
 
 // AlertObjectList AlertObjectList is a list of alert object
-
 type AlertObjectList struct {
 	// Items is the list of alert objects in the list
 	Items []AlertObject `json:"items"`

@@ -10,15 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineOptionLicense
 type EngineOptionLicense struct {
 	// Indicate whether the current cluster requires users to input the license
 	Required *bool `json:"required,omitempty"`
 	// support to refer the cluster name with variable ${clusterName}
 	SecretName string `json:"secretName"`
 	// the license file name
-	FileName string `json:"fileName"`
-	// NODESCRIPTION Components
+	FileName   string          `json:"fileName"`
 	Components []LicenseOption `json:"components,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

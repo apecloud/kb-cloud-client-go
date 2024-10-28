@@ -24,7 +24,7 @@ var allowedEndpointNetworkTypeEnumValues = []EndpointNetworkType{
 	ENDPOINTNETWORKTYPE_INTRANET,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EndpointNetworkType) GetAllowedValues() []EndpointNetworkType {
 	return allowedEndpointNetworkTypeEnumValues
 }

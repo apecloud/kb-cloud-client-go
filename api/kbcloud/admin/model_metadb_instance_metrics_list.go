@@ -11,7 +11,6 @@ import (
 )
 
 // Metadb_instanceMetricsList instance metrics list
-
 type Metadb_instanceMetricsList struct {
 	// instanceMetrics list
 	Items []Metadb_instanceMetrics `json:"items"`

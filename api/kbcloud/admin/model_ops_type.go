@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION OpsType
 type OpsType string
 
 // List of OpsType.
@@ -42,7 +41,7 @@ var allowedOpsTypeEnumValues = []OpsType{
 	OPSTYPE_DATASCRIPT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *OpsType) GetAllowedValues() []OpsType {
 	return allowedOpsTypeEnumValues
 }

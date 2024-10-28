@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineOptionHistoryList
 type EngineOptionHistoryList struct {
 	// Items is the list of engineOptionHistory objects in the list
 	Items []EngineOptionHistory `json:"items"`

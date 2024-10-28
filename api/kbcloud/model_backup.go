@@ -12,7 +12,6 @@ import (
 )
 
 // Backup backup is the payload for KubeBlocks cluster backup
-
 type Backup struct {
 	// autoBackup or not
 	AutoBackup bool `json:"autoBackup"`
@@ -47,11 +46,9 @@ type Backup struct {
 	// timeRangeStart records the start time of the backup.
 	TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
 	// Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-	TotalSize string `json:"totalSize"`
-	// NODESCRIPTION FailureReason
+	TotalSize     string  `json:"totalSize"`
 	FailureReason *string `json:"failureReason,omitempty"`
-	// NODESCRIPTION Extras
-	Extras *string `json:"extras,omitempty"`
+	Extras        *string `json:"extras,omitempty"`
 	// backup target pods
 	TargetPods []string `json:"targetPods,omitempty"`
 	// the path of backup files

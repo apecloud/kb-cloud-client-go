@@ -26,7 +26,7 @@ var allowedEngineOptionsServicePatternEnumValues = []EngineOptionsServicePattern
 	ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT_SERVICE,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EngineOptionsServicePattern) GetAllowedValues() []EngineOptionsServicePattern {
 	return allowedEngineOptionsServicePatternEnumValues
 }

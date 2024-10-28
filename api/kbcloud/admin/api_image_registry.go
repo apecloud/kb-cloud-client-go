@@ -231,8 +231,6 @@ func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryN
 
 // ListImageRegistries List image registries.
 // List image registries
-// NODESCRIPTION ListImageRegistries
-// Deprecated: This API is deprecated.
 func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegistryList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -286,8 +284,6 @@ func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegis
 
 // PatchImageRegistry Update image registry.
 // partially update the specified image registry
-// NODESCRIPTION PatchImageRegistry
-// Deprecated: This API is deprecated.
 func (a *ImageRegistryApi) PatchImageRegistry(ctx _context.Context, imageRegistryName string, body ImageRegistry) (ImageRegistry, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

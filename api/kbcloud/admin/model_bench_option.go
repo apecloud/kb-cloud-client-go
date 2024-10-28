@@ -10,16 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION BenchOption
 type BenchOption struct {
-	// NODESCRIPTION Pgbench
-	Pgbench bool `json:"pgbench"`
-	// NODESCRIPTION Sysbench
+	Pgbench  bool `json:"pgbench"`
 	Sysbench bool `json:"sysbench"`
-	// NODESCRIPTION Tpcc
-	Tpcc bool `json:"tpcc"`
-	// NODESCRIPTION Ycsb
-	Ycsb bool `json:"ycsb"`
+	Tpcc     bool `json:"tpcc"`
+	Ycsb     bool `json:"ycsb"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

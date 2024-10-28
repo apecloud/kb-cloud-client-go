@@ -13,7 +13,6 @@ import (
 )
 
 // BackupRepo backupRepo is the payload for KubeBlocks cluster backup repo
-
 type BackupRepo struct {
 	// the access method for backup repo
 	AccessMethod BackupRepoAccessMethod `json:"accessMethod"`

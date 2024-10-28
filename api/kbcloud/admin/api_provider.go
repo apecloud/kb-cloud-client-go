@@ -18,8 +18,6 @@ type ProviderApi common.Service
 
 // CreateCloudProvider Create a cloud provider.
 // Create a cloud provider
-// NODESCRIPTION CreateCloudProvider
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) CreateCloudProvider(ctx _context.Context, body ProviderCreate) (Provider, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -92,8 +90,6 @@ func (a *ProviderApi) CreateCloudProvider(ctx _context.Context, body ProviderCre
 
 // DeleteCloudProvider Delete a cloud provider.
 // Delete a cloud provider
-// NODESCRIPTION DeleteCloudProvider
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) DeleteCloudProvider(ctx _context.Context, providerName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -154,8 +150,6 @@ func (a *ProviderApi) DeleteCloudProvider(ctx _context.Context, providerName str
 
 // GetCloudProvider Get cloud provider.
 // Get cloud provider
-// NODESCRIPTION GetCloudProvider
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string) (Provider, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -226,8 +220,6 @@ func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string
 
 // ListCloudProviders Get cloud provider list.
 // Get cloud provider list
-// NODESCRIPTION ListCloudProviders
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) ListCloudProviders(ctx _context.Context) (ProviderList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -297,8 +289,6 @@ func (a *ProviderApi) ListCloudProviders(ctx _context.Context) (ProviderList, *_
 
 // UpdateCloudProvider Update a cloud provider.
 // Update a cloud provider
-// NODESCRIPTION UpdateCloudProvider
-// Deprecated: This API is deprecated.
 func (a *ProviderApi) UpdateCloudProvider(ctx _context.Context, providerName string, body ProviderUpdate) (Provider, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

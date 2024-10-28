@@ -11,7 +11,6 @@ import (
 )
 
 // FaultList chaos list
-
 type FaultList struct {
 	// list of chaos
 	Items []Fault `json:"items"`

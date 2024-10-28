@@ -10,22 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ComponentOption
 type ComponentOption struct {
 	// component type
 	Name string `json:"name"`
 	// Determine whether the componentDef of kb-cluster belongs to this component type through this matching regularization.
 	// if not set, componentDef must be equal to component type.
 	//
-	MatchRegex *string `json:"matchRegex,omitempty"`
-	// NODESCRIPTION Title
-	Title LocalizedDescription `json:"title"`
-	// NODESCRIPTION Order
-	Order int32 `json:"order"`
-	// NODESCRIPTION RoleOrder
-	RoleOrder []string `json:"roleOrder"`
-	// NODESCRIPTION Version
-	Version *ComponentOptionVersion `json:"version,omitempty"`
+	MatchRegex *string                 `json:"matchRegex,omitempty"`
+	Title      LocalizedDescription    `json:"title"`
+	Order      int32                   `json:"order"`
+	RoleOrder  []string                `json:"roleOrder"`
+	Version    *ComponentOptionVersion `json:"version,omitempty"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

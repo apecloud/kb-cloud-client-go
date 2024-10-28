@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION MetricsQueryType
 type MetricsQueryType string
 
 // List of MetricsQueryType.
@@ -24,7 +23,7 @@ var allowedMetricsQueryTypeEnumValues = []MetricsQueryType{
 	METRICSQUERYTYPE_RANGE,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *MetricsQueryType) GetAllowedValues() []MetricsQueryType {
 	return allowedMetricsQueryTypeEnumValues
 }

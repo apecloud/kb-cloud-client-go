@@ -6,16 +6,11 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Result
 type Result struct {
-	// NODESCRIPTION Pagination
-	Pagination *Pagination `json:"pagination,omitempty"`
-	// NODESCRIPTION Columns
-	Columns []string `json:"columns,omitempty"`
-	// NODESCRIPTION Rows
-	Rows [][]interface{} `json:"rows,omitempty"`
-	// NODESCRIPTION Stats
-	Stats *ResultStats `json:"stats,omitempty"`
+	Pagination *Pagination     `json:"pagination,omitempty"`
+	Columns    []string        `json:"columns,omitempty"`
+	Rows       [][]interface{} `json:"rows,omitempty"`
+	Stats      *ResultStats    `json:"stats,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -10,9 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AlertCluster
 type AlertCluster struct {
-	// NODESCRIPTION Disabled
 	Disabled bool `json:"disabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

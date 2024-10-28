@@ -41,8 +41,6 @@ func (r *ListInvitationOptionalParameters) WithUserId(userId string) *ListInvita
 
 // ListInvitation List invitations.
 // list the Invitation of specified Org or User
-// NODESCRIPTION ListInvitation
-// Deprecated: This API is deprecated.
 func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitationOptionalParameters) (InvitationList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

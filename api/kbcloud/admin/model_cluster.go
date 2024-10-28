@@ -12,7 +12,6 @@ import (
 )
 
 // Cluster KubeBlocks cluster information
-
 type Cluster struct {
 	// Cluster ID
 	Id interface{} `json:"id,omitempty"`
@@ -35,8 +34,7 @@ type Cluster struct {
 	// Hash of cluster. Name must be unique within an Org
 	Hash *string `json:"hash,omitempty"`
 	// Cluster Application Engine
-	Engine string `json:"engine"`
-	// NODESCRIPTION License
+	Engine  string          `json:"engine"`
 	License *ClusterLicense `json:"license,omitempty"`
 	// Items is the list of parameter template in the list
 	ParamTpls []ParamTplsItem `json:"paramTpls,omitempty"`
@@ -98,6 +96,8 @@ type Cluster struct {
 	NodeGroup common.NullableString `json:"nodeGroup,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
+	// Display name of cluster.
+	DisplayName *string `json:"displayName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1335,6 +1335,34 @@ func (o *Cluster) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *Cluster) GetDisplayName() string {
+	if o == nil || o.DisplayName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetDisplayNameOk() (*string, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *Cluster) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+func (o *Cluster) SetDisplayName(v string) {
+	o.DisplayName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1469,6 +1497,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.CodeShort != nil {
 		toSerialize["codeShort"] = o.CodeShort
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1521,6 +1552,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		Backup                  *ClusterBackup            `json:"backup,omitempty"`
 		NodeGroup               common.NullableString     `json:"nodeGroup,omitempty"`
 		CodeShort               *string                   `json:"codeShort,omitempty"`
+		DisplayName             *string                   `json:"displayName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1536,7 +1568,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName"})
 	} else {
 		return err
 	}
@@ -1594,6 +1626,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.Backup = all.Backup
 	o.NodeGroup = all.NodeGroup
 	o.CodeShort = all.CodeShort
+	o.DisplayName = all.DisplayName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

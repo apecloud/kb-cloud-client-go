@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // PageResult PageResult info
-
 type PageResult struct {
 	// a link to the first page of results. This link is optional for collections that cannot be indexed directly to a given page
 	First *string `json:"first,omitempty"`

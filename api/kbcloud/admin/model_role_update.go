@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RoleUpdate Role update
-
 type RoleUpdate struct {
 	// The description of the role
 	Description *string `json:"description,omitempty"`

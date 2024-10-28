@@ -10,18 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION LogOption
 type LogOption struct {
-	// NODESCRIPTION Component
 	Component string `json:"component"`
-	// NODESCRIPTION Error
-	Error bool `json:"error"`
-	// NODESCRIPTION Slow
-	Slow bool `json:"slow"`
-	// NODESCRIPTION Audit
-	Audit bool `json:"audit"`
-	// NODESCRIPTION Running
-	Running bool `json:"running"`
+	Error     bool   `json:"error"`
+	Slow      bool   `json:"slow"`
+	Audit     bool   `json:"audit"`
+	Running   bool   `json:"running"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

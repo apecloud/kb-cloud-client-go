@@ -1,7 +1,7 @@
 /*
  * Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
- * This product includes software developed at Datadog (https://www.datadoghq.com/).
- * Copyright 2019-Present Datadog, Inc.
+ * This product includes software developed at ApeCloud (https://www.apecloud.com/).
+ * Copyright 2022-Present ApeCloud Co., Ltd
  */
 
 package tests
@@ -24,7 +24,6 @@ import (
 	"time"
 
 	ddtesting "github.com/DataDog/dd-sdk-go-testing"
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/jonboulle/clockwork"
 	"github.com/stretchr/testify/require"
 	ddhttp "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
@@ -33,6 +32,8 @@ import (
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 	"gopkg.in/dnaeon/go-vcr.v3/cassette"
 	"gopkg.in/dnaeon/go-vcr.v3/recorder"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // RecordingMode defines valid usage of cassette recorder
@@ -107,7 +108,7 @@ func ReadFixture(path string) (string, error) {
 func ConfigureTracer(m *testing.M) {
 	tracerOptions := make([]tracer.StartOption, 0, 2)
 	if _, ok := os.LookupEnv("DD_SERVICE"); !ok {
-		tracerOptions = append(tracerOptions, tracer.WithService("datadog-api-client-go"))
+		tracerOptions = append(tracerOptions, tracer.WithService("kb-cloud-client-go"))
 	}
 	if socketPath, ok := os.LookupEnv("DD_APM_RECEIVER_SOCKET"); ok {
 		tracerOptions = append(tracerOptions, tracer.WithUDS(socketPath))
@@ -291,9 +292,9 @@ func removeURLSecrets(u *url.URL) string {
 	q.Del("api_key")
 	q.Del("application_key")
 	u.RawQuery = q.Encode()
-	site, ok := os.LookupEnv("DD_TEST_SITE")
+	site, ok := os.LookupEnv("KB_CLOUD_TEST_SITE")
 	if ok {
-		u.Host = strings.Replace(u.Host, site, "datadoghq.com", 1)
+		u.Host = strings.Replace(u.Host, site, "apecloud.cn", 1)
 	}
 	return u.String()
 }

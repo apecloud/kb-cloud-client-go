@@ -11,7 +11,6 @@ import (
 )
 
 // BenchmarkList BenchmarkList is a list of benchmarks
-
 type BenchmarkList struct {
 	// Items is the list of benchmark objects in the list
 	Items []Benchmark `json:"items"`

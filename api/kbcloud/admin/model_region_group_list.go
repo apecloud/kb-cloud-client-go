@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RegionGroupList The list of region group.
-
 type RegionGroupList struct {
 	// The list of region group.
 	Items []RegionGroup `json:"items,omitempty"`

@@ -11,24 +11,15 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineLicense
 type EngineLicense struct {
-	// NODESCRIPTION EngineName
-	EngineName string `json:"engineName"`
-	// NODESCRIPTION Name
-	Name string `json:"name"`
-	// NODESCRIPTION Key
-	Key *string `json:"key,omitempty"`
-	// NODESCRIPTION Description
-	Description *string `json:"description,omitempty"`
-	// NODESCRIPTION ExpiredAt
-	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION IdString
-	IdString *string `json:"idString,omitempty"`
+	EngineName  string     `json:"engineName"`
+	Name        string     `json:"name"`
+	Key         *string    `json:"key,omitempty"`
+	Description *string    `json:"description,omitempty"`
+	ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
+	CreatedAt   *time.Time `json:"createdAt,omitempty"`
+	Id          *int32     `json:"id,omitempty"`
+	IdString    *string    `json:"idString,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -10,36 +10,22 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AutoInspection
 type AutoInspection struct {
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
-	// NODESCRIPTION UpdatedAt
+	Id        *int32     `json:"id,omitempty"`
+	OrgName   *string    `json:"orgName,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// NODESCRIPTION CreatedAt
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION Creator
-	Creator *string `json:"creator,omitempty"`
-	// NODESCRIPTION Schedule
-	Schedule *string `json:"schedule,omitempty"`
+	Creator   *string    `json:"creator,omitempty"`
+	Schedule  *string    `json:"schedule,omitempty"`
 	// Specifies the unit of time for the auto inspection schedule.
-	RunEvery *AutoInspectionRunUnit `json:"runEvery,omitempty"`
-	// NODESCRIPTION DaysOfWeek
-	DaysOfWeek []int32 `json:"daysOfWeek,omitempty"`
-	// NODESCRIPTION DaysOfMonth
-	DaysOfMonth []int32 `json:"daysOfMonth,omitempty"`
-	// NODESCRIPTION Hour
-	Hour *int32 `json:"hour,omitempty"`
-	// NODESCRIPTION Minute
-	Minute *int32 `json:"minute,omitempty"`
-	// NODESCRIPTION SavedDays
-	SavedDays *int32 `json:"savedDays,omitempty"`
-	// NODESCRIPTION NextRunTime
-	NextRunTime *time.Time `json:"nextRunTime,omitempty"`
-	// NODESCRIPTION Enabled
-	Enabled *bool `json:"enabled,omitempty"`
+	RunEvery    *AutoInspectionRunUnit `json:"runEvery,omitempty"`
+	DaysOfWeek  []int32                `json:"daysOfWeek,omitempty"`
+	DaysOfMonth []int32                `json:"daysOfMonth,omitempty"`
+	Hour        *int32                 `json:"hour,omitempty"`
+	Minute      *int32                 `json:"minute,omitempty"`
+	SavedDays   *int32                 `json:"savedDays,omitempty"`
+	NextRunTime *time.Time             `json:"nextRunTime,omitempty"`
+	Enabled     *bool                  `json:"enabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

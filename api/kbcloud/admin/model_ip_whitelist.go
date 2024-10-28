@@ -12,7 +12,6 @@ import (
 )
 
 // IpWhitelist whitelist
-
 type IpWhitelist struct {
 	// ID of the whitelist
 	Id string `json:"id"`

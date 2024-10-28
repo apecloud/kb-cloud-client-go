@@ -11,7 +11,6 @@ import (
 )
 
 // LoadBalancer The load balancer info
-
 type LoadBalancer struct {
 	// Whether the loadbalancer is available in the environment.
 	Available LoadBalancerStatus `json:"available"`

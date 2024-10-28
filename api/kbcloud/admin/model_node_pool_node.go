@@ -11,14 +11,10 @@ import (
 )
 
 // NodePoolNode Node info for environment
-
 type NodePoolNode struct {
-	// NODESCRIPTION Name
-	Name string `json:"name"`
-	// NODESCRIPTION AvailabilityZone
+	Name             string `json:"name"`
 	AvailabilityZone string `json:"availabilityZone"`
-	// NODESCRIPTION MarkControlPlane
-	MarkControlPlane *bool `json:"markControlPlane,omitempty"`
+	MarkControlPlane *bool  `json:"markControlPlane,omitempty"`
 	// Mark the node as a data plane, which will always be true when markControlPlane is not specified
 	MarkDataPlane *bool `json:"markDataPlane,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

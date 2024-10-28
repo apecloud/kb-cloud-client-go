@@ -11,7 +11,6 @@ import (
 )
 
 // StorageClassList StorageClassList stands for stats for storage classes.
-
 type StorageClassList struct {
 	// the list of storage classes
 	Items []StorageClassInfo `json:"items"`

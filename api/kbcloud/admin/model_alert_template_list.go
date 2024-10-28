@@ -11,7 +11,6 @@ import (
 )
 
 // AlertTemplateList AlertTemplateList is a list of alert templates
-
 type AlertTemplateList struct {
 	// Items is the list of alertTemplate objects in the list
 	Items []AlertTemplate `json:"items"`

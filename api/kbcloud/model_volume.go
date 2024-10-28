@@ -6,20 +6,13 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Volume
 type Volume struct {
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Type
-	Type *string `json:"type,omitempty"`
-	// NODESCRIPTION IsDefault
+	Name      *string `json:"name,omitempty"`
+	Type      *string `json:"type,omitempty"`
 	IsDefault *string `json:"isDefault,omitempty"`
-	// NODESCRIPTION Location
-	Location *string `json:"location,omitempty"`
-	// NODESCRIPTION Params
-	Params *string `json:"params,omitempty"`
-	// NODESCRIPTION Comment
-	Comment *string `json:"comment,omitempty"`
+	Location  *string `json:"location,omitempty"`
+	Params    *string `json:"params,omitempty"`
+	Comment   *string `json:"comment,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

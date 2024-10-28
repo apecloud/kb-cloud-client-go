@@ -11,13 +11,9 @@ import (
 )
 
 // StorageProvisioner StorageProvisioner provides detailed information about the provisioner used by storage classes.
-
 type StorageProvisioner struct {
-	// NODESCRIPTION Provisioner
-	Provisioner string `json:"provisioner"`
-	// NODESCRIPTION Type
-	Type string `json:"type"`
-	// NODESCRIPTION CloudProvider
+	Provisioner   string `json:"provisioner"`
+	Type          string `json:"type"`
 	CloudProvider string `json:"cloudProvider"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

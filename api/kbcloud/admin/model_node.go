@@ -12,7 +12,6 @@ import (
 )
 
 // Node node info
-
 type Node struct {
 	// CPU cores of the node
 	Cpu *int64 `json:"cpu,omitempty"`

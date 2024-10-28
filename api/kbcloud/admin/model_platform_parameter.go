@@ -11,7 +11,6 @@ import (
 )
 
 // PlatformParameter platformParameter item
-
 type PlatformParameter struct {
 	// platformParameter ID
 	Id string `json:"id"`

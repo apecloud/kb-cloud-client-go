@@ -11,7 +11,6 @@ import (
 )
 
 // Configuration Cluster parameters configuration, include the file name and content of the parameters
-
 type Configuration struct {
 	// The name of the configuration file
 	FileName string `json:"fileName"`

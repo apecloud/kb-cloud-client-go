@@ -22,7 +22,7 @@ var allowedPlatformParameterCategoryEnumValues = []PlatformParameterCategory{
 	PLATFORMPARAMETERCATEGORY_RECYCLE_BIN,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *PlatformParameterCategory) GetAllowedValues() []PlatformParameterCategory {
 	return allowedPlatformParameterCategoryEnumValues
 }

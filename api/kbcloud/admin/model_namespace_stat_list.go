@@ -11,9 +11,7 @@ import (
 )
 
 // NamespaceStatList NamespaceStatList stands for stats for environment namespaces
-
 type NamespaceStatList struct {
-	// NODESCRIPTION Items
 	Items []NamespaceInfo `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

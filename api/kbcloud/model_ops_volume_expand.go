@@ -11,12 +11,9 @@ import (
 )
 
 // OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
-
 type OpsVolumeExpand struct {
-	// NODESCRIPTION Component
-	Component *string `json:"component,omitempty"`
-	// NODESCRIPTION Volumes
-	Volumes []OpsVolumeExpandVolumesItem `json:"volumes"`
+	Component *string                      `json:"component,omitempty"`
+	Volumes   []OpsVolumeExpandVolumesItem `json:"volumes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

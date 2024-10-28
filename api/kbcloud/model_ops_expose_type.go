@@ -24,7 +24,7 @@ var allowedOpsExposeTypeEnumValues = []OpsExposeType{
 	OPSEXPOSETYPE_INTERNET,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *OpsExposeType) GetAllowedValues() []OpsExposeType {
 	return allowedOpsExposeTypeEnumValues
 }

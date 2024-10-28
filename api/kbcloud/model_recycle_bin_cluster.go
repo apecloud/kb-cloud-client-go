@@ -12,7 +12,6 @@ import (
 )
 
 // RecycleBinCluster KubeBlocks cluster(in recycle bin) information
-
 type RecycleBinCluster struct {
 	// Cluster Recycle Bin ID
 	Id *string `json:"id,omitempty"`

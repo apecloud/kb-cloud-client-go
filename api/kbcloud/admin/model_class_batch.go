@@ -6,20 +6,13 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION ClassBatch
 type ClassBatch struct {
-	// NODESCRIPTION Engine
-	Engine *string `json:"engine,omitempty"`
-	// NODESCRIPTION Mode
-	Mode *string `json:"mode,omitempty"`
-	// NODESCRIPTION Component
-	Component *string `json:"component,omitempty"`
-	// NODESCRIPTION Series
-	Series *ClassSeries `json:"series,omitempty"`
-	// NODESCRIPTION CpuOverCommit
-	CpuOverCommit *float64 `json:"cpuOverCommit,omitempty"`
-	// NODESCRIPTION MemoryOverCommit
-	MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
+	Engine           *string      `json:"engine,omitempty"`
+	Mode             *string      `json:"mode,omitempty"`
+	Component        *string      `json:"component,omitempty"`
+	Series           *ClassSeries `json:"series,omitempty"`
+	CpuOverCommit    *float64     `json:"cpuOverCommit,omitempty"`
+	MemoryOverCommit *float64     `json:"memoryOverCommit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

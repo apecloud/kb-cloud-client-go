@@ -12,7 +12,6 @@ import (
 )
 
 // ClusterListItem KubeBlocks cluster information
-
 type ClusterListItem struct {
 	// Cloud Provider
 	CloudProvider string `json:"cloudProvider"`

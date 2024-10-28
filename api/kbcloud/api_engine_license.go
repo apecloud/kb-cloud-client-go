@@ -34,8 +34,6 @@ func (r *ListEngineLicensesOptionalParameters) WithEngineName(engineName string)
 
 // ListEngineLicenses List all engineLicenses.
 // list all engineLicenses
-// NODESCRIPTION ListEngineLicenses
-// Deprecated: This API is deprecated.
 func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEngineLicensesOptionalParameters) (EngineLicenseList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

@@ -30,7 +30,7 @@ var allowedWorkflowTypeEnumValues = []WorkflowType{
 	WORKFLOWTYPE_UPGRADEVICTORIAMETRICS,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *WorkflowType) GetAllowedValues() []WorkflowType {
 	return allowedWorkflowTypeEnumValues
 }

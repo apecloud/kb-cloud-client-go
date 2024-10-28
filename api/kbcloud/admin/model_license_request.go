@@ -6,7 +6,6 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION LicenseRequest
 type LicenseRequest struct {
 	// License key
 	Key *string `json:"key,omitempty"`

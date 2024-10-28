@@ -11,7 +11,6 @@ import (
 )
 
 // LoadBalancerInstall Install the load balancer in the environment
-
 type LoadBalancerInstall struct {
 	// Type of the load balancer
 	Type LoadBalancerType `json:"type"`

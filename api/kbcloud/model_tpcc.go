@@ -11,7 +11,6 @@ import (
 )
 
 // Tpcc tpcc is the tpcc benchmark object
-
 type Tpcc struct {
 	// Step of sysbench
 	Step *TpccStep `json:"step,omitempty"`

@@ -11,7 +11,6 @@ import (
 )
 
 // NodeList nodeList is a list of nodes
-
 type NodeList struct {
 	// Items is the list of Org objects in the list
 	Items []Node `json:"items"`

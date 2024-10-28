@@ -6,20 +6,13 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION BackupConfig
 type BackupConfig struct {
-	// NODESCRIPTION Schedule
-	Schedule *string `json:"schedule,omitempty"`
-	// NODESCRIPTION AccessKeyId
-	AccessKeyId *string `json:"accessKeyId,omitempty"`
-	// NODESCRIPTION SecretAccessKey
+	Schedule        *string `json:"schedule,omitempty"`
+	AccessKeyId     *string `json:"accessKeyId,omitempty"`
 	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
-	// NODESCRIPTION Endpoint
-	Endpoint *string `json:"endpoint,omitempty"`
-	// NODESCRIPTION Region
-	Region *string `json:"region,omitempty"`
-	// NODESCRIPTION S3Prefix
-	S3Prefix *string `json:"s3Prefix,omitempty"`
+	Endpoint        *string `json:"endpoint,omitempty"`
+	Region          *string `json:"region,omitempty"`
+	S3Prefix        *string `json:"s3Prefix,omitempty"`
 	// enable or disable auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// time for next backup

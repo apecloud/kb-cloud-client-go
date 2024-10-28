@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineLicenseList
 type EngineLicenseList struct {
 	// Items is the list of engineLicense objects in the list
 	Items []EngineLicense `json:"items"`

@@ -11,7 +11,6 @@ import (
 )
 
 // Pgbench pgbench is the pgbench benchmark object
-
 type Pgbench struct {
 	// Step of pgbench
 	Step *PgbenchStep `json:"step,omitempty"`

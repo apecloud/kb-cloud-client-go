@@ -6,11 +6,8 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION OpsExposePortsMappingItem
 type OpsExposePortsMappingItem struct {
-	// NODESCRIPTION Old
 	Old *int32 `json:"old,omitempty"`
-	// NODESCRIPTION New
 	New *int32 `json:"new,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

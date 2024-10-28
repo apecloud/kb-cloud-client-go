@@ -11,7 +11,6 @@ import (
 )
 
 // BackupStats Backup statistic info
-
 type BackupStats struct {
 	// Number of backups for each defferent status
 	BackupStatsStatus []BackupStatsStatus `json:"backupStatsStatus,omitempty"`

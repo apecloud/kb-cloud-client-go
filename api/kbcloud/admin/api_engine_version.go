@@ -18,8 +18,6 @@ type EngineVersionApi common.Service
 
 // CreateEngineVersion Create engine version.
 // Create engine version
-// NODESCRIPTION CreateEngineVersion
-// Deprecated: This API is deprecated.
 func (a *EngineVersionApi) CreateEngineVersion(ctx _context.Context, body EngineVersionCreate) (EngineVersion, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -180,8 +178,6 @@ func (a *EngineVersionApi) DeleteEngineVersion(ctx _context.Context, o ...Delete
 
 // ListEngineVersions Get engine version list.
 // Get engine version list
-// NODESCRIPTION ListEngineVersions
-// Deprecated: This API is deprecated.
 func (a *EngineVersionApi) ListEngineVersions(ctx _context.Context, engineName string) (EngineVersionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -252,8 +248,6 @@ func (a *EngineVersionApi) ListEngineVersions(ctx _context.Context, engineName s
 
 // PatchEngineVersion Update the specified engine version.
 // Update the specified engine version
-// NODESCRIPTION PatchEngineVersion
-// Deprecated: This API is deprecated.
 func (a *EngineVersionApi) PatchEngineVersion(ctx _context.Context, body EngineVersionUpdate) (EngineVersion, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

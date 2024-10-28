@@ -24,7 +24,7 @@ var allowedEnvironmentDeletePolicyEnumValues = []EnvironmentDeletePolicy{
 	ENVIRONMENTDELETEPOLICY_DONOTDELETE,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EnvironmentDeletePolicy) GetAllowedValues() []EnvironmentDeletePolicy {
 	return allowedEnvironmentDeletePolicyEnumValues
 }

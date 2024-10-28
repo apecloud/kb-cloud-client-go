@@ -6,14 +6,11 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION WorkflowCreate
 type WorkflowCreate struct {
 	// workflow type
-	Type *WorkflowType `json:"type,omitempty"`
-	// NODESCRIPTION Version
-	Version *string `json:"version,omitempty"`
-	// NODESCRIPTION OteldVersion
-	OteldVersion *string `json:"oteldVersion,omitempty"`
+	Type         *WorkflowType `json:"type,omitempty"`
+	Version      *string       `json:"version,omitempty"`
+	OteldVersion *string       `json:"oteldVersion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -18,8 +18,6 @@ type UserApi common.Service
 
 // CreateUserApikey Create apikey of the authenticated user.
 // Create apikey of the authenticated user
-// NODESCRIPTION CreateUserApikey
-// Deprecated: This API is deprecated.
 func (a *UserApi) CreateUserApikey(ctx _context.Context, body ApikeyCreate) (ApikeyWithSK, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -92,8 +90,6 @@ func (a *UserApi) CreateUserApikey(ctx _context.Context, body ApikeyCreate) (Api
 
 // DeleteApikey Delete apikey.
 // delete apikey
-// NODESCRIPTION DeleteApikey
-// Deprecated: This API is deprecated.
 func (a *UserApi) DeleteApikey(ctx _context.Context, keyName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -154,8 +150,6 @@ func (a *UserApi) DeleteApikey(ctx _context.Context, keyName string) (*_nethttp.
 
 // PatchAPIkey Update apikey information.
 // partially update the specified apikey
-// NODESCRIPTION PatchAPIkey
-// Deprecated: This API is deprecated.
 func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyCreate) (Apikey, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -229,8 +223,6 @@ func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyC
 
 // PatchUser Update user information.
 // partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
-// NODESCRIPTION PatchUser
-// Deprecated: This API is deprecated.
 func (a *UserApi) PatchUser(ctx _context.Context, body UserUpdate) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
@@ -293,8 +285,6 @@ func (a *UserApi) PatchUser(ctx _context.Context, body UserUpdate) (*_nethttp.Re
 
 // PhoneVerification Send verification code to user's phone.
 // to update user phone number, send verification code first
-// NODESCRIPTION PhoneVerification
-// Deprecated: This API is deprecated.
 func (a *UserApi) PhoneVerification(ctx _context.Context, body interface{}) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -357,8 +347,6 @@ func (a *UserApi) PhoneVerification(ctx _context.Context, body interface{}) (*_n
 
 // ReadUser Get authenticated user.
 // Get authenticated login user info
-// NODESCRIPTION ReadUser
-// Deprecated: This API is deprecated.
 func (a *UserApi) ReadUser(ctx _context.Context) (User, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -428,8 +416,6 @@ func (a *UserApi) ReadUser(ctx _context.Context) (User, *_nethttp.Response, erro
 
 // ReadUserApikeys Get apikeys of the authenticated user.
 // Get apikeys of the authenticated user
-// NODESCRIPTION ReadUserApikeys
-// Deprecated: This API is deprecated.
 func (a *UserApi) ReadUserApikeys(ctx _context.Context) (ApikeyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -499,8 +485,6 @@ func (a *UserApi) ReadUserApikeys(ctx _context.Context) (ApikeyList, *_nethttp.R
 
 // SendVerificationEmail Send verification email to user's email address. For logto and authing, only the "email" is required, and for auth0, only the "externalID" is required..
 // To send verification email checking user's email address
-// NODESCRIPTION SendVerificationEmail
-// Deprecated: This API is deprecated.
 func (a *UserApi) SendVerificationEmail(ctx _context.Context) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -560,8 +544,6 @@ func (a *UserApi) SendVerificationEmail(ctx _context.Context) (*_nethttp.Respons
 
 // UpdateUserPassword Update user password.
 // Update user password.
-// NODESCRIPTION UpdateUserPassword
-// Deprecated: This API is deprecated.
 func (a *UserApi) UpdateUserPassword(ctx _context.Context, body interface{}) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch

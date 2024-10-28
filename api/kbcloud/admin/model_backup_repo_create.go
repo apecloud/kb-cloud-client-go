@@ -11,7 +11,6 @@ import (
 )
 
 // BackupRepoCreate BackupRepoCreate is the payload to create a KubeBlocks cluster backup repo
-
 type BackupRepoCreate struct {
 	// the id of storage that backup repo used
 	StorageId string `json:"storageID"`

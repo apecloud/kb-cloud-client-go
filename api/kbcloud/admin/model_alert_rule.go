@@ -12,32 +12,20 @@ import (
 )
 
 // AlertRule Alert rule information
-
 type AlertRule struct {
-	// NODESCRIPTION Description
-	Description *string `json:"description,omitempty"`
-	// NODESCRIPTION Summary
-	Summary *string `json:"summary,omitempty"`
-	// NODESCRIPTION AlertName
-	AlertName string `json:"alertName"`
-	// NODESCRIPTION Expr
-	Expr *string `json:"expr,omitempty"`
-	// NODESCRIPTION For
-	For *string `json:"for,omitempty"`
-	// NODESCRIPTION GroupName
-	GroupName *string `json:"groupName,omitempty"`
-	// NODESCRIPTION Disabled
-	Disabled *bool `json:"disabled,omitempty"`
-	// NODESCRIPTION Severity
-	Severity *AlertSeverity `json:"severity,omitempty"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION UpdatedAt
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	Description *string        `json:"description,omitempty"`
+	Summary     *string        `json:"summary,omitempty"`
+	AlertName   string         `json:"alertName"`
+	Expr        *string        `json:"expr,omitempty"`
+	For         *string        `json:"for,omitempty"`
+	GroupName   *string        `json:"groupName,omitempty"`
+	Disabled    *bool          `json:"disabled,omitempty"`
+	Severity    *AlertSeverity `json:"severity,omitempty"`
+	CreatedAt   *time.Time     `json:"createdAt,omitempty"`
+	UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
 	// Alert metric information
-	Metric *AlertMetric `json:"metric,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
+	Metric  *AlertMetric `json:"metric,omitempty"`
+	OrgName *string      `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

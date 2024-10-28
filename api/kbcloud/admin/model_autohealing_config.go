@@ -11,7 +11,6 @@ import (
 )
 
 // AutohealingConfig cluster instance autohealing process config
-
 type AutohealingConfig struct {
 	// Set to true to pause the auto-healing process, preventing automatic rebuilding of instances when a node fails or is in maintenance mode.
 	PauseAutoHealingOnNodeUnavailable bool `json:"pauseAutoHealingOnNodeUnavailable"`

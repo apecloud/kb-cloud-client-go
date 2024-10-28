@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster
-
 type ClusterUpdate struct {
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
 	Replicas *int32 `json:"replicas,omitempty"`
@@ -29,6 +28,8 @@ type ClusterUpdate struct {
 	ParamTpls []ParamTplsItem `json:"paramTpls,omitempty"`
 	// Tolerations of cluster
 	Tolerations *string `json:"tolerations,omitempty"`
+	// Display name of cluster.
+	DisplayName *string `json:"displayName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -335,6 +336,34 @@ func (o *ClusterUpdate) SetTolerations(v string) {
 	o.Tolerations = &v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *ClusterUpdate) GetDisplayName() string {
+	if o == nil || o.DisplayName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterUpdate) GetDisplayNameOk() (*string, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *ClusterUpdate) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+func (o *ClusterUpdate) SetDisplayName(v string) {
+	o.DisplayName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -371,6 +400,9 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	if o.Tolerations != nil {
 		toSerialize["tolerations"] = o.Tolerations
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -391,13 +423,14 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		InternetEndpointEnabled *bool                     `json:"internetEndpointEnabled,omitempty"`
 		ParamTpls               []ParamTplsItem           `json:"paramTpls,omitempty"`
 		Tolerations             *string                   `json:"tolerations,omitempty"`
+		DisplayName             *string                   `json:"displayName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "paramTpls", "tolerations"})
+		common.DeleteKeys(additionalProperties, &[]string{"replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "paramTpls", "tolerations", "displayName"})
 	} else {
 		return err
 	}
@@ -417,6 +450,7 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.InternetEndpointEnabled = all.InternetEndpointEnabled
 	o.ParamTpls = all.ParamTpls
 	o.Tolerations = all.Tolerations
+	o.DisplayName = all.DisplayName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

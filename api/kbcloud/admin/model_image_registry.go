@@ -12,7 +12,6 @@ import (
 )
 
 // ImageRegistry Represents an image registry.
-
 type ImageRegistry struct {
 	// The name of the image registry.
 	Name string `json:"name"`

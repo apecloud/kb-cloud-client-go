@@ -11,7 +11,6 @@ import (
 )
 
 // InstanceMetricsList instance metrics list
-
 type InstanceMetricsList struct {
 	// instanceMetrics list
 	Items []InstanceMetrics `json:"items"`

@@ -11,7 +11,6 @@ import (
 )
 
 // ParamTplGetItem paramTplGetItem is a list of get parameter template and parameterSpec
-
 type ParamTplGetItem struct {
 	// The name of the configuration spec
 	SpecName string `json:"specName"`

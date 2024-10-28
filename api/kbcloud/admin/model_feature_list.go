@@ -11,7 +11,6 @@ import (
 )
 
 // FeatureList A list of feature
-
 type FeatureList struct {
 	// The list of feature
 	Items []Feature `json:"items"`

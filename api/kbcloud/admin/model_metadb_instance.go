@@ -11,7 +11,6 @@ import (
 )
 
 // Metadb_instance Instance is the information of metadb cluster instances
-
 type Metadb_instance struct {
 	// Cluster name
 	Cluster string `json:"cluster"`

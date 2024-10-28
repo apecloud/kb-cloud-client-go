@@ -11,7 +11,6 @@ import (
 )
 
 // APIErrorResponse API error response.
-
 type APIErrorResponse struct {
 	// The HTTP status code.
 	Code int32 `json:"code"`

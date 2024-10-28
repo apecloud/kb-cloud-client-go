@@ -6,14 +6,12 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION InitOptionsItem
 type InitOptionsItem struct {
 	// component type, refer to componentDef and support NamePrefix'
 	Component *string `json:"component,omitempty"`
 	// component type, refer to componentDef and support NamePrefix, Deprecated
-	ComponentDefRef *string `json:"componentDefRef,omitempty"`
-	// NODESCRIPTION InitParams
-	InitParams map[string]string `json:"initParams,omitempty"`
+	ComponentDefRef *string           `json:"componentDefRef,omitempty"`
+	InitParams      map[string]string `json:"initParams,omitempty"`
 	// config spec name
 	SpecName *string `json:"specName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

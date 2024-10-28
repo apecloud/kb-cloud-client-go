@@ -295,8 +295,6 @@ func (a *AlertTemplateApi) ListAlertTemplates(ctx _context.Context) (AlertTempla
 
 // PatchAlertTemplate Update alert template.
 // partially update the alert receiver
-// NODESCRIPTION PatchAlertTemplate
-// Deprecated: This API is deprecated.
 func (a *AlertTemplateApi) PatchAlertTemplate(ctx _context.Context, templateId string, body AlertTemplate) (AlertTemplate, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

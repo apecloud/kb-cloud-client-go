@@ -12,7 +12,6 @@ import (
 )
 
 // ParameterHistory The history of a parameter
-
 type ParameterHistory struct {
 	// The name of the parameter
 	ParameterName string `json:"parameterName"`

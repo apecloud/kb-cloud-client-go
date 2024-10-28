@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ConfigurationList A list of cluster parameters configuration
-
 type ConfigurationList struct {
-	// NODESCRIPTION Items
 	Items []Configuration `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

@@ -11,17 +11,11 @@ import (
 )
 
 // Workflow component management workflow
-
 type Workflow struct {
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Phase
-	Phase *string `json:"phase,omitempty"`
-	// NODESCRIPTION Message
-	Message *string `json:"message,omitempty"`
-	// NODESCRIPTION StartedAt
-	StartedAt common.NullableTime `json:"startedAt,omitempty"`
-	// NODESCRIPTION FinishedAt
+	Name       *string             `json:"name,omitempty"`
+	Phase      *string             `json:"phase,omitempty"`
+	Message    *string             `json:"message,omitempty"`
+	StartedAt  common.NullableTime `json:"startedAt,omitempty"`
 	FinishedAt common.NullableTime `json:"finishedAt,omitempty"`
 	// ordered by time asc
 	Steps []WorkflowStep `json:"steps,omitempty"`

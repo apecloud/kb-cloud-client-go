@@ -6,7 +6,6 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION QueryResponse
 type QueryResponse struct {
 	// result set of query
 	Data []Result `json:"data,omitempty"`

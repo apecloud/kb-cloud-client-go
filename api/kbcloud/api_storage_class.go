@@ -18,8 +18,6 @@ type StorageClassApi common.Service
 
 // GetStorageClassStats Get storage class stats.
 // Provides a summary of storage class statistics, aggregated and organized by namespace.
-// NODESCRIPTION GetStorageClassStats
-// Deprecated: This API is deprecated.
 func (a *StorageClassApi) GetStorageClassStats(ctx _context.Context, orgName string, environmentName string) (StorageClassList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

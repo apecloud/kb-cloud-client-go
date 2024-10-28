@@ -10,15 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION Datasource
 type Datasource struct {
 	// the id of datasource
 	Id *string `json:"id,omitempty"`
 	// the name of datasource
 	Name *string `json:"name,omitempty"`
 	// the database type
-	Type string `json:"type"`
-	// NODESCRIPTION Options
+	Type    string                 `json:"type"`
 	Options map[string]interface{} `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

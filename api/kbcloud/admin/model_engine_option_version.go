@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineOptionVersion
 type EngineOptionVersion string
 
 // List of EngineOptionVersion.
@@ -24,7 +23,7 @@ var allowedEngineOptionVersionEnumValues = []EngineOptionVersion{
 	ENGINEOPTIONVERSION_ORIGINAL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EngineOptionVersion) GetAllowedValues() []EngineOptionVersion {
 	return allowedEngineOptionVersionEnumValues
 }

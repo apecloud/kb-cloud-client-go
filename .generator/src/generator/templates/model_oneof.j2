@@ -1,7 +1,5 @@
 {%- if model.description %}
 // {{ name }} - {{ model.description|block_comment(prefix="//", first_line=False) }}
-{%- else %}
-// NODESCRIPTION {{ name }}
 {%- endif %}
 type {{ name }} struct {
 {%- for oneOf in model.oneOf %}

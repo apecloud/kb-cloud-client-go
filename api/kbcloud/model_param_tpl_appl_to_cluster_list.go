@@ -11,7 +11,6 @@ import (
 )
 
 // ParamTplApplToClusterList paramTplAPPLToClusterList is a list of parameter templates applicable to the cluster
-
 type ParamTplApplToClusterList struct {
 	// Items is the list of parameter templates applicable to the cluster objects in the list
 	Items []ParamTplApplToClusterListItem `json:"items"`

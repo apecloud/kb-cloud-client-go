@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION Metadb_backup
 type Metadb_backup struct {
 	// the path of storaging backups
 	Path *string `json:"path,omitempty"`

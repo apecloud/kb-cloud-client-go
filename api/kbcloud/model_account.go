@@ -11,7 +11,6 @@ import (
 )
 
 // Account Cluster account information
-
 type Account struct {
 	// A list of privileges and their databases.
 	PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`

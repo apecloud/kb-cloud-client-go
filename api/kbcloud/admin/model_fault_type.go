@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION FaultType
 type FaultType string
 
 // List of FaultType.
@@ -30,7 +29,7 @@ var allowedFaultTypeEnumValues = []FaultType{
 	FAULTTYPE_STRESSCHAOS,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *FaultType) GetAllowedValues() []FaultType {
 	return allowedFaultTypeEnumValues
 }

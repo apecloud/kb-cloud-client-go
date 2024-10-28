@@ -10,20 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION StorageOption
 type StorageOption struct {
-	// NODESCRIPTION Title
-	Title LocalizedDescription `json:"title"`
-	// NODESCRIPTION Name
-	Name string `json:"name"`
-	// NODESCRIPTION Min
-	Min int32 `json:"min"`
-	// NODESCRIPTION Max
-	Max int32 `json:"max"`
-	// NODESCRIPTION Default
-	Default int32 `json:"default"`
-	// NODESCRIPTION Step
-	Step int32 `json:"step"`
+	Title   LocalizedDescription `json:"title"`
+	Name    string               `json:"name"`
+	Min     int32                `json:"min"`
+	Max     int32                `json:"max"`
+	Default int32                `json:"default"`
+	Step    int32                `json:"step"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

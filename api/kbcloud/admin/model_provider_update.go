@@ -11,7 +11,6 @@ import (
 )
 
 // ProviderUpdate The cloud provider that needs to be updated.
-
 type ProviderUpdate struct {
 	// The logo of the cloud provider.
 	Logo string `json:"logo"`

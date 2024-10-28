@@ -11,7 +11,6 @@ import (
 )
 
 // PrivilegeListItem Database and its assigned privileges.
-
 type PrivilegeListItem struct {
 	// The name of the database.
 	DatabaseName *string `json:"databaseName,omitempty"`

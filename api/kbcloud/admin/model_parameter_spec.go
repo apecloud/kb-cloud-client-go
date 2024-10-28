@@ -11,7 +11,6 @@ import (
 )
 
 // ParameterSpec Cluster parameter specification
-
 type ParameterSpec struct {
 	// The name of the parameter
 	Name string `json:"name"`

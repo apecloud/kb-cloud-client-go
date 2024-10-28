@@ -11,7 +11,6 @@ import (
 )
 
 // ClusterList ClusterList is a list of KubeBlocks clusters
-
 type ClusterList struct {
 	// Items is the list of KubeBlocks cluster objects in the list
 	Items []ClusterListItem `json:"items"`

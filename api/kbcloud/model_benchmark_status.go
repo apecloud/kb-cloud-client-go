@@ -28,7 +28,7 @@ var allowedBenchmarkStatusEnumValues = []BenchmarkStatus{
 	BENCHMARKSTATUS_FAILED,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *BenchmarkStatus) GetAllowedValues() []BenchmarkStatus {
 	return allowedBenchmarkStatusEnumValues
 }

@@ -10,58 +10,32 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EngineOption
 type EngineOption struct {
-	// NODESCRIPTION EngineName
-	EngineName string `json:"engineName"`
-	// NODESCRIPTION Title
-	Title string `json:"title"`
-	// NODESCRIPTION Description
-	Description LocalizedDescription `json:"description"`
-	// NODESCRIPTION Versions
-	Versions []string `json:"versions"`
-	// NODESCRIPTION Components
-	Components []ComponentOption `json:"components"`
-	// NODESCRIPTION Modes
-	Modes []ModeOption `json:"modes"`
-	// NODESCRIPTION Account
-	Account AccountOption `json:"account"`
-	// NODESCRIPTION Database
-	Database *DatabaseOption `json:"database,omitempty"`
-	// NODESCRIPTION Dms
-	Dms DmsOption `json:"dms"`
-	// NODESCRIPTION Backup
-	Backup BackupOption `json:"backup"`
-	// NODESCRIPTION Bench
-	Bench BenchOption `json:"bench"`
-	// NODESCRIPTION Endpoints
-	Endpoints []EndpointOption `json:"endpoints"`
-	// NODESCRIPTION Promote
-	Promote []ComponentOpsOption `json:"promote"`
-	// NODESCRIPTION Stop
-	Stop []ComponentOpsOption `json:"stop"`
-	// NODESCRIPTION Start
-	Start []ComponentOpsOption `json:"start"`
-	// NODESCRIPTION Restart
-	Restart []ComponentOpsOption `json:"restart"`
-	// NODESCRIPTION Hscale
-	Hscale []ComponentOpsOption `json:"hscale"`
-	// NODESCRIPTION Vscale
-	Vscale []ComponentOpsOption `json:"vscale"`
-	// NODESCRIPTION License
-	License *EngineOptionLicense `json:"license,omitempty"`
-	// NODESCRIPTION StorageExpansion
+	EngineName       string               `json:"engineName"`
+	Title            string               `json:"title"`
+	Description      LocalizedDescription `json:"description"`
+	Versions         []string             `json:"versions"`
+	Components       []ComponentOption    `json:"components"`
+	Modes            []ModeOption         `json:"modes"`
+	Account          AccountOption        `json:"account"`
+	Database         *DatabaseOption      `json:"database,omitempty"`
+	Dms              DmsOption            `json:"dms"`
+	Backup           BackupOption         `json:"backup"`
+	Bench            BenchOption          `json:"bench"`
+	Endpoints        []EndpointOption     `json:"endpoints"`
+	Promote          []ComponentOpsOption `json:"promote"`
+	Stop             []ComponentOpsOption `json:"stop"`
+	Start            []ComponentOpsOption `json:"start"`
+	Restart          []ComponentOpsOption `json:"restart"`
+	Hscale           []ComponentOpsOption `json:"hscale"`
+	Vscale           []ComponentOpsOption `json:"vscale"`
+	License          *EngineOptionLicense `json:"license,omitempty"`
 	StorageExpansion []ComponentOpsOption `json:"storageExpansion"`
-	// NODESCRIPTION RebuildInstance
-	RebuildInstance []ComponentOpsOption `json:"rebuildInstance,omitempty"`
-	// NODESCRIPTION Metrics
-	Metrics MetricsOption `json:"metrics"`
-	// NODESCRIPTION Dashboards
-	Dashboards []DashboardOption `json:"dashboards"`
-	// NODESCRIPTION Logs
-	Logs []LogOption `json:"logs"`
-	// NODESCRIPTION Parameters
-	Parameters []ParameterOption `json:"parameters"`
+	RebuildInstance  []ComponentOpsOption `json:"rebuildInstance,omitempty"`
+	Metrics          MetricsOption        `json:"metrics"`
+	Dashboards       []DashboardOption    `json:"dashboards"`
+	Logs             []LogOption          `json:"logs"`
+	Parameters       []ParameterOption    `json:"parameters"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

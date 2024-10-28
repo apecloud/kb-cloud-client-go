@@ -7,9 +7,7 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplGet paramTplGet is the response of get parameter template request
-
 type ParamTplGet struct {
-	// NODESCRIPTION Items
 	Items []ParamTplGetItem `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

@@ -12,7 +12,6 @@ import (
 )
 
 // StorageClassInfo StorageClassInfo provides detailed information about a specific storage class.
-
 type StorageClassInfo struct {
 	// the name of the storage class
 	Name string `json:"name"`

@@ -11,7 +11,6 @@ import (
 )
 
 // AlertRuleList AlertRuleList is a list of alert rules
-
 type AlertRuleList struct {
 	// Items is the list of alert rule objects in the list
 	Items []AlertRuleGroup `json:"items"`

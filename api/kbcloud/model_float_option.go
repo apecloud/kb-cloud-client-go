@@ -10,16 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION FloatOption
 type FloatOption struct {
-	// NODESCRIPTION Min
-	Min float64 `json:"min"`
-	// NODESCRIPTION Max
-	Max float64 `json:"max"`
-	// NODESCRIPTION Default
+	Min     float64 `json:"min"`
+	Max     float64 `json:"max"`
 	Default float64 `json:"default"`
-	// NODESCRIPTION Step
-	Step float64 `json:"step"`
+	Step    float64 `json:"step"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

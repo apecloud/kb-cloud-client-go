@@ -11,7 +11,6 @@ import (
 )
 
 // ResourceStats ResourceStats holds the requests, limits, and available stats for a resource.
-
 type ResourceStats struct {
 	// The amount of CPU or Memory resources that are available on the node. Unit is GiB for memory and Cores for CPU.
 	Allocatable float64 `json:"allocatable"`

@@ -12,7 +12,6 @@ import (
 )
 
 // Zone The zone that the region has.
-
 type Zone struct {
 	// The name of the zone.
 	Name string `json:"name"`

@@ -10,24 +10,15 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ModeComponent
 type ModeComponent struct {
-	// NODESCRIPTION Component
-	Component string `json:"component"`
-	// NODESCRIPTION Shards
-	Shards *IntegerOption `json:"shards,omitempty"`
-	// NODESCRIPTION Replicas
-	Replicas IntegerOption `json:"replicas"`
-	// NODESCRIPTION Cpu
-	Cpu FloatOption `json:"cpu"`
-	// NODESCRIPTION Memory
-	Memory FloatOption `json:"memory"`
-	// NODESCRIPTION HideEnpoints
-	HideEnpoints bool `json:"hideEnpoints"`
-	// NODESCRIPTION HideOnCreate
-	HideOnCreate bool `json:"hideOnCreate"`
-	// NODESCRIPTION Storages
-	Storages []StorageOption `json:"storages"`
+	Component    string          `json:"component"`
+	Shards       *IntegerOption  `json:"shards,omitempty"`
+	Replicas     IntegerOption   `json:"replicas"`
+	Cpu          FloatOption     `json:"cpu"`
+	Memory       FloatOption     `json:"memory"`
+	HideEnpoints bool            `json:"hideEnpoints"`
+	HideOnCreate bool            `json:"hideOnCreate"`
+	Storages     []StorageOption `json:"storages"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

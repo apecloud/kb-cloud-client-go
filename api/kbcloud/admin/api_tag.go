@@ -18,8 +18,6 @@ type TagApi common.Service
 
 // CreateTag Create cluster tags.
 // create tag
-// NODESCRIPTION CreateTag
-// Deprecated: This API is deprecated.
 func (a *TagApi) CreateTag(ctx _context.Context, orgName string, body interface{}) (TagCreate, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -93,8 +91,6 @@ func (a *TagApi) CreateTag(ctx _context.Context, orgName string, body interface{
 
 // DeleteTags Delete tag.
 // delete tag
-// NODESCRIPTION DeleteTags
-// Deprecated: This API is deprecated.
 func (a *TagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -210,8 +206,6 @@ func (a *TagApi) GetTags(ctx _context.Context, orgName string, clusterIds string
 
 // ListOrgTags List tags by organization name.
 // List tags by organization name.
-// NODESCRIPTION ListOrgTags
-// Deprecated: This API is deprecated.
 func (a *TagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -282,8 +276,6 @@ func (a *TagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList,
 
 // UpdateTag .
 // Update tags
-// NODESCRIPTION UpdateTag
-// Deprecated: This API is deprecated.
 func (a *TagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, tagUpdate TagUpdate) (Tag, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

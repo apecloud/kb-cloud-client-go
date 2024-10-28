@@ -18,8 +18,6 @@ type OrganizationApi common.Service
 
 // CreateOrg Create organization.
 // Create a new organization
-// NODESCRIPTION CreateOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) CreateOrg(ctx _context.Context, body OrgCreate) (Org, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -92,8 +90,6 @@ func (a *OrganizationApi) CreateOrg(ctx _context.Context, body OrgCreate) (Org, 
 
 // FreezeMember freeze the member in org.
 // freeze the member in org
-// NODESCRIPTION FreezeMember
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) FreezeMember(ctx _context.Context, orgName string, memberId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -179,8 +175,6 @@ func (r *ListOrgOptionalParameters) WithPageSize(pageSize string) *ListOrgOption
 
 // ListOrg List joined organizations.
 // List organizations of current user
-// NODESCRIPTION ListOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) ListOrg(ctx _context.Context, o ...ListOrgOptionalParameters) (OrgList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -264,8 +258,6 @@ func (a *OrganizationApi) ListOrg(ctx _context.Context, o ...ListOrgOptionalPara
 
 // PatchOrg Update organization.
 // partially update the specified Org
-// NODESCRIPTION PatchOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) PatchOrg(ctx _context.Context, orgName string, body OrgUpdate) (Org, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -339,8 +331,6 @@ func (a *OrganizationApi) PatchOrg(ctx _context.Context, orgName string, body Or
 
 // ReadOrg Get organization.
 // read the specified Org
-// NODESCRIPTION ReadOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) ReadOrg(ctx _context.Context, orgName string) (Org, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -411,8 +401,6 @@ func (a *OrganizationApi) ReadOrg(ctx _context.Context, orgName string) (Org, *_
 
 // UnfreezeMember unfreeze the member in org.
 // unfreeze the member in org
-// NODESCRIPTION UnfreezeMember
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) UnfreezeMember(ctx _context.Context, orgName string, memberId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost

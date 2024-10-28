@@ -7,12 +7,10 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // NodeGroupUpdate NodeGroup patch info
-
 type NodeGroupUpdate struct {
 	// NodeGroup description
 	Description common.NullableString `json:"description,omitempty"`
-	// NODESCRIPTION Nodes
-	Nodes []NodeOperation `json:"nodes,omitempty"`
+	Nodes       []NodeOperation       `json:"nodes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

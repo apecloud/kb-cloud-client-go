@@ -12,7 +12,6 @@ import (
 )
 
 // RecycleBinClusterListItem information of kubeblocks cluster in recycle bin
-
 type RecycleBinClusterListItem struct {
 	// Cloud Provider
 	CloudProvider string `json:"cloudProvider"`

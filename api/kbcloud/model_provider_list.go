@@ -7,7 +7,6 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ProviderList The list of cloud providers.
-
 type ProviderList struct {
 	// The list of cloud providers.
 	Items []Provider `json:"items,omitempty"`

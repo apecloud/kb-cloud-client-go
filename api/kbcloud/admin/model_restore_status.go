@@ -7,14 +7,11 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RestoreStatus restore status
-
 type RestoreStatus struct {
-	// NODESCRIPTION Actions
 	Actions []RestoreStatusActionsItem `json:"actions,omitempty"`
 	// completion time
-	CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
-	// NODESCRIPTION Conditions
-	Conditions []RestoreStatusConditionsItem `json:"conditions,omitempty"`
+	CompletionTimestamp *string                       `json:"completionTimestamp,omitempty"`
+	Conditions          []RestoreStatusConditionsItem `json:"conditions,omitempty"`
 	// restore phase
 	Phase *string `json:"phase,omitempty"`
 	// start time

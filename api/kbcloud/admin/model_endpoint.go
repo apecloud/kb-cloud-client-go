@@ -11,7 +11,6 @@ import (
 )
 
 // Endpoint Endpoint is the information of cluster endpoints
-
 type Endpoint struct {
 	// title of the endpoint
 	Title string `json:"title"`

@@ -30,7 +30,7 @@ var allowedNetworkChaosModeEnumValues = []NetworkChaosMode{
 	NETWORKCHAOSMODE_RANDOM_MAX_PERCENT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *NetworkChaosMode) GetAllowedValues() []NetworkChaosMode {
 	return allowedNetworkChaosModeEnumValues
 }

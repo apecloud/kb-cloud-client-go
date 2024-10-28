@@ -11,7 +11,6 @@ import (
 )
 
 // OrgMemberAdd MemberAdd is the payload for adding organization member
-
 type OrgMemberAdd struct {
 	// The name of the role in the organization
 	Role string `json:"role"`

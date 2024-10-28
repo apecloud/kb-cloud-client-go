@@ -10,20 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ModeOption
 type ModeOption struct {
-	// NODESCRIPTION Name
-	Name string `json:"name"`
-	// NODESCRIPTION Title
-	Title LocalizedDescription `json:"title"`
-	// NODESCRIPTION Description
-	Description LocalizedDescription `json:"description"`
-	// NODESCRIPTION Components
-	Components []ModeComponent `json:"components"`
-	// NODESCRIPTION Proxy
-	Proxy *ModeOptionProxy `json:"proxy,omitempty"`
-	// NODESCRIPTION Extra
-	Extra map[string]interface{} `json:"extra,omitempty"`
+	Name        string                 `json:"name"`
+	Title       LocalizedDescription   `json:"title"`
+	Description LocalizedDescription   `json:"description"`
+	Components  []ModeComponent        `json:"components"`
+	Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
+	Extra       map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

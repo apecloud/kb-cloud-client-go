@@ -28,7 +28,7 @@ var allowedClusterTerminationPolicyEnumValues = []ClusterTerminationPolicy{
 	CLUSTERTERMINATIONPOLICY_WIPEOUT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *ClusterTerminationPolicy) GetAllowedValues() []ClusterTerminationPolicy {
 	return allowedClusterTerminationPolicyEnumValues
 }

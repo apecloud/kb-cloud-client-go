@@ -10,22 +10,14 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION HaHistoryResponseRecordsItem
 type HaHistoryResponseRecordsItem struct {
-	// NODESCRIPTION StartAt
-	StartAt int32 `json:"StartAt"`
-	// NODESCRIPTION EndAt
-	EndAt *int32 `json:"EndAt,omitempty"`
-	// NODESCRIPTION OldPrimary
+	StartAt    int32   `json:"StartAt"`
+	EndAt      *int32  `json:"EndAt,omitempty"`
 	OldPrimary *string `json:"OldPrimary,omitempty"`
-	// NODESCRIPTION NewPrimary
 	NewPrimary *string `json:"NewPrimary,omitempty"`
-	// NODESCRIPTION Reason
-	Reason *string `json:"Reason,omitempty"`
-	// NODESCRIPTION UserId
-	UserId *string `json:"UserID,omitempty"`
-	// NODESCRIPTION UserName
-	UserName *string `json:"UserName,omitempty"`
+	Reason     *string `json:"Reason,omitempty"`
+	UserId     *string `json:"UserID,omitempty"`
+	UserName   *string `json:"UserName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

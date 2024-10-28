@@ -35,8 +35,6 @@ func (r *ListServiceVersionOptionalParameters) WithComponent(component string) *
 
 // ListServiceVersion list the service version of the engine.
 // list the service version of the engine
-// NODESCRIPTION ListServiceVersion
-// Deprecated: This API is deprecated.
 func (a *ServiceVersionApi) ListServiceVersion(ctx _context.Context, environmentName string, engineName string, engineMode string, o ...ListServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

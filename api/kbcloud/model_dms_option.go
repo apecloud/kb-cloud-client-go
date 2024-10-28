@@ -10,16 +10,11 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION DmsOption
 type DmsOption struct {
-	// NODESCRIPTION Enabled
-	Enabled bool `json:"enabled"`
-	// NODESCRIPTION Protocol
-	Protocol string `json:"protocol"`
-	// NODESCRIPTION Feature
-	Feature map[string]interface{} `json:"feature,omitempty"`
-	// NODESCRIPTION TableMetadata
-	TableMetadata []interface{} `json:"tableMetadata,omitempty"`
+	Enabled       bool                   `json:"enabled"`
+	Protocol      string                 `json:"protocol"`
+	Feature       map[string]interface{} `json:"feature,omitempty"`
+	TableMetadata []interface{}          `json:"tableMetadata,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

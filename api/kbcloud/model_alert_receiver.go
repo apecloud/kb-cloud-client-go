@@ -11,24 +11,16 @@ import (
 )
 
 // AlertReceiver Alert receiver information
-
 type AlertReceiver struct {
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION Id
-	Id *string `json:"id,omitempty"`
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Category
-	Category *AlertReceiverCategory `json:"category,omitempty"`
-	// NODESCRIPTION UpdatedAt
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// NODESCRIPTION UserGroup
+	CreatedAt *time.Time              `json:"createdAt,omitempty"`
+	Id        *string                 `json:"id,omitempty"`
+	Name      *string                 `json:"name,omitempty"`
+	Category  *AlertReceiverCategory  `json:"category,omitempty"`
+	UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
 	UserGroup *AlertReceiverUserGroup `json:"userGroup,omitempty"`
 	// Webhook config of alert receiver
 	WebhookConfig *WebhookConfig `json:"webhookConfig,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
+	OrgName       *string        `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

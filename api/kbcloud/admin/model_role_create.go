@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // RoleCreate Role create
-
 type RoleCreate struct {
 	// The name of the role
 	Name *string `json:"name,omitempty"`

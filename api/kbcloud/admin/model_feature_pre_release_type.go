@@ -28,7 +28,7 @@ var allowedFeaturePreReleaseTypeEnumValues = []FeaturePreReleaseType{
 	FEATUREPRERELEASETYPE_DEPRECATED,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *FeaturePreReleaseType) GetAllowedValues() []FeaturePreReleaseType {
 	return allowedFeaturePreReleaseTypeEnumValues
 }

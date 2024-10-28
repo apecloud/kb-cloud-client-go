@@ -12,41 +12,23 @@ import (
 )
 
 // AlertStrategy Alert strategy information
-
 type AlertStrategy struct {
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Description
-	Description *string `json:"description,omitempty"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION UpdatedAt
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// NODESCRIPTION ReceiverIds
-	ReceiverIds []int32 `json:"receiverIds"`
-	// NODESCRIPTION Receivers
-	Receivers []AlertReceiver `json:"receivers,omitempty"`
-	// NODESCRIPTION Envs
-	Envs []string `json:"envs,omitempty"`
-	// NODESCRIPTION Severities
-	Severities []string `json:"severities,omitempty"`
-	// NODESCRIPTION Rules
-	Rules []string `json:"rules,omitempty"`
-	// NODESCRIPTION RuleObjs
-	RuleObjs []AlertRule `json:"ruleObjs,omitempty"`
-	// NODESCRIPTION Engines
-	Engines []string `json:"engines,omitempty"`
-	// NODESCRIPTION Clusters
-	Clusters []string `json:"clusters,omitempty"`
-	// NODESCRIPTION Disabled
-	Disabled *bool `json:"disabled,omitempty"`
-	// NODESCRIPTION RepeatInterval
-	RepeatInterval *string `json:"repeatInterval,omitempty"`
-	// NODESCRIPTION MuteTimeInterval
+	Id               *int32                         `json:"id,omitempty"`
+	OrgName          *string                        `json:"orgName,omitempty"`
+	Name             *string                        `json:"name,omitempty"`
+	Description      *string                        `json:"description,omitempty"`
+	CreatedAt        *time.Time                     `json:"createdAt,omitempty"`
+	UpdatedAt        *time.Time                     `json:"updatedAt,omitempty"`
+	ReceiverIds      []int32                        `json:"receiverIds"`
+	Receivers        []AlertReceiver                `json:"receivers,omitempty"`
+	Envs             []string                       `json:"envs,omitempty"`
+	Severities       []string                       `json:"severities,omitempty"`
+	Rules            []string                       `json:"rules,omitempty"`
+	RuleObjs         []AlertRule                    `json:"ruleObjs,omitempty"`
+	Engines          []string                       `json:"engines,omitempty"`
+	Clusters         []string                       `json:"clusters,omitempty"`
+	Disabled         *bool                          `json:"disabled,omitempty"`
+	RepeatInterval   *string                        `json:"repeatInterval,omitempty"`
 	MuteTimeInterval *AlertStrategyMuteTimeInterval `json:"muteTimeInterval,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

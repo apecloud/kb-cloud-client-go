@@ -17,8 +17,6 @@ type LicenseApi common.Service
 
 // GetLicense Get license.
 // Get license
-// NODESCRIPTION GetLicense
-// Deprecated: This API is deprecated.
 func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -88,8 +86,6 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 
 // UpdateLicense Update license.
 // Update license
-// NODESCRIPTION UpdateLicense
-// Deprecated: This API is deprecated.
 func (a *LicenseApi) UpdateLicense(ctx _context.Context, body LicenseRequest) (License, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

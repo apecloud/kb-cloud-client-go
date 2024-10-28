@@ -6,7 +6,6 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION OBSession
 type OBSession struct {
 	// session id
 	Id *string `json:"id,omitempty"`

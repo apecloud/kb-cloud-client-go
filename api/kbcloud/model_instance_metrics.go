@@ -11,7 +11,6 @@ import (
 )
 
 // InstanceMetrics instance metrics
-
 type InstanceMetrics struct {
 	// the name of the instance
 	InstanceName string `json:"instanceName"`

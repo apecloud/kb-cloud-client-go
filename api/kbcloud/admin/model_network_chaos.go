@@ -10,14 +10,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION NetworkChaos
 type NetworkChaos struct {
 	// Specifies the mode of network chaos to be applied. This determines how the chaos is distributed among the target pods.
 	Mode NetworkChaosMode `json:"mode"`
 	// the id of cluster to perform chaos
-	ClusterId string `json:"clusterID"`
-	// NODESCRIPTION Value
-	Value *string `json:"value,omitempty"`
+	ClusterId string  `json:"clusterID"`
+	Value     *string `json:"value,omitempty"`
 	// Specifies the type of network chaos action to be performed. Options include introducing delay, packet loss, duplication, corruption, network partition, or bandwidth limitation.
 	Action NetworkChaosAction `json:"action"`
 	// Specifies the direction of network chaos effects. 'to' affects outgoing traffic, 'from' affects incoming traffic, and 'both' affects traffic in both directions.

@@ -42,8 +42,6 @@ func (r *GetAggregateMetaDataOptionalParameters) WithEnd(end int64) *GetAggregat
 
 // GetAggregateMetaData Get aggregate meta data.
 // Get aggregate meta data including total count and time series
-// NODESCRIPTION GetAggregateMetaData
-// Deprecated: This API is deprecated.
 func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData AggregateMetaDataType, o ...GetAggregateMetaDataOptionalParameters) (AggregateMetaData, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -128,8 +126,6 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 
 // GetEnvironmentStats Get environment stats.
 // Get environment current stats
-// NODESCRIPTION GetEnvironmentStats
-// Deprecated: This API is deprecated.
 func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -223,8 +219,6 @@ func (r *QueryClusterMetricsOptionalParameters) WithEnd(end int64) *QueryCluster
 
 // QueryClusterMetrics Query cluster metrics.
 // Query cluster metrics by specified metric name and instance name, support instant and range query
-// NODESCRIPTION QueryClusterMetrics
-// Deprecated: This API is deprecated.
 func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, o ...QueryClusterMetricsOptionalParameters) (ClusterMetrics, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

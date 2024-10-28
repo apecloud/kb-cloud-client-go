@@ -6,14 +6,10 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION LogDisk
 type LogDisk struct {
-	// NODESCRIPTION LogDiskCapacity
 	LogDiskCapacity *string `json:"log_disk_capacity,omitempty"`
-	// NODESCRIPTION LogDiskAssigned
 	LogDiskAssigned *string `json:"log_disk_assigned,omitempty"`
-	// NODESCRIPTION LogDiskInUse
-	LogDiskInUse *string `json:"log_disk_in_use,omitempty"`
+	LogDiskInUse    *string `json:"log_disk_in_use,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

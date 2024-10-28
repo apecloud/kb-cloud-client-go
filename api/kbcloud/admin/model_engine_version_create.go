@@ -11,7 +11,6 @@ import (
 )
 
 // EngineVersionCreate EngineVersionRecord create option
-
 type EngineVersionCreate struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`

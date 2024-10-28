@@ -11,7 +11,6 @@ import (
 )
 
 // StorageClassCreate StorageClassCreate provides detailed creation information about a storage class.
-
 type StorageClassCreate struct {
 	// the name of the storage class
 	Name string `json:"name"`

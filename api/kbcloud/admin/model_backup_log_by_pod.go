@@ -11,7 +11,6 @@ import (
 )
 
 // BackupLogByPod info of backup workload log
-
 type BackupLogByPod struct {
 	// logs of the backup workload
 	Log *string `json:"log,omitempty"`

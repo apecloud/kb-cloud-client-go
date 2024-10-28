@@ -18,8 +18,6 @@ type OrganizationApi common.Service
 
 // DisableOrg disable the organization.
 // disable the organization
-// NODESCRIPTION DisableOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) DisableOrg(ctx _context.Context, orgName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -80,8 +78,6 @@ func (a *OrganizationApi) DisableOrg(ctx _context.Context, orgName string) (*_ne
 
 // EnableOrg enable the organization.
 // enable the organization
-// NODESCRIPTION EnableOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) EnableOrg(ctx _context.Context, orgName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -142,8 +138,6 @@ func (a *OrganizationApi) EnableOrg(ctx _context.Context, orgName string) (*_net
 
 // ListOrganizations Get organization list.
 // Get organization list
-// NODESCRIPTION ListOrganizations
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) ListOrganizations(ctx _context.Context) (OrganizationList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -213,8 +207,6 @@ func (a *OrganizationApi) ListOrganizations(ctx _context.Context) (OrganizationL
 
 // PatchOrg Update organization.
 // partially update the specified Org
-// NODESCRIPTION PatchOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) PatchOrg(ctx _context.Context, orgName string, body OrgUpdate) (Org, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -288,8 +280,6 @@ func (a *OrganizationApi) PatchOrg(ctx _context.Context, orgName string, body Or
 
 // ReadOrg Get organization.
 // read the specified Org
-// NODESCRIPTION ReadOrg
-// Deprecated: This API is deprecated.
 func (a *OrganizationApi) ReadOrg(ctx _context.Context, orgName string) (Org, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

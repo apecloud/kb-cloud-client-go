@@ -11,7 +11,6 @@ import (
 )
 
 // AlertStrategyList AlertStrategyList is a list of alert strategies
-
 type AlertStrategyList struct {
 	// Items is the list of alert strategy objects in the list
 	Items []AlertStrategy `json:"items"`

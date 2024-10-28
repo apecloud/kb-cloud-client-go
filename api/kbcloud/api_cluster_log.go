@@ -49,8 +49,6 @@ func (r *QueryAuditLogsOptionalParameters) WithSortType(sortType SortType) *Quer
 
 // QueryAuditLogs Query cluster audit logs.
 // Query audit logs of a cluster
-// NODESCRIPTION QueryAuditLogs
-// Deprecated: This API is deprecated.
 func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryAuditLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -179,8 +177,6 @@ func (r *QueryErrorLogsOptionalParameters) WithSortType(sortType SortType) *Quer
 
 // QueryErrorLogs Query cluster error logs.
 // Query error logs of a cluster
-// NODESCRIPTION QueryErrorLogs
-// Deprecated: This API is deprecated.
 func (a *ClusterLogApi) QueryErrorLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryErrorLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -312,8 +308,6 @@ func (r *QueryPodLogsOptionalParameters) WithSortType(sortType SortType) *QueryP
 
 // QueryPodLogs Query cluster pod logs.
 // Query pod logs of a cluster
-// NODESCRIPTION QueryPodLogs
-// Deprecated: This API is deprecated.
 func (a *ClusterLogApi) QueryPodLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryPodLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -445,8 +439,6 @@ func (r *QueryRunningLogsOptionalParameters) WithSortType(sortType SortType) *Qu
 
 // QueryRunningLogs Query cluster running logs.
 // Query running logs of a cluster
-// NODESCRIPTION QueryRunningLogs
-// Deprecated: This API is deprecated.
 func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QueryRunningLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -571,8 +563,6 @@ func (r *QuerySlowLogsOptionalParameters) WithSortType(sortType SortType) *Query
 
 // QuerySlowLogs Query cluster slow logs.
 // Query slow logs of a cluster
-// NODESCRIPTION QuerySlowLogs
-// Deprecated: This API is deprecated.
 func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...QuerySlowLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

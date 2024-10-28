@@ -11,7 +11,6 @@ import (
 )
 
 // MonitorDataSinkUpdate External Endpoint update option
-
 type MonitorDataSinkUpdate struct {
 	// type of monitor data sink(logs or metrics)
 	MonitorDataSinkType common.NullableString `json:"monitorDataSinkType"`

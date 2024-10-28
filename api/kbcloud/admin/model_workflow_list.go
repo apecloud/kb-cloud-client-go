@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // WorkflowList component management workflow list
-
 type WorkflowList struct {
 	// component management workflow
 	Install *Workflow `json:"install,omitempty"`

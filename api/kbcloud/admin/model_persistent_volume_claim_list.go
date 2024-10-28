@@ -11,9 +11,7 @@ import (
 )
 
 // PersistentVolumeClaimList the List stands for stats for persistentvolumeclaims.
-
 type PersistentVolumeClaimList struct {
-	// NODESCRIPTION Items
 	Items []PersistentVolumeClaim `json:"items"`
 	// the current page number
 	CurrentPage int64 `json:"currentPage"`

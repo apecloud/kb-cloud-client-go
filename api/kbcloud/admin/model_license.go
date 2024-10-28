@@ -11,7 +11,6 @@ import (
 )
 
 // License License info
-
 type License struct {
 	// The kubernetes cluster ID
 	ClusterId *string `json:"clusterID,omitempty"`

@@ -11,7 +11,6 @@ import (
 )
 
 // TagCreate Tag create
-
 type TagCreate struct {
 	// The cluster id corresponding to the tag
 	ClusterId string `json:"clusterId"`

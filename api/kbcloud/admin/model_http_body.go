@@ -7,7 +7,6 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // HttpBody Represents an HTTP request or response body.
-
 type HttpBody struct {
 	// The HTTP Content-Type header value specifying the content type of the body.
 	ContentType *string `json:"contentType,omitempty"`

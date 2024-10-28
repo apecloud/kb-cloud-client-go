@@ -11,7 +11,6 @@ import (
 )
 
 // RestoreList restoreList is a list of restore object
-
 type RestoreList struct {
 	// Items is the list of restore objects in the list
 	Items []Restore `json:"items"`

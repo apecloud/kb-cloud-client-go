@@ -6,9 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION MetricsOption
 type MetricsOption struct {
-	// NODESCRIPTION ReplicationLag
 	ReplicationLag *MetricsOptionReplicationLag `json:"replicationLag,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

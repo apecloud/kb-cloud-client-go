@@ -28,7 +28,7 @@ var allowedYcsbStepEnumValues = []YcsbStep{
 	YCSBSTEP_ALL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *YcsbStep) GetAllowedValues() []YcsbStep {
 	return allowedYcsbStepEnumValues
 }

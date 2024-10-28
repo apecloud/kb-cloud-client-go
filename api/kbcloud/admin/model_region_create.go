@@ -11,7 +11,6 @@ import (
 )
 
 // RegionCreate The region that needs to be created.
-
 type RegionCreate struct {
 	// The name of the region.
 	Name string `json:"name"`

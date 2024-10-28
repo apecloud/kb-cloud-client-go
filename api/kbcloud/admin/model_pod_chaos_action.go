@@ -24,7 +24,7 @@ var allowedPodChaosActionEnumValues = []PodChaosAction{
 	PODCHAOSACTION_POD_KILL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *PodChaosAction) GetAllowedValues() []PodChaosAction {
 	return allowedPodChaosActionEnumValues
 }

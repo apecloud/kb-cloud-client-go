@@ -6,7 +6,6 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Summary
 type Summary struct {
 	// The namespace of cluster
 	Namespace *string `json:"namespace,omitempty"`

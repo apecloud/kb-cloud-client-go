@@ -11,7 +11,6 @@ import (
 )
 
 // NodeResourceStats ResourceStats holds the requests, limits, and available stats for a resource.
-
 type NodeResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`

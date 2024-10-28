@@ -11,7 +11,6 @@ import (
 )
 
 // NamespaceInfo Namespace info
-
 type NamespaceInfo struct {
 	// Namespace
 	Namespace string `json:"namespace"`

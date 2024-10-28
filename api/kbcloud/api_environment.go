@@ -88,8 +88,6 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, orgName string, en
 
 // ListEnvNodeZone List the availability zones where the environment's nodes are located.
 // List available zones of an environment
-// NODESCRIPTION ListEnvNodeZone
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, environmentName string) (ZoneList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -185,8 +183,6 @@ func (r *ListEnvironmentOptionalParameters) WithVersion(version string) *ListEnv
 
 // ListEnvironment List environments.
 // List environments
-// NODESCRIPTION ListEnvironment
-// Deprecated: This API is deprecated.
 func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, orgName string, o ...ListEnvironmentOptionalParameters) (EnvironmentList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

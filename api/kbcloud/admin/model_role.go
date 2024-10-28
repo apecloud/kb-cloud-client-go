@@ -11,7 +11,6 @@ import (
 )
 
 // Role Role information
-
 type Role struct {
 	// The name of the role
 	Name *string `json:"name,omitempty"`

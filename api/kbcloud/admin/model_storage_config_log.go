@@ -11,7 +11,6 @@ import (
 )
 
 // StorageConfigLog the storage config for log
-
 type StorageConfigLog struct {
 	// the name of storage
 	StorageName string `json:"storageName"`

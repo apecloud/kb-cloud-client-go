@@ -11,7 +11,6 @@ import (
 )
 
 // View_event Event related to the view
-
 type View_event struct {
 	// Group is the API group of the event.
 	Group string `json:"group"`

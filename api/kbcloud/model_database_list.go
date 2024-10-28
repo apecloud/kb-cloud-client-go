@@ -11,7 +11,6 @@ import (
 )
 
 // DatabaseList DatabaesList is a list of Databaes
-
 type DatabaseList struct {
 	// Items is the list of Databases objects in the list
 	Items []DatabaseItem `json:"items"`

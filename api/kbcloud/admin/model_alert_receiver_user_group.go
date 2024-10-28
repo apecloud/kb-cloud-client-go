@@ -6,14 +6,10 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION AlertReceiverUserGroup
 type AlertReceiverUserGroup struct {
-	// NODESCRIPTION EmailEnabled
-	EmailEnabled *bool `json:"emailEnabled,omitempty"`
-	// NODESCRIPTION Ids
-	Ids []string `json:"ids,omitempty"`
-	// NODESCRIPTION SmsEnabled
-	SmsEnabled *bool `json:"smsEnabled,omitempty"`
+	EmailEnabled *bool    `json:"emailEnabled,omitempty"`
+	Ids          []string `json:"ids,omitempty"`
+	SmsEnabled   *bool    `json:"smsEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

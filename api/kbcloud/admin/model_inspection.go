@@ -11,42 +11,24 @@ import (
 )
 
 // Inspection inspection
-
 type Inspection struct {
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
-	// NODESCRIPTION UpdatedAt
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	// NODESCRIPTION Creator
-	Creator *string `json:"creator,omitempty"`
-	// NODESCRIPTION ClusterId
-	ClusterId *string `json:"clusterID,omitempty"`
-	// NODESCRIPTION ClusterName
-	ClusterName *string `json:"clusterName,omitempty"`
-	// NODESCRIPTION ClusterEngine
-	ClusterEngine *string `json:"clusterEngine,omitempty"`
-	// NODESCRIPTION Result
-	Result *string `json:"result,omitempty"`
-	// NODESCRIPTION Severity
-	Severity *string `json:"severity,omitempty"`
-	// NODESCRIPTION Status
-	Status *string `json:"status,omitempty"`
-	// NODESCRIPTION IsAuto
-	IsAuto *bool `json:"isAuto,omitempty"`
-	// NODESCRIPTION ScriptId
-	ScriptId *int32 `json:"scriptID,omitempty"`
-	// NODESCRIPTION ScriptName
-	ScriptName *string `json:"scriptName,omitempty"`
-	// NODESCRIPTION ScriptCategory
-	ScriptCategory *string `json:"scriptCategory,omitempty"`
-	// NODESCRIPTION Reason
-	Reason *string `json:"reason,omitempty"`
-	// NODESCRIPTION Suggestion
-	Suggestion *string `json:"suggestion,omitempty"`
+	Id             *int32     `json:"id,omitempty"`
+	OrgName        *string    `json:"orgName,omitempty"`
+	UpdatedAt      *time.Time `json:"updatedAt,omitempty"`
+	CreatedAt      *time.Time `json:"createdAt,omitempty"`
+	Creator        *string    `json:"creator,omitempty"`
+	ClusterId      *string    `json:"clusterID,omitempty"`
+	ClusterName    *string    `json:"clusterName,omitempty"`
+	ClusterEngine  *string    `json:"clusterEngine,omitempty"`
+	Result         *string    `json:"result,omitempty"`
+	Severity       *string    `json:"severity,omitempty"`
+	Status         *string    `json:"status,omitempty"`
+	IsAuto         *bool      `json:"isAuto,omitempty"`
+	ScriptId       *int32     `json:"scriptID,omitempty"`
+	ScriptName     *string    `json:"scriptName,omitempty"`
+	ScriptCategory *string    `json:"scriptCategory,omitempty"`
+	Reason         *string    `json:"reason,omitempty"`
+	Suggestion     *string    `json:"suggestion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

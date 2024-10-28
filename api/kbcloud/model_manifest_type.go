@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ManifestType
 type ManifestType string
 
 // List of ManifestType.
@@ -32,7 +31,7 @@ var allowedManifestTypeEnumValues = []ManifestType{
 	MANIFESTTYPE_CONFIGCONSTRAINT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *ManifestType) GetAllowedValues() []ManifestType {
 	return allowedManifestTypeEnumValues
 }

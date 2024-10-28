@@ -11,7 +11,6 @@ import (
 )
 
 // StorageConfigBackup the storage config for backup
-
 type StorageConfigBackup struct {
 	// the name of storage
 	StorageName string `json:"storageName"`

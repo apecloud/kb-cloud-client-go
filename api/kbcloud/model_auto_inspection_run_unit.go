@@ -28,7 +28,7 @@ var allowedAutoInspectionRunUnitEnumValues = []AutoInspectionRunUnit{
 	AUTOINSPECTIONRUNUNIT_MONTH,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *AutoInspectionRunUnit) GetAllowedValues() []AutoInspectionRunUnit {
 	return allowedAutoInspectionRunUnitEnumValues
 }

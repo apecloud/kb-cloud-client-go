@@ -11,7 +11,6 @@ import (
 )
 
 // ProviderCreate The cloud provider that needs to be created.
-
 type ProviderCreate struct {
 	// The name of the cloud provider.
 	Name string `json:"name"`

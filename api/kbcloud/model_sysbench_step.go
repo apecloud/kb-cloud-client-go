@@ -28,7 +28,7 @@ var allowedSysbenchStepEnumValues = []SysbenchStep{
 	SYSBENCHSTEP_ALL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *SysbenchStep) GetAllowedValues() []SysbenchStep {
 	return allowedSysbenchStepEnumValues
 }

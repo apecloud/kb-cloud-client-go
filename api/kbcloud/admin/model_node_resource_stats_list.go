@@ -12,7 +12,6 @@ import (
 )
 
 // NodeResourceStatsList NodeResourceStatsList is a list of NodeResourceStats
-
 type NodeResourceStatsList struct {
 	// Items is the list of NodeResourceStats objects in the list
 	Items []NodeResourceStats `json:"items"`

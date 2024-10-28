@@ -11,7 +11,6 @@ import (
 )
 
 // ProvisionConfig Configuration to provision infrastructure for this environment
-
 type ProvisionConfig struct {
 	// Register manifest for environment
 	Register Register `json:"register"`

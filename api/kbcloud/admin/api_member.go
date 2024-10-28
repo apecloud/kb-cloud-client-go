@@ -18,8 +18,6 @@ type MemberApi common.Service
 
 // AddOrgMember Add member.
 // Add organization with specific role
-// NODESCRIPTION AddOrgMember
-// Deprecated: This API is deprecated.
 func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgMemberAdd) (OrgMember, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -93,8 +91,6 @@ func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgM
 
 // DeleteOrgMember Delete member.
 // delete a Org Member
-// NODESCRIPTION DeleteOrgMember
-// Deprecated: This API is deprecated.
 func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, memberId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -180,8 +176,6 @@ func (r *ListOrgMemberOptionalParameters) WithPageSize(pageSize string) *ListOrg
 
 // ListOrgMember List members.
 // list members of the specified Org
-// NODESCRIPTION ListOrgMember
-// Deprecated: This API is deprecated.
 func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...ListOrgMemberOptionalParameters) (OrgMemberList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -266,8 +260,6 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...Lis
 
 // PatchOrgMember Update member role.
 // Only authenticated organization admins can update the member's role
-// NODESCRIPTION PatchOrgMember
-// Deprecated: This API is deprecated.
 func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberId string, body OrgMemberUpdate) (OrgMember, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -342,8 +334,6 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 
 // ReadOrgMember Get member.
 // read the specified OrgMember
-// NODESCRIPTION ReadOrgMember
-// Deprecated: This API is deprecated.
 func (a *MemberApi) ReadOrgMember(ctx _context.Context, orgName string, memberId string) (OrgMember, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

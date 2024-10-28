@@ -28,7 +28,7 @@ var allowedLoadBalancerStatusEnumValues = []LoadBalancerStatus{
 	LOADBALANCERSTATUS_UNKNOWN,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *LoadBalancerStatus) GetAllowedValues() []LoadBalancerStatus {
 	return allowedLoadBalancerStatusEnumValues
 }

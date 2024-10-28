@@ -24,7 +24,7 @@ var allowedBackupRepoAccessMethodEnumValues = []BackupRepoAccessMethod{
 	BACKUPREPOACCESSMETHOD_TOOL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *BackupRepoAccessMethod) GetAllowedValues() []BackupRepoAccessMethod {
 	return allowedBackupRepoAccessMethodEnumValues
 }

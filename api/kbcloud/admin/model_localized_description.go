@@ -10,11 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION LocalizedDescription
 type LocalizedDescription struct {
-	// NODESCRIPTION ZhCn
 	ZhCn string `json:"zh-CN"`
-	// NODESCRIPTION EnUs
 	EnUs string `json:"en-US"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

@@ -26,7 +26,7 @@ var allowedYcsbRedisModeEnumValues = []YcsbRedisMode{
 	YCSBREDISMODE_CLUSTER,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *YcsbRedisMode) GetAllowedValues() []YcsbRedisMode {
 	return allowedYcsbRedisModeEnumValues
 }

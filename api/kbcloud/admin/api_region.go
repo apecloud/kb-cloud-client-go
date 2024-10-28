@@ -18,8 +18,6 @@ type RegionApi common.Service
 
 // CreateRegion Create a region.
 // Create a region
-// NODESCRIPTION CreateRegion
-// Deprecated: This API is deprecated.
 func (a *RegionApi) CreateRegion(ctx _context.Context, providerName string, body RegionCreate) (Region, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -93,8 +91,6 @@ func (a *RegionApi) CreateRegion(ctx _context.Context, providerName string, body
 
 // DeleteRegion Delete a region.
 // Delete a region
-// NODESCRIPTION DeleteRegion
-// Deprecated: This API is deprecated.
 func (a *RegionApi) DeleteRegion(ctx _context.Context, providerName string, regionName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -156,8 +152,6 @@ func (a *RegionApi) DeleteRegion(ctx _context.Context, providerName string, regi
 
 // GetRegion Get region.
 // Get region
-// NODESCRIPTION GetRegion
-// Deprecated: This API is deprecated.
 func (a *RegionApi) GetRegion(ctx _context.Context, providerName string, regionName string) (Region, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -229,8 +223,6 @@ func (a *RegionApi) GetRegion(ctx _context.Context, providerName string, regionN
 
 // ListRegions Get region list.
 // Get region list
-// NODESCRIPTION ListRegions
-// Deprecated: This API is deprecated.
 func (a *RegionApi) ListRegions(ctx _context.Context, providerName string) (RegionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -301,8 +293,6 @@ func (a *RegionApi) ListRegions(ctx _context.Context, providerName string) (Regi
 
 // UpdateRegion Update a region.
 // Update a region
-// NODESCRIPTION UpdateRegion
-// Deprecated: This API is deprecated.
 func (a *RegionApi) UpdateRegion(ctx _context.Context, providerName string, regionName string, body RegionUpdate) (Region, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

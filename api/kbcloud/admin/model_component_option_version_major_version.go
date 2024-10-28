@@ -10,15 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ComponentOptionVersionMajorVersion
 type ComponentOptionVersionMajorVersion struct {
 	// default major version.
 	Default *string `json:"default,omitempty"`
 	// ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0.
 	// Currently supports [X, X.Y, X.Y.Z] formats to determine major versions of the engine from the serviceVersion
 	//
-	Rule string `json:"rule"`
-	// NODESCRIPTION VersionMapping
+	Rule           string                                                 `json:"rule"`
 	VersionMapping []ComponentOptionVersionMajorVersionVersionMappingItem `json:"versionMapping,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

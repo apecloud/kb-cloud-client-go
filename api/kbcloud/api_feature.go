@@ -35,8 +35,6 @@ func (r *ListFeatureOptionalParameters) WithGroup(group string) *ListFeatureOpti
 
 // ListFeature Get feature list.
 // Get feature list
-// NODESCRIPTION ListFeature
-// Deprecated: This API is deprecated.
 func (a *FeatureApi) ListFeature(ctx _context.Context, o ...ListFeatureOptionalParameters) (FeatureList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -117,8 +115,6 @@ func (a *FeatureApi) ListFeature(ctx _context.Context, o ...ListFeatureOptionalP
 
 // ReadFeature Get feature.
 // Get feature
-// NODESCRIPTION ReadFeature
-// Deprecated: This API is deprecated.
 func (a *FeatureApi) ReadFeature(ctx _context.Context, featureName string) (Feature, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

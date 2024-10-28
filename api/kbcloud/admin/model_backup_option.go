@@ -6,13 +6,9 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION BackupOption
 type BackupOption struct {
-	// NODESCRIPTION DefaultMethod
-	DefaultMethod *string `json:"defaultMethod,omitempty"`
-	// NODESCRIPTION FullMethod
-	FullMethod []BackupMethodOption `json:"fullMethod,omitempty"`
-	// NODESCRIPTION ContinuousMethod
+	DefaultMethod    *string              `json:"defaultMethod,omitempty"`
+	FullMethod       []BackupMethodOption `json:"fullMethod,omitempty"`
 	ContinuousMethod []BackupMethodOption `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

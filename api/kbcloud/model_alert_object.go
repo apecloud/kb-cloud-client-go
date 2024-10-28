@@ -11,40 +11,23 @@ import (
 )
 
 // AlertObject Alert object information
-
 type AlertObject struct {
-	// NODESCRIPTION Id
-	Id *int32 `json:"id,omitempty"`
-	// NODESCRIPTION AlertName
-	AlertName *string `json:"alertName,omitempty"`
-	// NODESCRIPTION GroupName
-	GroupName *string `json:"groupName,omitempty"`
-	// NODESCRIPTION Expr
-	Expr *string `json:"expr,omitempty"`
-	// NODESCRIPTION ClusterName
-	ClusterName *string `json:"clusterName,omitempty"`
-	// NODESCRIPTION Engine
-	Engine *string `json:"engine,omitempty"`
-	// NODESCRIPTION Namespace
-	Namespace *string `json:"namespace,omitempty"`
-	// NODESCRIPTION Pod
-	Pod *string `json:"pod,omitempty"`
-	// NODESCRIPTION Severity
-	Severity *AlertSeverity `json:"severity,omitempty"`
-	// NODESCRIPTION Description
-	Description *string `json:"description,omitempty"`
-	// NODESCRIPTION Fingerprint
-	Fingerprint *string `json:"fingerprint,omitempty"`
-	// NODESCRIPTION StartsAt
-	StartsAt *time.Time `json:"startsAt,omitempty"`
-	// NODESCRIPTION EndsAt
-	EndsAt *time.Time `json:"endsAt,omitempty"`
-	// NODESCRIPTION Status
-	Status *AlertStatus `json:"status,omitempty"`
-	// NODESCRIPTION Count
-	Count *int32 `json:"count,omitempty"`
-	// NODESCRIPTION OrgName
-	OrgName *string `json:"orgName,omitempty"`
+	Id          *int32         `json:"id,omitempty"`
+	AlertName   *string        `json:"alertName,omitempty"`
+	GroupName   *string        `json:"groupName,omitempty"`
+	Expr        *string        `json:"expr,omitempty"`
+	ClusterName *string        `json:"clusterName,omitempty"`
+	Engine      *string        `json:"engine,omitempty"`
+	Namespace   *string        `json:"namespace,omitempty"`
+	Pod         *string        `json:"pod,omitempty"`
+	Severity    *AlertSeverity `json:"severity,omitempty"`
+	Description *string        `json:"description,omitempty"`
+	Fingerprint *string        `json:"fingerprint,omitempty"`
+	StartsAt    *time.Time     `json:"startsAt,omitempty"`
+	EndsAt      *time.Time     `json:"endsAt,omitempty"`
+	Status      *AlertStatus   `json:"status,omitempty"`
+	Count       *int32         `json:"count,omitempty"`
+	OrgName     *string        `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

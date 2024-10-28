@@ -26,7 +26,7 @@ var allowedNetworkChaosDirectionEnumValues = []NetworkChaosDirection{
 	NETWORKCHAOSDIRECTION_BOTH,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *NetworkChaosDirection) GetAllowedValues() []NetworkChaosDirection {
 	return allowedNetworkChaosDirectionEnumValues
 }

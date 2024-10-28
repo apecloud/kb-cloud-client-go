@@ -11,7 +11,6 @@ import (
 )
 
 // Storage Storage is a specification that provides guidance accessing remote storage.
-
 type Storage struct {
 	// Unique identifier for the storage
 	Id *string `json:"id,omitempty"`

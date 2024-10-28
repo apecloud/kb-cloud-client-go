@@ -12,7 +12,6 @@ import (
 )
 
 // DmsImportFormData the data of the import task
-
 type DmsImportFormData struct {
 	// the data file, csv or other format
 	File _io.Reader `json:"file"`

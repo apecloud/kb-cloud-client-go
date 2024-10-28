@@ -7,7 +7,6 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ComponentOptionVersionMajorVersionVersionMappingItem Configure the mapping relationship with the main component's major versions.
-
 type ComponentOptionVersionMajorVersionVersionMappingItem struct {
 	// major version of the main component
 	MainComponentMajorVersion *string `json:"mainComponentMajorVersion,omitempty"`

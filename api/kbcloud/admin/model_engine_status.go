@@ -30,7 +30,7 @@ var allowedEngineStatusEnumValues = []EngineStatus{
 	ENGINESTATUS_DISABLING,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EngineStatus) GetAllowedValues() []EngineStatus {
 	return allowedEngineStatusEnumValues
 }

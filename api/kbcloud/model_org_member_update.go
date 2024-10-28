@@ -11,7 +11,6 @@ import (
 )
 
 // OrgMemberUpdate Org Member update
-
 type OrgMemberUpdate struct {
 	// The role of the User in the Org. Required
 	Role string `json:"role"`

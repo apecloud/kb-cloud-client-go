@@ -11,7 +11,6 @@ import (
 )
 
 // Component Component info in environment
-
 type Component struct {
 	// Kubernetes version of the environment
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`

@@ -11,7 +11,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION Metadb_restore
 type Metadb_restore struct {
 	// the namespace of new cluster, default value is original namespace
 	Namespace *string `json:"namespace,omitempty"`
@@ -27,12 +26,9 @@ type Metadb_restore struct {
 	CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
 	// start time
 	StartTimestamp *time.Time `json:"startTimestamp,omitempty"`
-	// NODESCRIPTION Cpu
-	Cpu *float64 `json:"cpu,omitempty"`
-	// NODESCRIPTION Memory
-	Memory *float64 `json:"memory,omitempty"`
-	// NODESCRIPTION Storage
-	Storage *float64 `json:"storage,omitempty"`
+	Cpu            *float64   `json:"cpu,omitempty"`
+	Memory         *float64   `json:"memory,omitempty"`
+	Storage        *float64   `json:"storage,omitempty"`
 	// the number of postgresql pods
 	Replicas *int32 `json:"replicas,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

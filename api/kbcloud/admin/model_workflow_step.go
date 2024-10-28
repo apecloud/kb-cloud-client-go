@@ -11,17 +11,11 @@ import (
 )
 
 // WorkflowStep workflow step
-
 type WorkflowStep struct {
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Phase
-	Phase *string `json:"phase,omitempty"`
-	// NODESCRIPTION Message
-	Message *string `json:"message,omitempty"`
-	// NODESCRIPTION StartedAt
-	StartedAt common.NullableTime `json:"startedAt,omitempty"`
-	// NODESCRIPTION FinishedAt
+	Name       *string             `json:"name,omitempty"`
+	Phase      *string             `json:"phase,omitempty"`
+	Message    *string             `json:"message,omitempty"`
+	StartedAt  common.NullableTime `json:"startedAt,omitempty"`
 	FinishedAt common.NullableTime `json:"finishedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

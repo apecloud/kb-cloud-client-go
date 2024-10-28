@@ -11,7 +11,6 @@ import (
 )
 
 // ParamTplCreate parameter template create
-
 type ParamTplCreate struct {
 	// Description of parameter template
 	Description string `json:"description"`

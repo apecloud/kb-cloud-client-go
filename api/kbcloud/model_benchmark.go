@@ -11,7 +11,6 @@ import (
 )
 
 // Benchmark Benchmark is the benchmark object
-
 type Benchmark struct {
 	// ID of benchmark
 	Id *string `json:"id,omitempty"`

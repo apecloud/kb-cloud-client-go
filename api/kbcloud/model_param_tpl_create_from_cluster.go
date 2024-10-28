@@ -11,7 +11,6 @@ import (
 )
 
 // ParamTplCreateFromCluster parameter template create
-
 type ParamTplCreateFromCluster struct {
 	// Description of parameter template
 	Description string `json:"description"`

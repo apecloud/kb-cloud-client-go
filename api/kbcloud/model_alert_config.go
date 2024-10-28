@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AlertConfig
 type AlertConfig struct {
 	// Time zone offset in seconds, e.g. offset of UTC+08:00 is +8 * 60 * 60
 	TimeZoneOffset int32 `json:"timeZoneOffset"`

@@ -12,7 +12,6 @@ import (
 )
 
 // EngineLicenseFormData the data of the engine license
-
 type EngineLicenseFormData struct {
 	// The license file to upload
 	LicenseFile _io.Reader `json:"licenseFile"`

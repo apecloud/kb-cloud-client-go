@@ -7,9 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParameterSpecListItem With the list of parameterSpecs and the configuration file name
-
 type ParameterSpecListItem struct {
-	// NODESCRIPTION Specs
 	Specs []ParameterSpec `json:"specs,omitempty"`
 	// The name of the configuration file
 	FileName *string `json:"fileName,omitempty"`

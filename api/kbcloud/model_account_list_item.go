@@ -11,7 +11,6 @@ import (
 )
 
 // AccountListItem Cluster account information.
-
 type AccountListItem struct {
 	// Component type.
 	Component *string `json:"component,omitempty"`

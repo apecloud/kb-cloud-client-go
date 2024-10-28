@@ -727,8 +727,6 @@ func (r *PatchBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSna
 
 // PatchBackupPolicy Update backup policy.
 // partially update the specified Backup Policy
-// NODESCRIPTION PatchBackupPolicy
-// Deprecated: This API is deprecated.
 func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clusterName string, body BackupPolicy, o ...PatchBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

@@ -11,7 +11,6 @@ import (
 )
 
 // FileEntryList BackupEntryList is a list of entry
-
 type FileEntryList struct {
 	// Items is the list of backup entry
 	Items []FileEntry `json:"items"`

@@ -11,7 +11,6 @@ import (
 )
 
 // ImageRegistryList imageRegistryList is a list of imageRegistry
-
 type ImageRegistryList struct {
 	// Items is the list of imageRegistry objects in the list
 	Items []ImageRegistry `json:"items"`

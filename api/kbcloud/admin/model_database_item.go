@@ -11,7 +11,6 @@ import (
 )
 
 // DatabaseItem Cluster database information
-
 type DatabaseItem struct {
 	// Specify the name of database, which must be unique.
 	Name string `json:"name"`

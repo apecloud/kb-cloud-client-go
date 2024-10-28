@@ -10,26 +10,19 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION ParameterOption
 type ParameterOption struct {
-	// NODESCRIPTION Component
-	Component string `json:"component"`
-	// NODESCRIPTION Configs
-	Configs []ParameterConfig `json:"configs"`
+	Component string            `json:"component"`
+	Configs   []ParameterConfig `json:"configs"`
 	// deprecated
-	Versions []string `json:"versions"`
-	// NODESCRIPTION ExportTpl
-	ExportTpl bool `json:"exportTpl"`
+	Versions  []string `json:"versions"`
+	ExportTpl bool     `json:"exportTpl"`
 	// a alias with major version.
 	Family string `json:"family"`
 	// match the major version
-	MajorVersion *string `json:"majorVersion,omitempty"`
-	// NODESCRIPTION DefaultTplName
-	DefaultTplName string `json:"defaultTplName"`
-	// NODESCRIPTION DefaultTplDescription
+	MajorVersion          *string              `json:"majorVersion,omitempty"`
+	DefaultTplName        string               `json:"defaultTplName"`
 	DefaultTplDescription LocalizedDescription `json:"defaultTplDescription"`
-	// NODESCRIPTION DisableHa
-	DisableHa *bool `json:"disableHA,omitempty"`
+	DisableHa             *bool                `json:"disableHA,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

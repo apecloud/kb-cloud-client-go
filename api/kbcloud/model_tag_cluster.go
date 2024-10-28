@@ -6,12 +6,10 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION TagCluster
 type TagCluster struct {
 	// The cluster id corresponding to the tag
 	ClusterId *string `json:"clusterId,omitempty"`
-	// NODESCRIPTION Tags
-	Tags []Tag `json:"tags,omitempty"`
+	Tags      []Tag   `json:"tags,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

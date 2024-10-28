@@ -24,7 +24,7 @@ var allowedNodeOperationTypeEnumValues = []NodeOperationType{
 	NODEOPERATIONTYPE_DEL,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *NodeOperationType) GetAllowedValues() []NodeOperationType {
 	return allowedNodeOperationTypeEnumValues
 }

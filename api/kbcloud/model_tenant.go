@@ -6,36 +6,21 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION Tenant
 type Tenant struct {
-	// NODESCRIPTION Id
-	Id *string `json:"id,omitempty"`
-	// NODESCRIPTION Name
-	Name *string `json:"name,omitempty"`
-	// NODESCRIPTION Mode
-	Mode *string `json:"mode,omitempty"`
-	// NODESCRIPTION CreateAt
-	CreateAt *string `json:"create_at,omitempty"`
-	// NODESCRIPTION Role
-	Role *string `json:"role,omitempty"`
-	// NODESCRIPTION PrimaryZone
-	PrimaryZone *string `json:"primary_zone,omitempty"`
-	// NODESCRIPTION Status
-	Status *string `json:"status,omitempty"`
-	// NODESCRIPTION PrimaryZoneProxy
-	PrimaryZoneProxy *string `json:"primary_zone_proxy,omitempty"`
-	// NODESCRIPTION ChartSet
-	ChartSet *string `json:"chart_set,omitempty"`
-	// NODESCRIPTION Resource
-	Resource *string `json:"resource,omitempty"`
-	// NODESCRIPTION Cpu
-	Cpu *CPU `json:"cpu,omitempty"`
-	// NODESCRIPTION Memory
-	Memory *Memory `json:"memory,omitempty"`
-	// NODESCRIPTION LogDisk
-	LogDisk *LogDisk `json:"log_disk,omitempty"`
-	// NODESCRIPTION DataDisk
-	DataDisk *DataDisk `json:"data_disk,omitempty"`
+	Id               *string   `json:"id,omitempty"`
+	Name             *string   `json:"name,omitempty"`
+	Mode             *string   `json:"mode,omitempty"`
+	CreateAt         *string   `json:"create_at,omitempty"`
+	Role             *string   `json:"role,omitempty"`
+	PrimaryZone      *string   `json:"primary_zone,omitempty"`
+	Status           *string   `json:"status,omitempty"`
+	PrimaryZoneProxy *string   `json:"primary_zone_proxy,omitempty"`
+	ChartSet         *string   `json:"chart_set,omitempty"`
+	Resource         *string   `json:"resource,omitempty"`
+	Cpu              *CPU      `json:"cpu,omitempty"`
+	Memory           *Memory   `json:"memory,omitempty"`
+	LogDisk          *LogDisk  `json:"log_disk,omitempty"`
+	DataDisk         *DataDisk `json:"data_disk,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

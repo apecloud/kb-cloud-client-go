@@ -12,7 +12,6 @@ import (
 )
 
 // Apikey APIKey is the key for API access
-
 type Apikey struct {
 	// The name of the APIKey
 	AccessKey string `json:"accessKey"`

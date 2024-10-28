@@ -12,7 +12,6 @@ import (
 )
 
 // ApikeyCreate APIKeyCreate is the payload for creating an APIKey
-
 type ApikeyCreate struct {
 	// The description of the APIKey
 	Description string `json:"description"`

@@ -11,7 +11,6 @@ import (
 )
 
 // LoadBalancer The load balancer info
-
 type LoadBalancer struct {
 	// Version of the load balancer
 	Version *string `json:"version,omitempty"`

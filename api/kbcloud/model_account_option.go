@@ -10,20 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION AccountOption
 type AccountOption struct {
-	// NODESCRIPTION Enabled
-	Enabled bool `json:"enabled"`
-	// NODESCRIPTION Privileges
-	Privileges []string `json:"privileges"`
-	// NODESCRIPTION AccountNamePattern
-	AccountNamePattern string `json:"accountNamePattern"`
-	// NODESCRIPTION Create
-	Create bool `json:"create"`
-	// NODESCRIPTION ResetPassword
-	ResetPassword bool `json:"resetPassword"`
-	// NODESCRIPTION Delete
-	Delete bool `json:"delete"`
+	Enabled            bool     `json:"enabled"`
+	Privileges         []string `json:"privileges"`
+	AccountNamePattern string   `json:"accountNamePattern"`
+	Create             bool     `json:"create"`
+	ResetPassword      bool     `json:"resetPassword"`
+	Delete             bool     `json:"delete"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

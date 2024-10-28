@@ -11,11 +11,8 @@ import (
 )
 
 // OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest
-
 type OpsRequestName struct {
-	// NODESCRIPTION OpsRequestName
-	OpsRequestName string `json:"opsRequestName"`
-	// NODESCRIPTION DependentOpsName
+	OpsRequestName   string  `json:"opsRequestName"`
 	DependentOpsName *string `json:"dependentOpsName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

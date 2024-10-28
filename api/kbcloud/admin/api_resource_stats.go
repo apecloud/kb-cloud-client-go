@@ -18,8 +18,6 @@ type ResourceStatsApi common.Service
 
 // GetResourceStats Get resource statistics of environment.
 // Returns aggregated resource statistics for the specified environment within an organization.
-// NODESCRIPTION GetResourceStats
-// Deprecated: This API is deprecated.
 func (a *ResourceStatsApi) GetResourceStats(ctx _context.Context, environmentName string) (EnvironmentResourceStats, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -90,8 +88,6 @@ func (a *ResourceStatsApi) GetResourceStats(ctx _context.Context, environmentNam
 
 // ListInstancesResourceStats Get resource statistics of instances.
 // Returns aggregated resource statistics for the specified node.
-// NODESCRIPTION ListInstancesResourceStats
-// Deprecated: This API is deprecated.
 func (a *ResourceStatsApi) ListInstancesResourceStats(ctx _context.Context, environmentName string, nodeName string) (InstanceResourceStatsList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -163,8 +159,6 @@ func (a *ResourceStatsApi) ListInstancesResourceStats(ctx _context.Context, envi
 
 // ListNodesResourceStats Get resource statistics of nodes.
 // Returns aggregated resource statistics for the specified environment within an organization.
-// NODESCRIPTION ListNodesResourceStats
-// Deprecated: This API is deprecated.
 func (a *ResourceStatsApi) ListNodesResourceStats(ctx _context.Context, environmentName string) (NodeResourceStatsList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

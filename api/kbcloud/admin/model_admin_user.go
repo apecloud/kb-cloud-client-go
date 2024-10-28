@@ -12,18 +12,15 @@ import (
 )
 
 // AdminUser Admin user info
-
 type AdminUser struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`
 	// The email for the user
 	Email *string `json:"email,omitempty"`
 	// The phonenumber for the user.
-	PhoneNumber *string `json:"phoneNumber,omitempty"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt time.Time `json:"createdAt"`
-	// NODESCRIPTION UpdatedAt
-	UpdatedAt time.Time `json:"updatedAt"`
+	PhoneNumber *string   `json:"phoneNumber,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 	// return true if the default admin user need to reset password
 	IsDefaultPassword bool `json:"isDefaultPassword"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

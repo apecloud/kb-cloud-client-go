@@ -11,7 +11,6 @@ import (
 )
 
 // AlertMetricList AlertMetricList is a list of alert metric
-
 type AlertMetricList struct {
 	// Items is the list of alert metric objects in the list
 	Items []AlertMetric `json:"items"`

@@ -7,12 +7,9 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // TolerateDefaultTaints When creating a cluster, add the default tolerations from the bootstrap node to the pods
-
 type TolerateDefaultTaints struct {
-	// NODESCRIPTION Enabled
-	Enabled *bool `json:"enabled,omitempty"`
-	// NODESCRIPTION Taints
-	Taints []string `json:"taints,omitempty"`
+	Enabled *bool    `json:"enabled,omitempty"`
+	Taints  []string `json:"taints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -12,7 +12,6 @@ import (
 )
 
 // EnvironmentCreate Environment creation info
-
 type EnvironmentCreate struct {
 	// The full, unique name of this Object in the format environments/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`
@@ -33,13 +32,14 @@ type EnvironmentCreate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`
 	// The display name of the environment
-	DisplayName string `json:"displayName"`
-	// NODESCRIPTION Id
-	Id *uuid.UUID `json:"id,omitempty"`
+	DisplayName string     `json:"displayName"`
+	Id          *uuid.UUID `json:"id,omitempty"`
 	// Extra info for environment
 	ExtraInfo *string `json:"extraInfo,omitempty"`
 	// Environment delete policy to protect environment from false delete
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+	// overwrite a environment if it has been added before
+	Overwrite *bool `json:"overwrite,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +60,8 @@ func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig 
 	this.DisplayName = displayName
 	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
 	this.DeletePolicy = &deletePolicy
+	var overwrite bool = false
+	this.Overwrite = &overwrite
 	return &this
 }
 
@@ -70,6 +72,8 @@ func NewEnvironmentCreateWithDefaults() *EnvironmentCreate {
 	this := EnvironmentCreate{}
 	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
 	this.DeletePolicy = &deletePolicy
+	var overwrite bool = false
+	this.Overwrite = &overwrite
 	return &this
 }
 
@@ -402,6 +406,34 @@ func (o *EnvironmentCreate) SetDeletePolicy(v EnvironmentDeletePolicy) {
 	o.DeletePolicy = &v
 }
 
+// GetOverwrite returns the Overwrite field value if set, zero value otherwise.
+func (o *EnvironmentCreate) GetOverwrite() bool {
+	if o == nil || o.Overwrite == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Overwrite
+}
+
+// GetOverwriteOk returns a tuple with the Overwrite field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentCreate) GetOverwriteOk() (*bool, bool) {
+	if o == nil || o.Overwrite == nil {
+		return nil, false
+	}
+	return o.Overwrite, true
+}
+
+// HasOverwrite returns a boolean if a field has been set.
+func (o *EnvironmentCreate) HasOverwrite() bool {
+	return o != nil && o.Overwrite != nil
+}
+
+// SetOverwrite gets a reference to the given bool and assigns it to the Overwrite field.
+func (o *EnvironmentCreate) SetOverwrite(v bool) {
+	o.Overwrite = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -433,6 +465,9 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 	if o.DeletePolicy != nil {
 		toSerialize["deletePolicy"] = o.DeletePolicy
 	}
+	if o.Overwrite != nil {
+		toSerialize["overwrite"] = o.Overwrite
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -456,6 +491,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Id                *uuid.UUID               `json:"id,omitempty"`
 		ExtraInfo         *string                  `json:"extraInfo,omitempty"`
 		DeletePolicy      *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		Overwrite         *bool                    `json:"overwrite,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -483,7 +519,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "schedulingConfig", "provisionConfig", "organizations", "provider", "region", "availabilityZones", "description", "displayName", "id", "extraInfo", "deletePolicy", "overwrite"})
 	} else {
 		return err
 	}
@@ -516,6 +552,7 @@ func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.DeletePolicy = all.DeletePolicy
 	}
+	o.Overwrite = all.Overwrite
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

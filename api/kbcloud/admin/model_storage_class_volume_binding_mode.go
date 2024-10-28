@@ -24,7 +24,7 @@ var allowedStorageClassVolumeBindingModeEnumValues = []StorageClassVolumeBinding
 	STORAGECLASSVOLUMEBINDINGMODE_WAITFORFIRSTCONSUMER,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *StorageClassVolumeBindingMode) GetAllowedValues() []StorageClassVolumeBindingMode {
 	return allowedStorageClassVolumeBindingModeEnumValues
 }

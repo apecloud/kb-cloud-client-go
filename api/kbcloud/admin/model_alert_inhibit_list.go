@@ -11,7 +11,6 @@ import (
 )
 
 // AlertInhibitList AlertInhibitList is a list of alert inhibit
-
 type AlertInhibitList struct {
 	// Items is the list of alert inhibits in the list
 	Items []AlertInhibit `json:"items"`

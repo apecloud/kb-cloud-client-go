@@ -40,7 +40,7 @@ var allowedEngineTypeEnumValues = []EngineType{
 	ENGINETYPE_OTHER,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EngineType) GetAllowedValues() []EngineType {
 	return allowedEngineTypeEnumValues
 }

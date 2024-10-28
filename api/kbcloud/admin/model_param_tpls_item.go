@@ -7,15 +7,13 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplsItem the item of the parameter template
-
 type ParamTplsItem struct {
 	// component type, refer to componentDef and support NamePrefix, Deprecated.
 	ComponentDefRef *string `json:"componentDefRef,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`
 	// name of assigned parameter template
-	ParamTplName *string `json:"paramTplName,omitempty"`
-	// NODESCRIPTION ParamTplPartition
+	ParamTplName      *string            `json:"paramTplName,omitempty"`
 	ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

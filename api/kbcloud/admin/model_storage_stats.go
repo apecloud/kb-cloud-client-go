@@ -11,7 +11,6 @@ import (
 )
 
 // StorageStats StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
-
 type StorageStats struct {
 	// ProvisionedCapacity is the actual size of the volumes that is bound to the PVC, unit is GiB
 	ProvisionedCapacity float64 `json:"provisionedCapacity"`

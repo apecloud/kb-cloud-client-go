@@ -28,7 +28,7 @@ var allowedAggregateMetaDataTypeEnumValues = []AggregateMetaDataType{
 	AGGREGATEMETADATATYPE_ENVIRONMENT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *AggregateMetaDataType) GetAllowedValues() []AggregateMetaDataType {
 	return allowedAggregateMetaDataTypeEnumValues
 }

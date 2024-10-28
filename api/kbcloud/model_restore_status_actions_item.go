@@ -6,9 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION RestoreStatusActionsItem
 type RestoreStatusActionsItem struct {
-	// NODESCRIPTION Message
 	Message *string `json:"message,omitempty"`
 	// action name
 	Name *string `json:"name,omitempty"`

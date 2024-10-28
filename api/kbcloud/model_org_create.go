@@ -11,7 +11,6 @@ import (
 )
 
 // OrgCreate OrgCreate is the payload for organization creation
-
 type OrgCreate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`

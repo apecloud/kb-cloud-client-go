@@ -10,7 +10,6 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// NODESCRIPTION EndpointList
 type EndpointList struct {
 	// Items is the list of endpoint objects in the list
 	Items []Endpoint `json:"items"`

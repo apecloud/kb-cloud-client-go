@@ -26,7 +26,7 @@ var allowedEnvironmentRegisterTypeEnumValues = []EnvironmentRegisterType{
 	ENVIRONMENTREGISTERTYPE_CONNECT_AGENT,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *EnvironmentRegisterType) GetAllowedValues() []EnvironmentRegisterType {
 	return allowedEnvironmentRegisterTypeEnumValues
 }

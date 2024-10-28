@@ -6,7 +6,6 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// NODESCRIPTION ComponentsItem
 type ComponentsItem struct {
 	// component name
 	Name *string `json:"name,omitempty"`
@@ -19,10 +18,8 @@ type ComponentsItem struct {
 	// enable monitor
 	Monitor *bool `json:"monitor,omitempty"`
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-	Replicas *int32 `json:"replicas,omitempty"`
-	// NODESCRIPTION ClassCode
-	ClassCode *string `json:"classCode,omitempty"`
-	// NODESCRIPTION ClassSeries
+	Replicas    *int32  `json:"replicas,omitempty"`
+	ClassCode   *string `json:"classCode,omitempty"`
 	ClassSeries *string `json:"classSeries,omitempty"`
 	// CPU cores.
 	Cpu *float64 `json:"cpu,omitempty"`
@@ -31,9 +28,8 @@ type ComponentsItem struct {
 	// Storage
 	Storage *string `json:"storage,omitempty"`
 	// StorageClass name
-	StorageClass *string `json:"storageClass,omitempty"`
-	// NODESCRIPTION Volumes
-	Volumes []ComponentsItemVolumesItem `json:"volumes,omitempty"`
+	StorageClass *string                     `json:"storageClass,omitempty"`
+	Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

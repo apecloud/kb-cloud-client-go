@@ -12,7 +12,6 @@ import (
 )
 
 // Restore create a KubeBlocks restore API
-
 type Restore struct {
 	// organization name
 	OrgName *string `json:"orgName,omitempty"`
@@ -23,9 +22,8 @@ type Restore struct {
 	// component name of cluster
 	ComponentName string `json:"componentName"`
 	// target pod name
-	TargetPodName *string `json:"targetPodName,omitempty"`
-	// NODESCRIPTION CreatedAt
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	TargetPodName *string    `json:"targetPodName,omitempty"`
+	CreatedAt     *time.Time `json:"createdAt,omitempty"`
 	// kubeBlocks restore name
 	Name *string `json:"name,omitempty"`
 	// restore parameters to inject env of the restore CR.

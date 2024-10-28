@@ -24,7 +24,7 @@ var allowedOrgMemberRoleEnumValues = []OrgMemberRole{
 	ORGMEMBERROLE_DEVELOPER,
 }
 
-// GetAllowedValues reeturns the list of possible values.
+// GetAllowedValues returns the list of possible values.
 func (v *OrgMemberRole) GetAllowedValues() []OrgMemberRole {
 	return allowedOrgMemberRoleEnumValues
 }
