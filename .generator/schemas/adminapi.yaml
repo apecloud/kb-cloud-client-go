@@ -6322,11 +6322,9 @@ paths:
                 $ref: '#/components/schemas/environment'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /admin/v1/environmentObjectStorage:
@@ -15328,7 +15326,7 @@ components:
           description: whether the environment is still in use
         environment:
           $ref: '#/components/schemas/environment'
-    cleanCloudResourcePolicy:
+    cloudResourceCleanPolicy:
       type: string
       description: The policy to clean cloud resources, either `Delete` or `Retain`
       enum:
@@ -15348,13 +15346,13 @@ components:
           description: clean up resources in the cloud (only valid if creation is done by role ARN)
         backup:
           description: reserve backup when delete environment
-          $ref: '#/components/schemas/cleanCloudResourcePolicy'
+          $ref: '#/components/schemas/cloudResourceCleanPolicy'
         minio:
           description: reserve minio cluster when delete environment
-          $ref: '#/components/schemas/cleanCloudResourcePolicy'
+          $ref: '#/components/schemas/cloudResourceCleanPolicy'
         victoriaMetrics:
           description: reserve vm cluster when delete environment
-          $ref: '#/components/schemas/cleanCloudResourcePolicy'
+          $ref: '#/components/schemas/cloudResourceCleanPolicy'
     environmentUpdate:
       type: object
       description: Environment info

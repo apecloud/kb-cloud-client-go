@@ -36,7 +36,7 @@ var (
 	rateLimitResetHeader = "X-Ratelimit-Reset"
 )
 
-// APIClient manages communication with the KubeBlocks Cloud API API v1.0.0.
+// APIClient manages communication with the Admin API API v1.0.0.
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	Cfg *Configuration
