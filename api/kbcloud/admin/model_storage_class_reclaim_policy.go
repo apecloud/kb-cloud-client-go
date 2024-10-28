@@ -15,15 +15,15 @@ type StorageClassReclaimPolicy string
 
 // List of StorageClassReclaimPolicy.
 const (
-	STORAGECLASSRECLAIMPOLICY_DELETE  StorageClassReclaimPolicy = "Delete"
-	STORAGECLASSRECLAIMPOLICY_RETAIN  StorageClassReclaimPolicy = "Retain"
-	STORAGECLASSRECLAIMPOLICY_RECYCLE StorageClassReclaimPolicy = "Recycle"
+	StorageClassReclaimPolicyDelete  StorageClassReclaimPolicy = "Delete"
+	StorageClassReclaimPolicyRetain  StorageClassReclaimPolicy = "Retain"
+	StorageClassReclaimPolicyRecycle StorageClassReclaimPolicy = "Recycle"
 )
 
 var allowedStorageClassReclaimPolicyEnumValues = []StorageClassReclaimPolicy{
-	STORAGECLASSRECLAIMPOLICY_DELETE,
-	STORAGECLASSRECLAIMPOLICY_RETAIN,
-	STORAGECLASSRECLAIMPOLICY_RECYCLE,
+	StorageClassReclaimPolicyDelete,
+	StorageClassReclaimPolicyRetain,
+	StorageClassReclaimPolicyRecycle,
 }
 
 // GetAllowedValues returns the list of possible values.

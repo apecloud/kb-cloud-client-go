@@ -15,29 +15,29 @@ type EngineType string
 
 // List of EngineType.
 const (
-	ENGINETYPE_RDBMS         EngineType = "RDBMS"
-	ENGINETYPE_SEARCH_ENGINE EngineType = "search-engine"
-	ENGINETYPE_KEY_VALUE     EngineType = "key-value"
-	ENGINETYPE_TIME_SERIES   EngineType = "time-series"
-	ENGINETYPE_STREAMING     EngineType = "streaming"
-	ENGINETYPE_LLM           EngineType = "LLM"
-	ENGINETYPE_VECTOR        EngineType = "vector"
-	ENGINETYPE_DOCUMENT      EngineType = "document"
-	ENGINETYPE_GRAPH         EngineType = "graph"
-	ENGINETYPE_OTHER         EngineType = "other"
+	EngineTypeRdbms        EngineType = "RDBMS"
+	EngineTypeSearchEngine EngineType = "search-engine"
+	EngineTypeKeyValue     EngineType = "key-value"
+	EngineTypeTimeSeries   EngineType = "time-series"
+	EngineTypeStreaming    EngineType = "streaming"
+	EngineTypeLlm          EngineType = "LLM"
+	EngineTypeVector       EngineType = "vector"
+	EngineTypeDocument     EngineType = "document"
+	EngineTypeGraph        EngineType = "graph"
+	EngineTypeOther        EngineType = "other"
 )
 
 var allowedEngineTypeEnumValues = []EngineType{
-	ENGINETYPE_RDBMS,
-	ENGINETYPE_SEARCH_ENGINE,
-	ENGINETYPE_KEY_VALUE,
-	ENGINETYPE_TIME_SERIES,
-	ENGINETYPE_STREAMING,
-	ENGINETYPE_LLM,
-	ENGINETYPE_VECTOR,
-	ENGINETYPE_DOCUMENT,
-	ENGINETYPE_GRAPH,
-	ENGINETYPE_OTHER,
+	EngineTypeRdbms,
+	EngineTypeSearchEngine,
+	EngineTypeKeyValue,
+	EngineTypeTimeSeries,
+	EngineTypeStreaming,
+	EngineTypeLlm,
+	EngineTypeVector,
+	EngineTypeDocument,
+	EngineTypeGraph,
+	EngineTypeOther,
 }
 
 // GetAllowedValues returns the list of possible values.

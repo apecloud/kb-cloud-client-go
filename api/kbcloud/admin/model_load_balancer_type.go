@@ -15,13 +15,13 @@ type LoadBalancerType string
 
 // List of LoadBalancerType.
 const (
-	LOADBALANCERTYPE_F5      LoadBalancerType = "f5"
-	LOADBALANCERTYPE_METALLB LoadBalancerType = "metallb"
+	LoadBalancerTypeF5      LoadBalancerType = "f5"
+	LoadBalancerTypeMetallb LoadBalancerType = "metallb"
 )
 
 var allowedLoadBalancerTypeEnumValues = []LoadBalancerType{
-	LOADBALANCERTYPE_F5,
-	LOADBALANCERTYPE_METALLB,
+	LoadBalancerTypeF5,
+	LoadBalancerTypeMetallb,
 }
 
 // GetAllowedValues returns the list of possible values.

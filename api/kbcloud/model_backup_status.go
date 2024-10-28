@@ -15,21 +15,21 @@ type BackupStatus string
 
 // List of BackupStatus.
 const (
-	BACKUPSTATUS_NEW        BackupStatus = "New"
-	BACKUPSTATUS_INPROGRESS BackupStatus = "InProgress"
-	BACKUPSTATUS_RUNNING    BackupStatus = "Running"
-	BACKUPSTATUS_COMPLETED  BackupStatus = "Completed"
-	BACKUPSTATUS_FAILED     BackupStatus = "Failed"
-	BACKUPSTATUS_DELETING   BackupStatus = "Deleting"
+	BackupStatusNew        BackupStatus = "New"
+	BackupStatusInProgress BackupStatus = "InProgress"
+	BackupStatusRunning    BackupStatus = "Running"
+	BackupStatusCompleted  BackupStatus = "Completed"
+	BackupStatusFailed     BackupStatus = "Failed"
+	BackupStatusDeleting   BackupStatus = "Deleting"
 )
 
 var allowedBackupStatusEnumValues = []BackupStatus{
-	BACKUPSTATUS_NEW,
-	BACKUPSTATUS_INPROGRESS,
-	BACKUPSTATUS_RUNNING,
-	BACKUPSTATUS_COMPLETED,
-	BACKUPSTATUS_FAILED,
-	BACKUPSTATUS_DELETING,
+	BackupStatusNew,
+	BackupStatusInProgress,
+	BackupStatusRunning,
+	BackupStatusCompleted,
+	BackupStatusFailed,
+	BackupStatusDeleting,
 }
 
 // GetAllowedValues returns the list of possible values.

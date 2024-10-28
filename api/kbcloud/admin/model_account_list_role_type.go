@@ -15,15 +15,15 @@ type AccountListRoleType string
 
 // List of AccountListRoleType.
 const (
-	ACCOUNTLISTROLETYPE_SUPERUSER AccountListRoleType = "SUPERUSER"
-	ACCOUNTLISTROLETYPE_BASICUSER AccountListRoleType = "BASICUSER"
-	ACCOUNTLISTROLETYPE_ROOT      AccountListRoleType = "ROOT"
+	AccountListRoleTypeSuperuser AccountListRoleType = "SUPERUSER"
+	AccountListRoleTypeBasicuser AccountListRoleType = "BASICUSER"
+	AccountListRoleTypeRoot      AccountListRoleType = "ROOT"
 )
 
 var allowedAccountListRoleTypeEnumValues = []AccountListRoleType{
-	ACCOUNTLISTROLETYPE_SUPERUSER,
-	ACCOUNTLISTROLETYPE_BASICUSER,
-	ACCOUNTLISTROLETYPE_ROOT,
+	AccountListRoleTypeSuperuser,
+	AccountListRoleTypeBasicuser,
+	AccountListRoleTypeRoot,
 }
 
 // GetAllowedValues returns the list of possible values.

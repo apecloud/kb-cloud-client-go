@@ -71,7 +71,7 @@ type Ycsb struct {
 // will change when the set of required properties is changed.
 func NewYcsb(cluster string, username string, password string, address string) *Ycsb {
 	this := Ycsb{}
-	var step YcsbStep = YCSBSTEP_ALL
+	var step YcsbStep = YcsbStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -95,7 +95,7 @@ func NewYcsb(cluster string, username string, password string, address string) *
 // but it doesn't guarantee that properties required by API are set.
 func NewYcsbWithDefaults() *Ycsb {
 	this := Ycsb{}
-	var step YcsbStep = YCSBSTEP_ALL
+	var step YcsbStep = YcsbStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu

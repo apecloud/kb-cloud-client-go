@@ -15,15 +15,15 @@ type NetworkChaosDirection string
 
 // List of NetworkChaosDirection.
 const (
-	NETWORKCHAOSDIRECTION_TO   NetworkChaosDirection = "to"
-	NETWORKCHAOSDIRECTION_FROM NetworkChaosDirection = "from"
-	NETWORKCHAOSDIRECTION_BOTH NetworkChaosDirection = "both"
+	NetworkChaosDirectionTo   NetworkChaosDirection = "to"
+	NetworkChaosDirectionFrom NetworkChaosDirection = "from"
+	NetworkChaosDirectionBoth NetworkChaosDirection = "both"
 )
 
 var allowedNetworkChaosDirectionEnumValues = []NetworkChaosDirection{
-	NETWORKCHAOSDIRECTION_TO,
-	NETWORKCHAOSDIRECTION_FROM,
-	NETWORKCHAOSDIRECTION_BOTH,
+	NetworkChaosDirectionTo,
+	NetworkChaosDirectionFrom,
+	NetworkChaosDirectionBoth,
 }
 
 // GetAllowedValues returns the list of possible values.

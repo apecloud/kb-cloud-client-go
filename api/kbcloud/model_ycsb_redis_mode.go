@@ -15,15 +15,15 @@ type YcsbRedisMode string
 
 // List of YcsbRedisMode.
 const (
-	YCSBREDISMODE_SINGLE   YcsbRedisMode = "single"
-	YCSBREDISMODE_SENTINEL YcsbRedisMode = "sentinel"
-	YCSBREDISMODE_CLUSTER  YcsbRedisMode = "cluster"
+	YcsbRedisModeSingle   YcsbRedisMode = "single"
+	YcsbRedisModeSentinel YcsbRedisMode = "sentinel"
+	YcsbRedisModeCluster  YcsbRedisMode = "cluster"
 )
 
 var allowedYcsbRedisModeEnumValues = []YcsbRedisMode{
-	YCSBREDISMODE_SINGLE,
-	YCSBREDISMODE_SENTINEL,
-	YCSBREDISMODE_CLUSTER,
+	YcsbRedisModeSingle,
+	YcsbRedisModeSentinel,
+	YcsbRedisModeCluster,
 }
 
 // GetAllowedValues returns the list of possible values.

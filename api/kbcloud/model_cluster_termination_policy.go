@@ -15,17 +15,17 @@ type ClusterTerminationPolicy string
 
 // List of ClusterTerminationPolicy.
 const (
-	CLUSTERTERMINATIONPOLICY_DONOTTERMINATE ClusterTerminationPolicy = "DoNotTerminate"
-	CLUSTERTERMINATIONPOLICY_HALT           ClusterTerminationPolicy = "Halt"
-	CLUSTERTERMINATIONPOLICY_DELETE         ClusterTerminationPolicy = "Delete"
-	CLUSTERTERMINATIONPOLICY_WIPEOUT        ClusterTerminationPolicy = "WipeOut"
+	ClusterTerminationPolicyDoNotTerminate ClusterTerminationPolicy = "DoNotTerminate"
+	ClusterTerminationPolicyHalt           ClusterTerminationPolicy = "Halt"
+	ClusterTerminationPolicyDelete         ClusterTerminationPolicy = "Delete"
+	ClusterTerminationPolicyWipeOut        ClusterTerminationPolicy = "WipeOut"
 )
 
 var allowedClusterTerminationPolicyEnumValues = []ClusterTerminationPolicy{
-	CLUSTERTERMINATIONPOLICY_DONOTTERMINATE,
-	CLUSTERTERMINATIONPOLICY_HALT,
-	CLUSTERTERMINATIONPOLICY_DELETE,
-	CLUSTERTERMINATIONPOLICY_WIPEOUT,
+	ClusterTerminationPolicyDoNotTerminate,
+	ClusterTerminationPolicyHalt,
+	ClusterTerminationPolicyDelete,
+	ClusterTerminationPolicyWipeOut,
 }
 
 // GetAllowedValues returns the list of possible values.

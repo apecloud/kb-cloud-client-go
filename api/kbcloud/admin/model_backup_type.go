@@ -15,17 +15,17 @@ type BackupType string
 
 // List of BackupType.
 const (
-	BACKUPTYPE_FULL         BackupType = "Full"
-	BACKUPTYPE_INCREMENTAL  BackupType = "Incremental"
-	BACKUPTYPE_DIFFERENTIAL BackupType = "Differential"
-	BACKUPTYPE_CONTINUOUS   BackupType = "Continuous"
+	BackupTypeFull         BackupType = "Full"
+	BackupTypeIncremental  BackupType = "Incremental"
+	BackupTypeDifferential BackupType = "Differential"
+	BackupTypeContinuous   BackupType = "Continuous"
 )
 
 var allowedBackupTypeEnumValues = []BackupType{
-	BACKUPTYPE_FULL,
-	BACKUPTYPE_INCREMENTAL,
-	BACKUPTYPE_DIFFERENTIAL,
-	BACKUPTYPE_CONTINUOUS,
+	BackupTypeFull,
+	BackupTypeIncremental,
+	BackupTypeDifferential,
+	BackupTypeContinuous,
 }
 
 // GetAllowedValues returns the list of possible values.

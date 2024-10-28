@@ -15,13 +15,13 @@ type BackupRepoPVReclaimPolicy string
 
 // List of BackupRepoPVReclaimPolicy.
 const (
-	BACKUPREPOPVRECLAIMPOLICY_RETAIN BackupRepoPVReclaimPolicy = "Retain"
-	BACKUPREPOPVRECLAIMPOLICY_DELETE BackupRepoPVReclaimPolicy = "Delete"
+	BackupRepoPVReclaimPolicyRetain BackupRepoPVReclaimPolicy = "Retain"
+	BackupRepoPVReclaimPolicyDelete BackupRepoPVReclaimPolicy = "Delete"
 )
 
 var allowedBackupRepoPVReclaimPolicyEnumValues = []BackupRepoPVReclaimPolicy{
-	BACKUPREPOPVRECLAIMPOLICY_RETAIN,
-	BACKUPREPOPVRECLAIMPOLICY_DELETE,
+	BackupRepoPVReclaimPolicyRetain,
+	BackupRepoPVReclaimPolicyDelete,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -15,13 +15,13 @@ type StorageClassVolumeBindingMode string
 
 // List of StorageClassVolumeBindingMode.
 const (
-	STORAGECLASSVOLUMEBINDINGMODE_IMMEDIATE            StorageClassVolumeBindingMode = "Immediate"
-	STORAGECLASSVOLUMEBINDINGMODE_WAITFORFIRSTCONSUMER StorageClassVolumeBindingMode = "WaitForFirstConsumer"
+	StorageClassVolumeBindingModeImmediate            StorageClassVolumeBindingMode = "Immediate"
+	StorageClassVolumeBindingModeWaitForFirstConsumer StorageClassVolumeBindingMode = "WaitForFirstConsumer"
 )
 
 var allowedStorageClassVolumeBindingModeEnumValues = []StorageClassVolumeBindingMode{
-	STORAGECLASSVOLUMEBINDINGMODE_IMMEDIATE,
-	STORAGECLASSVOLUMEBINDINGMODE_WAITFORFIRSTCONSUMER,
+	StorageClassVolumeBindingModeImmediate,
+	StorageClassVolumeBindingModeWaitForFirstConsumer,
 }
 
 // GetAllowedValues returns the list of possible values.

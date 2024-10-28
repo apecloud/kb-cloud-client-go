@@ -15,17 +15,17 @@ type YcsbStep string
 
 // List of YcsbStep.
 const (
-	YCSBSTEP_PREPARE YcsbStep = "prepare"
-	YCSBSTEP_RUN     YcsbStep = "run"
-	YCSBSTEP_CLEANUP YcsbStep = "cleanup"
-	YCSBSTEP_ALL     YcsbStep = "all"
+	YcsbStepPrepare YcsbStep = "prepare"
+	YcsbStepRun     YcsbStep = "run"
+	YcsbStepCleanup YcsbStep = "cleanup"
+	YcsbStepAll     YcsbStep = "all"
 )
 
 var allowedYcsbStepEnumValues = []YcsbStep{
-	YCSBSTEP_PREPARE,
-	YCSBSTEP_RUN,
-	YCSBSTEP_CLEANUP,
-	YCSBSTEP_ALL,
+	YcsbStepPrepare,
+	YcsbStepRun,
+	YcsbStepCleanup,
+	YcsbStepAll,
 }
 
 // GetAllowedValues returns the list of possible values.

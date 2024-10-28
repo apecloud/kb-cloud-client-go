@@ -15,13 +15,13 @@ type CloudResourceCleanPolicy string
 
 // List of CloudResourceCleanPolicy.
 const (
-	CLOUDRESOURCECLEANPOLICY_DELETE CloudResourceCleanPolicy = "Delete"
-	CLOUDRESOURCECLEANPOLICY_RETAIN CloudResourceCleanPolicy = "Retain"
+	CloudResourceCleanPolicyDelete CloudResourceCleanPolicy = "Delete"
+	CloudResourceCleanPolicyRetain CloudResourceCleanPolicy = "Retain"
 )
 
 var allowedCloudResourceCleanPolicyEnumValues = []CloudResourceCleanPolicy{
-	CLOUDRESOURCECLEANPOLICY_DELETE,
-	CLOUDRESOURCECLEANPOLICY_RETAIN,
+	CloudResourceCleanPolicyDelete,
+	CloudResourceCleanPolicyRetain,
 }
 
 // GetAllowedValues returns the list of possible values.

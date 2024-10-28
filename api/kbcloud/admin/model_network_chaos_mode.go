@@ -15,19 +15,19 @@ type NetworkChaosMode string
 
 // List of NetworkChaosMode.
 const (
-	NETWORKCHAOSMODE_ONE                NetworkChaosMode = "one"
-	NETWORKCHAOSMODE_ALL                NetworkChaosMode = "all"
-	NETWORKCHAOSMODE_FIXED              NetworkChaosMode = "fixed"
-	NETWORKCHAOSMODE_FIXED_PERCENT      NetworkChaosMode = "fixed-percent"
-	NETWORKCHAOSMODE_RANDOM_MAX_PERCENT NetworkChaosMode = "random-max-percent"
+	NetworkChaosModeOne              NetworkChaosMode = "one"
+	NetworkChaosModeAll              NetworkChaosMode = "all"
+	NetworkChaosModeFixed            NetworkChaosMode = "fixed"
+	NetworkChaosModeFixedPercent     NetworkChaosMode = "fixed-percent"
+	NetworkChaosModeRandomMaxPercent NetworkChaosMode = "random-max-percent"
 )
 
 var allowedNetworkChaosModeEnumValues = []NetworkChaosMode{
-	NETWORKCHAOSMODE_ONE,
-	NETWORKCHAOSMODE_ALL,
-	NETWORKCHAOSMODE_FIXED,
-	NETWORKCHAOSMODE_FIXED_PERCENT,
-	NETWORKCHAOSMODE_RANDOM_MAX_PERCENT,
+	NetworkChaosModeOne,
+	NetworkChaosModeAll,
+	NetworkChaosModeFixed,
+	NetworkChaosModeFixedPercent,
+	NetworkChaosModeRandomMaxPercent,
 }
 
 // GetAllowedValues returns the list of possible values.

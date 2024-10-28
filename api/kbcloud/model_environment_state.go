@@ -15,29 +15,29 @@ type EnvironmentState string
 
 // List of EnvironmentState.
 const (
-	ENVIRONMENTSTATE_PENDING      EnvironmentState = "PENDING"
-	ENVIRONMENTSTATE_REGISTERED   EnvironmentState = "REGISTERED"
-	ENVIRONMENTSTATE_PROVISIONING EnvironmentState = "PROVISIONING"
-	ENVIRONMENTSTATE_NOTREADY     EnvironmentState = "NOTREADY"
-	ENVIRONMENTSTATE_READY        EnvironmentState = "READY"
-	ENVIRONMENTSTATE_WARNING      EnvironmentState = "WARNING"
-	ENVIRONMENTSTATE_UNREACHABLE  EnvironmentState = "UNREACHABLE"
-	ENVIRONMENTSTATE_DELETING     EnvironmentState = "DELETING"
-	ENVIRONMENTSTATE_OUTOFSTOCK   EnvironmentState = "OUTOFSTOCK"
-	ENVIRONMENTSTATE_UPDATING     EnvironmentState = "UPDATING"
+	EnvironmentStatePending      EnvironmentState = "PENDING"
+	EnvironmentStateRegistered   EnvironmentState = "REGISTERED"
+	EnvironmentStateProvisioning EnvironmentState = "PROVISIONING"
+	EnvironmentStateNotready     EnvironmentState = "NOTREADY"
+	EnvironmentStateReady        EnvironmentState = "READY"
+	EnvironmentStateWarning      EnvironmentState = "WARNING"
+	EnvironmentStateUnreachable  EnvironmentState = "UNREACHABLE"
+	EnvironmentStateDeleting     EnvironmentState = "DELETING"
+	EnvironmentStateOutofstock   EnvironmentState = "OUTOFSTOCK"
+	EnvironmentStateUpdating     EnvironmentState = "UPDATING"
 )
 
 var allowedEnvironmentStateEnumValues = []EnvironmentState{
-	ENVIRONMENTSTATE_PENDING,
-	ENVIRONMENTSTATE_REGISTERED,
-	ENVIRONMENTSTATE_PROVISIONING,
-	ENVIRONMENTSTATE_NOTREADY,
-	ENVIRONMENTSTATE_READY,
-	ENVIRONMENTSTATE_WARNING,
-	ENVIRONMENTSTATE_UNREACHABLE,
-	ENVIRONMENTSTATE_DELETING,
-	ENVIRONMENTSTATE_OUTOFSTOCK,
-	ENVIRONMENTSTATE_UPDATING,
+	EnvironmentStatePending,
+	EnvironmentStateRegistered,
+	EnvironmentStateProvisioning,
+	EnvironmentStateNotready,
+	EnvironmentStateReady,
+	EnvironmentStateWarning,
+	EnvironmentStateUnreachable,
+	EnvironmentStateDeleting,
+	EnvironmentStateOutofstock,
+	EnvironmentStateUpdating,
 }
 
 // GetAllowedValues returns the list of possible values.

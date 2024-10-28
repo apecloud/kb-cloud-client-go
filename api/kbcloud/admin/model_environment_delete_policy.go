@@ -15,13 +15,13 @@ type EnvironmentDeletePolicy string
 
 // List of EnvironmentDeletePolicy.
 const (
-	ENVIRONMENTDELETEPOLICY_DELETE      EnvironmentDeletePolicy = "Delete"
-	ENVIRONMENTDELETEPOLICY_DONOTDELETE EnvironmentDeletePolicy = "DoNotDelete"
+	EnvironmentDeletePolicyDelete      EnvironmentDeletePolicy = "Delete"
+	EnvironmentDeletePolicyDoNotDelete EnvironmentDeletePolicy = "DoNotDelete"
 )
 
 var allowedEnvironmentDeletePolicyEnumValues = []EnvironmentDeletePolicy{
-	ENVIRONMENTDELETEPOLICY_DELETE,
-	ENVIRONMENTDELETEPOLICY_DONOTDELETE,
+	EnvironmentDeletePolicyDelete,
+	EnvironmentDeletePolicyDoNotDelete,
 }
 
 // GetAllowedValues returns the list of possible values.

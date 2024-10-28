@@ -15,13 +15,13 @@ type EndpointNetworkType string
 
 // List of EndpointNetworkType.
 const (
-	ENDPOINTNETWORKTYPE_INTERNET EndpointNetworkType = "Internet"
-	ENDPOINTNETWORKTYPE_INTRANET EndpointNetworkType = "Intranet"
+	EndpointNetworkTypeInternet EndpointNetworkType = "Internet"
+	EndpointNetworkTypeIntranet EndpointNetworkType = "Intranet"
 )
 
 var allowedEndpointNetworkTypeEnumValues = []EndpointNetworkType{
-	ENDPOINTNETWORKTYPE_INTERNET,
-	ENDPOINTNETWORKTYPE_INTRANET,
+	EndpointNetworkTypeInternet,
+	EndpointNetworkTypeIntranet,
 }
 
 // GetAllowedValues returns the list of possible values.

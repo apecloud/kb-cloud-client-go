@@ -15,13 +15,13 @@ type EventResultStatus string
 
 // List of EventResultStatus.
 const (
-	EVENTRESULTSTATUS_SUCCESS EventResultStatus = "success"
-	EVENTRESULTSTATUS_FAILED  EventResultStatus = "failed"
+	EventResultStatusSuccess EventResultStatus = "success"
+	EventResultStatusFailed  EventResultStatus = "failed"
 )
 
 var allowedEventResultStatusEnumValues = []EventResultStatus{
-	EVENTRESULTSTATUS_SUCCESS,
-	EVENTRESULTSTATUS_FAILED,
+	EventResultStatusSuccess,
+	EventResultStatusFailed,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -15,15 +15,15 @@ type EndpointType string
 
 // List of EndpointType.
 const (
-	ENDPOINTTYPE_CLUSTERIP    EndpointType = "ClusterIP"
-	ENDPOINTTYPE_NODEPORT     EndpointType = "NodePort"
-	ENDPOINTTYPE_LOADBALANCER EndpointType = "LoadBalancer"
+	EndpointTypeClusterIp    EndpointType = "ClusterIP"
+	EndpointTypeNodePort     EndpointType = "NodePort"
+	EndpointTypeLoadBalancer EndpointType = "LoadBalancer"
 )
 
 var allowedEndpointTypeEnumValues = []EndpointType{
-	ENDPOINTTYPE_CLUSTERIP,
-	ENDPOINTTYPE_NODEPORT,
-	ENDPOINTTYPE_LOADBALANCER,
+	EndpointTypeClusterIp,
+	EndpointTypeNodePort,
+	EndpointTypeLoadBalancer,
 }
 
 // GetAllowedValues returns the list of possible values.

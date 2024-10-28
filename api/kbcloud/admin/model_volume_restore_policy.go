@@ -15,13 +15,13 @@ type VolumeRestorePolicy string
 
 // List of VolumeRestorePolicy.
 const (
-	VOLUMERESTOREPOLICY_SERIAL   VolumeRestorePolicy = "Serial"
-	VOLUMERESTOREPOLICY_PARALLEL VolumeRestorePolicy = "Parallel"
+	VolumeRestorePolicySerial   VolumeRestorePolicy = "Serial"
+	VolumeRestorePolicyParallel VolumeRestorePolicy = "Parallel"
 )
 
 var allowedVolumeRestorePolicyEnumValues = []VolumeRestorePolicy{
-	VOLUMERESTOREPOLICY_SERIAL,
-	VOLUMERESTOREPOLICY_PARALLEL,
+	VolumeRestorePolicySerial,
+	VolumeRestorePolicyParallel,
 }
 
 // GetAllowedValues returns the list of possible values.

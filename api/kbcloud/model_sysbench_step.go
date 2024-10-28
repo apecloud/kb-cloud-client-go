@@ -15,17 +15,17 @@ type SysbenchStep string
 
 // List of SysbenchStep.
 const (
-	SYSBENCHSTEP_PREPARE SysbenchStep = "prepare"
-	SYSBENCHSTEP_RUN     SysbenchStep = "run"
-	SYSBENCHSTEP_CLEANUP SysbenchStep = "cleanup"
-	SYSBENCHSTEP_ALL     SysbenchStep = "all"
+	SysbenchStepPrepare SysbenchStep = "prepare"
+	SysbenchStepRun     SysbenchStep = "run"
+	SysbenchStepCleanup SysbenchStep = "cleanup"
+	SysbenchStepAll     SysbenchStep = "all"
 )
 
 var allowedSysbenchStepEnumValues = []SysbenchStep{
-	SYSBENCHSTEP_PREPARE,
-	SYSBENCHSTEP_RUN,
-	SYSBENCHSTEP_CLEANUP,
-	SYSBENCHSTEP_ALL,
+	SysbenchStepPrepare,
+	SysbenchStepRun,
+	SysbenchStepCleanup,
+	SysbenchStepAll,
 }
 
 // GetAllowedValues returns the list of possible values.

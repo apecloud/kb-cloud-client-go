@@ -38,7 +38,7 @@ type BackupRepoCreate struct {
 func NewBackupRepoCreate(storageId string, name string) *BackupRepoCreate {
 	this := BackupRepoCreate{}
 	this.StorageId = storageId
-	var accessMethod BackupRepoAccessMethod = BACKUPREPOACCESSMETHOD_TOOL
+	var accessMethod BackupRepoAccessMethod = BackupRepoAccessMethodTool
 	this.AccessMethod = &accessMethod
 	this.Name = name
 	return &this
@@ -49,7 +49,7 @@ func NewBackupRepoCreate(storageId string, name string) *BackupRepoCreate {
 // but it doesn't guarantee that properties required by API are set.
 func NewBackupRepoCreateWithDefaults() *BackupRepoCreate {
 	this := BackupRepoCreate{}
-	var accessMethod BackupRepoAccessMethod = BACKUPREPOACCESSMETHOD_TOOL
+	var accessMethod BackupRepoAccessMethod = BackupRepoAccessMethodTool
 	this.AccessMethod = &accessMethod
 	return &this
 }

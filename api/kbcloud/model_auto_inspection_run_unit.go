@@ -15,17 +15,17 @@ type AutoInspectionRunUnit string
 
 // List of AutoInspectionRunUnit.
 const (
-	AUTOINSPECTIONRUNUNIT_HOUR  AutoInspectionRunUnit = "hour"
-	AUTOINSPECTIONRUNUNIT_DAY   AutoInspectionRunUnit = "day"
-	AUTOINSPECTIONRUNUNIT_WEEK  AutoInspectionRunUnit = "week"
-	AUTOINSPECTIONRUNUNIT_MONTH AutoInspectionRunUnit = "month"
+	AutoInspectionRunUnitHour  AutoInspectionRunUnit = "hour"
+	AutoInspectionRunUnitDay   AutoInspectionRunUnit = "day"
+	AutoInspectionRunUnitWeek  AutoInspectionRunUnit = "week"
+	AutoInspectionRunUnitMonth AutoInspectionRunUnit = "month"
 )
 
 var allowedAutoInspectionRunUnitEnumValues = []AutoInspectionRunUnit{
-	AUTOINSPECTIONRUNUNIT_HOUR,
-	AUTOINSPECTIONRUNUNIT_DAY,
-	AUTOINSPECTIONRUNUNIT_WEEK,
-	AUTOINSPECTIONRUNUNIT_MONTH,
+	AutoInspectionRunUnitHour,
+	AutoInspectionRunUnitDay,
+	AutoInspectionRunUnitWeek,
+	AutoInspectionRunUnitMonth,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -15,19 +15,19 @@ type EngineStatus string
 
 // List of EngineStatus.
 const (
-	ENGINESTATUS_DISABLED  EngineStatus = "Disabled"
-	ENGINESTATUS_ENABLED   EngineStatus = "Enabled"
-	ENGINESTATUS_FAILED    EngineStatus = "Failed"
-	ENGINESTATUS_ENABLING  EngineStatus = "Enabling"
-	ENGINESTATUS_DISABLING EngineStatus = "Disabling"
+	EngineStatusDisabled  EngineStatus = "Disabled"
+	EngineStatusEnabled   EngineStatus = "Enabled"
+	EngineStatusFailed    EngineStatus = "Failed"
+	EngineStatusEnabling  EngineStatus = "Enabling"
+	EngineStatusDisabling EngineStatus = "Disabling"
 )
 
 var allowedEngineStatusEnumValues = []EngineStatus{
-	ENGINESTATUS_DISABLED,
-	ENGINESTATUS_ENABLED,
-	ENGINESTATUS_FAILED,
-	ENGINESTATUS_ENABLING,
-	ENGINESTATUS_DISABLING,
+	EngineStatusDisabled,
+	EngineStatusEnabled,
+	EngineStatusFailed,
+	EngineStatusEnabling,
+	EngineStatusDisabling,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -15,17 +15,17 @@ type AggregateMetaDataType string
 
 // List of AggregateMetaDataType.
 const (
-	AGGREGATEMETADATATYPE_ORGANIZATION AggregateMetaDataType = "organization"
-	AGGREGATEMETADATATYPE_CLUSTER      AggregateMetaDataType = "cluster"
-	AGGREGATEMETADATATYPE_USER         AggregateMetaDataType = "user"
-	AGGREGATEMETADATATYPE_ENVIRONMENT  AggregateMetaDataType = "environment"
+	AggregateMetaDataTypeOrganization AggregateMetaDataType = "organization"
+	AggregateMetaDataTypeCluster      AggregateMetaDataType = "cluster"
+	AggregateMetaDataTypeUser         AggregateMetaDataType = "user"
+	AggregateMetaDataTypeEnvironment  AggregateMetaDataType = "environment"
 )
 
 var allowedAggregateMetaDataTypeEnumValues = []AggregateMetaDataType{
-	AGGREGATEMETADATATYPE_ORGANIZATION,
-	AGGREGATEMETADATATYPE_CLUSTER,
-	AGGREGATEMETADATATYPE_USER,
-	AGGREGATEMETADATATYPE_ENVIRONMENT,
+	AggregateMetaDataTypeOrganization,
+	AggregateMetaDataTypeCluster,
+	AggregateMetaDataTypeUser,
+	AggregateMetaDataTypeEnvironment,
 }
 
 // GetAllowedValues returns the list of possible values.

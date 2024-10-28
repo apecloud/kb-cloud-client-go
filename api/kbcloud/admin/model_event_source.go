@@ -15,13 +15,13 @@ type EventSource string
 
 // List of EventSource.
 const (
-	EVENTSOURCE_USER   EventSource = "user"
-	EVENTSOURCE_SYSTEM EventSource = "system"
+	EventSourceUser   EventSource = "user"
+	EventSourceSystem EventSource = "system"
 )
 
 var allowedEventSourceEnumValues = []EventSource{
-	EVENTSOURCE_USER,
-	EVENTSOURCE_SYSTEM,
+	EventSourceUser,
+	EventSourceSystem,
 }
 
 // GetAllowedValues returns the list of possible values.

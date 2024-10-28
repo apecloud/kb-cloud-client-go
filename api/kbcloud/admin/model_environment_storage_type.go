@@ -15,13 +15,13 @@ type EnvironmentStorageType string
 
 // List of EnvironmentStorageType.
 const (
-	ENVIRONMENTSTORAGETYPE_REMOTE EnvironmentStorageType = "remote"
-	ENVIRONMENTSTORAGETYPE_LOCAL  EnvironmentStorageType = "local"
+	EnvironmentStorageTypeRemote EnvironmentStorageType = "remote"
+	EnvironmentStorageTypeLocal  EnvironmentStorageType = "local"
 )
 
 var allowedEnvironmentStorageTypeEnumValues = []EnvironmentStorageType{
-	ENVIRONMENTSTORAGETYPE_REMOTE,
-	ENVIRONMENTSTORAGETYPE_LOCAL,
+	EnvironmentStorageTypeRemote,
+	EnvironmentStorageTypeLocal,
 }
 
 // GetAllowedValues returns the list of possible values.

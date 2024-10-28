@@ -15,17 +15,17 @@ type LoadBalancerAvailableType string
 
 // List of LoadBalancerAvailableType.
 const (
-	LOADBALANCERAVAILABLETYPE_AVAILABLE   LoadBalancerAvailableType = "Available"
-	LOADBALANCERAVAILABLETYPE_UNAVAILABLE LoadBalancerAvailableType = "Unavailable"
-	LOADBALANCERAVAILABLETYPE_CHECKING    LoadBalancerAvailableType = "Checking"
-	LOADBALANCERAVAILABLETYPE_UNKNOWN     LoadBalancerAvailableType = "Unknown"
+	LoadBalancerAvailableTypeAvailable   LoadBalancerAvailableType = "Available"
+	LoadBalancerAvailableTypeUnavailable LoadBalancerAvailableType = "Unavailable"
+	LoadBalancerAvailableTypeChecking    LoadBalancerAvailableType = "Checking"
+	LoadBalancerAvailableTypeUnknown     LoadBalancerAvailableType = "Unknown"
 )
 
 var allowedLoadBalancerAvailableTypeEnumValues = []LoadBalancerAvailableType{
-	LOADBALANCERAVAILABLETYPE_AVAILABLE,
-	LOADBALANCERAVAILABLETYPE_UNAVAILABLE,
-	LOADBALANCERAVAILABLETYPE_CHECKING,
-	LOADBALANCERAVAILABLETYPE_UNKNOWN,
+	LoadBalancerAvailableTypeAvailable,
+	LoadBalancerAvailableTypeUnavailable,
+	LoadBalancerAvailableTypeChecking,
+	LoadBalancerAvailableTypeUnknown,
 }
 
 // GetAllowedValues returns the list of possible values.

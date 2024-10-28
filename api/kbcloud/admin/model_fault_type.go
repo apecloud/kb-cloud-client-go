@@ -14,19 +14,19 @@ type FaultType string
 
 // List of FaultType.
 const (
-	FAULTTYPE_PODCHAOS     FaultType = "PodChaos"
-	FAULTTYPE_NETWORKCHAOS FaultType = "NetworkChaos"
-	FAULTTYPE_IOCHAOS      FaultType = "IoChaos"
-	FAULTTYPE_TIMECHAOS    FaultType = "TimeChaos"
-	FAULTTYPE_STRESSCHAOS  FaultType = "StressChaos"
+	FaultTypePodChaos     FaultType = "PodChaos"
+	FaultTypeNetworkChaos FaultType = "NetworkChaos"
+	FaultTypeIoChaos      FaultType = "IoChaos"
+	FaultTypeTimeChaos    FaultType = "TimeChaos"
+	FaultTypeStressChaos  FaultType = "StressChaos"
 )
 
 var allowedFaultTypeEnumValues = []FaultType{
-	FAULTTYPE_PODCHAOS,
-	FAULTTYPE_NETWORKCHAOS,
-	FAULTTYPE_IOCHAOS,
-	FAULTTYPE_TIMECHAOS,
-	FAULTTYPE_STRESSCHAOS,
+	FaultTypePodChaos,
+	FaultTypeNetworkChaos,
+	FaultTypeIoChaos,
+	FaultTypeTimeChaos,
+	FaultTypeStressChaos,
 }
 
 // GetAllowedValues returns the list of possible values.

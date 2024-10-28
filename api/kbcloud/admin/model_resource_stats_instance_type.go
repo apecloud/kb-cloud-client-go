@@ -15,13 +15,13 @@ type ResourceStatsInstanceType string
 
 // List of ResourceStatsInstanceType.
 const (
-	RESOURCESTATSINSTANCETYPE_CLUSTER ResourceStatsInstanceType = "cluster"
-	RESOURCESTATSINSTANCETYPE_SYSTEM  ResourceStatsInstanceType = "system"
+	ResourceStatsInstanceTypeCluster ResourceStatsInstanceType = "cluster"
+	ResourceStatsInstanceTypeSystem  ResourceStatsInstanceType = "system"
 )
 
 var allowedResourceStatsInstanceTypeEnumValues = []ResourceStatsInstanceType{
-	RESOURCESTATSINSTANCETYPE_CLUSTER,
-	RESOURCESTATSINSTANCETYPE_SYSTEM,
+	ResourceStatsInstanceTypeCluster,
+	ResourceStatsInstanceTypeSystem,
 }
 
 // GetAllowedValues returns the list of possible values.

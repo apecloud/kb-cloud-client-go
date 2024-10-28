@@ -15,15 +15,15 @@ type EngineOptionsServicePattern string
 
 // List of EngineOptionsServicePattern.
 const (
-	ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT         EngineOptionsServicePattern = "cluster-component"
-	ENGINEOPTIONSSERVICEPATTERN_CLUSTER                   EngineOptionsServicePattern = "cluster"
-	ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT_SERVICE EngineOptionsServicePattern = "cluster-component-service"
+	EngineOptionsServicePatternClusterComponent        EngineOptionsServicePattern = "cluster-component"
+	EngineOptionsServicePatternCluster                 EngineOptionsServicePattern = "cluster"
+	EngineOptionsServicePatternClusterComponentService EngineOptionsServicePattern = "cluster-component-service"
 )
 
 var allowedEngineOptionsServicePatternEnumValues = []EngineOptionsServicePattern{
-	ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT,
-	ENGINEOPTIONSSERVICEPATTERN_CLUSTER,
-	ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT_SERVICE,
+	EngineOptionsServicePatternClusterComponent,
+	EngineOptionsServicePatternCluster,
+	EngineOptionsServicePatternClusterComponentService,
 }
 
 // GetAllowedValues returns the list of possible values.

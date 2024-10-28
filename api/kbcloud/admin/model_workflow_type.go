@@ -15,19 +15,19 @@ type WorkflowType string
 
 // List of WorkflowType.
 const (
-	WORKFLOWTYPE_INSTALL                WorkflowType = "install"
-	WORKFLOWTYPE_UPGRADEKUBEBLOCKS      WorkflowType = "upgradeKubeblocks"
-	WORKFLOWTYPE_UPGRADEGEMINI          WorkflowType = "upgradeGemini"
-	WORKFLOWTYPE_UNINSTALL              WorkflowType = "uninstall"
-	WORKFLOWTYPE_UPGRADEVICTORIAMETRICS WorkflowType = "upgradeVictoriaMetrics"
+	WorkflowTypeInstall                WorkflowType = "install"
+	WorkflowTypeUpgradeKubeblocks      WorkflowType = "upgradeKubeblocks"
+	WorkflowTypeUpgradeGemini          WorkflowType = "upgradeGemini"
+	WorkflowTypeUninstall              WorkflowType = "uninstall"
+	WorkflowTypeUpgradeVictoriaMetrics WorkflowType = "upgradeVictoriaMetrics"
 )
 
 var allowedWorkflowTypeEnumValues = []WorkflowType{
-	WORKFLOWTYPE_INSTALL,
-	WORKFLOWTYPE_UPGRADEKUBEBLOCKS,
-	WORKFLOWTYPE_UPGRADEGEMINI,
-	WORKFLOWTYPE_UNINSTALL,
-	WORKFLOWTYPE_UPGRADEVICTORIAMETRICS,
+	WorkflowTypeInstall,
+	WorkflowTypeUpgradeKubeblocks,
+	WorkflowTypeUpgradeGemini,
+	WorkflowTypeUninstall,
+	WorkflowTypeUpgradeVictoriaMetrics,
 }
 
 // GetAllowedValues returns the list of possible values.

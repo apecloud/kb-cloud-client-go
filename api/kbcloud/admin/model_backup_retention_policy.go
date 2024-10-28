@@ -15,15 +15,15 @@ type BackupRetentionPolicy string
 
 // List of BackupRetentionPolicy.
 const (
-	BACKUPRETENTIONPOLICY_ALL     BackupRetentionPolicy = "All"
-	BACKUPRETENTIONPOLICY_LASTONE BackupRetentionPolicy = "LastOne"
-	BACKUPRETENTIONPOLICY_WIPEOUT BackupRetentionPolicy = "WipeOut"
+	BackupRetentionPolicyAll     BackupRetentionPolicy = "All"
+	BackupRetentionPolicyLastOne BackupRetentionPolicy = "LastOne"
+	BackupRetentionPolicyWipeOut BackupRetentionPolicy = "WipeOut"
 )
 
 var allowedBackupRetentionPolicyEnumValues = []BackupRetentionPolicy{
-	BACKUPRETENTIONPOLICY_ALL,
-	BACKUPRETENTIONPOLICY_LASTONE,
-	BACKUPRETENTIONPOLICY_WIPEOUT,
+	BackupRetentionPolicyAll,
+	BackupRetentionPolicyLastOne,
+	BackupRetentionPolicyWipeOut,
 }
 
 // GetAllowedValues returns the list of possible values.

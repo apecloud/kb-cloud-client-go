@@ -15,13 +15,13 @@ type OpsExposeType string
 
 // List of OpsExposeType.
 const (
-	OPSEXPOSETYPE_VPC      OpsExposeType = "vpc"
-	OPSEXPOSETYPE_INTERNET OpsExposeType = "internet"
+	OpsExposeTypeVpc      OpsExposeType = "vpc"
+	OpsExposeTypeInternet OpsExposeType = "internet"
 )
 
 var allowedOpsExposeTypeEnumValues = []OpsExposeType{
-	OPSEXPOSETYPE_VPC,
-	OPSEXPOSETYPE_INTERNET,
+	OpsExposeTypeVpc,
+	OpsExposeTypeInternet,
 }
 
 // GetAllowedValues returns the list of possible values.

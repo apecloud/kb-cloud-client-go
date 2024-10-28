@@ -15,13 +15,13 @@ type BackupRepoAccessMethod string
 
 // List of BackupRepoAccessMethod.
 const (
-	BACKUPREPOACCESSMETHOD_MOUNT BackupRepoAccessMethod = "Mount"
-	BACKUPREPOACCESSMETHOD_TOOL  BackupRepoAccessMethod = "Tool"
+	BackupRepoAccessMethodMount BackupRepoAccessMethod = "Mount"
+	BackupRepoAccessMethodTool  BackupRepoAccessMethod = "Tool"
 )
 
 var allowedBackupRepoAccessMethodEnumValues = []BackupRepoAccessMethod{
-	BACKUPREPOACCESSMETHOD_MOUNT,
-	BACKUPREPOACCESSMETHOD_TOOL,
+	BackupRepoAccessMethodMount,
+	BackupRepoAccessMethodTool,
 }
 
 // GetAllowedValues returns the list of possible values.

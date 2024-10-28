@@ -72,7 +72,7 @@ func NewBackupRepo(accessMethod BackupRepoAccessMethod, config map[string]string
 // but it doesn't guarantee that properties required by API are set.
 func NewBackupRepoWithDefaults() *BackupRepo {
 	this := BackupRepo{}
-	var accessMethod BackupRepoAccessMethod = BACKUPREPOACCESSMETHOD_TOOL
+	var accessMethod BackupRepoAccessMethod = BackupRepoAccessMethodTool
 	this.AccessMethod = accessMethod
 	return &this
 }

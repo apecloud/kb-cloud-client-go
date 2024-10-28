@@ -114,7 +114,7 @@ func NewCluster(environmentName string, name string, engine string) *Cluster {
 	this.Namespace = &namespace
 	this.Name = name
 	this.Engine = engine
-	var terminationPolicy ClusterTerminationPolicy = CLUSTERTERMINATIONPOLICY_DELETE
+	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
 	var monitorEnabled bool = false
 	this.MonitorEnabled = &monitorEnabled
@@ -142,7 +142,7 @@ func NewClusterWithDefaults() *Cluster {
 	this := Cluster{}
 	var namespace string = "kubeblocks-cloud-ns"
 	this.Namespace = &namespace
-	var terminationPolicy ClusterTerminationPolicy = CLUSTERTERMINATIONPOLICY_DELETE
+	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
 	var monitorEnabled bool = false
 	this.MonitorEnabled = &monitorEnabled

@@ -15,17 +15,17 @@ type TpccStep string
 
 // List of TpccStep.
 const (
-	TPCCSTEP_PREPARE TpccStep = "prepare"
-	TPCCSTEP_RUN     TpccStep = "run"
-	TPCCSTEP_CLEANUP TpccStep = "cleanup"
-	TPCCSTEP_ALL     TpccStep = "all"
+	TpccStepPrepare TpccStep = "prepare"
+	TpccStepRun     TpccStep = "run"
+	TpccStepCleanup TpccStep = "cleanup"
+	TpccStepAll     TpccStep = "all"
 )
 
 var allowedTpccStepEnumValues = []TpccStep{
-	TPCCSTEP_PREPARE,
-	TPCCSTEP_RUN,
-	TPCCSTEP_CLEANUP,
-	TPCCSTEP_ALL,
+	TpccStepPrepare,
+	TpccStepRun,
+	TpccStepCleanup,
+	TpccStepAll,
 }
 
 // GetAllowedValues returns the list of possible values.
