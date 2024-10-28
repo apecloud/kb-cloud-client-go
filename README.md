@@ -2,7 +2,7 @@
 Golang client for the KubeBlocks Cloud API
 
 
-## Development
+## Generate API
 
 ```bash
 cd .generator
