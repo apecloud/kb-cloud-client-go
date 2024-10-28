@@ -15,13 +15,13 @@ type EventResourceType string
 
 // List of EventResourceType.
 const (
-	EVENTRESOURCETYPE_CLUSTER EventResourceType = "cluster"
-	EVENTRESOURCETYPE_ROLE    EventResourceType = "role"
+	EventResourceTypeCluster EventResourceType = "cluster"
+	EventResourceTypeRole    EventResourceType = "role"
 )
 
 var allowedEventResourceTypeEnumValues = []EventResourceType{
-	EVENTRESOURCETYPE_CLUSTER,
-	EVENTRESOURCETYPE_ROLE,
+	EventResourceTypeCluster,
+	EventResourceTypeRole,
 }
 
 // GetAllowedValues returns the list of possible values.

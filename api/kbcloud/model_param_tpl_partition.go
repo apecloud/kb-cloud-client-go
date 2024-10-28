@@ -14,13 +14,13 @@ type ParamTplPartition string
 
 // List of ParamTplPartition.
 const (
-	PARAMTPLPARTITION_DEFAULT ParamTplPartition = "default"
-	PARAMTPLPARTITION_CUSTOM  ParamTplPartition = "custom"
+	ParamTplPartitionDefault ParamTplPartition = "default"
+	ParamTplPartitionCustom  ParamTplPartition = "custom"
 )
 
 var allowedParamTplPartitionEnumValues = []ParamTplPartition{
-	PARAMTPLPARTITION_DEFAULT,
-	PARAMTPLPARTITION_CUSTOM,
+	ParamTplPartitionDefault,
+	ParamTplPartitionCustom,
 }
 
 // GetAllowedValues returns the list of possible values.

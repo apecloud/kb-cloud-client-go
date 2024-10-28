@@ -4,7 +4,7 @@ import re
 
 import dateutil.parser
 
-from .utils import safe_snake_case, snake_case, camel_case, untitle_case, schema_name
+from .utils import safe_snake_case, snake_case, camel_case, untitle_case, schema_name, upperfirst
 
 PRIMITIVE_TYPES = ["string", "number", "boolean", "integer"]
 
@@ -112,7 +112,7 @@ def format_value(value, quotes='"', schema=None):
         index = schema["enum"].index(value)
         enum_varname = get_enum_varname(schema, index)
         name = schema_name(schema)
-        return f"{name.upper()}_{enum_varname}"
+        return f"{upperfirst(name)}{enum_varname}"
 
     if isinstance(value, str):
         return f"{quotes}{value}{quotes}"
@@ -126,7 +126,10 @@ def get_enum_varname(schema, index):
     varname = schema["enum"][index]
     if schema.get("x-enum-varnames"):
         varname = schema["x-enum-varnames"][index]
-    return varname.replace("-", "_").upper()
+    # if varname is "", it will be converted to "Empty"
+    if varname == "":
+        varname = "Empty"
+    return camel_case(varname.replace("-", "_"))
 
 def simple_type(schema, render_nullable=False, render_new=False):
     """Return the simple type of a schema.
@@ -296,7 +299,7 @@ def format_parameters(data, spec, replace_values=None, has_body=False, **kwargs)
             value = format_data_with_schema(
                 v["value"],
                 p["schema"],
-                name_prefix=f"kbcloud{kwargs.get('version', '')}.",
+                name_prefix=f"kbcloud.",
                 replace_values=replace_values,
                 required=True,
                 **kwargs,
@@ -310,7 +313,7 @@ def format_parameters(data, spec, replace_values=None, has_body=False, **kwargs)
     if has_body and body_is_required:
         parameters += "body, "
     if has_optional or body_is_required is False:
-        parameters += f"*datadog{kwargs.get('version', '')}.New{spec['operationId'][0].upper()}{spec['operationId'][1:]}OptionalParameters()"
+        parameters += f"*kbcloud.New{spec['operationId'][0].upper()}{spec['operationId'][1:]}OptionalParameters()"
         if has_body and not body_is_required:
             parameters += ".WithBody(body)"
 
@@ -318,7 +321,7 @@ def format_parameters(data, spec, replace_values=None, has_body=False, **kwargs)
             value = format_data_with_schema(
                 v["value"],
                 parameters_spec[k]["schema"],
-                name_prefix=f"datadog{kwargs.get('version', '')}.",
+                name_prefix=f"kbcloud.",
                 replace_values=replace_values,
                 required=True,
                 **kwargs,

@@ -14,13 +14,13 @@ type MetricsQueryType string
 
 // List of MetricsQueryType.
 const (
-	METRICSQUERYTYPE_INSTANT MetricsQueryType = "instant"
-	METRICSQUERYTYPE_RANGE   MetricsQueryType = "range"
+	MetricsQueryTypeInstant MetricsQueryType = "instant"
+	MetricsQueryTypeRange   MetricsQueryType = "range"
 )
 
 var allowedMetricsQueryTypeEnumValues = []MetricsQueryType{
-	METRICSQUERYTYPE_INSTANT,
-	METRICSQUERYTYPE_RANGE,
+	MetricsQueryTypeInstant,
+	MetricsQueryTypeRange,
 }
 
 // GetAllowedValues returns the list of possible values.

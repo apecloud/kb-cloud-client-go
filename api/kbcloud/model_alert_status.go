@@ -14,13 +14,13 @@ type AlertStatus string
 
 // List of AlertStatus.
 const (
-	ALERTSTATUS_RESOLVED AlertStatus = "resolved"
-	ALERTSTATUS_FIRING   AlertStatus = "firing"
+	AlertStatusResolved AlertStatus = "resolved"
+	AlertStatusFiring   AlertStatus = "firing"
 )
 
 var allowedAlertStatusEnumValues = []AlertStatus{
-	ALERTSTATUS_RESOLVED,
-	ALERTSTATUS_FIRING,
+	AlertStatusResolved,
+	AlertStatusFiring,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -14,21 +14,21 @@ type ManifestType string
 
 // List of ManifestType.
 const (
-	MANIFESTTYPE_SERVICE          ManifestType = "service"
-	MANIFESTTYPE_CONFIGMAP        ManifestType = "configmap"
-	MANIFESTTYPE_SECRET           ManifestType = "secret"
-	MANIFESTTYPE_EVENT            ManifestType = "event"
-	MANIFESTTYPE_OPSREQUEST       ManifestType = "opsrequest"
-	MANIFESTTYPE_CONFIGCONSTRAINT ManifestType = "configconstraint"
+	ManifestTypeService          ManifestType = "service"
+	ManifestTypeConfigmap        ManifestType = "configmap"
+	ManifestTypeSecret           ManifestType = "secret"
+	ManifestTypeEvent            ManifestType = "event"
+	ManifestTypeOpsrequest       ManifestType = "opsrequest"
+	ManifestTypeConfigconstraint ManifestType = "configconstraint"
 )
 
 var allowedManifestTypeEnumValues = []ManifestType{
-	MANIFESTTYPE_SERVICE,
-	MANIFESTTYPE_CONFIGMAP,
-	MANIFESTTYPE_SECRET,
-	MANIFESTTYPE_EVENT,
-	MANIFESTTYPE_OPSREQUEST,
-	MANIFESTTYPE_CONFIGCONSTRAINT,
+	ManifestTypeService,
+	ManifestTypeConfigmap,
+	ManifestTypeSecret,
+	ManifestTypeEvent,
+	ManifestTypeOpsrequest,
+	ManifestTypeConfigconstraint,
 }
 
 // GetAllowedValues returns the list of possible values.

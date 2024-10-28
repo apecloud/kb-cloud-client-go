@@ -57,7 +57,7 @@ type Pgbench struct {
 // will change when the set of required properties is changed.
 func NewPgbench(cluster string, database string, username string, password string, address string) *Pgbench {
 	this := Pgbench{}
-	var step PgbenchStep = PGBENCHSTEP_ALL
+	var step PgbenchStep = PgbenchStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -82,7 +82,7 @@ func NewPgbench(cluster string, database string, username string, password strin
 // but it doesn't guarantee that properties required by API are set.
 func NewPgbenchWithDefaults() *Pgbench {
 	this := Pgbench{}
-	var step PgbenchStep = PGBENCHSTEP_ALL
+	var step PgbenchStep = PgbenchStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu

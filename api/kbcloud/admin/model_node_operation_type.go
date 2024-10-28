@@ -15,13 +15,13 @@ type NodeOperationType string
 
 // List of NodeOperationType.
 const (
-	NODEOPERATIONTYPE_ADD NodeOperationType = "add"
-	NODEOPERATIONTYPE_DEL NodeOperationType = "del"
+	NodeOperationTypeAdd NodeOperationType = "add"
+	NodeOperationTypeDel NodeOperationType = "del"
 )
 
 var allowedNodeOperationTypeEnumValues = []NodeOperationType{
-	NODEOPERATIONTYPE_ADD,
-	NODEOPERATIONTYPE_DEL,
+	NodeOperationTypeAdd,
+	NodeOperationTypeDel,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -15,17 +15,17 @@ type PgbenchStep string
 
 // List of PgbenchStep.
 const (
-	PGBENCHSTEP_PREPARE PgbenchStep = "prepare"
-	PGBENCHSTEP_RUN     PgbenchStep = "run"
-	PGBENCHSTEP_CLEANUP PgbenchStep = "cleanup"
-	PGBENCHSTEP_ALL     PgbenchStep = "all"
+	PgbenchStepPrepare PgbenchStep = "prepare"
+	PgbenchStepRun     PgbenchStep = "run"
+	PgbenchStepCleanup PgbenchStep = "cleanup"
+	PgbenchStepAll     PgbenchStep = "all"
 )
 
 var allowedPgbenchStepEnumValues = []PgbenchStep{
-	PGBENCHSTEP_PREPARE,
-	PGBENCHSTEP_RUN,
-	PGBENCHSTEP_CLEANUP,
-	PGBENCHSTEP_ALL,
+	PgbenchStepPrepare,
+	PgbenchStepRun,
+	PgbenchStepCleanup,
+	PgbenchStepAll,
 }
 
 // GetAllowedValues returns the list of possible values.

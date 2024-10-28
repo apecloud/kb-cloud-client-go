@@ -41,7 +41,7 @@ type ClusterUpdate struct {
 // will change when the set of required properties is changed.
 func NewClusterUpdate() *ClusterUpdate {
 	this := ClusterUpdate{}
-	var terminationPolicy ClusterTerminationPolicy = CLUSTERTERMINATIONPOLICY_DELETE
+	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
 	return &this
 }
@@ -51,7 +51,7 @@ func NewClusterUpdate() *ClusterUpdate {
 // but it doesn't guarantee that properties required by API are set.
 func NewClusterUpdateWithDefaults() *ClusterUpdate {
 	this := ClusterUpdate{}
-	var terminationPolicy ClusterTerminationPolicy = CLUSTERTERMINATIONPOLICY_DELETE
+	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
 	return &this
 }

@@ -15,13 +15,13 @@ type LoadBalancerIpamStatus string
 
 // List of LoadBalancerIpamStatus.
 const (
-	LOADBALANCERIPAMSTATUS_ENABLED  LoadBalancerIpamStatus = "Enabled"
-	LOADBALANCERIPAMSTATUS_DISABLED LoadBalancerIpamStatus = "Disabled"
+	LoadBalancerIpamStatusEnabled  LoadBalancerIpamStatus = "Enabled"
+	LoadBalancerIpamStatusDisabled LoadBalancerIpamStatus = "Disabled"
 )
 
 var allowedLoadBalancerIpamStatusEnumValues = []LoadBalancerIpamStatus{
-	LOADBALANCERIPAMSTATUS_ENABLED,
-	LOADBALANCERIPAMSTATUS_DISABLED,
+	LoadBalancerIpamStatusEnabled,
+	LoadBalancerIpamStatusDisabled,
 }
 
 // GetAllowedValues returns the list of possible values.

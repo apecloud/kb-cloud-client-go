@@ -45,7 +45,7 @@ func NewAccount(name string, role AccountRoleType) *Account {
 // but it doesn't guarantee that properties required by API are set.
 func NewAccountWithDefaults() *Account {
 	this := Account{}
-	var role AccountRoleType = ACCOUNTROLETYPE_SUPERUSER
+	var role AccountRoleType = AccountRoleTypeSuperuser
 	this.Role = role
 	return &this
 }

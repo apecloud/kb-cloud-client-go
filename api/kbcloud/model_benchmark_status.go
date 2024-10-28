@@ -15,17 +15,17 @@ type BenchmarkStatus string
 
 // List of BenchmarkStatus.
 const (
-	BENCHMARKSTATUS_PENDING   BenchmarkStatus = "Pending"
-	BENCHMARKSTATUS_RUNNING   BenchmarkStatus = "Running"
-	BENCHMARKSTATUS_COMPLETED BenchmarkStatus = "Completed"
-	BENCHMARKSTATUS_FAILED    BenchmarkStatus = "Failed"
+	BenchmarkStatusPending   BenchmarkStatus = "Pending"
+	BenchmarkStatusRunning   BenchmarkStatus = "Running"
+	BenchmarkStatusCompleted BenchmarkStatus = "Completed"
+	BenchmarkStatusFailed    BenchmarkStatus = "Failed"
 )
 
 var allowedBenchmarkStatusEnumValues = []BenchmarkStatus{
-	BENCHMARKSTATUS_PENDING,
-	BENCHMARKSTATUS_RUNNING,
-	BENCHMARKSTATUS_COMPLETED,
-	BENCHMARKSTATUS_FAILED,
+	BenchmarkStatusPending,
+	BenchmarkStatusRunning,
+	BenchmarkStatusCompleted,
+	BenchmarkStatusFailed,
 }
 
 // GetAllowedValues returns the list of possible values.

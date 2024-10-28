@@ -32,7 +32,7 @@ func NewOpsExpose(enable bool, typeVar OpsExposeType) *OpsExpose {
 	this := OpsExpose{}
 	this.Enable = enable
 	this.Type = typeVar
-	var vpcServiceType OpsExposeVPCServiceType = OPSEXPOSEVPCSERVICETYPE_LOADBALANCER
+	var vpcServiceType OpsExposeVPCServiceType = OpsExposeVPCServiceTypeLoadBalancer
 	this.VpcServiceType = &vpcServiceType
 	return &this
 }
@@ -42,7 +42,7 @@ func NewOpsExpose(enable bool, typeVar OpsExposeType) *OpsExpose {
 // but it doesn't guarantee that properties required by API are set.
 func NewOpsExposeWithDefaults() *OpsExpose {
 	this := OpsExpose{}
-	var vpcServiceType OpsExposeVPCServiceType = OPSEXPOSEVPCSERVICETYPE_LOADBALANCER
+	var vpcServiceType OpsExposeVPCServiceType = OpsExposeVPCServiceTypeLoadBalancer
 	this.VpcServiceType = &vpcServiceType
 	return &this
 }

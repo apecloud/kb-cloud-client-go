@@ -65,7 +65,7 @@ type Tpcc struct {
 // will change when the set of required properties is changed.
 func NewTpcc(cluster string, database string, username string, password string, address string) *Tpcc {
 	this := Tpcc{}
-	var step TpccStep = TPCCSTEP_ALL
+	var step TpccStep = TpccStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -88,7 +88,7 @@ func NewTpcc(cluster string, database string, username string, password string, 
 // but it doesn't guarantee that properties required by API are set.
 func NewTpccWithDefaults() *Tpcc {
 	this := Tpcc{}
-	var step TpccStep = TPCCSTEP_ALL
+	var step TpccStep = TpccStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu

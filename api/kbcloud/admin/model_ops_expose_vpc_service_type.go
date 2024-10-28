@@ -15,13 +15,13 @@ type OpsExposeVPCServiceType string
 
 // List of OpsExposeVPCServiceType.
 const (
-	OPSEXPOSEVPCSERVICETYPE_LOADBALANCER OpsExposeVPCServiceType = "LoadBalancer"
-	OPSEXPOSEVPCSERVICETYPE_NODEPORT     OpsExposeVPCServiceType = "NodePort"
+	OpsExposeVPCServiceTypeLoadBalancer OpsExposeVPCServiceType = "LoadBalancer"
+	OpsExposeVPCServiceTypeNodePort     OpsExposeVPCServiceType = "NodePort"
 )
 
 var allowedOpsExposeVPCServiceTypeEnumValues = []OpsExposeVPCServiceType{
-	OPSEXPOSEVPCSERVICETYPE_LOADBALANCER,
-	OPSEXPOSEVPCSERVICETYPE_NODEPORT,
+	OpsExposeVPCServiceTypeLoadBalancer,
+	OpsExposeVPCServiceTypeNodePort,
 }
 
 // GetAllowedValues returns the list of possible values.

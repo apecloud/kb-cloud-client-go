@@ -14,13 +14,13 @@ type EngineOptionVersion string
 
 // List of EngineOptionVersion.
 const (
-	ENGINEOPTIONVERSION_CURRENT  EngineOptionVersion = "current"
-	ENGINEOPTIONVERSION_ORIGINAL EngineOptionVersion = "original"
+	EngineOptionVersionCurrent  EngineOptionVersion = "current"
+	EngineOptionVersionOriginal EngineOptionVersion = "original"
 )
 
 var allowedEngineOptionVersionEnumValues = []EngineOptionVersion{
-	ENGINEOPTIONVERSION_CURRENT,
-	ENGINEOPTIONVERSION_ORIGINAL,
+	EngineOptionVersionCurrent,
+	EngineOptionVersionOriginal,
 }
 
 // GetAllowedValues returns the list of possible values.

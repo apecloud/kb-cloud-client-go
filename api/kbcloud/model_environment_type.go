@@ -15,13 +15,13 @@ type EnvironmentType string
 
 // List of EnvironmentType.
 const (
-	ENVIRONMENTTYPE_PUBLIC  EnvironmentType = "public"
-	ENVIRONMENTTYPE_PRIVATE EnvironmentType = "private"
+	EnvironmentTypePublic  EnvironmentType = "public"
+	EnvironmentTypePrivate EnvironmentType = "private"
 )
 
 var allowedEnvironmentTypeEnumValues = []EnvironmentType{
-	ENVIRONMENTTYPE_PUBLIC,
-	ENVIRONMENTTYPE_PRIVATE,
+	EnvironmentTypePublic,
+	EnvironmentTypePrivate,
 }
 
 // GetAllowedValues returns the list of possible values.

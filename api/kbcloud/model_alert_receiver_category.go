@@ -14,19 +14,19 @@ type AlertReceiverCategory string
 
 // List of AlertReceiverCategory.
 const (
-	ALERTRECEIVERCATEGORY_FEISHU         AlertReceiverCategory = "feishu"
-	ALERTRECEIVERCATEGORY_WECHAT         AlertReceiverCategory = "wechat"
-	ALERTRECEIVERCATEGORY_DINGTALK       AlertReceiverCategory = "dingtalk"
-	ALERTRECEIVERCATEGORY_RECEIVER_GROUP AlertReceiverCategory = "receiver-group"
-	ALERTRECEIVERCATEGORY_WEBHOOK        AlertReceiverCategory = "webhook"
+	AlertReceiverCategoryFeishu        AlertReceiverCategory = "feishu"
+	AlertReceiverCategoryWechat        AlertReceiverCategory = "wechat"
+	AlertReceiverCategoryDingtalk      AlertReceiverCategory = "dingtalk"
+	AlertReceiverCategoryReceiverGroup AlertReceiverCategory = "receiver-group"
+	AlertReceiverCategoryWebhook       AlertReceiverCategory = "webhook"
 )
 
 var allowedAlertReceiverCategoryEnumValues = []AlertReceiverCategory{
-	ALERTRECEIVERCATEGORY_FEISHU,
-	ALERTRECEIVERCATEGORY_WECHAT,
-	ALERTRECEIVERCATEGORY_DINGTALK,
-	ALERTRECEIVERCATEGORY_RECEIVER_GROUP,
-	ALERTRECEIVERCATEGORY_WEBHOOK,
+	AlertReceiverCategoryFeishu,
+	AlertReceiverCategoryWechat,
+	AlertReceiverCategoryDingtalk,
+	AlertReceiverCategoryReceiverGroup,
+	AlertReceiverCategoryWebhook,
 }
 
 // GetAllowedValues returns the list of possible values.

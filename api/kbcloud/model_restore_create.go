@@ -38,7 +38,7 @@ func NewRestoreCreate(environmentName string, backupId string, cluster Cluster) 
 	this.EnvironmentName = environmentName
 	this.BackupId = backupId
 	this.Cluster = cluster
-	var volumeRestorePolicy VolumeRestorePolicy = VOLUMERESTOREPOLICY_SERIAL
+	var volumeRestorePolicy VolumeRestorePolicy = VolumeRestorePolicySerial
 	this.VolumeRestorePolicy = &volumeRestorePolicy
 	return &this
 }
@@ -48,7 +48,7 @@ func NewRestoreCreate(environmentName string, backupId string, cluster Cluster) 
 // but it doesn't guarantee that properties required by API are set.
 func NewRestoreCreateWithDefaults() *RestoreCreate {
 	this := RestoreCreate{}
-	var volumeRestorePolicy VolumeRestorePolicy = VOLUMERESTOREPOLICY_SERIAL
+	var volumeRestorePolicy VolumeRestorePolicy = VolumeRestorePolicySerial
 	this.VolumeRestorePolicy = &volumeRestorePolicy
 	return &this
 }

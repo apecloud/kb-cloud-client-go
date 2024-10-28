@@ -15,19 +15,19 @@ type LoadBalancerStatus string
 
 // List of LoadBalancerStatus.
 const (
-	LOADBALANCERSTATUS_ENABLING  LoadBalancerStatus = "Enabling"
-	LOADBALANCERSTATUS_ENABLED   LoadBalancerStatus = "Enabled"
-	LOADBALANCERSTATUS_DISABLING LoadBalancerStatus = "Disabling"
-	LOADBALANCERSTATUS_DISABLED  LoadBalancerStatus = "Disabled"
-	LOADBALANCERSTATUS_FAILED    LoadBalancerStatus = "Failed"
+	LoadBalancerStatusEnabling  LoadBalancerStatus = "Enabling"
+	LoadBalancerStatusEnabled   LoadBalancerStatus = "Enabled"
+	LoadBalancerStatusDisabling LoadBalancerStatus = "Disabling"
+	LoadBalancerStatusDisabled  LoadBalancerStatus = "Disabled"
+	LoadBalancerStatusFailed    LoadBalancerStatus = "Failed"
 )
 
 var allowedLoadBalancerStatusEnumValues = []LoadBalancerStatus{
-	LOADBALANCERSTATUS_ENABLING,
-	LOADBALANCERSTATUS_ENABLED,
-	LOADBALANCERSTATUS_DISABLING,
-	LOADBALANCERSTATUS_DISABLED,
-	LOADBALANCERSTATUS_FAILED,
+	LoadBalancerStatusEnabling,
+	LoadBalancerStatusEnabled,
+	LoadBalancerStatusDisabling,
+	LoadBalancerStatusDisabled,
+	LoadBalancerStatusFailed,
 }
 
 // GetAllowedValues returns the list of possible values.

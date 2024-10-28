@@ -15,33 +15,33 @@ type SysbenchTestType string
 
 // List of SysbenchTestType.
 const (
-	SYSBENCHTESTTYPE_OLTP_DELETE           SysbenchTestType = "oltp_delete"
-	SYSBENCHTESTTYPE_OLTP_INSERT           SysbenchTestType = "oltp_insert"
-	SYSBENCHTESTTYPE_OLTP_POINT_SELECT     SysbenchTestType = "oltp_point_select"
-	SYSBENCHTESTTYPE_OLTP_READ_ONLY        SysbenchTestType = "oltp_read_only"
-	SYSBENCHTESTTYPE_OLTP_READ_WRITE       SysbenchTestType = "oltp_read_write"
-	SYSBENCHTESTTYPE_OLTP_UPDATE_INDEX     SysbenchTestType = "oltp_update_index"
-	SYSBENCHTESTTYPE_OLTP_UPDATE_NON_INDEX SysbenchTestType = "oltp_update_non_index"
-	SYSBENCHTESTTYPE_OLTP_WRITE_ONLY       SysbenchTestType = "oltp_write_only"
-	SYSBENCHTESTTYPE_SELECT_RANDOM_POINTS  SysbenchTestType = "select_random_points"
-	SYSBENCHTESTTYPE_SELECT_RANDOM_RANGES  SysbenchTestType = "select_random_ranges"
-	SYSBENCHTESTTYPE_BULK_INSERT           SysbenchTestType = "bulk_insert"
-	SYSBENCHTESTTYPE_OLTP_READ_WRITE_PCT   SysbenchTestType = "oltp_read_write_pct"
+	SysbenchTestTypeOltpDelete         SysbenchTestType = "oltp_delete"
+	SysbenchTestTypeOltpInsert         SysbenchTestType = "oltp_insert"
+	SysbenchTestTypeOltpPointSelect    SysbenchTestType = "oltp_point_select"
+	SysbenchTestTypeOltpReadOnly       SysbenchTestType = "oltp_read_only"
+	SysbenchTestTypeOltpReadWrite      SysbenchTestType = "oltp_read_write"
+	SysbenchTestTypeOltpUpdateIndex    SysbenchTestType = "oltp_update_index"
+	SysbenchTestTypeOltpUpdateNonIndex SysbenchTestType = "oltp_update_non_index"
+	SysbenchTestTypeOltpWriteOnly      SysbenchTestType = "oltp_write_only"
+	SysbenchTestTypeSelectRandomPoints SysbenchTestType = "select_random_points"
+	SysbenchTestTypeSelectRandomRanges SysbenchTestType = "select_random_ranges"
+	SysbenchTestTypeBulkInsert         SysbenchTestType = "bulk_insert"
+	SysbenchTestTypeOltpReadWritePct   SysbenchTestType = "oltp_read_write_pct"
 )
 
 var allowedSysbenchTestTypeEnumValues = []SysbenchTestType{
-	SYSBENCHTESTTYPE_OLTP_DELETE,
-	SYSBENCHTESTTYPE_OLTP_INSERT,
-	SYSBENCHTESTTYPE_OLTP_POINT_SELECT,
-	SYSBENCHTESTTYPE_OLTP_READ_ONLY,
-	SYSBENCHTESTTYPE_OLTP_READ_WRITE,
-	SYSBENCHTESTTYPE_OLTP_UPDATE_INDEX,
-	SYSBENCHTESTTYPE_OLTP_UPDATE_NON_INDEX,
-	SYSBENCHTESTTYPE_OLTP_WRITE_ONLY,
-	SYSBENCHTESTTYPE_SELECT_RANDOM_POINTS,
-	SYSBENCHTESTTYPE_SELECT_RANDOM_RANGES,
-	SYSBENCHTESTTYPE_BULK_INSERT,
-	SYSBENCHTESTTYPE_OLTP_READ_WRITE_PCT,
+	SysbenchTestTypeOltpDelete,
+	SysbenchTestTypeOltpInsert,
+	SysbenchTestTypeOltpPointSelect,
+	SysbenchTestTypeOltpReadOnly,
+	SysbenchTestTypeOltpReadWrite,
+	SysbenchTestTypeOltpUpdateIndex,
+	SysbenchTestTypeOltpUpdateNonIndex,
+	SysbenchTestTypeOltpWriteOnly,
+	SysbenchTestTypeSelectRandomPoints,
+	SysbenchTestTypeSelectRandomRanges,
+	SysbenchTestTypeBulkInsert,
+	SysbenchTestTypeOltpReadWritePct,
 }
 
 // GetAllowedValues returns the list of possible values.

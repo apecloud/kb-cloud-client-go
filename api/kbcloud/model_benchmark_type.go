@@ -15,19 +15,19 @@ type BenchmarkType string
 
 // List of BenchmarkType.
 const (
-	BENCHMARKTYPE_PGBENCH  BenchmarkType = "pgbench"
-	BENCHMARKTYPE_SYSBENCH BenchmarkType = "sysbench"
-	BENCHMARKTYPE_TPCC     BenchmarkType = "tpcc"
-	BENCHMARKTYPE_TPCH     BenchmarkType = "tpch"
-	BENCHMARKTYPE_YCSB     BenchmarkType = "ycsb"
+	BenchmarkTypePgbench  BenchmarkType = "pgbench"
+	BenchmarkTypeSysbench BenchmarkType = "sysbench"
+	BenchmarkTypeTpcc     BenchmarkType = "tpcc"
+	BenchmarkTypeTpch     BenchmarkType = "tpch"
+	BenchmarkTypeYcsb     BenchmarkType = "ycsb"
 )
 
 var allowedBenchmarkTypeEnumValues = []BenchmarkType{
-	BENCHMARKTYPE_PGBENCH,
-	BENCHMARKTYPE_SYSBENCH,
-	BENCHMARKTYPE_TPCC,
-	BENCHMARKTYPE_TPCH,
-	BENCHMARKTYPE_YCSB,
+	BenchmarkTypePgbench,
+	BenchmarkTypeSysbench,
+	BenchmarkTypeTpcc,
+	BenchmarkTypeTpch,
+	BenchmarkTypeYcsb,
 }
 
 // GetAllowedValues returns the list of possible values.

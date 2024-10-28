@@ -16,13 +16,13 @@ type EngineOptionsMetricsQueryType string
 
 // List of EngineOptionsMetricsQueryType.
 const (
-	ENGINEOPTIONSMETRICSQUERYTYPE_INSTANT EngineOptionsMetricsQueryType = "instant"
-	ENGINEOPTIONSMETRICSQUERYTYPE_RANGE   EngineOptionsMetricsQueryType = "range"
+	EngineOptionsMetricsQueryTypeInstant EngineOptionsMetricsQueryType = "instant"
+	EngineOptionsMetricsQueryTypeRange   EngineOptionsMetricsQueryType = "range"
 )
 
 var allowedEngineOptionsMetricsQueryTypeEnumValues = []EngineOptionsMetricsQueryType{
-	ENGINEOPTIONSMETRICSQUERYTYPE_INSTANT,
-	ENGINEOPTIONSMETRICSQUERYTYPE_RANGE,
+	EngineOptionsMetricsQueryTypeInstant,
+	EngineOptionsMetricsQueryTypeRange,
 }
 
 // GetAllowedValues returns the list of possible values.

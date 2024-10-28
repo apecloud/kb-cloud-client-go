@@ -15,13 +15,13 @@ type ListKubernetesNodeOpType string
 
 // List of ListKubernetesNodeOpType.
 const (
-	LISTKUBERNETESNODEOPTYPE_IN    ListKubernetesNodeOpType = "in"
-	LISTKUBERNETESNODEOPTYPE_NOTIN ListKubernetesNodeOpType = "notin"
+	ListKubernetesNodeOpTypeIn    ListKubernetesNodeOpType = "in"
+	ListKubernetesNodeOpTypeNotin ListKubernetesNodeOpType = "notin"
 )
 
 var allowedListKubernetesNodeOpTypeEnumValues = []ListKubernetesNodeOpType{
-	LISTKUBERNETESNODEOPTYPE_IN,
-	LISTKUBERNETESNODEOPTYPE_NOTIN,
+	ListKubernetesNodeOpTypeIn,
+	ListKubernetesNodeOpTypeNotin,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -14,13 +14,13 @@ type ClassSeries string
 
 // List of ClassSeries.
 const (
-	CLASSSERIES_GENERAL   ClassSeries = "general"
-	CLASSSERIES_EXCLUSIVE ClassSeries = "exclusive"
+	ClassSeriesGeneral   ClassSeries = "general"
+	ClassSeriesExclusive ClassSeries = "exclusive"
 )
 
 var allowedClassSeriesEnumValues = []ClassSeries{
-	CLASSSERIES_GENERAL,
-	CLASSSERIES_EXCLUSIVE,
+	ClassSeriesGeneral,
+	ClassSeriesExclusive,
 }
 
 // GetAllowedValues returns the list of possible values.

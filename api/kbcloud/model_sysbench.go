@@ -61,7 +61,7 @@ type Sysbench struct {
 // will change when the set of required properties is changed.
 func NewSysbench(cluster string, database string, username string, password string, address string) *Sysbench {
 	this := Sysbench{}
-	var step SysbenchStep = SYSBENCHSTEP_ALL
+	var step SysbenchStep = SysbenchStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -73,7 +73,7 @@ func NewSysbench(cluster string, database string, username string, password stri
 	this.RequestMemory = &requestMemory
 	this.Cluster = cluster
 	this.Database = database
-	var testType SysbenchTestType = SYSBENCHTESTTYPE_OLTP_READ_WRITE
+	var testType SysbenchTestType = SysbenchTestTypeOltpReadWrite
 	this.TestType = &testType
 	this.Username = username
 	this.Password = password
@@ -86,7 +86,7 @@ func NewSysbench(cluster string, database string, username string, password stri
 // but it doesn't guarantee that properties required by API are set.
 func NewSysbenchWithDefaults() *Sysbench {
 	this := Sysbench{}
-	var step SysbenchStep = SYSBENCHSTEP_ALL
+	var step SysbenchStep = SysbenchStepAll
 	this.Step = &step
 	var limitCpu string = "1"
 	this.LimitCpu = &limitCpu
@@ -96,7 +96,7 @@ func NewSysbenchWithDefaults() *Sysbench {
 	this.RequestCpu = &requestCpu
 	var requestMemory string = "0.5Gi"
 	this.RequestMemory = &requestMemory
-	var testType SysbenchTestType = SYSBENCHTESTTYPE_OLTP_READ_WRITE
+	var testType SysbenchTestType = SysbenchTestTypeOltpReadWrite
 	this.TestType = &testType
 	return &this
 }

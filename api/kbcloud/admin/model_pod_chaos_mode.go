@@ -15,19 +15,19 @@ type PodChaosMode string
 
 // List of PodChaosMode.
 const (
-	PODCHAOSMODE_ONE                PodChaosMode = "one"
-	PODCHAOSMODE_ALL                PodChaosMode = "all"
-	PODCHAOSMODE_FIXED              PodChaosMode = "fixed"
-	PODCHAOSMODE_FIXED_PERCENT      PodChaosMode = "fixed-percent"
-	PODCHAOSMODE_RANDOM_MAX_PERCENT PodChaosMode = "random-max-percent"
+	PodChaosModeOne              PodChaosMode = "one"
+	PodChaosModeAll              PodChaosMode = "all"
+	PodChaosModeFixed            PodChaosMode = "fixed"
+	PodChaosModeFixedPercent     PodChaosMode = "fixed-percent"
+	PodChaosModeRandomMaxPercent PodChaosMode = "random-max-percent"
 )
 
 var allowedPodChaosModeEnumValues = []PodChaosMode{
-	PODCHAOSMODE_ONE,
-	PODCHAOSMODE_ALL,
-	PODCHAOSMODE_FIXED,
-	PODCHAOSMODE_FIXED_PERCENT,
-	PODCHAOSMODE_RANDOM_MAX_PERCENT,
+	PodChaosModeOne,
+	PodChaosModeAll,
+	PodChaosModeFixed,
+	PodChaosModeFixedPercent,
+	PodChaosModeRandomMaxPercent,
 }
 
 // GetAllowedValues returns the list of possible values.

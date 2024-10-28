@@ -58,7 +58,7 @@ func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig 
 	this.Provider = provider
 	this.Region = region
 	this.DisplayName = displayName
-	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
+	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	var overwrite bool = false
 	this.Overwrite = &overwrite
@@ -70,7 +70,7 @@ func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig 
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentCreateWithDefaults() *EnvironmentCreate {
 	this := EnvironmentCreate{}
-	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
+	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	var overwrite bool = false
 	this.Overwrite = &overwrite

@@ -15,13 +15,13 @@ type SortType string
 
 // List of SortType.
 const (
-	SORTTYPE_ASC  SortType = "asc"
-	SORTTYPE_DESC SortType = "desc"
+	SortTypeAsc  SortType = "asc"
+	SortTypeDesc SortType = "desc"
 )
 
 var allowedSortTypeEnumValues = []SortType{
-	SORTTYPE_ASC,
-	SORTTYPE_DESC,
+	SortTypeAsc,
+	SortTypeDesc,
 }
 
 // GetAllowedValues returns the list of possible values.

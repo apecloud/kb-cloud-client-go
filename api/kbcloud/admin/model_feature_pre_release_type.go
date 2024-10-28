@@ -15,17 +15,17 @@ type FeaturePreReleaseType string
 
 // List of FeaturePreReleaseType.
 const (
-	FEATUREPRERELEASETYPE_ALPHA      FeaturePreReleaseType = "ALPHA"
-	FEATUREPRERELEASETYPE_BETA       FeaturePreReleaseType = "BETA"
-	FEATUREPRERELEASETYPE_           FeaturePreReleaseType = ""
-	FEATUREPRERELEASETYPE_DEPRECATED FeaturePreReleaseType = "DEPRECATED"
+	FeaturePreReleaseTypeAlpha      FeaturePreReleaseType = "ALPHA"
+	FeaturePreReleaseTypeBeta       FeaturePreReleaseType = "BETA"
+	FeaturePreReleaseTypeEmpty      FeaturePreReleaseType = ""
+	FeaturePreReleaseTypeDeprecated FeaturePreReleaseType = "DEPRECATED"
 )
 
 var allowedFeaturePreReleaseTypeEnumValues = []FeaturePreReleaseType{
-	FEATUREPRERELEASETYPE_ALPHA,
-	FEATUREPRERELEASETYPE_BETA,
-	FEATUREPRERELEASETYPE_,
-	FEATUREPRERELEASETYPE_DEPRECATED,
+	FeaturePreReleaseTypeAlpha,
+	FeaturePreReleaseTypeBeta,
+	FeaturePreReleaseTypeEmpty,
+	FeaturePreReleaseTypeDeprecated,
 }
 
 // GetAllowedValues returns the list of possible values.

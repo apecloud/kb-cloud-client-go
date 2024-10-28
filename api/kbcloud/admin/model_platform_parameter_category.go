@@ -15,11 +15,11 @@ type PlatformParameterCategory string
 
 // List of PlatformParameterCategory.
 const (
-	PLATFORMPARAMETERCATEGORY_RECYCLE_BIN PlatformParameterCategory = "recycle-bin"
+	PlatformParameterCategoryRecycleBin PlatformParameterCategory = "recycle-bin"
 )
 
 var allowedPlatformParameterCategoryEnumValues = []PlatformParameterCategory{
-	PLATFORMPARAMETERCATEGORY_RECYCLE_BIN,
+	PlatformParameterCategoryRecycleBin,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -10,7 +10,7 @@ package main
 {%- set variables = given_variables(context) %}
 {%- set parameters = format_parameters(context.api_request.kwargs, spec=operation_spec, replace_values=context._replace_values, has_body=context.body, variables=variables, version=version|upper) %}
 {%- if context.body %}
-{%- set body = format_data_with_schema(context.body.value, context.api_request.schema.spec, name_prefix="datadog" ~ version|upper ~ ".", replace_values=context._replace_values, required=True, variables=variables, version=version|upper)%}
+{%- set body = format_data_with_schema(context.body.value, context.api_request.schema.spec, name_prefix="kbcloud" ~ version|upper ~ ".", replace_values=context._replace_values, required=True, variables=variables, version=version|upper)%}
 {%- endif %}
 
 {%- set response_has_three_values = context.status_code != 204 and context.api_response.content %}
@@ -57,7 +57,7 @@ func main() {
 	configuration.SetUnstableOperationEnabled("{{ version }}.{{ operation }}", true)
 {%- endfor %}
 	apiClient := kbcloud.NewAPIClient(configuration)
-	api := datadog{{ version|upper }}.New{{ context.api_instance.name }}Api(apiClient)
+	api := kbcloud.New{{ context.api_instance.name }}Api(apiClient)
 {%- if context.pagination %}
 	resp, _ := api.{{ context.api_request.operation_id }}WithPagination(ctx{% if parameters %}, {{ parameters }}{% endif %})
 

@@ -55,7 +55,7 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.LbEnabled = &lbEnabled
 	var internetLbEnabled bool = true
 	this.InternetLbEnabled = &internetLbEnabled
-	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
+	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	return &this
 }
@@ -73,7 +73,7 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.LbEnabled = &lbEnabled
 	var internetLbEnabled bool = true
 	this.InternetLbEnabled = &internetLbEnabled
-	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
+	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	return &this
 }

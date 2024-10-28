@@ -14,31 +14,31 @@ type OpsType string
 
 // List of OpsType.
 const (
-	OPSTYPE_VERTICALSCALING   OpsType = "VerticalScaling"
-	OPSTYPE_HORIZONTALSCALING OpsType = "HorizontalScaling"
-	OPSTYPE_VOLUMEEXPANSION   OpsType = "VolumeExpansion"
-	OPSTYPE_UPGRADE           OpsType = "Upgrade"
-	OPSTYPE_RECONFIGURING     OpsType = "Reconfiguring"
-	OPSTYPE_SWITCHOVER        OpsType = "Switchover"
-	OPSTYPE_RESTART           OpsType = "Restart"
-	OPSTYPE_STOP              OpsType = "Stop"
-	OPSTYPE_START             OpsType = "Start"
-	OPSTYPE_EXPOSE            OpsType = "Expose"
-	OPSTYPE_DATASCRIPT        OpsType = "DataScript"
+	OpsTypeVerticalScaling   OpsType = "VerticalScaling"
+	OpsTypeHorizontalScaling OpsType = "HorizontalScaling"
+	OpsTypeVolumeExpansion   OpsType = "VolumeExpansion"
+	OpsTypeUpgrade           OpsType = "Upgrade"
+	OpsTypeReconfiguring     OpsType = "Reconfiguring"
+	OpsTypeSwitchover        OpsType = "Switchover"
+	OpsTypeRestart           OpsType = "Restart"
+	OpsTypeStop              OpsType = "Stop"
+	OpsTypeStart             OpsType = "Start"
+	OpsTypeExpose            OpsType = "Expose"
+	OpsTypeDataScript        OpsType = "DataScript"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{
-	OPSTYPE_VERTICALSCALING,
-	OPSTYPE_HORIZONTALSCALING,
-	OPSTYPE_VOLUMEEXPANSION,
-	OPSTYPE_UPGRADE,
-	OPSTYPE_RECONFIGURING,
-	OPSTYPE_SWITCHOVER,
-	OPSTYPE_RESTART,
-	OPSTYPE_STOP,
-	OPSTYPE_START,
-	OPSTYPE_EXPOSE,
-	OPSTYPE_DATASCRIPT,
+	OpsTypeVerticalScaling,
+	OpsTypeHorizontalScaling,
+	OpsTypeVolumeExpansion,
+	OpsTypeUpgrade,
+	OpsTypeReconfiguring,
+	OpsTypeSwitchover,
+	OpsTypeRestart,
+	OpsTypeStop,
+	OpsTypeStart,
+	OpsTypeExpose,
+	OpsTypeDataScript,
 }
 
 // GetAllowedValues returns the list of possible values.

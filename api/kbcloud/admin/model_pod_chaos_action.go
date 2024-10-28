@@ -15,13 +15,13 @@ type PodChaosAction string
 
 // List of PodChaosAction.
 const (
-	PODCHAOSACTION_POD_FAILURE PodChaosAction = "pod-failure"
-	PODCHAOSACTION_POD_KILL    PodChaosAction = "pod-kill"
+	PodChaosActionPodFailure PodChaosAction = "pod-failure"
+	PodChaosActionPodKill    PodChaosAction = "pod-kill"
 )
 
 var allowedPodChaosActionEnumValues = []PodChaosAction{
-	PODCHAOSACTION_POD_FAILURE,
-	PODCHAOSACTION_POD_KILL,
+	PodChaosActionPodFailure,
+	PodChaosActionPodKill,
 }
 
 // GetAllowedValues returns the list of possible values.

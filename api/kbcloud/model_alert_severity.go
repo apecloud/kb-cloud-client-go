@@ -14,15 +14,15 @@ type AlertSeverity string
 
 // List of AlertSeverity.
 const (
-	ALERTSEVERITY_CRITICAL AlertSeverity = "critical"
-	ALERTSEVERITY_WARNING  AlertSeverity = "warning"
-	ALERTSEVERITY_INFO     AlertSeverity = "info"
+	AlertSeverityCritical AlertSeverity = "critical"
+	AlertSeverityWarning  AlertSeverity = "warning"
+	AlertSeverityInfo     AlertSeverity = "info"
 )
 
 var allowedAlertSeverityEnumValues = []AlertSeverity{
-	ALERTSEVERITY_CRITICAL,
-	ALERTSEVERITY_WARNING,
-	ALERTSEVERITY_INFO,
+	AlertSeverityCritical,
+	AlertSeverityWarning,
+	AlertSeverityInfo,
 }
 
 // GetAllowedValues returns the list of possible values.

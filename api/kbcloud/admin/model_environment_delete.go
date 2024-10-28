@@ -42,11 +42,11 @@ func NewEnvironmentDelete(backup CloudResourceCleanPolicy, minio CloudResourceCl
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentDeleteWithDefaults() *EnvironmentDelete {
 	this := EnvironmentDelete{}
-	var backup CloudResourceCleanPolicy = CLOUDRESOURCECLEANPOLICY_RETAIN
+	var backup CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.Backup = backup
-	var minio CloudResourceCleanPolicy = CLOUDRESOURCECLEANPOLICY_RETAIN
+	var minio CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.Minio = minio
-	var victoriaMetrics CloudResourceCleanPolicy = CLOUDRESOURCECLEANPOLICY_RETAIN
+	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.VictoriaMetrics = victoriaMetrics
 	return &this
 }

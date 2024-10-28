@@ -15,21 +15,21 @@ type NetworkChaosAction string
 
 // List of NetworkChaosAction.
 const (
-	NETWORKCHAOSACTION_DELAY     NetworkChaosAction = "delay"
-	NETWORKCHAOSACTION_LOSS      NetworkChaosAction = "loss"
-	NETWORKCHAOSACTION_DUPLICATE NetworkChaosAction = "duplicate"
-	NETWORKCHAOSACTION_CORRUPT   NetworkChaosAction = "corrupt"
-	NETWORKCHAOSACTION_PARTITION NetworkChaosAction = "partition"
-	NETWORKCHAOSACTION_BANDWIDTH NetworkChaosAction = "bandwidth"
+	NetworkChaosActionDelay     NetworkChaosAction = "delay"
+	NetworkChaosActionLoss      NetworkChaosAction = "loss"
+	NetworkChaosActionDuplicate NetworkChaosAction = "duplicate"
+	NetworkChaosActionCorrupt   NetworkChaosAction = "corrupt"
+	NetworkChaosActionPartition NetworkChaosAction = "partition"
+	NetworkChaosActionBandwidth NetworkChaosAction = "bandwidth"
 )
 
 var allowedNetworkChaosActionEnumValues = []NetworkChaosAction{
-	NETWORKCHAOSACTION_DELAY,
-	NETWORKCHAOSACTION_LOSS,
-	NETWORKCHAOSACTION_DUPLICATE,
-	NETWORKCHAOSACTION_CORRUPT,
-	NETWORKCHAOSACTION_PARTITION,
-	NETWORKCHAOSACTION_BANDWIDTH,
+	NetworkChaosActionDelay,
+	NetworkChaosActionLoss,
+	NetworkChaosActionDuplicate,
+	NetworkChaosActionCorrupt,
+	NetworkChaosActionPartition,
+	NetworkChaosActionBandwidth,
 }
 
 // GetAllowedValues returns the list of possible values.

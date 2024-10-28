@@ -42,7 +42,7 @@ func NewEndpointOption(title LocalizedDescription, component string, portName st
 	this.PortName = portName
 	this.Type = typeVar
 	this.Port = port
-	var servicePattern EngineOptionsServicePattern = ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT
+	var servicePattern EngineOptionsServicePattern = EngineOptionsServicePatternClusterComponent
 	this.ServicePattern = &servicePattern
 	return &this
 }
@@ -52,7 +52,7 @@ func NewEndpointOption(title LocalizedDescription, component string, portName st
 // but it doesn't guarantee that properties required by API are set.
 func NewEndpointOptionWithDefaults() *EndpointOption {
 	this := EndpointOption{}
-	var servicePattern EngineOptionsServicePattern = ENGINEOPTIONSSERVICEPATTERN_CLUSTER_COMPONENT
+	var servicePattern EngineOptionsServicePattern = EngineOptionsServicePatternClusterComponent
 	this.ServicePattern = &servicePattern
 	return &this
 }

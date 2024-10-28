@@ -15,13 +15,13 @@ type OrgMemberRole string
 
 // List of OrgMemberRole.
 const (
-	ORGMEMBERROLE_ADMIN     OrgMemberRole = "admin"
-	ORGMEMBERROLE_DEVELOPER OrgMemberRole = "developer"
+	OrgMemberRoleAdmin     OrgMemberRole = "admin"
+	OrgMemberRoleDeveloper OrgMemberRole = "developer"
 )
 
 var allowedOrgMemberRoleEnumValues = []OrgMemberRole{
-	ORGMEMBERROLE_ADMIN,
-	ORGMEMBERROLE_DEVELOPER,
+	OrgMemberRoleAdmin,
+	OrgMemberRoleDeveloper,
 }
 
 // GetAllowedValues returns the list of possible values.

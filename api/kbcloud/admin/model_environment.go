@@ -74,7 +74,7 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.ProvisionConfig = provisionConfig
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
-	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
+	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	return &this
 }
@@ -84,7 +84,7 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
-	var deletePolicy EnvironmentDeletePolicy = ENVIRONMENTDELETEPOLICY_DONOTDELETE
+	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
 	return &this
 }

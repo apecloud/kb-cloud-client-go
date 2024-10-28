@@ -15,15 +15,15 @@ type EnvironmentConditionStatus string
 
 // List of EnvironmentConditionStatus.
 const (
-	ENVIRONMENTCONDITIONSTATUS_TRUE    EnvironmentConditionStatus = "True"
-	ENVIRONMENTCONDITIONSTATUS_FALSE   EnvironmentConditionStatus = "False"
-	ENVIRONMENTCONDITIONSTATUS_UNKNOWN EnvironmentConditionStatus = "Unknown"
+	EnvironmentConditionStatusTrue    EnvironmentConditionStatus = "True"
+	EnvironmentConditionStatusFalse   EnvironmentConditionStatus = "False"
+	EnvironmentConditionStatusUnknown EnvironmentConditionStatus = "Unknown"
 )
 
 var allowedEnvironmentConditionStatusEnumValues = []EnvironmentConditionStatus{
-	ENVIRONMENTCONDITIONSTATUS_TRUE,
-	ENVIRONMENTCONDITIONSTATUS_FALSE,
-	ENVIRONMENTCONDITIONSTATUS_UNKNOWN,
+	EnvironmentConditionStatusTrue,
+	EnvironmentConditionStatusFalse,
+	EnvironmentConditionStatusUnknown,
 }
 
 // GetAllowedValues returns the list of possible values.
