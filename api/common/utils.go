@@ -1,6 +1,6 @@
 // Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
-// Copyright 2019-Present ApeCloud, Inc.
+// Copyright 2022-Present ApeCloud Co., Ltd
 
 package common
 
@@ -37,6 +37,9 @@ func PtrString(v string) *string { return &v }
 
 // PtrTime is helper routine that returns a pointer to given Time value.
 func PtrTime(v time.Time) *time.Time { return &v }
+
+// Ptr is a helper routine that returns a pointer to given value.
+func Ptr[T any](v T) *T { return &v }
 
 // PaginationResult pagination item helper struct
 type PaginationResult[T any] struct {

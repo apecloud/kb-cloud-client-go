@@ -1,6 +1,6 @@
 // Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
-// Copyright 2019-Present ApeCloud, Inc.
+// Copyright 2022-Present ApeCloud Co., Ltd
 
 package common
 
@@ -315,7 +315,7 @@ func NewDefaultContext(ctx context.Context) context.Context {
 		ctx = context.Background()
 	}
 
-	if site, ok := os.LookupEnv("DD_SITE"); ok {
+	if site, ok := os.LookupEnv("KB_CLOUD_SITE"); ok {
 		ctx = context.WithValue(
 			ctx,
 			ContextServerVariables,
@@ -324,6 +324,9 @@ func NewDefaultContext(ctx context.Context) context.Context {
 	}
 
 	keys := make(map[string]APIKey)
+	if apiKey, ok := os.LookupEnv("KB_CLOUD_API_KEY"); ok {
+		keys["apiKeyAuth"] = APIKey{Key: apiKey}
+	}
 	ctx = context.WithValue(
 		ctx,
 		ContextAPIKeys,

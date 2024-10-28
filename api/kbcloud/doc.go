@@ -1,6 +1,6 @@
 // Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
-// Copyright 2019-Present ApeCloud, Inc.
+// Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
 //   - [accountApi.createAccount]
