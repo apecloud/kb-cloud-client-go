@@ -7015,7 +7015,7 @@ paths:
               type: object
               properties:
                 type:
-                  $ref: '#/components/schemas/generateDDLOperationType'
+                  $ref: '#/components/schemas/generateDdlOperationType'
                 tableMetadata:
                   $ref: '#/components/schemas/tableMetadata'
                 viewMetadata:
@@ -7314,7 +7314,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OBSessionList'
+                $ref: '#/components/schemas/ObSessionList'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -8833,6 +8833,9 @@ components:
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
+        verificationCode:
+          description: The verification code for the user
+          type: string
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -9490,7 +9493,7 @@ components:
       required:
         - items
       type: object
-    loadBalancerStatus:
+    loadBalancerAvailableType:
       description: Whether the loadbalancer is available in the environment.
       type: string
       enum:
@@ -9502,7 +9505,7 @@ components:
       description: The load balancer info
       properties:
         available:
-          $ref: '#/components/schemas/loadBalancerStatus'
+          $ref: '#/components/schemas/loadBalancerAvailableType'
       required:
         - available
       type: object
@@ -13836,7 +13839,7 @@ components:
           title: duration
           type: integer
           description: sql executed duration
-    generateDDLOperationType:
+    generateDdlOperationType:
       type: string
       description: operation type
       enum:
@@ -14179,7 +14182,7 @@ components:
       description: List of Storage Volume
       items:
         $ref: '#/components/schemas/Volume'
-    OBSession:
+    ObSession:
       type: object
       properties:
         id:
@@ -14215,10 +14218,10 @@ components:
         port:
           type: string
           description: port
-    OBSessionList:
+    ObSessionList:
       type: array
       items:
-        $ref: '#/components/schemas/OBSession'
+        $ref: '#/components/schemas/ObSession'
     ipWhitelist:
       description: whitelist
       properties:

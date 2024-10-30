@@ -21,7 +21,7 @@ type ResourceStats struct {
 	// The amount of CPU or Memory resources that are already used on the node. Unit is GiB for memory and Cores for CPU.
 	Usage float64 `json:"usage"`
 	// The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
-	Capacity *float64 `json:"capacity,omitempty"`
+	Capacity float64 `json:"capacity"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,12 +31,13 @@ type ResourceStats struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewResourceStats(allocatable float64, limits float64, requests float64, usage float64) *ResourceStats {
+func NewResourceStats(allocatable float64, limits float64, requests float64, usage float64, capacity float64) *ResourceStats {
 	this := ResourceStats{}
 	this.Allocatable = allocatable
 	this.Limits = limits
 	this.Requests = requests
 	this.Usage = usage
+	this.Capacity = capacity
 	return &this
 }
 
@@ -140,32 +141,27 @@ func (o *ResourceStats) SetUsage(v float64) {
 	o.Usage = v
 }
 
-// GetCapacity returns the Capacity field value if set, zero value otherwise.
+// GetCapacity returns the Capacity field value.
 func (o *ResourceStats) GetCapacity() float64 {
-	if o == nil || o.Capacity == nil {
+	if o == nil {
 		var ret float64
 		return ret
 	}
-	return *o.Capacity
+	return o.Capacity
 }
 
-// GetCapacityOk returns a tuple with the Capacity field value if set, nil otherwise
+// GetCapacityOk returns a tuple with the Capacity field value
 // and a boolean to check if the value has been set.
 func (o *ResourceStats) GetCapacityOk() (*float64, bool) {
-	if o == nil || o.Capacity == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Capacity, true
+	return &o.Capacity, true
 }
 
-// HasCapacity returns a boolean if a field has been set.
-func (o *ResourceStats) HasCapacity() bool {
-	return o != nil && o.Capacity != nil
-}
-
-// SetCapacity gets a reference to the given float64 and assigns it to the Capacity field.
+// SetCapacity sets field value.
 func (o *ResourceStats) SetCapacity(v float64) {
-	o.Capacity = &v
+	o.Capacity = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -178,9 +174,7 @@ func (o ResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize["limits"] = o.Limits
 	toSerialize["requests"] = o.Requests
 	toSerialize["usage"] = o.Usage
-	if o.Capacity != nil {
-		toSerialize["capacity"] = o.Capacity
-	}
+	toSerialize["capacity"] = o.Capacity
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -195,7 +189,7 @@ func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		Limits      *float64 `json:"limits"`
 		Requests    *float64 `json:"requests"`
 		Usage       *float64 `json:"usage"`
-		Capacity    *float64 `json:"capacity,omitempty"`
+		Capacity    *float64 `json:"capacity"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -212,6 +206,9 @@ func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Usage == nil {
 		return fmt.Errorf("required field usage missing")
 	}
+	if all.Capacity == nil {
+		return fmt.Errorf("required field capacity missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"allocatable", "limits", "requests", "usage", "capacity"})
@@ -222,7 +219,7 @@ func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	o.Limits = *all.Limits
 	o.Requests = *all.Requests
 	o.Usage = *all.Usage
-	o.Capacity = all.Capacity
+	o.Capacity = *all.Capacity
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

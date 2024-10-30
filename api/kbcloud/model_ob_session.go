@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type OBSession struct {
+type ObSession struct {
 	// session id
 	Id *string `json:"id,omitempty"`
 	// user name
@@ -34,25 +34,25 @@ type OBSession struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOBSession instantiates a new OBSession object.
+// NewObSession instantiates a new ObSession object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOBSession() *OBSession {
-	this := OBSession{}
+func NewObSession() *ObSession {
+	this := ObSession{}
 	return &this
 }
 
-// NewOBSessionWithDefaults instantiates a new OBSession object.
+// NewObSessionWithDefaults instantiates a new ObSession object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOBSessionWithDefaults() *OBSession {
-	this := OBSession{}
+func NewObSessionWithDefaults() *ObSession {
+	this := ObSession{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *OBSession) GetId() string {
+func (o *ObSession) GetId() string {
 	if o == nil || o.Id == nil {
 		var ret string
 		return ret
@@ -62,7 +62,7 @@ func (o *OBSession) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetIdOk() (*string, bool) {
+func (o *ObSession) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -70,17 +70,17 @@ func (o *OBSession) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *OBSession) HasId() bool {
+func (o *ObSession) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *OBSession) SetId(v string) {
+func (o *ObSession) SetId(v string) {
 	o.Id = &v
 }
 
 // GetUser returns the User field value if set, zero value otherwise.
-func (o *OBSession) GetUser() string {
+func (o *ObSession) GetUser() string {
 	if o == nil || o.User == nil {
 		var ret string
 		return ret
@@ -90,7 +90,7 @@ func (o *OBSession) GetUser() string {
 
 // GetUserOk returns a tuple with the User field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetUserOk() (*string, bool) {
+func (o *ObSession) GetUserOk() (*string, bool) {
 	if o == nil || o.User == nil {
 		return nil, false
 	}
@@ -98,17 +98,17 @@ func (o *OBSession) GetUserOk() (*string, bool) {
 }
 
 // HasUser returns a boolean if a field has been set.
-func (o *OBSession) HasUser() bool {
+func (o *ObSession) HasUser() bool {
 	return o != nil && o.User != nil
 }
 
 // SetUser gets a reference to the given string and assigns it to the User field.
-func (o *OBSession) SetUser(v string) {
+func (o *ObSession) SetUser(v string) {
 	o.User = &v
 }
 
 // GetTenant returns the Tenant field value if set, zero value otherwise.
-func (o *OBSession) GetTenant() string {
+func (o *ObSession) GetTenant() string {
 	if o == nil || o.Tenant == nil {
 		var ret string
 		return ret
@@ -118,7 +118,7 @@ func (o *OBSession) GetTenant() string {
 
 // GetTenantOk returns a tuple with the Tenant field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetTenantOk() (*string, bool) {
+func (o *ObSession) GetTenantOk() (*string, bool) {
 	if o == nil || o.Tenant == nil {
 		return nil, false
 	}
@@ -126,17 +126,17 @@ func (o *OBSession) GetTenantOk() (*string, bool) {
 }
 
 // HasTenant returns a boolean if a field has been set.
-func (o *OBSession) HasTenant() bool {
+func (o *ObSession) HasTenant() bool {
 	return o != nil && o.Tenant != nil
 }
 
 // SetTenant gets a reference to the given string and assigns it to the Tenant field.
-func (o *OBSession) SetTenant(v string) {
+func (o *ObSession) SetTenant(v string) {
 	o.Tenant = &v
 }
 
 // GetHost returns the Host field value if set, zero value otherwise.
-func (o *OBSession) GetHost() string {
+func (o *ObSession) GetHost() string {
 	if o == nil || o.Host == nil {
 		var ret string
 		return ret
@@ -146,7 +146,7 @@ func (o *OBSession) GetHost() string {
 
 // GetHostOk returns a tuple with the Host field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetHostOk() (*string, bool) {
+func (o *ObSession) GetHostOk() (*string, bool) {
 	if o == nil || o.Host == nil {
 		return nil, false
 	}
@@ -154,17 +154,17 @@ func (o *OBSession) GetHostOk() (*string, bool) {
 }
 
 // HasHost returns a boolean if a field has been set.
-func (o *OBSession) HasHost() bool {
+func (o *ObSession) HasHost() bool {
 	return o != nil && o.Host != nil
 }
 
 // SetHost gets a reference to the given string and assigns it to the Host field.
-func (o *OBSession) SetHost(v string) {
+func (o *ObSession) SetHost(v string) {
 	o.Host = &v
 }
 
 // GetDb returns the Db field value if set, zero value otherwise.
-func (o *OBSession) GetDb() string {
+func (o *ObSession) GetDb() string {
 	if o == nil || o.Db == nil {
 		var ret string
 		return ret
@@ -174,7 +174,7 @@ func (o *OBSession) GetDb() string {
 
 // GetDbOk returns a tuple with the Db field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetDbOk() (*string, bool) {
+func (o *ObSession) GetDbOk() (*string, bool) {
 	if o == nil || o.Db == nil {
 		return nil, false
 	}
@@ -182,17 +182,17 @@ func (o *OBSession) GetDbOk() (*string, bool) {
 }
 
 // HasDb returns a boolean if a field has been set.
-func (o *OBSession) HasDb() bool {
+func (o *ObSession) HasDb() bool {
 	return o != nil && o.Db != nil
 }
 
 // SetDb gets a reference to the given string and assigns it to the Db field.
-func (o *OBSession) SetDb(v string) {
+func (o *ObSession) SetDb(v string) {
 	o.Db = &v
 }
 
 // GetCommand returns the Command field value if set, zero value otherwise.
-func (o *OBSession) GetCommand() string {
+func (o *ObSession) GetCommand() string {
 	if o == nil || o.Command == nil {
 		var ret string
 		return ret
@@ -202,7 +202,7 @@ func (o *OBSession) GetCommand() string {
 
 // GetCommandOk returns a tuple with the Command field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetCommandOk() (*string, bool) {
+func (o *ObSession) GetCommandOk() (*string, bool) {
 	if o == nil || o.Command == nil {
 		return nil, false
 	}
@@ -210,17 +210,17 @@ func (o *OBSession) GetCommandOk() (*string, bool) {
 }
 
 // HasCommand returns a boolean if a field has been set.
-func (o *OBSession) HasCommand() bool {
+func (o *ObSession) HasCommand() bool {
 	return o != nil && o.Command != nil
 }
 
 // SetCommand gets a reference to the given string and assigns it to the Command field.
-func (o *OBSession) SetCommand(v string) {
+func (o *ObSession) SetCommand(v string) {
 	o.Command = &v
 }
 
 // GetTime returns the Time field value if set, zero value otherwise.
-func (o *OBSession) GetTime() string {
+func (o *ObSession) GetTime() string {
 	if o == nil || o.Time == nil {
 		var ret string
 		return ret
@@ -230,7 +230,7 @@ func (o *OBSession) GetTime() string {
 
 // GetTimeOk returns a tuple with the Time field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetTimeOk() (*string, bool) {
+func (o *ObSession) GetTimeOk() (*string, bool) {
 	if o == nil || o.Time == nil {
 		return nil, false
 	}
@@ -238,17 +238,17 @@ func (o *OBSession) GetTimeOk() (*string, bool) {
 }
 
 // HasTime returns a boolean if a field has been set.
-func (o *OBSession) HasTime() bool {
+func (o *ObSession) HasTime() bool {
 	return o != nil && o.Time != nil
 }
 
 // SetTime gets a reference to the given string and assigns it to the Time field.
-func (o *OBSession) SetTime(v string) {
+func (o *ObSession) SetTime(v string) {
 	o.Time = &v
 }
 
 // GetState returns the State field value if set, zero value otherwise.
-func (o *OBSession) GetState() string {
+func (o *ObSession) GetState() string {
 	if o == nil || o.State == nil {
 		var ret string
 		return ret
@@ -258,7 +258,7 @@ func (o *OBSession) GetState() string {
 
 // GetStateOk returns a tuple with the State field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetStateOk() (*string, bool) {
+func (o *ObSession) GetStateOk() (*string, bool) {
 	if o == nil || o.State == nil {
 		return nil, false
 	}
@@ -266,17 +266,17 @@ func (o *OBSession) GetStateOk() (*string, bool) {
 }
 
 // HasState returns a boolean if a field has been set.
-func (o *OBSession) HasState() bool {
+func (o *ObSession) HasState() bool {
 	return o != nil && o.State != nil
 }
 
 // SetState gets a reference to the given string and assigns it to the State field.
-func (o *OBSession) SetState(v string) {
+func (o *ObSession) SetState(v string) {
 	o.State = &v
 }
 
 // GetInfo returns the Info field value if set, zero value otherwise.
-func (o *OBSession) GetInfo() string {
+func (o *ObSession) GetInfo() string {
 	if o == nil || o.Info == nil {
 		var ret string
 		return ret
@@ -286,7 +286,7 @@ func (o *OBSession) GetInfo() string {
 
 // GetInfoOk returns a tuple with the Info field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetInfoOk() (*string, bool) {
+func (o *ObSession) GetInfoOk() (*string, bool) {
 	if o == nil || o.Info == nil {
 		return nil, false
 	}
@@ -294,17 +294,17 @@ func (o *OBSession) GetInfoOk() (*string, bool) {
 }
 
 // HasInfo returns a boolean if a field has been set.
-func (o *OBSession) HasInfo() bool {
+func (o *ObSession) HasInfo() bool {
 	return o != nil && o.Info != nil
 }
 
 // SetInfo gets a reference to the given string and assigns it to the Info field.
-func (o *OBSession) SetInfo(v string) {
+func (o *ObSession) SetInfo(v string) {
 	o.Info = &v
 }
 
 // GetIp returns the Ip field value if set, zero value otherwise.
-func (o *OBSession) GetIp() string {
+func (o *ObSession) GetIp() string {
 	if o == nil || o.Ip == nil {
 		var ret string
 		return ret
@@ -314,7 +314,7 @@ func (o *OBSession) GetIp() string {
 
 // GetIpOk returns a tuple with the Ip field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetIpOk() (*string, bool) {
+func (o *ObSession) GetIpOk() (*string, bool) {
 	if o == nil || o.Ip == nil {
 		return nil, false
 	}
@@ -322,17 +322,17 @@ func (o *OBSession) GetIpOk() (*string, bool) {
 }
 
 // HasIp returns a boolean if a field has been set.
-func (o *OBSession) HasIp() bool {
+func (o *ObSession) HasIp() bool {
 	return o != nil && o.Ip != nil
 }
 
 // SetIp gets a reference to the given string and assigns it to the Ip field.
-func (o *OBSession) SetIp(v string) {
+func (o *ObSession) SetIp(v string) {
 	o.Ip = &v
 }
 
 // GetPort returns the Port field value if set, zero value otherwise.
-func (o *OBSession) GetPort() string {
+func (o *ObSession) GetPort() string {
 	if o == nil || o.Port == nil {
 		var ret string
 		return ret
@@ -342,7 +342,7 @@ func (o *OBSession) GetPort() string {
 
 // GetPortOk returns a tuple with the Port field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OBSession) GetPortOk() (*string, bool) {
+func (o *ObSession) GetPortOk() (*string, bool) {
 	if o == nil || o.Port == nil {
 		return nil, false
 	}
@@ -350,17 +350,17 @@ func (o *OBSession) GetPortOk() (*string, bool) {
 }
 
 // HasPort returns a boolean if a field has been set.
-func (o *OBSession) HasPort() bool {
+func (o *ObSession) HasPort() bool {
 	return o != nil && o.Port != nil
 }
 
 // SetPort gets a reference to the given string and assigns it to the Port field.
-func (o *OBSession) SetPort(v string) {
+func (o *ObSession) SetPort(v string) {
 	o.Port = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o OBSession) MarshalJSON() ([]byte, error) {
+func (o ObSession) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -406,7 +406,7 @@ func (o OBSession) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OBSession) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ObSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id      *string `json:"id,omitempty"`
 		User    *string `json:"user,omitempty"`

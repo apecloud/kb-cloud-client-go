@@ -13,7 +13,7 @@ import (
 // LoadBalancer The load balancer info
 type LoadBalancer struct {
 	// Whether the loadbalancer is available in the environment.
-	Available LoadBalancerStatus `json:"available"`
+	Available LoadBalancerAvailableType `json:"available"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +23,7 @@ type LoadBalancer struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLoadBalancer(available LoadBalancerStatus) *LoadBalancer {
+func NewLoadBalancer(available LoadBalancerAvailableType) *LoadBalancer {
 	this := LoadBalancer{}
 	this.Available = available
 	return &this
@@ -38,9 +38,9 @@ func NewLoadBalancerWithDefaults() *LoadBalancer {
 }
 
 // GetAvailable returns the Available field value.
-func (o *LoadBalancer) GetAvailable() LoadBalancerStatus {
+func (o *LoadBalancer) GetAvailable() LoadBalancerAvailableType {
 	if o == nil {
-		var ret LoadBalancerStatus
+		var ret LoadBalancerAvailableType
 		return ret
 	}
 	return o.Available
@@ -48,7 +48,7 @@ func (o *LoadBalancer) GetAvailable() LoadBalancerStatus {
 
 // GetAvailableOk returns a tuple with the Available field value
 // and a boolean to check if the value has been set.
-func (o *LoadBalancer) GetAvailableOk() (*LoadBalancerStatus, bool) {
+func (o *LoadBalancer) GetAvailableOk() (*LoadBalancerAvailableType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,7 +56,7 @@ func (o *LoadBalancer) GetAvailableOk() (*LoadBalancerStatus, bool) {
 }
 
 // SetAvailable sets field value.
-func (o *LoadBalancer) SetAvailable(v LoadBalancerStatus) {
+func (o *LoadBalancer) SetAvailable(v LoadBalancerAvailableType) {
 	o.Available = v
 }
 
@@ -77,7 +77,7 @@ func (o LoadBalancer) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Available *LoadBalancerStatus `json:"available"`
+		Available *LoadBalancerAvailableType `json:"available"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

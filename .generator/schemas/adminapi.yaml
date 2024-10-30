@@ -3564,7 +3564,7 @@ paths:
               type: object
               properties:
                 type:
-                  $ref: '#/components/schemas/generateDDLOperationType'
+                  $ref: '#/components/schemas/generateDdlOperationType'
                 tableMetadata:
                   $ref: '#/components/schemas/tableMetadata'
                 viewMetadata:
@@ -3660,7 +3660,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OBSessionList'
+                $ref: '#/components/schemas/ObSessionList'
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
         '403':
@@ -13968,7 +13968,7 @@ components:
           title: duration
           type: integer
           description: sql executed duration
-    generateDDLOperationType:
+    generateDdlOperationType:
       type: string
       description: operation type
       enum:
@@ -14291,7 +14291,7 @@ components:
           type: string
           description: The SQL statement defining the view
           nullable: true
-    OBSession:
+    ObSession:
       type: object
       properties:
         id:
@@ -14327,10 +14327,10 @@ components:
         port:
           type: string
           description: port
-    OBSessionList:
+    ObSessionList:
       type: array
       items:
-        $ref: '#/components/schemas/OBSession'
+        $ref: '#/components/schemas/ObSession'
     sortType:
       description: Represents the type of sorting.
       enum:
@@ -14617,6 +14617,7 @@ components:
           type: number
       required:
         - allocatable
+        - capacity
         - limits
         - requests
         - usage
