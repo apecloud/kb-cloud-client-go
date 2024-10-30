@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ParamTplGetItem paramTplGetItem is a list of get parameter template and parameterSpec
+
+
+// ParamTplGetItem paramTplGetItem is a list of get parameter template and parameterSpec 
 type ParamTplGetItem struct {
 	// The name of the configuration spec
 	SpecName string `json:"specName"`
@@ -19,9 +24,10 @@ type ParamTplGetItem struct {
 	// With the list of parameterSpecs and the configuration file name
 	ParameterSpec ParameterSpecListItem `json:"parameterSpec"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewParamTplGetItem instantiates a new ParamTplGetItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,7 +48,6 @@ func NewParamTplGetItemWithDefaults() *ParamTplGetItem {
 	this := ParamTplGetItem{}
 	return &this
 }
-
 // GetSpecName returns the SpecName field value.
 func (o *ParamTplGetItem) GetSpecName() string {
 	if o == nil {
@@ -65,6 +70,7 @@ func (o *ParamTplGetItem) GetSpecNameOk() (*string, bool) {
 func (o *ParamTplGetItem) SetSpecName(v string) {
 	o.SpecName = v
 }
+
 
 // GetConfig returns the Config field value.
 func (o *ParamTplGetItem) GetConfig() ConfigurationWithRegex {
@@ -89,6 +95,7 @@ func (o *ParamTplGetItem) SetConfig(v ConfigurationWithRegex) {
 	o.Config = v
 }
 
+
 // GetParameterSpec returns the ParameterSpec field value.
 func (o *ParamTplGetItem) GetParameterSpec() ParameterSpecListItem {
 	if o == nil {
@@ -112,6 +119,8 @@ func (o *ParamTplGetItem) SetParameterSpec(v ParameterSpecListItem) {
 	o.ParameterSpec = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplGetItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -131,9 +140,9 @@ func (o ParamTplGetItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplGetItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SpecName      *string                 `json:"specName"`
-		Config        *ConfigurationWithRegex `json:"config"`
-		ParameterSpec *ParameterSpecListItem  `json:"parameterSpec"`
+		SpecName *string `json:"specName"`
+		Config *ConfigurationWithRegex `json:"config"`
+		ParameterSpec *ParameterSpecListItem `json:"parameterSpec"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -149,7 +158,7 @@ func (o *ParamTplGetItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specName", "config", "parameterSpec"})
+		common.DeleteKeys(additionalProperties, &[]string{ "specName", "config", "parameterSpec",  })
 	} else {
 		return err
 	}

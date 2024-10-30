@@ -2,23 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // WorkflowType workflow type
 type WorkflowType string
 
 // List of WorkflowType.
 const (
-	WorkflowTypeInstall                WorkflowType = "install"
-	WorkflowTypeUpgradeKubeblocks      WorkflowType = "upgradeKubeblocks"
-	WorkflowTypeUpgradeGemini          WorkflowType = "upgradeGemini"
-	WorkflowTypeUninstall              WorkflowType = "uninstall"
+	WorkflowTypeInstall WorkflowType = "install"
+	WorkflowTypeUpgradeKubeblocks WorkflowType = "upgradeKubeblocks"
+	WorkflowTypeUpgradeGemini WorkflowType = "upgradeGemini"
+	WorkflowTypeUninstall WorkflowType = "uninstall"
 	WorkflowTypeUpgradeVictoriaMetrics WorkflowType = "upgradeVictoriaMetrics"
 )
 

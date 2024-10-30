@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest
+
+
+// OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest 
 type OpsRequestName struct {
-	OpsRequestName   string  `json:"opsRequestName"`
+	OpsRequestName string `json:"opsRequestName"`
 	DependentOpsName *string `json:"dependentOpsName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsRequestName instantiates a new OpsRequestName object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewOpsRequestNameWithDefaults() *OpsRequestName {
 	this := OpsRequestName{}
 	return &this
 }
-
 // GetOpsRequestName returns the OpsRequestName field value.
 func (o *OpsRequestName) GetOpsRequestName() string {
 	if o == nil {
@@ -59,6 +64,7 @@ func (o *OpsRequestName) GetOpsRequestNameOk() (*string, bool) {
 func (o *OpsRequestName) SetOpsRequestName(v string) {
 	o.OpsRequestName = v
 }
+
 
 // GetDependentOpsName returns the DependentOpsName field value if set, zero value otherwise.
 func (o *OpsRequestName) GetDependentOpsName() string {
@@ -88,6 +94,8 @@ func (o *OpsRequestName) SetDependentOpsName(v string) {
 	o.DependentOpsName = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -108,7 +116,7 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OpsRequestName   *string `json:"opsRequestName"`
+		OpsRequestName *string `json:"opsRequestName"`
 		DependentOpsName *string `json:"dependentOpsName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -119,7 +127,7 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"opsRequestName", "dependentOpsName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "opsRequestName", "dependentOpsName",  })
 	} else {
 		return err
 	}

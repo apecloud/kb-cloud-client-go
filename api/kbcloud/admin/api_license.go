@@ -2,10 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
 
@@ -19,10 +24,12 @@ type LicenseApi common.Service
 // Get license
 func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue License
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  License
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LicenseApi.GetLicense")
 	if err != nil {
@@ -36,7 +43,8 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -58,10 +66,11 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -75,7 +84,7 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -88,10 +97,12 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 // Update license
 func (a *LicenseApi) UpdateLicense(ctx _context.Context, body LicenseRequest) (License, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue License
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  License
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LicenseApi.UpdateLicense")
 	if err != nil {
@@ -106,9 +117,11 @@ func (a *LicenseApi) UpdateLicense(ctx _context.Context, body LicenseRequest) (L
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -130,10 +143,11 @@ func (a *LicenseApi) UpdateLicense(ctx _context.Context, body LicenseRequest) (L
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -147,7 +161,7 @@ func (a *LicenseApi) UpdateLicense(ctx _context.Context, body LicenseRequest) (L
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

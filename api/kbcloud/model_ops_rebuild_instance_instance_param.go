@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OpsRebuildInstanceInstanceParam instance params for RebuildInstance ops
+
+
+// OpsRebuildInstanceInstanceParam instance params for RebuildInstance ops 
 type OpsRebuildInstanceInstanceParam struct {
 	// Pod name of the instance
 	Name string `json:"name"`
 	// The instance will rebuild on the specified node. If not set, it will rebuild on a random node.
 	TargetNodeName *string `json:"targetNodeName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsRebuildInstanceInstanceParam instantiates a new OpsRebuildInstanceInstanceParam object.
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,6 @@ func NewOpsRebuildInstanceInstanceParamWithDefaults() *OpsRebuildInstanceInstanc
 	this := OpsRebuildInstanceInstanceParam{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *OpsRebuildInstanceInstanceParam) GetName() string {
 	if o == nil {
@@ -61,6 +66,7 @@ func (o *OpsRebuildInstanceInstanceParam) GetNameOk() (*string, bool) {
 func (o *OpsRebuildInstanceInstanceParam) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetTargetNodeName returns the TargetNodeName field value if set, zero value otherwise.
 func (o *OpsRebuildInstanceInstanceParam) GetTargetNodeName() string {
@@ -90,6 +96,8 @@ func (o *OpsRebuildInstanceInstanceParam) SetTargetNodeName(v string) {
 	o.TargetNodeName = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRebuildInstanceInstanceParam) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -110,7 +118,7 @@ func (o OpsRebuildInstanceInstanceParam) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRebuildInstanceInstanceParam) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string `json:"name"`
+		Name *string `json:"name"`
 		TargetNodeName *string `json:"targetNodeName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -121,7 +129,7 @@ func (o *OpsRebuildInstanceInstanceParam) UnmarshalJSON(bytes []byte) (err error
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "targetNodeName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "targetNodeName",  })
 	} else {
 		return err
 	}

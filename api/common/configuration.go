@@ -2,6 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package common
 
 import (
@@ -108,7 +109,6 @@ type RetryConfiguration struct {
 	HTTPRetryTimeout  time.Duration
 	MaxRetries        int
 }
-
 // NewConfiguration returns a new Configuration object.
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
@@ -116,25 +116,30 @@ func NewConfiguration() *Configuration {
 		UserAgent:     getUserAgent(),
 		Debug:         false,
 		Compress:      true,
-		Servers: ServerConfigurations{
+		Servers:       ServerConfigurations{
 			{
 				URL:         "http://127.0.0.1:8080",
 				Description: "local",
-				Variables:   map[string]ServerVariable{},
+				Variables:   map[string]ServerVariable{
+				},
 			},
 			{
 				URL:         "https://api-dev.apecloud.cn",
 				Description: "dev",
-				Variables:   map[string]ServerVariable{},
+				Variables:   map[string]ServerVariable{
+				},
 			},
 			{
 				URL:         "https://cloudapi.apecloud.cn",
 				Description: "demo",
-				Variables:   map[string]ServerVariable{},
+				Variables:   map[string]ServerVariable{
+				},
 			},
 		},
-		OperationServers:   map[string]ServerConfigurations{},
-		unstableOperations: map[string]bool{},
+		OperationServers: map[string]ServerConfigurations{
+		},
+		unstableOperations: map[string]bool{
+		},
 		RetryConfiguration: RetryConfiguration{
 			EnableRetry:       false,
 			BackOffMultiplier: 2,

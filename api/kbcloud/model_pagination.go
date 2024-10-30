@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type Pagination struct {
-	RowsCount  *int32 `json:"rows_count,omitempty"`
-	Page       *int32 `json:"page,omitempty"`
+	RowsCount *int32 `json:"rows_count,omitempty"`
+	Page *int32 `json:"page,omitempty"`
 	PagesCount *int32 `json:"pages_count,omitempty"`
-	PerPage    *int32 `json:"per_page,omitempty"`
+	PerPage *int32 `json:"per_page,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewPagination instantiates a new Pagination object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewPaginationWithDefaults() *Pagination {
 	this := Pagination{}
 	return &this
 }
-
 // GetRowsCount returns the RowsCount field value if set, zero value otherwise.
 func (o *Pagination) GetRowsCount() int32 {
 	if o == nil || o.RowsCount == nil {
@@ -60,6 +69,7 @@ func (o *Pagination) HasRowsCount() bool {
 func (o *Pagination) SetRowsCount(v int32) {
 	o.RowsCount = &v
 }
+
 
 // GetPage returns the Page field value if set, zero value otherwise.
 func (o *Pagination) GetPage() int32 {
@@ -89,6 +99,7 @@ func (o *Pagination) SetPage(v int32) {
 	o.Page = &v
 }
 
+
 // GetPagesCount returns the PagesCount field value if set, zero value otherwise.
 func (o *Pagination) GetPagesCount() int32 {
 	if o == nil || o.PagesCount == nil {
@@ -116,6 +127,7 @@ func (o *Pagination) HasPagesCount() bool {
 func (o *Pagination) SetPagesCount(v int32) {
 	o.PagesCount = &v
 }
+
 
 // GetPerPage returns the PerPage field value if set, zero value otherwise.
 func (o *Pagination) GetPerPage() int32 {
@@ -145,6 +157,8 @@ func (o *Pagination) SetPerPage(v int32) {
 	o.PerPage = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Pagination) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -173,17 +187,17 @@ func (o Pagination) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Pagination) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		RowsCount  *int32 `json:"rows_count,omitempty"`
-		Page       *int32 `json:"page,omitempty"`
+		RowsCount *int32 `json:"rows_count,omitempty"`
+		Page *int32 `json:"page,omitempty"`
 		PagesCount *int32 `json:"pages_count,omitempty"`
-		PerPage    *int32 `json:"per_page,omitempty"`
+		PerPage *int32 `json:"per_page,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"rows_count", "page", "pages_count", "per_page"})
+		common.DeleteKeys(additionalProperties, &[]string{ "rows_count", "page", "pages_count", "per_page",  })
 	} else {
 		return err
 	}

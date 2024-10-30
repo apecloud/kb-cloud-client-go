@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ZoneCreate The zone that needs to be created.
+
+
+// ZoneCreate The zone that needs to be created. 
 type ZoneCreate struct {
 	// The name of the zone.
 	Name string `json:"name"`
@@ -21,9 +26,10 @@ type ZoneCreate struct {
 	// Whether the zone is enabled.
 	Enabled bool `json:"enabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewZoneCreate instantiates a new ZoneCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,7 +51,6 @@ func NewZoneCreateWithDefaults() *ZoneCreate {
 	this := ZoneCreate{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *ZoneCreate) GetName() string {
 	if o == nil {
@@ -68,6 +73,7 @@ func (o *ZoneCreate) GetNameOk() (*string, bool) {
 func (o *ZoneCreate) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetNameCn returns the NameCn field value.
 func (o *ZoneCreate) GetNameCn() string {
@@ -92,6 +98,7 @@ func (o *ZoneCreate) SetNameCn(v string) {
 	o.NameCn = v
 }
 
+
 // GetNameEn returns the NameEn field value.
 func (o *ZoneCreate) GetNameEn() string {
 	if o == nil {
@@ -114,6 +121,7 @@ func (o *ZoneCreate) GetNameEnOk() (*string, bool) {
 func (o *ZoneCreate) SetNameEn(v string) {
 	o.NameEn = v
 }
+
 
 // GetEnabled returns the Enabled field value.
 func (o *ZoneCreate) GetEnabled() bool {
@@ -138,6 +146,8 @@ func (o *ZoneCreate) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ZoneCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,10 +168,10 @@ func (o ZoneCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ZoneCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string `json:"name"`
-		NameCn  *string `json:"nameCN"`
-		NameEn  *string `json:"nameEN"`
-		Enabled *bool   `json:"enabled"`
+		Name *string `json:"name"`
+		NameCn *string `json:"nameCN"`
+		NameEn *string `json:"nameEN"`
+		Enabled *bool `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -180,7 +190,7 @@ func (o *ZoneCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "nameCN", "nameEN", "enabled",  })
 	} else {
 		return err
 	}

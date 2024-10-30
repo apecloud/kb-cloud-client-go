@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OrgMember Org Member info
+
+
+// OrgMember Org Member info 
 type OrgMember struct {
 	// The display name of User. Read-Only
 	DisplayName *string `json:"displayName,omitempty"`
@@ -23,9 +28,10 @@ type OrgMember struct {
 	// Return true if the member is freezed in the organization
 	Freezed bool `json:"freezed"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOrgMember instantiates a new OrgMember object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,7 +53,6 @@ func NewOrgMemberWithDefaults() *OrgMember {
 	this := OrgMember{}
 	return &this
 }
-
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *OrgMember) GetDisplayName() string {
 	if o == nil || o.DisplayName == nil {
@@ -76,6 +81,7 @@ func (o *OrgMember) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
+
 // GetEmail returns the Email field value.
 func (o *OrgMember) GetEmail() string {
 	if o == nil {
@@ -98,6 +104,7 @@ func (o *OrgMember) GetEmailOk() (*string, bool) {
 func (o *OrgMember) SetEmail(v string) {
 	o.Email = v
 }
+
 
 // GetRole returns the Role field value.
 func (o *OrgMember) GetRole() OrgMemberRole {
@@ -122,6 +129,7 @@ func (o *OrgMember) SetRole(v OrgMemberRole) {
 	o.Role = v
 }
 
+
 // GetUserId returns the UserId field value.
 func (o *OrgMember) GetUserId() string {
 	if o == nil {
@@ -144,6 +152,7 @@ func (o *OrgMember) GetUserIdOk() (*string, bool) {
 func (o *OrgMember) SetUserId(v string) {
 	o.UserId = v
 }
+
 
 // GetFreezed returns the Freezed field value.
 func (o *OrgMember) GetFreezed() bool {
@@ -168,6 +177,8 @@ func (o *OrgMember) SetFreezed(v bool) {
 	o.Freezed = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgMember) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -191,11 +202,11 @@ func (o OrgMember) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DisplayName *string        `json:"displayName,omitempty"`
-		Email       *string        `json:"email"`
-		Role        *OrgMemberRole `json:"role"`
-		UserId      *string        `json:"userId"`
-		Freezed     *bool          `json:"freezed"`
+		DisplayName *string `json:"displayName,omitempty"`
+		Email *string `json:"email"`
+		Role *OrgMemberRole `json:"role"`
+		UserId *string `json:"userId"`
+		Freezed *bool `json:"freezed"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -214,7 +225,7 @@ func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"displayName", "email", "role", "userId", "freezed"})
+		common.DeleteKeys(additionalProperties, &[]string{ "displayName", "email", "role", "userId", "freezed",  })
 	} else {
 		return err
 	}

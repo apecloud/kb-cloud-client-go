@@ -2,10 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type Engine struct {
 	// engine ID
 	Id *string `json:"id,omitempty"`
@@ -34,9 +43,10 @@ type Engine struct {
 	// clusterversion in the engines
 	ClusterVersions []string `json:"clusterVersions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngine instantiates a new Engine object.
 // This constructor will assign default values to properties that have it defined,
@@ -54,7 +64,6 @@ func NewEngineWithDefaults() *Engine {
 	this := Engine{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Engine) GetId() string {
 	if o == nil || o.Id == nil {
@@ -82,6 +91,7 @@ func (o *Engine) HasId() bool {
 func (o *Engine) SetId(v string) {
 	o.Id = &v
 }
+
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Engine) GetDescription() string {
@@ -111,6 +121,7 @@ func (o *Engine) SetDescription(v string) {
 	o.Description = &v
 }
 
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Engine) GetName() string {
 	if o == nil || o.Name == nil {
@@ -138,6 +149,7 @@ func (o *Engine) HasName() bool {
 func (o *Engine) SetName(v string) {
 	o.Name = &v
 }
+
 
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *Engine) GetVersion() string {
@@ -167,6 +179,7 @@ func (o *Engine) SetVersion(v string) {
 	o.Version = &v
 }
 
+
 // GetKbVersionConstraint returns the KbVersionConstraint field value if set, zero value otherwise.
 func (o *Engine) GetKbVersionConstraint() string {
 	if o == nil || o.KbVersionConstraint == nil {
@@ -194,6 +207,7 @@ func (o *Engine) HasKbVersionConstraint() bool {
 func (o *Engine) SetKbVersionConstraint(v string) {
 	o.KbVersionConstraint = &v
 }
+
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Engine) GetType() EngineType {
@@ -223,6 +237,7 @@ func (o *Engine) SetType(v EngineType) {
 	o.Type = &v
 }
 
+
 // GetInstalled returns the Installed field value if set, zero value otherwise.
 func (o *Engine) GetInstalled() bool {
 	if o == nil || o.Installed == nil {
@@ -250,6 +265,7 @@ func (o *Engine) HasInstalled() bool {
 func (o *Engine) SetInstalled(v bool) {
 	o.Installed = &v
 }
+
 
 // GetProvider returns the Provider field value if set, zero value otherwise.
 func (o *Engine) GetProvider() string {
@@ -279,6 +295,7 @@ func (o *Engine) SetProvider(v string) {
 	o.Provider = &v
 }
 
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Engine) GetStatus() EngineStatus {
 	if o == nil || o.Status == nil {
@@ -306,6 +323,7 @@ func (o *Engine) HasStatus() bool {
 func (o *Engine) SetStatus(v EngineStatus) {
 	o.Status = &v
 }
+
 
 // GetAvailableVersion returns the AvailableVersion field value if set, zero value otherwise.
 func (o *Engine) GetAvailableVersion() []string {
@@ -335,6 +353,7 @@ func (o *Engine) SetAvailableVersion(v []string) {
 	o.AvailableVersion = v
 }
 
+
 // GetUpgradeHistory returns the UpgradeHistory field value if set, zero value otherwise.
 func (o *Engine) GetUpgradeHistory() string {
 	if o == nil || o.UpgradeHistory == nil {
@@ -362,6 +381,7 @@ func (o *Engine) HasUpgradeHistory() bool {
 func (o *Engine) SetUpgradeHistory(v string) {
 	o.UpgradeHistory = &v
 }
+
 
 // GetErrMsg returns the ErrMsg field value if set, zero value otherwise.
 func (o *Engine) GetErrMsg() string {
@@ -391,6 +411,7 @@ func (o *Engine) SetErrMsg(v string) {
 	o.ErrMsg = &v
 }
 
+
 // GetClusterVersions returns the ClusterVersions field value if set, zero value otherwise.
 func (o *Engine) GetClusterVersions() []string {
 	if o == nil || o.ClusterVersions == nil {
@@ -418,6 +439,8 @@ func (o *Engine) HasClusterVersions() bool {
 func (o *Engine) SetClusterVersions(v []string) {
 	o.ClusterVersions = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Engine) MarshalJSON() ([]byte, error) {
@@ -474,26 +497,26 @@ func (o Engine) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *string       `json:"id,omitempty"`
-		Description         *string       `json:"description,omitempty"`
-		Name                *string       `json:"name,omitempty"`
-		Version             *string       `json:"version,omitempty"`
-		KbVersionConstraint *string       `json:"kbVersionConstraint,omitempty"`
-		Type                *EngineType   `json:"type,omitempty"`
-		Installed           *bool         `json:"installed,omitempty"`
-		Provider            *string       `json:"provider,omitempty"`
-		Status              *EngineStatus `json:"status,omitempty"`
-		AvailableVersion    []string      `json:"availableVersion,omitempty"`
-		UpgradeHistory      *string       `json:"upgradeHistory,omitempty"`
-		ErrMsg              *string       `json:"errMsg,omitempty"`
-		ClusterVersions     []string      `json:"clusterVersions,omitempty"`
+		Id *string `json:"id,omitempty"`
+		Description *string `json:"description,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Version *string `json:"version,omitempty"`
+		KbVersionConstraint *string `json:"kbVersionConstraint,omitempty"`
+		Type *EngineType `json:"type,omitempty"`
+		Installed *bool `json:"installed,omitempty"`
+		Provider *string `json:"provider,omitempty"`
+		Status *EngineStatus `json:"status,omitempty"`
+		AvailableVersion []string `json:"availableVersion,omitempty"`
+		UpgradeHistory *string `json:"upgradeHistory,omitempty"`
+		ErrMsg *string `json:"errMsg,omitempty"`
+		ClusterVersions []string `json:"clusterVersions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "description", "name", "version", "kbVersionConstraint", "type", "installed", "provider", "status", "availableVersion", "upgradeHistory", "errMsg", "clusterVersions"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "description", "name", "version", "kbVersionConstraint", "type", "installed", "provider", "status", "availableVersion", "upgradeHistory", "errMsg", "clusterVersions",  })
 	} else {
 		return err
 	}
@@ -504,14 +527,14 @@ func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = all.Name
 	o.Version = all.Version
 	o.KbVersionConstraint = all.KbVersionConstraint
-	if all.Type != nil && !all.Type.IsValid() {
+	if all.Type != nil &&!all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Type = all.Type
 	}
 	o.Installed = all.Installed
 	o.Provider = all.Provider
-	if all.Status != nil && !all.Status.IsValid() {
+	if all.Status != nil &&!all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Status = all.Status

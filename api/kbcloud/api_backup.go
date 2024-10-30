@@ -2,14 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
 	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -20,10 +23,12 @@ type BackupApi common.Service
 // CreateClusterBackup Create backup.
 func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, clusterName string, body BackupCreate) (Backup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Backup
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Backup
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.CreateClusterBackup")
 	if err != nil {
@@ -40,9 +45,11 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -64,10 +71,11 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -81,7 +89,7 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -93,9 +101,11 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 // DeleteBackup Delete backup.
 func (a *BackupApi) DeleteBackup(ctx _context.Context, orgName string, backupId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DeleteBackup")
 	if err != nil {
@@ -111,7 +121,8 @@ func (a *BackupApi) DeleteBackup(ctx _context.Context, orgName string, backupId 
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -133,10 +144,11 @@ func (a *BackupApi) DeleteBackup(ctx _context.Context, orgName string, backupId 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -153,10 +165,12 @@ func (a *BackupApi) DeleteBackup(ctx _context.Context, orgName string, backupId 
 // DownloadBackup Download full backup.
 func (a *BackupApi) DownloadBackup(ctx _context.Context, orgName string, backupId string) (_io.Reader, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue _io.Reader
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  _io.Reader
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadBackup")
 	if err != nil {
@@ -170,9 +184,10 @@ func (a *BackupApi) DownloadBackup(ctx _context.Context, orgName string, backupI
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/octet-stream"
+	localVarHeaderParams["Accept"] =  "application/octet-stream"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -194,10 +209,12 @@ func (a *BackupApi) DownloadBackup(ctx _context.Context, orgName string, backupI
 // DownloadMutipleBackups Download mutiple backup files.
 func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string, backupId string, body BackupDownload) (_io.Reader, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue _io.Reader
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  _io.Reader
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadMutipleBackups")
 	if err != nil {
@@ -212,11 +229,13 @@ func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string,
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/octet-stream"
+	localVarHeaderParams["Accept"] =  "application/octet-stream"
+
+	
 
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -238,10 +257,12 @@ func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string,
 // GetBackup Get backup.
 func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId string) (Backup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue Backup
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  Backup
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackup")
 	if err != nil {
@@ -257,7 +278,8 @@ func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId str
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -279,10 +301,11 @@ func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId str
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -296,7 +319,7 @@ func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId str
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -308,10 +331,12 @@ func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId str
 // GetBackupLog Get backup log.
 func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId string) (BackupLog, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue BackupLog
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  BackupLog
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackupLog")
 	if err != nil {
@@ -327,7 +352,8 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -349,10 +375,11 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -366,7 +393,7 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -378,10 +405,12 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 // GetBackupStats Get backup statistics.
 func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (BackupStats, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue BackupStats
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  BackupStats
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackupStats")
 	if err != nil {
@@ -396,7 +425,8 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (Backup
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -418,10 +448,11 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (Backup
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -435,7 +466,7 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (Backup
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -454,7 +485,6 @@ func NewGetClusterBackupPolicyOptionalParameters() *GetClusterBackupPolicyOption
 	this := GetClusterBackupPolicyOptionalParameters{}
 	return &this
 }
-
 // WithUseVolumeSnapshot sets the corresponding parameter name and returns the struct.
 func (r *GetClusterBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSnapshot bool) *GetClusterBackupPolicyOptionalParameters {
 	r.UseVolumeSnapshot = &useVolumeSnapshot
@@ -464,18 +494,20 @@ func (r *GetClusterBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolu
 // GetClusterBackupPolicy Get backup policy.
 func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string, clusterName string, o ...GetClusterBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue BackupPolicy
-		optionalParams      GetClusterBackupPolicyOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  BackupPolicy
+		optionalParams GetClusterBackupPolicyOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterBackupPolicyOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterBackupPolicyOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetClusterBackupPolicy")
 	if err != nil {
@@ -494,7 +526,8 @@ func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string,
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -516,10 +549,11 @@ func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -533,7 +567,7 @@ func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -544,13 +578,13 @@ func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string,
 
 // ListBackupsOptionalParameters holds optional parameters for ListBackups.
 type ListBackupsOptionalParameters struct {
-	ClusterName             *string
-	ClusterId               *string
-	BackupRepo              *string
+	ClusterName *string
+	ClusterId *string
+	BackupRepo *string
 	FetchWithDeletedCluster *bool
-	WithDeletedBackups      *bool
-	BackupType              *string
-	ComponentName           *string
+	WithDeletedBackups *bool
+	BackupType *string
+	ComponentName *string
 }
 
 // NewListBackupsOptionalParameters creates an empty struct for parameters.
@@ -558,43 +592,36 @@ func NewListBackupsOptionalParameters() *ListBackupsOptionalParameters {
 	this := ListBackupsOptionalParameters{}
 	return &this
 }
-
 // WithClusterName sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithClusterName(clusterName string) *ListBackupsOptionalParameters {
 	r.ClusterName = &clusterName
 	return r
 }
-
 // WithClusterId sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithClusterId(clusterId string) *ListBackupsOptionalParameters {
 	r.ClusterId = &clusterId
 	return r
 }
-
 // WithBackupRepo sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithBackupRepo(backupRepo string) *ListBackupsOptionalParameters {
 	r.BackupRepo = &backupRepo
 	return r
 }
-
 // WithFetchWithDeletedCluster sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithFetchWithDeletedCluster(fetchWithDeletedCluster bool) *ListBackupsOptionalParameters {
 	r.FetchWithDeletedCluster = &fetchWithDeletedCluster
 	return r
 }
-
 // WithWithDeletedBackups sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithWithDeletedBackups(withDeletedBackups bool) *ListBackupsOptionalParameters {
 	r.WithDeletedBackups = &withDeletedBackups
 	return r
 }
-
 // WithBackupType sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithBackupType(backupType string) *ListBackupsOptionalParameters {
 	r.BackupType = &backupType
 	return r
 }
-
 // WithComponentName sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithComponentName(componentName string) *ListBackupsOptionalParameters {
 	r.ComponentName = &componentName
@@ -604,18 +631,20 @@ func (r *ListBackupsOptionalParameters) WithComponentName(componentName string) 
 // ListBackups List backups.
 func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListBackupsOptionalParameters) (BackupList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue BackupList
-		optionalParams      ListBackupsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  BackupList
+		optionalParams ListBackupsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListBackupsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListBackupsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.ListBackups")
 	if err != nil {
@@ -651,7 +680,8 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -673,10 +703,11 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -690,7 +721,7 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -709,7 +740,6 @@ func NewPatchBackupPolicyOptionalParameters() *PatchBackupPolicyOptionalParamete
 	this := PatchBackupPolicyOptionalParameters{}
 	return &this
 }
-
 // WithUseVolumeSnapshot sets the corresponding parameter name and returns the struct.
 func (r *PatchBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSnapshot bool) *PatchBackupPolicyOptionalParameters {
 	r.UseVolumeSnapshot = &useVolumeSnapshot
@@ -720,18 +750,20 @@ func (r *PatchBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSna
 // partially update the specified Backup Policy
 func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clusterName string, body BackupPolicy, o ...PatchBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue BackupPolicy
-		optionalParams      PatchBackupPolicyOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  BackupPolicy
+		optionalParams PatchBackupPolicyOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type PatchBackupPolicyOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type PatchBackupPolicyOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.PatchBackupPolicy")
 	if err != nil {
@@ -751,9 +783,11 @@ func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clus
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -775,10 +809,11 @@ func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clus
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 {
+		if
+		localVarHTTPResponse.StatusCode == 401{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -792,7 +827,7 @@ func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clus
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -811,7 +846,6 @@ func NewViewBackupOptionalParameters() *ViewBackupOptionalParameters {
 	this := ViewBackupOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *ViewBackupOptionalParameters) WithBody(body BackupView) *ViewBackupOptionalParameters {
 	r.Body = &body
@@ -821,18 +855,20 @@ func (r *ViewBackupOptionalParameters) WithBody(body BackupView) *ViewBackupOpti
 // ViewBackup view backup info.
 func (a *BackupApi) ViewBackup(ctx _context.Context, orgName string, backupId string, o ...ViewBackupOptionalParameters) (FileEntryList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue FileEntryList
-		optionalParams      ViewBackupOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  FileEntryList
+		optionalParams ViewBackupOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ViewBackupOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ViewBackupOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.ViewBackup")
 	if err != nil {
@@ -849,11 +885,13 @@ func (a *BackupApi) ViewBackup(ctx _context.Context, orgName string, backupId st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -875,10 +913,11 @@ func (a *BackupApi) ViewBackup(ctx _context.Context, orgName string, backupId st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -892,7 +931,7 @@ func (a *BackupApi) ViewBackup(ctx _context.Context, orgName string, backupId st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

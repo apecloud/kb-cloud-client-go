@@ -2,21 +2,26 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // EndpointType Type of endpoint
 type EndpointType string
 
 // List of EndpointType.
 const (
-	EndpointTypeClusterIp    EndpointType = "ClusterIP"
-	EndpointTypeNodePort     EndpointType = "NodePort"
+	EndpointTypeClusterIp EndpointType = "ClusterIP"
+	EndpointTypeNodePort EndpointType = "NodePort"
 	EndpointTypeLoadBalancer EndpointType = "LoadBalancer"
 )
 

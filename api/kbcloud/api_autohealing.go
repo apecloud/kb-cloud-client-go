@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type AutohealingApi common.Service
 // GetAutohealing list autohealing job.
 func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, clusterName string) ([]AutohealingListItem, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []AutohealingListItem
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []AutohealingListItem
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AutohealingApi.GetAutohealing")
 	if err != nil {
@@ -38,7 +44,8 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -61,7 +68,7 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ViewInvolvedObjectsSelector A label selector is a label query over a set of resources.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ViewInvolvedObjectsSelector A label selector is a label query over a set of resources. 
 type ViewInvolvedObjectsSelector struct {
 	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
 	MatchExpressions []ViewInvolvedObjectsSelectorMatchExpressionsItem `json:"matchExpressions,omitempty"`
 	// matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
 	MatchLabels map[string]string `json:"matchLabels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewViewInvolvedObjectsSelector instantiates a new ViewInvolvedObjectsSelector object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewViewInvolvedObjectsSelectorWithDefaults() *ViewInvolvedObjectsSelector {
 	this := ViewInvolvedObjectsSelector{}
 	return &this
 }
-
 // GetMatchExpressions returns the MatchExpressions field value if set, zero value otherwise.
 func (o *ViewInvolvedObjectsSelector) GetMatchExpressions() []ViewInvolvedObjectsSelectorMatchExpressionsItem {
 	if o == nil || o.MatchExpressions == nil {
@@ -61,6 +70,7 @@ func (o *ViewInvolvedObjectsSelector) HasMatchExpressions() bool {
 func (o *ViewInvolvedObjectsSelector) SetMatchExpressions(v []ViewInvolvedObjectsSelectorMatchExpressionsItem) {
 	o.MatchExpressions = v
 }
+
 
 // GetMatchLabels returns the MatchLabels field value if set, zero value otherwise.
 func (o *ViewInvolvedObjectsSelector) GetMatchLabels() map[string]string {
@@ -90,6 +100,8 @@ func (o *ViewInvolvedObjectsSelector) SetMatchLabels(v map[string]string) {
 	o.MatchLabels = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ViewInvolvedObjectsSelector) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -113,14 +125,14 @@ func (o ViewInvolvedObjectsSelector) MarshalJSON() ([]byte, error) {
 func (o *ViewInvolvedObjectsSelector) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		MatchExpressions []ViewInvolvedObjectsSelectorMatchExpressionsItem `json:"matchExpressions,omitempty"`
-		MatchLabels      map[string]string                                 `json:"matchLabels,omitempty"`
+		MatchLabels map[string]string `json:"matchLabels,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"matchExpressions", "matchLabels"})
+		common.DeleteKeys(additionalProperties, &[]string{ "matchExpressions", "matchLabels",  })
 	} else {
 		return err
 	}

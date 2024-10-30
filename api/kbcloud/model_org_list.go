@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OrgList OrgList is a list of Orgs
+
+
+// OrgList OrgList is a list of Orgs 
 type OrgList struct {
 	// Items is the list of Org objects in the list
 	Items []Org `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOrgList instantiates a new OrgList object.
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,6 @@ func NewOrgListWithDefaults() *OrgList {
 	this := OrgList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *OrgList) GetItems() []Org {
 	if o == nil {
@@ -61,6 +66,7 @@ func (o *OrgList) GetItemsOk() (*[]Org, bool) {
 func (o *OrgList) SetItems(v []Org) {
 	o.Items = v
 }
+
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
 func (o *OrgList) GetPageResult() PageResult {
@@ -90,6 +96,8 @@ func (o *OrgList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -110,7 +118,7 @@ func (o OrgList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrgList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Org      `json:"items"`
+		Items *[]Org `json:"items"`
 		PageResult *PageResult `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -121,14 +129,14 @@ func (o *OrgList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "pageResult"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items", "pageResult",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Items = *all.Items
-	if all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.PageResult = all.PageResult

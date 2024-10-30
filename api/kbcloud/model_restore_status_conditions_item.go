@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type RestoreStatusConditionsItem struct {
 	Message *string `json:"message,omitempty"`
-	Reason  *string `json:"reason,omitempty"`
+	Reason *string `json:"reason,omitempty"`
 	// conditionType
 	Type *string `json:"type,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRestoreStatusConditionsItem instantiates a new RestoreStatusConditionsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewRestoreStatusConditionsItemWithDefaults() *RestoreStatusConditionsItem {
 	this := RestoreStatusConditionsItem{}
 	return &this
 }
-
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *RestoreStatusConditionsItem) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -60,6 +69,7 @@ func (o *RestoreStatusConditionsItem) HasMessage() bool {
 func (o *RestoreStatusConditionsItem) SetMessage(v string) {
 	o.Message = &v
 }
+
 
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *RestoreStatusConditionsItem) GetReason() string {
@@ -89,6 +99,7 @@ func (o *RestoreStatusConditionsItem) SetReason(v string) {
 	o.Reason = &v
 }
 
+
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *RestoreStatusConditionsItem) GetType() string {
 	if o == nil || o.Type == nil {
@@ -117,6 +128,8 @@ func (o *RestoreStatusConditionsItem) SetType(v string) {
 	o.Type = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RestoreStatusConditionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,15 +156,15 @@ func (o RestoreStatusConditionsItem) MarshalJSON() ([]byte, error) {
 func (o *RestoreStatusConditionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Message *string `json:"message,omitempty"`
-		Reason  *string `json:"reason,omitempty"`
-		Type    *string `json:"type,omitempty"`
+		Reason *string `json:"reason,omitempty"`
+		Type *string `json:"type,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"message", "reason", "type"})
+		common.DeleteKeys(additionalProperties, &[]string{ "message", "reason", "type",  })
 	} else {
 		return err
 	}

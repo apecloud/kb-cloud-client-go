@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
+
+
+// OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster 
 type OpsVolumeExpand struct {
-	Component *string                      `json:"component,omitempty"`
-	Volumes   []OpsVolumeExpandVolumesItem `json:"volumes"`
+	Component *string `json:"component,omitempty"`
+	Volumes []OpsVolumeExpandVolumesItem `json:"volumes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsVolumeExpand instantiates a new OpsVolumeExpand object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewOpsVolumeExpandWithDefaults() *OpsVolumeExpand {
 	this := OpsVolumeExpand{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsVolumeExpand) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -65,6 +70,7 @@ func (o *OpsVolumeExpand) SetComponent(v string) {
 	o.Component = &v
 }
 
+
 // GetVolumes returns the Volumes field value.
 func (o *OpsVolumeExpand) GetVolumes() []OpsVolumeExpandVolumesItem {
 	if o == nil {
@@ -88,6 +94,8 @@ func (o *OpsVolumeExpand) SetVolumes(v []OpsVolumeExpandVolumesItem) {
 	o.Volumes = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsVolumeExpand) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -108,8 +116,8 @@ func (o OpsVolumeExpand) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string                       `json:"component,omitempty"`
-		Volumes   *[]OpsVolumeExpandVolumesItem `json:"volumes"`
+		Component *string `json:"component,omitempty"`
+		Volumes *[]OpsVolumeExpandVolumesItem `json:"volumes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -119,7 +127,7 @@ func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "volumes"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "volumes",  })
 	} else {
 		return err
 	}

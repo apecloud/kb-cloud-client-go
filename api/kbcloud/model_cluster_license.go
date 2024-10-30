@@ -2,24 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
-	_io "io"
-	"time"
+	"github.com/google/uuid"
+	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type ClusterLicense struct {
-	Id        *string     `json:"id,omitempty"`
-	Name      *string     `json:"name,omitempty"`
-	ExpiredAt *time.Time  `json:"expiredAt,omitempty"`
-	Key       *_io.Reader `json:"key,omitempty"`
+	Id *string `json:"id,omitempty"`
+	Name *string `json:"name,omitempty"`
+	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+	Key *_io.Reader `json:"key,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewClusterLicense instantiates a new ClusterLicense object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +42,6 @@ func NewClusterLicenseWithDefaults() *ClusterLicense {
 	this := ClusterLicense{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *ClusterLicense) GetId() string {
 	if o == nil || o.Id == nil {
@@ -65,6 +69,7 @@ func (o *ClusterLicense) HasId() bool {
 func (o *ClusterLicense) SetId(v string) {
 	o.Id = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *ClusterLicense) GetName() string {
@@ -94,6 +99,7 @@ func (o *ClusterLicense) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetExpiredAt returns the ExpiredAt field value if set, zero value otherwise.
 func (o *ClusterLicense) GetExpiredAt() time.Time {
 	if o == nil || o.ExpiredAt == nil {
@@ -122,6 +128,7 @@ func (o *ClusterLicense) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = &v
 }
 
+
 // GetKey returns the Key field value if set, zero value otherwise.
 func (o *ClusterLicense) GetKey() _io.Reader {
 	if o == nil || o.Key == nil {
@@ -149,6 +156,8 @@ func (o *ClusterLicense) HasKey() bool {
 func (o *ClusterLicense) SetKey(v _io.Reader) {
 	o.Key = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterLicense) MarshalJSON() ([]byte, error) {
@@ -182,17 +191,17 @@ func (o ClusterLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *string     `json:"id,omitempty"`
-		Name      *string     `json:"name,omitempty"`
-		ExpiredAt *time.Time  `json:"expiredAt,omitempty"`
-		Key       *_io.Reader `json:"key,omitempty"`
+		Id *string `json:"id,omitempty"`
+		Name *string `json:"name,omitempty"`
+		ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+		Key *_io.Reader `json:"key,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "expiredAt", "key"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "expiredAt", "key",  })
 	} else {
 		return err
 	}

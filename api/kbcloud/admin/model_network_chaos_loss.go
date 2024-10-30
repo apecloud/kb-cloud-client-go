@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// NetworkChaosLoss specify the loss in the chaos action
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// NetworkChaosLoss specify the loss in the chaos action 
 type NetworkChaosLoss struct {
 	// specify the loss in the chaos action
 	Loss *string `json:"loss,omitempty"`
 	// specify the correlation in the chaos action
 	Correlation *string `json:"correlation,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNetworkChaosLoss instantiates a new NetworkChaosLoss object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewNetworkChaosLossWithDefaults() *NetworkChaosLoss {
 	this := NetworkChaosLoss{}
 	return &this
 }
-
 // GetLoss returns the Loss field value if set, zero value otherwise.
 func (o *NetworkChaosLoss) GetLoss() string {
 	if o == nil || o.Loss == nil {
@@ -61,6 +70,7 @@ func (o *NetworkChaosLoss) HasLoss() bool {
 func (o *NetworkChaosLoss) SetLoss(v string) {
 	o.Loss = &v
 }
+
 
 // GetCorrelation returns the Correlation field value if set, zero value otherwise.
 func (o *NetworkChaosLoss) GetCorrelation() string {
@@ -90,6 +100,8 @@ func (o *NetworkChaosLoss) SetCorrelation(v string) {
 	o.Correlation = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NetworkChaosLoss) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,7 +124,7 @@ func (o NetworkChaosLoss) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NetworkChaosLoss) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Loss        *string `json:"loss,omitempty"`
+		Loss *string `json:"loss,omitempty"`
 		Correlation *string `json:"correlation,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -120,7 +132,7 @@ func (o *NetworkChaosLoss) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"loss", "correlation"})
+		common.DeleteKeys(additionalProperties, &[]string{ "loss", "correlation",  })
 	} else {
 		return err
 	}

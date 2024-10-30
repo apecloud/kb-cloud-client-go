@@ -2,18 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ZoneList The list of zones.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ZoneList The list of zones. 
 type ZoneList struct {
 	// The list of zones.
 	Items []Zone `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewZoneList instantiates a new ZoneList object.
 // This constructor will assign default values to properties that have it defined,
@@ -31,7 +41,6 @@ func NewZoneListWithDefaults() *ZoneList {
 	this := ZoneList{}
 	return &this
 }
-
 // GetItems returns the Items field value if set, zero value otherwise.
 func (o *ZoneList) GetItems() []Zone {
 	if o == nil || o.Items == nil {
@@ -60,6 +69,8 @@ func (o *ZoneList) SetItems(v []Zone) {
 	o.Items = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ZoneList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -86,7 +97,7 @@ func (o *ZoneList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
-	"time"
+	"github.com/google/uuid"
+	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Cluster_event event is the information of operation event
+
+
+// Cluster_event event is the information of operation event 
 type Cluster_event struct {
 	// ID of the event
 	Id *string `json:"id,omitempty"`
@@ -43,9 +48,10 @@ type Cluster_event struct {
 	// event created time
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewCluster_event instantiates a new Cluster_event object.
 // This constructor will assign default values to properties that have it defined,
@@ -63,7 +69,6 @@ func NewCluster_eventWithDefaults() *Cluster_event {
 	this := Cluster_event{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Cluster_event) GetId() string {
 	if o == nil || o.Id == nil {
@@ -91,6 +96,7 @@ func (o *Cluster_event) HasId() bool {
 func (o *Cluster_event) SetId(v string) {
 	o.Id = &v
 }
+
 
 // GetResourceId returns the ResourceId field value if set, zero value otherwise.
 func (o *Cluster_event) GetResourceId() string {
@@ -120,6 +126,7 @@ func (o *Cluster_event) SetResourceId(v string) {
 	o.ResourceId = &v
 }
 
+
 // GetResourceType returns the ResourceType field value if set, zero value otherwise.
 func (o *Cluster_event) GetResourceType() EventResourceType {
 	if o == nil || o.ResourceType == nil {
@@ -147,6 +154,7 @@ func (o *Cluster_event) HasResourceType() bool {
 func (o *Cluster_event) SetResourceType(v EventResourceType) {
 	o.ResourceType = &v
 }
+
 
 // GetResourceName returns the ResourceName field value if set, zero value otherwise.
 func (o *Cluster_event) GetResourceName() string {
@@ -176,6 +184,7 @@ func (o *Cluster_event) SetResourceName(v string) {
 	o.ResourceName = &v
 }
 
+
 // GetOperator returns the Operator field value if set, zero value otherwise.
 func (o *Cluster_event) GetOperator() string {
 	if o == nil || o.Operator == nil {
@@ -203,6 +212,7 @@ func (o *Cluster_event) HasOperator() bool {
 func (o *Cluster_event) SetOperator(v string) {
 	o.Operator = &v
 }
+
 
 // GetOperatorId returns the OperatorId field value if set, zero value otherwise.
 func (o *Cluster_event) GetOperatorId() string {
@@ -232,6 +242,7 @@ func (o *Cluster_event) SetOperatorId(v string) {
 	o.OperatorId = &v
 }
 
+
 // GetDetails returns the Details field value if set, zero value otherwise.
 func (o *Cluster_event) GetDetails() string {
 	if o == nil || o.Details == nil {
@@ -259,6 +270,7 @@ func (o *Cluster_event) HasDetails() bool {
 func (o *Cluster_event) SetDetails(v string) {
 	o.Details = &v
 }
+
 
 // GetHasTask returns the HasTask field value if set, zero value otherwise.
 func (o *Cluster_event) GetHasTask() bool {
@@ -288,6 +300,7 @@ func (o *Cluster_event) SetHasTask(v bool) {
 	o.HasTask = &v
 }
 
+
 // GetResult returns the Result field value if set, zero value otherwise.
 func (o *Cluster_event) GetResult() string {
 	if o == nil || o.Result == nil {
@@ -315,6 +328,7 @@ func (o *Cluster_event) HasResult() bool {
 func (o *Cluster_event) SetResult(v string) {
 	o.Result = &v
 }
+
 
 // GetEventName returns the EventName field value if set, zero value otherwise.
 func (o *Cluster_event) GetEventName() string {
@@ -344,6 +358,7 @@ func (o *Cluster_event) SetEventName(v string) {
 	o.EventName = &v
 }
 
+
 // GetResultStatus returns the ResultStatus field value if set, zero value otherwise.
 func (o *Cluster_event) GetResultStatus() EventResultStatus {
 	if o == nil || o.ResultStatus == nil {
@@ -371,6 +386,7 @@ func (o *Cluster_event) HasResultStatus() bool {
 func (o *Cluster_event) SetResultStatus(v EventResultStatus) {
 	o.ResultStatus = &v
 }
+
 
 // GetSource returns the Source field value if set, zero value otherwise.
 func (o *Cluster_event) GetSource() EventSource {
@@ -400,6 +416,7 @@ func (o *Cluster_event) SetSource(v EventSource) {
 	o.Source = &v
 }
 
+
 // GetEnd returns the End field value if set, zero value otherwise.
 func (o *Cluster_event) GetEnd() time.Time {
 	if o == nil || o.End == nil {
@@ -427,6 +444,7 @@ func (o *Cluster_event) HasEnd() bool {
 func (o *Cluster_event) SetEnd(v time.Time) {
 	o.End = &v
 }
+
 
 // GetStart returns the Start field value if set, zero value otherwise.
 func (o *Cluster_event) GetStart() time.Time {
@@ -456,6 +474,7 @@ func (o *Cluster_event) SetStart(v time.Time) {
 	o.Start = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Cluster_event) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -483,6 +502,8 @@ func (o *Cluster_event) HasCreatedAt() bool {
 func (o *Cluster_event) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster_event) MarshalJSON() ([]byte, error) {
@@ -557,28 +578,28 @@ func (o Cluster_event) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Cluster_event) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id           *string            `json:"id,omitempty"`
-		ResourceId   *string            `json:"resourceId,omitempty"`
+		Id *string `json:"id,omitempty"`
+		ResourceId *string `json:"resourceId,omitempty"`
 		ResourceType *EventResourceType `json:"resourceType,omitempty"`
-		ResourceName *string            `json:"resourceName,omitempty"`
-		Operator     *string            `json:"operator,omitempty"`
-		OperatorId   *string            `json:"operatorId,omitempty"`
-		Details      *string            `json:"details,omitempty"`
-		HasTask      *bool              `json:"hasTask,omitempty"`
-		Result       *string            `json:"result,omitempty"`
-		EventName    *string            `json:"eventName,omitempty"`
+		ResourceName *string `json:"resourceName,omitempty"`
+		Operator *string `json:"operator,omitempty"`
+		OperatorId *string `json:"operatorId,omitempty"`
+		Details *string `json:"details,omitempty"`
+		HasTask *bool `json:"hasTask,omitempty"`
+		Result *string `json:"result,omitempty"`
+		EventName *string `json:"eventName,omitempty"`
 		ResultStatus *EventResultStatus `json:"resultStatus,omitempty"`
-		Source       *EventSource       `json:"source,omitempty"`
-		End          *time.Time         `json:"end,omitempty"`
-		Start        *time.Time         `json:"start,omitempty"`
-		CreatedAt    *time.Time         `json:"createdAt,omitempty"`
+		Source *EventSource `json:"source,omitempty"`
+		End *time.Time `json:"end,omitempty"`
+		Start *time.Time `json:"start,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "resultStatus", "source", "end", "start", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "resultStatus", "source", "end", "start", "createdAt",  })
 	} else {
 		return err
 	}
@@ -586,7 +607,7 @@ func (o *Cluster_event) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Id = all.Id
 	o.ResourceId = all.ResourceId
-	if all.ResourceType != nil && !all.ResourceType.IsValid() {
+	if all.ResourceType != nil &&!all.ResourceType.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ResourceType = all.ResourceType
@@ -598,12 +619,12 @@ func (o *Cluster_event) UnmarshalJSON(bytes []byte) (err error) {
 	o.HasTask = all.HasTask
 	o.Result = all.Result
 	o.EventName = all.EventName
-	if all.ResultStatus != nil && !all.ResultStatus.IsValid() {
+	if all.ResultStatus != nil &&!all.ResultStatus.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ResultStatus = all.ResultStatus
 	}
-	if all.Source != nil && !all.Source.IsValid() {
+	if all.Source != nil &&!all.Source.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Source = all.Source

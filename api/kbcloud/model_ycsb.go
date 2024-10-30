@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Ycsb ycsb is the ycsb benchmark object
+
+
+// Ycsb ycsb is the ycsb benchmark object 
 type Ycsb struct {
 	// Step of benchmark
 	Step *YcsbStep `json:"step,omitempty"`
@@ -61,9 +66,10 @@ type Ycsb struct {
 	// Redis sentinel password
 	RedisSentinelPassword *string `json:"redisSentinelPassword,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewYcsb instantiates a new Ycsb object.
 // This constructor will assign default values to properties that have it defined,
@@ -109,7 +115,6 @@ func NewYcsbWithDefaults() *Ycsb {
 	this.Database = &database
 	return &this
 }
-
 // GetStep returns the Step field value if set, zero value otherwise.
 func (o *Ycsb) GetStep() YcsbStep {
 	if o == nil || o.Step == nil {
@@ -137,6 +142,7 @@ func (o *Ycsb) HasStep() bool {
 func (o *Ycsb) SetStep(v YcsbStep) {
 	o.Step = &v
 }
+
 
 // GetLimitCpu returns the LimitCpu field value if set, zero value otherwise.
 func (o *Ycsb) GetLimitCpu() string {
@@ -166,6 +172,7 @@ func (o *Ycsb) SetLimitCpu(v string) {
 	o.LimitCpu = &v
 }
 
+
 // GetLimitMemory returns the LimitMemory field value if set, zero value otherwise.
 func (o *Ycsb) GetLimitMemory() string {
 	if o == nil || o.LimitMemory == nil {
@@ -193,6 +200,7 @@ func (o *Ycsb) HasLimitMemory() bool {
 func (o *Ycsb) SetLimitMemory(v string) {
 	o.LimitMemory = &v
 }
+
 
 // GetRequestCpu returns the RequestCpu field value if set, zero value otherwise.
 func (o *Ycsb) GetRequestCpu() string {
@@ -222,6 +230,7 @@ func (o *Ycsb) SetRequestCpu(v string) {
 	o.RequestCpu = &v
 }
 
+
 // GetRequestMemory returns the RequestMemory field value if set, zero value otherwise.
 func (o *Ycsb) GetRequestMemory() string {
 	if o == nil || o.RequestMemory == nil {
@@ -249,6 +258,7 @@ func (o *Ycsb) HasRequestMemory() bool {
 func (o *Ycsb) SetRequestMemory(v string) {
 	o.RequestMemory = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Ycsb) GetName() string {
@@ -278,6 +288,7 @@ func (o *Ycsb) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetDatabase returns the Database field value if set, zero value otherwise.
 func (o *Ycsb) GetDatabase() string {
 	if o == nil || o.Database == nil {
@@ -306,6 +317,7 @@ func (o *Ycsb) SetDatabase(v string) {
 	o.Database = &v
 }
 
+
 // GetCluster returns the Cluster field value.
 func (o *Ycsb) GetCluster() string {
 	if o == nil {
@@ -328,6 +340,7 @@ func (o *Ycsb) GetClusterOk() (*string, bool) {
 func (o *Ycsb) SetCluster(v string) {
 	o.Cluster = v
 }
+
 
 // GetUsername returns the Username field value.
 func (o *Ycsb) GetUsername() string {
@@ -352,6 +365,7 @@ func (o *Ycsb) SetUsername(v string) {
 	o.Username = v
 }
 
+
 // GetPassword returns the Password field value.
 func (o *Ycsb) GetPassword() string {
 	if o == nil {
@@ -375,6 +389,7 @@ func (o *Ycsb) SetPassword(v string) {
 	o.Password = v
 }
 
+
 // GetAddress returns the Address field value.
 func (o *Ycsb) GetAddress() string {
 	if o == nil {
@@ -397,6 +412,7 @@ func (o *Ycsb) GetAddressOk() (*string, bool) {
 func (o *Ycsb) SetAddress(v string) {
 	o.Address = v
 }
+
 
 // GetRecordCount returns the RecordCount field value if set, zero value otherwise.
 func (o *Ycsb) GetRecordCount() int32 {
@@ -426,6 +442,7 @@ func (o *Ycsb) SetRecordCount(v int32) {
 	o.RecordCount = &v
 }
 
+
 // GetOperationCount returns the OperationCount field value if set, zero value otherwise.
 func (o *Ycsb) GetOperationCount() int32 {
 	if o == nil || o.OperationCount == nil {
@@ -453,6 +470,7 @@ func (o *Ycsb) HasOperationCount() bool {
 func (o *Ycsb) SetOperationCount(v int32) {
 	o.OperationCount = &v
 }
+
 
 // GetReadProportion returns the ReadProportion field value if set, zero value otherwise.
 func (o *Ycsb) GetReadProportion() int32 {
@@ -482,6 +500,7 @@ func (o *Ycsb) SetReadProportion(v int32) {
 	o.ReadProportion = &v
 }
 
+
 // GetUpdateProportion returns the UpdateProportion field value if set, zero value otherwise.
 func (o *Ycsb) GetUpdateProportion() int32 {
 	if o == nil || o.UpdateProportion == nil {
@@ -509,6 +528,7 @@ func (o *Ycsb) HasUpdateProportion() bool {
 func (o *Ycsb) SetUpdateProportion(v int32) {
 	o.UpdateProportion = &v
 }
+
 
 // GetInsertProportion returns the InsertProportion field value if set, zero value otherwise.
 func (o *Ycsb) GetInsertProportion() int32 {
@@ -538,6 +558,7 @@ func (o *Ycsb) SetInsertProportion(v int32) {
 	o.InsertProportion = &v
 }
 
+
 // GetReadModifyWriteProportion returns the ReadModifyWriteProportion field value if set, zero value otherwise.
 func (o *Ycsb) GetReadModifyWriteProportion() int32 {
 	if o == nil || o.ReadModifyWriteProportion == nil {
@@ -565,6 +586,7 @@ func (o *Ycsb) HasReadModifyWriteProportion() bool {
 func (o *Ycsb) SetReadModifyWriteProportion(v int32) {
 	o.ReadModifyWriteProportion = &v
 }
+
 
 // GetScanProportion returns the ScanProportion field value if set, zero value otherwise.
 func (o *Ycsb) GetScanProportion() int32 {
@@ -594,6 +616,7 @@ func (o *Ycsb) SetScanProportion(v int32) {
 	o.ScanProportion = &v
 }
 
+
 // GetThreads returns the Threads field value if set, zero value otherwise.
 func (o *Ycsb) GetThreads() int32 {
 	if o == nil || o.Threads == nil {
@@ -621,6 +644,7 @@ func (o *Ycsb) HasThreads() bool {
 func (o *Ycsb) SetThreads(v int32) {
 	o.Threads = &v
 }
+
 
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
 func (o *Ycsb) GetExtraArgs() string {
@@ -650,6 +674,7 @@ func (o *Ycsb) SetExtraArgs(v string) {
 	o.ExtraArgs = &v
 }
 
+
 // GetRedisMode returns the RedisMode field value if set, zero value otherwise.
 func (o *Ycsb) GetRedisMode() YcsbRedisMode {
 	if o == nil || o.RedisMode == nil {
@@ -677,6 +702,7 @@ func (o *Ycsb) HasRedisMode() bool {
 func (o *Ycsb) SetRedisMode(v YcsbRedisMode) {
 	o.RedisMode = &v
 }
+
 
 // GetRedisSentinelMaster returns the RedisSentinelMaster field value if set, zero value otherwise.
 func (o *Ycsb) GetRedisSentinelMaster() string {
@@ -706,6 +732,7 @@ func (o *Ycsb) SetRedisSentinelMaster(v string) {
 	o.RedisSentinelMaster = &v
 }
 
+
 // GetRedisSentinelUsername returns the RedisSentinelUsername field value if set, zero value otherwise.
 func (o *Ycsb) GetRedisSentinelUsername() string {
 	if o == nil || o.RedisSentinelUsername == nil {
@@ -734,6 +761,7 @@ func (o *Ycsb) SetRedisSentinelUsername(v string) {
 	o.RedisSentinelUsername = &v
 }
 
+
 // GetRedisSentinelPassword returns the RedisSentinelPassword field value if set, zero value otherwise.
 func (o *Ycsb) GetRedisSentinelPassword() string {
 	if o == nil || o.RedisSentinelPassword == nil {
@@ -761,6 +789,8 @@ func (o *Ycsb) HasRedisSentinelPassword() bool {
 func (o *Ycsb) SetRedisSentinelPassword(v string) {
 	o.RedisSentinelPassword = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Ycsb) MarshalJSON() ([]byte, error) {
@@ -842,30 +872,30 @@ func (o Ycsb) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step                      *YcsbStep      `json:"step,omitempty"`
-		LimitCpu                  *string        `json:"limitCpu,omitempty"`
-		LimitMemory               *string        `json:"limitMemory,omitempty"`
-		RequestCpu                *string        `json:"requestCpu,omitempty"`
-		RequestMemory             *string        `json:"requestMemory,omitempty"`
-		Name                      *string        `json:"name,omitempty"`
-		Database                  *string        `json:"database,omitempty"`
-		Cluster                   *string        `json:"cluster"`
-		Username                  *string        `json:"username"`
-		Password                  *string        `json:"password"`
-		Address                   *string        `json:"address"`
-		RecordCount               *int32         `json:"recordCount,omitempty"`
-		OperationCount            *int32         `json:"operationCount,omitempty"`
-		ReadProportion            *int32         `json:"readProportion,omitempty"`
-		UpdateProportion          *int32         `json:"updateProportion,omitempty"`
-		InsertProportion          *int32         `json:"insertProportion,omitempty"`
-		ReadModifyWriteProportion *int32         `json:"readModifyWriteProportion,omitempty"`
-		ScanProportion            *int32         `json:"scanProportion,omitempty"`
-		Threads                   *int32         `json:"threads,omitempty"`
-		ExtraArgs                 *string        `json:"extraArgs,omitempty"`
-		RedisMode                 *YcsbRedisMode `json:"redisMode,omitempty"`
-		RedisSentinelMaster       *string        `json:"redisSentinelMaster,omitempty"`
-		RedisSentinelUsername     *string        `json:"redisSentinelUsername,omitempty"`
-		RedisSentinelPassword     *string        `json:"redisSentinelPassword,omitempty"`
+		Step *YcsbStep `json:"step,omitempty"`
+		LimitCpu *string `json:"limitCpu,omitempty"`
+		LimitMemory *string `json:"limitMemory,omitempty"`
+		RequestCpu *string `json:"requestCpu,omitempty"`
+		RequestMemory *string `json:"requestMemory,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Database *string `json:"database,omitempty"`
+		Cluster *string `json:"cluster"`
+		Username *string `json:"username"`
+		Password *string `json:"password"`
+		Address *string `json:"address"`
+		RecordCount *int32 `json:"recordCount,omitempty"`
+		OperationCount *int32 `json:"operationCount,omitempty"`
+		ReadProportion *int32 `json:"readProportion,omitempty"`
+		UpdateProportion *int32 `json:"updateProportion,omitempty"`
+		InsertProportion *int32 `json:"insertProportion,omitempty"`
+		ReadModifyWriteProportion *int32 `json:"readModifyWriteProportion,omitempty"`
+		ScanProportion *int32 `json:"scanProportion,omitempty"`
+		Threads *int32 `json:"threads,omitempty"`
+		ExtraArgs *string `json:"extraArgs,omitempty"`
+		RedisMode *YcsbRedisMode `json:"redisMode,omitempty"`
+		RedisSentinelMaster *string `json:"redisSentinelMaster,omitempty"`
+		RedisSentinelUsername *string `json:"redisSentinelUsername,omitempty"`
+		RedisSentinelPassword *string `json:"redisSentinelPassword,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -884,13 +914,13 @@ func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "database", "cluster", "username", "password", "address", "recordCount", "operationCount", "readProportion", "updateProportion", "insertProportion", "readModifyWriteProportion", "scanProportion", "threads", "extraArgs", "redisMode", "redisSentinelMaster", "redisSentinelUsername", "redisSentinelPassword"})
+		common.DeleteKeys(additionalProperties, &[]string{ "step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "database", "cluster", "username", "password", "address", "recordCount", "operationCount", "readProportion", "updateProportion", "insertProportion", "readModifyWriteProportion", "scanProportion", "threads", "extraArgs", "redisMode", "redisSentinelMaster", "redisSentinelUsername", "redisSentinelPassword",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.Step != nil && !all.Step.IsValid() {
+	if all.Step != nil &&!all.Step.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Step = all.Step
@@ -914,7 +944,7 @@ func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	o.ScanProportion = all.ScanProportion
 	o.Threads = all.Threads
 	o.ExtraArgs = all.ExtraArgs
-	if all.RedisMode != nil && !all.RedisMode.IsValid() {
+	if all.RedisMode != nil &&!all.RedisMode.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.RedisMode = all.RedisMode

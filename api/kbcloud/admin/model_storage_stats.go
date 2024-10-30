@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// StorageStats StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
+
+
+// StorageStats StorageStats holds the resource stats of the volume, such as provisioned capacity, etc. 
 type StorageStats struct {
 	// ProvisionedCapacity is the actual size of the volumes that is bound to the PVC, unit is GiB
 	ProvisionedCapacity float64 `json:"provisionedCapacity"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageStats instantiates a new StorageStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewStorageStatsWithDefaults() *StorageStats {
 	this := StorageStats{}
 	return &this
 }
-
 // GetProvisionedCapacity returns the ProvisionedCapacity field value.
 func (o *StorageStats) GetProvisionedCapacity() float64 {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *StorageStats) GetProvisionedCapacityOk() (*float64, bool) {
 func (o *StorageStats) SetProvisionedCapacity(v float64) {
 	o.ProvisionedCapacity = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageStats) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *StorageStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provisionedCapacity"})
+		common.DeleteKeys(additionalProperties, &[]string{ "provisionedCapacity",  })
 	} else {
 		return err
 	}

@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
-	"time"
+	"github.com/google/uuid"
+	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// License License info
+
+
+// License License info 
 type License struct {
 	// The kubernetes cluster ID
 	ClusterId *string `json:"clusterID,omitempty"`
@@ -35,9 +40,10 @@ type License struct {
 	// The license mode
 	Mode *string `json:"mode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewLicense instantiates a new License object.
 // This constructor will assign default values to properties that have it defined,
@@ -55,7 +61,6 @@ func NewLicenseWithDefaults() *License {
 	this := License{}
 	return &this
 }
-
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *License) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
@@ -83,6 +88,7 @@ func (o *License) HasClusterId() bool {
 func (o *License) SetClusterId(v string) {
 	o.ClusterId = &v
 }
+
 
 // GetEmail returns the Email field value if set, zero value otherwise.
 func (o *License) GetEmail() string {
@@ -112,6 +118,7 @@ func (o *License) SetEmail(v string) {
 	o.Email = &v
 }
 
+
 // GetUserName returns the UserName field value if set, zero value otherwise.
 func (o *License) GetUserName() string {
 	if o == nil || o.UserName == nil {
@@ -139,6 +146,7 @@ func (o *License) HasUserName() bool {
 func (o *License) SetUserName(v string) {
 	o.UserName = &v
 }
+
 
 // GetUnit returns the Unit field value if set, zero value otherwise.
 func (o *License) GetUnit() string {
@@ -168,6 +176,7 @@ func (o *License) SetUnit(v string) {
 	o.Unit = &v
 }
 
+
 // GetQuantity returns the Quantity field value if set, zero value otherwise.
 func (o *License) GetQuantity() string {
 	if o == nil || o.Quantity == nil {
@@ -195,6 +204,7 @@ func (o *License) HasQuantity() bool {
 func (o *License) SetQuantity(v string) {
 	o.Quantity = &v
 }
+
 
 // GetEngines returns the Engines field value if set, zero value otherwise.
 func (o *License) GetEngines() []string {
@@ -224,6 +234,7 @@ func (o *License) SetEngines(v []string) {
 	o.Engines = v
 }
 
+
 // GetNotAfter returns the NotAfter field value if set, zero value otherwise.
 func (o *License) GetNotAfter() time.Time {
 	if o == nil || o.NotAfter == nil {
@@ -251,6 +262,7 @@ func (o *License) HasNotAfter() bool {
 func (o *License) SetNotAfter(v time.Time) {
 	o.NotAfter = &v
 }
+
 
 // GetNotBefore returns the NotBefore field value if set, zero value otherwise.
 func (o *License) GetNotBefore() time.Time {
@@ -280,6 +292,7 @@ func (o *License) SetNotBefore(v time.Time) {
 	o.NotBefore = &v
 }
 
+
 // GetUsed returns the Used field value if set, zero value otherwise.
 func (o *License) GetUsed() float64 {
 	if o == nil || o.Used == nil {
@@ -307,6 +320,7 @@ func (o *License) HasUsed() bool {
 func (o *License) SetUsed(v float64) {
 	o.Used = &v
 }
+
 
 // GetLicense returns the License field value if set, zero value otherwise.
 func (o *License) GetLicense() string {
@@ -336,6 +350,7 @@ func (o *License) SetLicense(v string) {
 	o.License = &v
 }
 
+
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *License) GetMode() string {
 	if o == nil || o.Mode == nil {
@@ -363,6 +378,8 @@ func (o *License) HasMode() bool {
 func (o *License) SetMode(v string) {
 	o.Mode = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o License) MarshalJSON() ([]byte, error) {
@@ -421,24 +438,24 @@ func (o License) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterId *string    `json:"clusterID,omitempty"`
-		Email     *string    `json:"email,omitempty"`
-		UserName  *string    `json:"userName,omitempty"`
-		Unit      *string    `json:"unit,omitempty"`
-		Quantity  *string    `json:"quantity,omitempty"`
-		Engines   []string   `json:"engines,omitempty"`
-		NotAfter  *time.Time `json:"notAfter,omitempty"`
+		ClusterId *string `json:"clusterID,omitempty"`
+		Email *string `json:"email,omitempty"`
+		UserName *string `json:"userName,omitempty"`
+		Unit *string `json:"unit,omitempty"`
+		Quantity *string `json:"quantity,omitempty"`
+		Engines []string `json:"engines,omitempty"`
+		NotAfter *time.Time `json:"notAfter,omitempty"`
 		NotBefore *time.Time `json:"notBefore,omitempty"`
-		Used      *float64   `json:"used,omitempty"`
-		License   *string    `json:"license,omitempty"`
-		Mode      *string    `json:"mode,omitempty"`
+		Used *float64 `json:"used,omitempty"`
+		License *string `json:"license,omitempty"`
+		Mode *string `json:"mode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterID", "email", "userName", "unit", "quantity", "engines", "notAfter", "notBefore", "used", "license", "mode"})
+		common.DeleteKeys(additionalProperties, &[]string{ "clusterID", "email", "userName", "unit", "quantity", "engines", "notAfter", "notBefore", "used", "license", "mode",  })
 	} else {
 		return err
 	}

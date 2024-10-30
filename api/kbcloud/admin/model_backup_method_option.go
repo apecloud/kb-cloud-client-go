@@ -2,21 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type BackupMethodOption struct {
-	Name        string                `json:"name"`
+	Name string `json:"name"`
 	Description *LocalizedDescription `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewBackupMethodOption instantiates a new BackupMethodOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +41,6 @@ func NewBackupMethodOptionWithDefaults() *BackupMethodOption {
 	this := BackupMethodOption{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *BackupMethodOption) GetName() string {
 	if o == nil {
@@ -58,6 +63,7 @@ func (o *BackupMethodOption) GetNameOk() (*string, bool) {
 func (o *BackupMethodOption) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *BackupMethodOption) GetDescription() LocalizedDescription {
@@ -87,6 +93,8 @@ func (o *BackupMethodOption) SetDescription(v LocalizedDescription) {
 	o.Description = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -107,7 +115,7 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string               `json:"name"`
+		Name *string `json:"name"`
 		Description *LocalizedDescription `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -118,14 +126,14 @@ func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "description",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Name = *all.Name
-	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Description = all.Description

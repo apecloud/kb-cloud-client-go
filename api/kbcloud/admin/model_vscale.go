@@ -2,23 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type Vscale struct {
 	// the cpu resource of vertical scale
 	Cpu string `json:"cpu"`
 	// the memory resource of vertical scale
 	Memory string `json:"memory"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewVscale instantiates a new Vscale object.
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,6 @@ func NewVscaleWithDefaults() *Vscale {
 	this := Vscale{}
 	return &this
 }
-
 // GetCpu returns the Cpu field value.
 func (o *Vscale) GetCpu() string {
 	if o == nil {
@@ -61,6 +66,7 @@ func (o *Vscale) GetCpuOk() (*string, bool) {
 func (o *Vscale) SetCpu(v string) {
 	o.Cpu = v
 }
+
 
 // GetMemory returns the Memory field value.
 func (o *Vscale) GetMemory() string {
@@ -85,6 +91,8 @@ func (o *Vscale) SetMemory(v string) {
 	o.Memory = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Vscale) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -103,7 +111,7 @@ func (o Vscale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Vscale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cpu    *string `json:"cpu"`
+		Cpu *string `json:"cpu"`
 		Memory *string `json:"memory"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -117,7 +125,7 @@ func (o *Vscale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpu", "memory"})
+		common.DeleteKeys(additionalProperties, &[]string{ "cpu", "memory",  })
 	} else {
 		return err
 	}

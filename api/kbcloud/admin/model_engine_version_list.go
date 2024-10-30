@@ -2,21 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// EngineVersionList EngineVersionRecord list
+
+
+// EngineVersionList EngineVersionRecord list 
 type EngineVersionList struct {
 	Items []EngineVersion `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineVersionList instantiates a new EngineVersionList object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +41,6 @@ func NewEngineVersionListWithDefaults() *EngineVersionList {
 	this := EngineVersionList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *EngineVersionList) GetItems() []EngineVersion {
 	if o == nil {
@@ -58,6 +63,8 @@ func (o *EngineVersionList) GetItemsOk() (*[]EngineVersion, bool) {
 func (o *EngineVersionList) SetItems(v []EngineVersion) {
 	o.Items = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineVersionList) MarshalJSON() ([]byte, error) {
@@ -86,7 +93,7 @@ func (o *EngineVersionList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

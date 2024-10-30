@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -20,9 +24,11 @@ type AccountApi common.Service
 // create an account in cluster
 func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateAccount")
 	if err != nil {
@@ -39,9 +45,11 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -63,10 +71,11 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -84,9 +93,11 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 // delete an account in cluster
 func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, clusterName string, accountName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.DeleteAccount")
 	if err != nil {
@@ -103,7 +114,8 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -125,10 +137,11 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -152,7 +165,6 @@ func NewListAccountsOptionalParameters() *ListAccountsOptionalParameters {
 	this := ListAccountsOptionalParameters{}
 	return &this
 }
-
 // WithIncludeRoot sets the corresponding parameter name and returns the struct.
 func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOptionalParameters {
 	r.IncludeRoot = &includeRoot
@@ -163,18 +175,20 @@ func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *List
 // list accounts in cluster
 func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []AccountListItem
-		optionalParams      ListAccountsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []AccountListItem
+		optionalParams ListAccountsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAccountsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListAccountsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.ListAccounts")
 	if err != nil {
@@ -193,7 +207,8 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -215,10 +230,11 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -232,7 +248,7 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -245,9 +261,11 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 // update an account in cluster
 func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body Account) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPatch
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccount")
 	if err != nil {
@@ -265,9 +283,11 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -289,10 +309,11 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -310,9 +331,11 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 // update privileges of account
 func (a *AccountApi) UpdateAccountPrivileges(ctx _context.Context, orgName string, clusterName string, accountName string, body []PrivilegeListItem) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPatch
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccountPrivileges")
 	if err != nil {
@@ -330,9 +353,11 @@ func (a *AccountApi) UpdateAccountPrivileges(ctx _context.Context, orgName strin
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -354,10 +379,11 @@ func (a *AccountApi) UpdateAccountPrivileges(ctx _context.Context, orgName strin
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

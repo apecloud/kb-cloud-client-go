@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AdminUserCreate Admin user create
+
+
+// AdminUserCreate Admin user create 
 type AdminUserCreate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`
@@ -21,9 +26,10 @@ type AdminUserCreate struct {
 	// The phonenumber for the user.
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAdminUserCreate instantiates a new AdminUserCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,7 +49,6 @@ func NewAdminUserCreateWithDefaults() *AdminUserCreate {
 	this := AdminUserCreate{}
 	return &this
 }
-
 // GetUserName returns the UserName field value.
 func (o *AdminUserCreate) GetUserName() string {
 	if o == nil {
@@ -67,6 +72,7 @@ func (o *AdminUserCreate) SetUserName(v string) {
 	o.UserName = v
 }
 
+
 // GetPassword returns the Password field value.
 func (o *AdminUserCreate) GetPassword() string {
 	if o == nil {
@@ -89,6 +95,7 @@ func (o *AdminUserCreate) GetPasswordOk() (*string, bool) {
 func (o *AdminUserCreate) SetPassword(v string) {
 	o.Password = v
 }
+
 
 // GetEmail returns the Email field value if set, zero value otherwise.
 func (o *AdminUserCreate) GetEmail() string {
@@ -118,6 +125,7 @@ func (o *AdminUserCreate) SetEmail(v string) {
 	o.Email = &v
 }
 
+
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
 func (o *AdminUserCreate) GetPhoneNumber() string {
 	if o == nil || o.PhoneNumber == nil {
@@ -146,6 +154,8 @@ func (o *AdminUserCreate) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AdminUserCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -170,9 +180,9 @@ func (o AdminUserCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AdminUserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		UserName    *string `json:"userName"`
-		Password    *string `json:"password"`
-		Email       *string `json:"email,omitempty"`
+		UserName *string `json:"userName"`
+		Password *string `json:"password"`
+		Email *string `json:"email,omitempty"`
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -186,7 +196,7 @@ func (o *AdminUserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "password", "email", "phoneNumber"})
+		common.DeleteKeys(additionalProperties, &[]string{ "userName", "password", "email", "phoneNumber",  })
 	} else {
 		return err
 	}

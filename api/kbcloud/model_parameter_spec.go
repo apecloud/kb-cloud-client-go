@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ParameterSpec Cluster parameter specification
+
+
+// ParameterSpec Cluster parameter specification 
 type ParameterSpec struct {
 	// The name of the parameter
 	Name string `json:"name"`
@@ -31,9 +36,10 @@ type ParameterSpec struct {
 	// The value options of the parameter
 	Enum []map[string]interface{} `json:"enum"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewParameterSpec instantiates a new ParameterSpec object.
 // This constructor will assign default values to properties that have it defined,
@@ -60,7 +66,6 @@ func NewParameterSpecWithDefaults() *ParameterSpec {
 	this := ParameterSpec{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *ParameterSpec) GetName() string {
 	if o == nil {
@@ -83,6 +88,7 @@ func (o *ParameterSpec) GetNameOk() (*string, bool) {
 func (o *ParameterSpec) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetDescription returns the Description field value.
 func (o *ParameterSpec) GetDescription() string {
@@ -107,6 +113,7 @@ func (o *ParameterSpec) SetDescription(v string) {
 	o.Description = v
 }
 
+
 // GetType returns the Type field value.
 func (o *ParameterSpec) GetType() string {
 	if o == nil {
@@ -129,6 +136,7 @@ func (o *ParameterSpec) GetTypeOk() (*string, bool) {
 func (o *ParameterSpec) SetType(v string) {
 	o.Type = v
 }
+
 
 // GetDefault returns the Default field value.
 func (o *ParameterSpec) GetDefault() map[string]interface{} {
@@ -153,6 +161,7 @@ func (o *ParameterSpec) SetDefault(v map[string]interface{}) {
 	o.Default = v
 }
 
+
 // GetNeedRestart returns the NeedRestart field value.
 func (o *ParameterSpec) GetNeedRestart() bool {
 	if o == nil {
@@ -175,6 +184,7 @@ func (o *ParameterSpec) GetNeedRestartOk() (*bool, bool) {
 func (o *ParameterSpec) SetNeedRestart(v bool) {
 	o.NeedRestart = v
 }
+
 
 // GetImmutable returns the Immutable field value.
 func (o *ParameterSpec) GetImmutable() bool {
@@ -199,6 +209,7 @@ func (o *ParameterSpec) SetImmutable(v bool) {
 	o.Immutable = v
 }
 
+
 // GetMaximum returns the Maximum field value.
 func (o *ParameterSpec) GetMaximum() float64 {
 	if o == nil {
@@ -221,6 +232,7 @@ func (o *ParameterSpec) GetMaximumOk() (*float64, bool) {
 func (o *ParameterSpec) SetMaximum(v float64) {
 	o.Maximum = v
 }
+
 
 // GetMinimum returns the Minimum field value.
 func (o *ParameterSpec) GetMinimum() float64 {
@@ -245,6 +257,7 @@ func (o *ParameterSpec) SetMinimum(v float64) {
 	o.Minimum = v
 }
 
+
 // GetEnum returns the Enum field value.
 func (o *ParameterSpec) GetEnum() []map[string]interface{} {
 	if o == nil {
@@ -267,6 +280,8 @@ func (o *ParameterSpec) GetEnumOk() (*[]map[string]interface{}, bool) {
 func (o *ParameterSpec) SetEnum(v []map[string]interface{}) {
 	o.Enum = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterSpec) MarshalJSON() ([]byte, error) {
@@ -293,15 +308,15 @@ func (o ParameterSpec) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterSpec) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                   `json:"name"`
-		Description *string                   `json:"description"`
-		Type        *string                   `json:"type"`
-		Default     *map[string]interface{}   `json:"default"`
-		NeedRestart *bool                     `json:"needRestart"`
-		Immutable   *bool                     `json:"immutable"`
-		Maximum     *float64                  `json:"maximum"`
-		Minimum     *float64                  `json:"minimum"`
-		Enum        *[]map[string]interface{} `json:"enum"`
+		Name *string `json:"name"`
+		Description *string `json:"description"`
+		Type *string `json:"type"`
+		Default *map[string]interface{} `json:"default"`
+		NeedRestart *bool `json:"needRestart"`
+		Immutable *bool `json:"immutable"`
+		Maximum *float64 `json:"maximum"`
+		Minimum *float64 `json:"minimum"`
+		Enum *[]map[string]interface{} `json:"enum"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -335,7 +350,7 @@ func (o *ParameterSpec) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "type", "default", "needRestart", "immutable", "maximum", "minimum", "enum"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "description", "type", "default", "needRestart", "immutable", "maximum", "minimum", "enum",  })
 	} else {
 		return err
 	}

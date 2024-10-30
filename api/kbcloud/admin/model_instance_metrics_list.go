@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// InstanceMetricsList instance metrics list
+
+
+// InstanceMetricsList instance metrics list 
 type InstanceMetricsList struct {
 	// instanceMetrics list
 	Items []InstanceMetrics `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInstanceMetricsList instantiates a new InstanceMetricsList object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewInstanceMetricsListWithDefaults() *InstanceMetricsList {
 	this := InstanceMetricsList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *InstanceMetricsList) GetItems() []InstanceMetrics {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *InstanceMetricsList) GetItemsOk() (*[]InstanceMetrics, bool) {
 func (o *InstanceMetricsList) SetItems(v []InstanceMetrics) {
 	o.Items = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceMetricsList) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *InstanceMetricsList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

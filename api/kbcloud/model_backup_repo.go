@@ -2,17 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
-	"fmt"
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/google/uuid"
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// BackupRepo backupRepo is the payload for KubeBlocks cluster backup repo
+
+
+// BackupRepo backupRepo is the payload for KubeBlocks cluster backup repo 
 type BackupRepo struct {
 	// the access method for backup repo
 	AccessMethod BackupRepoAccessMethod `json:"accessMethod"`
@@ -45,9 +48,10 @@ type BackupRepo struct {
 	// failedMessage specifies the message of the backupRepo failure
 	FailedMessage *string `json:"failedMessage,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewBackupRepo instantiates a new BackupRepo object.
 // This constructor will assign default values to properties that have it defined,
@@ -76,7 +80,6 @@ func NewBackupRepoWithDefaults() *BackupRepo {
 	this.AccessMethod = accessMethod
 	return &this
 }
-
 // GetAccessMethod returns the AccessMethod field value.
 func (o *BackupRepo) GetAccessMethod() BackupRepoAccessMethod {
 	if o == nil {
@@ -99,6 +102,7 @@ func (o *BackupRepo) GetAccessMethodOk() (*BackupRepoAccessMethod, bool) {
 func (o *BackupRepo) SetAccessMethod(v BackupRepoAccessMethod) {
 	o.AccessMethod = v
 }
+
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *BackupRepo) GetId() string {
@@ -128,6 +132,7 @@ func (o *BackupRepo) SetId(v string) {
 	o.Id = &v
 }
 
+
 // GetBackupNums returns the BackupNums field value if set, zero value otherwise.
 func (o *BackupRepo) GetBackupNums() int32 {
 	if o == nil || o.BackupNums == nil {
@@ -156,6 +161,7 @@ func (o *BackupRepo) SetBackupNums(v int32) {
 	o.BackupNums = &v
 }
 
+
 // GetConfig returns the Config field value.
 func (o *BackupRepo) GetConfig() map[string]string {
 	if o == nil {
@@ -178,6 +184,7 @@ func (o *BackupRepo) GetConfigOk() (*map[string]string, bool) {
 func (o *BackupRepo) SetConfig(v map[string]string) {
 	o.Config = v
 }
+
 
 // GetCreatedAt returns the CreatedAt field value.
 func (o *BackupRepo) GetCreatedAt() time.Time {
@@ -202,6 +209,7 @@ func (o *BackupRepo) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+
 // GetDefault returns the Default field value.
 func (o *BackupRepo) GetDefault() bool {
 	if o == nil {
@@ -224,6 +232,7 @@ func (o *BackupRepo) GetDefaultOk() (*bool, bool) {
 func (o *BackupRepo) SetDefault(v bool) {
 	o.Default = v
 }
+
 
 // GetEnvironmentId returns the EnvironmentId field value.
 func (o *BackupRepo) GetEnvironmentId() uuid.UUID {
@@ -248,6 +257,7 @@ func (o *BackupRepo) SetEnvironmentId(v uuid.UUID) {
 	o.EnvironmentId = v
 }
 
+
 // GetEnvironmentName returns the EnvironmentName field value.
 func (o *BackupRepo) GetEnvironmentName() string {
 	if o == nil {
@@ -270,6 +280,7 @@ func (o *BackupRepo) GetEnvironmentNameOk() (*string, bool) {
 func (o *BackupRepo) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
 }
+
 
 // GetName returns the Name field value.
 func (o *BackupRepo) GetName() string {
@@ -294,6 +305,7 @@ func (o *BackupRepo) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetStatus returns the Status field value.
 func (o *BackupRepo) GetStatus() string {
 	if o == nil {
@@ -316,6 +328,7 @@ func (o *BackupRepo) GetStatusOk() (*string, bool) {
 func (o *BackupRepo) SetStatus(v string) {
 	o.Status = v
 }
+
 
 // GetStorageId returns the StorageId field value if set, zero value otherwise.
 func (o *BackupRepo) GetStorageId() string {
@@ -345,6 +358,7 @@ func (o *BackupRepo) SetStorageId(v string) {
 	o.StorageId = &v
 }
 
+
 // GetStorageProvider returns the StorageProvider field value.
 func (o *BackupRepo) GetStorageProvider() string {
 	if o == nil {
@@ -367,6 +381,7 @@ func (o *BackupRepo) GetStorageProviderOk() (*string, bool) {
 func (o *BackupRepo) SetStorageProvider(v string) {
 	o.StorageProvider = v
 }
+
 
 // GetTotalSize returns the TotalSize field value if set, zero value otherwise.
 func (o *BackupRepo) GetTotalSize() string {
@@ -396,6 +411,7 @@ func (o *BackupRepo) SetTotalSize(v string) {
 	o.TotalSize = &v
 }
 
+
 // GetFailedReason returns the FailedReason field value if set, zero value otherwise.
 func (o *BackupRepo) GetFailedReason() string {
 	if o == nil || o.FailedReason == nil {
@@ -424,6 +440,7 @@ func (o *BackupRepo) SetFailedReason(v string) {
 	o.FailedReason = &v
 }
 
+
 // GetFailedMessage returns the FailedMessage field value if set, zero value otherwise.
 func (o *BackupRepo) GetFailedMessage() string {
 	if o == nil || o.FailedMessage == nil {
@@ -451,6 +468,8 @@ func (o *BackupRepo) HasFailedMessage() bool {
 func (o *BackupRepo) SetFailedMessage(v string) {
 	o.FailedMessage = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupRepo) MarshalJSON() ([]byte, error) {
@@ -499,21 +518,21 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessMethod    *BackupRepoAccessMethod `json:"accessMethod"`
-		Id              *string                 `json:"id,omitempty"`
-		BackupNums      *int32                  `json:"backupNums,omitempty"`
-		Config          *map[string]string      `json:"config"`
-		CreatedAt       *time.Time              `json:"createdAt"`
-		Default         *bool                   `json:"default"`
-		EnvironmentId   *uuid.UUID              `json:"environmentId"`
-		EnvironmentName *string                 `json:"environmentName"`
-		Name            *string                 `json:"name"`
-		Status          *string                 `json:"status"`
-		StorageId       *string                 `json:"storageID,omitempty"`
-		StorageProvider *string                 `json:"storageProvider"`
-		TotalSize       *string                 `json:"totalSize,omitempty"`
-		FailedReason    *string                 `json:"failedReason,omitempty"`
-		FailedMessage   *string                 `json:"failedMessage,omitempty"`
+		AccessMethod *BackupRepoAccessMethod `json:"accessMethod"`
+		Id *string `json:"id,omitempty"`
+		BackupNums *int32 `json:"backupNums,omitempty"`
+		Config *map[string]string `json:"config"`
+		CreatedAt *time.Time `json:"createdAt"`
+		Default *bool `json:"default"`
+		EnvironmentId *uuid.UUID `json:"environmentId"`
+		EnvironmentName *string `json:"environmentName"`
+		Name *string `json:"name"`
+		Status *string `json:"status"`
+		StorageId *string `json:"storageID,omitempty"`
+		StorageProvider *string `json:"storageProvider"`
+		TotalSize *string `json:"totalSize,omitempty"`
+		FailedReason *string `json:"failedReason,omitempty"`
+		FailedMessage *string `json:"failedMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -547,7 +566,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageID", "storageProvider", "totalSize", "failedReason", "failedMessage"})
+		common.DeleteKeys(additionalProperties, &[]string{ "accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageID", "storageProvider", "totalSize", "failedReason", "failedMessage",  })
 	} else {
 		return err
 	}

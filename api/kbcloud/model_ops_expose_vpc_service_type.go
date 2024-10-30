@@ -2,13 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // OpsExposeVPCServiceType Specifies the type of service for the KubeBlocks cluster.
 type OpsExposeVPCServiceType string
@@ -16,7 +21,7 @@ type OpsExposeVPCServiceType string
 // List of OpsExposeVPCServiceType.
 const (
 	OpsExposeVPCServiceTypeLoadBalancer OpsExposeVPCServiceType = "LoadBalancer"
-	OpsExposeVPCServiceTypeNodePort     OpsExposeVPCServiceType = "NodePort"
+	OpsExposeVPCServiceTypeNodePort OpsExposeVPCServiceType = "NodePort"
 )
 
 var allowedOpsExposeVPCServiceTypeEnumValues = []OpsExposeVPCServiceType{

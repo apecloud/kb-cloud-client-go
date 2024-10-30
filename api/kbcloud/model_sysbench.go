@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Sysbench sysbench is the sysbench benchmark object
+
+
+// Sysbench sysbench is the sysbench benchmark object 
 type Sysbench struct {
 	// Step of sysbench
 	Step *SysbenchStep `json:"step,omitempty"`
@@ -51,9 +56,10 @@ type Sysbench struct {
 	// Extra arguments for sysbench
 	ExtraArgs *string `json:"extraArgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewSysbench instantiates a new Sysbench object.
 // This constructor will assign default values to properties that have it defined,
@@ -100,7 +106,6 @@ func NewSysbenchWithDefaults() *Sysbench {
 	this.TestType = &testType
 	return &this
 }
-
 // GetStep returns the Step field value if set, zero value otherwise.
 func (o *Sysbench) GetStep() SysbenchStep {
 	if o == nil || o.Step == nil {
@@ -128,6 +133,7 @@ func (o *Sysbench) HasStep() bool {
 func (o *Sysbench) SetStep(v SysbenchStep) {
 	o.Step = &v
 }
+
 
 // GetLimitCpu returns the LimitCpu field value if set, zero value otherwise.
 func (o *Sysbench) GetLimitCpu() string {
@@ -157,6 +163,7 @@ func (o *Sysbench) SetLimitCpu(v string) {
 	o.LimitCpu = &v
 }
 
+
 // GetLimitMemory returns the LimitMemory field value if set, zero value otherwise.
 func (o *Sysbench) GetLimitMemory() string {
 	if o == nil || o.LimitMemory == nil {
@@ -184,6 +191,7 @@ func (o *Sysbench) HasLimitMemory() bool {
 func (o *Sysbench) SetLimitMemory(v string) {
 	o.LimitMemory = &v
 }
+
 
 // GetRequestCpu returns the RequestCpu field value if set, zero value otherwise.
 func (o *Sysbench) GetRequestCpu() string {
@@ -213,6 +221,7 @@ func (o *Sysbench) SetRequestCpu(v string) {
 	o.RequestCpu = &v
 }
 
+
 // GetRequestMemory returns the RequestMemory field value if set, zero value otherwise.
 func (o *Sysbench) GetRequestMemory() string {
 	if o == nil || o.RequestMemory == nil {
@@ -240,6 +249,7 @@ func (o *Sysbench) HasRequestMemory() bool {
 func (o *Sysbench) SetRequestMemory(v string) {
 	o.RequestMemory = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Sysbench) GetName() string {
@@ -269,6 +279,7 @@ func (o *Sysbench) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetCluster returns the Cluster field value.
 func (o *Sysbench) GetCluster() string {
 	if o == nil {
@@ -292,6 +303,7 @@ func (o *Sysbench) SetCluster(v string) {
 	o.Cluster = v
 }
 
+
 // GetDatabase returns the Database field value.
 func (o *Sysbench) GetDatabase() string {
 	if o == nil {
@@ -314,6 +326,7 @@ func (o *Sysbench) GetDatabaseOk() (*string, bool) {
 func (o *Sysbench) SetDatabase(v string) {
 	o.Database = v
 }
+
 
 // GetThreads returns the Threads field value if set, zero value otherwise.
 func (o *Sysbench) GetThreads() int32 {
@@ -343,6 +356,7 @@ func (o *Sysbench) SetThreads(v int32) {
 	o.Threads = &v
 }
 
+
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *Sysbench) GetDuration() int32 {
 	if o == nil || o.Duration == nil {
@@ -370,6 +384,7 @@ func (o *Sysbench) HasDuration() bool {
 func (o *Sysbench) SetDuration(v int32) {
 	o.Duration = &v
 }
+
 
 // GetTableSize returns the TableSize field value if set, zero value otherwise.
 func (o *Sysbench) GetTableSize() int32 {
@@ -399,6 +414,7 @@ func (o *Sysbench) SetTableSize(v int32) {
 	o.TableSize = &v
 }
 
+
 // GetTableNum returns the TableNum field value if set, zero value otherwise.
 func (o *Sysbench) GetTableNum() int32 {
 	if o == nil || o.TableNum == nil {
@@ -426,6 +442,7 @@ func (o *Sysbench) HasTableNum() bool {
 func (o *Sysbench) SetTableNum(v int32) {
 	o.TableNum = &v
 }
+
 
 // GetTestType returns the TestType field value if set, zero value otherwise.
 func (o *Sysbench) GetTestType() SysbenchTestType {
@@ -455,6 +472,7 @@ func (o *Sysbench) SetTestType(v SysbenchTestType) {
 	o.TestType = &v
 }
 
+
 // GetReadPercent returns the ReadPercent field value if set, zero value otherwise.
 func (o *Sysbench) GetReadPercent() int32 {
 	if o == nil || o.ReadPercent == nil {
@@ -482,6 +500,7 @@ func (o *Sysbench) HasReadPercent() bool {
 func (o *Sysbench) SetReadPercent(v int32) {
 	o.ReadPercent = &v
 }
+
 
 // GetWritePercent returns the WritePercent field value if set, zero value otherwise.
 func (o *Sysbench) GetWritePercent() int32 {
@@ -511,6 +530,7 @@ func (o *Sysbench) SetWritePercent(v int32) {
 	o.WritePercent = &v
 }
 
+
 // GetUsername returns the Username field value.
 func (o *Sysbench) GetUsername() string {
 	if o == nil {
@@ -533,6 +553,7 @@ func (o *Sysbench) GetUsernameOk() (*string, bool) {
 func (o *Sysbench) SetUsername(v string) {
 	o.Username = v
 }
+
 
 // GetPassword returns the Password field value.
 func (o *Sysbench) GetPassword() string {
@@ -557,6 +578,7 @@ func (o *Sysbench) SetPassword(v string) {
 	o.Password = v
 }
 
+
 // GetAddress returns the Address field value.
 func (o *Sysbench) GetAddress() string {
 	if o == nil {
@@ -579,6 +601,7 @@ func (o *Sysbench) GetAddressOk() (*string, bool) {
 func (o *Sysbench) SetAddress(v string) {
 	o.Address = v
 }
+
 
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
 func (o *Sysbench) GetExtraArgs() string {
@@ -607,6 +630,8 @@ func (o *Sysbench) HasExtraArgs() bool {
 func (o *Sysbench) SetExtraArgs(v string) {
 	o.ExtraArgs = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Sysbench) MarshalJSON() ([]byte, error) {
@@ -671,25 +696,25 @@ func (o Sysbench) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Sysbench) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step          *SysbenchStep     `json:"step,omitempty"`
-		LimitCpu      *string           `json:"limitCpu,omitempty"`
-		LimitMemory   *string           `json:"limitMemory,omitempty"`
-		RequestCpu    *string           `json:"requestCpu,omitempty"`
-		RequestMemory *string           `json:"requestMemory,omitempty"`
-		Name          *string           `json:"name,omitempty"`
-		Cluster       *string           `json:"cluster"`
-		Database      *string           `json:"database"`
-		Threads       *int32            `json:"threads,omitempty"`
-		Duration      *int32            `json:"duration,omitempty"`
-		TableSize     *int32            `json:"tableSize,omitempty"`
-		TableNum      *int32            `json:"tableNum,omitempty"`
-		TestType      *SysbenchTestType `json:"testType,omitempty"`
-		ReadPercent   *int32            `json:"readPercent,omitempty"`
-		WritePercent  *int32            `json:"writePercent,omitempty"`
-		Username      *string           `json:"username"`
-		Password      *string           `json:"password"`
-		Address       *string           `json:"address"`
-		ExtraArgs     *string           `json:"extraArgs,omitempty"`
+		Step *SysbenchStep `json:"step,omitempty"`
+		LimitCpu *string `json:"limitCpu,omitempty"`
+		LimitMemory *string `json:"limitMemory,omitempty"`
+		RequestCpu *string `json:"requestCpu,omitempty"`
+		RequestMemory *string `json:"requestMemory,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Cluster *string `json:"cluster"`
+		Database *string `json:"database"`
+		Threads *int32 `json:"threads,omitempty"`
+		Duration *int32 `json:"duration,omitempty"`
+		TableSize *int32 `json:"tableSize,omitempty"`
+		TableNum *int32 `json:"tableNum,omitempty"`
+		TestType *SysbenchTestType `json:"testType,omitempty"`
+		ReadPercent *int32 `json:"readPercent,omitempty"`
+		WritePercent *int32 `json:"writePercent,omitempty"`
+		Username *string `json:"username"`
+		Password *string `json:"password"`
+		Address *string `json:"address"`
+		ExtraArgs *string `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -711,13 +736,13 @@ func (o *Sysbench) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "threads", "duration", "tableSize", "tableNum", "testType", "readPercent", "writePercent", "username", "password", "address", "extraArgs"})
+		common.DeleteKeys(additionalProperties, &[]string{ "step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "threads", "duration", "tableSize", "tableNum", "testType", "readPercent", "writePercent", "username", "password", "address", "extraArgs",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.Step != nil && !all.Step.IsValid() {
+	if all.Step != nil &&!all.Step.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Step = all.Step
@@ -733,7 +758,7 @@ func (o *Sysbench) UnmarshalJSON(bytes []byte) (err error) {
 	o.Duration = all.Duration
 	o.TableSize = all.TableSize
 	o.TableNum = all.TableNum
-	if all.TestType != nil && !all.TestType.IsValid() {
+	if all.TestType != nil &&!all.TestType.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.TestType = all.TestType

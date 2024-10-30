@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OrgMemberUpdate Org Member update
+
+
+// OrgMemberUpdate Org Member update 
 type OrgMemberUpdate struct {
 	// The role of the User in the Org. Required
 	Role string `json:"role"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOrgMemberUpdate instantiates a new OrgMemberUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewOrgMemberUpdateWithDefaults() *OrgMemberUpdate {
 	this := OrgMemberUpdate{}
 	return &this
 }
-
 // GetRole returns the Role field value.
 func (o *OrgMemberUpdate) GetRole() string {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *OrgMemberUpdate) GetRoleOk() (*string, bool) {
 func (o *OrgMemberUpdate) SetRole(v string) {
 	o.Role = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgMemberUpdate) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *OrgMemberUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"role"})
+		common.DeleteKeys(additionalProperties, &[]string{ "role",  })
 	} else {
 		return err
 	}

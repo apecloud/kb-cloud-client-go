@@ -2,10 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
 
@@ -18,10 +23,12 @@ type AlertSMTPConfigApi common.Service
 // GetAlertSMTPConfig Get alert SMTP config.
 func (a *AlertSMTPConfigApi) GetAlertSMTPConfig(ctx _context.Context) (AlertSMTPConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertSMTPConfig
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertSMTPConfig
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertSMTPConfigApi.GetAlertSMTPConfig")
 	if err != nil {
@@ -35,7 +42,8 @@ func (a *AlertSMTPConfigApi) GetAlertSMTPConfig(ctx _context.Context) (AlertSMTP
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -57,10 +65,11 @@ func (a *AlertSMTPConfigApi) GetAlertSMTPConfig(ctx _context.Context) (AlertSMTP
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -74,7 +83,7 @@ func (a *AlertSMTPConfigApi) GetAlertSMTPConfig(ctx _context.Context) (AlertSMTP
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -86,10 +95,12 @@ func (a *AlertSMTPConfigApi) GetAlertSMTPConfig(ctx _context.Context) (AlertSMTP
 // UpdateAlertSMTPConfig Update alert SMTP config.
 func (a *AlertSMTPConfigApi) UpdateAlertSMTPConfig(ctx _context.Context, body AlertSMTPConfig) (AlertSMTPConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue AlertSMTPConfig
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertSMTPConfig
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertSMTPConfigApi.UpdateAlertSMTPConfig")
 	if err != nil {
@@ -104,9 +115,11 @@ func (a *AlertSMTPConfigApi) UpdateAlertSMTPConfig(ctx _context.Context, body Al
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -128,10 +141,11 @@ func (a *AlertSMTPConfigApi) UpdateAlertSMTPConfig(ctx _context.Context, body Al
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -145,7 +159,7 @@ func (a *AlertSMTPConfigApi) UpdateAlertSMTPConfig(ctx _context.Context, body Al
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

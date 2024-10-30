@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -20,10 +24,12 @@ type StorageClassApi common.Service
 // Create storage class for the specified environment.
 func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentName string, body StorageClassCreate) (StorageClassInfo, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue StorageClassInfo
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  StorageClassInfo
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.CreateStorageClass")
 	if err != nil {
@@ -37,11 +43,13 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
+
+	
 
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -63,10 +71,11 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -75,7 +84,8 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -89,7 +99,7 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -102,10 +112,12 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 // Delete the storage class for the specified environment.
 func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentName string, storageClassName string) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		localVarReturnValue  interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.DeleteStorageClass")
 	if err != nil {
@@ -119,9 +131,10 @@ func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentNa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -143,10 +156,11 @@ func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -155,7 +169,8 @@ func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentNa
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -169,7 +184,7 @@ func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -188,7 +203,6 @@ func NewGetStorageClassOptionalParameters() *GetStorageClassOptionalParameters {
 	this := GetStorageClassOptionalParameters{}
 	return &this
 }
-
 // WithWithStatsByNode sets the corresponding parameter name and returns the struct.
 func (r *GetStorageClassOptionalParameters) WithWithStatsByNode(withStatsByNode bool) *GetStorageClassOptionalParameters {
 	r.WithStatsByNode = &withStatsByNode
@@ -199,18 +213,20 @@ func (r *GetStorageClassOptionalParameters) WithWithStatsByNode(withStatsByNode 
 // get the storage class for the specified environment.
 func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName string, storageClassName string, o ...GetStorageClassOptionalParameters) (StorageClassInfo, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue StorageClassInfo
-		optionalParams      GetStorageClassOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  StorageClassInfo
+		optionalParams GetStorageClassOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetStorageClassOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetStorageClassOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.GetStorageClass")
 	if err != nil {
@@ -227,9 +243,10 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 	if optionalParams.WithStatsByNode != nil {
 		localVarQueryParams.Add("withStatsByNode", common.ParameterToString(*optionalParams.WithStatsByNode, ""))
 	}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -251,10 +268,11 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -263,7 +281,8 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -277,7 +296,7 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -290,10 +309,12 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 // get the persistentvolumeclaim list related to the specified storage class for the specified environment.
 func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environmentName string, storageClassName string, pageId int64, pageSize int64) (PersistentVolumeClaimList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue PersistentVolumeClaimList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  PersistentVolumeClaimList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageClassPvcs")
 	if err != nil {
@@ -309,9 +330,10 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("pageId", common.ParameterToString(pageId, ""))
 	localVarQueryParams.Add("pageSize", common.ParameterToString(pageSize, ""))
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -333,10 +355,11 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -345,7 +368,8 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -359,7 +383,7 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -372,10 +396,12 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 // Provides a summary of storage class statistics.
 func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentName string) (StorageClassList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue StorageClassList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  StorageClassList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageClasses")
 	if err != nil {
@@ -388,9 +414,10 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -412,10 +439,11 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -424,7 +452,8 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -438,7 +467,7 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -451,10 +480,12 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 // Provides a summary of storage provisioners statistics.
 func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environmentName string) (StorageProvisionerList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue StorageProvisionerList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  StorageProvisionerList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageProvisioners")
 	if err != nil {
@@ -467,9 +498,10 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -491,10 +523,11 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -503,7 +536,8 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -517,7 +551,7 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -530,10 +564,12 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 // Updates the  storage class for the specified environment.
 func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentName string, storageClassName string, body StorageClassUpdate) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.UpdateStorageClass")
 	if err != nil {
@@ -548,11 +584,13 @@ func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentNa
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
+
+	
 
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -574,10 +612,11 @@ func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 403{
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -586,7 +625,8 @@ func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentNa
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 404{
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -600,7 +640,7 @@ func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

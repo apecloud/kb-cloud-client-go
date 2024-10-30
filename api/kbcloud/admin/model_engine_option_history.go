@@ -2,24 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type EngineOptionHistory struct {
-	ModifierId    string       `json:"modifierId"`
-	ModifierEmail string       `json:"modifierEmail"`
-	Option        EngineOption `json:"option"`
-	CreatedAt     time.Time    `json:"createdAt"`
+	ModifierId string `json:"modifierId"`
+	ModifierEmail string `json:"modifierEmail"`
+	Option EngineOption `json:"option"`
+	CreatedAt time.Time `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineOptionHistory instantiates a new EngineOptionHistory object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,7 +46,6 @@ func NewEngineOptionHistoryWithDefaults() *EngineOptionHistory {
 	this := EngineOptionHistory{}
 	return &this
 }
-
 // GetModifierId returns the ModifierId field value.
 func (o *EngineOptionHistory) GetModifierId() string {
 	if o == nil {
@@ -64,6 +68,7 @@ func (o *EngineOptionHistory) GetModifierIdOk() (*string, bool) {
 func (o *EngineOptionHistory) SetModifierId(v string) {
 	o.ModifierId = v
 }
+
 
 // GetModifierEmail returns the ModifierEmail field value.
 func (o *EngineOptionHistory) GetModifierEmail() string {
@@ -88,6 +93,7 @@ func (o *EngineOptionHistory) SetModifierEmail(v string) {
 	o.ModifierEmail = v
 }
 
+
 // GetOption returns the Option field value.
 func (o *EngineOptionHistory) GetOption() EngineOption {
 	if o == nil {
@@ -111,6 +117,7 @@ func (o *EngineOptionHistory) SetOption(v EngineOption) {
 	o.Option = v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value.
 func (o *EngineOptionHistory) GetCreatedAt() time.Time {
 	if o == nil {
@@ -133,6 +140,8 @@ func (o *EngineOptionHistory) GetCreatedAtOk() (*time.Time, bool) {
 func (o *EngineOptionHistory) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOptionHistory) MarshalJSON() ([]byte, error) {
@@ -158,10 +167,10 @@ func (o EngineOptionHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ModifierId    *string       `json:"modifierId"`
-		ModifierEmail *string       `json:"modifierEmail"`
-		Option        *EngineOption `json:"option"`
-		CreatedAt     *time.Time    `json:"createdAt"`
+		ModifierId *string `json:"modifierId"`
+		ModifierEmail *string `json:"modifierEmail"`
+		Option *EngineOption `json:"option"`
+		CreatedAt *time.Time `json:"createdAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -180,7 +189,7 @@ func (o *EngineOptionHistory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"modifierId", "modifierEmail", "option", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "modifierId", "modifierEmail", "option", "createdAt",  })
 	} else {
 		return err
 	}

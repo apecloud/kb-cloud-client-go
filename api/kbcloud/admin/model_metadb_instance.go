@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Metadb_instance Instance is the information of metadb cluster instances
+
+
+// Metadb_instance Instance is the information of metadb cluster instances 
 type Metadb_instance struct {
 	// Cluster name
 	Cluster string `json:"cluster"`
@@ -25,9 +30,10 @@ type Metadb_instance struct {
 	// Role for instance
 	Role string `json:"role"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewMetadb_instance instantiates a new Metadb_instance object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,7 +57,6 @@ func NewMetadb_instanceWithDefaults() *Metadb_instance {
 	this := Metadb_instance{}
 	return &this
 }
-
 // GetCluster returns the Cluster field value.
 func (o *Metadb_instance) GetCluster() string {
 	if o == nil {
@@ -74,6 +79,7 @@ func (o *Metadb_instance) GetClusterOk() (*string, bool) {
 func (o *Metadb_instance) SetCluster(v string) {
 	o.Cluster = v
 }
+
 
 // GetCpu returns the Cpu field value.
 func (o *Metadb_instance) GetCpu() string {
@@ -98,6 +104,7 @@ func (o *Metadb_instance) SetCpu(v string) {
 	o.Cpu = v
 }
 
+
 // GetMemory returns the Memory field value.
 func (o *Metadb_instance) GetMemory() string {
 	if o == nil {
@@ -120,6 +127,7 @@ func (o *Metadb_instance) GetMemoryOk() (*string, bool) {
 func (o *Metadb_instance) SetMemory(v string) {
 	o.Memory = v
 }
+
 
 // GetName returns the Name field value.
 func (o *Metadb_instance) GetName() string {
@@ -144,6 +152,7 @@ func (o *Metadb_instance) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetNode returns the Node field value.
 func (o *Metadb_instance) GetNode() string {
 	if o == nil {
@@ -166,6 +175,7 @@ func (o *Metadb_instance) GetNodeOk() (*string, bool) {
 func (o *Metadb_instance) SetNode(v string) {
 	o.Node = v
 }
+
 
 // GetRole returns the Role field value.
 func (o *Metadb_instance) GetRole() string {
@@ -190,6 +200,8 @@ func (o *Metadb_instance) SetRole(v string) {
 	o.Role = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Metadb_instance) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -213,11 +225,11 @@ func (o Metadb_instance) MarshalJSON() ([]byte, error) {
 func (o *Metadb_instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Cluster *string `json:"cluster"`
-		Cpu     *string `json:"cpu"`
-		Memory  *string `json:"memory"`
-		Name    *string `json:"name"`
-		Node    *string `json:"node"`
-		Role    *string `json:"role"`
+		Cpu *string `json:"cpu"`
+		Memory *string `json:"memory"`
+		Name *string `json:"name"`
+		Node *string `json:"node"`
+		Role *string `json:"role"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -242,7 +254,7 @@ func (o *Metadb_instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cluster", "cpu", "memory", "name", "node", "role"})
+		common.DeleteKeys(additionalProperties, &[]string{ "cluster", "cpu", "memory", "name", "node", "role",  })
 	} else {
 		return err
 	}

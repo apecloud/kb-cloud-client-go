@@ -2,14 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
 	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -20,10 +23,12 @@ type DmsApi common.Service
 // AlterVolumes Alter the Storage Volume.
 func (a *DmsApi) AlterVolumes(ctx _context.Context, orgName string, clusterName string, volumeName string, body interface{}) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue string
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.AlterVolumes")
 	if err != nil {
@@ -41,9 +46,11 @@ func (a *DmsApi) AlterVolumes(ctx _context.Context, orgName string, clusterName 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -65,10 +72,11 @@ func (a *DmsApi) AlterVolumes(ctx _context.Context, orgName string, clusterName 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -82,7 +90,7 @@ func (a *DmsApi) AlterVolumes(ctx _context.Context, orgName string, clusterName 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -94,10 +102,12 @@ func (a *DmsApi) AlterVolumes(ctx _context.Context, orgName string, clusterName 
 // CreateVolumes Create the Storage Volume.
 func (a *DmsApi) CreateVolumes(ctx _context.Context, orgName string, clusterName string, body interface{}) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue string
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CreateVolumes")
 	if err != nil {
@@ -114,9 +124,11 @@ func (a *DmsApi) CreateVolumes(ctx _context.Context, orgName string, clusterName
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -138,10 +150,11 @@ func (a *DmsApi) CreateVolumes(ctx _context.Context, orgName string, clusterName
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -155,7 +168,7 @@ func (a *DmsApi) CreateVolumes(ctx _context.Context, orgName string, clusterName
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -174,7 +187,6 @@ func NewDataExportOptionalParameters() *DataExportOptionalParameters {
 	this := DataExportOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *DataExportOptionalParameters) WithBody(body interface{}) *DataExportOptionalParameters {
 	r.Body = &body
@@ -184,17 +196,19 @@ func (r *DataExportOptionalParameters) WithBody(body interface{}) *DataExportOpt
 // DataExport Data Export.
 func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName string, id string, o ...DataExportOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
-		optionalParams     DataExportOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		optionalParams DataExportOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type DataExportOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return nil, common.ReportError("only one argument of type DataExportOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DataExport")
 	if err != nil {
@@ -210,13 +224,15 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] =  "*/*"
+
+	
 
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -238,10 +254,11 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -258,10 +275,12 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 // DataImport Data Import.
 func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, file _io.Reader) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DataImport")
 	if err != nil {
@@ -279,14 +298,15 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	formFile := common.FormFile{}
+	
+    formFile := common.FormFile{}
 	formFile.FormFileName = "file"
 	localVarFile := file
 	if localVarFile != nil {
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -308,10 +328,11 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -325,7 +346,7 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -337,10 +358,12 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 // DropVolumes Drop the Storage Volume.
 func (a *DmsApi) DropVolumes(ctx _context.Context, orgName string, clusterName string, volumeName string) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue string
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		localVarReturnValue  string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DropVolumes")
 	if err != nil {
@@ -357,7 +380,8 @@ func (a *DmsApi) DropVolumes(ctx _context.Context, orgName string, clusterName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -379,10 +403,11 @@ func (a *DmsApi) DropVolumes(ctx _context.Context, orgName string, clusterName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -396,7 +421,7 @@ func (a *DmsApi) DropVolumes(ctx _context.Context, orgName string, clusterName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -408,10 +433,12 @@ func (a *DmsApi) DropVolumes(ctx _context.Context, orgName string, clusterName s
 // GetObjectInfo get the detail object info.
 func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string, objectName string) (ObjectResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ObjectResponse
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ObjectResponse
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetObjectInfo")
 	if err != nil {
@@ -431,7 +458,8 @@ func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -454,7 +482,7 @@ func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -466,10 +494,12 @@ func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName
 // GetTaskList Get the task list.
 func (a *DmsApi) GetTaskList(ctx _context.Context, orgName string, clusterName string, id string) (DmsTaskList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue DmsTaskList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  DmsTaskList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetTaskList")
 	if err != nil {
@@ -486,7 +516,8 @@ func (a *DmsApi) GetTaskList(ctx _context.Context, orgName string, clusterName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -508,10 +539,11 @@ func (a *DmsApi) GetTaskList(ctx _context.Context, orgName string, clusterName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -525,7 +557,7 @@ func (a *DmsApi) GetTaskList(ctx _context.Context, orgName string, clusterName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -537,10 +569,12 @@ func (a *DmsApi) GetTaskList(ctx _context.Context, orgName string, clusterName s
 // GetTaskProgress Get the task progress.
 func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterName string, id string, taskId string) (DmsTaskInfo, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue DmsTaskInfo
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  DmsTaskInfo
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetTaskProgress")
 	if err != nil {
@@ -558,7 +592,8 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 	localVarQueryParams.Add("taskId", common.ParameterToString(taskId, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -580,10 +615,11 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -597,7 +633,7 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -609,10 +645,12 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 // ListObjectNamesByType list the all name for the specified object type.
 func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string) ([]string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []string
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListObjectNamesByType")
 	if err != nil {
@@ -631,7 +669,8 @@ func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clu
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -654,7 +693,7 @@ func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clu
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -666,10 +705,12 @@ func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clu
 // ListObjectTypesInSchema list the type and number of database objects in the specified database or schema.
 func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, clusterName string, id string, schema string) ([]Object, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []Object
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []Object
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListObjectTypesInSchema")
 	if err != nil {
@@ -687,7 +728,8 @@ func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, c
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -710,7 +752,7 @@ func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, c
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -722,10 +764,12 @@ func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, c
 // ListVolumes List all Storage Volumes.
 func (a *DmsApi) ListVolumes(ctx _context.Context, orgName string, clusterName string) ([]Volume, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []Volume
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []Volume
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListVolumes")
 	if err != nil {
@@ -741,7 +785,8 @@ func (a *DmsApi) ListVolumes(ctx _context.Context, orgName string, clusterName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -763,10 +808,11 @@ func (a *DmsApi) ListVolumes(ctx _context.Context, orgName string, clusterName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -780,7 +826,7 @@ func (a *DmsApi) ListVolumes(ctx _context.Context, orgName string, clusterName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -792,10 +838,12 @@ func (a *DmsApi) ListVolumes(ctx _context.Context, orgName string, clusterName s
 // SetDefaultVolumes Set the Default Storage Volume.
 func (a *DmsApi) SetDefaultVolumes(ctx _context.Context, orgName string, clusterName string, volumeName string) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue string
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.SetDefaultVolumes")
 	if err != nil {
@@ -812,7 +860,8 @@ func (a *DmsApi) SetDefaultVolumes(ctx _context.Context, orgName string, cluster
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -834,10 +883,11 @@ func (a *DmsApi) SetDefaultVolumes(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -851,7 +901,7 @@ func (a *DmsApi) SetDefaultVolumes(ctx _context.Context, orgName string, cluster
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -863,10 +913,12 @@ func (a *DmsApi) SetDefaultVolumes(ctx _context.Context, orgName string, cluster
 // AlterParameter alter cluster parameter.
 func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterName string, tenantId string, body interface{}) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue string
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.AlterParameter")
 	if err != nil {
@@ -884,9 +936,11 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -908,10 +962,11 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -925,7 +980,7 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -944,7 +999,6 @@ func NewCloseSessionsOptionalParameters() *CloseSessionsOptionalParameters {
 	this := CloseSessionsOptionalParameters{}
 	return &this
 }
-
 // WithKeep sets the corresponding parameter name and returns the struct.
 func (r *CloseSessionsOptionalParameters) WithKeep(keep string) *CloseSessionsOptionalParameters {
 	r.Keep = &keep
@@ -954,18 +1008,20 @@ func (r *CloseSessionsOptionalParameters) WithKeep(keep string) *CloseSessionsOp
 // CloseSessions close the session for the cluster.
 func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName string, session string, o ...CloseSessionsOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue string
-		optionalParams      CloseSessionsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		localVarReturnValue  string
+		optionalParams CloseSessionsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CloseSessionsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type CloseSessionsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CloseSessions")
 	if err != nil {
@@ -985,7 +1041,8 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1007,10 +1064,11 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1024,7 +1082,7 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1036,10 +1094,12 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 // CreateDataSourceV2 create the datasource.
 func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  bool
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CreateDataSourceV2")
 	if err != nil {
@@ -1056,9 +1116,11 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1081,7 +1143,7 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1093,9 +1155,11 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 // DeleteDataSourceV2 delete the datasource.
 func (a *DmsApi) DeleteDataSourceV2(ctx _context.Context, orgName string, clusterName string, id string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DeleteDataSourceV2")
 	if err != nil {
@@ -1112,7 +1176,8 @@ func (a *DmsApi) DeleteDataSourceV2(ctx _context.Context, orgName string, cluste
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1134,10 +1199,11 @@ func (a *DmsApi) DeleteDataSourceV2(ctx _context.Context, orgName string, cluste
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1161,7 +1227,6 @@ func NewGenerateDDLOptionalParameters() *GenerateDDLOptionalParameters {
 	this := GenerateDDLOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *GenerateDDLOptionalParameters) WithBody(body interface{}) *GenerateDDLOptionalParameters {
 	r.Body = &body
@@ -1171,18 +1236,20 @@ func (r *GenerateDDLOptionalParameters) WithBody(body interface{}) *GenerateDDLO
 // GenerateDDL support ddl and dml operations.
 func (a *DmsApi) GenerateDDL(ctx _context.Context, orgName string, clusterName string, id string, o ...GenerateDDLOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue string
-		optionalParams      GenerateDDLOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  string
+		optionalParams GenerateDDLOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GenerateDDLOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type GenerateDDLOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GenerateDDL")
 	if err != nil {
@@ -1200,11 +1267,13 @@ func (a *DmsApi) GenerateDDL(ctx _context.Context, orgName string, clusterName s
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1227,7 +1296,7 @@ func (a *DmsApi) GenerateDDL(ctx _context.Context, orgName string, clusterName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1239,10 +1308,12 @@ func (a *DmsApi) GenerateDDL(ctx _context.Context, orgName string, clusterName s
 // GetDataSourceV2 get the datasource.
 func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterName string, id string) (Datasource, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue Datasource
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  Datasource
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetDataSourceV2")
 	if err != nil {
@@ -1259,7 +1330,8 @@ func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterNa
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1282,7 +1354,7 @@ func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1294,10 +1366,12 @@ func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterNa
 // GetSchemaList list all databases or schema of the cluster.
 func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName string, id string) ([]string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []string
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []string
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetSchemaList")
 	if err != nil {
@@ -1314,7 +1388,8 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1337,7 +1412,7 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1349,10 +1424,12 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 // ListDataSourceV2 list the datasource of a cluster.
 func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterName string) ([]Datasource, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []Datasource
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []Datasource
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListDataSourceV2")
 	if err != nil {
@@ -1368,7 +1445,8 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterN
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1391,7 +1469,7 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1403,10 +1481,12 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterN
 // ListParameters list cluster parameters.
 func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterName string, tenantId string, mode string) ([]ObParameter, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []ObParameter
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []ObParameter
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListParameters")
 	if err != nil {
@@ -1424,7 +1504,8 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1446,10 +1527,11 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1463,7 +1545,7 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1475,10 +1557,12 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 // ListQueryHistory list the query History.
 func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) (QueryHistory, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue QueryHistory
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  QueryHistory
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListQueryHistory")
 	if err != nil {
@@ -1495,7 +1579,8 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1518,7 +1603,7 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1537,7 +1622,6 @@ func NewListSessionsOptionalParameters() *ListSessionsOptionalParameters {
 	this := ListSessionsOptionalParameters{}
 	return &this
 }
-
 // WithAll sets the corresponding parameter name and returns the struct.
 func (r *ListSessionsOptionalParameters) WithAll(all string) *ListSessionsOptionalParameters {
 	r.All = &all
@@ -1547,18 +1631,20 @@ func (r *ListSessionsOptionalParameters) WithAll(all string) *ListSessionsOption
 // ListSessions list all session for the cluster.
 func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]ObSession, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue []ObSession
-		optionalParams      ListSessionsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  []ObSession
+		optionalParams ListSessionsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListSessionsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListSessionsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListSessions")
 	if err != nil {
@@ -1577,7 +1663,8 @@ func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName 
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1599,10 +1686,11 @@ func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1616,7 +1704,7 @@ func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1628,10 +1716,12 @@ func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName 
 // Query create a SQL query.
 func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (QueryResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue QueryResponse
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  QueryResponse
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.Query")
 	if err != nil {
@@ -1649,9 +1739,11 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1674,7 +1766,7 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1686,10 +1778,12 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 // ShowData read data of table or view.
 func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (Result, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Result
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Result
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ShowData")
 	if err != nil {
@@ -1707,9 +1801,11 @@ func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName stri
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1732,7 +1828,7 @@ func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName stri
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1744,10 +1840,12 @@ func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName stri
 // SqlExplain explain a SQL.
 func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (QueryResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue QueryResponse
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  QueryResponse
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.SqlExplain")
 	if err != nil {
@@ -1765,9 +1863,11 @@ func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1790,7 +1890,7 @@ func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1809,7 +1909,6 @@ func NewTenantParameterHistoryOptionalParameters() *TenantParameterHistoryOption
 	this := TenantParameterHistoryOptionalParameters{}
 	return &this
 }
-
 // WithParameterName sets the corresponding parameter name and returns the struct.
 func (r *TenantParameterHistoryOptionalParameters) WithParameterName(parameterName string) *TenantParameterHistoryOptionalParameters {
 	r.ParameterName = &parameterName
@@ -1819,18 +1918,20 @@ func (r *TenantParameterHistoryOptionalParameters) WithParameterName(parameterNa
 // TenantParameterHistory List parameters history of the Oceanbase tenant.
 func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, clusterName string, tenantId string, o ...TenantParameterHistoryOptionalParameters) (ParameterHistoryList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ParameterHistoryList
-		optionalParams      TenantParameterHistoryOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ParameterHistoryList
+		optionalParams TenantParameterHistoryOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type TenantParameterHistoryOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type TenantParameterHistoryOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.TenantParameterHistory")
 	if err != nil {
@@ -1850,7 +1951,8 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1872,10 +1974,11 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1889,7 +1992,7 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1901,10 +2004,12 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 // TestDataSourceV2 test the datasource.
 func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  bool
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.TestDataSourceV2")
 	if err != nil {
@@ -1921,9 +2026,11 @@ func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1946,7 +2053,7 @@ func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1958,10 +2065,12 @@ func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterN
 // UpdateDataSourceV2 update the datasource.
 func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  bool
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.UpdateDataSourceV2")
 	if err != nil {
@@ -1978,9 +2087,11 @@ func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, cluste
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -2003,7 +2114,7 @@ func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, cluste
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

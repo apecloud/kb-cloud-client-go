@@ -2,18 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster 
 type OpsPromote struct {
 	ComponentName *string `json:"componentName,omitempty"`
-	InstanceName  *string `json:"instanceName,omitempty"`
+	InstanceName *string `json:"instanceName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsPromote instantiates a new OpsPromote object.
 // This constructor will assign default values to properties that have it defined,
@@ -31,7 +41,6 @@ func NewOpsPromoteWithDefaults() *OpsPromote {
 	this := OpsPromote{}
 	return &this
 }
-
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *OpsPromote) GetComponentName() string {
 	if o == nil || o.ComponentName == nil {
@@ -59,6 +68,7 @@ func (o *OpsPromote) HasComponentName() bool {
 func (o *OpsPromote) SetComponentName(v string) {
 	o.ComponentName = &v
 }
+
 
 // GetInstanceName returns the InstanceName field value if set, zero value otherwise.
 func (o *OpsPromote) GetInstanceName() string {
@@ -88,6 +98,8 @@ func (o *OpsPromote) SetInstanceName(v string) {
 	o.InstanceName = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsPromote) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -111,14 +123,14 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ComponentName *string `json:"componentName,omitempty"`
-		InstanceName  *string `json:"instanceName,omitempty"`
+		InstanceName *string `json:"instanceName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"componentName", "instanceName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "componentName", "instanceName",  })
 	} else {
 		return err
 	}

@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// MonitorDataSink MonitorDataSink
+
+
+// MonitorDataSink MonitorDataSink 
 type MonitorDataSink struct {
 	// MonitorDataSink ID
 	Id string `json:"id"`
@@ -23,9 +28,10 @@ type MonitorDataSink struct {
 	// type of monitor data sink(logs or metrics)
 	MonitorDataSinkType string `json:"monitorDataSinkType"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewMonitorDataSink instantiates a new MonitorDataSink object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,7 +53,6 @@ func NewMonitorDataSinkWithDefaults() *MonitorDataSink {
 	this := MonitorDataSink{}
 	return &this
 }
-
 // GetId returns the Id field value.
 func (o *MonitorDataSink) GetId() string {
 	if o == nil {
@@ -70,6 +75,7 @@ func (o *MonitorDataSink) GetIdOk() (*string, bool) {
 func (o *MonitorDataSink) SetId(v string) {
 	o.Id = v
 }
+
 
 // GetExporterUrl returns the ExporterUrl field value.
 func (o *MonitorDataSink) GetExporterUrl() string {
@@ -94,6 +100,7 @@ func (o *MonitorDataSink) SetExporterUrl(v string) {
 	o.ExporterUrl = v
 }
 
+
 // GetEnvironmentId returns the EnvironmentId field value.
 func (o *MonitorDataSink) GetEnvironmentId() string {
 	if o == nil {
@@ -117,6 +124,7 @@ func (o *MonitorDataSink) SetEnvironmentId(v string) {
 	o.EnvironmentId = v
 }
 
+
 // GetIndexName returns the IndexName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MonitorDataSink) GetIndexName() string {
 	if o == nil || o.IndexName.Get() == nil {
@@ -130,7 +138,7 @@ func (o *MonitorDataSink) GetIndexName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *MonitorDataSink) GetIndexNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.IndexName.Get(), o.IndexName.IsSet()
@@ -145,7 +153,6 @@ func (o *MonitorDataSink) HasIndexName() bool {
 func (o *MonitorDataSink) SetIndexName(v string) {
 	o.IndexName.Set(&v)
 }
-
 // SetIndexNameNil sets the value for IndexName to be an explicit nil.
 func (o *MonitorDataSink) SetIndexNameNil() {
 	o.IndexName.Set(nil)
@@ -155,6 +162,7 @@ func (o *MonitorDataSink) SetIndexNameNil() {
 func (o *MonitorDataSink) UnsetIndexName() {
 	o.IndexName.Unset()
 }
+
 
 // GetMonitorDataSinkType returns the MonitorDataSinkType field value.
 func (o *MonitorDataSink) GetMonitorDataSinkType() string {
@@ -179,6 +187,8 @@ func (o *MonitorDataSink) SetMonitorDataSinkType(v string) {
 	o.MonitorDataSinkType = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o MonitorDataSink) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -202,11 +212,11 @@ func (o MonitorDataSink) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MonitorDataSink) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *string               `json:"id"`
-		ExporterUrl         *string               `json:"exporterUrl"`
-		EnvironmentId       *string               `json:"environmentID"`
-		IndexName           common.NullableString `json:"indexName,omitempty"`
-		MonitorDataSinkType *string               `json:"monitorDataSinkType"`
+		Id *string `json:"id"`
+		ExporterUrl *string `json:"exporterUrl"`
+		EnvironmentId *string `json:"environmentID"`
+		IndexName common.NullableString `json:"indexName,omitempty"`
+		MonitorDataSinkType *string `json:"monitorDataSinkType"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -225,7 +235,7 @@ func (o *MonitorDataSink) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "exporterUrl", "environmentID", "indexName", "monitorDataSinkType"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "exporterUrl", "environmentID", "indexName", "monitorDataSinkType",  })
 	} else {
 		return err
 	}

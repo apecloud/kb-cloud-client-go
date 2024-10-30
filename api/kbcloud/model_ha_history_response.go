@@ -2,18 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// HaHistoryResponse hahistory is the payload to get ha history of a KubeBlocks cluster
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// HaHistoryResponse hahistory is the payload to get ha history of a KubeBlocks cluster 
 type HaHistoryResponse struct {
-	ComponentName *string                        `json:"componentName,omitempty"`
-	Records       []HaHistoryResponseRecordsItem `json:"records,omitempty"`
+	ComponentName *string `json:"componentName,omitempty"`
+	Records []HaHistoryResponseRecordsItem `json:"records,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewHaHistoryResponse instantiates a new HaHistoryResponse object.
 // This constructor will assign default values to properties that have it defined,
@@ -31,7 +41,6 @@ func NewHaHistoryResponseWithDefaults() *HaHistoryResponse {
 	this := HaHistoryResponse{}
 	return &this
 }
-
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *HaHistoryResponse) GetComponentName() string {
 	if o == nil || o.ComponentName == nil {
@@ -59,6 +68,7 @@ func (o *HaHistoryResponse) HasComponentName() bool {
 func (o *HaHistoryResponse) SetComponentName(v string) {
 	o.ComponentName = &v
 }
+
 
 // GetRecords returns the Records field value if set, zero value otherwise.
 func (o *HaHistoryResponse) GetRecords() []HaHistoryResponseRecordsItem {
@@ -88,6 +98,8 @@ func (o *HaHistoryResponse) SetRecords(v []HaHistoryResponseRecordsItem) {
 	o.Records = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o HaHistoryResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -110,15 +122,15 @@ func (o HaHistoryResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *HaHistoryResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ComponentName *string                        `json:"componentName,omitempty"`
-		Records       []HaHistoryResponseRecordsItem `json:"records,omitempty"`
+		ComponentName *string `json:"componentName,omitempty"`
+		Records []HaHistoryResponseRecordsItem `json:"records,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"componentName", "records"})
+		common.DeleteKeys(additionalProperties, &[]string{ "componentName", "records",  })
 	} else {
 		return err
 	}

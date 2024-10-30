@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -20,10 +24,12 @@ type EngineOptionApi common.Service
 // list upgraded service version of the component
 func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, clusterName string, orgName string, component string) (EngineServiceVersions, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue EngineServiceVersions
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  EngineServiceVersions
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.ListUpgradeableServiceVersion")
 	if err != nil {
@@ -40,7 +46,8 @@ func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, cl
 	localVarQueryParams.Add("component", common.ParameterToString(component, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -62,10 +69,11 @@ func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -79,7 +87,7 @@ func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -92,10 +100,12 @@ func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, cl
 // Create a new engineOption
 func (a *EngineOptionApi) CreateEngineOption(ctx _context.Context, body EngineOption) (EngineOption, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue EngineOption
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  EngineOption
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.CreateEngineOption")
 	if err != nil {
@@ -110,9 +120,11 @@ func (a *EngineOptionApi) CreateEngineOption(ctx _context.Context, body EngineOp
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -134,10 +146,11 @@ func (a *EngineOptionApi) CreateEngineOption(ctx _context.Context, body EngineOp
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -151,7 +164,7 @@ func (a *EngineOptionApi) CreateEngineOption(ctx _context.Context, body EngineOp
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -170,7 +183,6 @@ func NewGetEngineOptionOptionalParameters() *GetEngineOptionOptionalParameters {
 	this := GetEngineOptionOptionalParameters{}
 	return &this
 }
-
 // WithVersion sets the corresponding parameter name and returns the struct.
 func (r *GetEngineOptionOptionalParameters) WithVersion(version EngineOptionVersion) *GetEngineOptionOptionalParameters {
 	r.Version = &version
@@ -181,18 +193,20 @@ func (r *GetEngineOptionOptionalParameters) WithVersion(version EngineOptionVers
 // Get a engineOption detail
 func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName string, o ...GetEngineOptionOptionalParameters) (EngineOption, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue EngineOption
-		optionalParams      GetEngineOptionOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  EngineOption
+		optionalParams GetEngineOptionOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetEngineOptionOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetEngineOptionOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.GetEngineOption")
 	if err != nil {
@@ -210,7 +224,8 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -232,10 +247,11 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -249,7 +265,7 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -262,10 +278,12 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 // List a engineOption histories of a engine
 func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineName string) (EngineOptionHistoryList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue EngineOptionHistoryList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  EngineOptionHistoryList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.ListEngineOptionHistory")
 	if err != nil {
@@ -280,7 +298,8 @@ func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineNa
 	localVarQueryParams.Add("engineName", common.ParameterToString(engineName, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -302,10 +321,11 @@ func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -319,7 +339,7 @@ func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -338,7 +358,6 @@ func NewListEngineOptionsOptionalParameters() *ListEngineOptionsOptionalParamete
 	this := ListEngineOptionsOptionalParameters{}
 	return &this
 }
-
 // WithVersion sets the corresponding parameter name and returns the struct.
 func (r *ListEngineOptionsOptionalParameters) WithVersion(version EngineOptionVersion) *ListEngineOptionsOptionalParameters {
 	r.Version = &version
@@ -349,18 +368,20 @@ func (r *ListEngineOptionsOptionalParameters) WithVersion(version EngineOptionVe
 // list all engineOptions
 func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngineOptionsOptionalParameters) (EngineOptionList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue EngineOptionList
-		optionalParams      ListEngineOptionsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  EngineOptionList
+		optionalParams ListEngineOptionsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineOptionsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineOptionsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.ListEngineOptions")
 	if err != nil {
@@ -377,7 +398,8 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -399,10 +421,11 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -416,7 +439,7 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -429,10 +452,12 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 // Update a engineOption
 func (a *EngineOptionApi) UpdateEngineOption(ctx _context.Context, engineName string, body EngineOption) (EngineOption, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPut
-		localVarPostBody    interface{}
-		localVarReturnValue EngineOption
+		localVarHTTPMethod   = _nethttp.MethodPut
+		localVarPostBody     interface{}
+		localVarReturnValue  EngineOption
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.UpdateEngineOption")
 	if err != nil {
@@ -448,9 +473,11 @@ func (a *EngineOptionApi) UpdateEngineOption(ctx _context.Context, engineName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -472,10 +499,11 @@ func (a *EngineOptionApi) UpdateEngineOption(ctx _context.Context, engineName st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -489,7 +517,7 @@ func (a *EngineOptionApi) UpdateEngineOption(ctx _context.Context, engineName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

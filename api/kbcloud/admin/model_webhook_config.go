@@ -2,21 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// WebhookConfig Webhook config of alert receiver
+
+
+// WebhookConfig Webhook config of alert receiver 
 type WebhookConfig struct {
 	Url string `json:"url"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewWebhookConfig instantiates a new WebhookConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +41,6 @@ func NewWebhookConfigWithDefaults() *WebhookConfig {
 	this := WebhookConfig{}
 	return &this
 }
-
 // GetUrl returns the Url field value.
 func (o *WebhookConfig) GetUrl() string {
 	if o == nil {
@@ -58,6 +63,8 @@ func (o *WebhookConfig) GetUrlOk() (*string, bool) {
 func (o *WebhookConfig) SetUrl(v string) {
 	o.Url = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o WebhookConfig) MarshalJSON() ([]byte, error) {
@@ -86,7 +93,7 @@ func (o *WebhookConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"url"})
+		common.DeleteKeys(additionalProperties, &[]string{ "url",  })
 	} else {
 		return err
 	}

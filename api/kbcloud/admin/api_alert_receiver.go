@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type AlertReceiverApi common.Service
 // CreateAlertReceiver Create alert receiver.
 func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName string, category AlertReceiverCategory, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue AlertReceiver
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertReceiver
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.CreateAlertReceiver")
 	if err != nil {
@@ -39,9 +45,11 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -63,10 +71,11 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -80,7 +89,7 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -92,9 +101,11 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 // DeleteAlertReceiver Delete alert receiver.
 func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName string, receiverId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.DeleteAlertReceiver")
 	if err != nil {
@@ -110,7 +121,8 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -132,10 +144,11 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -152,10 +165,12 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 // GetAlertReceiver Get alert receiver.
 func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string, receiverId string) (AlertReceiver, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertReceiver
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertReceiver
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.GetAlertReceiver")
 	if err != nil {
@@ -171,7 +186,8 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -193,10 +209,11 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 409{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -210,7 +227,7 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -221,7 +238,7 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 
 // ListAlertReceiversOptionalParameters holds optional parameters for ListAlertReceivers.
 type ListAlertReceiversOptionalParameters struct {
-	OrgName  *string
+	OrgName *string
 	Category *AlertReceiverCategory
 }
 
@@ -230,13 +247,11 @@ func NewListAlertReceiversOptionalParameters() *ListAlertReceiversOptionalParame
 	this := ListAlertReceiversOptionalParameters{}
 	return &this
 }
-
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListAlertReceiversOptionalParameters) WithOrgName(orgName string) *ListAlertReceiversOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
-
 // WithCategory sets the corresponding parameter name and returns the struct.
 func (r *ListAlertReceiversOptionalParameters) WithCategory(category AlertReceiverCategory) *ListAlertReceiversOptionalParameters {
 	r.Category = &category
@@ -246,18 +261,20 @@ func (r *ListAlertReceiversOptionalParameters) WithCategory(category AlertReceiv
 // ListAlertReceivers List alert receivers.
 func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAlertReceiversOptionalParameters) (AlertReceiverList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertReceiverList
-		optionalParams      ListAlertReceiversOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertReceiverList
+		optionalParams ListAlertReceiversOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertReceiversOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertReceiversOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.ListAlertReceivers")
 	if err != nil {
@@ -277,7 +294,8 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -299,10 +317,11 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -316,7 +335,7 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -329,10 +348,12 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 // partially update the alert receiver
 func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName string, receiverId string, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue AlertReceiver
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertReceiver
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.PatchAlertReceiver")
 	if err != nil {
@@ -346,12 +367,14 @@ func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName stri
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/apply-patch+yaml"
+	localVarHeaderParams["Content-Type"] =  "application/apply-patch+yaml"
 	localVarHeaderParams["Accept"] = "application/json"
+
+	
 
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -373,10 +396,11 @@ func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 {
+		if
+		localVarHTTPResponse.StatusCode == 401{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -390,7 +414,7 @@ func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName stri
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

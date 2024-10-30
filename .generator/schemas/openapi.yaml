@@ -776,16 +776,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: engine name
-          in: query
-          name: engine
-          schema:
-            type: string
-        - description: version of the engine
-          in: query
-          name: version
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -956,6 +946,45 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/engine/{engineName}/version/{version}/environments:
+    get:
+      operationId: filterEnvironment
+      description: List environments
+      summary: List environments
+      parameters:
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: version of the engine
+          in: path
+          name: version
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentList'
+          description: A successful response.
+        '403':
+          content: {}
+          description: Returned when the user does not have permission to access the resource.
+        '404':
+          content: {}
+          description: Returned when the resource does not exist.
+      tags:
+        - environment
   /api/v1/organizations/{orgName}/benchmark:
     get:
       tags:
@@ -1518,7 +1547,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/cluster'
-          description: Returned when project is updated successfully.
+          description: Returned when project is deleted successfully.
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
       tags:
@@ -9207,9 +9236,7 @@ components:
         - READY
         - WARNING
         - UNREACHABLE
-        - DELETING
         - OUTOFSTOCK
-        - UPDATING
     environmentType:
       type: string
       description: Type of this environment
@@ -10519,9 +10546,6 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
-        displayName:
-          description: Display name of cluster.
-          type: string
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -10574,9 +10598,6 @@ components:
           title: Tolerations
           type: string
           description: Tolerations of cluster
-        displayName:
-          description: Display name of cluster.
-          type: string
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information

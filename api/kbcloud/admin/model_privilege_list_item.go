@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// PrivilegeListItem Database and its assigned privileges.
+
+
+// PrivilegeListItem Database and its assigned privileges. 
 type PrivilegeListItem struct {
 	// The name of the database.
 	DatabaseName *string `json:"databaseName,omitempty"`
 	// The type of privilege.
 	Privileges string `json:"privileges"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewPrivilegeListItem instantiates a new PrivilegeListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,6 @@ func NewPrivilegeListItemWithDefaults() *PrivilegeListItem {
 	this := PrivilegeListItem{}
 	return &this
 }
-
 // GetDatabaseName returns the DatabaseName field value if set, zero value otherwise.
 func (o *PrivilegeListItem) GetDatabaseName() string {
 	if o == nil || o.DatabaseName == nil {
@@ -67,6 +72,7 @@ func (o *PrivilegeListItem) SetDatabaseName(v string) {
 	o.DatabaseName = &v
 }
 
+
 // GetPrivileges returns the Privileges field value.
 func (o *PrivilegeListItem) GetPrivileges() string {
 	if o == nil {
@@ -90,6 +96,8 @@ func (o *PrivilegeListItem) SetPrivileges(v string) {
 	o.Privileges = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o PrivilegeListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -111,7 +119,7 @@ func (o PrivilegeListItem) MarshalJSON() ([]byte, error) {
 func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		DatabaseName *string `json:"databaseName,omitempty"`
-		Privileges   *string `json:"privileges"`
+		Privileges *string `json:"privileges"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -121,7 +129,7 @@ func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"databaseName", "privileges"})
+		common.DeleteKeys(additionalProperties, &[]string{ "databaseName", "privileges",  })
 	} else {
 		return err
 	}

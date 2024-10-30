@@ -2,23 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 type FaultType string
 
 // List of FaultType.
 const (
-	FaultTypePodChaos     FaultType = "PodChaos"
+	FaultTypePodChaos FaultType = "PodChaos"
 	FaultTypeNetworkChaos FaultType = "NetworkChaos"
-	FaultTypeIoChaos      FaultType = "IoChaos"
-	FaultTypeTimeChaos    FaultType = "TimeChaos"
-	FaultTypeStressChaos  FaultType = "StressChaos"
+	FaultTypeIoChaos FaultType = "IoChaos"
+	FaultTypeTimeChaos FaultType = "TimeChaos"
+	FaultTypeStressChaos FaultType = "StressChaos"
 )
 
 var allowedFaultTypeEnumValues = []FaultType{

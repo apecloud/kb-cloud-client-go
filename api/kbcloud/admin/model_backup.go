@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Backup backup is the payload for KubeBlocks cluster backup
+
+
+// Backup backup is the payload for KubeBlocks cluster backup 
 type Backup struct {
 	// autoBackup or not
 	AutoBackup bool `json:"autoBackup"`
@@ -46,9 +50,9 @@ type Backup struct {
 	// timeRangeStart records the start time of the backup.
 	TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
 	// Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-	TotalSize     string  `json:"totalSize"`
+	TotalSize string `json:"totalSize"`
 	FailureReason *string `json:"failureReason,omitempty"`
-	Extras        *string `json:"extras,omitempty"`
+	Extras *string `json:"extras,omitempty"`
 	// backup target pods
 	TargetPods []string `json:"targetPods,omitempty"`
 	// the path of backup files
@@ -70,9 +74,10 @@ type Backup struct {
 	// the cluster engine
 	Engine *string `json:"engine,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewBackup instantiates a new Backup object.
 // This constructor will assign default values to properties that have it defined,
@@ -104,7 +109,6 @@ func NewBackupWithDefaults() *Backup {
 	this := Backup{}
 	return &this
 }
-
 // GetAutoBackup returns the AutoBackup field value.
 func (o *Backup) GetAutoBackup() bool {
 	if o == nil {
@@ -127,6 +131,7 @@ func (o *Backup) GetAutoBackupOk() (*bool, bool) {
 func (o *Backup) SetAutoBackup(v bool) {
 	o.AutoBackup = v
 }
+
 
 // GetBackupMethod returns the BackupMethod field value.
 func (o *Backup) GetBackupMethod() string {
@@ -151,6 +156,7 @@ func (o *Backup) SetBackupMethod(v string) {
 	o.BackupMethod = v
 }
 
+
 // GetBackupPolicyName returns the BackupPolicyName field value.
 func (o *Backup) GetBackupPolicyName() string {
 	if o == nil {
@@ -173,6 +179,7 @@ func (o *Backup) GetBackupPolicyNameOk() (*string, bool) {
 func (o *Backup) SetBackupPolicyName(v string) {
 	o.BackupPolicyName = v
 }
+
 
 // GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
 func (o *Backup) GetBackupRepo() string {
@@ -202,6 +209,7 @@ func (o *Backup) SetBackupRepo(v string) {
 	o.BackupRepo = &v
 }
 
+
 // GetBackupType returns the BackupType field value.
 func (o *Backup) GetBackupType() BackupType {
 	if o == nil {
@@ -224,6 +232,7 @@ func (o *Backup) GetBackupTypeOk() (*BackupType, bool) {
 func (o *Backup) SetBackupType(v BackupType) {
 	o.BackupType = v
 }
+
 
 // GetCompletionTimestamp returns the CompletionTimestamp field value.
 func (o *Backup) GetCompletionTimestamp() time.Time {
@@ -248,6 +257,7 @@ func (o *Backup) SetCompletionTimestamp(v time.Time) {
 	o.CompletionTimestamp = v
 }
 
+
 // GetCreationTimestamp returns the CreationTimestamp field value.
 func (o *Backup) GetCreationTimestamp() time.Time {
 	if o == nil {
@@ -270,6 +280,7 @@ func (o *Backup) GetCreationTimestampOk() (*time.Time, bool) {
 func (o *Backup) SetCreationTimestamp(v time.Time) {
 	o.CreationTimestamp = v
 }
+
 
 // GetDuration returns the Duration field value.
 func (o *Backup) GetDuration() string {
@@ -294,6 +305,7 @@ func (o *Backup) SetDuration(v string) {
 	o.Duration = v
 }
 
+
 // GetName returns the Name field value.
 func (o *Backup) GetName() string {
 	if o == nil {
@@ -316,6 +328,7 @@ func (o *Backup) GetNameOk() (*string, bool) {
 func (o *Backup) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetOrgName returns the OrgName field value.
 func (o *Backup) GetOrgName() string {
@@ -340,6 +353,7 @@ func (o *Backup) SetOrgName(v string) {
 	o.OrgName = v
 }
 
+
 // GetSnapshotVolumes returns the SnapshotVolumes field value.
 func (o *Backup) GetSnapshotVolumes() bool {
 	if o == nil {
@@ -362,6 +376,7 @@ func (o *Backup) GetSnapshotVolumesOk() (*bool, bool) {
 func (o *Backup) SetSnapshotVolumes(v bool) {
 	o.SnapshotVolumes = v
 }
+
 
 // GetSourceCluster returns the SourceCluster field value.
 func (o *Backup) GetSourceCluster() string {
@@ -386,6 +401,7 @@ func (o *Backup) SetSourceCluster(v string) {
 	o.SourceCluster = v
 }
 
+
 // GetStartTimestamp returns the StartTimestamp field value.
 func (o *Backup) GetStartTimestamp() time.Time {
 	if o == nil {
@@ -409,6 +425,7 @@ func (o *Backup) SetStartTimestamp(v time.Time) {
 	o.StartTimestamp = v
 }
 
+
 // GetStatus returns the Status field value.
 func (o *Backup) GetStatus() BackupStatus {
 	if o == nil {
@@ -431,6 +448,7 @@ func (o *Backup) GetStatusOk() (*BackupStatus, bool) {
 func (o *Backup) SetStatus(v BackupStatus) {
 	o.Status = v
 }
+
 
 // GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise.
 func (o *Backup) GetTimeRangeEnd() time.Time {
@@ -460,6 +478,7 @@ func (o *Backup) SetTimeRangeEnd(v time.Time) {
 	o.TimeRangeEnd = &v
 }
 
+
 // GetTimeRangeStart returns the TimeRangeStart field value if set, zero value otherwise.
 func (o *Backup) GetTimeRangeStart() time.Time {
 	if o == nil || o.TimeRangeStart == nil {
@@ -488,6 +507,7 @@ func (o *Backup) SetTimeRangeStart(v time.Time) {
 	o.TimeRangeStart = &v
 }
 
+
 // GetTotalSize returns the TotalSize field value.
 func (o *Backup) GetTotalSize() string {
 	if o == nil {
@@ -510,6 +530,7 @@ func (o *Backup) GetTotalSizeOk() (*string, bool) {
 func (o *Backup) SetTotalSize(v string) {
 	o.TotalSize = v
 }
+
 
 // GetFailureReason returns the FailureReason field value if set, zero value otherwise.
 func (o *Backup) GetFailureReason() string {
@@ -539,6 +560,7 @@ func (o *Backup) SetFailureReason(v string) {
 	o.FailureReason = &v
 }
 
+
 // GetExtras returns the Extras field value if set, zero value otherwise.
 func (o *Backup) GetExtras() string {
 	if o == nil || o.Extras == nil {
@@ -566,6 +588,7 @@ func (o *Backup) HasExtras() bool {
 func (o *Backup) SetExtras(v string) {
 	o.Extras = &v
 }
+
 
 // GetTargetPods returns the TargetPods field value if set, zero value otherwise.
 func (o *Backup) GetTargetPods() []string {
@@ -595,6 +618,7 @@ func (o *Backup) SetTargetPods(v []string) {
 	o.TargetPods = v
 }
 
+
 // GetPath returns the Path field value if set, zero value otherwise.
 func (o *Backup) GetPath() string {
 	if o == nil || o.Path == nil {
@@ -622,6 +646,7 @@ func (o *Backup) HasPath() bool {
 func (o *Backup) SetPath(v string) {
 	o.Path = &v
 }
+
 
 // GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
 func (o *Backup) GetRetentionPeriod() string {
@@ -651,6 +676,7 @@ func (o *Backup) SetRetentionPeriod(v string) {
 	o.RetentionPeriod = &v
 }
 
+
 // GetExpiration returns the Expiration field value if set, zero value otherwise.
 func (o *Backup) GetExpiration() time.Time {
 	if o == nil || o.Expiration == nil {
@@ -678,6 +704,7 @@ func (o *Backup) HasExpiration() bool {
 func (o *Backup) SetExpiration(v time.Time) {
 	o.Expiration = &v
 }
+
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Backup) GetId() string {
@@ -707,6 +734,7 @@ func (o *Backup) SetId(v string) {
 	o.Id = &v
 }
 
+
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *Backup) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
@@ -734,6 +762,7 @@ func (o *Backup) HasClusterId() bool {
 func (o *Backup) SetClusterId(v string) {
 	o.ClusterId = &v
 }
+
 
 // GetCloudProvider returns the CloudProvider field value if set, zero value otherwise.
 func (o *Backup) GetCloudProvider() string {
@@ -763,6 +792,7 @@ func (o *Backup) SetCloudProvider(v string) {
 	o.CloudProvider = &v
 }
 
+
 // GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
 func (o *Backup) GetCloudRegion() string {
 	if o == nil || o.CloudRegion == nil {
@@ -790,6 +820,7 @@ func (o *Backup) HasCloudRegion() bool {
 func (o *Backup) SetCloudRegion(v string) {
 	o.CloudRegion = &v
 }
+
 
 // GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
 func (o *Backup) GetEnvironmentName() string {
@@ -819,6 +850,7 @@ func (o *Backup) SetEnvironmentName(v string) {
 	o.EnvironmentName = &v
 }
 
+
 // GetEngine returns the Engine field value if set, zero value otherwise.
 func (o *Backup) GetEngine() string {
 	if o == nil || o.Engine == nil {
@@ -846,6 +878,8 @@ func (o *Backup) HasEngine() bool {
 func (o *Backup) SetEngine(v string) {
 	o.Engine = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Backup) MarshalJSON() ([]byte, error) {
@@ -946,35 +980,35 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup          *bool         `json:"autoBackup"`
-		BackupMethod        *string       `json:"backupMethod"`
-		BackupPolicyName    *string       `json:"backupPolicyName"`
-		BackupRepo          *string       `json:"backupRepo,omitempty"`
-		BackupType          *BackupType   `json:"backupType"`
-		CompletionTimestamp *time.Time    `json:"completionTimestamp"`
-		CreationTimestamp   *time.Time    `json:"creationTimestamp"`
-		Duration            *string       `json:"duration"`
-		Name                *string       `json:"name"`
-		OrgName             *string       `json:"orgName"`
-		SnapshotVolumes     *bool         `json:"snapshotVolumes"`
-		SourceCluster       *string       `json:"sourceCluster"`
-		StartTimestamp      *time.Time    `json:"startTimestamp"`
-		Status              *BackupStatus `json:"status"`
-		TimeRangeEnd        *time.Time    `json:"timeRangeEnd,omitempty"`
-		TimeRangeStart      *time.Time    `json:"timeRangeStart,omitempty"`
-		TotalSize           *string       `json:"totalSize"`
-		FailureReason       *string       `json:"failureReason,omitempty"`
-		Extras              *string       `json:"extras,omitempty"`
-		TargetPods          []string      `json:"targetPods,omitempty"`
-		Path                *string       `json:"path,omitempty"`
-		RetentionPeriod     *string       `json:"retentionPeriod,omitempty"`
-		Expiration          *time.Time    `json:"expiration,omitempty"`
-		Id                  *string       `json:"id,omitempty"`
-		ClusterId           *string       `json:"clusterId,omitempty"`
-		CloudProvider       *string       `json:"cloudProvider,omitempty"`
-		CloudRegion         *string       `json:"cloudRegion,omitempty"`
-		EnvironmentName     *string       `json:"environmentName,omitempty"`
-		Engine              *string       `json:"engine,omitempty"`
+		AutoBackup *bool `json:"autoBackup"`
+		BackupMethod *string `json:"backupMethod"`
+		BackupPolicyName *string `json:"backupPolicyName"`
+		BackupRepo *string `json:"backupRepo,omitempty"`
+		BackupType *BackupType `json:"backupType"`
+		CompletionTimestamp *time.Time `json:"completionTimestamp"`
+		CreationTimestamp *time.Time `json:"creationTimestamp"`
+		Duration *string `json:"duration"`
+		Name *string `json:"name"`
+		OrgName *string `json:"orgName"`
+		SnapshotVolumes *bool `json:"snapshotVolumes"`
+		SourceCluster *string `json:"sourceCluster"`
+		StartTimestamp *time.Time `json:"startTimestamp"`
+		Status *BackupStatus `json:"status"`
+		TimeRangeEnd *time.Time `json:"timeRangeEnd,omitempty"`
+		TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
+		TotalSize *string `json:"totalSize"`
+		FailureReason *string `json:"failureReason,omitempty"`
+		Extras *string `json:"extras,omitempty"`
+		TargetPods []string `json:"targetPods,omitempty"`
+		Path *string `json:"path,omitempty"`
+		RetentionPeriod *string `json:"retentionPeriod,omitempty"`
+		Expiration *time.Time `json:"expiration,omitempty"`
+		Id *string `json:"id,omitempty"`
+		ClusterId *string `json:"clusterId,omitempty"`
+		CloudProvider *string `json:"cloudProvider,omitempty"`
+		CloudRegion *string `json:"cloudRegion,omitempty"`
+		EnvironmentName *string `json:"environmentName,omitempty"`
+		Engine *string `json:"engine,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1023,7 +1057,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine"})
+		common.DeleteKeys(additionalProperties, &[]string{ "autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine",  })
 	} else {
 		return err
 	}

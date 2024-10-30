@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// HttpBody Represents an HTTP request or response body.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// HttpBody Represents an HTTP request or response body. 
 type HttpBody struct {
 	// The HTTP Content-Type header value specifying the content type of the body.
 	ContentType *string `json:"contentType,omitempty"`
 	// The HTTP request/response body as raw binary.
 	Data *string `json:"data,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewHttpBody instantiates a new HttpBody object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewHttpBodyWithDefaults() *HttpBody {
 	this := HttpBody{}
 	return &this
 }
-
 // GetContentType returns the ContentType field value if set, zero value otherwise.
 func (o *HttpBody) GetContentType() string {
 	if o == nil || o.ContentType == nil {
@@ -61,6 +70,7 @@ func (o *HttpBody) HasContentType() bool {
 func (o *HttpBody) SetContentType(v string) {
 	o.ContentType = &v
 }
+
 
 // GetData returns the Data field value if set, zero value otherwise.
 func (o *HttpBody) GetData() string {
@@ -90,6 +100,8 @@ func (o *HttpBody) SetData(v string) {
 	o.Data = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o HttpBody) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -113,14 +125,14 @@ func (o HttpBody) MarshalJSON() ([]byte, error) {
 func (o *HttpBody) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ContentType *string `json:"contentType,omitempty"`
-		Data        *string `json:"data,omitempty"`
+		Data *string `json:"data,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"contentType", "data"})
+		common.DeleteKeys(additionalProperties, &[]string{ "contentType", "data",  })
 	} else {
 		return err
 	}

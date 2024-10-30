@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ComponentVersion component version
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ComponentVersion component version 
 type ComponentVersion struct {
 	Kubeblocks *string `json:"kubeblocks,omitempty"`
-	Gemini     *string `json:"gemini,omitempty"`
-	Oteld      *string `json:"oteld,omitempty"`
+	Gemini *string `json:"gemini,omitempty"`
+	Oteld *string `json:"oteld,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewComponentVersion instantiates a new ComponentVersion object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewComponentVersionWithDefaults() *ComponentVersion {
 	this := ComponentVersion{}
 	return &this
 }
-
 // GetKubeblocks returns the Kubeblocks field value if set, zero value otherwise.
 func (o *ComponentVersion) GetKubeblocks() string {
 	if o == nil || o.Kubeblocks == nil {
@@ -60,6 +69,7 @@ func (o *ComponentVersion) HasKubeblocks() bool {
 func (o *ComponentVersion) SetKubeblocks(v string) {
 	o.Kubeblocks = &v
 }
+
 
 // GetGemini returns the Gemini field value if set, zero value otherwise.
 func (o *ComponentVersion) GetGemini() string {
@@ -89,6 +99,7 @@ func (o *ComponentVersion) SetGemini(v string) {
 	o.Gemini = &v
 }
 
+
 // GetOteld returns the Oteld field value if set, zero value otherwise.
 func (o *ComponentVersion) GetOteld() string {
 	if o == nil || o.Oteld == nil {
@@ -117,6 +128,8 @@ func (o *ComponentVersion) SetOteld(v string) {
 	o.Oteld = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentVersion) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,15 +156,15 @@ func (o ComponentVersion) MarshalJSON() ([]byte, error) {
 func (o *ComponentVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Kubeblocks *string `json:"kubeblocks,omitempty"`
-		Gemini     *string `json:"gemini,omitempty"`
-		Oteld      *string `json:"oteld,omitempty"`
+		Gemini *string `json:"gemini,omitempty"`
+		Oteld *string `json:"oteld,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"kubeblocks", "gemini", "oteld"})
+		common.DeleteKeys(additionalProperties, &[]string{ "kubeblocks", "gemini", "oteld",  })
 	} else {
 		return err
 	}

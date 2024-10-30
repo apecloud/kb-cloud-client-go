@@ -2,22 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // YcsbRedisMode Redis mode
 type YcsbRedisMode string
 
 // List of YcsbRedisMode.
 const (
-	YcsbRedisModeSingle   YcsbRedisMode = "single"
+	YcsbRedisModeSingle YcsbRedisMode = "single"
 	YcsbRedisModeSentinel YcsbRedisMode = "sentinel"
-	YcsbRedisModeCluster  YcsbRedisMode = "cluster"
+	YcsbRedisModeCluster YcsbRedisMode = "cluster"
 )
 
 var allowedYcsbRedisModeEnumValues = []YcsbRedisMode{

@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type AlertStrategyMuteTimeIntervalTimes struct {
 	// Mute start time, e.g. '17:00', should be in UTC time.
 	StartTime *string `json:"startTime,omitempty"`
 	// Mute end time, e.g. '24:00', should be in UTC time.
 	EndTime *string `json:"endTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertStrategyMuteTimeIntervalTimes instantiates a new AlertStrategyMuteTimeIntervalTimes object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewAlertStrategyMuteTimeIntervalTimesWithDefaults() *AlertStrategyMuteTimeI
 	this := AlertStrategyMuteTimeIntervalTimes{}
 	return &this
 }
-
 // GetStartTime returns the StartTime field value if set, zero value otherwise.
 func (o *AlertStrategyMuteTimeIntervalTimes) GetStartTime() string {
 	if o == nil || o.StartTime == nil {
@@ -60,6 +69,7 @@ func (o *AlertStrategyMuteTimeIntervalTimes) HasStartTime() bool {
 func (o *AlertStrategyMuteTimeIntervalTimes) SetStartTime(v string) {
 	o.StartTime = &v
 }
+
 
 // GetEndTime returns the EndTime field value if set, zero value otherwise.
 func (o *AlertStrategyMuteTimeIntervalTimes) GetEndTime() string {
@@ -89,6 +99,8 @@ func (o *AlertStrategyMuteTimeIntervalTimes) SetEndTime(v string) {
 	o.EndTime = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertStrategyMuteTimeIntervalTimes) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,14 +124,14 @@ func (o AlertStrategyMuteTimeIntervalTimes) MarshalJSON() ([]byte, error) {
 func (o *AlertStrategyMuteTimeIntervalTimes) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		StartTime *string `json:"startTime,omitempty"`
-		EndTime   *string `json:"endTime,omitempty"`
+		EndTime *string `json:"endTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"startTime", "endTime"})
+		common.DeleteKeys(additionalProperties, &[]string{ "startTime", "endTime",  })
 	} else {
 		return err
 	}

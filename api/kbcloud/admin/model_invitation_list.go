@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// InvitationList InvitationList is a list of invitations
+
+
+// InvitationList InvitationList is a list of invitations 
 type InvitationList struct {
 	// Items is the list of Invitation objects in the list
 	Items []Invitation `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInvitationList instantiates a new InvitationList object.
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,6 @@ func NewInvitationListWithDefaults() *InvitationList {
 	this := InvitationList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *InvitationList) GetItems() []Invitation {
 	if o == nil {
@@ -61,6 +66,7 @@ func (o *InvitationList) GetItemsOk() (*[]Invitation, bool) {
 func (o *InvitationList) SetItems(v []Invitation) {
 	o.Items = v
 }
+
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
 func (o *InvitationList) GetPageResult() PageResult {
@@ -90,6 +96,8 @@ func (o *InvitationList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InvitationList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -110,8 +118,8 @@ func (o InvitationList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InvitationList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Invitation `json:"items"`
-		PageResult *PageResult   `json:"pageResult,omitempty"`
+		Items *[]Invitation `json:"items"`
+		PageResult *PageResult `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -121,14 +129,14 @@ func (o *InvitationList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "pageResult"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items", "pageResult",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Items = *all.Items
-	if all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.PageResult = all.PageResult

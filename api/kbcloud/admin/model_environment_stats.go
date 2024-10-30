@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// EnvironmentStats The cumulative statistics for all environments.
+
+
+// EnvironmentStats The cumulative statistics for all environments. 
 type EnvironmentStats struct {
 	// The total number of environments.
 	EnvTotal int32 `json:"envTotal"`
@@ -21,9 +26,10 @@ type EnvironmentStats struct {
 	// The cumulative storage capacity of all environments, typically measured in bytes or GiB.
 	StorageTotal float64 `json:"storageTotal"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEnvironmentStats instantiates a new EnvironmentStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,7 +51,6 @@ func NewEnvironmentStatsWithDefaults() *EnvironmentStats {
 	this := EnvironmentStats{}
 	return &this
 }
-
 // GetEnvTotal returns the EnvTotal field value.
 func (o *EnvironmentStats) GetEnvTotal() int32 {
 	if o == nil {
@@ -68,6 +73,7 @@ func (o *EnvironmentStats) GetEnvTotalOk() (*int32, bool) {
 func (o *EnvironmentStats) SetEnvTotal(v int32) {
 	o.EnvTotal = v
 }
+
 
 // GetCpuTotal returns the CpuTotal field value.
 func (o *EnvironmentStats) GetCpuTotal() float64 {
@@ -92,6 +98,7 @@ func (o *EnvironmentStats) SetCpuTotal(v float64) {
 	o.CpuTotal = v
 }
 
+
 // GetMemoryTotal returns the MemoryTotal field value.
 func (o *EnvironmentStats) GetMemoryTotal() float64 {
 	if o == nil {
@@ -114,6 +121,7 @@ func (o *EnvironmentStats) GetMemoryTotalOk() (*float64, bool) {
 func (o *EnvironmentStats) SetMemoryTotal(v float64) {
 	o.MemoryTotal = v
 }
+
 
 // GetStorageTotal returns the StorageTotal field value.
 func (o *EnvironmentStats) GetStorageTotal() float64 {
@@ -138,6 +146,8 @@ func (o *EnvironmentStats) SetStorageTotal(v float64) {
 	o.StorageTotal = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,9 +168,9 @@ func (o EnvironmentStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvTotal     *int32   `json:"envTotal"`
-		CpuTotal     *float64 `json:"cpuTotal"`
-		MemoryTotal  *float64 `json:"memoryTotal"`
+		EnvTotal *int32 `json:"envTotal"`
+		CpuTotal *float64 `json:"cpuTotal"`
+		MemoryTotal *float64 `json:"memoryTotal"`
 		StorageTotal *float64 `json:"storageTotal"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -180,7 +190,7 @@ func (o *EnvironmentStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"envTotal", "cpuTotal", "memoryTotal", "storageTotal"})
+		common.DeleteKeys(additionalProperties, &[]string{ "envTotal", "cpuTotal", "memoryTotal", "storageTotal",  })
 	} else {
 		return err
 	}

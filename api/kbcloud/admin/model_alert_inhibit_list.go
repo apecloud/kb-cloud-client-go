@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AlertInhibitList AlertInhibitList is a list of alert inhibit
+
+
+// AlertInhibitList AlertInhibitList is a list of alert inhibit 
 type AlertInhibitList struct {
 	// Items is the list of alert inhibits in the list
 	Items []AlertInhibit `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertInhibitList instantiates a new AlertInhibitList object.
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,6 @@ func NewAlertInhibitListWithDefaults() *AlertInhibitList {
 	this := AlertInhibitList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *AlertInhibitList) GetItems() []AlertInhibit {
 	if o == nil {
@@ -61,6 +66,7 @@ func (o *AlertInhibitList) GetItemsOk() (*[]AlertInhibit, bool) {
 func (o *AlertInhibitList) SetItems(v []AlertInhibit) {
 	o.Items = v
 }
+
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
 func (o *AlertInhibitList) GetPageResult() PageResult {
@@ -90,6 +96,8 @@ func (o *AlertInhibitList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertInhibitList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -110,8 +118,8 @@ func (o AlertInhibitList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertInhibitList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]AlertInhibit `json:"items"`
-		PageResult *PageResult     `json:"pageResult,omitempty"`
+		Items *[]AlertInhibit `json:"items"`
+		PageResult *PageResult `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -121,14 +129,14 @@ func (o *AlertInhibitList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "pageResult"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items", "pageResult",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Items = *all.Items
-	if all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.PageResult = all.PageResult

@@ -2,26 +2,32 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AlertSMSConfig Alert sms config
+
+
+// AlertSMSConfig Alert sms config 
 type AlertSMSConfig struct {
-	Name            *string `json:"name,omitempty"`
-	AccessKeyId     string  `json:"accessKeyID"`
-	AccessKeySecret string  `json:"accessKeySecret"`
-	Endpoint        *string `json:"endpoint,omitempty"`
-	TemplateCode    string  `json:"templateCode"`
-	SignName        *string `json:"signName,omitempty"`
+	Name *string `json:"name,omitempty"`
+	AccessKeyId string `json:"accessKeyID"`
+	AccessKeySecret string `json:"accessKeySecret"`
+	Endpoint *string `json:"endpoint,omitempty"`
+	TemplateCode string `json:"templateCode"`
+	SignName *string `json:"signName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertSMSConfig instantiates a new AlertSMSConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,7 +48,6 @@ func NewAlertSMSConfigWithDefaults() *AlertSMSConfig {
 	this := AlertSMSConfig{}
 	return &this
 }
-
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AlertSMSConfig) GetName() string {
 	if o == nil || o.Name == nil {
@@ -71,6 +76,7 @@ func (o *AlertSMSConfig) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetAccessKeyId returns the AccessKeyId field value.
 func (o *AlertSMSConfig) GetAccessKeyId() string {
 	if o == nil {
@@ -94,6 +100,7 @@ func (o *AlertSMSConfig) SetAccessKeyId(v string) {
 	o.AccessKeyId = v
 }
 
+
 // GetAccessKeySecret returns the AccessKeySecret field value.
 func (o *AlertSMSConfig) GetAccessKeySecret() string {
 	if o == nil {
@@ -116,6 +123,7 @@ func (o *AlertSMSConfig) GetAccessKeySecretOk() (*string, bool) {
 func (o *AlertSMSConfig) SetAccessKeySecret(v string) {
 	o.AccessKeySecret = v
 }
+
 
 // GetEndpoint returns the Endpoint field value if set, zero value otherwise.
 func (o *AlertSMSConfig) GetEndpoint() string {
@@ -145,6 +153,7 @@ func (o *AlertSMSConfig) SetEndpoint(v string) {
 	o.Endpoint = &v
 }
 
+
 // GetTemplateCode returns the TemplateCode field value.
 func (o *AlertSMSConfig) GetTemplateCode() string {
 	if o == nil {
@@ -167,6 +176,7 @@ func (o *AlertSMSConfig) GetTemplateCodeOk() (*string, bool) {
 func (o *AlertSMSConfig) SetTemplateCode(v string) {
 	o.TemplateCode = v
 }
+
 
 // GetSignName returns the SignName field value if set, zero value otherwise.
 func (o *AlertSMSConfig) GetSignName() string {
@@ -196,6 +206,8 @@ func (o *AlertSMSConfig) SetSignName(v string) {
 	o.SignName = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertSMSConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -224,12 +236,12 @@ func (o AlertSMSConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertSMSConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name            *string `json:"name,omitempty"`
-		AccessKeyId     *string `json:"accessKeyID"`
+		Name *string `json:"name,omitempty"`
+		AccessKeyId *string `json:"accessKeyID"`
 		AccessKeySecret *string `json:"accessKeySecret"`
-		Endpoint        *string `json:"endpoint,omitempty"`
-		TemplateCode    *string `json:"templateCode"`
-		SignName        *string `json:"signName,omitempty"`
+		Endpoint *string `json:"endpoint,omitempty"`
+		TemplateCode *string `json:"templateCode"`
+		SignName *string `json:"signName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -245,7 +257,7 @@ func (o *AlertSMSConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "accessKeyID", "accessKeySecret", "endpoint", "templateCode", "signName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "accessKeyID", "accessKeySecret", "endpoint", "templateCode", "signName",  })
 	} else {
 		return err
 	}

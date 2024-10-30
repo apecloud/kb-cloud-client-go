@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// SeriesItem A data point in a series for meta data, including a count and a timestamp.
+
+
+// SeriesItem A data point in a series for meta data, including a count and a timestamp. 
 type SeriesItem struct {
 	// The value of the series data point.
 	Value float64 `json:"value"`
 	// The timestamp representing the time of the data point, unit is seconds.
 	Timestamp int64 `json:"timestamp"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewSeriesItem instantiates a new SeriesItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewSeriesItemWithDefaults() *SeriesItem {
 	this := SeriesItem{}
 	return &this
 }
-
 // GetValue returns the Value field value.
 func (o *SeriesItem) GetValue() float64 {
 	if o == nil {
@@ -62,6 +67,7 @@ func (o *SeriesItem) GetValueOk() (*float64, bool) {
 func (o *SeriesItem) SetValue(v float64) {
 	o.Value = v
 }
+
 
 // GetTimestamp returns the Timestamp field value.
 func (o *SeriesItem) GetTimestamp() int64 {
@@ -86,6 +92,8 @@ func (o *SeriesItem) SetTimestamp(v int64) {
 	o.Timestamp = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o SeriesItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -104,8 +112,8 @@ func (o SeriesItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SeriesItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Value     *float64 `json:"value"`
-		Timestamp *int64   `json:"timestamp"`
+		Value *float64 `json:"value"`
+		Timestamp *int64 `json:"timestamp"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -118,7 +126,7 @@ func (o *SeriesItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"value", "timestamp"})
+		common.DeleteKeys(additionalProperties, &[]string{ "value", "timestamp",  })
 	} else {
 		return err
 	}

@@ -2,34 +2,40 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
-	"time"
+	"github.com/google/uuid"
+	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type AutoInspection struct {
-	Id        *int32     `json:"id,omitempty"`
-	OrgName   *string    `json:"orgName,omitempty"`
+	Id *int32 `json:"id,omitempty"`
+	OrgName *string `json:"orgName,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Creator   *string    `json:"creator,omitempty"`
-	Schedule  *string    `json:"schedule,omitempty"`
+	Creator *string `json:"creator,omitempty"`
+	Schedule *string `json:"schedule,omitempty"`
 	// Specifies the unit of time for the auto inspection schedule.
-	RunEvery    *AutoInspectionRunUnit `json:"runEvery,omitempty"`
-	DaysOfWeek  []int32                `json:"daysOfWeek,omitempty"`
-	DaysOfMonth []int32                `json:"daysOfMonth,omitempty"`
-	Hour        *int32                 `json:"hour,omitempty"`
-	Minute      *int32                 `json:"minute,omitempty"`
-	SavedDays   *int32                 `json:"savedDays,omitempty"`
-	NextRunTime *time.Time             `json:"nextRunTime,omitempty"`
-	Enabled     *bool                  `json:"enabled,omitempty"`
+	RunEvery *AutoInspectionRunUnit `json:"runEvery,omitempty"`
+	DaysOfWeek []int32 `json:"daysOfWeek,omitempty"`
+	DaysOfMonth []int32 `json:"daysOfMonth,omitempty"`
+	Hour *int32 `json:"hour,omitempty"`
+	Minute *int32 `json:"minute,omitempty"`
+	SavedDays *int32 `json:"savedDays,omitempty"`
+	NextRunTime *time.Time `json:"nextRunTime,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAutoInspection instantiates a new AutoInspection object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,7 +53,6 @@ func NewAutoInspectionWithDefaults() *AutoInspection {
 	this := AutoInspection{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *AutoInspection) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -75,6 +80,7 @@ func (o *AutoInspection) HasId() bool {
 func (o *AutoInspection) SetId(v int32) {
 	o.Id = &v
 }
+
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AutoInspection) GetOrgName() string {
@@ -104,6 +110,7 @@ func (o *AutoInspection) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *AutoInspection) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -131,6 +138,7 @@ func (o *AutoInspection) HasUpdatedAt() bool {
 func (o *AutoInspection) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
+
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AutoInspection) GetCreatedAt() time.Time {
@@ -160,6 +168,7 @@ func (o *AutoInspection) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+
 // GetCreator returns the Creator field value if set, zero value otherwise.
 func (o *AutoInspection) GetCreator() string {
 	if o == nil || o.Creator == nil {
@@ -187,6 +196,7 @@ func (o *AutoInspection) HasCreator() bool {
 func (o *AutoInspection) SetCreator(v string) {
 	o.Creator = &v
 }
+
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
 func (o *AutoInspection) GetSchedule() string {
@@ -216,6 +226,7 @@ func (o *AutoInspection) SetSchedule(v string) {
 	o.Schedule = &v
 }
 
+
 // GetRunEvery returns the RunEvery field value if set, zero value otherwise.
 func (o *AutoInspection) GetRunEvery() AutoInspectionRunUnit {
 	if o == nil || o.RunEvery == nil {
@@ -243,6 +254,7 @@ func (o *AutoInspection) HasRunEvery() bool {
 func (o *AutoInspection) SetRunEvery(v AutoInspectionRunUnit) {
 	o.RunEvery = &v
 }
+
 
 // GetDaysOfWeek returns the DaysOfWeek field value if set, zero value otherwise.
 func (o *AutoInspection) GetDaysOfWeek() []int32 {
@@ -272,6 +284,7 @@ func (o *AutoInspection) SetDaysOfWeek(v []int32) {
 	o.DaysOfWeek = v
 }
 
+
 // GetDaysOfMonth returns the DaysOfMonth field value if set, zero value otherwise.
 func (o *AutoInspection) GetDaysOfMonth() []int32 {
 	if o == nil || o.DaysOfMonth == nil {
@@ -299,6 +312,7 @@ func (o *AutoInspection) HasDaysOfMonth() bool {
 func (o *AutoInspection) SetDaysOfMonth(v []int32) {
 	o.DaysOfMonth = v
 }
+
 
 // GetHour returns the Hour field value if set, zero value otherwise.
 func (o *AutoInspection) GetHour() int32 {
@@ -328,6 +342,7 @@ func (o *AutoInspection) SetHour(v int32) {
 	o.Hour = &v
 }
 
+
 // GetMinute returns the Minute field value if set, zero value otherwise.
 func (o *AutoInspection) GetMinute() int32 {
 	if o == nil || o.Minute == nil {
@@ -355,6 +370,7 @@ func (o *AutoInspection) HasMinute() bool {
 func (o *AutoInspection) SetMinute(v int32) {
 	o.Minute = &v
 }
+
 
 // GetSavedDays returns the SavedDays field value if set, zero value otherwise.
 func (o *AutoInspection) GetSavedDays() int32 {
@@ -384,6 +400,7 @@ func (o *AutoInspection) SetSavedDays(v int32) {
 	o.SavedDays = &v
 }
 
+
 // GetNextRunTime returns the NextRunTime field value if set, zero value otherwise.
 func (o *AutoInspection) GetNextRunTime() time.Time {
 	if o == nil || o.NextRunTime == nil {
@@ -412,6 +429,7 @@ func (o *AutoInspection) SetNextRunTime(v time.Time) {
 	o.NextRunTime = &v
 }
 
+
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
 func (o *AutoInspection) GetEnabled() bool {
 	if o == nil || o.Enabled == nil {
@@ -439,6 +457,8 @@ func (o *AutoInspection) HasEnabled() bool {
 func (o *AutoInspection) SetEnabled(v bool) {
 	o.Enabled = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AutoInspection) MarshalJSON() ([]byte, error) {
@@ -510,27 +530,27 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32                 `json:"id,omitempty"`
-		OrgName     *string                `json:"orgName,omitempty"`
-		UpdatedAt   *time.Time             `json:"updatedAt,omitempty"`
-		CreatedAt   *time.Time             `json:"createdAt,omitempty"`
-		Creator     *string                `json:"creator,omitempty"`
-		Schedule    *string                `json:"schedule,omitempty"`
-		RunEvery    *AutoInspectionRunUnit `json:"runEvery,omitempty"`
-		DaysOfWeek  []int32                `json:"daysOfWeek,omitempty"`
-		DaysOfMonth []int32                `json:"daysOfMonth,omitempty"`
-		Hour        *int32                 `json:"hour,omitempty"`
-		Minute      *int32                 `json:"minute,omitempty"`
-		SavedDays   *int32                 `json:"savedDays,omitempty"`
-		NextRunTime *time.Time             `json:"nextRunTime,omitempty"`
-		Enabled     *bool                  `json:"enabled,omitempty"`
+		Id *int32 `json:"id,omitempty"`
+		OrgName *string `json:"orgName,omitempty"`
+		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Creator *string `json:"creator,omitempty"`
+		Schedule *string `json:"schedule,omitempty"`
+		RunEvery *AutoInspectionRunUnit `json:"runEvery,omitempty"`
+		DaysOfWeek []int32 `json:"daysOfWeek,omitempty"`
+		DaysOfMonth []int32 `json:"daysOfMonth,omitempty"`
+		Hour *int32 `json:"hour,omitempty"`
+		Minute *int32 `json:"minute,omitempty"`
+		SavedDays *int32 `json:"savedDays,omitempty"`
+		NextRunTime *time.Time `json:"nextRunTime,omitempty"`
+		Enabled *bool `json:"enabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "updatedAt", "createdAt", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "orgName", "updatedAt", "createdAt", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled",  })
 	} else {
 		return err
 	}
@@ -542,7 +562,7 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = all.CreatedAt
 	o.Creator = all.Creator
 	o.Schedule = all.Schedule
-	if all.RunEvery != nil && !all.RunEvery.IsValid() {
+	if all.RunEvery != nil &&!all.RunEvery.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.RunEvery = all.RunEvery

@@ -2,21 +2,26 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // EnvironmentConditionStatus Status is the status of the condition. Can be True, False, Unknown.
 type EnvironmentConditionStatus string
 
 // List of EnvironmentConditionStatus.
 const (
-	EnvironmentConditionStatusTrue    EnvironmentConditionStatus = "True"
-	EnvironmentConditionStatusFalse   EnvironmentConditionStatus = "False"
+	EnvironmentConditionStatusTrue EnvironmentConditionStatus = "True"
+	EnvironmentConditionStatusFalse EnvironmentConditionStatus = "False"
 	EnvironmentConditionStatusUnknown EnvironmentConditionStatus = "Unknown"
 )
 

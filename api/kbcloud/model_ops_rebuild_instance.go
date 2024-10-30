@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// OpsRebuildInstance rebuild the instances of the cluster.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// OpsRebuildInstance rebuild the instances of the cluster. 
 type OpsRebuildInstance struct {
 	// will ignore role check during rebuilding instance.
-	IgnoreRoleCheck *bool                            `json:"ignoreRoleCheck,omitempty"`
-	Requests        []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
+	IgnoreRoleCheck *bool `json:"ignoreRoleCheck,omitempty"`
+	Requests []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsRebuildInstance instantiates a new OpsRebuildInstance object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewOpsRebuildInstanceWithDefaults() *OpsRebuildInstance {
 	this := OpsRebuildInstance{}
 	return &this
 }
-
 // GetIgnoreRoleCheck returns the IgnoreRoleCheck field value if set, zero value otherwise.
 func (o *OpsRebuildInstance) GetIgnoreRoleCheck() bool {
 	if o == nil || o.IgnoreRoleCheck == nil {
@@ -60,6 +69,7 @@ func (o *OpsRebuildInstance) HasIgnoreRoleCheck() bool {
 func (o *OpsRebuildInstance) SetIgnoreRoleCheck(v bool) {
 	o.IgnoreRoleCheck = &v
 }
+
 
 // GetRequests returns the Requests field value if set, zero value otherwise.
 func (o *OpsRebuildInstance) GetRequests() []OpsRebuildInstanceRequestsItem {
@@ -89,6 +99,8 @@ func (o *OpsRebuildInstance) SetRequests(v []OpsRebuildInstanceRequestsItem) {
 	o.Requests = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRebuildInstance) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -111,15 +123,15 @@ func (o OpsRebuildInstance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRebuildInstance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		IgnoreRoleCheck *bool                            `json:"ignoreRoleCheck,omitempty"`
-		Requests        []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
+		IgnoreRoleCheck *bool `json:"ignoreRoleCheck,omitempty"`
+		Requests []OpsRebuildInstanceRequestsItem `json:"requests,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"ignoreRoleCheck", "requests"})
+		common.DeleteKeys(additionalProperties, &[]string{ "ignoreRoleCheck", "requests",  })
 	} else {
 		return err
 	}

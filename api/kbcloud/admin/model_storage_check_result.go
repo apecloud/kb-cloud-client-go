@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// StorageCheckResult storageCheck is the result when checking storage connectivity
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// StorageCheckResult storageCheck is the result when checking storage connectivity 
 type StorageCheckResult struct {
 	// the result that the storage connectivity
 	Connected *bool `json:"connected,omitempty"`
 	// the error msg
 	Error *string `json:"error,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageCheckResult instantiates a new StorageCheckResult object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewStorageCheckResultWithDefaults() *StorageCheckResult {
 	this := StorageCheckResult{}
 	return &this
 }
-
 // GetConnected returns the Connected field value if set, zero value otherwise.
 func (o *StorageCheckResult) GetConnected() bool {
 	if o == nil || o.Connected == nil {
@@ -61,6 +70,7 @@ func (o *StorageCheckResult) HasConnected() bool {
 func (o *StorageCheckResult) SetConnected(v bool) {
 	o.Connected = &v
 }
+
 
 // GetError returns the Error field value if set, zero value otherwise.
 func (o *StorageCheckResult) GetError() string {
@@ -90,6 +100,8 @@ func (o *StorageCheckResult) SetError(v string) {
 	o.Error = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageCheckResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,15 +124,15 @@ func (o StorageCheckResult) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageCheckResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Connected *bool   `json:"connected,omitempty"`
-		Error     *string `json:"error,omitempty"`
+		Connected *bool `json:"connected,omitempty"`
+		Error *string `json:"error,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"connected", "error"})
+		common.DeleteKeys(additionalProperties, &[]string{ "connected", "error",  })
 	} else {
 		return err
 	}

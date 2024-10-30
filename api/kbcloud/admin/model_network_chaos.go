@@ -2,20 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type NetworkChaos struct {
 	// Specifies the mode of network chaos to be applied. This determines how the chaos is distributed among the target pods.
 	Mode NetworkChaosMode `json:"mode"`
 	// the id of cluster to perform chaos
-	ClusterId string  `json:"clusterID"`
-	Value     *string `json:"value,omitempty"`
+	ClusterId string `json:"clusterID"`
+	Value *string `json:"value,omitempty"`
 	// Specifies the type of network chaos action to be performed. Options include introducing delay, packet loss, duplication, corruption, network partition, or bandwidth limitation.
 	Action NetworkChaosAction `json:"action"`
 	// Specifies the direction of network chaos effects. 'to' affects outgoing traffic, 'from' affects incoming traffic, and 'both' affects traffic in both directions.
@@ -27,9 +32,10 @@ type NetworkChaos struct {
 	// specify the loss in the chaos action
 	Loss *NetworkChaosLoss `json:"loss,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNetworkChaos instantiates a new NetworkChaos object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,7 +56,6 @@ func NewNetworkChaosWithDefaults() *NetworkChaos {
 	this := NetworkChaos{}
 	return &this
 }
-
 // GetMode returns the Mode field value.
 func (o *NetworkChaos) GetMode() NetworkChaosMode {
 	if o == nil {
@@ -74,6 +79,7 @@ func (o *NetworkChaos) SetMode(v NetworkChaosMode) {
 	o.Mode = v
 }
 
+
 // GetClusterId returns the ClusterId field value.
 func (o *NetworkChaos) GetClusterId() string {
 	if o == nil {
@@ -96,6 +102,7 @@ func (o *NetworkChaos) GetClusterIdOk() (*string, bool) {
 func (o *NetworkChaos) SetClusterId(v string) {
 	o.ClusterId = v
 }
+
 
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *NetworkChaos) GetValue() string {
@@ -125,6 +132,7 @@ func (o *NetworkChaos) SetValue(v string) {
 	o.Value = &v
 }
 
+
 // GetAction returns the Action field value.
 func (o *NetworkChaos) GetAction() NetworkChaosAction {
 	if o == nil {
@@ -147,6 +155,7 @@ func (o *NetworkChaos) GetActionOk() (*NetworkChaosAction, bool) {
 func (o *NetworkChaos) SetAction(v NetworkChaosAction) {
 	o.Action = v
 }
+
 
 // GetDirection returns the Direction field value if set, zero value otherwise.
 func (o *NetworkChaos) GetDirection() NetworkChaosDirection {
@@ -176,6 +185,7 @@ func (o *NetworkChaos) SetDirection(v NetworkChaosDirection) {
 	o.Direction = &v
 }
 
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *NetworkChaos) GetName() string {
 	if o == nil || o.Name == nil {
@@ -203,6 +213,7 @@ func (o *NetworkChaos) HasName() bool {
 func (o *NetworkChaos) SetName(v string) {
 	o.Name = &v
 }
+
 
 // GetDelay returns the Delay field value if set, zero value otherwise.
 func (o *NetworkChaos) GetDelay() NetworkChaosDelay {
@@ -232,6 +243,7 @@ func (o *NetworkChaos) SetDelay(v NetworkChaosDelay) {
 	o.Delay = &v
 }
 
+
 // GetLoss returns the Loss field value if set, zero value otherwise.
 func (o *NetworkChaos) GetLoss() NetworkChaosLoss {
 	if o == nil || o.Loss == nil {
@@ -259,6 +271,8 @@ func (o *NetworkChaos) HasLoss() bool {
 func (o *NetworkChaos) SetLoss(v NetworkChaosLoss) {
 	o.Loss = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o NetworkChaos) MarshalJSON() ([]byte, error) {
@@ -294,14 +308,14 @@ func (o NetworkChaos) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NetworkChaos) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode      *NetworkChaosMode      `json:"mode"`
-		ClusterId *string                `json:"clusterID"`
-		Value     *string                `json:"value,omitempty"`
-		Action    *NetworkChaosAction    `json:"action"`
+		Mode *NetworkChaosMode `json:"mode"`
+		ClusterId *string `json:"clusterID"`
+		Value *string `json:"value,omitempty"`
+		Action *NetworkChaosAction `json:"action"`
 		Direction *NetworkChaosDirection `json:"direction,omitempty"`
-		Name      *string                `json:"name,omitempty"`
-		Delay     *NetworkChaosDelay     `json:"delay,omitempty"`
-		Loss      *NetworkChaosLoss      `json:"loss,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Delay *NetworkChaosDelay `json:"delay,omitempty"`
+		Loss *NetworkChaosLoss `json:"loss,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -317,7 +331,7 @@ func (o *NetworkChaos) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"mode", "clusterID", "value", "action", "direction", "name", "delay", "loss"})
+		common.DeleteKeys(additionalProperties, &[]string{ "mode", "clusterID", "value", "action", "direction", "name", "delay", "loss",  })
 	} else {
 		return err
 	}
@@ -335,17 +349,17 @@ func (o *NetworkChaos) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Action = *all.Action
 	}
-	if all.Direction != nil && !all.Direction.IsValid() {
+	if all.Direction != nil &&!all.Direction.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Direction = all.Direction
 	}
 	o.Name = all.Name
-	if all.Delay != nil && all.Delay.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Delay != nil && all.Delay.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Delay = all.Delay
-	if all.Loss != nil && all.Loss.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Loss != nil && all.Loss.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Loss = all.Loss

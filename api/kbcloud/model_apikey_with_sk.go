@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ApikeyWithSK APIKeyWithSK is the response for creating an APIKey
+
+
+// ApikeyWithSK APIKeyWithSK is the response for creating an APIKey 
 type ApikeyWithSK struct {
 	// The accessKey of the APIKey
 	AccessKey string `json:"accessKey"`
@@ -24,9 +28,10 @@ type ApikeyWithSK struct {
 	// The create time of APIKey
 	CreateAt time.Time `json:"createAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewApikeyWithSK instantiates a new ApikeyWithSK object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,7 +54,6 @@ func NewApikeyWithSKWithDefaults() *ApikeyWithSK {
 	this := ApikeyWithSK{}
 	return &this
 }
-
 // GetAccessKey returns the AccessKey field value.
 func (o *ApikeyWithSK) GetAccessKey() string {
 	if o == nil {
@@ -72,6 +76,7 @@ func (o *ApikeyWithSK) GetAccessKeyOk() (*string, bool) {
 func (o *ApikeyWithSK) SetAccessKey(v string) {
 	o.AccessKey = v
 }
+
 
 // GetSecretKey returns the SecretKey field value.
 func (o *ApikeyWithSK) GetSecretKey() string {
@@ -96,6 +101,7 @@ func (o *ApikeyWithSK) SetSecretKey(v string) {
 	o.SecretKey = v
 }
 
+
 // GetDescription returns the Description field value.
 func (o *ApikeyWithSK) GetDescription() string {
 	if o == nil {
@@ -118,6 +124,7 @@ func (o *ApikeyWithSK) GetDescriptionOk() (*string, bool) {
 func (o *ApikeyWithSK) SetDescription(v string) {
 	o.Description = v
 }
+
 
 // GetExpiredAt returns the ExpiredAt field value.
 func (o *ApikeyWithSK) GetExpiredAt() time.Time {
@@ -142,6 +149,7 @@ func (o *ApikeyWithSK) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = v
 }
 
+
 // GetCreateAt returns the CreateAt field value.
 func (o *ApikeyWithSK) GetCreateAt() time.Time {
 	if o == nil {
@@ -164,6 +172,8 @@ func (o *ApikeyWithSK) GetCreateAtOk() (*time.Time, bool) {
 func (o *ApikeyWithSK) SetCreateAt(v time.Time) {
 	o.CreateAt = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ApikeyWithSK) MarshalJSON() ([]byte, error) {
@@ -194,11 +204,11 @@ func (o ApikeyWithSK) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ApikeyWithSK) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessKey   *string    `json:"accessKey"`
-		SecretKey   *string    `json:"secretKey"`
-		Description *string    `json:"description"`
-		ExpiredAt   *time.Time `json:"expiredAt"`
-		CreateAt    *time.Time `json:"createAt"`
+		AccessKey *string `json:"accessKey"`
+		SecretKey *string `json:"secretKey"`
+		Description *string `json:"description"`
+		ExpiredAt *time.Time `json:"expiredAt"`
+		CreateAt *time.Time `json:"createAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -220,7 +230,7 @@ func (o *ApikeyWithSK) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessKey", "secretKey", "description", "expiredAt", "createAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "accessKey", "secretKey", "description", "expiredAt", "createAt",  })
 	} else {
 		return err
 	}

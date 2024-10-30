@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// StorageClassList StorageClassList stands for stats for storage classes.
+
+
+// StorageClassList StorageClassList stands for stats for storage classes. 
 type StorageClassList struct {
 	// the list of storage classes
 	Items []StorageClassInfo `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageClassList instantiates a new StorageClassList object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewStorageClassListWithDefaults() *StorageClassList {
 	this := StorageClassList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *StorageClassList) GetItems() []StorageClassInfo {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *StorageClassList) GetItemsOk() (*[]StorageClassInfo, bool) {
 func (o *StorageClassList) SetItems(v []StorageClassInfo) {
 	o.Items = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassList) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *StorageClassList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

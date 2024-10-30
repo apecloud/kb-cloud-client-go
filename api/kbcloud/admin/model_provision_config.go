@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ProvisionConfig Configuration to provision infrastructure for this environment
+
+
+// ProvisionConfig Configuration to provision infrastructure for this environment 
 type ProvisionConfig struct {
 	// Register manifest for environment
 	Register Register `json:"register"`
@@ -21,9 +26,10 @@ type ProvisionConfig struct {
 	// Storage config for environment
 	Storage StorageConfig `json:"storage"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewProvisionConfig instantiates a new ProvisionConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,7 +50,6 @@ func NewProvisionConfigWithDefaults() *ProvisionConfig {
 	this := ProvisionConfig{}
 	return &this
 }
-
 // GetRegister returns the Register field value.
 func (o *ProvisionConfig) GetRegister() Register {
 	if o == nil {
@@ -68,6 +73,7 @@ func (o *ProvisionConfig) SetRegister(v Register) {
 	o.Register = v
 }
 
+
 // GetComponent returns the Component field value.
 func (o *ProvisionConfig) GetComponent() Component {
 	if o == nil {
@@ -90,6 +96,7 @@ func (o *ProvisionConfig) GetComponentOk() (*Component, bool) {
 func (o *ProvisionConfig) SetComponent(v Component) {
 	o.Component = v
 }
+
 
 // GetNodePool returns the NodePool field value if set, zero value otherwise.
 func (o *ProvisionConfig) GetNodePool() []NodePoolNode {
@@ -119,6 +126,7 @@ func (o *ProvisionConfig) SetNodePool(v []NodePoolNode) {
 	o.NodePool = v
 }
 
+
 // GetStorage returns the Storage field value.
 func (o *ProvisionConfig) GetStorage() StorageConfig {
 	if o == nil {
@@ -142,6 +150,8 @@ func (o *ProvisionConfig) SetStorage(v StorageConfig) {
 	o.Storage = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -164,10 +174,10 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Register  *Register      `json:"register"`
-		Component *Component     `json:"component"`
-		NodePool  []NodePoolNode `json:"nodePool,omitempty"`
-		Storage   *StorageConfig `json:"storage"`
+		Register *Register `json:"register"`
+		Component *Component `json:"component"`
+		NodePool []NodePoolNode `json:"nodePool,omitempty"`
+		Storage *StorageConfig `json:"storage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -183,7 +193,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage"})
+		common.DeleteKeys(additionalProperties, &[]string{ "register", "component", "nodePool", "storage",  })
 	} else {
 		return err
 	}

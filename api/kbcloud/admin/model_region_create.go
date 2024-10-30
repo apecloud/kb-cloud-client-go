@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// RegionCreate The region that needs to be created.
+
+
+// RegionCreate The region that needs to be created. 
 type RegionCreate struct {
 	// The name of the region.
 	Name string `json:"name"`
@@ -23,9 +28,10 @@ type RegionCreate struct {
 	// The group of the region.
 	Group string `json:"group"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRegionCreate instantiates a new RegionCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,7 +54,6 @@ func NewRegionCreateWithDefaults() *RegionCreate {
 	this := RegionCreate{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *RegionCreate) GetName() string {
 	if o == nil {
@@ -71,6 +76,7 @@ func (o *RegionCreate) GetNameOk() (*string, bool) {
 func (o *RegionCreate) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetNameCn returns the NameCn field value.
 func (o *RegionCreate) GetNameCn() string {
@@ -95,6 +101,7 @@ func (o *RegionCreate) SetNameCn(v string) {
 	o.NameCn = v
 }
 
+
 // GetNameEn returns the NameEn field value.
 func (o *RegionCreate) GetNameEn() string {
 	if o == nil {
@@ -117,6 +124,7 @@ func (o *RegionCreate) GetNameEnOk() (*string, bool) {
 func (o *RegionCreate) SetNameEn(v string) {
 	o.NameEn = v
 }
+
 
 // GetEnabled returns the Enabled field value.
 func (o *RegionCreate) GetEnabled() bool {
@@ -141,6 +149,7 @@ func (o *RegionCreate) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+
 // GetGroup returns the Group field value.
 func (o *RegionCreate) GetGroup() string {
 	if o == nil {
@@ -164,6 +173,8 @@ func (o *RegionCreate) SetGroup(v string) {
 	o.Group = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RegionCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -185,11 +196,11 @@ func (o RegionCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RegionCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string `json:"name"`
-		NameCn  *string `json:"nameCN"`
-		NameEn  *string `json:"nameEN"`
-		Enabled *bool   `json:"enabled"`
-		Group   *string `json:"group"`
+		Name *string `json:"name"`
+		NameCn *string `json:"nameCN"`
+		NameEn *string `json:"nameEN"`
+		Enabled *bool `json:"enabled"`
+		Group *string `json:"group"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -211,7 +222,7 @@ func (o *RegionCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "enabled", "group"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "nameCN", "nameEN", "enabled", "group",  })
 	} else {
 		return err
 	}

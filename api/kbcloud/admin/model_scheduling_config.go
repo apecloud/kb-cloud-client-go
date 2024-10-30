@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// SchedulingConfig Configuration of resource scheduling for this environment
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// SchedulingConfig Configuration of resource scheduling for this environment 
 type SchedulingConfig struct {
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	// When creating a cluster, add the default tolerations from the bootstrap node to the pods
 	TolerateDefaultTaints *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewSchedulingConfig instantiates a new SchedulingConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +47,6 @@ func NewSchedulingConfigWithDefaults() *SchedulingConfig {
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	return &this
 }
-
 // GetPodAntiAffinityEnabled returns the PodAntiAffinityEnabled field value if set, zero value otherwise.
 func (o *SchedulingConfig) GetPodAntiAffinityEnabled() bool {
 	if o == nil || o.PodAntiAffinityEnabled == nil {
@@ -65,6 +74,7 @@ func (o *SchedulingConfig) HasPodAntiAffinityEnabled() bool {
 func (o *SchedulingConfig) SetPodAntiAffinityEnabled(v bool) {
 	o.PodAntiAffinityEnabled = &v
 }
+
 
 // GetTolerateDefaultTaints returns the TolerateDefaultTaints field value if set, zero value otherwise.
 func (o *SchedulingConfig) GetTolerateDefaultTaints() TolerateDefaultTaints {
@@ -94,6 +104,8 @@ func (o *SchedulingConfig) SetTolerateDefaultTaints(v TolerateDefaultTaints) {
 	o.TolerateDefaultTaints = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -116,22 +128,22 @@ func (o SchedulingConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SchedulingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PodAntiAffinityEnabled *bool                  `json:"podAntiAffinityEnabled,omitempty"`
-		TolerateDefaultTaints  *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
+		PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
+		TolerateDefaultTaints *TolerateDefaultTaints `json:"tolerateDefaultTaints,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"podAntiAffinityEnabled", "tolerateDefaultTaints"})
+		common.DeleteKeys(additionalProperties, &[]string{ "podAntiAffinityEnabled", "tolerateDefaultTaints",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
-	if all.TolerateDefaultTaints != nil && all.TolerateDefaultTaints.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.TolerateDefaultTaints != nil && all.TolerateDefaultTaints.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.TolerateDefaultTaints = all.TolerateDefaultTaints

@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// StorageClassInfoStatsByNodeList the List stands for stats for the storage volumes of nodes.
+
+
+// StorageClassInfoStatsByNodeList the List stands for stats for the storage volumes of nodes. 
 type StorageClassInfoStatsByNodeList struct {
 	// the list of storage volumes stats by node
 	Items []StorageVolumeStatsByNode `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageClassInfoStatsByNodeList instantiates a new StorageClassInfoStatsByNodeList object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewStorageClassInfoStatsByNodeListWithDefaults() *StorageClassInfoStatsByNo
 	this := StorageClassInfoStatsByNodeList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *StorageClassInfoStatsByNodeList) GetItems() []StorageVolumeStatsByNode {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *StorageClassInfoStatsByNodeList) GetItemsOk() (*[]StorageVolumeStatsByN
 func (o *StorageClassInfoStatsByNodeList) SetItems(v []StorageVolumeStatsByNode) {
 	o.Items = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassInfoStatsByNodeList) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *StorageClassInfoStatsByNodeList) UnmarshalJSON(bytes []byte) (err error
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

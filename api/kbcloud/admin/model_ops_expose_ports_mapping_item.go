@@ -2,17 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type OpsExposePortsMappingItem struct {
 	Old *int32 `json:"old,omitempty"`
 	New *int32 `json:"new,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsExposePortsMappingItem instantiates a new OpsExposePortsMappingItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -30,7 +40,6 @@ func NewOpsExposePortsMappingItemWithDefaults() *OpsExposePortsMappingItem {
 	this := OpsExposePortsMappingItem{}
 	return &this
 }
-
 // GetOld returns the Old field value if set, zero value otherwise.
 func (o *OpsExposePortsMappingItem) GetOld() int32 {
 	if o == nil || o.Old == nil {
@@ -59,6 +68,7 @@ func (o *OpsExposePortsMappingItem) SetOld(v int32) {
 	o.Old = &v
 }
 
+
 // GetNew returns the New field value if set, zero value otherwise.
 func (o *OpsExposePortsMappingItem) GetNew() int32 {
 	if o == nil || o.New == nil {
@@ -86,6 +96,8 @@ func (o *OpsExposePortsMappingItem) HasNew() bool {
 func (o *OpsExposePortsMappingItem) SetNew(v int32) {
 	o.New = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsExposePortsMappingItem) MarshalJSON() ([]byte, error) {
@@ -117,7 +129,7 @@ func (o *OpsExposePortsMappingItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"old", "new"})
+		common.DeleteKeys(additionalProperties, &[]string{ "old", "new",  })
 	} else {
 		return err
 	}

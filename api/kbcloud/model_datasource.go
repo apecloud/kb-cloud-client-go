@@ -2,26 +2,32 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type Datasource struct {
 	// the id of datasource
 	Id *string `json:"id,omitempty"`
 	// the name of datasource
 	Name *string `json:"name,omitempty"`
 	// the database type
-	Type    string                 `json:"type"`
+	Type string `json:"type"`
 	Options map[string]interface{} `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewDatasource instantiates a new Datasource object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewDatasourceWithDefaults() *Datasource {
 	this := Datasource{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Datasource) GetId() string {
 	if o == nil || o.Id == nil {
@@ -68,6 +73,7 @@ func (o *Datasource) HasId() bool {
 func (o *Datasource) SetId(v string) {
 	o.Id = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Datasource) GetName() string {
@@ -97,6 +103,7 @@ func (o *Datasource) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetType returns the Type field value.
 func (o *Datasource) GetType() string {
 	if o == nil {
@@ -119,6 +126,7 @@ func (o *Datasource) GetTypeOk() (*string, bool) {
 func (o *Datasource) SetType(v string) {
 	o.Type = v
 }
+
 
 // GetOptions returns the Options field value if set, zero value otherwise.
 func (o *Datasource) GetOptions() map[string]interface{} {
@@ -148,6 +156,8 @@ func (o *Datasource) SetOptions(v map[string]interface{}) {
 	o.Options = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Datasource) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -174,9 +184,9 @@ func (o Datasource) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Datasource) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id      *string                `json:"id,omitempty"`
-		Name    *string                `json:"name,omitempty"`
-		Type    *string                `json:"type"`
+		Id *string `json:"id,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Type *string `json:"type"`
 		Options map[string]interface{} `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -187,7 +197,7 @@ func (o *Datasource) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "options"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "type", "options",  })
 	} else {
 		return err
 	}

@@ -2,10 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type MetricsOptionReplicationLag struct {
 	QueryPattern *string `json:"queryPattern,omitempty"`
 	// Specifies the type of metrics query to be performed.
@@ -13,9 +22,10 @@ type MetricsOptionReplicationLag struct {
 	//
 	QueryType *EngineOptionsMetricsQueryType `json:"queryType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewMetricsOptionReplicationLag instantiates a new MetricsOptionReplicationLag object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewMetricsOptionReplicationLagWithDefaults() *MetricsOptionReplicationLag {
 	this := MetricsOptionReplicationLag{}
 	return &this
 }
-
 // GetQueryPattern returns the QueryPattern field value if set, zero value otherwise.
 func (o *MetricsOptionReplicationLag) GetQueryPattern() string {
 	if o == nil || o.QueryPattern == nil {
@@ -61,6 +70,7 @@ func (o *MetricsOptionReplicationLag) HasQueryPattern() bool {
 func (o *MetricsOptionReplicationLag) SetQueryPattern(v string) {
 	o.QueryPattern = &v
 }
+
 
 // GetQueryType returns the QueryType field value if set, zero value otherwise.
 func (o *MetricsOptionReplicationLag) GetQueryType() EngineOptionsMetricsQueryType {
@@ -90,6 +100,8 @@ func (o *MetricsOptionReplicationLag) SetQueryType(v EngineOptionsMetricsQueryTy
 	o.QueryType = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o MetricsOptionReplicationLag) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,22 +124,22 @@ func (o MetricsOptionReplicationLag) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MetricsOptionReplicationLag) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		QueryPattern *string                        `json:"queryPattern,omitempty"`
-		QueryType    *EngineOptionsMetricsQueryType `json:"queryType,omitempty"`
+		QueryPattern *string `json:"queryPattern,omitempty"`
+		QueryType *EngineOptionsMetricsQueryType `json:"queryType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"queryPattern", "queryType"})
+		common.DeleteKeys(additionalProperties, &[]string{ "queryPattern", "queryType",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.QueryPattern = all.QueryPattern
-	if all.QueryType != nil && !all.QueryType.IsValid() {
+	if all.QueryType != nil &&!all.QueryType.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.QueryType = all.QueryType

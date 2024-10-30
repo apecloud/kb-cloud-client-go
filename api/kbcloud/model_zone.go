@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Zone The zone that the region has.
+
+
+// Zone The zone that the region has. 
 type Zone struct {
 	// The name of the zone.
 	Name string `json:"name"`
@@ -28,9 +32,10 @@ type Zone struct {
 	// The time when the zone was last updated.
 	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewZone instantiates a new Zone object.
 // This constructor will assign default values to properties that have it defined,
@@ -55,7 +60,6 @@ func NewZoneWithDefaults() *Zone {
 	this := Zone{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *Zone) GetName() string {
 	if o == nil {
@@ -78,6 +82,7 @@ func (o *Zone) GetNameOk() (*string, bool) {
 func (o *Zone) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetNameCn returns the NameCn field value.
 func (o *Zone) GetNameCn() string {
@@ -102,6 +107,7 @@ func (o *Zone) SetNameCn(v string) {
 	o.NameCn = v
 }
 
+
 // GetNameEn returns the NameEn field value.
 func (o *Zone) GetNameEn() string {
 	if o == nil {
@@ -124,6 +130,7 @@ func (o *Zone) GetNameEnOk() (*string, bool) {
 func (o *Zone) SetNameEn(v string) {
 	o.NameEn = v
 }
+
 
 // GetEnabled returns the Enabled field value.
 func (o *Zone) GetEnabled() bool {
@@ -148,6 +155,7 @@ func (o *Zone) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+
 // GetRegion returns the Region field value.
 func (o *Zone) GetRegion() string {
 	if o == nil {
@@ -170,6 +178,7 @@ func (o *Zone) GetRegionOk() (*string, bool) {
 func (o *Zone) SetRegion(v string) {
 	o.Region = v
 }
+
 
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Zone) GetCreatedAt() time.Time {
@@ -194,6 +203,7 @@ func (o *Zone) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *Zone) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -216,6 +226,8 @@ func (o *Zone) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *Zone) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Zone) MarshalJSON() ([]byte, error) {
@@ -248,11 +260,11 @@ func (o Zone) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Zone) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name      *string    `json:"name"`
-		NameCn    *string    `json:"nameCN"`
-		NameEn    *string    `json:"nameEN"`
-		Enabled   *bool      `json:"enabled"`
-		Region    *string    `json:"region"`
+		Name *string `json:"name"`
+		NameCn *string `json:"nameCN"`
+		NameEn *string `json:"nameEN"`
+		Enabled *bool `json:"enabled"`
+		Region *string `json:"region"`
 		CreatedAt *time.Time `json:"createdAt"`
 		UpdatedAt *time.Time `json:"updatedAt"`
 	}{}
@@ -282,7 +294,7 @@ func (o *Zone) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "enabled", "region", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "nameCN", "nameEN", "enabled", "region", "createdAt", "updatedAt",  })
 	} else {
 		return err
 	}

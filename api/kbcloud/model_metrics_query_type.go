@@ -2,20 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 type MetricsQueryType string
 
 // List of MetricsQueryType.
 const (
 	MetricsQueryTypeInstant MetricsQueryType = "instant"
-	MetricsQueryTypeRange   MetricsQueryType = "range"
+	MetricsQueryTypeRange MetricsQueryType = "range"
 )
 
 var allowedMetricsQueryTypeEnumValues = []MetricsQueryType{

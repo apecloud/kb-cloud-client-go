@@ -2,29 +2,32 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // EnvironmentState Output only. State of the Environment resource
 type EnvironmentState string
 
 // List of EnvironmentState.
 const (
-	EnvironmentStatePending      EnvironmentState = "PENDING"
-	EnvironmentStateRegistered   EnvironmentState = "REGISTERED"
+	EnvironmentStatePending EnvironmentState = "PENDING"
+	EnvironmentStateRegistered EnvironmentState = "REGISTERED"
 	EnvironmentStateProvisioning EnvironmentState = "PROVISIONING"
-	EnvironmentStateNotready     EnvironmentState = "NOTREADY"
-	EnvironmentStateReady        EnvironmentState = "READY"
-	EnvironmentStateWarning      EnvironmentState = "WARNING"
-	EnvironmentStateUnreachable  EnvironmentState = "UNREACHABLE"
-	EnvironmentStateDeleting     EnvironmentState = "DELETING"
-	EnvironmentStateOutofstock   EnvironmentState = "OUTOFSTOCK"
-	EnvironmentStateUpdating     EnvironmentState = "UPDATING"
+	EnvironmentStateNotready EnvironmentState = "NOTREADY"
+	EnvironmentStateReady EnvironmentState = "READY"
+	EnvironmentStateWarning EnvironmentState = "WARNING"
+	EnvironmentStateUnreachable EnvironmentState = "UNREACHABLE"
+	EnvironmentStateOutofstock EnvironmentState = "OUTOFSTOCK"
 )
 
 var allowedEnvironmentStateEnumValues = []EnvironmentState{
@@ -35,9 +38,7 @@ var allowedEnvironmentStateEnumValues = []EnvironmentState{
 	EnvironmentStateReady,
 	EnvironmentStateWarning,
 	EnvironmentStateUnreachable,
-	EnvironmentStateDeleting,
 	EnvironmentStateOutofstock,
-	EnvironmentStateUpdating,
 }
 
 // GetAllowedValues returns the list of possible values.

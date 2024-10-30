@@ -2,10 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type Summary struct {
 	// The namespace of cluster
 	Namespace *string `json:"namespace,omitempty"`
@@ -34,9 +43,10 @@ type Summary struct {
 	// The creation time of cluster
 	CreationTime *string `json:"creationTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewSummary instantiates a new Summary object.
 // This constructor will assign default values to properties that have it defined,
@@ -54,7 +64,6 @@ func NewSummaryWithDefaults() *Summary {
 	this := Summary{}
 	return &this
 }
-
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *Summary) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
@@ -82,6 +91,7 @@ func (o *Summary) HasNamespace() bool {
 func (o *Summary) SetNamespace(v string) {
 	o.Namespace = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Summary) GetName() string {
@@ -111,6 +121,7 @@ func (o *Summary) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetCpuRequests returns the CpuRequests field value if set, zero value otherwise.
 func (o *Summary) GetCpuRequests() string {
 	if o == nil || o.CpuRequests == nil {
@@ -138,6 +149,7 @@ func (o *Summary) HasCpuRequests() bool {
 func (o *Summary) SetCpuRequests(v string) {
 	o.CpuRequests = &v
 }
+
 
 // GetCpuLimits returns the CpuLimits field value if set, zero value otherwise.
 func (o *Summary) GetCpuLimits() string {
@@ -167,6 +179,7 @@ func (o *Summary) SetCpuLimits(v string) {
 	o.CpuLimits = &v
 }
 
+
 // GetMemoryRequests returns the MemoryRequests field value if set, zero value otherwise.
 func (o *Summary) GetMemoryRequests() string {
 	if o == nil || o.MemoryRequests == nil {
@@ -194,6 +207,7 @@ func (o *Summary) HasMemoryRequests() bool {
 func (o *Summary) SetMemoryRequests(v string) {
 	o.MemoryRequests = &v
 }
+
 
 // GetMemoryLimits returns the MemoryLimits field value if set, zero value otherwise.
 func (o *Summary) GetMemoryLimits() string {
@@ -223,6 +237,7 @@ func (o *Summary) SetMemoryLimits(v string) {
 	o.MemoryLimits = &v
 }
 
+
 // GetStorageSize returns the StorageSize field value if set, zero value otherwise.
 func (o *Summary) GetStorageSize() string {
 	if o == nil || o.StorageSize == nil {
@@ -250,6 +265,7 @@ func (o *Summary) HasStorageSize() bool {
 func (o *Summary) SetStorageSize(v string) {
 	o.StorageSize = &v
 }
+
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *Summary) GetReplicas() int32 {
@@ -279,6 +295,7 @@ func (o *Summary) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
+
 // GetBackupEndpoint returns the BackupEndpoint field value if set, zero value otherwise.
 func (o *Summary) GetBackupEndpoint() string {
 	if o == nil || o.BackupEndpoint == nil {
@@ -306,6 +323,7 @@ func (o *Summary) HasBackupEndpoint() bool {
 func (o *Summary) SetBackupEndpoint(v string) {
 	o.BackupEndpoint = &v
 }
+
 
 // GetBackupPath returns the BackupPath field value if set, zero value otherwise.
 func (o *Summary) GetBackupPath() string {
@@ -335,6 +353,7 @@ func (o *Summary) SetBackupPath(v string) {
 	o.BackupPath = &v
 }
 
+
 // GetBackupSchedule returns the BackupSchedule field value if set, zero value otherwise.
 func (o *Summary) GetBackupSchedule() string {
 	if o == nil || o.BackupSchedule == nil {
@@ -362,6 +381,7 @@ func (o *Summary) HasBackupSchedule() bool {
 func (o *Summary) SetBackupSchedule(v string) {
 	o.BackupSchedule = &v
 }
+
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Summary) GetStatus() string {
@@ -391,6 +411,7 @@ func (o *Summary) SetStatus(v string) {
 	o.Status = &v
 }
 
+
 // GetCreationTime returns the CreationTime field value if set, zero value otherwise.
 func (o *Summary) GetCreationTime() string {
 	if o == nil || o.CreationTime == nil {
@@ -418,6 +439,8 @@ func (o *Summary) HasCreationTime() bool {
 func (o *Summary) SetCreationTime(v string) {
 	o.CreationTime = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Summary) MarshalJSON() ([]byte, error) {
@@ -474,26 +497,26 @@ func (o Summary) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Summary) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Namespace      *string `json:"namespace,omitempty"`
-		Name           *string `json:"name,omitempty"`
-		CpuRequests    *string `json:"cpuRequests,omitempty"`
-		CpuLimits      *string `json:"cpuLimits,omitempty"`
+		Namespace *string `json:"namespace,omitempty"`
+		Name *string `json:"name,omitempty"`
+		CpuRequests *string `json:"cpuRequests,omitempty"`
+		CpuLimits *string `json:"cpuLimits,omitempty"`
 		MemoryRequests *string `json:"memoryRequests,omitempty"`
-		MemoryLimits   *string `json:"memoryLimits,omitempty"`
-		StorageSize    *string `json:"storageSize,omitempty"`
-		Replicas       *int32  `json:"replicas,omitempty"`
+		MemoryLimits *string `json:"memoryLimits,omitempty"`
+		StorageSize *string `json:"storageSize,omitempty"`
+		Replicas *int32 `json:"replicas,omitempty"`
 		BackupEndpoint *string `json:"backupEndpoint,omitempty"`
-		BackupPath     *string `json:"backupPath,omitempty"`
+		BackupPath *string `json:"backupPath,omitempty"`
 		BackupSchedule *string `json:"backupSchedule,omitempty"`
-		Status         *string `json:"status,omitempty"`
-		CreationTime   *string `json:"creationTime,omitempty"`
+		Status *string `json:"status,omitempty"`
+		CreationTime *string `json:"creationTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "name", "cpuRequests", "cpuLimits", "memoryRequests", "memoryLimits", "storageSize", "replicas", "backupEndpoint", "backupPath", "backupSchedule", "status", "creationTime"})
+		common.DeleteKeys(additionalProperties, &[]string{ "namespace", "name", "cpuRequests", "cpuLimits", "memoryRequests", "memoryLimits", "storageSize", "replicas", "backupEndpoint", "backupPath", "backupSchedule", "status", "creationTime",  })
 	} else {
 		return err
 	}

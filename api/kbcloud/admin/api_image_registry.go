@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type ImageRegistryApi common.Service
 // CreateImageRegistry Create image registry.
 func (a *ImageRegistryApi) CreateImageRegistry(ctx _context.Context, body ImageRegistry) (ImageRegistry, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue ImageRegistry
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  ImageRegistry
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.CreateImageRegistry")
 	if err != nil {
@@ -37,9 +43,11 @@ func (a *ImageRegistryApi) CreateImageRegistry(ctx _context.Context, body ImageR
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -62,7 +70,7 @@ func (a *ImageRegistryApi) CreateImageRegistry(ctx _context.Context, body ImageR
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -81,7 +89,6 @@ func NewDeleteImageRegistryOptionalParameters() *DeleteImageRegistryOptionalPara
 	this := DeleteImageRegistryOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *DeleteImageRegistryOptionalParameters) WithBody(body ImageRegistry) *DeleteImageRegistryOptionalParameters {
 	r.Body = &body
@@ -91,17 +98,19 @@ func (r *DeleteImageRegistryOptionalParameters) WithBody(body ImageRegistry) *De
 // DeleteImageRegistry Delete image registry.
 func (a *ImageRegistryApi) DeleteImageRegistry(ctx _context.Context, imageRegistryName string, o ...DeleteImageRegistryOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
-		optionalParams     DeleteImageRegistryOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		optionalParams DeleteImageRegistryOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type DeleteImageRegistryOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return nil, common.ReportError("only one argument of type DeleteImageRegistryOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.DeleteImageRegistry")
 	if err != nil {
@@ -117,11 +126,13 @@ func (a *ImageRegistryApi) DeleteImageRegistry(ctx _context.Context, imageRegist
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -143,10 +154,11 @@ func (a *ImageRegistryApi) DeleteImageRegistry(ctx _context.Context, imageRegist
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -163,10 +175,12 @@ func (a *ImageRegistryApi) DeleteImageRegistry(ctx _context.Context, imageRegist
 // GetImageRegistry Get image registry.
 func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryName string) (ImageRegistry, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ImageRegistry
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ImageRegistry
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.GetImageRegistry")
 	if err != nil {
@@ -181,7 +195,8 @@ func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryN
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -203,10 +218,11 @@ func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryN
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -220,7 +236,7 @@ func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -233,10 +249,12 @@ func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryN
 // List image registries
 func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegistryList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ImageRegistryList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ImageRegistryList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.ListImageRegistries")
 	if err != nil {
@@ -250,7 +268,8 @@ func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegis
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -273,7 +292,7 @@ func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegis
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -286,10 +305,12 @@ func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegis
 // partially update the specified image registry
 func (a *ImageRegistryApi) PatchImageRegistry(ctx _context.Context, imageRegistryName string, body ImageRegistry) (ImageRegistry, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue ImageRegistry
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  ImageRegistry
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.PatchImageRegistry")
 	if err != nil {
@@ -305,9 +326,11 @@ func (a *ImageRegistryApi) PatchImageRegistry(ctx _context.Context, imageRegistr
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -329,10 +352,11 @@ func (a *ImageRegistryApi) PatchImageRegistry(ctx _context.Context, imageRegistr
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -346,7 +370,7 @@ func (a *ImageRegistryApi) PatchImageRegistry(ctx _context.Context, imageRegistr
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

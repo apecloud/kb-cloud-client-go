@@ -2,25 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // BackupStatus The current status. Valid values are New, InProgress, Completed, Failed.
 type BackupStatus string
 
 // List of BackupStatus.
 const (
-	BackupStatusNew        BackupStatus = "New"
+	BackupStatusNew BackupStatus = "New"
 	BackupStatusInProgress BackupStatus = "InProgress"
-	BackupStatusRunning    BackupStatus = "Running"
-	BackupStatusCompleted  BackupStatus = "Completed"
-	BackupStatusFailed     BackupStatus = "Failed"
-	BackupStatusDeleting   BackupStatus = "Deleting"
+	BackupStatusRunning BackupStatus = "Running"
+	BackupStatusCompleted BackupStatus = "Completed"
+	BackupStatusFailed BackupStatus = "Failed"
+	BackupStatusDeleting BackupStatus = "Deleting"
 )
 
 var allowedBackupStatusEnumValues = []BackupStatus{

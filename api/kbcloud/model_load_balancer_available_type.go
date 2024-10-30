@@ -3,7 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 
-package admin
+package kbcloud
 
 import (
 	"github.com/google/uuid"

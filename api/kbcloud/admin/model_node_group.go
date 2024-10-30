@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// NodeGroup NodeGroup creation info
+
+
+// NodeGroup NodeGroup creation info 
 type NodeGroup struct {
 	// The full, unique name of this Object, name part must consist of alphanumeric characters, '-', '_' or '.', and must start and end with an alphanumeric character (e.g. 'MyName',  or 'my.name',  or '123-abc'
 	Name string `json:"name"`
@@ -19,9 +24,10 @@ type NodeGroup struct {
 	// the nodes of the node group
 	Nodes []string `json:"nodes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNodeGroup instantiates a new NodeGroup object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,7 +47,6 @@ func NewNodeGroupWithDefaults() *NodeGroup {
 	this := NodeGroup{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *NodeGroup) GetName() string {
 	if o == nil {
@@ -64,6 +69,7 @@ func (o *NodeGroup) GetNameOk() (*string, bool) {
 func (o *NodeGroup) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *NodeGroup) GetDescription() string {
@@ -93,6 +99,7 @@ func (o *NodeGroup) SetDescription(v string) {
 	o.Description = &v
 }
 
+
 // GetNodes returns the Nodes field value.
 func (o *NodeGroup) GetNodes() []string {
 	if o == nil {
@@ -116,6 +123,8 @@ func (o *NodeGroup) SetNodes(v []string) {
 	o.Nodes = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NodeGroup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -137,9 +146,9 @@ func (o NodeGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodeGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string   `json:"name"`
-		Description *string   `json:"description,omitempty"`
-		Nodes       *[]string `json:"nodes"`
+		Name *string `json:"name"`
+		Description *string `json:"description,omitempty"`
+		Nodes *[]string `json:"nodes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -152,7 +161,7 @@ func (o *NodeGroup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "nodes"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "description", "nodes",  })
 	} else {
 		return err
 	}

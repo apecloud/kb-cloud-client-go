@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// StorageUpdate storageUpdate is the schema for storage update request
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// StorageUpdate storageUpdate is the schema for storage update request 
 type StorageUpdate struct {
 	// the name of storage
 	StorageId *string `json:"storageID,omitempty"`
@@ -15,9 +24,10 @@ type StorageUpdate struct {
 	// the tags for the storage
 	Tags map[string]string `json:"tags,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageUpdate instantiates a new StorageUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +45,6 @@ func NewStorageUpdateWithDefaults() *StorageUpdate {
 	this := StorageUpdate{}
 	return &this
 }
-
 // GetStorageId returns the StorageId field value if set, zero value otherwise.
 func (o *StorageUpdate) GetStorageId() string {
 	if o == nil || o.StorageId == nil {
@@ -63,6 +72,7 @@ func (o *StorageUpdate) HasStorageId() bool {
 func (o *StorageUpdate) SetStorageId(v string) {
 	o.StorageId = &v
 }
+
 
 // GetParams returns the Params field value if set, zero value otherwise.
 func (o *StorageUpdate) GetParams() map[string]string {
@@ -92,6 +102,7 @@ func (o *StorageUpdate) SetParams(v map[string]string) {
 	o.Params = v
 }
 
+
 // GetTags returns the Tags field value if set, zero value otherwise.
 func (o *StorageUpdate) GetTags() map[string]string {
 	if o == nil || o.Tags == nil {
@@ -120,6 +131,8 @@ func (o *StorageUpdate) SetTags(v map[string]string) {
 	o.Tags = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -145,16 +158,16 @@ func (o StorageUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StorageId *string           `json:"storageID,omitempty"`
-		Params    map[string]string `json:"params,omitempty"`
-		Tags      map[string]string `json:"tags,omitempty"`
+		StorageId *string `json:"storageID,omitempty"`
+		Params map[string]string `json:"params,omitempty"`
+		Tags map[string]string `json:"tags,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storageID", "params", "tags"})
+		common.DeleteKeys(additionalProperties, &[]string{ "storageID", "params", "tags",  })
 	} else {
 		return err
 	}

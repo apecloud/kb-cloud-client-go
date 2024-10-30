@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// PlatformParameterUpdate platformParameter update
+
+
+// PlatformParameterUpdate platformParameter update 
 type PlatformParameterUpdate struct {
 	// platformParameter name
 	Name string `json:"name"`
 	// platformParameter value
 	Value string `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewPlatformParameterUpdate instantiates a new PlatformParameterUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewPlatformParameterUpdateWithDefaults() *PlatformParameterUpdate {
 	this := PlatformParameterUpdate{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *PlatformParameterUpdate) GetName() string {
 	if o == nil {
@@ -62,6 +67,7 @@ func (o *PlatformParameterUpdate) GetNameOk() (*string, bool) {
 func (o *PlatformParameterUpdate) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetValue returns the Value field value.
 func (o *PlatformParameterUpdate) GetValue() string {
@@ -86,6 +92,8 @@ func (o *PlatformParameterUpdate) SetValue(v string) {
 	o.Value = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o PlatformParameterUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -104,7 +112,7 @@ func (o PlatformParameterUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PlatformParameterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name  *string `json:"name"`
+		Name *string `json:"name"`
 		Value *string `json:"value"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -118,7 +126,7 @@ func (o *PlatformParameterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "value"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "value",  })
 	} else {
 		return err
 	}

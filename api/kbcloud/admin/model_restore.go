@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Restore create a KubeBlocks restore API
+
+
+// Restore create a KubeBlocks restore API 
 type Restore struct {
 	// organization name
 	OrgName *string `json:"orgName,omitempty"`
@@ -22,8 +26,8 @@ type Restore struct {
 	// component name of cluster
 	ComponentName string `json:"componentName"`
 	// target pod name
-	TargetPodName *string    `json:"targetPodName,omitempty"`
-	CreatedAt     *time.Time `json:"createdAt,omitempty"`
+	TargetPodName *string `json:"targetPodName,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// kubeBlocks restore name
 	Name *string `json:"name,omitempty"`
 	// restore parameters to inject env of the restore CR.
@@ -33,9 +37,10 @@ type Restore struct {
 	// restore status
 	Status *RestoreStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRestore instantiates a new Restore object.
 // This constructor will assign default values to properties that have it defined,
@@ -56,7 +61,6 @@ func NewRestoreWithDefaults() *Restore {
 	this := Restore{}
 	return &this
 }
-
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *Restore) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -85,6 +89,7 @@ func (o *Restore) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+
 // GetBackupName returns the BackupName field value.
 func (o *Restore) GetBackupName() string {
 	if o == nil {
@@ -107,6 +112,7 @@ func (o *Restore) GetBackupNameOk() (*string, bool) {
 func (o *Restore) SetBackupName(v string) {
 	o.BackupName = v
 }
+
 
 // GetClusterName returns the ClusterName field value.
 func (o *Restore) GetClusterName() string {
@@ -131,6 +137,7 @@ func (o *Restore) SetClusterName(v string) {
 	o.ClusterName = v
 }
 
+
 // GetComponentName returns the ComponentName field value.
 func (o *Restore) GetComponentName() string {
 	if o == nil {
@@ -153,6 +160,7 @@ func (o *Restore) GetComponentNameOk() (*string, bool) {
 func (o *Restore) SetComponentName(v string) {
 	o.ComponentName = v
 }
+
 
 // GetTargetPodName returns the TargetPodName field value if set, zero value otherwise.
 func (o *Restore) GetTargetPodName() string {
@@ -182,6 +190,7 @@ func (o *Restore) SetTargetPodName(v string) {
 	o.TargetPodName = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Restore) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -209,6 +218,7 @@ func (o *Restore) HasCreatedAt() bool {
 func (o *Restore) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Restore) GetName() string {
@@ -238,6 +248,7 @@ func (o *Restore) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *Restore) GetParameters() RestoreParameters {
 	if o == nil || o.Parameters == nil {
@@ -265,6 +276,7 @@ func (o *Restore) HasParameters() bool {
 func (o *Restore) SetParameters(v RestoreParameters) {
 	o.Parameters = &v
 }
+
 
 // GetRestoreTime returns the RestoreTime field value if set, zero value otherwise.
 func (o *Restore) GetRestoreTime() string {
@@ -294,6 +306,7 @@ func (o *Restore) SetRestoreTime(v string) {
 	o.RestoreTime = &v
 }
 
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Restore) GetStatus() RestoreStatus {
 	if o == nil || o.Status == nil {
@@ -321,6 +334,8 @@ func (o *Restore) HasStatus() bool {
 func (o *Restore) SetStatus(v RestoreStatus) {
 	o.Status = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Restore) MarshalJSON() ([]byte, error) {
@@ -366,16 +381,16 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName       *string            `json:"orgName,omitempty"`
-		BackupName    *string            `json:"backupName"`
-		ClusterName   *string            `json:"clusterName"`
-		ComponentName *string            `json:"componentName"`
-		TargetPodName *string            `json:"targetPodName,omitempty"`
-		CreatedAt     *time.Time         `json:"createdAt,omitempty"`
-		Name          *string            `json:"name,omitempty"`
-		Parameters    *RestoreParameters `json:"parameters,omitempty"`
-		RestoreTime   *string            `json:"restoreTime,omitempty"`
-		Status        *RestoreStatus     `json:"status,omitempty"`
+		OrgName *string `json:"orgName,omitempty"`
+		BackupName *string `json:"backupName"`
+		ClusterName *string `json:"clusterName"`
+		ComponentName *string `json:"componentName"`
+		TargetPodName *string `json:"targetPodName,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Parameters *RestoreParameters `json:"parameters,omitempty"`
+		RestoreTime *string `json:"restoreTime,omitempty"`
+		Status *RestoreStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -391,7 +406,7 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{ "orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "status",  })
 	} else {
 		return err
 	}
@@ -404,12 +419,12 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	o.TargetPodName = all.TargetPodName
 	o.CreatedAt = all.CreatedAt
 	o.Name = all.Name
-	if all.Parameters != nil && all.Parameters.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Parameters != nil && all.Parameters.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Parameters = all.Parameters
 	o.RestoreTime = all.RestoreTime
-	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Status = all.Status

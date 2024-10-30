@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type WorkflowCreate struct {
 	// workflow type
-	Type         *WorkflowType `json:"type,omitempty"`
-	Version      *string       `json:"version,omitempty"`
-	OteldVersion *string       `json:"oteldVersion,omitempty"`
+	Type *WorkflowType `json:"type,omitempty"`
+	Version *string `json:"version,omitempty"`
+	OteldVersion *string `json:"oteldVersion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewWorkflowCreate instantiates a new WorkflowCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewWorkflowCreateWithDefaults() *WorkflowCreate {
 	this := WorkflowCreate{}
 	return &this
 }
-
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *WorkflowCreate) GetType() WorkflowType {
 	if o == nil || o.Type == nil {
@@ -60,6 +69,7 @@ func (o *WorkflowCreate) HasType() bool {
 func (o *WorkflowCreate) SetType(v WorkflowType) {
 	o.Type = &v
 }
+
 
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *WorkflowCreate) GetVersion() string {
@@ -89,6 +99,7 @@ func (o *WorkflowCreate) SetVersion(v string) {
 	o.Version = &v
 }
 
+
 // GetOteldVersion returns the OteldVersion field value if set, zero value otherwise.
 func (o *WorkflowCreate) GetOteldVersion() string {
 	if o == nil || o.OteldVersion == nil {
@@ -117,6 +128,8 @@ func (o *WorkflowCreate) SetOteldVersion(v string) {
 	o.OteldVersion = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o WorkflowCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -142,22 +155,22 @@ func (o WorkflowCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *WorkflowCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Type         *WorkflowType `json:"type,omitempty"`
-		Version      *string       `json:"version,omitempty"`
-		OteldVersion *string       `json:"oteldVersion,omitempty"`
+		Type *WorkflowType `json:"type,omitempty"`
+		Version *string `json:"version,omitempty"`
+		OteldVersion *string `json:"oteldVersion,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"type", "version", "oteldVersion"})
+		common.DeleteKeys(additionalProperties, &[]string{ "type", "version", "oteldVersion",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.Type != nil && !all.Type.IsValid() {
+	if all.Type != nil &&!all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Type = all.Type

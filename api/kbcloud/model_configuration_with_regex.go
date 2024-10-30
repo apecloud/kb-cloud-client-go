@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ConfigurationWithRegex Cluster parameters configuration, include the file name and content of the parameters
+
+
+// ConfigurationWithRegex Cluster parameters configuration, include the file name and content of the parameters 
 type ConfigurationWithRegex struct {
 	// The name of the configuration file
 	FileName string `json:"fileName"`
@@ -19,9 +24,10 @@ type ConfigurationWithRegex struct {
 	// the template regex
 	Regex string `json:"regex"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewConfigurationWithRegex instantiates a new ConfigurationWithRegex object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,7 +48,6 @@ func NewConfigurationWithRegexWithDefaults() *ConfigurationWithRegex {
 	this := ConfigurationWithRegex{}
 	return &this
 }
-
 // GetFileName returns the FileName field value.
 func (o *ConfigurationWithRegex) GetFileName() string {
 	if o == nil {
@@ -65,6 +70,7 @@ func (o *ConfigurationWithRegex) GetFileNameOk() (*string, bool) {
 func (o *ConfigurationWithRegex) SetFileName(v string) {
 	o.FileName = v
 }
+
 
 // GetContent returns the Content field value.
 func (o *ConfigurationWithRegex) GetContent() string {
@@ -89,6 +95,7 @@ func (o *ConfigurationWithRegex) SetContent(v string) {
 	o.Content = v
 }
 
+
 // GetRegex returns the Regex field value.
 func (o *ConfigurationWithRegex) GetRegex() string {
 	if o == nil {
@@ -112,6 +119,8 @@ func (o *ConfigurationWithRegex) SetRegex(v string) {
 	o.Regex = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ConfigurationWithRegex) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -132,8 +141,8 @@ func (o ConfigurationWithRegex) MarshalJSON() ([]byte, error) {
 func (o *ConfigurationWithRegex) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		FileName *string `json:"fileName"`
-		Content  *string `json:"content"`
-		Regex    *string `json:"regex"`
+		Content *string `json:"content"`
+		Regex *string `json:"regex"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -149,7 +158,7 @@ func (o *ConfigurationWithRegex) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"fileName", "content", "regex"})
+		common.DeleteKeys(additionalProperties, &[]string{ "fileName", "content", "regex",  })
 	} else {
 		return err
 	}

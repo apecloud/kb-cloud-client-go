@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// InstanceResourceStatsList InstanceResourceStatsList is a list of InstanceResourceStats
+
+
+// InstanceResourceStatsList InstanceResourceStatsList is a list of InstanceResourceStats 
 type InstanceResourceStatsList struct {
 	// Items is the list of InstanceResourceStats objects in the list
 	Items []InstanceResourceStats `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInstanceResourceStatsList instantiates a new InstanceResourceStatsList object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewInstanceResourceStatsListWithDefaults() *InstanceResourceStatsList {
 	this := InstanceResourceStatsList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *InstanceResourceStatsList) GetItems() []InstanceResourceStats {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *InstanceResourceStatsList) GetItemsOk() (*[]InstanceResourceStats, bool
 func (o *InstanceResourceStatsList) SetItems(v []InstanceResourceStats) {
 	o.Items = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceResourceStatsList) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *InstanceResourceStatsList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

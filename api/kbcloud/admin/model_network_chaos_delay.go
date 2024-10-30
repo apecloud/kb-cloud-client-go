@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// NetworkChaosDelay specify the delay in the chaos action
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// NetworkChaosDelay specify the delay in the chaos action 
 type NetworkChaosDelay struct {
 	// specify the latency in the chaos action
 	Latency *string `json:"latency,omitempty"`
@@ -15,9 +24,10 @@ type NetworkChaosDelay struct {
 	// specify the jitter in the chaos action
 	Jitter *string `json:"jitter,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNetworkChaosDelay instantiates a new NetworkChaosDelay object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +45,6 @@ func NewNetworkChaosDelayWithDefaults() *NetworkChaosDelay {
 	this := NetworkChaosDelay{}
 	return &this
 }
-
 // GetLatency returns the Latency field value if set, zero value otherwise.
 func (o *NetworkChaosDelay) GetLatency() string {
 	if o == nil || o.Latency == nil {
@@ -63,6 +72,7 @@ func (o *NetworkChaosDelay) HasLatency() bool {
 func (o *NetworkChaosDelay) SetLatency(v string) {
 	o.Latency = &v
 }
+
 
 // GetCorrelation returns the Correlation field value if set, zero value otherwise.
 func (o *NetworkChaosDelay) GetCorrelation() string {
@@ -92,6 +102,7 @@ func (o *NetworkChaosDelay) SetCorrelation(v string) {
 	o.Correlation = &v
 }
 
+
 // GetJitter returns the Jitter field value if set, zero value otherwise.
 func (o *NetworkChaosDelay) GetJitter() string {
 	if o == nil || o.Jitter == nil {
@@ -120,6 +131,8 @@ func (o *NetworkChaosDelay) SetJitter(v string) {
 	o.Jitter = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NetworkChaosDelay) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -145,16 +158,16 @@ func (o NetworkChaosDelay) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NetworkChaosDelay) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Latency     *string `json:"latency,omitempty"`
+		Latency *string `json:"latency,omitempty"`
 		Correlation *string `json:"correlation,omitempty"`
-		Jitter      *string `json:"jitter,omitempty"`
+		Jitter *string `json:"jitter,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"latency", "correlation", "jitter"})
+		common.DeleteKeys(additionalProperties, &[]string{ "latency", "correlation", "jitter",  })
 	} else {
 		return err
 	}

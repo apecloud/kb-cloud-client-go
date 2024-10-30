@@ -2,26 +2,32 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type ComponentOptionVersionMajorVersion struct {
 	// default major version.
 	Default *string `json:"default,omitempty"`
-	// ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0.
+	// ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0. 
 	// Currently supports [X, X.Y, X.Y.Z] formats to determine major versions of the engine from the serviceVersion
 	//
-	Rule           string                                                 `json:"rule"`
+	Rule string `json:"rule"`
 	VersionMapping []ComponentOptionVersionMajorVersionVersionMappingItem `json:"versionMapping,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewComponentOptionVersionMajorVersion instantiates a new ComponentOptionVersionMajorVersion object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewComponentOptionVersionMajorVersionWithDefaults() *ComponentOptionVersion
 	this := ComponentOptionVersionMajorVersion{}
 	return &this
 }
-
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *ComponentOptionVersionMajorVersion) GetDefault() string {
 	if o == nil || o.Default == nil {
@@ -69,6 +74,7 @@ func (o *ComponentOptionVersionMajorVersion) SetDefault(v string) {
 	o.Default = &v
 }
 
+
 // GetRule returns the Rule field value.
 func (o *ComponentOptionVersionMajorVersion) GetRule() string {
 	if o == nil {
@@ -91,6 +97,7 @@ func (o *ComponentOptionVersionMajorVersion) GetRuleOk() (*string, bool) {
 func (o *ComponentOptionVersionMajorVersion) SetRule(v string) {
 	o.Rule = v
 }
+
 
 // GetVersionMapping returns the VersionMapping field value if set, zero value otherwise.
 func (o *ComponentOptionVersionMajorVersion) GetVersionMapping() []ComponentOptionVersionMajorVersionVersionMappingItem {
@@ -120,6 +127,8 @@ func (o *ComponentOptionVersionMajorVersion) SetVersionMapping(v []ComponentOpti
 	o.VersionMapping = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOptionVersionMajorVersion) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,8 +152,8 @@ func (o ComponentOptionVersionMajorVersion) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOptionVersionMajorVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Default        *string                                                `json:"default,omitempty"`
-		Rule           *string                                                `json:"rule"`
+		Default *string `json:"default,omitempty"`
+		Rule *string `json:"rule"`
 		VersionMapping []ComponentOptionVersionMajorVersionVersionMappingItem `json:"versionMapping,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -155,7 +164,7 @@ func (o *ComponentOptionVersionMajorVersion) UnmarshalJSON(bytes []byte) (err er
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"default", "rule", "versionMapping"})
+		common.DeleteKeys(additionalProperties, &[]string{ "default", "rule", "versionMapping",  })
 	} else {
 		return err
 	}

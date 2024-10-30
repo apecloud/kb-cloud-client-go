@@ -2,25 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// NodeResourceStatsList NodeResourceStatsList is a list of NodeResourceStats
+
+
+// NodeResourceStatsList NodeResourceStatsList is a list of NodeResourceStats 
 type NodeResourceStatsList struct {
 	// Items is the list of NodeResourceStats objects in the list
 	Items []NodeResourceStats `json:"items"`
 	// UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNodeResourceStatsList instantiates a new NodeResourceStatsList object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +45,6 @@ func NewNodeResourceStatsListWithDefaults() *NodeResourceStatsList {
 	this := NodeResourceStatsList{}
 	return &this
 }
-
 // GetItems returns the Items field value.
 func (o *NodeResourceStatsList) GetItems() []NodeResourceStats {
 	if o == nil {
@@ -63,6 +67,7 @@ func (o *NodeResourceStatsList) GetItemsOk() (*[]NodeResourceStats, bool) {
 func (o *NodeResourceStatsList) SetItems(v []NodeResourceStats) {
 	o.Items = v
 }
+
 
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *NodeResourceStatsList) GetUpdatedAt() time.Time {
@@ -87,6 +92,8 @@ func (o *NodeResourceStatsList) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NodeResourceStatsList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -109,8 +116,8 @@ func (o NodeResourceStatsList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodeResourceStatsList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items     *[]NodeResourceStats `json:"items"`
-		UpdatedAt *time.Time           `json:"updatedAt"`
+		Items *[]NodeResourceStats `json:"items"`
+		UpdatedAt *time.Time `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -123,7 +130,7 @@ func (o *NodeResourceStatsList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items", "updatedAt",  })
 	} else {
 		return err
 	}

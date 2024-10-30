@@ -2,25 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// NodePoolNode Node info for environment
+
+
+// NodePoolNode Node info for environment 
 type NodePoolNode struct {
-	Name             string `json:"name"`
+	Name string `json:"name"`
 	AvailabilityZone string `json:"availabilityZone"`
-	MarkControlPlane *bool  `json:"markControlPlane,omitempty"`
+	MarkControlPlane *bool `json:"markControlPlane,omitempty"`
 	// Mark the node as a data plane, which will always be true when markControlPlane is not specified
 	MarkDataPlane *bool `json:"markDataPlane,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNodePoolNode instantiates a new NodePoolNode object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,7 +54,6 @@ func NewNodePoolNodeWithDefaults() *NodePoolNode {
 	this.MarkDataPlane = &markDataPlane
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *NodePoolNode) GetName() string {
 	if o == nil {
@@ -72,6 +77,7 @@ func (o *NodePoolNode) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetAvailabilityZone returns the AvailabilityZone field value.
 func (o *NodePoolNode) GetAvailabilityZone() string {
 	if o == nil {
@@ -94,6 +100,7 @@ func (o *NodePoolNode) GetAvailabilityZoneOk() (*string, bool) {
 func (o *NodePoolNode) SetAvailabilityZone(v string) {
 	o.AvailabilityZone = v
 }
+
 
 // GetMarkControlPlane returns the MarkControlPlane field value if set, zero value otherwise.
 func (o *NodePoolNode) GetMarkControlPlane() bool {
@@ -123,6 +130,7 @@ func (o *NodePoolNode) SetMarkControlPlane(v bool) {
 	o.MarkControlPlane = &v
 }
 
+
 // GetMarkDataPlane returns the MarkDataPlane field value if set, zero value otherwise.
 func (o *NodePoolNode) GetMarkDataPlane() bool {
 	if o == nil || o.MarkDataPlane == nil {
@@ -151,6 +159,8 @@ func (o *NodePoolNode) SetMarkDataPlane(v bool) {
 	o.MarkDataPlane = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NodePoolNode) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -175,10 +185,10 @@ func (o NodePoolNode) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodePoolNode) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string `json:"name"`
+		Name *string `json:"name"`
 		AvailabilityZone *string `json:"availabilityZone"`
-		MarkControlPlane *bool   `json:"markControlPlane,omitempty"`
-		MarkDataPlane    *bool   `json:"markDataPlane,omitempty"`
+		MarkControlPlane *bool `json:"markControlPlane,omitempty"`
+		MarkDataPlane *bool `json:"markDataPlane,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -191,7 +201,7 @@ func (o *NodePoolNode) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "availabilityZone", "markControlPlane", "markDataPlane"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "availabilityZone", "markControlPlane", "markDataPlane",  })
 	} else {
 		return err
 	}

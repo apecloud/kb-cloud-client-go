@@ -2,20 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // StorageClassVolumeBindingMode volumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. Defaults to Immediate.
 type StorageClassVolumeBindingMode string
 
 // List of StorageClassVolumeBindingMode.
 const (
-	StorageClassVolumeBindingModeImmediate            StorageClassVolumeBindingMode = "Immediate"
+	StorageClassVolumeBindingModeImmediate StorageClassVolumeBindingMode = "Immediate"
 	StorageClassVolumeBindingModeWaitForFirstConsumer StorageClassVolumeBindingMode = "WaitForFirstConsumer"
 )
 

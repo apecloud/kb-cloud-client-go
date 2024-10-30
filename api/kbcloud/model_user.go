@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// User User info
+
+
+// User User info 
 type User struct {
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	CreatedAt time.Time `json:"createdAt"`
@@ -28,9 +32,10 @@ type User struct {
 	// Populated by the system. Read-only. Null for lists
 	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewUser instantiates a new User object.
 // This constructor will assign default values to properties that have it defined,
@@ -52,7 +57,6 @@ func NewUserWithDefaults() *User {
 	this := User{}
 	return &this
 }
-
 // GetCreatedAt returns the CreatedAt field value.
 func (o *User) GetCreatedAt() time.Time {
 	if o == nil {
@@ -75,6 +79,7 @@ func (o *User) GetCreatedAtOk() (*time.Time, bool) {
 func (o *User) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
+
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *User) GetDisplayName() string {
@@ -104,6 +109,7 @@ func (o *User) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
+
 // GetEmail returns the Email field value.
 func (o *User) GetEmail() string {
 	if o == nil {
@@ -127,6 +133,7 @@ func (o *User) SetEmail(v string) {
 	o.Email = v
 }
 
+
 // GetId returns the Id field value.
 func (o *User) GetId() string {
 	if o == nil {
@@ -149,6 +156,7 @@ func (o *User) GetIdOk() (*string, bool) {
 func (o *User) SetId(v string) {
 	o.Id = v
 }
+
 
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
 func (o *User) GetPhoneNumber() string {
@@ -178,6 +186,7 @@ func (o *User) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
+
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *User) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -200,6 +209,8 @@ func (o *User) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *User) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o User) MarshalJSON() ([]byte, error) {
@@ -235,12 +246,12 @@ func (o User) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *User) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CreatedAt   *time.Time `json:"createdAt"`
-		DisplayName *string    `json:"displayName,omitempty"`
-		Email       *string    `json:"email"`
-		Id          *string    `json:"id"`
-		PhoneNumber *string    `json:"phoneNumber,omitempty"`
-		UpdatedAt   *time.Time `json:"updatedAt"`
+		CreatedAt *time.Time `json:"createdAt"`
+		DisplayName *string `json:"displayName,omitempty"`
+		Email *string `json:"email"`
+		Id *string `json:"id"`
+		PhoneNumber *string `json:"phoneNumber,omitempty"`
+		UpdatedAt *time.Time `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -259,7 +270,7 @@ func (o *User) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "displayName", "email", "id", "phoneNumber", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "createdAt", "displayName", "email", "id", "phoneNumber", "updatedAt",  })
 	} else {
 		return err
 	}

@@ -2,23 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// StorageProvisioner StorageProvisioner provides detailed information about the provisioner used by storage classes.
+
+
+// StorageProvisioner StorageProvisioner provides detailed information about the provisioner used by storage classes. 
 type StorageProvisioner struct {
-	Provisioner   string `json:"provisioner"`
-	Type          string `json:"type"`
+	Provisioner string `json:"provisioner"`
+	Type string `json:"type"`
 	CloudProvider string `json:"cloudProvider"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageProvisioner instantiates a new StorageProvisioner object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewStorageProvisionerWithDefaults() *StorageProvisioner {
 	this := StorageProvisioner{}
 	return &this
 }
-
 // GetProvisioner returns the Provisioner field value.
 func (o *StorageProvisioner) GetProvisioner() string {
 	if o == nil {
@@ -62,6 +67,7 @@ func (o *StorageProvisioner) GetProvisionerOk() (*string, bool) {
 func (o *StorageProvisioner) SetProvisioner(v string) {
 	o.Provisioner = v
 }
+
 
 // GetType returns the Type field value.
 func (o *StorageProvisioner) GetType() string {
@@ -86,6 +92,7 @@ func (o *StorageProvisioner) SetType(v string) {
 	o.Type = v
 }
 
+
 // GetCloudProvider returns the CloudProvider field value.
 func (o *StorageProvisioner) GetCloudProvider() string {
 	if o == nil {
@@ -109,6 +116,8 @@ func (o *StorageProvisioner) SetCloudProvider(v string) {
 	o.CloudProvider = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProvisioner) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -128,8 +137,8 @@ func (o StorageProvisioner) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProvisioner) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provisioner   *string `json:"provisioner"`
-		Type          *string `json:"type"`
+		Provisioner *string `json:"provisioner"`
+		Type *string `json:"type"`
 		CloudProvider *string `json:"cloudProvider"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -146,7 +155,7 @@ func (o *StorageProvisioner) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provisioner", "type", "cloudProvider"})
+		common.DeleteKeys(additionalProperties, &[]string{ "provisioner", "type", "cloudProvider",  })
 	} else {
 		return err
 	}

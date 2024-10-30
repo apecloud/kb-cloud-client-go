@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type ComponentOptionVersionMinorVersion struct {
 	// determine whether minor version can be rolled back.
 	Rollback *bool `json:"rollback,omitempty"`
 	// disable roll back the preRelease minor version.
 	DisableRollbackPreRelease *bool `json:"disableRollbackPreRelease,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewComponentOptionVersionMinorVersion instantiates a new ComponentOptionVersionMinorVersion object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewComponentOptionVersionMinorVersionWithDefaults() *ComponentOptionVersion
 	this := ComponentOptionVersionMinorVersion{}
 	return &this
 }
-
 // GetRollback returns the Rollback field value if set, zero value otherwise.
 func (o *ComponentOptionVersionMinorVersion) GetRollback() bool {
 	if o == nil || o.Rollback == nil {
@@ -60,6 +69,7 @@ func (o *ComponentOptionVersionMinorVersion) HasRollback() bool {
 func (o *ComponentOptionVersionMinorVersion) SetRollback(v bool) {
 	o.Rollback = &v
 }
+
 
 // GetDisableRollbackPreRelease returns the DisableRollbackPreRelease field value if set, zero value otherwise.
 func (o *ComponentOptionVersionMinorVersion) GetDisableRollbackPreRelease() bool {
@@ -89,6 +99,8 @@ func (o *ComponentOptionVersionMinorVersion) SetDisableRollbackPreRelease(v bool
 	o.DisableRollbackPreRelease = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOptionVersionMinorVersion) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -111,7 +123,7 @@ func (o ComponentOptionVersionMinorVersion) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOptionVersionMinorVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Rollback                  *bool `json:"rollback,omitempty"`
+		Rollback *bool `json:"rollback,omitempty"`
 		DisableRollbackPreRelease *bool `json:"disableRollbackPreRelease,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -119,7 +131,7 @@ func (o *ComponentOptionVersionMinorVersion) UnmarshalJSON(bytes []byte) (err er
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"rollback", "disableRollbackPreRelease"})
+		common.DeleteKeys(additionalProperties, &[]string{ "rollback", "disableRollbackPreRelease",  })
 	} else {
 		return err
 	}

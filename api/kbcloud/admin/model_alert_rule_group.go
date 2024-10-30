@@ -2,17 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type AlertRuleGroup struct {
-	Name  *string     `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	Rules []AlertRule `json:"rules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertRuleGroup instantiates a new AlertRuleGroup object.
 // This constructor will assign default values to properties that have it defined,
@@ -30,7 +40,6 @@ func NewAlertRuleGroupWithDefaults() *AlertRuleGroup {
 	this := AlertRuleGroup{}
 	return &this
 }
-
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AlertRuleGroup) GetName() string {
 	if o == nil || o.Name == nil {
@@ -58,6 +67,7 @@ func (o *AlertRuleGroup) HasName() bool {
 func (o *AlertRuleGroup) SetName(v string) {
 	o.Name = &v
 }
+
 
 // GetRules returns the Rules field value if set, zero value otherwise.
 func (o *AlertRuleGroup) GetRules() []AlertRule {
@@ -87,6 +97,8 @@ func (o *AlertRuleGroup) SetRules(v []AlertRule) {
 	o.Rules = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertRuleGroup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -109,7 +121,7 @@ func (o AlertRuleGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertRuleGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name  *string     `json:"name,omitempty"`
+		Name *string `json:"name,omitempty"`
 		Rules []AlertRule `json:"rules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -117,7 +129,7 @@ func (o *AlertRuleGroup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "rules"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "rules",  })
 	} else {
 		return err
 	}

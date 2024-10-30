@@ -2,13 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // AccountListRoleType The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
 type AccountListRoleType string
@@ -17,7 +22,7 @@ type AccountListRoleType string
 const (
 	AccountListRoleTypeSuperuser AccountListRoleType = "SUPERUSER"
 	AccountListRoleTypeBasicuser AccountListRoleType = "BASICUSER"
-	AccountListRoleTypeRoot      AccountListRoleType = "ROOT"
+	AccountListRoleTypeRoot AccountListRoleType = "ROOT"
 )
 
 var allowedAccountListRoleTypeEnumValues = []AccountListRoleType{

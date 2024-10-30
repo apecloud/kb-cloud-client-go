@@ -2,14 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
-	"time"
+	"github.com/google/uuid"
+	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type QueryHistory struct {
 	// executed sql statements
 	Sql *string `json:"sql,omitempty"`
@@ -20,9 +25,10 @@ type QueryHistory struct {
 	// sql executed duration
 	Duration *int32 `json:"duration,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewQueryHistory instantiates a new QueryHistory object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewQueryHistoryWithDefaults() *QueryHistory {
 	this := QueryHistory{}
 	return &this
 }
-
 // GetSql returns the Sql field value if set, zero value otherwise.
 func (o *QueryHistory) GetSql() string {
 	if o == nil || o.Sql == nil {
@@ -68,6 +73,7 @@ func (o *QueryHistory) HasSql() bool {
 func (o *QueryHistory) SetSql(v string) {
 	o.Sql = &v
 }
+
 
 // GetErrMassage returns the ErrMassage field value if set, zero value otherwise.
 func (o *QueryHistory) GetErrMassage() string {
@@ -97,6 +103,7 @@ func (o *QueryHistory) SetErrMassage(v string) {
 	o.ErrMassage = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *QueryHistory) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -125,6 +132,7 @@ func (o *QueryHistory) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *QueryHistory) GetDuration() int32 {
 	if o == nil || o.Duration == nil {
@@ -152,6 +160,8 @@ func (o *QueryHistory) HasDuration() bool {
 func (o *QueryHistory) SetDuration(v int32) {
 	o.Duration = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o QueryHistory) MarshalJSON() ([]byte, error) {
@@ -185,17 +195,17 @@ func (o QueryHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *QueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Sql        *string    `json:"sql,omitempty"`
-		ErrMassage *string    `json:"errMassage,omitempty"`
-		CreatedAt  *time.Time `json:"createdAt,omitempty"`
-		Duration   *int32     `json:"duration,omitempty"`
+		Sql *string `json:"sql,omitempty"`
+		ErrMassage *string `json:"errMassage,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Duration *int32 `json:"duration,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"sql", "errMassage", "createdAt", "duration"})
+		common.DeleteKeys(additionalProperties, &[]string{ "sql", "errMassage", "createdAt", "duration",  })
 	} else {
 		return err
 	}

@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OrgCreate OrgCreate is the payload for organization creation
+
+
+// OrgCreate OrgCreate is the payload for organization creation 
 type OrgCreate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`
@@ -19,9 +24,10 @@ type OrgCreate struct {
 	// The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOrgCreate instantiates a new OrgCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewOrgCreateWithDefaults() *OrgCreate {
 	this := OrgCreate{}
 	return &this
 }
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *OrgCreate) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -68,6 +73,7 @@ func (o *OrgCreate) HasDescription() bool {
 func (o *OrgCreate) SetDescription(v string) {
 	o.Description = &v
 }
+
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *OrgCreate) GetDisplayName() string {
@@ -97,6 +103,7 @@ func (o *OrgCreate) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
+
 // GetName returns the Name field value.
 func (o *OrgCreate) GetName() string {
 	if o == nil {
@@ -119,6 +126,8 @@ func (o *OrgCreate) GetNameOk() (*string, bool) {
 func (o *OrgCreate) SetName(v string) {
 	o.Name = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgCreate) MarshalJSON() ([]byte, error) {
@@ -145,7 +154,7 @@ func (o *OrgCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Description *string `json:"description,omitempty"`
 		DisplayName *string `json:"displayName,omitempty"`
-		Name        *string `json:"name"`
+		Name *string `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -155,7 +164,7 @@ func (o *OrgCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{ "description", "displayName", "name",  })
 	} else {
 		return err
 	}

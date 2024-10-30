@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AccountListItem Cluster account information.
+
+
+// AccountListItem Cluster account information. 
 type AccountListItem struct {
 	// Component type.
 	Component *string `json:"component,omitempty"`
@@ -23,9 +28,10 @@ type AccountListItem struct {
 	// A list of privileges and their databases.
 	PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAccountListItem instantiates a new AccountListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,7 +50,6 @@ func NewAccountListItemWithDefaults() *AccountListItem {
 	this := AccountListItem{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *AccountListItem) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -73,6 +78,7 @@ func (o *AccountListItem) SetComponent(v string) {
 	o.Component = &v
 }
 
+
 // GetName returns the Name field value.
 func (o *AccountListItem) GetName() string {
 	if o == nil {
@@ -95,6 +101,7 @@ func (o *AccountListItem) GetNameOk() (*string, bool) {
 func (o *AccountListItem) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetPassword returns the Password field value if set, zero value otherwise.
 func (o *AccountListItem) GetPassword() string {
@@ -124,6 +131,7 @@ func (o *AccountListItem) SetPassword(v string) {
 	o.Password = &v
 }
 
+
 // GetRole returns the Role field value if set, zero value otherwise.
 func (o *AccountListItem) GetRole() AccountListRoleType {
 	if o == nil || o.Role == nil {
@@ -152,6 +160,7 @@ func (o *AccountListItem) SetRole(v AccountListRoleType) {
 	o.Role = &v
 }
 
+
 // GetPrivilegesList returns the PrivilegesList field value if set, zero value otherwise.
 func (o *AccountListItem) GetPrivilegesList() []PrivilegeListItem {
 	if o == nil || o.PrivilegesList == nil {
@@ -179,6 +188,8 @@ func (o *AccountListItem) HasPrivilegesList() bool {
 func (o *AccountListItem) SetPrivilegesList(v []PrivilegeListItem) {
 	o.PrivilegesList = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AccountListItem) MarshalJSON() ([]byte, error) {
@@ -209,11 +220,11 @@ func (o AccountListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string              `json:"component,omitempty"`
-		Name           *string              `json:"name"`
-		Password       *string              `json:"password,omitempty"`
-		Role           *AccountListRoleType `json:"role,omitempty"`
-		PrivilegesList []PrivilegeListItem  `json:"privilegesList,omitempty"`
+		Component *string `json:"component,omitempty"`
+		Name *string `json:"name"`
+		Password *string `json:"password,omitempty"`
+		Role *AccountListRoleType `json:"role,omitempty"`
+		PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -223,7 +234,7 @@ func (o *AccountListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "name", "password", "role", "privilegesList"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "name", "password", "role", "privilegesList",  })
 	} else {
 		return err
 	}
@@ -232,7 +243,7 @@ func (o *AccountListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = all.Component
 	o.Name = *all.Name
 	o.Password = all.Password
-	if all.Role != nil && !all.Role.IsValid() {
+	if all.Role != nil &&!all.Role.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Role = all.Role

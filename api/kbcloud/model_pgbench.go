@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Pgbench pgbench is the pgbench benchmark object
+
+
+// Pgbench pgbench is the pgbench benchmark object 
 type Pgbench struct {
 	// Step of pgbench
 	Step *PgbenchStep `json:"step,omitempty"`
@@ -47,9 +52,10 @@ type Pgbench struct {
 	// Extra arguments for pgbench
 	ExtraArgs *string `json:"extraArgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewPgbench instantiates a new Pgbench object.
 // This constructor will assign default values to properties that have it defined,
@@ -96,7 +102,6 @@ func NewPgbenchWithDefaults() *Pgbench {
 	this.SelectOnly = &selectOnly
 	return &this
 }
-
 // GetStep returns the Step field value if set, zero value otherwise.
 func (o *Pgbench) GetStep() PgbenchStep {
 	if o == nil || o.Step == nil {
@@ -124,6 +129,7 @@ func (o *Pgbench) HasStep() bool {
 func (o *Pgbench) SetStep(v PgbenchStep) {
 	o.Step = &v
 }
+
 
 // GetLimitCpu returns the LimitCpu field value if set, zero value otherwise.
 func (o *Pgbench) GetLimitCpu() string {
@@ -153,6 +159,7 @@ func (o *Pgbench) SetLimitCpu(v string) {
 	o.LimitCpu = &v
 }
 
+
 // GetLimitMemory returns the LimitMemory field value if set, zero value otherwise.
 func (o *Pgbench) GetLimitMemory() string {
 	if o == nil || o.LimitMemory == nil {
@@ -180,6 +187,7 @@ func (o *Pgbench) HasLimitMemory() bool {
 func (o *Pgbench) SetLimitMemory(v string) {
 	o.LimitMemory = &v
 }
+
 
 // GetRequestCpu returns the RequestCpu field value if set, zero value otherwise.
 func (o *Pgbench) GetRequestCpu() string {
@@ -209,6 +217,7 @@ func (o *Pgbench) SetRequestCpu(v string) {
 	o.RequestCpu = &v
 }
 
+
 // GetRequestMemory returns the RequestMemory field value if set, zero value otherwise.
 func (o *Pgbench) GetRequestMemory() string {
 	if o == nil || o.RequestMemory == nil {
@@ -236,6 +245,7 @@ func (o *Pgbench) HasRequestMemory() bool {
 func (o *Pgbench) SetRequestMemory(v string) {
 	o.RequestMemory = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Pgbench) GetName() string {
@@ -265,6 +275,7 @@ func (o *Pgbench) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetCluster returns the Cluster field value.
 func (o *Pgbench) GetCluster() string {
 	if o == nil {
@@ -287,6 +298,7 @@ func (o *Pgbench) GetClusterOk() (*string, bool) {
 func (o *Pgbench) SetCluster(v string) {
 	o.Cluster = v
 }
+
 
 // GetDatabase returns the Database field value.
 func (o *Pgbench) GetDatabase() string {
@@ -311,6 +323,7 @@ func (o *Pgbench) SetDatabase(v string) {
 	o.Database = v
 }
 
+
 // GetUsername returns the Username field value.
 func (o *Pgbench) GetUsername() string {
 	if o == nil {
@@ -333,6 +346,7 @@ func (o *Pgbench) GetUsernameOk() (*string, bool) {
 func (o *Pgbench) SetUsername(v string) {
 	o.Username = v
 }
+
 
 // GetPassword returns the Password field value.
 func (o *Pgbench) GetPassword() string {
@@ -357,6 +371,7 @@ func (o *Pgbench) SetPassword(v string) {
 	o.Password = v
 }
 
+
 // GetAddress returns the Address field value.
 func (o *Pgbench) GetAddress() string {
 	if o == nil {
@@ -379,6 +394,7 @@ func (o *Pgbench) GetAddressOk() (*string, bool) {
 func (o *Pgbench) SetAddress(v string) {
 	o.Address = v
 }
+
 
 // GetScale returns the Scale field value if set, zero value otherwise.
 func (o *Pgbench) GetScale() int32 {
@@ -408,6 +424,7 @@ func (o *Pgbench) SetScale(v int32) {
 	o.Scale = &v
 }
 
+
 // GetClients returns the Clients field value if set, zero value otherwise.
 func (o *Pgbench) GetClients() int32 {
 	if o == nil || o.Clients == nil {
@@ -435,6 +452,7 @@ func (o *Pgbench) HasClients() bool {
 func (o *Pgbench) SetClients(v int32) {
 	o.Clients = &v
 }
+
 
 // GetThreads returns the Threads field value if set, zero value otherwise.
 func (o *Pgbench) GetThreads() int32 {
@@ -464,6 +482,7 @@ func (o *Pgbench) SetThreads(v int32) {
 	o.Threads = &v
 }
 
+
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *Pgbench) GetDuration() int32 {
 	if o == nil || o.Duration == nil {
@@ -491,6 +510,7 @@ func (o *Pgbench) HasDuration() bool {
 func (o *Pgbench) SetDuration(v int32) {
 	o.Duration = &v
 }
+
 
 // GetSelectOnly returns the SelectOnly field value if set, zero value otherwise.
 func (o *Pgbench) GetSelectOnly() bool {
@@ -520,6 +540,7 @@ func (o *Pgbench) SetSelectOnly(v bool) {
 	o.SelectOnly = &v
 }
 
+
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
 func (o *Pgbench) GetExtraArgs() string {
 	if o == nil || o.ExtraArgs == nil {
@@ -547,6 +568,8 @@ func (o *Pgbench) HasExtraArgs() bool {
 func (o *Pgbench) SetExtraArgs(v string) {
 	o.ExtraArgs = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Pgbench) MarshalJSON() ([]byte, error) {
@@ -605,23 +628,23 @@ func (o Pgbench) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Pgbench) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step          *PgbenchStep `json:"step,omitempty"`
-		LimitCpu      *string      `json:"limitCpu,omitempty"`
-		LimitMemory   *string      `json:"limitMemory,omitempty"`
-		RequestCpu    *string      `json:"requestCpu,omitempty"`
-		RequestMemory *string      `json:"requestMemory,omitempty"`
-		Name          *string      `json:"name,omitempty"`
-		Cluster       *string      `json:"cluster"`
-		Database      *string      `json:"database"`
-		Username      *string      `json:"username"`
-		Password      *string      `json:"password"`
-		Address       *string      `json:"address"`
-		Scale         *int32       `json:"scale,omitempty"`
-		Clients       *int32       `json:"clients,omitempty"`
-		Threads       *int32       `json:"threads,omitempty"`
-		Duration      *int32       `json:"duration,omitempty"`
-		SelectOnly    *bool        `json:"selectOnly,omitempty"`
-		ExtraArgs     *string      `json:"extraArgs,omitempty"`
+		Step *PgbenchStep `json:"step,omitempty"`
+		LimitCpu *string `json:"limitCpu,omitempty"`
+		LimitMemory *string `json:"limitMemory,omitempty"`
+		RequestCpu *string `json:"requestCpu,omitempty"`
+		RequestMemory *string `json:"requestMemory,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Cluster *string `json:"cluster"`
+		Database *string `json:"database"`
+		Username *string `json:"username"`
+		Password *string `json:"password"`
+		Address *string `json:"address"`
+		Scale *int32 `json:"scale,omitempty"`
+		Clients *int32 `json:"clients,omitempty"`
+		Threads *int32 `json:"threads,omitempty"`
+		Duration *int32 `json:"duration,omitempty"`
+		SelectOnly *bool `json:"selectOnly,omitempty"`
+		ExtraArgs *string `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -643,13 +666,13 @@ func (o *Pgbench) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "scale", "clients", "threads", "duration", "selectOnly", "extraArgs"})
+		common.DeleteKeys(additionalProperties, &[]string{ "step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "scale", "clients", "threads", "duration", "selectOnly", "extraArgs",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.Step != nil && !all.Step.IsValid() {
+	if all.Step != nil &&!all.Step.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Step = all.Step

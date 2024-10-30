@@ -2,21 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type LicenseOption struct {
-	Component  string `json:"component"`
+	Component string `json:"component"`
 	OpsDefName string `json:"opsDefName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewLicenseOption instantiates a new LicenseOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewLicenseOptionWithDefaults() *LicenseOption {
 	this := LicenseOption{}
 	return &this
 }
-
 // GetComponent returns the Component field value.
 func (o *LicenseOption) GetComponent() string {
 	if o == nil {
@@ -59,6 +64,7 @@ func (o *LicenseOption) GetComponentOk() (*string, bool) {
 func (o *LicenseOption) SetComponent(v string) {
 	o.Component = v
 }
+
 
 // GetOpsDefName returns the OpsDefName field value.
 func (o *LicenseOption) GetOpsDefName() string {
@@ -83,6 +89,8 @@ func (o *LicenseOption) SetOpsDefName(v string) {
 	o.OpsDefName = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o LicenseOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -101,7 +109,7 @@ func (o LicenseOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LicenseOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component  *string `json:"component"`
+		Component *string `json:"component"`
 		OpsDefName *string `json:"opsDefName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -115,7 +123,7 @@ func (o *LicenseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "opsDefName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "opsDefName",  })
 	} else {
 		return err
 	}

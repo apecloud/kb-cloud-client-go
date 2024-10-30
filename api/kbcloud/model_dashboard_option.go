@@ -2,23 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type DashboardOption struct {
-	Component      string                              `json:"component"`
-	DashboardUid   string                              `json:"dashboardUid"`
-	Variables      map[string]string                   `json:"variables"`
+	Component string `json:"component"`
+	DashboardUid string `json:"dashboardUid"`
+	Variables map[string]string `json:"variables"`
 	InstancePanels []DashboardOptionInstancePanelsItem `json:"instancePanels"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewDashboardOption instantiates a new DashboardOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewDashboardOptionWithDefaults() *DashboardOption {
 	this := DashboardOption{}
 	return &this
 }
-
 // GetComponent returns the Component field value.
 func (o *DashboardOption) GetComponent() string {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *DashboardOption) GetComponentOk() (*string, bool) {
 func (o *DashboardOption) SetComponent(v string) {
 	o.Component = v
 }
+
 
 // GetDashboardUid returns the DashboardUid field value.
 func (o *DashboardOption) GetDashboardUid() string {
@@ -87,6 +93,7 @@ func (o *DashboardOption) SetDashboardUid(v string) {
 	o.DashboardUid = v
 }
 
+
 // GetVariables returns the Variables field value.
 func (o *DashboardOption) GetVariables() map[string]string {
 	if o == nil {
@@ -109,6 +116,7 @@ func (o *DashboardOption) GetVariablesOk() (*map[string]string, bool) {
 func (o *DashboardOption) SetVariables(v map[string]string) {
 	o.Variables = v
 }
+
 
 // GetInstancePanels returns the InstancePanels field value.
 func (o *DashboardOption) GetInstancePanels() []DashboardOptionInstancePanelsItem {
@@ -133,6 +141,8 @@ func (o *DashboardOption) SetInstancePanels(v []DashboardOptionInstancePanelsIte
 	o.InstancePanels = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DashboardOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -153,9 +163,9 @@ func (o DashboardOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DashboardOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string                              `json:"component"`
-		DashboardUid   *string                              `json:"dashboardUid"`
-		Variables      *map[string]string                   `json:"variables"`
+		Component *string `json:"component"`
+		DashboardUid *string `json:"dashboardUid"`
+		Variables *map[string]string `json:"variables"`
 		InstancePanels *[]DashboardOptionInstancePanelsItem `json:"instancePanels"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -175,7 +185,7 @@ func (o *DashboardOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "dashboardUid", "variables", "instancePanels"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "dashboardUid", "variables", "instancePanels",  })
 	} else {
 		return err
 	}

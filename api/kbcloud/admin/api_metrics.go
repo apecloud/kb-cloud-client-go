@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,7 +23,7 @@ type MetricsApi common.Service
 // GetAggregateMetaDataOptionalParameters holds optional parameters for GetAggregateMetaData.
 type GetAggregateMetaDataOptionalParameters struct {
 	Start *int64
-	End   *int64
+	End *int64
 }
 
 // NewGetAggregateMetaDataOptionalParameters creates an empty struct for parameters.
@@ -27,13 +31,11 @@ func NewGetAggregateMetaDataOptionalParameters() *GetAggregateMetaDataOptionalPa
 	this := GetAggregateMetaDataOptionalParameters{}
 	return &this
 }
-
 // WithStart sets the corresponding parameter name and returns the struct.
 func (r *GetAggregateMetaDataOptionalParameters) WithStart(start int64) *GetAggregateMetaDataOptionalParameters {
 	r.Start = &start
 	return r
 }
-
 // WithEnd sets the corresponding parameter name and returns the struct.
 func (r *GetAggregateMetaDataOptionalParameters) WithEnd(end int64) *GetAggregateMetaDataOptionalParameters {
 	r.End = &end
@@ -44,18 +46,20 @@ func (r *GetAggregateMetaDataOptionalParameters) WithEnd(end int64) *GetAggregat
 // Get aggregate meta data including total count and time series
 func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData AggregateMetaDataType, o ...GetAggregateMetaDataOptionalParameters) (AggregateMetaData, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AggregateMetaData
-		optionalParams      GetAggregateMetaDataOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AggregateMetaData
+		optionalParams GetAggregateMetaDataOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAggregateMetaDataOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetAggregateMetaDataOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetAggregateMetaData")
 	if err != nil {
@@ -76,7 +80,8 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -98,10 +103,11 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -115,7 +121,7 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -128,10 +134,12 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 // Get environment current stats
 func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue EnvironmentStats
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  EnvironmentStats
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetEnvironmentStats")
 	if err != nil {
@@ -145,7 +153,8 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -167,10 +176,11 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -184,7 +194,7 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -196,7 +206,7 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 // QueryClusterMetricsOptionalParameters holds optional parameters for QueryClusterMetrics.
 type QueryClusterMetricsOptionalParameters struct {
 	Start *int64
-	End   *int64
+	End *int64
 }
 
 // NewQueryClusterMetricsOptionalParameters creates an empty struct for parameters.
@@ -204,13 +214,11 @@ func NewQueryClusterMetricsOptionalParameters() *QueryClusterMetricsOptionalPara
 	this := QueryClusterMetricsOptionalParameters{}
 	return &this
 }
-
 // WithStart sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterMetricsOptionalParameters) WithStart(start int64) *QueryClusterMetricsOptionalParameters {
 	r.Start = &start
 	return r
 }
-
 // WithEnd sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterMetricsOptionalParameters) WithEnd(end int64) *QueryClusterMetricsOptionalParameters {
 	r.End = &end
@@ -221,18 +229,20 @@ func (r *QueryClusterMetricsOptionalParameters) WithEnd(end int64) *QueryCluster
 // Query cluster metrics by specified metric name and instance name, support instant and range query
 func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, o ...QueryClusterMetricsOptionalParameters) (ClusterMetrics, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ClusterMetrics
-		optionalParams      QueryClusterMetricsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ClusterMetrics
+		optionalParams QueryClusterMetricsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterMetricsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterMetricsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.QueryClusterMetrics")
 	if err != nil {
@@ -256,7 +266,8 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -278,10 +289,11 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -295,7 +307,7 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

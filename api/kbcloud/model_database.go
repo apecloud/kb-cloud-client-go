@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Database Cluster database information
+
+
+// Database Cluster database information 
 type Database struct {
 	// component type
 	Component *string `json:"component,omitempty"`
@@ -23,9 +28,10 @@ type Database struct {
 	// Description of the database.
 	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewDatabase instantiates a new Database object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,7 +50,6 @@ func NewDatabaseWithDefaults() *Database {
 	this := Database{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *Database) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -73,6 +78,7 @@ func (o *Database) SetComponent(v string) {
 	o.Component = &v
 }
 
+
 // GetName returns the Name field value.
 func (o *Database) GetName() string {
 	if o == nil {
@@ -95,6 +101,7 @@ func (o *Database) GetNameOk() (*string, bool) {
 func (o *Database) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetAccountName returns the AccountName field value if set, zero value otherwise.
 func (o *Database) GetAccountName() string {
@@ -124,6 +131,7 @@ func (o *Database) SetAccountName(v string) {
 	o.AccountName = &v
 }
 
+
 // GetCharset returns the Charset field value if set, zero value otherwise.
 func (o *Database) GetCharset() string {
 	if o == nil || o.Charset == nil {
@@ -152,6 +160,7 @@ func (o *Database) SetCharset(v string) {
 	o.Charset = &v
 }
 
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Database) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -179,6 +188,8 @@ func (o *Database) HasDescription() bool {
 func (o *Database) SetDescription(v string) {
 	o.Description = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Database) MarshalJSON() ([]byte, error) {
@@ -209,10 +220,10 @@ func (o Database) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component   *string `json:"component,omitempty"`
-		Name        *string `json:"name"`
+		Component *string `json:"component,omitempty"`
+		Name *string `json:"name"`
 		AccountName *string `json:"accountName,omitempty"`
-		Charset     *string `json:"charset,omitempty"`
+		Charset *string `json:"charset,omitempty"`
 		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -223,7 +234,7 @@ func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "name", "accountName", "charset", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "name", "accountName", "charset", "description",  })
 	} else {
 		return err
 	}

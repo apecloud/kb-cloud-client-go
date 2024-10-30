@@ -2,15 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type Metadb_restore struct {
 	// the namespace of new cluster, default value is original namespace
 	Namespace *string `json:"namespace,omitempty"`
@@ -23,18 +27,21 @@ type Metadb_restore struct {
 	// the duration time of restore execution
 	Duration *string `json:"duration,omitempty"`
 	// completion time
-	CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
+	CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
 	// start time
-	StartTimestamp *time.Time `json:"startTimestamp,omitempty"`
-	Cpu            *float64   `json:"cpu,omitempty"`
-	Memory         *float64   `json:"memory,omitempty"`
-	Storage        *float64   `json:"storage,omitempty"`
+	StartTimestamp *string `json:"startTimestamp,omitempty"`
+	Cpu *float64 `json:"cpu,omitempty"`
+	Memory *float64 `json:"memory,omitempty"`
+	Storage *float64 `json:"storage,omitempty"`
 	// the number of postgresql pods
 	Replicas *int32 `json:"replicas,omitempty"`
+	// whether pods are ready
+	Ready *string `json:"ready,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewMetadb_restore instantiates a new Metadb_restore object.
 // This constructor will assign default values to properties that have it defined,
@@ -53,7 +60,6 @@ func NewMetadb_restoreWithDefaults() *Metadb_restore {
 	this := Metadb_restore{}
 	return &this
 }
-
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *Metadb_restore) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
@@ -81,6 +87,7 @@ func (o *Metadb_restore) HasNamespace() bool {
 func (o *Metadb_restore) SetNamespace(v string) {
 	o.Namespace = &v
 }
+
 
 // GetBackupName returns the BackupName field value if set, zero value otherwise.
 func (o *Metadb_restore) GetBackupName() string {
@@ -110,6 +117,7 @@ func (o *Metadb_restore) SetBackupName(v string) {
 	o.BackupName = &v
 }
 
+
 // GetClusterName returns the ClusterName field value.
 func (o *Metadb_restore) GetClusterName() string {
 	if o == nil {
@@ -132,6 +140,7 @@ func (o *Metadb_restore) GetClusterNameOk() (*string, bool) {
 func (o *Metadb_restore) SetClusterName(v string) {
 	o.ClusterName = v
 }
+
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
 func (o *Metadb_restore) GetTimestamp() string {
@@ -161,6 +170,7 @@ func (o *Metadb_restore) SetTimestamp(v string) {
 	o.Timestamp = &v
 }
 
+
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *Metadb_restore) GetDuration() string {
 	if o == nil || o.Duration == nil {
@@ -189,10 +199,11 @@ func (o *Metadb_restore) SetDuration(v string) {
 	o.Duration = &v
 }
 
+
 // GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
-func (o *Metadb_restore) GetCompletionTimestamp() time.Time {
+func (o *Metadb_restore) GetCompletionTimestamp() string {
 	if o == nil || o.CompletionTimestamp == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.CompletionTimestamp
@@ -200,7 +211,7 @@ func (o *Metadb_restore) GetCompletionTimestamp() time.Time {
 
 // GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Metadb_restore) GetCompletionTimestampOk() (*time.Time, bool) {
+func (o *Metadb_restore) GetCompletionTimestampOk() (*string, bool) {
 	if o == nil || o.CompletionTimestamp == nil {
 		return nil, false
 	}
@@ -212,15 +223,16 @@ func (o *Metadb_restore) HasCompletionTimestamp() bool {
 	return o != nil && o.CompletionTimestamp != nil
 }
 
-// SetCompletionTimestamp gets a reference to the given time.Time and assigns it to the CompletionTimestamp field.
-func (o *Metadb_restore) SetCompletionTimestamp(v time.Time) {
+// SetCompletionTimestamp gets a reference to the given string and assigns it to the CompletionTimestamp field.
+func (o *Metadb_restore) SetCompletionTimestamp(v string) {
 	o.CompletionTimestamp = &v
 }
 
+
 // GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
-func (o *Metadb_restore) GetStartTimestamp() time.Time {
+func (o *Metadb_restore) GetStartTimestamp() string {
 	if o == nil || o.StartTimestamp == nil {
-		var ret time.Time
+		var ret string
 		return ret
 	}
 	return *o.StartTimestamp
@@ -228,7 +240,7 @@ func (o *Metadb_restore) GetStartTimestamp() time.Time {
 
 // GetStartTimestampOk returns a tuple with the StartTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Metadb_restore) GetStartTimestampOk() (*time.Time, bool) {
+func (o *Metadb_restore) GetStartTimestampOk() (*string, bool) {
 	if o == nil || o.StartTimestamp == nil {
 		return nil, false
 	}
@@ -240,10 +252,11 @@ func (o *Metadb_restore) HasStartTimestamp() bool {
 	return o != nil && o.StartTimestamp != nil
 }
 
-// SetStartTimestamp gets a reference to the given time.Time and assigns it to the StartTimestamp field.
-func (o *Metadb_restore) SetStartTimestamp(v time.Time) {
+// SetStartTimestamp gets a reference to the given string and assigns it to the StartTimestamp field.
+func (o *Metadb_restore) SetStartTimestamp(v string) {
 	o.StartTimestamp = &v
 }
+
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *Metadb_restore) GetCpu() float64 {
@@ -273,6 +286,7 @@ func (o *Metadb_restore) SetCpu(v float64) {
 	o.Cpu = &v
 }
 
+
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *Metadb_restore) GetMemory() float64 {
 	if o == nil || o.Memory == nil {
@@ -300,6 +314,7 @@ func (o *Metadb_restore) HasMemory() bool {
 func (o *Metadb_restore) SetMemory(v float64) {
 	o.Memory = &v
 }
+
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *Metadb_restore) GetStorage() float64 {
@@ -329,6 +344,7 @@ func (o *Metadb_restore) SetStorage(v float64) {
 	o.Storage = &v
 }
 
+
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *Metadb_restore) GetReplicas() int32 {
 	if o == nil || o.Replicas == nil {
@@ -357,6 +373,37 @@ func (o *Metadb_restore) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
+
+// GetReady returns the Ready field value if set, zero value otherwise.
+func (o *Metadb_restore) GetReady() string {
+	if o == nil || o.Ready == nil {
+		var ret string
+		return ret
+	}
+	return *o.Ready
+}
+
+// GetReadyOk returns a tuple with the Ready field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Metadb_restore) GetReadyOk() (*string, bool) {
+	if o == nil || o.Ready == nil {
+		return nil, false
+	}
+	return o.Ready, true
+}
+
+// HasReady returns a boolean if a field has been set.
+func (o *Metadb_restore) HasReady() bool {
+	return o != nil && o.Ready != nil
+}
+
+// SetReady gets a reference to the given string and assigns it to the Ready field.
+func (o *Metadb_restore) SetReady(v string) {
+	o.Ready = &v
+}
+
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Metadb_restore) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -377,18 +424,10 @@ func (o Metadb_restore) MarshalJSON() ([]byte, error) {
 		toSerialize["duration"] = o.Duration
 	}
 	if o.CompletionTimestamp != nil {
-		if o.CompletionTimestamp.Nanosecond() == 0 {
-			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+		toSerialize["completionTimestamp"] = o.CompletionTimestamp
 	}
 	if o.StartTimestamp != nil {
-		if o.StartTimestamp.Nanosecond() == 0 {
-			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+		toSerialize["startTimestamp"] = o.StartTimestamp
 	}
 	if o.Cpu != nil {
 		toSerialize["cpu"] = o.Cpu
@@ -402,6 +441,9 @@ func (o Metadb_restore) MarshalJSON() ([]byte, error) {
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
+	if o.Ready != nil {
+		toSerialize["ready"] = o.Ready
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -412,17 +454,18 @@ func (o Metadb_restore) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Metadb_restore) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Namespace           *string    `json:"namespace,omitempty"`
-		BackupName          *string    `json:"backupName,omitempty"`
-		ClusterName         *string    `json:"clusterName"`
-		Timestamp           *string    `json:"timestamp,omitempty"`
-		Duration            *string    `json:"duration,omitempty"`
-		CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
-		StartTimestamp      *time.Time `json:"startTimestamp,omitempty"`
-		Cpu                 *float64   `json:"cpu,omitempty"`
-		Memory              *float64   `json:"memory,omitempty"`
-		Storage             *float64   `json:"storage,omitempty"`
-		Replicas            *int32     `json:"replicas,omitempty"`
+		Namespace *string `json:"namespace,omitempty"`
+		BackupName *string `json:"backupName,omitempty"`
+		ClusterName *string `json:"clusterName"`
+		Timestamp *string `json:"timestamp,omitempty"`
+		Duration *string `json:"duration,omitempty"`
+		CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
+		StartTimestamp *string `json:"startTimestamp,omitempty"`
+		Cpu *float64 `json:"cpu,omitempty"`
+		Memory *float64 `json:"memory,omitempty"`
+		Storage *float64 `json:"storage,omitempty"`
+		Replicas *int32 `json:"replicas,omitempty"`
+		Ready *string `json:"ready,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -432,7 +475,7 @@ func (o *Metadb_restore) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "backupName", "clusterName", "timestamp", "duration", "completionTimestamp", "startTimestamp", "cpu", "memory", "storage", "replicas"})
+		common.DeleteKeys(additionalProperties, &[]string{ "namespace", "backupName", "clusterName", "timestamp", "duration", "completionTimestamp", "startTimestamp", "cpu", "memory", "storage", "replicas", "ready",  })
 	} else {
 		return err
 	}
@@ -447,6 +490,7 @@ func (o *Metadb_restore) UnmarshalJSON(bytes []byte) (err error) {
 	o.Memory = all.Memory
 	o.Storage = all.Storage
 	o.Replicas = all.Replicas
+	o.Ready = all.Ready
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

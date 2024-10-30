@@ -2,24 +2,34 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// RestoreStatus restore status
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// RestoreStatus restore status 
 type RestoreStatus struct {
 	Actions []RestoreStatusActionsItem `json:"actions,omitempty"`
 	// completion time
-	CompletionTimestamp *string                       `json:"completionTimestamp,omitempty"`
-	Conditions          []RestoreStatusConditionsItem `json:"conditions,omitempty"`
+	CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
+	Conditions []RestoreStatusConditionsItem `json:"conditions,omitempty"`
 	// restore phase
 	Phase *string `json:"phase,omitempty"`
 	// start time
 	StartTimestamp *string `json:"startTimestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRestoreStatus instantiates a new RestoreStatus object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +47,6 @@ func NewRestoreStatusWithDefaults() *RestoreStatus {
 	this := RestoreStatus{}
 	return &this
 }
-
 // GetActions returns the Actions field value if set, zero value otherwise.
 func (o *RestoreStatus) GetActions() []RestoreStatusActionsItem {
 	if o == nil || o.Actions == nil {
@@ -65,6 +74,7 @@ func (o *RestoreStatus) HasActions() bool {
 func (o *RestoreStatus) SetActions(v []RestoreStatusActionsItem) {
 	o.Actions = v
 }
+
 
 // GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
 func (o *RestoreStatus) GetCompletionTimestamp() string {
@@ -94,6 +104,7 @@ func (o *RestoreStatus) SetCompletionTimestamp(v string) {
 	o.CompletionTimestamp = &v
 }
 
+
 // GetConditions returns the Conditions field value if set, zero value otherwise.
 func (o *RestoreStatus) GetConditions() []RestoreStatusConditionsItem {
 	if o == nil || o.Conditions == nil {
@@ -121,6 +132,7 @@ func (o *RestoreStatus) HasConditions() bool {
 func (o *RestoreStatus) SetConditions(v []RestoreStatusConditionsItem) {
 	o.Conditions = v
 }
+
 
 // GetPhase returns the Phase field value if set, zero value otherwise.
 func (o *RestoreStatus) GetPhase() string {
@@ -150,6 +162,7 @@ func (o *RestoreStatus) SetPhase(v string) {
 	o.Phase = &v
 }
 
+
 // GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
 func (o *RestoreStatus) GetStartTimestamp() string {
 	if o == nil || o.StartTimestamp == nil {
@@ -177,6 +190,8 @@ func (o *RestoreStatus) HasStartTimestamp() bool {
 func (o *RestoreStatus) SetStartTimestamp(v string) {
 	o.StartTimestamp = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o RestoreStatus) MarshalJSON() ([]byte, error) {
@@ -209,18 +224,18 @@ func (o RestoreStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RestoreStatus) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Actions             []RestoreStatusActionsItem    `json:"actions,omitempty"`
-		CompletionTimestamp *string                       `json:"completionTimestamp,omitempty"`
-		Conditions          []RestoreStatusConditionsItem `json:"conditions,omitempty"`
-		Phase               *string                       `json:"phase,omitempty"`
-		StartTimestamp      *string                       `json:"startTimestamp,omitempty"`
+		Actions []RestoreStatusActionsItem `json:"actions,omitempty"`
+		CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
+		Conditions []RestoreStatusConditionsItem `json:"conditions,omitempty"`
+		Phase *string `json:"phase,omitempty"`
+		StartTimestamp *string `json:"startTimestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"actions", "completionTimestamp", "conditions", "phase", "startTimestamp"})
+		common.DeleteKeys(additionalProperties, &[]string{ "actions", "completionTimestamp", "conditions", "phase", "startTimestamp",  })
 	} else {
 		return err
 	}

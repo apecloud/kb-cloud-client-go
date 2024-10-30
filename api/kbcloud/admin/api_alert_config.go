@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type AlertConfigApi common.Service
 // GetAlertConfig Get alert config.
 func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (AlertConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertConfig
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertConfig
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.GetAlertConfig")
 	if err != nil {
@@ -37,7 +43,8 @@ func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (A
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -59,10 +66,11 @@ func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (A
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -76,7 +84,7 @@ func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (A
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -88,10 +96,12 @@ func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (A
 // GetAlertSMSConfig Get alert SMS config.
 func (a *AlertConfigApi) GetAlertSMSConfig(ctx _context.Context) (AlertSMSConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertSMSConfig
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertSMSConfig
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.GetAlertSMSConfig")
 	if err != nil {
@@ -105,7 +115,8 @@ func (a *AlertConfigApi) GetAlertSMSConfig(ctx _context.Context) (AlertSMSConfig
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -127,10 +138,11 @@ func (a *AlertConfigApi) GetAlertSMSConfig(ctx _context.Context) (AlertSMSConfig
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -144,7 +156,7 @@ func (a *AlertConfigApi) GetAlertSMSConfig(ctx _context.Context) (AlertSMSConfig
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -163,7 +175,6 @@ func NewSetAlertConfigOptionalParameters() *SetAlertConfigOptionalParameters {
 	this := SetAlertConfigOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *SetAlertConfigOptionalParameters) WithBody(body AlertConfig) *SetAlertConfigOptionalParameters {
 	r.Body = &body
@@ -173,18 +184,20 @@ func (r *SetAlertConfigOptionalParameters) WithBody(body AlertConfig) *SetAlertC
 // SetAlertConfig Set alert config.
 func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o ...SetAlertConfigOptionalParameters) (AlertConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue AlertConfig
-		optionalParams      SetAlertConfigOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertConfig
+		optionalParams SetAlertConfigOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type SetAlertConfigOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type SetAlertConfigOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.SetAlertConfig")
 	if err != nil {
@@ -200,11 +213,13 @@ func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -226,10 +241,11 @@ func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -243,7 +259,7 @@ func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -255,10 +271,12 @@ func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o 
 // UpdateAlertSMSConfig Update alert SMS config.
 func (a *AlertConfigApi) UpdateAlertSMSConfig(ctx _context.Context, body AlertSMSConfig) (AlertSMSConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue AlertSMSConfig
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertSMSConfig
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.UpdateAlertSMSConfig")
 	if err != nil {
@@ -273,9 +291,11 @@ func (a *AlertConfigApi) UpdateAlertSMSConfig(ctx _context.Context, body AlertSM
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -297,10 +317,11 @@ func (a *AlertConfigApi) UpdateAlertSMSConfig(ctx _context.Context, body AlertSM
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -314,7 +335,7 @@ func (a *AlertConfigApi) UpdateAlertSMSConfig(ctx _context.Context, body AlertSM
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

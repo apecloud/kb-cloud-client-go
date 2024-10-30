@@ -2,21 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type ClassBatch struct {
-	Engine           *string      `json:"engine,omitempty"`
-	Mode             *string      `json:"mode,omitempty"`
-	Component        *string      `json:"component,omitempty"`
-	Series           *ClassSeries `json:"series,omitempty"`
-	CpuOverCommit    *float64     `json:"cpuOverCommit,omitempty"`
-	MemoryOverCommit *float64     `json:"memoryOverCommit,omitempty"`
+	Engine *string `json:"engine,omitempty"`
+	Mode *string `json:"mode,omitempty"`
+	Component *string `json:"component,omitempty"`
+	Series *ClassSeries `json:"series,omitempty"`
+	CpuOverCommit *float64 `json:"cpuOverCommit,omitempty"`
+	MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewClassBatch instantiates a new ClassBatch object.
 // This constructor will assign default values to properties that have it defined,
@@ -34,7 +44,6 @@ func NewClassBatchWithDefaults() *ClassBatch {
 	this := ClassBatch{}
 	return &this
 }
-
 // GetEngine returns the Engine field value if set, zero value otherwise.
 func (o *ClassBatch) GetEngine() string {
 	if o == nil || o.Engine == nil {
@@ -62,6 +71,7 @@ func (o *ClassBatch) HasEngine() bool {
 func (o *ClassBatch) SetEngine(v string) {
 	o.Engine = &v
 }
+
 
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *ClassBatch) GetMode() string {
@@ -91,6 +101,7 @@ func (o *ClassBatch) SetMode(v string) {
 	o.Mode = &v
 }
 
+
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *ClassBatch) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -118,6 +129,7 @@ func (o *ClassBatch) HasComponent() bool {
 func (o *ClassBatch) SetComponent(v string) {
 	o.Component = &v
 }
+
 
 // GetSeries returns the Series field value if set, zero value otherwise.
 func (o *ClassBatch) GetSeries() ClassSeries {
@@ -147,6 +159,7 @@ func (o *ClassBatch) SetSeries(v ClassSeries) {
 	o.Series = &v
 }
 
+
 // GetCpuOverCommit returns the CpuOverCommit field value if set, zero value otherwise.
 func (o *ClassBatch) GetCpuOverCommit() float64 {
 	if o == nil || o.CpuOverCommit == nil {
@@ -175,6 +188,7 @@ func (o *ClassBatch) SetCpuOverCommit(v float64) {
 	o.CpuOverCommit = &v
 }
 
+
 // GetMemoryOverCommit returns the MemoryOverCommit field value if set, zero value otherwise.
 func (o *ClassBatch) GetMemoryOverCommit() float64 {
 	if o == nil || o.MemoryOverCommit == nil {
@@ -202,6 +216,8 @@ func (o *ClassBatch) HasMemoryOverCommit() bool {
 func (o *ClassBatch) SetMemoryOverCommit(v float64) {
 	o.MemoryOverCommit = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClassBatch) MarshalJSON() ([]byte, error) {
@@ -237,19 +253,19 @@ func (o ClassBatch) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClassBatch) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Engine           *string      `json:"engine,omitempty"`
-		Mode             *string      `json:"mode,omitempty"`
-		Component        *string      `json:"component,omitempty"`
-		Series           *ClassSeries `json:"series,omitempty"`
-		CpuOverCommit    *float64     `json:"cpuOverCommit,omitempty"`
-		MemoryOverCommit *float64     `json:"memoryOverCommit,omitempty"`
+		Engine *string `json:"engine,omitempty"`
+		Mode *string `json:"mode,omitempty"`
+		Component *string `json:"component,omitempty"`
+		Series *ClassSeries `json:"series,omitempty"`
+		CpuOverCommit *float64 `json:"cpuOverCommit,omitempty"`
+		MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engine", "mode", "component", "series", "cpuOverCommit", "memoryOverCommit"})
+		common.DeleteKeys(additionalProperties, &[]string{ "engine", "mode", "component", "series", "cpuOverCommit", "memoryOverCommit",  })
 	} else {
 		return err
 	}
@@ -258,7 +274,7 @@ func (o *ClassBatch) UnmarshalJSON(bytes []byte) (err error) {
 	o.Engine = all.Engine
 	o.Mode = all.Mode
 	o.Component = all.Component
-	if all.Series != nil && !all.Series.IsValid() {
+	if all.Series != nil &&!all.Series.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Series = all.Series

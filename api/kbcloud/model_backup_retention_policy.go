@@ -2,20 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // BackupRetentionPolicy backup retention policy when cluster is deleted
 type BackupRetentionPolicy string
 
 // List of BackupRetentionPolicy.
 const (
-	BackupRetentionPolicyAll     BackupRetentionPolicy = "All"
+	BackupRetentionPolicyAll BackupRetentionPolicy = "All"
 	BackupRetentionPolicyLastOne BackupRetentionPolicy = "LastOne"
 	BackupRetentionPolicyWipeOut BackupRetentionPolicy = "WipeOut"
 )

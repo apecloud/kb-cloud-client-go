@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// RegionGroupUpdate The region group that needs to be updated.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// RegionGroupUpdate The region group that needs to be updated. 
 type RegionGroupUpdate struct {
 	// The Chinese name of the region group.
 	GroupCn *string `json:"groupCN,omitempty"`
 	// The English name of the region group.
 	GroupEn *string `json:"groupEN,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRegionGroupUpdate instantiates a new RegionGroupUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewRegionGroupUpdateWithDefaults() *RegionGroupUpdate {
 	this := RegionGroupUpdate{}
 	return &this
 }
-
 // GetGroupCn returns the GroupCn field value if set, zero value otherwise.
 func (o *RegionGroupUpdate) GetGroupCn() string {
 	if o == nil || o.GroupCn == nil {
@@ -62,6 +71,7 @@ func (o *RegionGroupUpdate) SetGroupCn(v string) {
 	o.GroupCn = &v
 }
 
+
 // GetGroupEn returns the GroupEn field value if set, zero value otherwise.
 func (o *RegionGroupUpdate) GetGroupEn() string {
 	if o == nil || o.GroupEn == nil {
@@ -89,6 +99,8 @@ func (o *RegionGroupUpdate) HasGroupEn() bool {
 func (o *RegionGroupUpdate) SetGroupEn(v string) {
 	o.GroupEn = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o RegionGroupUpdate) MarshalJSON() ([]byte, error) {
@@ -120,7 +132,7 @@ func (o *RegionGroupUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"groupCN", "groupEN"})
+		common.DeleteKeys(additionalProperties, &[]string{ "groupCN", "groupEN",  })
 	} else {
 		return err
 	}

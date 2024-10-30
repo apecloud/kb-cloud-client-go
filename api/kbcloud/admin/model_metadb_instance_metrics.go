@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Metadb_instanceMetrics instance metrics
+
+
+// Metadb_instanceMetrics instance metrics 
 type Metadb_instanceMetrics struct {
 	// the name of the instance
 	InstanceName string `json:"instanceName"`
@@ -19,9 +24,10 @@ type Metadb_instanceMetrics struct {
 	// memory with uint Gi.
 	MemoryUsage string `json:"memoryUsage"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewMetadb_instanceMetrics instantiates a new Metadb_instanceMetrics object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,7 +48,6 @@ func NewMetadb_instanceMetricsWithDefaults() *Metadb_instanceMetrics {
 	this := Metadb_instanceMetrics{}
 	return &this
 }
-
 // GetInstanceName returns the InstanceName field value.
 func (o *Metadb_instanceMetrics) GetInstanceName() string {
 	if o == nil {
@@ -65,6 +70,7 @@ func (o *Metadb_instanceMetrics) GetInstanceNameOk() (*string, bool) {
 func (o *Metadb_instanceMetrics) SetInstanceName(v string) {
 	o.InstanceName = v
 }
+
 
 // GetCpuUsage returns the CpuUsage field value.
 func (o *Metadb_instanceMetrics) GetCpuUsage() string {
@@ -89,6 +95,7 @@ func (o *Metadb_instanceMetrics) SetCpuUsage(v string) {
 	o.CpuUsage = v
 }
 
+
 // GetMemoryUsage returns the MemoryUsage field value.
 func (o *Metadb_instanceMetrics) GetMemoryUsage() string {
 	if o == nil {
@@ -112,6 +119,8 @@ func (o *Metadb_instanceMetrics) SetMemoryUsage(v string) {
 	o.MemoryUsage = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Metadb_instanceMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -132,8 +141,8 @@ func (o Metadb_instanceMetrics) MarshalJSON() ([]byte, error) {
 func (o *Metadb_instanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		InstanceName *string `json:"instanceName"`
-		CpuUsage     *string `json:"cpuUsage"`
-		MemoryUsage  *string `json:"memoryUsage"`
+		CpuUsage *string `json:"cpuUsage"`
+		MemoryUsage *string `json:"memoryUsage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -149,7 +158,7 @@ func (o *Metadb_instanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"instanceName", "cpuUsage", "memoryUsage"})
+		common.DeleteKeys(additionalProperties, &[]string{ "instanceName", "cpuUsage", "memoryUsage",  })
 	} else {
 		return err
 	}

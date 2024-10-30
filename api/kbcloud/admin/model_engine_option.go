@@ -2,44 +2,50 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type EngineOption struct {
-	EngineName       string               `json:"engineName"`
-	Title            string               `json:"title"`
-	Description      LocalizedDescription `json:"description"`
-	Versions         []string             `json:"versions"`
-	Components       []ComponentOption    `json:"components"`
-	Modes            []ModeOption         `json:"modes"`
-	Account          AccountOption        `json:"account"`
-	Database         *DatabaseOption      `json:"database,omitempty"`
-	Dms              DmsOption            `json:"dms"`
-	Backup           BackupOption         `json:"backup"`
-	Bench            BenchOption          `json:"bench"`
-	Endpoints        []EndpointOption     `json:"endpoints"`
-	Promote          []ComponentOpsOption `json:"promote"`
-	Stop             []ComponentOpsOption `json:"stop"`
-	Start            []ComponentOpsOption `json:"start"`
-	Restart          []ComponentOpsOption `json:"restart"`
-	Hscale           []ComponentOpsOption `json:"hscale"`
-	Vscale           []ComponentOpsOption `json:"vscale"`
-	License          *EngineOptionLicense `json:"license,omitempty"`
+	EngineName string `json:"engineName"`
+	Title string `json:"title"`
+	Description LocalizedDescription `json:"description"`
+	Versions []string `json:"versions"`
+	Components []ComponentOption `json:"components"`
+	Modes []ModeOption `json:"modes"`
+	Account AccountOption `json:"account"`
+	Database *DatabaseOption `json:"database,omitempty"`
+	Dms DmsOption `json:"dms"`
+	Backup BackupOption `json:"backup"`
+	Bench BenchOption `json:"bench"`
+	Endpoints []EndpointOption `json:"endpoints"`
+	Promote []ComponentOpsOption `json:"promote"`
+	Stop []ComponentOpsOption `json:"stop"`
+	Start []ComponentOpsOption `json:"start"`
+	Restart []ComponentOpsOption `json:"restart"`
+	Hscale []ComponentOpsOption `json:"hscale"`
+	Vscale []ComponentOpsOption `json:"vscale"`
+	License *EngineOptionLicense `json:"license,omitempty"`
 	StorageExpansion []ComponentOpsOption `json:"storageExpansion"`
-	RebuildInstance  []ComponentOpsOption `json:"rebuildInstance,omitempty"`
-	Metrics          MetricsOption        `json:"metrics"`
-	Dashboards       []DashboardOption    `json:"dashboards"`
-	Logs             []LogOption          `json:"logs"`
-	Parameters       []ParameterOption    `json:"parameters"`
+	RebuildInstance []ComponentOpsOption `json:"rebuildInstance,omitempty"`
+	Metrics MetricsOption `json:"metrics"`
+	Dashboards []DashboardOption `json:"dashboards"`
+	Logs []LogOption `json:"logs"`
+	Parameters []ParameterOption `json:"parameters"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineOption instantiates a new EngineOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -79,7 +85,6 @@ func NewEngineOptionWithDefaults() *EngineOption {
 	this := EngineOption{}
 	return &this
 }
-
 // GetEngineName returns the EngineName field value.
 func (o *EngineOption) GetEngineName() string {
 	if o == nil {
@@ -102,6 +107,7 @@ func (o *EngineOption) GetEngineNameOk() (*string, bool) {
 func (o *EngineOption) SetEngineName(v string) {
 	o.EngineName = v
 }
+
 
 // GetTitle returns the Title field value.
 func (o *EngineOption) GetTitle() string {
@@ -126,6 +132,7 @@ func (o *EngineOption) SetTitle(v string) {
 	o.Title = v
 }
 
+
 // GetDescription returns the Description field value.
 func (o *EngineOption) GetDescription() LocalizedDescription {
 	if o == nil {
@@ -148,6 +155,7 @@ func (o *EngineOption) GetDescriptionOk() (*LocalizedDescription, bool) {
 func (o *EngineOption) SetDescription(v LocalizedDescription) {
 	o.Description = v
 }
+
 
 // GetVersions returns the Versions field value.
 func (o *EngineOption) GetVersions() []string {
@@ -172,6 +180,7 @@ func (o *EngineOption) SetVersions(v []string) {
 	o.Versions = v
 }
 
+
 // GetComponents returns the Components field value.
 func (o *EngineOption) GetComponents() []ComponentOption {
 	if o == nil {
@@ -194,6 +203,7 @@ func (o *EngineOption) GetComponentsOk() (*[]ComponentOption, bool) {
 func (o *EngineOption) SetComponents(v []ComponentOption) {
 	o.Components = v
 }
+
 
 // GetModes returns the Modes field value.
 func (o *EngineOption) GetModes() []ModeOption {
@@ -218,6 +228,7 @@ func (o *EngineOption) SetModes(v []ModeOption) {
 	o.Modes = v
 }
 
+
 // GetAccount returns the Account field value.
 func (o *EngineOption) GetAccount() AccountOption {
 	if o == nil {
@@ -240,6 +251,7 @@ func (o *EngineOption) GetAccountOk() (*AccountOption, bool) {
 func (o *EngineOption) SetAccount(v AccountOption) {
 	o.Account = v
 }
+
 
 // GetDatabase returns the Database field value if set, zero value otherwise.
 func (o *EngineOption) GetDatabase() DatabaseOption {
@@ -269,6 +281,7 @@ func (o *EngineOption) SetDatabase(v DatabaseOption) {
 	o.Database = &v
 }
 
+
 // GetDms returns the Dms field value.
 func (o *EngineOption) GetDms() DmsOption {
 	if o == nil {
@@ -291,6 +304,7 @@ func (o *EngineOption) GetDmsOk() (*DmsOption, bool) {
 func (o *EngineOption) SetDms(v DmsOption) {
 	o.Dms = v
 }
+
 
 // GetBackup returns the Backup field value.
 func (o *EngineOption) GetBackup() BackupOption {
@@ -315,6 +329,7 @@ func (o *EngineOption) SetBackup(v BackupOption) {
 	o.Backup = v
 }
 
+
 // GetBench returns the Bench field value.
 func (o *EngineOption) GetBench() BenchOption {
 	if o == nil {
@@ -337,6 +352,7 @@ func (o *EngineOption) GetBenchOk() (*BenchOption, bool) {
 func (o *EngineOption) SetBench(v BenchOption) {
 	o.Bench = v
 }
+
 
 // GetEndpoints returns the Endpoints field value.
 func (o *EngineOption) GetEndpoints() []EndpointOption {
@@ -361,6 +377,7 @@ func (o *EngineOption) SetEndpoints(v []EndpointOption) {
 	o.Endpoints = v
 }
 
+
 // GetPromote returns the Promote field value.
 func (o *EngineOption) GetPromote() []ComponentOpsOption {
 	if o == nil {
@@ -383,6 +400,7 @@ func (o *EngineOption) GetPromoteOk() (*[]ComponentOpsOption, bool) {
 func (o *EngineOption) SetPromote(v []ComponentOpsOption) {
 	o.Promote = v
 }
+
 
 // GetStop returns the Stop field value.
 func (o *EngineOption) GetStop() []ComponentOpsOption {
@@ -407,6 +425,7 @@ func (o *EngineOption) SetStop(v []ComponentOpsOption) {
 	o.Stop = v
 }
 
+
 // GetStart returns the Start field value.
 func (o *EngineOption) GetStart() []ComponentOpsOption {
 	if o == nil {
@@ -429,6 +448,7 @@ func (o *EngineOption) GetStartOk() (*[]ComponentOpsOption, bool) {
 func (o *EngineOption) SetStart(v []ComponentOpsOption) {
 	o.Start = v
 }
+
 
 // GetRestart returns the Restart field value.
 func (o *EngineOption) GetRestart() []ComponentOpsOption {
@@ -453,6 +473,7 @@ func (o *EngineOption) SetRestart(v []ComponentOpsOption) {
 	o.Restart = v
 }
 
+
 // GetHscale returns the Hscale field value.
 func (o *EngineOption) GetHscale() []ComponentOpsOption {
 	if o == nil {
@@ -476,6 +497,7 @@ func (o *EngineOption) SetHscale(v []ComponentOpsOption) {
 	o.Hscale = v
 }
 
+
 // GetVscale returns the Vscale field value.
 func (o *EngineOption) GetVscale() []ComponentOpsOption {
 	if o == nil {
@@ -498,6 +520,7 @@ func (o *EngineOption) GetVscaleOk() (*[]ComponentOpsOption, bool) {
 func (o *EngineOption) SetVscale(v []ComponentOpsOption) {
 	o.Vscale = v
 }
+
 
 // GetLicense returns the License field value if set, zero value otherwise.
 func (o *EngineOption) GetLicense() EngineOptionLicense {
@@ -527,6 +550,7 @@ func (o *EngineOption) SetLicense(v EngineOptionLicense) {
 	o.License = &v
 }
 
+
 // GetStorageExpansion returns the StorageExpansion field value.
 func (o *EngineOption) GetStorageExpansion() []ComponentOpsOption {
 	if o == nil {
@@ -549,6 +573,7 @@ func (o *EngineOption) GetStorageExpansionOk() (*[]ComponentOpsOption, bool) {
 func (o *EngineOption) SetStorageExpansion(v []ComponentOpsOption) {
 	o.StorageExpansion = v
 }
+
 
 // GetRebuildInstance returns the RebuildInstance field value if set, zero value otherwise.
 func (o *EngineOption) GetRebuildInstance() []ComponentOpsOption {
@@ -578,6 +603,7 @@ func (o *EngineOption) SetRebuildInstance(v []ComponentOpsOption) {
 	o.RebuildInstance = v
 }
 
+
 // GetMetrics returns the Metrics field value.
 func (o *EngineOption) GetMetrics() MetricsOption {
 	if o == nil {
@@ -600,6 +626,7 @@ func (o *EngineOption) GetMetricsOk() (*MetricsOption, bool) {
 func (o *EngineOption) SetMetrics(v MetricsOption) {
 	o.Metrics = v
 }
+
 
 // GetDashboards returns the Dashboards field value.
 func (o *EngineOption) GetDashboards() []DashboardOption {
@@ -624,6 +651,7 @@ func (o *EngineOption) SetDashboards(v []DashboardOption) {
 	o.Dashboards = v
 }
 
+
 // GetLogs returns the Logs field value.
 func (o *EngineOption) GetLogs() []LogOption {
 	if o == nil {
@@ -647,6 +675,7 @@ func (o *EngineOption) SetLogs(v []LogOption) {
 	o.Logs = v
 }
 
+
 // GetParameters returns the Parameters field value.
 func (o *EngineOption) GetParameters() []ParameterOption {
 	if o == nil {
@@ -669,6 +698,8 @@ func (o *EngineOption) GetParametersOk() (*[]ParameterOption, bool) {
 func (o *EngineOption) SetParameters(v []ParameterOption) {
 	o.Parameters = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
@@ -717,31 +748,31 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName       *string               `json:"engineName"`
-		Title            *string               `json:"title"`
-		Description      *LocalizedDescription `json:"description"`
-		Versions         *[]string             `json:"versions"`
-		Components       *[]ComponentOption    `json:"components"`
-		Modes            *[]ModeOption         `json:"modes"`
-		Account          *AccountOption        `json:"account"`
-		Database         *DatabaseOption       `json:"database,omitempty"`
-		Dms              *DmsOption            `json:"dms"`
-		Backup           *BackupOption         `json:"backup"`
-		Bench            *BenchOption          `json:"bench"`
-		Endpoints        *[]EndpointOption     `json:"endpoints"`
-		Promote          *[]ComponentOpsOption `json:"promote"`
-		Stop             *[]ComponentOpsOption `json:"stop"`
-		Start            *[]ComponentOpsOption `json:"start"`
-		Restart          *[]ComponentOpsOption `json:"restart"`
-		Hscale           *[]ComponentOpsOption `json:"hscale"`
-		Vscale           *[]ComponentOpsOption `json:"vscale"`
-		License          *EngineOptionLicense  `json:"license,omitempty"`
+		EngineName *string `json:"engineName"`
+		Title *string `json:"title"`
+		Description *LocalizedDescription `json:"description"`
+		Versions *[]string `json:"versions"`
+		Components *[]ComponentOption `json:"components"`
+		Modes *[]ModeOption `json:"modes"`
+		Account *AccountOption `json:"account"`
+		Database *DatabaseOption `json:"database,omitempty"`
+		Dms *DmsOption `json:"dms"`
+		Backup *BackupOption `json:"backup"`
+		Bench *BenchOption `json:"bench"`
+		Endpoints *[]EndpointOption `json:"endpoints"`
+		Promote *[]ComponentOpsOption `json:"promote"`
+		Stop *[]ComponentOpsOption `json:"stop"`
+		Start *[]ComponentOpsOption `json:"start"`
+		Restart *[]ComponentOpsOption `json:"restart"`
+		Hscale *[]ComponentOpsOption `json:"hscale"`
+		Vscale *[]ComponentOpsOption `json:"vscale"`
+		License *EngineOptionLicense `json:"license,omitempty"`
 		StorageExpansion *[]ComponentOpsOption `json:"storageExpansion"`
-		RebuildInstance  []ComponentOpsOption  `json:"rebuildInstance,omitempty"`
-		Metrics          *MetricsOption        `json:"metrics"`
-		Dashboards       *[]DashboardOption    `json:"dashboards"`
-		Logs             *[]LogOption          `json:"logs"`
-		Parameters       *[]ParameterOption    `json:"parameters"`
+		RebuildInstance []ComponentOpsOption `json:"rebuildInstance,omitempty"`
+		Metrics *MetricsOption `json:"metrics"`
+		Dashboards *[]DashboardOption `json:"dashboards"`
+		Logs *[]LogOption `json:"logs"`
+		Parameters *[]ParameterOption `json:"parameters"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -814,7 +845,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters"})
+		common.DeleteKeys(additionalProperties, &[]string{ "engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters",  })
 	} else {
 		return err
 	}
@@ -833,7 +864,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Account = *all.Account
-	if all.Database != nil && all.Database.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Database != nil && all.Database.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Database = all.Database
@@ -856,7 +887,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Restart = *all.Restart
 	o.Hscale = *all.Hscale
 	o.Vscale = *all.Vscale
-	if all.License != nil && all.License.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.License != nil && all.License.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.License = all.License

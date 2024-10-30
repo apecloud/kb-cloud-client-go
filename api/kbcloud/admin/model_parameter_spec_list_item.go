@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ParameterSpecListItem With the list of parameterSpecs and the configuration file name
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ParameterSpecListItem With the list of parameterSpecs and the configuration file name 
 type ParameterSpecListItem struct {
 	Specs []ParameterSpec `json:"specs,omitempty"`
 	// The name of the configuration file
 	FileName *string `json:"fileName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewParameterSpecListItem instantiates a new ParameterSpecListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewParameterSpecListItemWithDefaults() *ParameterSpecListItem {
 	this := ParameterSpecListItem{}
 	return &this
 }
-
 // GetSpecs returns the Specs field value if set, zero value otherwise.
 func (o *ParameterSpecListItem) GetSpecs() []ParameterSpec {
 	if o == nil || o.Specs == nil {
@@ -60,6 +69,7 @@ func (o *ParameterSpecListItem) HasSpecs() bool {
 func (o *ParameterSpecListItem) SetSpecs(v []ParameterSpec) {
 	o.Specs = v
 }
+
 
 // GetFileName returns the FileName field value if set, zero value otherwise.
 func (o *ParameterSpecListItem) GetFileName() string {
@@ -89,6 +99,8 @@ func (o *ParameterSpecListItem) SetFileName(v string) {
 	o.FileName = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterSpecListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -111,15 +123,15 @@ func (o ParameterSpecListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterSpecListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Specs    []ParameterSpec `json:"specs,omitempty"`
-		FileName *string         `json:"fileName,omitempty"`
+		Specs []ParameterSpec `json:"specs,omitempty"`
+		FileName *string `json:"fileName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specs", "fileName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "specs", "fileName",  })
 	} else {
 		return err
 	}

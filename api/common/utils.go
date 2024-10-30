@@ -2,6 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package common
 
 import (
@@ -11,7 +12,6 @@ import (
 	"reflect"
 	"strings"
 	"time"
-	"unicode/utf8"
 )
 
 // PtrBool is a helper routine that returns a pointer to given boolean value.
@@ -43,7 +43,7 @@ func Ptr[T any](v T) *T { return &v }
 
 // PaginationResult pagination item helper struct
 type PaginationResult[T any] struct {
-	Item  T
+	Item T
 	Error error
 }
 

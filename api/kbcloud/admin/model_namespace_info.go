@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// NamespaceInfo Namespace info
+
+
+// NamespaceInfo Namespace info 
 type NamespaceInfo struct {
 	// Namespace
 	Namespace string `json:"namespace"`
 	// Clusters in the namespace
 	Clusters int32 `json:"clusters"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewNamespaceInfo instantiates a new NamespaceInfo object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewNamespaceInfoWithDefaults() *NamespaceInfo {
 	this := NamespaceInfo{}
 	return &this
 }
-
 // GetNamespace returns the Namespace field value.
 func (o *NamespaceInfo) GetNamespace() string {
 	if o == nil {
@@ -62,6 +67,7 @@ func (o *NamespaceInfo) GetNamespaceOk() (*string, bool) {
 func (o *NamespaceInfo) SetNamespace(v string) {
 	o.Namespace = v
 }
+
 
 // GetClusters returns the Clusters field value.
 func (o *NamespaceInfo) GetClusters() int32 {
@@ -86,6 +92,8 @@ func (o *NamespaceInfo) SetClusters(v int32) {
 	o.Clusters = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NamespaceInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -105,7 +113,7 @@ func (o NamespaceInfo) MarshalJSON() ([]byte, error) {
 func (o *NamespaceInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Namespace *string `json:"namespace"`
-		Clusters  *int32  `json:"clusters"`
+		Clusters *int32 `json:"clusters"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -118,7 +126,7 @@ func (o *NamespaceInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "clusters"})
+		common.DeleteKeys(additionalProperties, &[]string{ "namespace", "clusters",  })
 	} else {
 		return err
 	}

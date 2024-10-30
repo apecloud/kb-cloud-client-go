@@ -2,23 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type BenchOption struct {
-	Pgbench  bool `json:"pgbench"`
+	Pgbench bool `json:"pgbench"`
 	Sysbench bool `json:"sysbench"`
-	Tpcc     bool `json:"tpcc"`
-	Ycsb     bool `json:"ycsb"`
+	Tpcc bool `json:"tpcc"`
+	Ycsb bool `json:"ycsb"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewBenchOption instantiates a new BenchOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewBenchOptionWithDefaults() *BenchOption {
 	this := BenchOption{}
 	return &this
 }
-
 // GetPgbench returns the Pgbench field value.
 func (o *BenchOption) GetPgbench() bool {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *BenchOption) GetPgbenchOk() (*bool, bool) {
 func (o *BenchOption) SetPgbench(v bool) {
 	o.Pgbench = v
 }
+
 
 // GetSysbench returns the Sysbench field value.
 func (o *BenchOption) GetSysbench() bool {
@@ -87,6 +93,7 @@ func (o *BenchOption) SetSysbench(v bool) {
 	o.Sysbench = v
 }
 
+
 // GetTpcc returns the Tpcc field value.
 func (o *BenchOption) GetTpcc() bool {
 	if o == nil {
@@ -109,6 +116,7 @@ func (o *BenchOption) GetTpccOk() (*bool, bool) {
 func (o *BenchOption) SetTpcc(v bool) {
 	o.Tpcc = v
 }
+
 
 // GetYcsb returns the Ycsb field value.
 func (o *BenchOption) GetYcsb() bool {
@@ -133,6 +141,8 @@ func (o *BenchOption) SetYcsb(v bool) {
 	o.Ycsb = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BenchOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -153,10 +163,10 @@ func (o BenchOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Pgbench  *bool `json:"pgbench"`
+		Pgbench *bool `json:"pgbench"`
 		Sysbench *bool `json:"sysbench"`
-		Tpcc     *bool `json:"tpcc"`
-		Ycsb     *bool `json:"ycsb"`
+		Tpcc *bool `json:"tpcc"`
+		Ycsb *bool `json:"ycsb"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -175,7 +185,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pgbench", "sysbench", "tpcc", "ycsb"})
+		common.DeleteKeys(additionalProperties, &[]string{ "pgbench", "sysbench", "tpcc", "ycsb",  })
 	} else {
 		return err
 	}

@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AutohealingConfig cluster instance autohealing process config
+
+
+// AutohealingConfig cluster instance autohealing process config 
 type AutohealingConfig struct {
 	// Set to true to pause the auto-healing process, preventing automatic rebuilding of instances when a node fails or is in maintenance mode.
 	PauseAutoHealingOnNodeUnavailable bool `json:"pauseAutoHealingOnNodeUnavailable"`
@@ -21,9 +26,10 @@ type AutohealingConfig struct {
 	// The maximum number of rebuild jobs that can run simultaneously for a single node.
 	RebuildConcurrencyPerNode int32 `json:"rebuildConcurrencyPerNode"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAutohealingConfig instantiates a new AutohealingConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,7 +51,6 @@ func NewAutohealingConfigWithDefaults() *AutohealingConfig {
 	this := AutohealingConfig{}
 	return &this
 }
-
 // GetPauseAutoHealingOnNodeUnavailable returns the PauseAutoHealingOnNodeUnavailable field value.
 func (o *AutohealingConfig) GetPauseAutoHealingOnNodeUnavailable() bool {
 	if o == nil {
@@ -68,6 +73,7 @@ func (o *AutohealingConfig) GetPauseAutoHealingOnNodeUnavailableOk() (*bool, boo
 func (o *AutohealingConfig) SetPauseAutoHealingOnNodeUnavailable(v bool) {
 	o.PauseAutoHealingOnNodeUnavailable = v
 }
+
 
 // GetRebuildStartDelaySeconds returns the RebuildStartDelaySeconds field value.
 func (o *AutohealingConfig) GetRebuildStartDelaySeconds() int32 {
@@ -92,6 +98,7 @@ func (o *AutohealingConfig) SetRebuildStartDelaySeconds(v int32) {
 	o.RebuildStartDelaySeconds = v
 }
 
+
 // GetMinClusterRebuildIntervalSeconds returns the MinClusterRebuildIntervalSeconds field value.
 func (o *AutohealingConfig) GetMinClusterRebuildIntervalSeconds() int32 {
 	if o == nil {
@@ -114,6 +121,7 @@ func (o *AutohealingConfig) GetMinClusterRebuildIntervalSecondsOk() (*int32, boo
 func (o *AutohealingConfig) SetMinClusterRebuildIntervalSeconds(v int32) {
 	o.MinClusterRebuildIntervalSeconds = v
 }
+
 
 // GetRebuildConcurrencyPerNode returns the RebuildConcurrencyPerNode field value.
 func (o *AutohealingConfig) GetRebuildConcurrencyPerNode() int32 {
@@ -138,6 +146,8 @@ func (o *AutohealingConfig) SetRebuildConcurrencyPerNode(v int32) {
 	o.RebuildConcurrencyPerNode = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AutohealingConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,10 +168,10 @@ func (o AutohealingConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AutohealingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PauseAutoHealingOnNodeUnavailable *bool  `json:"pauseAutoHealingOnNodeUnavailable"`
-		RebuildStartDelaySeconds          *int32 `json:"rebuildStartDelaySeconds"`
-		MinClusterRebuildIntervalSeconds  *int32 `json:"minClusterRebuildIntervalSeconds"`
-		RebuildConcurrencyPerNode         *int32 `json:"rebuildConcurrencyPerNode"`
+		PauseAutoHealingOnNodeUnavailable *bool `json:"pauseAutoHealingOnNodeUnavailable"`
+		RebuildStartDelaySeconds *int32 `json:"rebuildStartDelaySeconds"`
+		MinClusterRebuildIntervalSeconds *int32 `json:"minClusterRebuildIntervalSeconds"`
+		RebuildConcurrencyPerNode *int32 `json:"rebuildConcurrencyPerNode"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -180,7 +190,7 @@ func (o *AutohealingConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pauseAutoHealingOnNodeUnavailable", "rebuildStartDelaySeconds", "minClusterRebuildIntervalSeconds", "rebuildConcurrencyPerNode"})
+		common.DeleteKeys(additionalProperties, &[]string{ "pauseAutoHealingOnNodeUnavailable", "rebuildStartDelaySeconds", "minClusterRebuildIntervalSeconds", "rebuildConcurrencyPerNode",  })
 	} else {
 		return err
 	}

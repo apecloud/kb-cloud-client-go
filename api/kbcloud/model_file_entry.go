@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// FileEntry the entry of files
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// FileEntry the entry of files 
 type FileEntry struct {
 	// description the entry type
 	IsDir *bool `json:"IsDir,omitempty"`
@@ -17,9 +26,10 @@ type FileEntry struct {
 	// the size of entry
 	Size *int64 `json:"size,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewFileEntry instantiates a new FileEntry object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +47,6 @@ func NewFileEntryWithDefaults() *FileEntry {
 	this := FileEntry{}
 	return &this
 }
-
 // GetIsDir returns the IsDir field value if set, zero value otherwise.
 func (o *FileEntry) GetIsDir() bool {
 	if o == nil || o.IsDir == nil {
@@ -65,6 +74,7 @@ func (o *FileEntry) HasIsDir() bool {
 func (o *FileEntry) SetIsDir(v bool) {
 	o.IsDir = &v
 }
+
 
 // GetFullPath returns the FullPath field value if set, zero value otherwise.
 func (o *FileEntry) GetFullPath() string {
@@ -94,6 +104,7 @@ func (o *FileEntry) SetFullPath(v string) {
 	o.FullPath = &v
 }
 
+
 // GetFilename returns the Filename field value if set, zero value otherwise.
 func (o *FileEntry) GetFilename() string {
 	if o == nil || o.Filename == nil {
@@ -121,6 +132,7 @@ func (o *FileEntry) HasFilename() bool {
 func (o *FileEntry) SetFilename(v string) {
 	o.Filename = &v
 }
+
 
 // GetSize returns the Size field value if set, zero value otherwise.
 func (o *FileEntry) GetSize() int64 {
@@ -150,6 +162,8 @@ func (o *FileEntry) SetSize(v int64) {
 	o.Size = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o FileEntry) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -178,17 +192,17 @@ func (o FileEntry) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *FileEntry) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		IsDir    *bool   `json:"IsDir,omitempty"`
+		IsDir *bool `json:"IsDir,omitempty"`
 		FullPath *string `json:"fullPath,omitempty"`
 		Filename *string `json:"filename,omitempty"`
-		Size     *int64  `json:"size,omitempty"`
+		Size *int64 `json:"size,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"IsDir", "fullPath", "filename", "size"})
+		common.DeleteKeys(additionalProperties, &[]string{ "IsDir", "fullPath", "filename", "size",  })
 	} else {
 		return err
 	}

@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// TlsConfig Configuration for TLS including all certificates and keys
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// TlsConfig Configuration for TLS including all certificates and keys 
 type TlsConfig struct {
 	// CA Certificate
 	CaCert *string `json:"caCert,omitempty"`
@@ -19,9 +28,10 @@ type TlsConfig struct {
 	// Truststore in PEM format
 	Truststore *string `json:"truststore,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewTlsConfig instantiates a new TlsConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +49,6 @@ func NewTlsConfigWithDefaults() *TlsConfig {
 	this := TlsConfig{}
 	return &this
 }
-
 // GetCaCert returns the CaCert field value if set, zero value otherwise.
 func (o *TlsConfig) GetCaCert() string {
 	if o == nil || o.CaCert == nil {
@@ -67,6 +76,7 @@ func (o *TlsConfig) HasCaCert() bool {
 func (o *TlsConfig) SetCaCert(v string) {
 	o.CaCert = &v
 }
+
 
 // GetClientCert returns the ClientCert field value if set, zero value otherwise.
 func (o *TlsConfig) GetClientCert() string {
@@ -96,6 +106,7 @@ func (o *TlsConfig) SetClientCert(v string) {
 	o.ClientCert = &v
 }
 
+
 // GetClientKey returns the ClientKey field value if set, zero value otherwise.
 func (o *TlsConfig) GetClientKey() string {
 	if o == nil || o.ClientKey == nil {
@@ -123,6 +134,7 @@ func (o *TlsConfig) HasClientKey() bool {
 func (o *TlsConfig) SetClientKey(v string) {
 	o.ClientKey = &v
 }
+
 
 // GetKeystore returns the Keystore field value if set, zero value otherwise.
 func (o *TlsConfig) GetKeystore() string {
@@ -152,6 +164,7 @@ func (o *TlsConfig) SetKeystore(v string) {
 	o.Keystore = &v
 }
 
+
 // GetTruststore returns the Truststore field value if set, zero value otherwise.
 func (o *TlsConfig) GetTruststore() string {
 	if o == nil || o.Truststore == nil {
@@ -179,6 +192,8 @@ func (o *TlsConfig) HasTruststore() bool {
 func (o *TlsConfig) SetTruststore(v string) {
 	o.Truststore = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o TlsConfig) MarshalJSON() ([]byte, error) {
@@ -211,10 +226,10 @@ func (o TlsConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TlsConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CaCert     *string `json:"caCert,omitempty"`
+		CaCert *string `json:"caCert,omitempty"`
 		ClientCert *string `json:"clientCert,omitempty"`
-		ClientKey  *string `json:"clientKey,omitempty"`
-		Keystore   *string `json:"keystore,omitempty"`
+		ClientKey *string `json:"clientKey,omitempty"`
+		Keystore *string `json:"keystore,omitempty"`
 		Truststore *string `json:"truststore,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -222,7 +237,7 @@ func (o *TlsConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"caCert", "clientCert", "clientKey", "keystore", "truststore"})
+		common.DeleteKeys(additionalProperties, &[]string{ "caCert", "clientCert", "clientKey", "keystore", "truststore",  })
 	} else {
 		return err
 	}

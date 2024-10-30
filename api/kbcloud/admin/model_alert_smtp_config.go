@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AlertSMTPConfig Alert smtp config
+
+
+// AlertSMTPConfig Alert smtp config 
 type AlertSMTPConfig struct {
 	// SMTP authentication information
 	SmtpAuthPassword string `json:"smtp_auth_password"`
@@ -21,9 +26,10 @@ type AlertSMTPConfig struct {
 	// The SMTP host through which emails are sent
 	SmtpSmarthost string `json:"smtp_smarthost"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertSMTPConfig instantiates a new AlertSMTPConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,7 +51,6 @@ func NewAlertSMTPConfigWithDefaults() *AlertSMTPConfig {
 	this := AlertSMTPConfig{}
 	return &this
 }
-
 // GetSmtpAuthPassword returns the SmtpAuthPassword field value.
 func (o *AlertSMTPConfig) GetSmtpAuthPassword() string {
 	if o == nil {
@@ -68,6 +73,7 @@ func (o *AlertSMTPConfig) GetSmtpAuthPasswordOk() (*string, bool) {
 func (o *AlertSMTPConfig) SetSmtpAuthPassword(v string) {
 	o.SmtpAuthPassword = v
 }
+
 
 // GetSmtpAuthUsername returns the SmtpAuthUsername field value.
 func (o *AlertSMTPConfig) GetSmtpAuthUsername() string {
@@ -92,6 +98,7 @@ func (o *AlertSMTPConfig) SetSmtpAuthUsername(v string) {
 	o.SmtpAuthUsername = v
 }
 
+
 // GetSmtpFrom returns the SmtpFrom field value.
 func (o *AlertSMTPConfig) GetSmtpFrom() string {
 	if o == nil {
@@ -114,6 +121,7 @@ func (o *AlertSMTPConfig) GetSmtpFromOk() (*string, bool) {
 func (o *AlertSMTPConfig) SetSmtpFrom(v string) {
 	o.SmtpFrom = v
 }
+
 
 // GetSmtpSmarthost returns the SmtpSmarthost field value.
 func (o *AlertSMTPConfig) GetSmtpSmarthost() string {
@@ -138,6 +146,8 @@ func (o *AlertSMTPConfig) SetSmtpSmarthost(v string) {
 	o.SmtpSmarthost = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertSMTPConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -160,8 +170,8 @@ func (o *AlertSMTPConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		SmtpAuthPassword *string `json:"smtp_auth_password"`
 		SmtpAuthUsername *string `json:"smtp_auth_username"`
-		SmtpFrom         *string `json:"smtp_from"`
-		SmtpSmarthost    *string `json:"smtp_smarthost"`
+		SmtpFrom *string `json:"smtp_from"`
+		SmtpSmarthost *string `json:"smtp_smarthost"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -180,7 +190,7 @@ func (o *AlertSMTPConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"smtp_auth_password", "smtp_auth_username", "smtp_from", "smtp_smarthost"})
+		common.DeleteKeys(additionalProperties, &[]string{ "smtp_auth_password", "smtp_auth_username", "smtp_from", "smtp_smarthost",  })
 	} else {
 		return err
 	}

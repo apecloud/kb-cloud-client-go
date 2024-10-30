@@ -2,21 +2,26 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // EngineOptionsServicePattern service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
 type EngineOptionsServicePattern string
 
 // List of EngineOptionsServicePattern.
 const (
-	EngineOptionsServicePatternClusterComponent        EngineOptionsServicePattern = "cluster-component"
-	EngineOptionsServicePatternCluster                 EngineOptionsServicePattern = "cluster"
+	EngineOptionsServicePatternClusterComponent EngineOptionsServicePattern = "cluster-component"
+	EngineOptionsServicePatternCluster EngineOptionsServicePattern = "cluster"
 	EngineOptionsServicePatternClusterComponentService EngineOptionsServicePattern = "cluster-component-service"
 )
 

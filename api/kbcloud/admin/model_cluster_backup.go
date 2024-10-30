@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ClusterBackup clusterBackup is the payload for cluster backup
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ClusterBackup clusterBackup is the payload for cluster backup 
 type ClusterBackup struct {
 	// PITREnabled or not
 	PitrEnabled *bool `json:"PITREnabled,omitempty"`
@@ -25,9 +34,10 @@ type ClusterBackup struct {
 	// snapshotVolumes specifies whether to take snapshots of persistent volumes to back up
 	SnapshotVolumes common.NullableBool `json:"snapshotVolumes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewClusterBackup instantiates a new ClusterBackup object.
 // This constructor will assign default values to properties that have it defined,
@@ -53,7 +63,6 @@ func NewClusterBackupWithDefaults() *ClusterBackup {
 	this.AutoBackup = &autoBackup
 	return &this
 }
-
 // GetPitrEnabled returns the PitrEnabled field value if set, zero value otherwise.
 func (o *ClusterBackup) GetPitrEnabled() bool {
 	if o == nil || o.PitrEnabled == nil {
@@ -81,6 +90,7 @@ func (o *ClusterBackup) HasPitrEnabled() bool {
 func (o *ClusterBackup) SetPitrEnabled(v bool) {
 	o.PitrEnabled = &v
 }
+
 
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
 func (o *ClusterBackup) GetAutoBackup() bool {
@@ -110,6 +120,7 @@ func (o *ClusterBackup) SetAutoBackup(v bool) {
 	o.AutoBackup = &v
 }
 
+
 // GetAutoBackupMethod returns the AutoBackupMethod field value if set, zero value otherwise.
 func (o *ClusterBackup) GetAutoBackupMethod() string {
 	if o == nil || o.AutoBackupMethod == nil {
@@ -137,6 +148,7 @@ func (o *ClusterBackup) HasAutoBackupMethod() bool {
 func (o *ClusterBackup) SetAutoBackupMethod(v string) {
 	o.AutoBackupMethod = &v
 }
+
 
 // GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
 func (o *ClusterBackup) GetBackupRepo() string {
@@ -166,6 +178,7 @@ func (o *ClusterBackup) SetBackupRepo(v string) {
 	o.BackupRepo = &v
 }
 
+
 // GetCronExpression returns the CronExpression field value if set, zero value otherwise.
 func (o *ClusterBackup) GetCronExpression() string {
 	if o == nil || o.CronExpression == nil {
@@ -193,6 +206,7 @@ func (o *ClusterBackup) HasCronExpression() bool {
 func (o *ClusterBackup) SetCronExpression(v string) {
 	o.CronExpression = &v
 }
+
 
 // GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
 func (o *ClusterBackup) GetRetentionPeriod() string {
@@ -222,6 +236,7 @@ func (o *ClusterBackup) SetRetentionPeriod(v string) {
 	o.RetentionPeriod = &v
 }
 
+
 // GetRetentionPolicy returns the RetentionPolicy field value if set, zero value otherwise.
 func (o *ClusterBackup) GetRetentionPolicy() BackupRetentionPolicy {
 	if o == nil || o.RetentionPolicy == nil {
@@ -250,6 +265,7 @@ func (o *ClusterBackup) SetRetentionPolicy(v BackupRetentionPolicy) {
 	o.RetentionPolicy = &v
 }
 
+
 // GetSnapshotVolumes returns the SnapshotVolumes field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterBackup) GetSnapshotVolumes() bool {
 	if o == nil || o.SnapshotVolumes.Get() == nil {
@@ -263,7 +279,7 @@ func (o *ClusterBackup) GetSnapshotVolumes() bool {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterBackup) GetSnapshotVolumesOk() (*bool, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.SnapshotVolumes.Get(), o.SnapshotVolumes.IsSet()
@@ -278,7 +294,6 @@ func (o *ClusterBackup) HasSnapshotVolumes() bool {
 func (o *ClusterBackup) SetSnapshotVolumes(v bool) {
 	o.SnapshotVolumes.Set(&v)
 }
-
 // SetSnapshotVolumesNil sets the value for SnapshotVolumes to be an explicit nil.
 func (o *ClusterBackup) SetSnapshotVolumesNil() {
 	o.SnapshotVolumes.Set(nil)
@@ -288,6 +303,8 @@ func (o *ClusterBackup) SetSnapshotVolumesNil() {
 func (o *ClusterBackup) UnsetSnapshotVolumes() {
 	o.SnapshotVolumes.Unset()
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterBackup) MarshalJSON() ([]byte, error) {
@@ -329,21 +346,21 @@ func (o ClusterBackup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterBackup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PitrEnabled      *bool                  `json:"PITREnabled,omitempty"`
-		AutoBackup       *bool                  `json:"autoBackup,omitempty"`
-		AutoBackupMethod *string                `json:"autoBackupMethod,omitempty"`
-		BackupRepo       *string                `json:"backupRepo,omitempty"`
-		CronExpression   *string                `json:"cronExpression,omitempty"`
-		RetentionPeriod  *string                `json:"retentionPeriod,omitempty"`
-		RetentionPolicy  *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
-		SnapshotVolumes  common.NullableBool    `json:"snapshotVolumes,omitempty"`
+		PitrEnabled *bool `json:"PITREnabled,omitempty"`
+		AutoBackup *bool `json:"autoBackup,omitempty"`
+		AutoBackupMethod *string `json:"autoBackupMethod,omitempty"`
+		BackupRepo *string `json:"backupRepo,omitempty"`
+		CronExpression *string `json:"cronExpression,omitempty"`
+		RetentionPeriod *string `json:"retentionPeriod,omitempty"`
+		RetentionPolicy *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
+		SnapshotVolumes common.NullableBool `json:"snapshotVolumes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"PITREnabled", "autoBackup", "autoBackupMethod", "backupRepo", "cronExpression", "retentionPeriod", "retentionPolicy", "snapshotVolumes"})
+		common.DeleteKeys(additionalProperties, &[]string{ "PITREnabled", "autoBackup", "autoBackupMethod", "backupRepo", "cronExpression", "retentionPeriod", "retentionPolicy", "snapshotVolumes",  })
 	} else {
 		return err
 	}
@@ -355,7 +372,7 @@ func (o *ClusterBackup) UnmarshalJSON(bytes []byte) (err error) {
 	o.BackupRepo = all.BackupRepo
 	o.CronExpression = all.CronExpression
 	o.RetentionPeriod = all.RetentionPeriod
-	if all.RetentionPolicy != nil && !all.RetentionPolicy.IsValid() {
+	if all.RetentionPolicy != nil &&!all.RetentionPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.RetentionPolicy = all.RetentionPolicy

@@ -2,28 +2,38 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type InspectionScript struct {
-	Id              *int32  `json:"id,omitempty"`
-	Engine          *string `json:"engine,omitempty"`
-	Name            *string `json:"name,omitempty"`
-	Category        *string `json:"category,omitempty"`
-	Type            *string `json:"type,omitempty"`
-	ScriptType      *string `json:"scriptType,omitempty"`
-	Reason          *string `json:"reason,omitempty"`
-	Suggestion      *string `json:"suggestion,omitempty"`
-	Enabled         *bool   `json:"enabled,omitempty"`
-	ScriptName      *string `json:"scriptName,omitempty"`
-	Script          *string `json:"script,omitempty"`
+	Id *int32 `json:"id,omitempty"`
+	Engine *string `json:"engine,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Category *string `json:"category,omitempty"`
+	Type *string `json:"type,omitempty"`
+	ScriptType *string `json:"scriptType,omitempty"`
+	Reason *string `json:"reason,omitempty"`
+	Suggestion *string `json:"suggestion,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
+	ScriptName *string `json:"scriptName,omitempty"`
+	Script *string `json:"script,omitempty"`
 	StatusCheckName *string `json:"statusCheckName,omitempty"`
-	StatusCheck     *string `json:"statusCheck,omitempty"`
+	StatusCheck *string `json:"statusCheck,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInspectionScript instantiates a new InspectionScript object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,7 +51,6 @@ func NewInspectionScriptWithDefaults() *InspectionScript {
 	this := InspectionScript{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *InspectionScript) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -69,6 +78,7 @@ func (o *InspectionScript) HasId() bool {
 func (o *InspectionScript) SetId(v int32) {
 	o.Id = &v
 }
+
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
 func (o *InspectionScript) GetEngine() string {
@@ -98,6 +108,7 @@ func (o *InspectionScript) SetEngine(v string) {
 	o.Engine = &v
 }
 
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *InspectionScript) GetName() string {
 	if o == nil || o.Name == nil {
@@ -125,6 +136,7 @@ func (o *InspectionScript) HasName() bool {
 func (o *InspectionScript) SetName(v string) {
 	o.Name = &v
 }
+
 
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *InspectionScript) GetCategory() string {
@@ -154,6 +166,7 @@ func (o *InspectionScript) SetCategory(v string) {
 	o.Category = &v
 }
 
+
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *InspectionScript) GetType() string {
 	if o == nil || o.Type == nil {
@@ -181,6 +194,7 @@ func (o *InspectionScript) HasType() bool {
 func (o *InspectionScript) SetType(v string) {
 	o.Type = &v
 }
+
 
 // GetScriptType returns the ScriptType field value if set, zero value otherwise.
 func (o *InspectionScript) GetScriptType() string {
@@ -210,6 +224,7 @@ func (o *InspectionScript) SetScriptType(v string) {
 	o.ScriptType = &v
 }
 
+
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *InspectionScript) GetReason() string {
 	if o == nil || o.Reason == nil {
@@ -237,6 +252,7 @@ func (o *InspectionScript) HasReason() bool {
 func (o *InspectionScript) SetReason(v string) {
 	o.Reason = &v
 }
+
 
 // GetSuggestion returns the Suggestion field value if set, zero value otherwise.
 func (o *InspectionScript) GetSuggestion() string {
@@ -266,6 +282,7 @@ func (o *InspectionScript) SetSuggestion(v string) {
 	o.Suggestion = &v
 }
 
+
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
 func (o *InspectionScript) GetEnabled() bool {
 	if o == nil || o.Enabled == nil {
@@ -293,6 +310,7 @@ func (o *InspectionScript) HasEnabled() bool {
 func (o *InspectionScript) SetEnabled(v bool) {
 	o.Enabled = &v
 }
+
 
 // GetScriptName returns the ScriptName field value if set, zero value otherwise.
 func (o *InspectionScript) GetScriptName() string {
@@ -322,6 +340,7 @@ func (o *InspectionScript) SetScriptName(v string) {
 	o.ScriptName = &v
 }
 
+
 // GetScript returns the Script field value if set, zero value otherwise.
 func (o *InspectionScript) GetScript() string {
 	if o == nil || o.Script == nil {
@@ -349,6 +368,7 @@ func (o *InspectionScript) HasScript() bool {
 func (o *InspectionScript) SetScript(v string) {
 	o.Script = &v
 }
+
 
 // GetStatusCheckName returns the StatusCheckName field value if set, zero value otherwise.
 func (o *InspectionScript) GetStatusCheckName() string {
@@ -378,6 +398,7 @@ func (o *InspectionScript) SetStatusCheckName(v string) {
 	o.StatusCheckName = &v
 }
 
+
 // GetStatusCheck returns the StatusCheck field value if set, zero value otherwise.
 func (o *InspectionScript) GetStatusCheck() string {
 	if o == nil || o.StatusCheck == nil {
@@ -405,6 +426,8 @@ func (o *InspectionScript) HasStatusCheck() bool {
 func (o *InspectionScript) SetStatusCheck(v string) {
 	o.StatusCheck = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o InspectionScript) MarshalJSON() ([]byte, error) {
@@ -461,26 +484,26 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id              *int32  `json:"id,omitempty"`
-		Engine          *string `json:"engine,omitempty"`
-		Name            *string `json:"name,omitempty"`
-		Category        *string `json:"category,omitempty"`
-		Type            *string `json:"type,omitempty"`
-		ScriptType      *string `json:"scriptType,omitempty"`
-		Reason          *string `json:"reason,omitempty"`
-		Suggestion      *string `json:"suggestion,omitempty"`
-		Enabled         *bool   `json:"enabled,omitempty"`
-		ScriptName      *string `json:"scriptName,omitempty"`
-		Script          *string `json:"script,omitempty"`
+		Id *int32 `json:"id,omitempty"`
+		Engine *string `json:"engine,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Category *string `json:"category,omitempty"`
+		Type *string `json:"type,omitempty"`
+		ScriptType *string `json:"scriptType,omitempty"`
+		Reason *string `json:"reason,omitempty"`
+		Suggestion *string `json:"suggestion,omitempty"`
+		Enabled *bool `json:"enabled,omitempty"`
+		ScriptName *string `json:"scriptName,omitempty"`
+		Script *string `json:"script,omitempty"`
 		StatusCheckName *string `json:"statusCheckName,omitempty"`
-		StatusCheck     *string `json:"statusCheck,omitempty"`
+		StatusCheck *string `json:"statusCheck,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "engine", "name", "category", "type", "scriptType", "reason", "suggestion", "enabled", "scriptName", "script", "statusCheckName", "statusCheck"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "engine", "name", "category", "type", "scriptType", "reason", "suggestion", "enabled", "scriptName", "script", "statusCheckName", "statusCheck",  })
 	} else {
 		return err
 	}

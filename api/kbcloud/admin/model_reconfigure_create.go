@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ReconfigureCreate ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
+
+
+// ReconfigureCreate ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster 
 type ReconfigureCreate struct {
 	// component type
 	Component *string `json:"component,omitempty"`
@@ -19,9 +24,10 @@ type ReconfigureCreate struct {
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewReconfigureCreate instantiates a new ReconfigureCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewReconfigureCreateWithDefaults() *ReconfigureCreate {
 	this := ReconfigureCreate{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *ReconfigureCreate) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -68,6 +73,7 @@ func (o *ReconfigureCreate) HasComponent() bool {
 func (o *ReconfigureCreate) SetComponent(v string) {
 	o.Component = &v
 }
+
 
 // GetConfigFileName returns the ConfigFileName field value if set, zero value otherwise.
 func (o *ReconfigureCreate) GetConfigFileName() string {
@@ -97,6 +103,7 @@ func (o *ReconfigureCreate) SetConfigFileName(v string) {
 	o.ConfigFileName = &v
 }
 
+
 // GetParameters returns the Parameters field value.
 func (o *ReconfigureCreate) GetParameters() map[string]string {
 	if o == nil {
@@ -119,6 +126,8 @@ func (o *ReconfigureCreate) GetParametersOk() (*map[string]string, bool) {
 func (o *ReconfigureCreate) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
@@ -143,9 +152,9 @@ func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string            `json:"component,omitempty"`
-		ConfigFileName *string            `json:"configFileName,omitempty"`
-		Parameters     *map[string]string `json:"parameters"`
+		Component *string `json:"component,omitempty"`
+		ConfigFileName *string `json:"configFileName,omitempty"`
+		Parameters *map[string]string `json:"parameters"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -155,7 +164,7 @@ func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "configFileName", "parameters"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "configFileName", "parameters",  })
 	} else {
 		return err
 	}

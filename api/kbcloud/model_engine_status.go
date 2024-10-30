@@ -2,23 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // EngineStatus engine addon status in K8s
 type EngineStatus string
 
 // List of EngineStatus.
 const (
-	EngineStatusDisabled  EngineStatus = "Disabled"
-	EngineStatusEnabled   EngineStatus = "Enabled"
-	EngineStatusFailed    EngineStatus = "Failed"
-	EngineStatusEnabling  EngineStatus = "Enabling"
+	EngineStatusDisabled EngineStatus = "Disabled"
+	EngineStatusEnabled EngineStatus = "Enabled"
+	EngineStatusFailed EngineStatus = "Failed"
+	EngineStatusEnabling EngineStatus = "Enabling"
 	EngineStatusDisabling EngineStatus = "Disabling"
 )
 

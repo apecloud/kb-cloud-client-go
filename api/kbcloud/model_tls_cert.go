@@ -2,10 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type TlsCert struct {
 	// Configuration for TLS including all certificates and keys
 	TlsConfig *TlsConfig `json:"tlsConfig,omitempty"`
@@ -20,9 +29,10 @@ type TlsCert struct {
 	// Expiration days of Truststore certificate
 	ExpirationDaysTruststore *int32 `json:"expirationDaysTruststore,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewTlsCert instantiates a new TlsCert object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +50,6 @@ func NewTlsCertWithDefaults() *TlsCert {
 	this := TlsCert{}
 	return &this
 }
-
 // GetTlsConfig returns the TlsConfig field value if set, zero value otherwise.
 func (o *TlsCert) GetTlsConfig() TlsConfig {
 	if o == nil || o.TlsConfig == nil {
@@ -68,6 +77,7 @@ func (o *TlsCert) HasTlsConfig() bool {
 func (o *TlsCert) SetTlsConfig(v TlsConfig) {
 	o.TlsConfig = &v
 }
+
 
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *TlsCert) GetComponentName() string {
@@ -97,6 +107,7 @@ func (o *TlsCert) SetComponentName(v string) {
 	o.ComponentName = &v
 }
 
+
 // GetExpirationDaysCa returns the ExpirationDaysCa field value if set, zero value otherwise.
 func (o *TlsCert) GetExpirationDaysCa() int32 {
 	if o == nil || o.ExpirationDaysCa == nil {
@@ -124,6 +135,7 @@ func (o *TlsCert) HasExpirationDaysCa() bool {
 func (o *TlsCert) SetExpirationDaysCa(v int32) {
 	o.ExpirationDaysCa = &v
 }
+
 
 // GetExpirationDaysClient returns the ExpirationDaysClient field value if set, zero value otherwise.
 func (o *TlsCert) GetExpirationDaysClient() int32 {
@@ -153,6 +165,7 @@ func (o *TlsCert) SetExpirationDaysClient(v int32) {
 	o.ExpirationDaysClient = &v
 }
 
+
 // GetExpirationDaysKeystore returns the ExpirationDaysKeystore field value if set, zero value otherwise.
 func (o *TlsCert) GetExpirationDaysKeystore() int32 {
 	if o == nil || o.ExpirationDaysKeystore == nil {
@@ -181,6 +194,7 @@ func (o *TlsCert) SetExpirationDaysKeystore(v int32) {
 	o.ExpirationDaysKeystore = &v
 }
 
+
 // GetExpirationDaysTruststore returns the ExpirationDaysTruststore field value if set, zero value otherwise.
 func (o *TlsCert) GetExpirationDaysTruststore() int32 {
 	if o == nil || o.ExpirationDaysTruststore == nil {
@@ -208,6 +222,8 @@ func (o *TlsCert) HasExpirationDaysTruststore() bool {
 func (o *TlsCert) SetExpirationDaysTruststore(v int32) {
 	o.ExpirationDaysTruststore = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o TlsCert) MarshalJSON() ([]byte, error) {
@@ -243,25 +259,25 @@ func (o TlsCert) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TlsCert) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TlsConfig                *TlsConfig `json:"tlsConfig,omitempty"`
-		ComponentName            *string    `json:"componentName,omitempty"`
-		ExpirationDaysCa         *int32     `json:"expirationDaysCA,omitempty"`
-		ExpirationDaysClient     *int32     `json:"expirationDaysClient,omitempty"`
-		ExpirationDaysKeystore   *int32     `json:"expirationDaysKeystore,omitempty"`
-		ExpirationDaysTruststore *int32     `json:"expirationDaysTruststore,omitempty"`
+		TlsConfig *TlsConfig `json:"tlsConfig,omitempty"`
+		ComponentName *string `json:"componentName,omitempty"`
+		ExpirationDaysCa *int32 `json:"expirationDaysCA,omitempty"`
+		ExpirationDaysClient *int32 `json:"expirationDaysClient,omitempty"`
+		ExpirationDaysKeystore *int32 `json:"expirationDaysKeystore,omitempty"`
+		ExpirationDaysTruststore *int32 `json:"expirationDaysTruststore,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"tlsConfig", "componentName", "expirationDaysCA", "expirationDaysClient", "expirationDaysKeystore", "expirationDaysTruststore"})
+		common.DeleteKeys(additionalProperties, &[]string{ "tlsConfig", "componentName", "expirationDaysCA", "expirationDaysClient", "expirationDaysKeystore", "expirationDaysTruststore",  })
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.TlsConfig != nil && all.TlsConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.TlsConfig != nil && all.TlsConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.TlsConfig = all.TlsConfig

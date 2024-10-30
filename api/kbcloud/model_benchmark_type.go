@@ -2,24 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // BenchmarkType Type of benchmark
 type BenchmarkType string
 
 // List of BenchmarkType.
 const (
-	BenchmarkTypePgbench  BenchmarkType = "pgbench"
+	BenchmarkTypePgbench BenchmarkType = "pgbench"
 	BenchmarkTypeSysbench BenchmarkType = "sysbench"
-	BenchmarkTypeTpcc     BenchmarkType = "tpcc"
-	BenchmarkTypeTpch     BenchmarkType = "tpch"
-	BenchmarkTypeYcsb     BenchmarkType = "ycsb"
+	BenchmarkTypeTpcc BenchmarkType = "tpcc"
+	BenchmarkTypeTpch BenchmarkType = "tpch"
+	BenchmarkTypeYcsb BenchmarkType = "ycsb"
 )
 
 var allowedBenchmarkTypeEnumValues = []BenchmarkType{

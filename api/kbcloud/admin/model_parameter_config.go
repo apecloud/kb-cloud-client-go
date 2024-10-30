@@ -2,25 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type ParameterConfig struct {
-	ConfigName    string                 `json:"configName"`
-	SpecName      string                 `json:"specName"`
-	Constraint    string                 `json:"constraint"`
-	Regex         string                 `json:"regex"`
-	ConfigTplName string                 `json:"configTplName"`
-	InitOptions   map[string]interface{} `json:"initOptions,omitempty"`
+	ConfigName string `json:"configName"`
+	SpecName string `json:"specName"`
+	Constraint string `json:"constraint"`
+	Regex string `json:"regex"`
+	ConfigTplName string `json:"configTplName"`
+	InitOptions map[string]interface{} `json:"initOptions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewParameterConfig instantiates a new ParameterConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,7 +49,6 @@ func NewParameterConfigWithDefaults() *ParameterConfig {
 	this := ParameterConfig{}
 	return &this
 }
-
 // GetConfigName returns the ConfigName field value.
 func (o *ParameterConfig) GetConfigName() string {
 	if o == nil {
@@ -66,6 +71,7 @@ func (o *ParameterConfig) GetConfigNameOk() (*string, bool) {
 func (o *ParameterConfig) SetConfigName(v string) {
 	o.ConfigName = v
 }
+
 
 // GetSpecName returns the SpecName field value.
 func (o *ParameterConfig) GetSpecName() string {
@@ -90,6 +96,7 @@ func (o *ParameterConfig) SetSpecName(v string) {
 	o.SpecName = v
 }
 
+
 // GetConstraint returns the Constraint field value.
 func (o *ParameterConfig) GetConstraint() string {
 	if o == nil {
@@ -112,6 +119,7 @@ func (o *ParameterConfig) GetConstraintOk() (*string, bool) {
 func (o *ParameterConfig) SetConstraint(v string) {
 	o.Constraint = v
 }
+
 
 // GetRegex returns the Regex field value.
 func (o *ParameterConfig) GetRegex() string {
@@ -136,6 +144,7 @@ func (o *ParameterConfig) SetRegex(v string) {
 	o.Regex = v
 }
 
+
 // GetConfigTplName returns the ConfigTplName field value.
 func (o *ParameterConfig) GetConfigTplName() string {
 	if o == nil {
@@ -158,6 +167,7 @@ func (o *ParameterConfig) GetConfigTplNameOk() (*string, bool) {
 func (o *ParameterConfig) SetConfigTplName(v string) {
 	o.ConfigTplName = v
 }
+
 
 // GetInitOptions returns the InitOptions field value if set, zero value otherwise.
 func (o *ParameterConfig) GetInitOptions() map[string]interface{} {
@@ -187,6 +197,8 @@ func (o *ParameterConfig) SetInitOptions(v map[string]interface{}) {
 	o.InitOptions = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -211,12 +223,12 @@ func (o ParameterConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ConfigName    *string                `json:"configName"`
-		SpecName      *string                `json:"specName"`
-		Constraint    *string                `json:"constraint"`
-		Regex         *string                `json:"regex"`
-		ConfigTplName *string                `json:"configTplName"`
-		InitOptions   map[string]interface{} `json:"initOptions,omitempty"`
+		ConfigName *string `json:"configName"`
+		SpecName *string `json:"specName"`
+		Constraint *string `json:"constraint"`
+		Regex *string `json:"regex"`
+		ConfigTplName *string `json:"configTplName"`
+		InitOptions map[string]interface{} `json:"initOptions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -238,7 +250,7 @@ func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"configName", "specName", "constraint", "regex", "configTplName", "initOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{ "configName", "specName", "constraint", "regex", "configTplName", "initOptions",  })
 	} else {
 		return err
 	}

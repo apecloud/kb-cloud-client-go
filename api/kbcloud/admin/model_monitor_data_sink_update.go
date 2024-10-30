@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// MonitorDataSinkUpdate External Endpoint update option
+
+
+// MonitorDataSinkUpdate External Endpoint update option 
 type MonitorDataSinkUpdate struct {
 	// type of monitor data sink(logs or metrics)
 	MonitorDataSinkType common.NullableString `json:"monitorDataSinkType"`
@@ -29,9 +34,10 @@ type MonitorDataSinkUpdate struct {
 	// indexName for ElasticSearch
 	IndexName common.NullableString `json:"indexName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewMonitorDataSinkUpdate instantiates a new MonitorDataSinkUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,7 +57,6 @@ func NewMonitorDataSinkUpdateWithDefaults() *MonitorDataSinkUpdate {
 	this := MonitorDataSinkUpdate{}
 	return &this
 }
-
 // GetMonitorDataSinkType returns the MonitorDataSinkType field value.
 // If the value is explicit nil, the zero value for string will be returned.
 func (o *MonitorDataSinkUpdate) GetMonitorDataSinkType() string {
@@ -77,6 +82,7 @@ func (o *MonitorDataSinkUpdate) SetMonitorDataSinkType(v string) {
 	o.MonitorDataSinkType.Set(&v)
 }
 
+
 // GetEnvironmentName returns the EnvironmentName field value.
 func (o *MonitorDataSinkUpdate) GetEnvironmentName() string {
 	if o == nil {
@@ -99,6 +105,7 @@ func (o *MonitorDataSinkUpdate) GetEnvironmentNameOk() (*string, bool) {
 func (o *MonitorDataSinkUpdate) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
 }
+
 
 // GetExporterUrl returns the ExporterUrl field value if set, zero value otherwise.
 func (o *MonitorDataSinkUpdate) GetExporterUrl() string {
@@ -128,6 +135,7 @@ func (o *MonitorDataSinkUpdate) SetExporterUrl(v string) {
 	o.ExporterUrl = &v
 }
 
+
 // GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MonitorDataSinkUpdate) GetName() string {
 	if o == nil || o.Name.Get() == nil {
@@ -141,7 +149,7 @@ func (o *MonitorDataSinkUpdate) GetName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *MonitorDataSinkUpdate) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.Name.Get(), o.Name.IsSet()
@@ -156,7 +164,6 @@ func (o *MonitorDataSinkUpdate) HasName() bool {
 func (o *MonitorDataSinkUpdate) SetName(v string) {
 	o.Name.Set(&v)
 }
-
 // SetNameNil sets the value for Name to be an explicit nil.
 func (o *MonitorDataSinkUpdate) SetNameNil() {
 	o.Name.Set(nil)
@@ -166,6 +173,7 @@ func (o *MonitorDataSinkUpdate) SetNameNil() {
 func (o *MonitorDataSinkUpdate) UnsetName() {
 	o.Name.Unset()
 }
+
 
 // GetUsername returns the Username field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MonitorDataSinkUpdate) GetUsername() string {
@@ -180,7 +188,7 @@ func (o *MonitorDataSinkUpdate) GetUsername() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *MonitorDataSinkUpdate) GetUsernameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.Username.Get(), o.Username.IsSet()
@@ -195,7 +203,6 @@ func (o *MonitorDataSinkUpdate) HasUsername() bool {
 func (o *MonitorDataSinkUpdate) SetUsername(v string) {
 	o.Username.Set(&v)
 }
-
 // SetUsernameNil sets the value for Username to be an explicit nil.
 func (o *MonitorDataSinkUpdate) SetUsernameNil() {
 	o.Username.Set(nil)
@@ -205,6 +212,7 @@ func (o *MonitorDataSinkUpdate) SetUsernameNil() {
 func (o *MonitorDataSinkUpdate) UnsetUsername() {
 	o.Username.Unset()
 }
+
 
 // GetPassword returns the Password field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MonitorDataSinkUpdate) GetPassword() string {
@@ -219,7 +227,7 @@ func (o *MonitorDataSinkUpdate) GetPassword() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *MonitorDataSinkUpdate) GetPasswordOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.Password.Get(), o.Password.IsSet()
@@ -234,7 +242,6 @@ func (o *MonitorDataSinkUpdate) HasPassword() bool {
 func (o *MonitorDataSinkUpdate) SetPassword(v string) {
 	o.Password.Set(&v)
 }
-
 // SetPasswordNil sets the value for Password to be an explicit nil.
 func (o *MonitorDataSinkUpdate) SetPasswordNil() {
 	o.Password.Set(nil)
@@ -244,6 +251,7 @@ func (o *MonitorDataSinkUpdate) SetPasswordNil() {
 func (o *MonitorDataSinkUpdate) UnsetPassword() {
 	o.Password.Unset()
 }
+
 
 // GetApiKey returns the ApiKey field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MonitorDataSinkUpdate) GetApiKey() string {
@@ -258,7 +266,7 @@ func (o *MonitorDataSinkUpdate) GetApiKey() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *MonitorDataSinkUpdate) GetApiKeyOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.ApiKey.Get(), o.ApiKey.IsSet()
@@ -273,7 +281,6 @@ func (o *MonitorDataSinkUpdate) HasApiKey() bool {
 func (o *MonitorDataSinkUpdate) SetApiKey(v string) {
 	o.ApiKey.Set(&v)
 }
-
 // SetApiKeyNil sets the value for ApiKey to be an explicit nil.
 func (o *MonitorDataSinkUpdate) SetApiKeyNil() {
 	o.ApiKey.Set(nil)
@@ -283,6 +290,7 @@ func (o *MonitorDataSinkUpdate) SetApiKeyNil() {
 func (o *MonitorDataSinkUpdate) UnsetApiKey() {
 	o.ApiKey.Unset()
 }
+
 
 // GetIndexName returns the IndexName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *MonitorDataSinkUpdate) GetIndexName() string {
@@ -297,7 +305,7 @@ func (o *MonitorDataSinkUpdate) GetIndexName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *MonitorDataSinkUpdate) GetIndexNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return o.IndexName.Get(), o.IndexName.IsSet()
@@ -312,7 +320,6 @@ func (o *MonitorDataSinkUpdate) HasIndexName() bool {
 func (o *MonitorDataSinkUpdate) SetIndexName(v string) {
 	o.IndexName.Set(&v)
 }
-
 // SetIndexNameNil sets the value for IndexName to be an explicit nil.
 func (o *MonitorDataSinkUpdate) SetIndexNameNil() {
 	o.IndexName.Set(nil)
@@ -322,6 +329,8 @@ func (o *MonitorDataSinkUpdate) SetIndexNameNil() {
 func (o *MonitorDataSinkUpdate) UnsetIndexName() {
 	o.IndexName.Unset()
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o MonitorDataSinkUpdate) MarshalJSON() ([]byte, error) {
@@ -360,13 +369,13 @@ func (o MonitorDataSinkUpdate) MarshalJSON() ([]byte, error) {
 func (o *MonitorDataSinkUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		MonitorDataSinkType common.NullableString `json:"monitorDataSinkType"`
-		EnvironmentName     *string               `json:"environmentName"`
-		ExporterUrl         *string               `json:"exporterUrl,omitempty"`
-		Name                common.NullableString `json:"name,omitempty"`
-		Username            common.NullableString `json:"username,omitempty"`
-		Password            common.NullableString `json:"password,omitempty"`
-		ApiKey              common.NullableString `json:"apiKey,omitempty"`
-		IndexName           common.NullableString `json:"indexName,omitempty"`
+		EnvironmentName *string `json:"environmentName"`
+		ExporterUrl *string `json:"exporterUrl,omitempty"`
+		Name common.NullableString `json:"name,omitempty"`
+		Username common.NullableString `json:"username,omitempty"`
+		Password common.NullableString `json:"password,omitempty"`
+		ApiKey common.NullableString `json:"apiKey,omitempty"`
+		IndexName common.NullableString `json:"indexName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -379,7 +388,7 @@ func (o *MonitorDataSinkUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"monitorDataSinkType", "environmentName", "exporterUrl", "name", "username", "password", "apiKey", "indexName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "monitorDataSinkType", "environmentName", "exporterUrl", "name", "username", "password", "apiKey", "indexName",  })
 	} else {
 		return err
 	}

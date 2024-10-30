@@ -2,13 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // PodChaosAction specify the action to be performed
 type PodChaosAction string
@@ -16,7 +21,7 @@ type PodChaosAction string
 // List of PodChaosAction.
 const (
 	PodChaosActionPodFailure PodChaosAction = "pod-failure"
-	PodChaosActionPodKill    PodChaosAction = "pod-kill"
+	PodChaosActionPodKill PodChaosAction = "pod-kill"
 )
 
 var allowedPodChaosActionEnumValues = []PodChaosAction{

@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AlertMetric Alert metric information
+
+
+// AlertMetric Alert metric information 
 type AlertMetric struct {
-	Key       string  `json:"key"`
-	Threshold int32   `json:"threshold"`
-	Notation  string  `json:"notation"`
-	Category  *string `json:"category,omitempty"`
+	Key string `json:"key"`
+	Threshold int32 `json:"threshold"`
+	Notation string `json:"notation"`
+	Category *string `json:"category,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertMetric instantiates a new AlertMetric object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewAlertMetricWithDefaults() *AlertMetric {
 	this := AlertMetric{}
 	return &this
 }
-
 // GetKey returns the Key field value.
 func (o *AlertMetric) GetKey() string {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *AlertMetric) GetKeyOk() (*string, bool) {
 func (o *AlertMetric) SetKey(v string) {
 	o.Key = v
 }
+
 
 // GetThreshold returns the Threshold field value.
 func (o *AlertMetric) GetThreshold() int32 {
@@ -87,6 +93,7 @@ func (o *AlertMetric) SetThreshold(v int32) {
 	o.Threshold = v
 }
 
+
 // GetNotation returns the Notation field value.
 func (o *AlertMetric) GetNotation() string {
 	if o == nil {
@@ -109,6 +116,7 @@ func (o *AlertMetric) GetNotationOk() (*string, bool) {
 func (o *AlertMetric) SetNotation(v string) {
 	o.Notation = v
 }
+
 
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *AlertMetric) GetCategory() string {
@@ -138,6 +146,8 @@ func (o *AlertMetric) SetCategory(v string) {
 	o.Category = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertMetric) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -160,10 +170,10 @@ func (o AlertMetric) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertMetric) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Key       *string `json:"key"`
-		Threshold *int32  `json:"threshold"`
-		Notation  *string `json:"notation"`
-		Category  *string `json:"category,omitempty"`
+		Key *string `json:"key"`
+		Threshold *int32 `json:"threshold"`
+		Notation *string `json:"notation"`
+		Category *string `json:"category,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -179,7 +189,7 @@ func (o *AlertMetric) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"key", "threshold", "notation", "category"})
+		common.DeleteKeys(additionalProperties, &[]string{ "key", "threshold", "notation", "category",  })
 	} else {
 		return err
 	}

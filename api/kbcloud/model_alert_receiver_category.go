@@ -2,23 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 type AlertReceiverCategory string
 
 // List of AlertReceiverCategory.
 const (
-	AlertReceiverCategoryFeishu        AlertReceiverCategory = "feishu"
-	AlertReceiverCategoryWechat        AlertReceiverCategory = "wechat"
-	AlertReceiverCategoryDingtalk      AlertReceiverCategory = "dingtalk"
+	AlertReceiverCategoryFeishu AlertReceiverCategory = "feishu"
+	AlertReceiverCategoryWechat AlertReceiverCategory = "wechat"
+	AlertReceiverCategoryDingtalk AlertReceiverCategory = "dingtalk"
 	AlertReceiverCategoryReceiverGroup AlertReceiverCategory = "receiver-group"
-	AlertReceiverCategoryWebhook       AlertReceiverCategory = "webhook"
+	AlertReceiverCategoryWebhook AlertReceiverCategory = "webhook"
 )
 
 var allowedAlertReceiverCategoryEnumValues = []AlertReceiverCategory{

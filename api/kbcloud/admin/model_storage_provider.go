@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// StorageProvider Storage Provider comprises specifications that provide guidance accessing remote storage.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// StorageProvider Storage Provider comprises specifications that provide guidance accessing remote storage. 
 type StorageProvider struct {
 	// Unique identifier for the storage provider
 	Id *string `json:"id,omitempty"`
@@ -19,9 +28,10 @@ type StorageProvider struct {
 	// defines which parameters are required
 	Required []string `json:"required,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageProvider instantiates a new StorageProvider object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +49,6 @@ func NewStorageProviderWithDefaults() *StorageProvider {
 	this := StorageProvider{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *StorageProvider) GetId() string {
 	if o == nil || o.Id == nil {
@@ -67,6 +76,7 @@ func (o *StorageProvider) HasId() bool {
 func (o *StorageProvider) SetId(v string) {
 	o.Id = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *StorageProvider) GetName() string {
@@ -96,6 +106,7 @@ func (o *StorageProvider) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetCredential returns the Credential field value if set, zero value otherwise.
 func (o *StorageProvider) GetCredential() []string {
 	if o == nil || o.Credential == nil {
@@ -123,6 +134,7 @@ func (o *StorageProvider) HasCredential() bool {
 func (o *StorageProvider) SetCredential(v []string) {
 	o.Credential = v
 }
+
 
 // GetSchema returns the Schema field value if set, zero value otherwise.
 func (o *StorageProvider) GetSchema() map[string]StorageProviderSchemaProps {
@@ -152,6 +164,7 @@ func (o *StorageProvider) SetSchema(v map[string]StorageProviderSchemaProps) {
 	o.Schema = v
 }
 
+
 // GetRequired returns the Required field value if set, zero value otherwise.
 func (o *StorageProvider) GetRequired() []string {
 	if o == nil || o.Required == nil {
@@ -179,6 +192,8 @@ func (o *StorageProvider) HasRequired() bool {
 func (o *StorageProvider) SetRequired(v []string) {
 	o.Required = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProvider) MarshalJSON() ([]byte, error) {
@@ -211,18 +226,18 @@ func (o StorageProvider) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProvider) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id         *string                               `json:"id,omitempty"`
-		Name       *string                               `json:"name,omitempty"`
-		Credential []string                              `json:"credential,omitempty"`
-		Schema     map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
-		Required   []string                              `json:"required,omitempty"`
+		Id *string `json:"id,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Credential []string `json:"credential,omitempty"`
+		Schema map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
+		Required []string `json:"required,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "credential", "schema", "required"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "credential", "schema", "required",  })
 	} else {
 		return err
 	}

@@ -2,17 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ParameterSpecList A list of cluster parameterSpecs
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ParameterSpecList A list of cluster parameterSpecs 
 type ParameterSpecList struct {
 	Items []ParameterSpecListItem `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewParameterSpecList instantiates a new ParameterSpecList object.
 // This constructor will assign default values to properties that have it defined,
@@ -30,7 +40,6 @@ func NewParameterSpecListWithDefaults() *ParameterSpecList {
 	this := ParameterSpecList{}
 	return &this
 }
-
 // GetItems returns the Items field value if set, zero value otherwise.
 func (o *ParameterSpecList) GetItems() []ParameterSpecListItem {
 	if o == nil || o.Items == nil {
@@ -59,6 +68,8 @@ func (o *ParameterSpecList) SetItems(v []ParameterSpecListItem) {
 	o.Items = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterSpecList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -85,7 +96,7 @@ func (o *ParameterSpecList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

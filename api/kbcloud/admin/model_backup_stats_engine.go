@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// BackupStatsEngine Totalsize and number of backups for the engine
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// BackupStatsEngine Totalsize and number of backups for the engine 
 type BackupStatsEngine struct {
 	// Engine name
 	EngineName *string `json:"engineName,omitempty"`
@@ -15,9 +24,10 @@ type BackupStatsEngine struct {
 	// The number of backups for each engine
 	BackupNum *int64 `json:"backupNum,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewBackupStatsEngine instantiates a new BackupStatsEngine object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +45,6 @@ func NewBackupStatsEngineWithDefaults() *BackupStatsEngine {
 	this := BackupStatsEngine{}
 	return &this
 }
-
 // GetEngineName returns the EngineName field value if set, zero value otherwise.
 func (o *BackupStatsEngine) GetEngineName() string {
 	if o == nil || o.EngineName == nil {
@@ -63,6 +72,7 @@ func (o *BackupStatsEngine) HasEngineName() bool {
 func (o *BackupStatsEngine) SetEngineName(v string) {
 	o.EngineName = &v
 }
+
 
 // GetBackupSize returns the BackupSize field value if set, zero value otherwise.
 func (o *BackupStatsEngine) GetBackupSize() string {
@@ -92,6 +102,7 @@ func (o *BackupStatsEngine) SetBackupSize(v string) {
 	o.BackupSize = &v
 }
 
+
 // GetBackupNum returns the BackupNum field value if set, zero value otherwise.
 func (o *BackupStatsEngine) GetBackupNum() int64 {
 	if o == nil || o.BackupNum == nil {
@@ -120,6 +131,8 @@ func (o *BackupStatsEngine) SetBackupNum(v int64) {
 	o.BackupNum = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupStatsEngine) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -147,14 +160,14 @@ func (o *BackupStatsEngine) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		EngineName *string `json:"engineName,omitempty"`
 		BackupSize *string `json:"backupSize,omitempty"`
-		BackupNum  *int64  `json:"backupNum,omitempty"`
+		BackupNum *int64 `json:"backupNum,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "backupSize", "backupNum"})
+		common.DeleteKeys(additionalProperties, &[]string{ "engineName", "backupSize", "backupNum",  })
 	} else {
 		return err
 	}

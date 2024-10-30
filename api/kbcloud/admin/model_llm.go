@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Llm llm
+
+
+// Llm llm 
 type Llm struct {
 	// ID of the llm
 	Id string `json:"id"`
@@ -32,9 +36,10 @@ type Llm struct {
 	// Populated by the system. Read-only. Null for lists
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewLlm instantiates a new Llm object.
 // This constructor will assign default values to properties that have it defined,
@@ -57,7 +62,6 @@ func NewLlmWithDefaults() *Llm {
 	this := Llm{}
 	return &this
 }
-
 // GetId returns the Id field value.
 func (o *Llm) GetId() string {
 	if o == nil {
@@ -80,6 +84,7 @@ func (o *Llm) GetIdOk() (*string, bool) {
 func (o *Llm) SetId(v string) {
 	o.Id = v
 }
+
 
 // GetName returns the Name field value.
 func (o *Llm) GetName() string {
@@ -104,6 +109,7 @@ func (o *Llm) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetType returns the Type field value.
 func (o *Llm) GetType() string {
 	if o == nil {
@@ -126,6 +132,7 @@ func (o *Llm) GetTypeOk() (*string, bool) {
 func (o *Llm) SetType(v string) {
 	o.Type = v
 }
+
 
 // GetEnabled returns the Enabled field value.
 func (o *Llm) GetEnabled() bool {
@@ -150,6 +157,7 @@ func (o *Llm) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+
 // GetConfig returns the Config field value.
 func (o *Llm) GetConfig() map[string]interface{} {
 	if o == nil {
@@ -172,6 +180,7 @@ func (o *Llm) GetConfigOk() (*map[string]interface{}, bool) {
 func (o *Llm) SetConfig(v map[string]interface{}) {
 	o.Config = v
 }
+
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Llm) GetCreatedAt() time.Time {
@@ -201,6 +210,7 @@ func (o *Llm) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *Llm) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -228,6 +238,8 @@ func (o *Llm) HasUpdatedAt() bool {
 func (o *Llm) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Llm) MarshalJSON() ([]byte, error) {
@@ -264,13 +276,13 @@ func (o Llm) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Llm) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *string                 `json:"id"`
-		Name      *string                 `json:"name"`
-		Type      *string                 `json:"type"`
-		Enabled   *bool                   `json:"enabled"`
-		Config    *map[string]interface{} `json:"config"`
-		CreatedAt *time.Time              `json:"createdAt,omitempty"`
-		UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
+		Id *string `json:"id"`
+		Name *string `json:"name"`
+		Type *string `json:"type"`
+		Enabled *bool `json:"enabled"`
+		Config *map[string]interface{} `json:"config"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -292,7 +304,7 @@ func (o *Llm) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "enabled", "config", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "type", "enabled", "config", "createdAt", "updatedAt",  })
 	} else {
 		return err
 	}

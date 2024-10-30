@@ -2,38 +2,43 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AlertStrategy Alert strategy information
+
+
+// AlertStrategy Alert strategy information 
 type AlertStrategy struct {
-	Id               *int32                         `json:"id,omitempty"`
-	OrgName          *string                        `json:"orgName,omitempty"`
-	Name             *string                        `json:"name,omitempty"`
-	Description      *string                        `json:"description,omitempty"`
-	CreatedAt        *time.Time                     `json:"createdAt,omitempty"`
-	UpdatedAt        *time.Time                     `json:"updatedAt,omitempty"`
-	ReceiverIds      []int32                        `json:"receiverIds"`
-	Receivers        []AlertReceiver                `json:"receivers,omitempty"`
-	Envs             []string                       `json:"envs,omitempty"`
-	Severities       []string                       `json:"severities,omitempty"`
-	Rules            []string                       `json:"rules,omitempty"`
-	RuleObjs         []AlertRule                    `json:"ruleObjs,omitempty"`
-	Engines          []string                       `json:"engines,omitempty"`
-	Clusters         []string                       `json:"clusters,omitempty"`
-	Disabled         *bool                          `json:"disabled,omitempty"`
-	RepeatInterval   *string                        `json:"repeatInterval,omitempty"`
+	Id *int32 `json:"id,omitempty"`
+	OrgName *string `json:"orgName,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	ReceiverIds []int32 `json:"receiverIds"`
+	Receivers []AlertReceiver `json:"receivers,omitempty"`
+	Envs []string `json:"envs,omitempty"`
+	Severities []string `json:"severities,omitempty"`
+	Rules []string `json:"rules,omitempty"`
+	RuleObjs []AlertRule `json:"ruleObjs,omitempty"`
+	Engines []string `json:"engines,omitempty"`
+	Clusters []string `json:"clusters,omitempty"`
+	Disabled *bool `json:"disabled,omitempty"`
+	RepeatInterval *string `json:"repeatInterval,omitempty"`
 	MuteTimeInterval *AlertStrategyMuteTimeInterval `json:"muteTimeInterval,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertStrategy instantiates a new AlertStrategy object.
 // This constructor will assign default values to properties that have it defined,
@@ -56,7 +61,6 @@ func NewAlertStrategyWithDefaults() *AlertStrategy {
 	this.Disabled = &disabled
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *AlertStrategy) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -84,6 +88,7 @@ func (o *AlertStrategy) HasId() bool {
 func (o *AlertStrategy) SetId(v int32) {
 	o.Id = &v
 }
+
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertStrategy) GetOrgName() string {
@@ -113,6 +118,7 @@ func (o *AlertStrategy) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AlertStrategy) GetName() string {
 	if o == nil || o.Name == nil {
@@ -140,6 +146,7 @@ func (o *AlertStrategy) HasName() bool {
 func (o *AlertStrategy) SetName(v string) {
 	o.Name = &v
 }
+
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *AlertStrategy) GetDescription() string {
@@ -169,6 +176,7 @@ func (o *AlertStrategy) SetDescription(v string) {
 	o.Description = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AlertStrategy) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -196,6 +204,7 @@ func (o *AlertStrategy) HasCreatedAt() bool {
 func (o *AlertStrategy) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
+
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *AlertStrategy) GetUpdatedAt() time.Time {
@@ -225,6 +234,7 @@ func (o *AlertStrategy) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
+
 // GetReceiverIds returns the ReceiverIds field value.
 func (o *AlertStrategy) GetReceiverIds() []int32 {
 	if o == nil {
@@ -247,6 +257,7 @@ func (o *AlertStrategy) GetReceiverIdsOk() (*[]int32, bool) {
 func (o *AlertStrategy) SetReceiverIds(v []int32) {
 	o.ReceiverIds = v
 }
+
 
 // GetReceivers returns the Receivers field value if set, zero value otherwise.
 func (o *AlertStrategy) GetReceivers() []AlertReceiver {
@@ -276,6 +287,7 @@ func (o *AlertStrategy) SetReceivers(v []AlertReceiver) {
 	o.Receivers = v
 }
 
+
 // GetEnvs returns the Envs field value if set, zero value otherwise.
 func (o *AlertStrategy) GetEnvs() []string {
 	if o == nil || o.Envs == nil {
@@ -303,6 +315,7 @@ func (o *AlertStrategy) HasEnvs() bool {
 func (o *AlertStrategy) SetEnvs(v []string) {
 	o.Envs = v
 }
+
 
 // GetSeverities returns the Severities field value if set, zero value otherwise.
 func (o *AlertStrategy) GetSeverities() []string {
@@ -332,6 +345,7 @@ func (o *AlertStrategy) SetSeverities(v []string) {
 	o.Severities = v
 }
 
+
 // GetRules returns the Rules field value if set, zero value otherwise.
 func (o *AlertStrategy) GetRules() []string {
 	if o == nil || o.Rules == nil {
@@ -359,6 +373,7 @@ func (o *AlertStrategy) HasRules() bool {
 func (o *AlertStrategy) SetRules(v []string) {
 	o.Rules = v
 }
+
 
 // GetRuleObjs returns the RuleObjs field value if set, zero value otherwise.
 func (o *AlertStrategy) GetRuleObjs() []AlertRule {
@@ -388,6 +403,7 @@ func (o *AlertStrategy) SetRuleObjs(v []AlertRule) {
 	o.RuleObjs = v
 }
 
+
 // GetEngines returns the Engines field value if set, zero value otherwise.
 func (o *AlertStrategy) GetEngines() []string {
 	if o == nil || o.Engines == nil {
@@ -415,6 +431,7 @@ func (o *AlertStrategy) HasEngines() bool {
 func (o *AlertStrategy) SetEngines(v []string) {
 	o.Engines = v
 }
+
 
 // GetClusters returns the Clusters field value if set, zero value otherwise.
 func (o *AlertStrategy) GetClusters() []string {
@@ -444,6 +461,7 @@ func (o *AlertStrategy) SetClusters(v []string) {
 	o.Clusters = v
 }
 
+
 // GetDisabled returns the Disabled field value if set, zero value otherwise.
 func (o *AlertStrategy) GetDisabled() bool {
 	if o == nil || o.Disabled == nil {
@@ -471,6 +489,7 @@ func (o *AlertStrategy) HasDisabled() bool {
 func (o *AlertStrategy) SetDisabled(v bool) {
 	o.Disabled = &v
 }
+
 
 // GetRepeatInterval returns the RepeatInterval field value if set, zero value otherwise.
 func (o *AlertStrategy) GetRepeatInterval() string {
@@ -500,6 +519,7 @@ func (o *AlertStrategy) SetRepeatInterval(v string) {
 	o.RepeatInterval = &v
 }
 
+
 // GetMuteTimeInterval returns the MuteTimeInterval field value if set, zero value otherwise.
 func (o *AlertStrategy) GetMuteTimeInterval() AlertStrategyMuteTimeInterval {
 	if o == nil || o.MuteTimeInterval == nil {
@@ -527,6 +547,8 @@ func (o *AlertStrategy) HasMuteTimeInterval() bool {
 func (o *AlertStrategy) SetMuteTimeInterval(v AlertStrategyMuteTimeInterval) {
 	o.MuteTimeInterval = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertStrategy) MarshalJSON() ([]byte, error) {
@@ -601,22 +623,22 @@ func (o AlertStrategy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id               *int32                         `json:"id,omitempty"`
-		OrgName          *string                        `json:"orgName,omitempty"`
-		Name             *string                        `json:"name,omitempty"`
-		Description      *string                        `json:"description,omitempty"`
-		CreatedAt        *time.Time                     `json:"createdAt,omitempty"`
-		UpdatedAt        *time.Time                     `json:"updatedAt,omitempty"`
-		ReceiverIds      *[]int32                       `json:"receiverIds"`
-		Receivers        []AlertReceiver                `json:"receivers,omitempty"`
-		Envs             []string                       `json:"envs,omitempty"`
-		Severities       []string                       `json:"severities,omitempty"`
-		Rules            []string                       `json:"rules,omitempty"`
-		RuleObjs         []AlertRule                    `json:"ruleObjs,omitempty"`
-		Engines          []string                       `json:"engines,omitempty"`
-		Clusters         []string                       `json:"clusters,omitempty"`
-		Disabled         *bool                          `json:"disabled,omitempty"`
-		RepeatInterval   *string                        `json:"repeatInterval,omitempty"`
+		Id *int32 `json:"id,omitempty"`
+		OrgName *string `json:"orgName,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Description *string `json:"description,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		ReceiverIds *[]int32 `json:"receiverIds"`
+		Receivers []AlertReceiver `json:"receivers,omitempty"`
+		Envs []string `json:"envs,omitempty"`
+		Severities []string `json:"severities,omitempty"`
+		Rules []string `json:"rules,omitempty"`
+		RuleObjs []AlertRule `json:"ruleObjs,omitempty"`
+		Engines []string `json:"engines,omitempty"`
+		Clusters []string `json:"clusters,omitempty"`
+		Disabled *bool `json:"disabled,omitempty"`
+		RepeatInterval *string `json:"repeatInterval,omitempty"`
 		MuteTimeInterval *AlertStrategyMuteTimeInterval `json:"muteTimeInterval,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -627,7 +649,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "name", "description", "createdAt", "updatedAt", "receiverIds", "receivers", "envs", "severities", "rules", "ruleObjs", "engines", "clusters", "disabled", "repeatInterval", "muteTimeInterval"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "orgName", "name", "description", "createdAt", "updatedAt", "receiverIds", "receivers", "envs", "severities", "rules", "ruleObjs", "engines", "clusters", "disabled", "repeatInterval", "muteTimeInterval",  })
 	} else {
 		return err
 	}
@@ -649,7 +671,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	o.Clusters = all.Clusters
 	o.Disabled = all.Disabled
 	o.RepeatInterval = all.RepeatInterval
-	if all.MuteTimeInterval != nil && all.MuteTimeInterval.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.MuteTimeInterval != nil && all.MuteTimeInterval.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.MuteTimeInterval = all.MuteTimeInterval

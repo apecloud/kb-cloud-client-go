@@ -2,13 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // TpccStep Step of sysbench
 type TpccStep string
@@ -16,9 +21,9 @@ type TpccStep string
 // List of TpccStep.
 const (
 	TpccStepPrepare TpccStep = "prepare"
-	TpccStepRun     TpccStep = "run"
+	TpccStepRun TpccStep = "run"
 	TpccStepCleanup TpccStep = "cleanup"
-	TpccStepAll     TpccStep = "all"
+	TpccStepAll TpccStep = "all"
 )
 
 var allowedTpccStepEnumValues = []TpccStep{

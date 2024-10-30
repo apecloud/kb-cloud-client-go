@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// OpsLicense OpsLicense is the payload to update a KubeBlocks cluster license
+
+
+// OpsLicense OpsLicense is the payload to update a KubeBlocks cluster license 
 type OpsLicense struct {
 	// component type
 	Component string `json:"component"`
 	// license ID
 	LicenseId string `json:"licenseId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsLicense instantiates a new OpsLicense object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewOpsLicenseWithDefaults() *OpsLicense {
 	this := OpsLicense{}
 	return &this
 }
-
 // GetComponent returns the Component field value.
 func (o *OpsLicense) GetComponent() string {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *OpsLicense) SetComponent(v string) {
 	o.Component = v
 }
 
+
 // GetLicenseId returns the LicenseId field value.
 func (o *OpsLicense) GetLicenseId() string {
 	if o == nil {
@@ -85,6 +91,8 @@ func (o *OpsLicense) GetLicenseIdOk() (*string, bool) {
 func (o *OpsLicense) SetLicenseId(v string) {
 	o.LicenseId = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsLicense) MarshalJSON() ([]byte, error) {
@@ -118,7 +126,7 @@ func (o *OpsLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "licenseId"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "licenseId",  })
 	} else {
 		return err
 	}

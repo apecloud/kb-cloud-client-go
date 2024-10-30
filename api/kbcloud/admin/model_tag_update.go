@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// TagUpdate Tag update
+
+
+// TagUpdate Tag update 
 type TagUpdate struct {
 	// The key of the tag
 	Key string `json:"key"`
 	// the value corresponding th the key
 	Value string `json:"value"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewTagUpdate instantiates a new TagUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewTagUpdateWithDefaults() *TagUpdate {
 	this := TagUpdate{}
 	return &this
 }
-
 // GetKey returns the Key field value.
 func (o *TagUpdate) GetKey() string {
 	if o == nil {
@@ -62,6 +67,7 @@ func (o *TagUpdate) GetKeyOk() (*string, bool) {
 func (o *TagUpdate) SetKey(v string) {
 	o.Key = v
 }
+
 
 // GetValue returns the Value field value.
 func (o *TagUpdate) GetValue() string {
@@ -86,6 +92,8 @@ func (o *TagUpdate) SetValue(v string) {
 	o.Value = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o TagUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -104,7 +112,7 @@ func (o TagUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TagUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Key   *string `json:"key"`
+		Key *string `json:"key"`
 		Value *string `json:"value"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -118,7 +126,7 @@ func (o *TagUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"key", "value"})
+		common.DeleteKeys(additionalProperties, &[]string{ "key", "value",  })
 	} else {
 		return err
 	}

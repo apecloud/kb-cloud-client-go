@@ -2,10 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type ComponentOpsOptionDependentCustomOps struct {
 	// opsDefinition name
 	OpsDefName *string `json:"opsDefName,omitempty"`
@@ -22,9 +31,10 @@ type ComponentOpsOptionDependentCustomOps struct {
 	// custom ops parameters
 	Params []ComponentOpsOptionDependentCustomOpsParamsItem `json:"params,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewComponentOpsOptionDependentCustomOps instantiates a new ComponentOpsOptionDependentCustomOps object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,7 +52,6 @@ func NewComponentOpsOptionDependentCustomOpsWithDefaults() *ComponentOpsOptionDe
 	this := ComponentOpsOptionDependentCustomOps{}
 	return &this
 }
-
 // GetOpsDefName returns the OpsDefName field value if set, zero value otherwise.
 func (o *ComponentOpsOptionDependentCustomOps) GetOpsDefName() string {
 	if o == nil || o.OpsDefName == nil {
@@ -70,6 +79,7 @@ func (o *ComponentOpsOptionDependentCustomOps) HasOpsDefName() bool {
 func (o *ComponentOpsOptionDependentCustomOps) SetOpsDefName(v string) {
 	o.OpsDefName = &v
 }
+
 
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *ComponentOpsOptionDependentCustomOps) GetComponent() string {
@@ -99,6 +109,7 @@ func (o *ComponentOpsOptionDependentCustomOps) SetComponent(v string) {
 	o.Component = &v
 }
 
+
 // GetWhen returns the When field value if set, zero value otherwise.
 func (o *ComponentOpsOptionDependentCustomOps) GetWhen() string {
 	if o == nil || o.When == nil {
@@ -126,6 +137,7 @@ func (o *ComponentOpsOptionDependentCustomOps) HasWhen() bool {
 func (o *ComponentOpsOptionDependentCustomOps) SetWhen(v string) {
 	o.When = &v
 }
+
 
 // GetParams returns the Params field value if set, zero value otherwise.
 func (o *ComponentOpsOptionDependentCustomOps) GetParams() []ComponentOpsOptionDependentCustomOpsParamsItem {
@@ -155,6 +167,8 @@ func (o *ComponentOpsOptionDependentCustomOps) SetParams(v []ComponentOpsOptionD
 	o.Params = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOpsOptionDependentCustomOps) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -183,17 +197,17 @@ func (o ComponentOpsOptionDependentCustomOps) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOpsOptionDependentCustomOps) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OpsDefName *string                                          `json:"opsDefName,omitempty"`
-		Component  *string                                          `json:"component,omitempty"`
-		When       *string                                          `json:"when,omitempty"`
-		Params     []ComponentOpsOptionDependentCustomOpsParamsItem `json:"params,omitempty"`
+		OpsDefName *string `json:"opsDefName,omitempty"`
+		Component *string `json:"component,omitempty"`
+		When *string `json:"when,omitempty"`
+		Params []ComponentOpsOptionDependentCustomOpsParamsItem `json:"params,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"opsDefName", "component", "when", "params"})
+		common.DeleteKeys(additionalProperties, &[]string{ "opsDefName", "component", "when", "params",  })
 	} else {
 		return err
 	}

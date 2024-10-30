@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// LoadBalancer The load balancer info
+
+
+// LoadBalancer The load balancer info 
 type LoadBalancer struct {
 	// Whether the loadbalancer is available in the environment.
 	Available LoadBalancerAvailableType `json:"available"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewLoadBalancer instantiates a new LoadBalancer object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewLoadBalancerWithDefaults() *LoadBalancer {
 	this := LoadBalancer{}
 	return &this
 }
-
 // GetAvailable returns the Available field value.
 func (o *LoadBalancer) GetAvailable() LoadBalancerAvailableType {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *LoadBalancer) GetAvailableOk() (*LoadBalancerAvailableType, bool) {
 func (o *LoadBalancer) SetAvailable(v LoadBalancerAvailableType) {
 	o.Available = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o LoadBalancer) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"available"})
+		common.DeleteKeys(additionalProperties, &[]string{ "available",  })
 	} else {
 		return err
 	}

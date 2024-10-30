@@ -2,24 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// EngineVersionDelete EngineVersionRecord delete option
+
+
+// EngineVersionDelete EngineVersionRecord delete option 
 type EngineVersionDelete struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`
 	// Version of the engine
 	Version string `json:"version"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineVersionDelete instantiates a new EngineVersionDelete object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,7 +45,6 @@ func NewEngineVersionDeleteWithDefaults() *EngineVersionDelete {
 	this := EngineVersionDelete{}
 	return &this
 }
-
 // GetEngineName returns the EngineName field value.
 func (o *EngineVersionDelete) GetEngineName() string {
 	if o == nil {
@@ -62,6 +67,7 @@ func (o *EngineVersionDelete) GetEngineNameOk() (*string, bool) {
 func (o *EngineVersionDelete) SetEngineName(v string) {
 	o.EngineName = v
 }
+
 
 // GetVersion returns the Version field value.
 func (o *EngineVersionDelete) GetVersion() string {
@@ -86,6 +92,8 @@ func (o *EngineVersionDelete) SetVersion(v string) {
 	o.Version = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineVersionDelete) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -105,7 +113,7 @@ func (o EngineVersionDelete) MarshalJSON() ([]byte, error) {
 func (o *EngineVersionDelete) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		EngineName *string `json:"engineName"`
-		Version    *string `json:"version"`
+		Version *string `json:"version"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -118,7 +126,7 @@ func (o *EngineVersionDelete) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "version"})
+		common.DeleteKeys(additionalProperties, &[]string{ "engineName", "version",  })
 	} else {
 		return err
 	}

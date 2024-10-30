@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// ProviderUpdate The cloud provider that needs to be updated.
+
+
+// ProviderUpdate The cloud provider that needs to be updated. 
 type ProviderUpdate struct {
 	// The logo of the cloud provider.
 	Logo string `json:"logo"`
@@ -23,9 +28,10 @@ type ProviderUpdate struct {
 	// Whether the cloud provider supports ARN.
 	SupportArn bool `json:"supportARN"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewProviderUpdate instantiates a new ProviderUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,7 +54,6 @@ func NewProviderUpdateWithDefaults() *ProviderUpdate {
 	this := ProviderUpdate{}
 	return &this
 }
-
 // GetLogo returns the Logo field value.
 func (o *ProviderUpdate) GetLogo() string {
 	if o == nil {
@@ -71,6 +76,7 @@ func (o *ProviderUpdate) GetLogoOk() (*string, bool) {
 func (o *ProviderUpdate) SetLogo(v string) {
 	o.Logo = v
 }
+
 
 // GetEnabled returns the Enabled field value.
 func (o *ProviderUpdate) GetEnabled() bool {
@@ -95,6 +101,7 @@ func (o *ProviderUpdate) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+
 // GetNameCn returns the NameCn field value.
 func (o *ProviderUpdate) GetNameCn() string {
 	if o == nil {
@@ -117,6 +124,7 @@ func (o *ProviderUpdate) GetNameCnOk() (*string, bool) {
 func (o *ProviderUpdate) SetNameCn(v string) {
 	o.NameCn = v
 }
+
 
 // GetNameEn returns the NameEn field value.
 func (o *ProviderUpdate) GetNameEn() string {
@@ -141,6 +149,7 @@ func (o *ProviderUpdate) SetNameEn(v string) {
 	o.NameEn = v
 }
 
+
 // GetSupportArn returns the SupportArn field value.
 func (o *ProviderUpdate) GetSupportArn() bool {
 	if o == nil {
@@ -164,6 +173,8 @@ func (o *ProviderUpdate) SetSupportArn(v bool) {
 	o.SupportArn = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProviderUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -185,11 +196,11 @@ func (o ProviderUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProviderUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Logo       *string `json:"logo"`
-		Enabled    *bool   `json:"enabled"`
-		NameCn     *string `json:"nameCN"`
-		NameEn     *string `json:"nameEN"`
-		SupportArn *bool   `json:"supportARN"`
+		Logo *string `json:"logo"`
+		Enabled *bool `json:"enabled"`
+		NameCn *string `json:"nameCN"`
+		NameEn *string `json:"nameEN"`
+		SupportArn *bool `json:"supportARN"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -211,7 +222,7 @@ func (o *ProviderUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"logo", "enabled", "nameCN", "nameEN", "supportARN"})
+		common.DeleteKeys(additionalProperties, &[]string{ "logo", "enabled", "nameCN", "nameEN", "supportARN",  })
 	} else {
 		return err
 	}

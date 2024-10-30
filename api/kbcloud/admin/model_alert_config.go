@@ -2,21 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type AlertConfig struct {
 	// Time zone offset in seconds, e.g. offset of UTC+08:00 is +8 * 60 * 60
 	TimeZoneOffset int32 `json:"timeZoneOffset"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertConfig instantiates a new AlertConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +41,6 @@ func NewAlertConfigWithDefaults() *AlertConfig {
 	this := AlertConfig{}
 	return &this
 }
-
 // GetTimeZoneOffset returns the TimeZoneOffset field value.
 func (o *AlertConfig) GetTimeZoneOffset() int32 {
 	if o == nil {
@@ -58,6 +63,8 @@ func (o *AlertConfig) GetTimeZoneOffsetOk() (*int32, bool) {
 func (o *AlertConfig) SetTimeZoneOffset(v int32) {
 	o.TimeZoneOffset = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertConfig) MarshalJSON() ([]byte, error) {
@@ -86,7 +93,7 @@ func (o *AlertConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"timeZoneOffset"})
+		common.DeleteKeys(additionalProperties, &[]string{ "timeZoneOffset",  })
 	} else {
 		return err
 	}

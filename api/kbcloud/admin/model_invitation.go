@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Invitation Invitation info
+
+
+// Invitation Invitation info 
 type Invitation struct {
 	// User has accepted or not
 	Accepted bool `json:"accepted"`
@@ -36,9 +40,10 @@ type Invitation struct {
 	// the updated time of the invitation
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInvitation instantiates a new Invitation object.
 // This constructor will assign default values to properties that have it defined,
@@ -64,7 +69,6 @@ func NewInvitationWithDefaults() *Invitation {
 	this := Invitation{}
 	return &this
 }
-
 // GetAccepted returns the Accepted field value.
 func (o *Invitation) GetAccepted() bool {
 	if o == nil {
@@ -87,6 +91,7 @@ func (o *Invitation) GetAcceptedOk() (*bool, bool) {
 func (o *Invitation) SetAccepted(v bool) {
 	o.Accepted = v
 }
+
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Invitation) GetCreatedAt() time.Time {
@@ -116,6 +121,7 @@ func (o *Invitation) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+
 // GetEmail returns the Email field value.
 func (o *Invitation) GetEmail() string {
 	if o == nil {
@@ -138,6 +144,7 @@ func (o *Invitation) GetEmailOk() (*string, bool) {
 func (o *Invitation) SetEmail(v string) {
 	o.Email = v
 }
+
 
 // GetExpireTime returns the ExpireTime field value.
 func (o *Invitation) GetExpireTime() time.Time {
@@ -162,6 +169,7 @@ func (o *Invitation) SetExpireTime(v time.Time) {
 	o.ExpireTime = v
 }
 
+
 // GetId returns the Id field value.
 func (o *Invitation) GetId() string {
 	if o == nil {
@@ -184,6 +192,7 @@ func (o *Invitation) GetIdOk() (*string, bool) {
 func (o *Invitation) SetId(v string) {
 	o.Id = v
 }
+
 
 // GetLastEmailTime returns the LastEmailTime field value.
 func (o *Invitation) GetLastEmailTime() time.Time {
@@ -208,6 +217,7 @@ func (o *Invitation) SetLastEmailTime(v time.Time) {
 	o.LastEmailTime = v
 }
 
+
 // GetOrgName returns the OrgName field value.
 func (o *Invitation) GetOrgName() string {
 	if o == nil {
@@ -231,6 +241,7 @@ func (o *Invitation) SetOrgName(v string) {
 	o.OrgName = v
 }
 
+
 // GetRoleName returns the RoleName field value.
 func (o *Invitation) GetRoleName() string {
 	if o == nil {
@@ -253,6 +264,7 @@ func (o *Invitation) GetRoleNameOk() (*string, bool) {
 func (o *Invitation) SetRoleName(v string) {
 	o.RoleName = v
 }
+
 
 // GetSender returns the Sender field value if set, zero value otherwise.
 func (o *Invitation) GetSender() InvitationSender {
@@ -282,6 +294,7 @@ func (o *Invitation) SetSender(v InvitationSender) {
 	o.Sender = &v
 }
 
+
 // GetToken returns the Token field value.
 func (o *Invitation) GetToken() string {
 	if o == nil {
@@ -304,6 +317,7 @@ func (o *Invitation) GetTokenOk() (*string, bool) {
 func (o *Invitation) SetToken(v string) {
 	o.Token = v
 }
+
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *Invitation) GetUpdatedAt() time.Time {
@@ -332,6 +346,8 @@ func (o *Invitation) HasUpdatedAt() bool {
 func (o *Invitation) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Invitation) MarshalJSON() ([]byte, error) {
@@ -382,17 +398,17 @@ func (o Invitation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Accepted      *bool             `json:"accepted"`
-		CreatedAt     *time.Time        `json:"createdAt,omitempty"`
-		Email         *string           `json:"email"`
-		ExpireTime    *time.Time        `json:"expireTime"`
-		Id            *string           `json:"id"`
-		LastEmailTime *time.Time        `json:"lastEmailTime"`
-		OrgName       *string           `json:"orgName"`
-		RoleName      *string           `json:"roleName"`
-		Sender        *InvitationSender `json:"sender,omitempty"`
-		Token         *string           `json:"token"`
-		UpdatedAt     *time.Time        `json:"updatedAt,omitempty"`
+		Accepted *bool `json:"accepted"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Email *string `json:"email"`
+		ExpireTime *time.Time `json:"expireTime"`
+		Id *string `json:"id"`
+		LastEmailTime *time.Time `json:"lastEmailTime"`
+		OrgName *string `json:"orgName"`
+		RoleName *string `json:"roleName"`
+		Sender *InvitationSender `json:"sender,omitempty"`
+		Token *string `json:"token"`
+		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -423,7 +439,7 @@ func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accepted", "createdAt", "email", "expireTime", "id", "lastEmailTime", "orgName", "roleName", "sender", "token", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "accepted", "createdAt", "email", "expireTime", "id", "lastEmailTime", "orgName", "roleName", "sender", "token", "updatedAt",  })
 	} else {
 		return err
 	}
@@ -437,7 +453,7 @@ func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	o.LastEmailTime = *all.LastEmailTime
 	o.OrgName = *all.OrgName
 	o.RoleName = *all.RoleName
-	if all.Sender != nil && all.Sender.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Sender != nil && all.Sender.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Sender = all.Sender

@@ -2,18 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ProviderList The list of cloud providers.
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ProviderList The list of cloud providers. 
 type ProviderList struct {
 	// The list of cloud providers.
 	Items []Provider `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewProviderList instantiates a new ProviderList object.
 // This constructor will assign default values to properties that have it defined,
@@ -31,7 +41,6 @@ func NewProviderListWithDefaults() *ProviderList {
 	this := ProviderList{}
 	return &this
 }
-
 // GetItems returns the Items field value if set, zero value otherwise.
 func (o *ProviderList) GetItems() []Provider {
 	if o == nil || o.Items == nil {
@@ -60,6 +69,8 @@ func (o *ProviderList) SetItems(v []Provider) {
 	o.Items = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProviderList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -86,7 +97,7 @@ func (o *ProviderList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
 	} else {
 		return err
 	}

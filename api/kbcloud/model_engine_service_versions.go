@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type EngineServiceVersions struct {
 	// component type, refer to componentDef and support NamePrefix
-	Component           *string                             `json:"component,omitempty"`
-	UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
-	Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
+	Component *string `json:"component,omitempty"`
+	UpgradeableVersions []string `json:"upgradeableVersions,omitempty"`
+	Versions []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineServiceVersions instantiates a new EngineServiceVersions object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewEngineServiceVersionsWithDefaults() *EngineServiceVersions {
 	this := EngineServiceVersions{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *EngineServiceVersions) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -60,6 +69,7 @@ func (o *EngineServiceVersions) HasComponent() bool {
 func (o *EngineServiceVersions) SetComponent(v string) {
 	o.Component = &v
 }
+
 
 // GetUpgradeableVersions returns the UpgradeableVersions field value if set, zero value otherwise.
 func (o *EngineServiceVersions) GetUpgradeableVersions() []string {
@@ -89,6 +99,7 @@ func (o *EngineServiceVersions) SetUpgradeableVersions(v []string) {
 	o.UpgradeableVersions = v
 }
 
+
 // GetVersions returns the Versions field value if set, zero value otherwise.
 func (o *EngineServiceVersions) GetVersions() []EngineServiceVersionsVersionsItem {
 	if o == nil || o.Versions == nil {
@@ -117,6 +128,8 @@ func (o *EngineServiceVersions) SetVersions(v []EngineServiceVersionsVersionsIte
 	o.Versions = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineServiceVersions) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -142,16 +155,16 @@ func (o EngineServiceVersions) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineServiceVersions) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component           *string                             `json:"component,omitempty"`
-		UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
-		Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
+		Component *string `json:"component,omitempty"`
+		UpgradeableVersions []string `json:"upgradeableVersions,omitempty"`
+		Versions []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "upgradeableVersions", "versions"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "upgradeableVersions", "versions",  })
 	} else {
 		return err
 	}

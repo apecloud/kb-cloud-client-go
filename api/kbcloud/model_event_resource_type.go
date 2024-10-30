@@ -2,13 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // EventResourceType Type of the resource
 type EventResourceType string
@@ -16,7 +21,7 @@ type EventResourceType string
 // List of EventResourceType.
 const (
 	EventResourceTypeCluster EventResourceType = "cluster"
-	EventResourceTypeRole    EventResourceType = "role"
+	EventResourceTypeRole EventResourceType = "role"
 )
 
 var allowedEventResourceTypeEnumValues = []EventResourceType{

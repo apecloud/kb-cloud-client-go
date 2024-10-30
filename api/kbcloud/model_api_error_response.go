@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// APIErrorResponse API error response.
+
+
+// APIErrorResponse API error response. 
 type APIErrorResponse struct {
 	// The HTTP status code.
 	Code int32 `json:"code"`
@@ -19,9 +24,10 @@ type APIErrorResponse struct {
 	// The message for the error.
 	Message *string `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAPIErrorResponse instantiates a new APIErrorResponse object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewAPIErrorResponseWithDefaults() *APIErrorResponse {
 	this := APIErrorResponse{}
 	return &this
 }
-
 // GetCode returns the Code field value.
 func (o *APIErrorResponse) GetCode() int32 {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *APIErrorResponse) GetCodeOk() (*int32, bool) {
 func (o *APIErrorResponse) SetCode(v int32) {
 	o.Code = v
 }
+
 
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *APIErrorResponse) GetReason() string {
@@ -92,6 +98,7 @@ func (o *APIErrorResponse) SetReason(v string) {
 	o.Reason = &v
 }
 
+
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *APIErrorResponse) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -120,6 +127,8 @@ func (o *APIErrorResponse) SetMessage(v string) {
 	o.Message = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o APIErrorResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,8 +152,8 @@ func (o APIErrorResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *APIErrorResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Code    *int32  `json:"code"`
-		Reason  *string `json:"reason,omitempty"`
+		Code *int32 `json:"code"`
+		Reason *string `json:"reason,omitempty"`
 		Message *string `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -155,7 +164,7 @@ func (o *APIErrorResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"code", "reason", "message"})
+		common.DeleteKeys(additionalProperties, &[]string{ "code", "reason", "message",  })
 	} else {
 		return err
 	}

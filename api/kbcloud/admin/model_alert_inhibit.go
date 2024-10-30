@@ -2,23 +2,33 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// AlertInhibit Alert object information
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// AlertInhibit Alert object information 
 type AlertInhibit struct {
-	Id          *int32              `json:"id,omitempty"`
-	Name        *string             `json:"name,omitempty"`
-	Description *string             `json:"description,omitempty"`
-	OrgName     *string             `json:"orgName,omitempty"`
+	Id *int32 `json:"id,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+	OrgName *string `json:"orgName,omitempty"`
 	SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
 	TargetMatch map[string][]string `json:"targetMatch,omitempty"`
-	Equal       []string            `json:"equal,omitempty"`
+	Equal []string `json:"equal,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertInhibit instantiates a new AlertInhibit object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +46,6 @@ func NewAlertInhibitWithDefaults() *AlertInhibit {
 	this := AlertInhibit{}
 	return &this
 }
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *AlertInhibit) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -64,6 +73,7 @@ func (o *AlertInhibit) HasId() bool {
 func (o *AlertInhibit) SetId(v int32) {
 	o.Id = &v
 }
+
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AlertInhibit) GetName() string {
@@ -93,6 +103,7 @@ func (o *AlertInhibit) SetName(v string) {
 	o.Name = &v
 }
 
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *AlertInhibit) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -120,6 +131,7 @@ func (o *AlertInhibit) HasDescription() bool {
 func (o *AlertInhibit) SetDescription(v string) {
 	o.Description = &v
 }
+
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertInhibit) GetOrgName() string {
@@ -149,6 +161,7 @@ func (o *AlertInhibit) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+
 // GetSourceMatch returns the SourceMatch field value if set, zero value otherwise.
 func (o *AlertInhibit) GetSourceMatch() map[string][]string {
 	if o == nil || o.SourceMatch == nil {
@@ -176,6 +189,7 @@ func (o *AlertInhibit) HasSourceMatch() bool {
 func (o *AlertInhibit) SetSourceMatch(v map[string][]string) {
 	o.SourceMatch = v
 }
+
 
 // GetTargetMatch returns the TargetMatch field value if set, zero value otherwise.
 func (o *AlertInhibit) GetTargetMatch() map[string][]string {
@@ -205,6 +219,7 @@ func (o *AlertInhibit) SetTargetMatch(v map[string][]string) {
 	o.TargetMatch = v
 }
 
+
 // GetEqual returns the Equal field value if set, zero value otherwise.
 func (o *AlertInhibit) GetEqual() []string {
 	if o == nil || o.Equal == nil {
@@ -232,6 +247,8 @@ func (o *AlertInhibit) HasEqual() bool {
 func (o *AlertInhibit) SetEqual(v []string) {
 	o.Equal = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertInhibit) MarshalJSON() ([]byte, error) {
@@ -270,20 +287,20 @@ func (o AlertInhibit) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertInhibit) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32              `json:"id,omitempty"`
-		Name        *string             `json:"name,omitempty"`
-		Description *string             `json:"description,omitempty"`
-		OrgName     *string             `json:"orgName,omitempty"`
+		Id *int32 `json:"id,omitempty"`
+		Name *string `json:"name,omitempty"`
+		Description *string `json:"description,omitempty"`
+		OrgName *string `json:"orgName,omitempty"`
 		SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
 		TargetMatch map[string][]string `json:"targetMatch,omitempty"`
-		Equal       []string            `json:"equal,omitempty"`
+		Equal []string `json:"equal,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "description", "orgName", "sourceMatch", "targetMatch", "equal"})
+		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "description", "orgName", "sourceMatch", "targetMatch", "equal",  })
 	} else {
 		return err
 	}

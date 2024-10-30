@@ -2,14 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type ObParameter struct {
 	// The name of the parameter
 	Name string `json:"name"`
@@ -34,9 +39,10 @@ type ObParameter struct {
 	// Whether the parameter is read-only
 	ReadOnly bool `json:"readOnly"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewObParameter instantiates a new ObParameter object.
 // This constructor will assign default values to properties that have it defined,
@@ -62,7 +68,6 @@ func NewObParameterWithDefaults() *ObParameter {
 	this := ObParameter{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *ObParameter) GetName() string {
 	if o == nil {
@@ -85,6 +90,7 @@ func (o *ObParameter) GetNameOk() (*string, bool) {
 func (o *ObParameter) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetValue returns the Value field value.
 func (o *ObParameter) GetValue() string {
@@ -109,6 +115,7 @@ func (o *ObParameter) SetValue(v string) {
 	o.Value = v
 }
 
+
 // GetDataType returns the DataType field value.
 func (o *ObParameter) GetDataType() string {
 	if o == nil {
@@ -131,6 +138,7 @@ func (o *ObParameter) GetDataTypeOk() (*string, bool) {
 func (o *ObParameter) SetDataType(v string) {
 	o.DataType = v
 }
+
 
 // GetDescription returns the Description field value.
 func (o *ObParameter) GetDescription() string {
@@ -155,6 +163,7 @@ func (o *ObParameter) SetDescription(v string) {
 	o.Description = v
 }
 
+
 // GetEnum returns the Enum field value.
 func (o *ObParameter) GetEnum() []map[string]interface{} {
 	if o == nil {
@@ -177,6 +186,7 @@ func (o *ObParameter) GetEnumOk() (*[]map[string]interface{}, bool) {
 func (o *ObParameter) SetEnum(v []map[string]interface{}) {
 	o.Enum = v
 }
+
 
 // GetMaximum returns the Maximum field value.
 func (o *ObParameter) GetMaximum() float64 {
@@ -201,6 +211,7 @@ func (o *ObParameter) SetMaximum(v float64) {
 	o.Maximum = v
 }
 
+
 // GetMinimum returns the Minimum field value.
 func (o *ObParameter) GetMinimum() float64 {
 	if o == nil {
@@ -223,6 +234,7 @@ func (o *ObParameter) GetMinimumOk() (*float64, bool) {
 func (o *ObParameter) SetMinimum(v float64) {
 	o.Minimum = v
 }
+
 
 // GetImmutable returns the Immutable field value if set, zero value otherwise.
 func (o *ObParameter) GetImmutable() bool {
@@ -252,6 +264,7 @@ func (o *ObParameter) SetImmutable(v bool) {
 	o.Immutable = &v
 }
 
+
 // GetIsVariable returns the IsVariable field value if set, zero value otherwise.
 func (o *ObParameter) GetIsVariable() bool {
 	if o == nil || o.IsVariable == nil {
@@ -279,6 +292,7 @@ func (o *ObParameter) HasIsVariable() bool {
 func (o *ObParameter) SetIsVariable(v bool) {
 	o.IsVariable = &v
 }
+
 
 // GetEditLevel returns the EditLevel field value if set, zero value otherwise.
 func (o *ObParameter) GetEditLevel() string {
@@ -308,6 +322,7 @@ func (o *ObParameter) SetEditLevel(v string) {
 	o.EditLevel = &v
 }
 
+
 // GetReadOnly returns the ReadOnly field value.
 func (o *ObParameter) GetReadOnly() bool {
 	if o == nil {
@@ -330,6 +345,8 @@ func (o *ObParameter) GetReadOnlyOk() (*bool, bool) {
 func (o *ObParameter) SetReadOnly(v bool) {
 	o.ReadOnly = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ObParameter) MarshalJSON() ([]byte, error) {
@@ -364,17 +381,17 @@ func (o ObParameter) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ObParameter) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                   `json:"name"`
-		Value       *string                   `json:"value"`
-		DataType    *string                   `json:"dataType"`
-		Description *string                   `json:"description"`
-		Enum        *[]map[string]interface{} `json:"enum"`
-		Maximum     *float64                  `json:"maximum"`
-		Minimum     *float64                  `json:"minimum"`
-		Immutable   *bool                     `json:"immutable,omitempty"`
-		IsVariable  *bool                     `json:"isVariable,omitempty"`
-		EditLevel   *string                   `json:"editLevel,omitempty"`
-		ReadOnly    *bool                     `json:"readOnly"`
+		Name *string `json:"name"`
+		Value *string `json:"value"`
+		DataType *string `json:"dataType"`
+		Description *string `json:"description"`
+		Enum *[]map[string]interface{} `json:"enum"`
+		Maximum *float64 `json:"maximum"`
+		Minimum *float64 `json:"minimum"`
+		Immutable *bool `json:"immutable,omitempty"`
+		IsVariable *bool `json:"isVariable,omitempty"`
+		EditLevel *string `json:"editLevel,omitempty"`
+		ReadOnly *bool `json:"readOnly"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -405,7 +422,7 @@ func (o *ObParameter) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "value", "dataType", "description", "enum", "maximum", "minimum", "immutable", "isVariable", "editLevel", "readOnly"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "value", "dataType", "description", "enum", "maximum", "minimum", "immutable", "isVariable", "editLevel", "readOnly",  })
 	} else {
 		return err
 	}

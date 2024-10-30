@@ -2,23 +2,33 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// ParamTplsItem the item of the parameter template
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// ParamTplsItem the item of the parameter template 
 type ParamTplsItem struct {
 	// component type, refer to componentDef and support NamePrefix, Deprecated.
 	ComponentDefRef *string `json:"componentDefRef,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`
 	// name of assigned parameter template
-	ParamTplName      *string            `json:"paramTplName,omitempty"`
+	ParamTplName *string `json:"paramTplName,omitempty"`
 	ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewParamTplsItem instantiates a new ParamTplsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +46,6 @@ func NewParamTplsItemWithDefaults() *ParamTplsItem {
 	this := ParamTplsItem{}
 	return &this
 }
-
 // GetComponentDefRef returns the ComponentDefRef field value if set, zero value otherwise.
 func (o *ParamTplsItem) GetComponentDefRef() string {
 	if o == nil || o.ComponentDefRef == nil {
@@ -64,6 +73,7 @@ func (o *ParamTplsItem) HasComponentDefRef() bool {
 func (o *ParamTplsItem) SetComponentDefRef(v string) {
 	o.ComponentDefRef = &v
 }
+
 
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *ParamTplsItem) GetComponent() string {
@@ -93,6 +103,7 @@ func (o *ParamTplsItem) SetComponent(v string) {
 	o.Component = &v
 }
 
+
 // GetParamTplName returns the ParamTplName field value if set, zero value otherwise.
 func (o *ParamTplsItem) GetParamTplName() string {
 	if o == nil || o.ParamTplName == nil {
@@ -120,6 +131,7 @@ func (o *ParamTplsItem) HasParamTplName() bool {
 func (o *ParamTplsItem) SetParamTplName(v string) {
 	o.ParamTplName = &v
 }
+
 
 // GetParamTplPartition returns the ParamTplPartition field value if set, zero value otherwise.
 func (o *ParamTplsItem) GetParamTplPartition() ParamTplPartition {
@@ -149,6 +161,8 @@ func (o *ParamTplsItem) SetParamTplPartition(v ParamTplPartition) {
 	o.ParamTplPartition = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -177,9 +191,9 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ComponentDefRef   *string            `json:"componentDefRef,omitempty"`
-		Component         *string            `json:"component,omitempty"`
-		ParamTplName      *string            `json:"paramTplName,omitempty"`
+		ComponentDefRef *string `json:"componentDefRef,omitempty"`
+		Component *string `json:"component,omitempty"`
+		ParamTplName *string `json:"paramTplName,omitempty"`
 		ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -187,7 +201,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"componentDefRef", "component", "paramTplName", "paramTplPartition"})
+		common.DeleteKeys(additionalProperties, &[]string{ "componentDefRef", "component", "paramTplName", "paramTplPartition",  })
 	} else {
 		return err
 	}
@@ -196,7 +210,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ComponentDefRef = all.ComponentDefRef
 	o.Component = all.Component
 	o.ParamTplName = all.ParamTplName
-	if all.ParamTplPartition != nil && !all.ParamTplPartition.IsValid() {
+	if all.ParamTplPartition != nil &&!all.ParamTplPartition.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ParamTplPartition = all.ParamTplPartition

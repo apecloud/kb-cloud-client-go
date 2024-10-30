@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type BenchmarkApi common.Service
 // CreatePgbench Create a pgbench benchmark task.
 func (a *BenchmarkApi) CreatePgbench(ctx _context.Context, orgName string, body Pgbench) (Benchmark, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Benchmark
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Benchmark
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreatePgbench")
 	if err != nil {
@@ -38,9 +44,11 @@ func (a *BenchmarkApi) CreatePgbench(ctx _context.Context, orgName string, body 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -63,7 +71,7 @@ func (a *BenchmarkApi) CreatePgbench(ctx _context.Context, orgName string, body 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -75,10 +83,12 @@ func (a *BenchmarkApi) CreatePgbench(ctx _context.Context, orgName string, body 
 // CreateSysbench Create a sysbench benchmark task.
 func (a *BenchmarkApi) CreateSysbench(ctx _context.Context, orgName string, body Sysbench) (Benchmark, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Benchmark
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Benchmark
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreateSysbench")
 	if err != nil {
@@ -94,9 +104,11 @@ func (a *BenchmarkApi) CreateSysbench(ctx _context.Context, orgName string, body
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -119,7 +131,7 @@ func (a *BenchmarkApi) CreateSysbench(ctx _context.Context, orgName string, body
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -131,10 +143,12 @@ func (a *BenchmarkApi) CreateSysbench(ctx _context.Context, orgName string, body
 // CreateTpcc Create a tpcc benchmark task.
 func (a *BenchmarkApi) CreateTpcc(ctx _context.Context, orgName string, body Tpcc) (Benchmark, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Benchmark
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Benchmark
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreateTpcc")
 	if err != nil {
@@ -150,9 +164,11 @@ func (a *BenchmarkApi) CreateTpcc(ctx _context.Context, orgName string, body Tpc
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -175,7 +191,7 @@ func (a *BenchmarkApi) CreateTpcc(ctx _context.Context, orgName string, body Tpc
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -187,10 +203,12 @@ func (a *BenchmarkApi) CreateTpcc(ctx _context.Context, orgName string, body Tpc
 // CreateYcsb Create a ycsb benchmark task.
 func (a *BenchmarkApi) CreateYcsb(ctx _context.Context, orgName string, body Ycsb) (Benchmark, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Benchmark
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Benchmark
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreateYcsb")
 	if err != nil {
@@ -206,9 +224,11 @@ func (a *BenchmarkApi) CreateYcsb(ctx _context.Context, orgName string, body Ycs
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -231,7 +251,7 @@ func (a *BenchmarkApi) CreateYcsb(ctx _context.Context, orgName string, body Ycs
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -243,10 +263,12 @@ func (a *BenchmarkApi) CreateYcsb(ctx _context.Context, orgName string, body Ycs
 // DeleteBenchmark Delete benchmark tasks.
 func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, body []string) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		localVarReturnValue  interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.DeleteBenchmark")
 	if err != nil {
@@ -262,9 +284,11 @@ func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, bod
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -286,10 +310,11 @@ func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, bod
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -303,7 +328,7 @@ func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, bod
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -315,10 +340,12 @@ func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, bod
 // GetBenchmark Get benchmark task info.
 func (a *BenchmarkApi) GetBenchmark(ctx _context.Context, orgName string, benchmarkId string) (Benchmark, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue Benchmark
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  Benchmark
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.GetBenchmark")
 	if err != nil {
@@ -334,7 +361,8 @@ func (a *BenchmarkApi) GetBenchmark(ctx _context.Context, orgName string, benchm
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -357,7 +385,7 @@ func (a *BenchmarkApi) GetBenchmark(ctx _context.Context, orgName string, benchm
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -368,7 +396,7 @@ func (a *BenchmarkApi) GetBenchmark(ctx _context.Context, orgName string, benchm
 
 // ListBenchmarkOptionalParameters holds optional parameters for ListBenchmark.
 type ListBenchmarkOptionalParameters struct {
-	Cluster   *string
+	Cluster *string
 	BenchType *string
 	ClusterId *string
 }
@@ -378,19 +406,16 @@ func NewListBenchmarkOptionalParameters() *ListBenchmarkOptionalParameters {
 	this := ListBenchmarkOptionalParameters{}
 	return &this
 }
-
 // WithCluster sets the corresponding parameter name and returns the struct.
 func (r *ListBenchmarkOptionalParameters) WithCluster(cluster string) *ListBenchmarkOptionalParameters {
 	r.Cluster = &cluster
 	return r
 }
-
 // WithBenchType sets the corresponding parameter name and returns the struct.
 func (r *ListBenchmarkOptionalParameters) WithBenchType(benchType string) *ListBenchmarkOptionalParameters {
 	r.BenchType = &benchType
 	return r
 }
-
 // WithClusterId sets the corresponding parameter name and returns the struct.
 func (r *ListBenchmarkOptionalParameters) WithClusterId(clusterId string) *ListBenchmarkOptionalParameters {
 	r.ClusterId = &clusterId
@@ -400,18 +425,20 @@ func (r *ListBenchmarkOptionalParameters) WithClusterId(clusterId string) *ListB
 // ListBenchmark List benchmark tasks.
 func (a *BenchmarkApi) ListBenchmark(ctx _context.Context, orgName string, o ...ListBenchmarkOptionalParameters) (BenchmarkList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue BenchmarkList
-		optionalParams      ListBenchmarkOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  BenchmarkList
+		optionalParams ListBenchmarkOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListBenchmarkOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListBenchmarkOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.ListBenchmark")
 	if err != nil {
@@ -435,7 +462,8 @@ func (a *BenchmarkApi) ListBenchmark(ctx _context.Context, orgName string, o ...
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -458,7 +486,7 @@ func (a *BenchmarkApi) ListBenchmark(ctx _context.Context, orgName string, o ...
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

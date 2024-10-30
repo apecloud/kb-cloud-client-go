@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type DataDisk struct {
-	DataDiskCapacity     *string `json:"data_disk_capacity,omitempty"`
-	DataDiskAllocated    *string `json:"data_disk_allocated,omitempty"`
-	DataDiskInUse        *string `json:"data_disk_in_use,omitempty"`
+	DataDiskCapacity *string `json:"data_disk_capacity,omitempty"`
+	DataDiskAllocated *string `json:"data_disk_allocated,omitempty"`
+	DataDiskInUse *string `json:"data_disk_in_use,omitempty"`
 	DataDiskHealthStatus *string `json:"data_disk_health_status,omitempty"`
 	DataDiskAbnormalTime *string `json:"data_disk_abnormal_time,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewDataDisk instantiates a new DataDisk object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewDataDiskWithDefaults() *DataDisk {
 	this := DataDisk{}
 	return &this
 }
-
 // GetDataDiskCapacity returns the DataDiskCapacity field value if set, zero value otherwise.
 func (o *DataDisk) GetDataDiskCapacity() string {
 	if o == nil || o.DataDiskCapacity == nil {
@@ -61,6 +70,7 @@ func (o *DataDisk) HasDataDiskCapacity() bool {
 func (o *DataDisk) SetDataDiskCapacity(v string) {
 	o.DataDiskCapacity = &v
 }
+
 
 // GetDataDiskAllocated returns the DataDiskAllocated field value if set, zero value otherwise.
 func (o *DataDisk) GetDataDiskAllocated() string {
@@ -90,6 +100,7 @@ func (o *DataDisk) SetDataDiskAllocated(v string) {
 	o.DataDiskAllocated = &v
 }
 
+
 // GetDataDiskInUse returns the DataDiskInUse field value if set, zero value otherwise.
 func (o *DataDisk) GetDataDiskInUse() string {
 	if o == nil || o.DataDiskInUse == nil {
@@ -117,6 +128,7 @@ func (o *DataDisk) HasDataDiskInUse() bool {
 func (o *DataDisk) SetDataDiskInUse(v string) {
 	o.DataDiskInUse = &v
 }
+
 
 // GetDataDiskHealthStatus returns the DataDiskHealthStatus field value if set, zero value otherwise.
 func (o *DataDisk) GetDataDiskHealthStatus() string {
@@ -146,6 +158,7 @@ func (o *DataDisk) SetDataDiskHealthStatus(v string) {
 	o.DataDiskHealthStatus = &v
 }
 
+
 // GetDataDiskAbnormalTime returns the DataDiskAbnormalTime field value if set, zero value otherwise.
 func (o *DataDisk) GetDataDiskAbnormalTime() string {
 	if o == nil || o.DataDiskAbnormalTime == nil {
@@ -173,6 +186,8 @@ func (o *DataDisk) HasDataDiskAbnormalTime() bool {
 func (o *DataDisk) SetDataDiskAbnormalTime(v string) {
 	o.DataDiskAbnormalTime = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o DataDisk) MarshalJSON() ([]byte, error) {
@@ -205,9 +220,9 @@ func (o DataDisk) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataDisk) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DataDiskCapacity     *string `json:"data_disk_capacity,omitempty"`
-		DataDiskAllocated    *string `json:"data_disk_allocated,omitempty"`
-		DataDiskInUse        *string `json:"data_disk_in_use,omitempty"`
+		DataDiskCapacity *string `json:"data_disk_capacity,omitempty"`
+		DataDiskAllocated *string `json:"data_disk_allocated,omitempty"`
+		DataDiskInUse *string `json:"data_disk_in_use,omitempty"`
 		DataDiskHealthStatus *string `json:"data_disk_health_status,omitempty"`
 		DataDiskAbnormalTime *string `json:"data_disk_abnormal_time,omitempty"`
 	}{}
@@ -216,7 +231,7 @@ func (o *DataDisk) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"data_disk_capacity", "data_disk_allocated", "data_disk_in_use", "data_disk_health_status", "data_disk_abnormal_time"})
+		common.DeleteKeys(additionalProperties, &[]string{ "data_disk_capacity", "data_disk_allocated", "data_disk_in_use", "data_disk_health_status", "data_disk_abnormal_time",  })
 	} else {
 		return err
 	}

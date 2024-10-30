@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type ParamTplApi common.Service
 // CreateParamTpl Create parameter template.
 func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body ParamTplCreate) (ParamTplListItem, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue ParamTplListItem
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  ParamTplListItem
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.CreateParamTpl")
 	if err != nil {
@@ -38,9 +44,11 @@ func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -62,10 +70,11 @@ func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -79,7 +88,7 @@ func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -91,9 +100,11 @@ func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body 
 // CreateParamTplFromCluster Export configuration template from cluster.
 func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName string, clusterName string, body ParamTplCreateFromCluster) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.CreateParamTplFromCluster")
 	if err != nil {
@@ -110,9 +121,11 @@ func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -134,10 +147,11 @@ func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -154,9 +168,11 @@ func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName st
 // DeleteParamTpl Delete configuration template.
 func (a *ParamTplApi) DeleteParamTpl(ctx _context.Context, orgName string, paramTplName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.DeleteParamTpl")
 	if err != nil {
@@ -172,7 +188,8 @@ func (a *ParamTplApi) DeleteParamTpl(ctx _context.Context, orgName string, param
 	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -194,10 +211,11 @@ func (a *ParamTplApi) DeleteParamTpl(ctx _context.Context, orgName string, param
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -213,7 +231,7 @@ func (a *ParamTplApi) DeleteParamTpl(ctx _context.Context, orgName string, param
 
 // GetClusterParamTplsOptionalParameters holds optional parameters for GetClusterParamTpls.
 type GetClusterParamTplsOptionalParameters struct {
-	Component  *string
+	Component *string
 	EngineName *string
 }
 
@@ -222,13 +240,11 @@ func NewGetClusterParamTplsOptionalParameters() *GetClusterParamTplsOptionalPara
 	this := GetClusterParamTplsOptionalParameters{}
 	return &this
 }
-
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *GetClusterParamTplsOptionalParameters) WithComponent(component string) *GetClusterParamTplsOptionalParameters {
 	r.Component = &component
 	return r
 }
-
 // WithEngineName sets the corresponding parameter name and returns the struct.
 func (r *GetClusterParamTplsOptionalParameters) WithEngineName(engineName string) *GetClusterParamTplsOptionalParameters {
 	r.EngineName = &engineName
@@ -238,18 +254,20 @@ func (r *GetClusterParamTplsOptionalParameters) WithEngineName(engineName string
 // GetClusterParamTpls Get cluster configuration templates.
 func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, clusterName string, o ...GetClusterParamTplsOptionalParameters) (ParamTplApplToClusterList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ParamTplApplToClusterList
-		optionalParams      GetClusterParamTplsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ParamTplApplToClusterList
+		optionalParams GetClusterParamTplsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterParamTplsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterParamTplsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.GetClusterParamTpls")
 	if err != nil {
@@ -271,7 +289,8 @@ func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, 
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -293,10 +312,11 @@ func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -310,7 +330,7 @@ func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -321,10 +341,10 @@ func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, 
 
 // ListParamTplsOptionalParameters holds optional parameters for ListParamTpls.
 type ListParamTplsOptionalParameters struct {
-	OrgName    *string
-	Partition  *ParamTplPartition
-	Version    *string
-	Component  *string
+	OrgName *string
+	Partition *ParamTplPartition
+	Version *string
+	Component *string
 	EngineName *string
 }
 
@@ -333,31 +353,26 @@ func NewListParamTplsOptionalParameters() *ListParamTplsOptionalParameters {
 	this := ListParamTplsOptionalParameters{}
 	return &this
 }
-
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListParamTplsOptionalParameters) WithOrgName(orgName string) *ListParamTplsOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
-
 // WithPartition sets the corresponding parameter name and returns the struct.
 func (r *ListParamTplsOptionalParameters) WithPartition(partition ParamTplPartition) *ListParamTplsOptionalParameters {
 	r.Partition = &partition
 	return r
 }
-
 // WithVersion sets the corresponding parameter name and returns the struct.
 func (r *ListParamTplsOptionalParameters) WithVersion(version string) *ListParamTplsOptionalParameters {
 	r.Version = &version
 	return r
 }
-
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *ListParamTplsOptionalParameters) WithComponent(component string) *ListParamTplsOptionalParameters {
 	r.Component = &component
 	return r
 }
-
 // WithEngineName sets the corresponding parameter name and returns the struct.
 func (r *ListParamTplsOptionalParameters) WithEngineName(engineName string) *ListParamTplsOptionalParameters {
 	r.EngineName = &engineName
@@ -367,18 +382,20 @@ func (r *ListParamTplsOptionalParameters) WithEngineName(engineName string) *Lis
 // ListParamTpls List parameter templates.
 func (a *ParamTplApi) ListParamTpls(ctx _context.Context, o ...ListParamTplsOptionalParameters) (ParamTplList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ParamTplList
-		optionalParams      ListParamTplsOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ParamTplList
+		optionalParams ListParamTplsOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListParamTplsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListParamTplsOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.ListParamTpls")
 	if err != nil {
@@ -407,7 +424,8 @@ func (a *ParamTplApi) ListParamTpls(ctx _context.Context, o ...ListParamTplsOpti
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -429,10 +447,11 @@ func (a *ParamTplApi) ListParamTpls(ctx _context.Context, o ...ListParamTplsOpti
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -446,7 +465,7 @@ func (a *ParamTplApi) ListParamTpls(ctx _context.Context, o ...ListParamTplsOpti
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -459,10 +478,12 @@ func (a *ParamTplApi) ListParamTpls(ctx _context.Context, o ...ListParamTplsOpti
 // partially update the parameter template
 func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramTplName string, body ParamTplUpdate) (ParamTplListItem, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue ParamTplListItem
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  ParamTplListItem
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.PatchParamTpl")
 	if err != nil {
@@ -476,12 +497,14 @@ func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramT
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
-	localVarHeaderParams["Content-Type"] = "application/apply-patch+yaml"
+	localVarHeaderParams["Content-Type"] =  "application/apply-patch+yaml"
 	localVarHeaderParams["Accept"] = "application/json"
+
+	
 
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -503,10 +526,11 @@ func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramT
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -520,7 +544,7 @@ func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramT
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -539,7 +563,6 @@ func NewReadParamTplOptionalParameters() *ReadParamTplOptionalParameters {
 	this := ReadParamTplOptionalParameters{}
 	return &this
 }
-
 // WithPartition sets the corresponding parameter name and returns the struct.
 func (r *ReadParamTplOptionalParameters) WithPartition(partition ParamTplPartition) *ReadParamTplOptionalParameters {
 	r.Partition = &partition
@@ -549,18 +572,20 @@ func (r *ReadParamTplOptionalParameters) WithPartition(partition ParamTplPartiti
 // ReadParamTpl Get parameter template details.
 func (a *ParamTplApi) ReadParamTpl(ctx _context.Context, orgName string, paramTplName string, o ...ReadParamTplOptionalParameters) (ParamTplGet, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ParamTplGet
-		optionalParams      ReadParamTplOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  ParamTplGet
+		optionalParams ReadParamTplOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ReadParamTplOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ReadParamTplOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.ReadParamTpl")
 	if err != nil {
@@ -579,7 +604,8 @@ func (a *ParamTplApi) ReadParamTpl(ctx _context.Context, orgName string, paramTp
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -601,10 +627,11 @@ func (a *ParamTplApi) ReadParamTpl(ctx _context.Context, orgName string, paramTp
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -618,7 +645,7 @@ func (a *ParamTplApi) ReadParamTpl(ctx _context.Context, orgName string, paramTp
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

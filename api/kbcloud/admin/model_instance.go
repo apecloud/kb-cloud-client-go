@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Instance Instance is the information of KubeBlocks cluster instances
+
+
+// Instance Instance is the information of KubeBlocks cluster instances 
 type Instance struct {
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`
@@ -45,9 +50,10 @@ type Instance struct {
 	// Available zone for instance
 	Zone string `json:"zone"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInstance instantiates a new Instance object.
 // This constructor will assign default values to properties that have it defined,
@@ -79,7 +85,6 @@ func NewInstanceWithDefaults() *Instance {
 	this := Instance{}
 	return &this
 }
-
 // GetAccessMode returns the AccessMode field value.
 func (o *Instance) GetAccessMode() string {
 	if o == nil {
@@ -102,6 +107,7 @@ func (o *Instance) GetAccessModeOk() (*string, bool) {
 func (o *Instance) SetAccessMode(v string) {
 	o.AccessMode = v
 }
+
 
 // GetCloud returns the Cloud field value.
 func (o *Instance) GetCloud() string {
@@ -126,6 +132,7 @@ func (o *Instance) SetCloud(v string) {
 	o.Cloud = v
 }
 
+
 // GetCluster returns the Cluster field value.
 func (o *Instance) GetCluster() string {
 	if o == nil {
@@ -148,6 +155,7 @@ func (o *Instance) GetClusterOk() (*string, bool) {
 func (o *Instance) SetCluster(v string) {
 	o.Cluster = v
 }
+
 
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *Instance) GetComponentName() string {
@@ -177,6 +185,7 @@ func (o *Instance) SetComponentName(v string) {
 	o.ComponentName = &v
 }
 
+
 // GetComponentDef returns the ComponentDef field value if set, zero value otherwise.
 func (o *Instance) GetComponentDef() string {
 	if o == nil || o.ComponentDef == nil {
@@ -205,6 +214,7 @@ func (o *Instance) SetComponentDef(v string) {
 	o.ComponentDef = &v
 }
 
+
 // GetComponent returns the Component field value.
 func (o *Instance) GetComponent() string {
 	if o == nil {
@@ -227,6 +237,7 @@ func (o *Instance) GetComponentOk() (*string, bool) {
 func (o *Instance) SetComponent(v string) {
 	o.Component = v
 }
+
 
 // GetCpu returns the Cpu field value.
 func (o *Instance) GetCpu() string {
@@ -251,6 +262,7 @@ func (o *Instance) SetCpu(v string) {
 	o.Cpu = v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Instance) GetCreatedAt() string {
 	if o == nil {
@@ -273,6 +285,7 @@ func (o *Instance) GetCreatedAtOk() (*string, bool) {
 func (o *Instance) SetCreatedAt(v string) {
 	o.CreatedAt = v
 }
+
 
 // GetMemory returns the Memory field value.
 func (o *Instance) GetMemory() string {
@@ -297,6 +310,7 @@ func (o *Instance) SetMemory(v string) {
 	o.Memory = v
 }
 
+
 // GetName returns the Name field value.
 func (o *Instance) GetName() string {
 	if o == nil {
@@ -319,6 +333,7 @@ func (o *Instance) GetNameOk() (*string, bool) {
 func (o *Instance) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetNode returns the Node field value.
 func (o *Instance) GetNode() string {
@@ -343,6 +358,7 @@ func (o *Instance) SetNode(v string) {
 	o.Node = v
 }
 
+
 // GetRegion returns the Region field value.
 func (o *Instance) GetRegion() string {
 	if o == nil {
@@ -365,6 +381,7 @@ func (o *Instance) GetRegionOk() (*string, bool) {
 func (o *Instance) SetRegion(v string) {
 	o.Region = v
 }
+
 
 // GetRole returns the Role field value.
 func (o *Instance) GetRole() string {
@@ -389,6 +406,7 @@ func (o *Instance) SetRole(v string) {
 	o.Role = v
 }
 
+
 // GetStatus returns the Status field value.
 func (o *Instance) GetStatus() InstanceStatus {
 	if o == nil {
@@ -411,6 +429,7 @@ func (o *Instance) GetStatusOk() (*InstanceStatus, bool) {
 func (o *Instance) SetStatus(v InstanceStatus) {
 	o.Status = v
 }
+
 
 // GetStorage returns the Storage field value.
 func (o *Instance) GetStorage() []InstanceStorageItem {
@@ -435,6 +454,7 @@ func (o *Instance) SetStorage(v []InstanceStorageItem) {
 	o.Storage = v
 }
 
+
 // GetZone returns the Zone field value.
 func (o *Instance) GetZone() string {
 	if o == nil {
@@ -457,6 +477,8 @@ func (o *Instance) GetZoneOk() (*string, bool) {
 func (o *Instance) SetZone(v string) {
 	o.Zone = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Instance) MarshalJSON() ([]byte, error) {
@@ -494,22 +516,22 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessMode    *string                `json:"accessMode"`
-		Cloud         *string                `json:"cloud"`
-		Cluster       *string                `json:"cluster"`
-		ComponentName *string                `json:"componentName,omitempty"`
-		ComponentDef  *string                `json:"componentDef,omitempty"`
-		Component     *string                `json:"component"`
-		Cpu           *string                `json:"cpu"`
-		CreatedAt     *string                `json:"createdAt"`
-		Memory        *string                `json:"memory"`
-		Name          *string                `json:"name"`
-		Node          *string                `json:"node"`
-		Region        *string                `json:"region"`
-		Role          *string                `json:"role"`
-		Status        *InstanceStatus        `json:"status"`
-		Storage       *[]InstanceStorageItem `json:"storage"`
-		Zone          *string                `json:"zone"`
+		AccessMode *string `json:"accessMode"`
+		Cloud *string `json:"cloud"`
+		Cluster *string `json:"cluster"`
+		ComponentName *string `json:"componentName,omitempty"`
+		ComponentDef *string `json:"componentDef,omitempty"`
+		Component *string `json:"component"`
+		Cpu *string `json:"cpu"`
+		CreatedAt *string `json:"createdAt"`
+		Memory *string `json:"memory"`
+		Name *string `json:"name"`
+		Node *string `json:"node"`
+		Region *string `json:"region"`
+		Role *string `json:"role"`
+		Status *InstanceStatus `json:"status"`
+		Storage *[]InstanceStorageItem `json:"storage"`
+		Zone *string `json:"zone"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -558,7 +580,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{ "accessMode", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone",  })
 	} else {
 		return err
 	}

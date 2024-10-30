@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// UserUpdate User update
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// UserUpdate User update 
 type UserUpdate struct {
 	// The display name of the user
 	DisplayName *string `json:"displayName,omitempty"`
@@ -17,9 +26,10 @@ type UserUpdate struct {
 	// The verification code for the user
 	VerificationCode *string `json:"verificationCode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewUserUpdate instantiates a new UserUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +47,6 @@ func NewUserUpdateWithDefaults() *UserUpdate {
 	this := UserUpdate{}
 	return &this
 }
-
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *UserUpdate) GetDisplayName() string {
 	if o == nil || o.DisplayName == nil {
@@ -65,6 +74,7 @@ func (o *UserUpdate) HasDisplayName() bool {
 func (o *UserUpdate) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
+
 
 // GetEmail returns the Email field value if set, zero value otherwise.
 func (o *UserUpdate) GetEmail() string {
@@ -94,6 +104,7 @@ func (o *UserUpdate) SetEmail(v string) {
 	o.Email = &v
 }
 
+
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
 func (o *UserUpdate) GetPhoneNumber() string {
 	if o == nil || o.PhoneNumber == nil {
@@ -121,6 +132,7 @@ func (o *UserUpdate) HasPhoneNumber() bool {
 func (o *UserUpdate) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
+
 
 // GetVerificationCode returns the VerificationCode field value if set, zero value otherwise.
 func (o *UserUpdate) GetVerificationCode() string {
@@ -150,6 +162,8 @@ func (o *UserUpdate) SetVerificationCode(v string) {
 	o.VerificationCode = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o UserUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -178,9 +192,9 @@ func (o UserUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *UserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DisplayName      *string `json:"displayName,omitempty"`
-		Email            *string `json:"email,omitempty"`
-		PhoneNumber      *string `json:"phoneNumber,omitempty"`
+		DisplayName *string `json:"displayName,omitempty"`
+		Email *string `json:"email,omitempty"`
+		PhoneNumber *string `json:"phoneNumber,omitempty"`
 		VerificationCode *string `json:"verificationCode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -188,7 +202,7 @@ func (o *UserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"displayName", "email", "phoneNumber", "verificationCode"})
+		common.DeleteKeys(additionalProperties, &[]string{ "displayName", "email", "phoneNumber", "verificationCode",  })
 	} else {
 		return err
 	}

@@ -2,17 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type DashboardOptionInstancePanelsItem struct {
-	Role   *string                                       `json:"role,omitempty"`
+	Role *string `json:"role,omitempty"`
 	Panels []DashboardOptionInstancePanelsItemPanelsItem `json:"panels,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewDashboardOptionInstancePanelsItem instantiates a new DashboardOptionInstancePanelsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -30,7 +40,6 @@ func NewDashboardOptionInstancePanelsItemWithDefaults() *DashboardOptionInstance
 	this := DashboardOptionInstancePanelsItem{}
 	return &this
 }
-
 // GetRole returns the Role field value if set, zero value otherwise.
 func (o *DashboardOptionInstancePanelsItem) GetRole() string {
 	if o == nil || o.Role == nil {
@@ -58,6 +67,7 @@ func (o *DashboardOptionInstancePanelsItem) HasRole() bool {
 func (o *DashboardOptionInstancePanelsItem) SetRole(v string) {
 	o.Role = &v
 }
+
 
 // GetPanels returns the Panels field value if set, zero value otherwise.
 func (o *DashboardOptionInstancePanelsItem) GetPanels() []DashboardOptionInstancePanelsItemPanelsItem {
@@ -87,6 +97,8 @@ func (o *DashboardOptionInstancePanelsItem) SetPanels(v []DashboardOptionInstanc
 	o.Panels = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DashboardOptionInstancePanelsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -109,7 +121,7 @@ func (o DashboardOptionInstancePanelsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DashboardOptionInstancePanelsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Role   *string                                       `json:"role,omitempty"`
+		Role *string `json:"role,omitempty"`
 		Panels []DashboardOptionInstancePanelsItemPanelsItem `json:"panels,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -117,7 +129,7 @@ func (o *DashboardOptionInstancePanelsItem) UnmarshalJSON(bytes []byte) (err err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"role", "panels"})
+		common.DeleteKeys(additionalProperties, &[]string{ "role", "panels",  })
 	} else {
 		return err
 	}

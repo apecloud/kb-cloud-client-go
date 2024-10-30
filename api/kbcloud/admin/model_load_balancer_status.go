@@ -2,24 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
+
+
 
 // LoadBalancerStatus Status of the load balancer
 type LoadBalancerStatus string
 
 // List of LoadBalancerStatus.
 const (
-	LoadBalancerStatusEnabling  LoadBalancerStatus = "Enabling"
-	LoadBalancerStatusEnabled   LoadBalancerStatus = "Enabled"
+	LoadBalancerStatusEnabling LoadBalancerStatus = "Enabling"
+	LoadBalancerStatusEnabled LoadBalancerStatus = "Enabled"
 	LoadBalancerStatusDisabling LoadBalancerStatus = "Disabling"
-	LoadBalancerStatusDisabled  LoadBalancerStatus = "Disabled"
-	LoadBalancerStatusFailed    LoadBalancerStatus = "Failed"
+	LoadBalancerStatusDisabled LoadBalancerStatus = "Disabled"
+	LoadBalancerStatusFailed LoadBalancerStatus = "Failed"
 )
 
 var allowedLoadBalancerStatusEnumValues = []LoadBalancerStatus{

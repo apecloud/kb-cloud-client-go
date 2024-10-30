@@ -2,22 +2,32 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type InitOptionsItem struct {
 	// component type, refer to componentDef and support NamePrefix'
 	Component *string `json:"component,omitempty"`
 	// component type, refer to componentDef and support NamePrefix, Deprecated
-	ComponentDefRef *string           `json:"componentDefRef,omitempty"`
-	InitParams      map[string]string `json:"initParams,omitempty"`
+	ComponentDefRef *string `json:"componentDefRef,omitempty"`
+	InitParams map[string]string `json:"initParams,omitempty"`
 	// config spec name
 	SpecName *string `json:"specName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInitOptionsItem instantiates a new InitOptionsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +45,6 @@ func NewInitOptionsItemWithDefaults() *InitOptionsItem {
 	this := InitOptionsItem{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *InitOptionsItem) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -63,6 +72,7 @@ func (o *InitOptionsItem) HasComponent() bool {
 func (o *InitOptionsItem) SetComponent(v string) {
 	o.Component = &v
 }
+
 
 // GetComponentDefRef returns the ComponentDefRef field value if set, zero value otherwise.
 func (o *InitOptionsItem) GetComponentDefRef() string {
@@ -92,6 +102,7 @@ func (o *InitOptionsItem) SetComponentDefRef(v string) {
 	o.ComponentDefRef = &v
 }
 
+
 // GetInitParams returns the InitParams field value if set, zero value otherwise.
 func (o *InitOptionsItem) GetInitParams() map[string]string {
 	if o == nil || o.InitParams == nil {
@@ -119,6 +130,7 @@ func (o *InitOptionsItem) HasInitParams() bool {
 func (o *InitOptionsItem) SetInitParams(v map[string]string) {
 	o.InitParams = v
 }
+
 
 // GetSpecName returns the SpecName field value if set, zero value otherwise.
 func (o *InitOptionsItem) GetSpecName() string {
@@ -148,6 +160,8 @@ func (o *InitOptionsItem) SetSpecName(v string) {
 	o.SpecName = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InitOptionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -176,17 +190,17 @@ func (o InitOptionsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InitOptionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component       *string           `json:"component,omitempty"`
-		ComponentDefRef *string           `json:"componentDefRef,omitempty"`
-		InitParams      map[string]string `json:"initParams,omitempty"`
-		SpecName        *string           `json:"specName,omitempty"`
+		Component *string `json:"component,omitempty"`
+		ComponentDefRef *string `json:"componentDefRef,omitempty"`
+		InitParams map[string]string `json:"initParams,omitempty"`
+		SpecName *string `json:"specName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "componentDefRef", "initParams", "specName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "componentDefRef", "initParams", "specName",  })
 	} else {
 		return err
 	}

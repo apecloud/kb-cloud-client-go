@@ -1042,7 +1042,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/cluster'
-          description: Returned when project is updated successfully.
+          description: Returned when project is deleted successfully.
         '401':
           $ref: '#/components/responses/UnauthorizedResponse'
       tags:
@@ -4892,31 +4892,11 @@ paths:
           name: orgName
           schema:
             type: string
-        - description: cloud provider of the Environment
-          in: query
-          name: cloudProvider
-          schema:
-            type: string
-        - description: cloud region of the Environment
-          in: query
-          name: cloudRegion
-          schema:
-            type: string
         - description: type of the Environment
           in: query
           name: environmentType
           schema:
             $ref: '#/components/schemas/environmentType'
-        - description: engine name
-          in: query
-          name: engine
-          schema:
-            type: string
-        - description: version of the engine
-          in: query
-          name: version
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -4953,42 +4933,43 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/statusHistory:
+  /admin/v1/organizations/{orgName}/engine/{engineName}/version/{version}/environments:
     get:
-      operationId: getEnvironmentStatusHistory
-      summary: Get environment status history
+      operationId: filterEnvironment
+      description: List environments
+      summary: List environments
       parameters:
-        - description: name of the environment
+        - description: name of the org
           in: path
-          name: environmentName
+          name: orgName
           required: true
           schema:
             type: string
-        - description: start time of the query range (nano seconds)
-          in: query
-          name: startTime
-          required: false
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
           schema:
             type: string
-            format: date-time
-        - description: end time of the query range(nano seconds)
-          in: query
-          name: endTime
-          required: false
+        - description: version of the engine
+          in: path
+          name: version
+          required: true
           schema:
             type: string
-            format: date-time
-      tags:
-        - environment
       responses:
         '200':
-          description: Successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/environmentStatusHistory'
+                $ref: '#/components/schemas/environmentList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+      tags:
+        - environment
   /admin/v1/environments/preflight:
     post:
       operationId: preflightEnvironment
@@ -5009,44 +4990,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/restorePreflight:
-    post:
-      operationId: preflightRestoreEnvironment
-      summary: Preflight check before restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/preflightList'
-      tags:
-        - environment
-  /admin/v1/environments/checkAddRecord:
-    post:
-      operationId: checkEnvironmentAddRecord
-      summary: check if environment added before
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentAdded'
-      tags:
-        - environment
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -5215,30 +5158,6 @@ paths:
           $ref: '#/components/responses/NotFoundResponse'
       tags:
         - resourceStats
-  /admin/v1/environments/{environmentName}/nodes/monitorStatus:
-    get:
-      operationId: getEnvironmentMetricsMonitorStats
-      summary: Get environment MetricsMonitorStats
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/jsonBody'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundResponse'
-      tags:
-        - environment
   /admin/v1/environments/{environmentName}/nodes/{nodeName}/instances/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified node.
@@ -6305,73 +6224,6 @@ paths:
           $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
-  /admin/v1/environments/restore:
-    post:
-      operationId: restoreEnvironment
-      summary: restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeConfig'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environment'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundResponse'
-      tags:
-        - environment
-  /admin/v1/environmentObjectStorage:
-    post:
-      operationId: listEnvironmentObjectStorage
-      description: List environment object storage
-      summary: List environment object storage
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeConfig'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentObjectStorage'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundResponse'
-      tags:
-        - environment
-  /admin/v1/environmentBackupRepo:
-    post:
-      operationId: getEnvironmentBackupRepo
-      summary: get environment backup repo
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeConfig'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentBackupRepo'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/ForbiddenResponse'
-        '404':
-          $ref: '#/components/responses/NotFoundResponse'
-      tags:
-        - environment
   /admin/v1/environments/{environmentName}/backupRepo:
     get:
       operationId: listBackupRepos
@@ -11234,6 +11086,33 @@ paths:
         '500':
           $ref: '#/components/responses/InternalServerErrorResponse'
   /admin/v1/metadb/restore:
+    get:
+      tags:
+        - metadb
+      operationId: metadbCheckRestore
+      summary: Check pods ready after restore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/metadb_restore'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/metadb_restore'
+          description: A successful response.
+        '401':
+          content: {}
+          description: Unauthorized
+        '403':
+          content: {}
+          description: Forbidden
+        '404':
+          content: {}
+          description: NotFound
     post:
       tags:
         - metadb
@@ -12558,9 +12437,6 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
-        displayName:
-          description: Display name of cluster.
-          type: string
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -12613,9 +12489,6 @@ components:
           title: Tolerations
           type: string
           description: Tolerations of cluster
-        displayName:
-          description: Display name of cluster.
-          type: string
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -14615,12 +14488,6 @@ components:
           description: The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
           format: double
           type: number
-      required:
-        - allocatable
-        - capacity
-        - limits
-        - requests
-        - usage
       type: object
     node:
       description: node info
@@ -14881,7 +14748,6 @@ components:
         - UNREACHABLE
         - DELETING
         - OUTOFSTOCK
-        - UPDATING
     environmentRegisterType:
       type: string
       description: Configuration for privisoining environment resources
@@ -15023,12 +14889,6 @@ components:
           type: string
         type:
           $ref: '#/components/schemas/environmentStorageType'
-        reusedClusterName:
-          description: the existed cluster name for creating storage
-          type: string
-        reusedClusterNamespace:
-          description: the existed cluster namespace for creating storage
-          type: string
         config:
           $ref: '#/components/schemas/storageCreate'
     storageConfig:
@@ -15264,32 +15124,6 @@ components:
           description: Extra info for environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
-        overwrite:
-          type: boolean
-          description: overwrite a environment if it has been added before
-          default: false
-    environmentStatusHistory:
-      description: EventEnvironmentState contains details for the current and previous state of the environment.
-      type: object
-      properties:
-        CurrentState:
-          description: The current state of the environment.
-          type: string
-        PrevState:
-          description: The previous state of the environment.
-          type: string
-        Reason:
-          description: The reason for the state transition.
-          type: string
-        Timestamp:
-          description: The timestamp of the state transition.
-          type: string
-          format: date-time
-      required:
-        - CurrentState
-        - PrevState
-        - Reason
-        - Timestamp
     preflight:
       title: Preflight results
       description: The result of preflight check
@@ -15316,44 +15150,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    environmentAdded:
-      type: object
-      properties:
-        addedBefore:
-          type: boolean
-          description: whether the environment has ever been added
-        stillInUse:
-          type: boolean
-          description: whether the environment is still in use
-        environment:
-          $ref: '#/components/schemas/environment'
-    cloudResourceCleanPolicy:
-      type: string
-      description: The policy to clean cloud resources, either `Delete` or `Retain`
-      enum:
-        - Delete
-        - Retain
-      default: Retain
     environmentDelete:
       description: Environment deletion option
       type: object
-      required:
-        - backup
-        - minio
-        - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
           description: clean up resources in the cloud (only valid if creation is done by role ARN)
-        backup:
-          description: reserve backup when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
-        minio:
-          description: reserve minio cluster when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
-        victoriaMetrics:
-          description: reserve vm cluster when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
     environmentUpdate:
       type: object
       description: Environment info
@@ -15505,11 +15308,6 @@ components:
         - items
         - updatedAt
       type: object
-    jsonBody:
-      description: Represents a JSON body.
-      properties: {}
-      additionalProperties: true
-      type: object
     resourceStatsInstanceType:
       description: Type of the instance, choose cluster or system
       enum:
@@ -15522,8 +15320,6 @@ components:
         cpuStats:
           $ref: '#/components/schemas/resourceStats'
         memoryStats:
-          $ref: '#/components/schemas/resourceStats'
-        ephemeralStorageStats:
           $ref: '#/components/schemas/resourceStats'
         name:
           description: Name of the instance.
@@ -15545,6 +15341,11 @@ components:
           type: array
       required:
         - items
+      type: object
+    jsonBody:
+      description: Represents a JSON body.
+      properties: {}
+      additionalProperties: true
       type: object
     listBody:
       description: Represents a list of JSON bodies.
@@ -16076,68 +15877,6 @@ components:
       items:
         type: string
       type: array
-    kubeConfig:
-      pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-      type: string
-      description: The kubeconfig body as raw binary.
-      format: byte
-    rawCluster:
-      type: object
-      description: cluster info
-      properties:
-        kubernetesName:
-          description: the cluster name in k8s
-          type: string
-        namespace:
-          type: string
-          description: the namespace of cluster
-        replicas:
-          type: integer
-          description: the replicas of cluster
-        storage:
-          type: number
-          description: Storage size, the unit is Gi
-          format: double
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-    environmentObjectStorage:
-      type: object
-      properties:
-        clusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/rawCluster'
-    rawBackupRepo:
-      type: object
-      description: backup repo info
-      properties:
-        name:
-          description: the backup repo name
-          type: string
-        default:
-          type: boolean
-          description: default backup repo
-    environmentBackupRepo:
-      type: object
-      properties:
-        items:
-          description: backup repo list
-          items:
-            $ref: '#/components/schemas/rawBackupRepo'
-          type: array
     backupRepoAccessMethod:
       description: the access method for backup repo
       default: Tool
@@ -19694,11 +19433,9 @@ components:
           type: string
         completionTimestamp:
           description: completion time
-          format: date-time
           type: string
         startTimestamp:
           description: start time
-          format: date-time
           type: string
         cpu:
           multipleOf: 0.5
@@ -19719,6 +19456,9 @@ components:
         replicas:
           type: integer
           description: the number of postgresql pods
+        ready:
+          type: string
+          description: whether pods are ready
       required:
         - clusterName
     volumeExpand:

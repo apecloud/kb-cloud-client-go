@@ -2,26 +2,32 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type HaHistoryResponseRecordsItem struct {
-	StartAt    int32   `json:"StartAt"`
-	EndAt      *int32  `json:"EndAt,omitempty"`
+	StartAt int32 `json:"StartAt"`
+	EndAt *int32 `json:"EndAt,omitempty"`
 	OldPrimary *string `json:"OldPrimary,omitempty"`
 	NewPrimary *string `json:"NewPrimary,omitempty"`
-	Reason     *string `json:"Reason,omitempty"`
-	UserId     *string `json:"UserID,omitempty"`
-	UserName   *string `json:"UserName,omitempty"`
+	Reason *string `json:"Reason,omitempty"`
+	UserId *string `json:"UserID,omitempty"`
+	UserName *string `json:"UserName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewHaHistoryResponseRecordsItem instantiates a new HaHistoryResponseRecordsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewHaHistoryResponseRecordsItemWithDefaults() *HaHistoryResponseRecordsItem
 	this := HaHistoryResponseRecordsItem{}
 	return &this
 }
-
 // GetStartAt returns the StartAt field value.
 func (o *HaHistoryResponseRecordsItem) GetStartAt() int32 {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *HaHistoryResponseRecordsItem) GetStartAtOk() (*int32, bool) {
 func (o *HaHistoryResponseRecordsItem) SetStartAt(v int32) {
 	o.StartAt = v
 }
+
 
 // GetEndAt returns the EndAt field value if set, zero value otherwise.
 func (o *HaHistoryResponseRecordsItem) GetEndAt() int32 {
@@ -92,6 +98,7 @@ func (o *HaHistoryResponseRecordsItem) SetEndAt(v int32) {
 	o.EndAt = &v
 }
 
+
 // GetOldPrimary returns the OldPrimary field value if set, zero value otherwise.
 func (o *HaHistoryResponseRecordsItem) GetOldPrimary() string {
 	if o == nil || o.OldPrimary == nil {
@@ -119,6 +126,7 @@ func (o *HaHistoryResponseRecordsItem) HasOldPrimary() bool {
 func (o *HaHistoryResponseRecordsItem) SetOldPrimary(v string) {
 	o.OldPrimary = &v
 }
+
 
 // GetNewPrimary returns the NewPrimary field value if set, zero value otherwise.
 func (o *HaHistoryResponseRecordsItem) GetNewPrimary() string {
@@ -148,6 +156,7 @@ func (o *HaHistoryResponseRecordsItem) SetNewPrimary(v string) {
 	o.NewPrimary = &v
 }
 
+
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *HaHistoryResponseRecordsItem) GetReason() string {
 	if o == nil || o.Reason == nil {
@@ -175,6 +184,7 @@ func (o *HaHistoryResponseRecordsItem) HasReason() bool {
 func (o *HaHistoryResponseRecordsItem) SetReason(v string) {
 	o.Reason = &v
 }
+
 
 // GetUserId returns the UserId field value if set, zero value otherwise.
 func (o *HaHistoryResponseRecordsItem) GetUserId() string {
@@ -204,6 +214,7 @@ func (o *HaHistoryResponseRecordsItem) SetUserId(v string) {
 	o.UserId = &v
 }
 
+
 // GetUserName returns the UserName field value if set, zero value otherwise.
 func (o *HaHistoryResponseRecordsItem) GetUserName() string {
 	if o == nil || o.UserName == nil {
@@ -231,6 +242,8 @@ func (o *HaHistoryResponseRecordsItem) HasUserName() bool {
 func (o *HaHistoryResponseRecordsItem) SetUserName(v string) {
 	o.UserName = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o HaHistoryResponseRecordsItem) MarshalJSON() ([]byte, error) {
@@ -267,13 +280,13 @@ func (o HaHistoryResponseRecordsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *HaHistoryResponseRecordsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StartAt    *int32  `json:"StartAt"`
-		EndAt      *int32  `json:"EndAt,omitempty"`
+		StartAt *int32 `json:"StartAt"`
+		EndAt *int32 `json:"EndAt,omitempty"`
 		OldPrimary *string `json:"OldPrimary,omitempty"`
 		NewPrimary *string `json:"NewPrimary,omitempty"`
-		Reason     *string `json:"Reason,omitempty"`
-		UserId     *string `json:"UserID,omitempty"`
-		UserName   *string `json:"UserName,omitempty"`
+		Reason *string `json:"Reason,omitempty"`
+		UserId *string `json:"UserID,omitempty"`
+		UserName *string `json:"UserName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -283,7 +296,7 @@ func (o *HaHistoryResponseRecordsItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"StartAt", "EndAt", "OldPrimary", "NewPrimary", "Reason", "UserID", "UserName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "StartAt", "EndAt", "OldPrimary", "NewPrimary", "Reason", "UserID", "UserName",  })
 	} else {
 		return err
 	}

@@ -2,21 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type OpsRebuildInstanceRequestsItem struct {
-	BackupName *string                           `json:"backupName,omitempty"`
-	Instances  []OpsRebuildInstanceInstanceParam `json:"instances"`
+	BackupName *string `json:"backupName,omitempty"`
+	Instances []OpsRebuildInstanceInstanceParam `json:"instances"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsRebuildInstanceRequestsItem instantiates a new OpsRebuildInstanceRequestsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -35,7 +41,6 @@ func NewOpsRebuildInstanceRequestsItemWithDefaults() *OpsRebuildInstanceRequests
 	this := OpsRebuildInstanceRequestsItem{}
 	return &this
 }
-
 // GetBackupName returns the BackupName field value if set, zero value otherwise.
 func (o *OpsRebuildInstanceRequestsItem) GetBackupName() string {
 	if o == nil || o.BackupName == nil {
@@ -64,6 +69,7 @@ func (o *OpsRebuildInstanceRequestsItem) SetBackupName(v string) {
 	o.BackupName = &v
 }
 
+
 // GetInstances returns the Instances field value.
 func (o *OpsRebuildInstanceRequestsItem) GetInstances() []OpsRebuildInstanceInstanceParam {
 	if o == nil {
@@ -87,6 +93,8 @@ func (o *OpsRebuildInstanceRequestsItem) SetInstances(v []OpsRebuildInstanceInst
 	o.Instances = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRebuildInstanceRequestsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -107,8 +115,8 @@ func (o OpsRebuildInstanceRequestsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRebuildInstanceRequestsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		BackupName *string                            `json:"backupName,omitempty"`
-		Instances  *[]OpsRebuildInstanceInstanceParam `json:"instances"`
+		BackupName *string `json:"backupName,omitempty"`
+		Instances *[]OpsRebuildInstanceInstanceParam `json:"instances"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -118,7 +126,7 @@ func (o *OpsRebuildInstanceRequestsItem) UnmarshalJSON(bytes []byte) (err error)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"backupName", "instances"})
+		common.DeleteKeys(additionalProperties, &[]string{ "backupName", "instances",  })
 	} else {
 		return err
 	}

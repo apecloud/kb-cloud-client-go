@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// InstanceStorageItem Instance storage information
+
+
+// InstanceStorageItem Instance storage information 
 type InstanceStorageItem struct {
 	// Specify the name of storage, which must be unique.
 	Name string `json:"name"`
@@ -19,9 +24,10 @@ type InstanceStorageItem struct {
 	// The name of StorageClass in use
 	StorageClass *string `json:"storageClass,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInstanceStorageItem instantiates a new InstanceStorageItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,7 +47,6 @@ func NewInstanceStorageItemWithDefaults() *InstanceStorageItem {
 	this := InstanceStorageItem{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *InstanceStorageItem) GetName() string {
 	if o == nil {
@@ -65,6 +70,7 @@ func (o *InstanceStorageItem) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetSize returns the Size field value.
 func (o *InstanceStorageItem) GetSize() string {
 	if o == nil {
@@ -87,6 +93,7 @@ func (o *InstanceStorageItem) GetSizeOk() (*string, bool) {
 func (o *InstanceStorageItem) SetSize(v string) {
 	o.Size = v
 }
+
 
 // GetStorageClass returns the StorageClass field value if set, zero value otherwise.
 func (o *InstanceStorageItem) GetStorageClass() string {
@@ -116,6 +123,8 @@ func (o *InstanceStorageItem) SetStorageClass(v string) {
 	o.StorageClass = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceStorageItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -137,8 +146,8 @@ func (o InstanceStorageItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceStorageItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string `json:"name"`
-		Size         *string `json:"size"`
+		Name *string `json:"name"`
+		Size *string `json:"size"`
 		StorageClass *string `json:"storageClass,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -152,7 +161,7 @@ func (o *InstanceStorageItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "size", "storageClass"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "size", "storageClass",  })
 	} else {
 		return err
 	}

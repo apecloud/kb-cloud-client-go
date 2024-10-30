@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -19,10 +23,12 @@ type FaultApi common.Service
 // CreateClusterNetworkChaos Create a network chaos for cluster.
 func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkChaos) (Fault, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Fault
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Fault
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.CreateClusterNetworkChaos")
 	if err != nil {
@@ -37,9 +43,11 @@ func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkC
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -61,10 +69,11 @@ func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkC
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -78,7 +87,7 @@ func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkC
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -90,10 +99,12 @@ func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkC
 // CreateClusterPodChaos Create a pod chaos for cluster.
 func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (Fault, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Fault
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  Fault
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.CreateClusterPodChaos")
 	if err != nil {
@@ -108,9 +119,11 @@ func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (F
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -132,10 +145,11 @@ func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (F
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -149,7 +163,7 @@ func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (F
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -161,10 +175,12 @@ func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (F
 // DeleteFault Delete faults.
 func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		localVarReturnValue  interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.DeleteFault")
 	if err != nil {
@@ -179,9 +195,11 @@ func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -203,10 +221,11 @@ func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -220,7 +239,7 @@ func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -232,10 +251,12 @@ func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}
 // GetChaos Get chaos.
 func (a *FaultApi) GetChaos(ctx _context.Context, faultId int32) (Fault, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue Fault
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  Fault
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.GetChaos")
 	if err != nil {
@@ -250,7 +271,8 @@ func (a *FaultApi) GetChaos(ctx _context.Context, faultId int32) (Fault, *_netht
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -273,7 +295,7 @@ func (a *FaultApi) GetChaos(ctx _context.Context, faultId int32) (Fault, *_netht
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -285,7 +307,7 @@ func (a *FaultApi) GetChaos(ctx _context.Context, faultId int32) (Fault, *_netht
 // ListFaultOptionalParameters holds optional parameters for ListFault.
 type ListFaultOptionalParameters struct {
 	Cluster *string
-	Type    *FaultType
+	Type *FaultType
 }
 
 // NewListFaultOptionalParameters creates an empty struct for parameters.
@@ -293,13 +315,11 @@ func NewListFaultOptionalParameters() *ListFaultOptionalParameters {
 	this := ListFaultOptionalParameters{}
 	return &this
 }
-
 // WithCluster sets the corresponding parameter name and returns the struct.
 func (r *ListFaultOptionalParameters) WithCluster(cluster string) *ListFaultOptionalParameters {
 	r.Cluster = &cluster
 	return r
 }
-
 // WithType sets the corresponding parameter name and returns the struct.
 func (r *ListFaultOptionalParameters) WithType(typeVar FaultType) *ListFaultOptionalParameters {
 	r.Type = &typeVar
@@ -309,18 +329,20 @@ func (r *ListFaultOptionalParameters) WithType(typeVar FaultType) *ListFaultOpti
 // ListFault List faults.
 func (a *FaultApi) ListFault(ctx _context.Context, o ...ListFaultOptionalParameters) (FaultList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue FaultList
-		optionalParams      ListFaultOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  FaultList
+		optionalParams ListFaultOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListFaultOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListFaultOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.ListFault")
 	if err != nil {
@@ -340,7 +362,8 @@ func (a *FaultApi) ListFault(ctx _context.Context, o ...ListFaultOptionalParamet
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -362,10 +385,11 @@ func (a *FaultApi) ListFault(ctx _context.Context, o ...ListFaultOptionalParamet
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -379,7 +403,7 @@ func (a *FaultApi) ListFault(ctx _context.Context, o ...ListFaultOptionalParamet
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

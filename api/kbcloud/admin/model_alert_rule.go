@@ -2,34 +2,39 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// AlertRule Alert rule information
+
+
+// AlertRule Alert rule information 
 type AlertRule struct {
-	Description *string        `json:"description,omitempty"`
-	Summary     *string        `json:"summary,omitempty"`
-	AlertName   string         `json:"alertName"`
-	Expr        *string        `json:"expr,omitempty"`
-	For         *string        `json:"for,omitempty"`
-	GroupName   *string        `json:"groupName,omitempty"`
-	Disabled    *bool          `json:"disabled,omitempty"`
-	Severity    *AlertSeverity `json:"severity,omitempty"`
-	CreatedAt   *time.Time     `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Summary *string `json:"summary,omitempty"`
+	AlertName string `json:"alertName"`
+	Expr *string `json:"expr,omitempty"`
+	For *string `json:"for,omitempty"`
+	GroupName *string `json:"groupName,omitempty"`
+	Disabled *bool `json:"disabled,omitempty"`
+	Severity *AlertSeverity `json:"severity,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// Alert metric information
-	Metric  *AlertMetric `json:"metric,omitempty"`
-	OrgName *string      `json:"orgName,omitempty"`
+	Metric *AlertMetric `json:"metric,omitempty"`
+	OrgName *string `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewAlertRule instantiates a new AlertRule object.
 // This constructor will assign default values to properties that have it defined,
@@ -52,7 +57,6 @@ func NewAlertRuleWithDefaults() *AlertRule {
 	this.Disabled = &disabled
 	return &this
 }
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *AlertRule) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -80,6 +84,7 @@ func (o *AlertRule) HasDescription() bool {
 func (o *AlertRule) SetDescription(v string) {
 	o.Description = &v
 }
+
 
 // GetSummary returns the Summary field value if set, zero value otherwise.
 func (o *AlertRule) GetSummary() string {
@@ -109,6 +114,7 @@ func (o *AlertRule) SetSummary(v string) {
 	o.Summary = &v
 }
 
+
 // GetAlertName returns the AlertName field value.
 func (o *AlertRule) GetAlertName() string {
 	if o == nil {
@@ -131,6 +137,7 @@ func (o *AlertRule) GetAlertNameOk() (*string, bool) {
 func (o *AlertRule) SetAlertName(v string) {
 	o.AlertName = v
 }
+
 
 // GetExpr returns the Expr field value if set, zero value otherwise.
 func (o *AlertRule) GetExpr() string {
@@ -160,6 +167,7 @@ func (o *AlertRule) SetExpr(v string) {
 	o.Expr = &v
 }
 
+
 // GetFor returns the For field value if set, zero value otherwise.
 func (o *AlertRule) GetFor() string {
 	if o == nil || o.For == nil {
@@ -187,6 +195,7 @@ func (o *AlertRule) HasFor() bool {
 func (o *AlertRule) SetFor(v string) {
 	o.For = &v
 }
+
 
 // GetGroupName returns the GroupName field value if set, zero value otherwise.
 func (o *AlertRule) GetGroupName() string {
@@ -216,6 +225,7 @@ func (o *AlertRule) SetGroupName(v string) {
 	o.GroupName = &v
 }
 
+
 // GetDisabled returns the Disabled field value if set, zero value otherwise.
 func (o *AlertRule) GetDisabled() bool {
 	if o == nil || o.Disabled == nil {
@@ -243,6 +253,7 @@ func (o *AlertRule) HasDisabled() bool {
 func (o *AlertRule) SetDisabled(v bool) {
 	o.Disabled = &v
 }
+
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
 func (o *AlertRule) GetSeverity() AlertSeverity {
@@ -272,6 +283,7 @@ func (o *AlertRule) SetSeverity(v AlertSeverity) {
 	o.Severity = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AlertRule) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -299,6 +311,7 @@ func (o *AlertRule) HasCreatedAt() bool {
 func (o *AlertRule) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
+
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *AlertRule) GetUpdatedAt() time.Time {
@@ -328,6 +341,7 @@ func (o *AlertRule) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
+
 // GetMetric returns the Metric field value if set, zero value otherwise.
 func (o *AlertRule) GetMetric() AlertMetric {
 	if o == nil || o.Metric == nil {
@@ -356,6 +370,7 @@ func (o *AlertRule) SetMetric(v AlertMetric) {
 	o.Metric = &v
 }
 
+
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertRule) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -383,6 +398,8 @@ func (o *AlertRule) HasOrgName() bool {
 func (o *AlertRule) SetOrgName(v string) {
 	o.OrgName = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertRule) MarshalJSON() ([]byte, error) {
@@ -442,18 +459,18 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description *string        `json:"description,omitempty"`
-		Summary     *string        `json:"summary,omitempty"`
-		AlertName   *string        `json:"alertName"`
-		Expr        *string        `json:"expr,omitempty"`
-		For         *string        `json:"for,omitempty"`
-		GroupName   *string        `json:"groupName,omitempty"`
-		Disabled    *bool          `json:"disabled,omitempty"`
-		Severity    *AlertSeverity `json:"severity,omitempty"`
-		CreatedAt   *time.Time     `json:"createdAt,omitempty"`
-		UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
-		Metric      *AlertMetric   `json:"metric,omitempty"`
-		OrgName     *string        `json:"orgName,omitempty"`
+		Description *string `json:"description,omitempty"`
+		Summary *string `json:"summary,omitempty"`
+		AlertName *string `json:"alertName"`
+		Expr *string `json:"expr,omitempty"`
+		For *string `json:"for,omitempty"`
+		GroupName *string `json:"groupName,omitempty"`
+		Disabled *bool `json:"disabled,omitempty"`
+		Severity *AlertSeverity `json:"severity,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		Metric *AlertMetric `json:"metric,omitempty"`
+		OrgName *string `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -463,7 +480,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "summary", "alertName", "expr", "for", "groupName", "disabled", "severity", "createdAt", "updatedAt", "metric", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "description", "summary", "alertName", "expr", "for", "groupName", "disabled", "severity", "createdAt", "updatedAt", "metric", "orgName",  })
 	} else {
 		return err
 	}
@@ -476,14 +493,14 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	o.For = all.For
 	o.GroupName = all.GroupName
 	o.Disabled = all.Disabled
-	if all.Severity != nil && !all.Severity.IsValid() {
+	if all.Severity != nil &&!all.Severity.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Severity = all.Severity
 	}
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
-	if all.Metric != nil && all.Metric.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.Metric != nil && all.Metric.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Metric = all.Metric

@@ -2,16 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Region The region that the cloud provider has.
+
+
+// Region The region that the cloud provider has. 
 type Region struct {
 	// The name of the region.
 	Name string `json:"name"`
@@ -32,9 +36,10 @@ type Region struct {
 	// The time when the region was last updated.
 	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRegion instantiates a new Region object.
 // This constructor will assign default values to properties that have it defined,
@@ -61,7 +66,6 @@ func NewRegionWithDefaults() *Region {
 	this := Region{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *Region) GetName() string {
 	if o == nil {
@@ -84,6 +88,7 @@ func (o *Region) GetNameOk() (*string, bool) {
 func (o *Region) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetNameCn returns the NameCn field value.
 func (o *Region) GetNameCn() string {
@@ -108,6 +113,7 @@ func (o *Region) SetNameCn(v string) {
 	o.NameCn = v
 }
 
+
 // GetNameEn returns the NameEn field value.
 func (o *Region) GetNameEn() string {
 	if o == nil {
@@ -130,6 +136,7 @@ func (o *Region) GetNameEnOk() (*string, bool) {
 func (o *Region) SetNameEn(v string) {
 	o.NameEn = v
 }
+
 
 // GetProvider returns the Provider field value.
 func (o *Region) GetProvider() string {
@@ -154,6 +161,7 @@ func (o *Region) SetProvider(v string) {
 	o.Provider = v
 }
 
+
 // GetGroup returns the Group field value.
 func (o *Region) GetGroup() string {
 	if o == nil {
@@ -176,6 +184,7 @@ func (o *Region) GetGroupOk() (*string, bool) {
 func (o *Region) SetGroup(v string) {
 	o.Group = v
 }
+
 
 // GetEnabled returns the Enabled field value.
 func (o *Region) GetEnabled() bool {
@@ -200,6 +209,7 @@ func (o *Region) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+
 // GetZoneCount returns the ZoneCount field value.
 func (o *Region) GetZoneCount() int32 {
 	if o == nil {
@@ -222,6 +232,7 @@ func (o *Region) GetZoneCountOk() (*int32, bool) {
 func (o *Region) SetZoneCount(v int32) {
 	o.ZoneCount = v
 }
+
 
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Region) GetCreatedAt() time.Time {
@@ -246,6 +257,7 @@ func (o *Region) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *Region) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -268,6 +280,8 @@ func (o *Region) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *Region) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Region) MarshalJSON() ([]byte, error) {
@@ -302,13 +316,13 @@ func (o Region) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Region) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name      *string    `json:"name"`
-		NameCn    *string    `json:"nameCN"`
-		NameEn    *string    `json:"nameEN"`
-		Provider  *string    `json:"provider"`
-		Group     *string    `json:"group"`
-		Enabled   *bool      `json:"enabled"`
-		ZoneCount *int32     `json:"zoneCount"`
+		Name *string `json:"name"`
+		NameCn *string `json:"nameCN"`
+		NameEn *string `json:"nameEN"`
+		Provider *string `json:"provider"`
+		Group *string `json:"group"`
+		Enabled *bool `json:"enabled"`
+		ZoneCount *int32 `json:"zoneCount"`
 		CreatedAt *time.Time `json:"createdAt"`
 		UpdatedAt *time.Time `json:"updatedAt"`
 	}{}
@@ -344,7 +358,7 @@ func (o *Region) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "provider", "group", "enabled", "zoneCount", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "nameCN", "nameEN", "provider", "group", "enabled", "zoneCount", "createdAt", "updatedAt",  })
 	} else {
 		return err
 	}

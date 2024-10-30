@@ -2,19 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+ 
 type BackupRepoCheck struct {
 	// whether backup repo pass the check
 	Success *bool `json:"success,omitempty"`
 	// the info when failed to pass the check
 	Message interface{} `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewBackupRepoCheck instantiates a new BackupRepoCheck object.
 // This constructor will assign default values to properties that have it defined,
@@ -32,7 +42,6 @@ func NewBackupRepoCheckWithDefaults() *BackupRepoCheck {
 	this := BackupRepoCheck{}
 	return &this
 }
-
 // GetSuccess returns the Success field value if set, zero value otherwise.
 func (o *BackupRepoCheck) GetSuccess() bool {
 	if o == nil || o.Success == nil {
@@ -60,6 +69,7 @@ func (o *BackupRepoCheck) HasSuccess() bool {
 func (o *BackupRepoCheck) SetSuccess(v bool) {
 	o.Success = &v
 }
+
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *BackupRepoCheck) GetMessage() interface{} {
@@ -89,6 +99,8 @@ func (o *BackupRepoCheck) SetMessage(v interface{}) {
 	o.Message = v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupRepoCheck) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -111,7 +123,7 @@ func (o BackupRepoCheck) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepoCheck) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Success *bool       `json:"success,omitempty"`
+		Success *bool `json:"success,omitempty"`
 		Message interface{} `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -119,7 +131,7 @@ func (o *BackupRepoCheck) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"success", "message"})
+		common.DeleteKeys(additionalProperties, &[]string{ "success", "message",  })
 	} else {
 		return err
 	}

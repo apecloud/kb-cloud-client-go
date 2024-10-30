@@ -2,22 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// StorageConfigLog the storage config for log
+
+
+// StorageConfigLog the storage config for log 
 type StorageConfigLog struct {
 	// the name of storage
 	StorageName string `json:"storageName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageConfigLog instantiates a new StorageConfigLog object.
 // This constructor will assign default values to properties that have it defined,
@@ -36,7 +42,6 @@ func NewStorageConfigLogWithDefaults() *StorageConfigLog {
 	this := StorageConfigLog{}
 	return &this
 }
-
 // GetStorageName returns the StorageName field value.
 func (o *StorageConfigLog) GetStorageName() string {
 	if o == nil {
@@ -59,6 +64,8 @@ func (o *StorageConfigLog) GetStorageNameOk() (*string, bool) {
 func (o *StorageConfigLog) SetStorageName(v string) {
 	o.StorageName = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageConfigLog) MarshalJSON() ([]byte, error) {
@@ -87,7 +94,7 @@ func (o *StorageConfigLog) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storageName"})
+		common.DeleteKeys(additionalProperties, &[]string{ "storageName",  })
 	} else {
 		return err
 	}

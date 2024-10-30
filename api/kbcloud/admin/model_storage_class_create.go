@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// StorageClassCreate StorageClassCreate provides detailed creation information about a storage class.
+
+
+// StorageClassCreate StorageClassCreate provides detailed creation information about a storage class. 
 type StorageClassCreate struct {
 	// the name of the storage class
 	Name string `json:"name"`
@@ -47,9 +52,10 @@ type StorageClassCreate struct {
 	// whether the storage class is enabled
 	Enabled bool `json:"enabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewStorageClassCreate instantiates a new StorageClassCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -73,7 +79,6 @@ func NewStorageClassCreateWithDefaults() *StorageClassCreate {
 	this := StorageClassCreate{}
 	return &this
 }
-
 // GetName returns the Name field value.
 func (o *StorageClassCreate) GetName() string {
 	if o == nil {
@@ -96,6 +101,7 @@ func (o *StorageClassCreate) GetNameOk() (*string, bool) {
 func (o *StorageClassCreate) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetProvisioner returns the Provisioner field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetProvisioner() string {
@@ -125,6 +131,7 @@ func (o *StorageClassCreate) SetProvisioner(v string) {
 	o.Provisioner = &v
 }
 
+
 // GetLabels returns the Labels field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetLabels() map[string]string {
 	if o == nil || o.Labels == nil {
@@ -152,6 +159,7 @@ func (o *StorageClassCreate) HasLabels() bool {
 func (o *StorageClassCreate) SetLabels(v map[string]string) {
 	o.Labels = v
 }
+
 
 // GetAnnotations returns the Annotations field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetAnnotations() map[string]string {
@@ -181,6 +189,7 @@ func (o *StorageClassCreate) SetAnnotations(v map[string]string) {
 	o.Annotations = v
 }
 
+
 // GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetParameters() map[string]string {
 	if o == nil || o.Parameters == nil {
@@ -209,6 +218,7 @@ func (o *StorageClassCreate) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
 
+
 // GetReclaimPolicy returns the ReclaimPolicy field value.
 func (o *StorageClassCreate) GetReclaimPolicy() StorageClassReclaimPolicy {
 	if o == nil {
@@ -231,6 +241,7 @@ func (o *StorageClassCreate) GetReclaimPolicyOk() (*StorageClassReclaimPolicy, b
 func (o *StorageClassCreate) SetReclaimPolicy(v StorageClassReclaimPolicy) {
 	o.ReclaimPolicy = v
 }
+
 
 // GetAllowVolumeExpansion returns the AllowVolumeExpansion field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetAllowVolumeExpansion() bool {
@@ -260,6 +271,7 @@ func (o *StorageClassCreate) SetAllowVolumeExpansion(v bool) {
 	o.AllowVolumeExpansion = &v
 }
 
+
 // GetVolumeBindingMode returns the VolumeBindingMode field value.
 func (o *StorageClassCreate) GetVolumeBindingMode() StorageClassVolumeBindingMode {
 	if o == nil {
@@ -282,6 +294,7 @@ func (o *StorageClassCreate) GetVolumeBindingModeOk() (*StorageClassVolumeBindin
 func (o *StorageClassCreate) SetVolumeBindingMode(v StorageClassVolumeBindingMode) {
 	o.VolumeBindingMode = v
 }
+
 
 // GetAllowClone returns the AllowClone field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetAllowClone() bool {
@@ -311,6 +324,7 @@ func (o *StorageClassCreate) SetAllowClone(v bool) {
 	o.AllowClone = &v
 }
 
+
 // GetAllowSnapshot returns the AllowSnapshot field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetAllowSnapshot() bool {
 	if o == nil || o.AllowSnapshot == nil {
@@ -338,6 +352,7 @@ func (o *StorageClassCreate) HasAllowSnapshot() bool {
 func (o *StorageClassCreate) SetAllowSnapshot(v bool) {
 	o.AllowSnapshot = &v
 }
+
 
 // GetIsDefaultClass returns the IsDefaultClass field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetIsDefaultClass() bool {
@@ -367,6 +382,7 @@ func (o *StorageClassCreate) SetIsDefaultClass(v bool) {
 	o.IsDefaultClass = &v
 }
 
+
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetType() string {
 	if o == nil || o.Type == nil {
@@ -394,6 +410,7 @@ func (o *StorageClassCreate) HasType() bool {
 func (o *StorageClassCreate) SetType(v string) {
 	o.Type = &v
 }
+
 
 // GetHostPath returns the HostPath field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetHostPath() string {
@@ -423,6 +440,7 @@ func (o *StorageClassCreate) SetHostPath(v string) {
 	o.HostPath = &v
 }
 
+
 // GetMountOptions returns the MountOptions field value if set, zero value otherwise.
 func (o *StorageClassCreate) GetMountOptions() []string {
 	if o == nil || o.MountOptions == nil {
@@ -451,6 +469,7 @@ func (o *StorageClassCreate) SetMountOptions(v []string) {
 	o.MountOptions = v
 }
 
+
 // GetDescription returns the Description field value.
 func (o *StorageClassCreate) GetDescription() string {
 	if o == nil {
@@ -473,6 +492,7 @@ func (o *StorageClassCreate) GetDescriptionOk() (*string, bool) {
 func (o *StorageClassCreate) SetDescription(v string) {
 	o.Description = v
 }
+
 
 // GetDisplayName returns the DisplayName field value.
 func (o *StorageClassCreate) GetDisplayName() string {
@@ -497,6 +517,7 @@ func (o *StorageClassCreate) SetDisplayName(v string) {
 	o.DisplayName = v
 }
 
+
 // GetEnabled returns the Enabled field value.
 func (o *StorageClassCreate) GetEnabled() bool {
 	if o == nil {
@@ -519,6 +540,8 @@ func (o *StorageClassCreate) GetEnabledOk() (*bool, bool) {
 func (o *StorageClassCreate) SetEnabled(v bool) {
 	o.Enabled = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassCreate) MarshalJSON() ([]byte, error) {
@@ -575,23 +598,23 @@ func (o StorageClassCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name                 *string                        `json:"name"`
-		Provisioner          *string                        `json:"provisioner,omitempty"`
-		Labels               map[string]string              `json:"labels,omitempty"`
-		Annotations          map[string]string              `json:"annotations,omitempty"`
-		Parameters           map[string]string              `json:"parameters,omitempty"`
-		ReclaimPolicy        *StorageClassReclaimPolicy     `json:"reclaimPolicy"`
-		AllowVolumeExpansion *bool                          `json:"allowVolumeExpansion,omitempty"`
-		VolumeBindingMode    *StorageClassVolumeBindingMode `json:"volumeBindingMode"`
-		AllowClone           *bool                          `json:"allowClone,omitempty"`
-		AllowSnapshot        *bool                          `json:"allowSnapshot,omitempty"`
-		IsDefaultClass       *bool                          `json:"isDefaultClass,omitempty"`
-		Type                 *string                        `json:"type,omitempty"`
-		HostPath             *string                        `json:"hostPath,omitempty"`
-		MountOptions         []string                       `json:"mountOptions,omitempty"`
-		Description          *string                        `json:"description"`
-		DisplayName          *string                        `json:"displayName"`
-		Enabled              *bool                          `json:"enabled"`
+		Name *string `json:"name"`
+		Provisioner *string `json:"provisioner,omitempty"`
+		Labels map[string]string `json:"labels,omitempty"`
+		Annotations map[string]string `json:"annotations,omitempty"`
+		Parameters map[string]string `json:"parameters,omitempty"`
+		ReclaimPolicy *StorageClassReclaimPolicy `json:"reclaimPolicy"`
+		AllowVolumeExpansion *bool `json:"allowVolumeExpansion,omitempty"`
+		VolumeBindingMode *StorageClassVolumeBindingMode `json:"volumeBindingMode"`
+		AllowClone *bool `json:"allowClone,omitempty"`
+		AllowSnapshot *bool `json:"allowSnapshot,omitempty"`
+		IsDefaultClass *bool `json:"isDefaultClass,omitempty"`
+		Type *string `json:"type,omitempty"`
+		HostPath *string `json:"hostPath,omitempty"`
+		MountOptions []string `json:"mountOptions,omitempty"`
+		Description *string `json:"description"`
+		DisplayName *string `json:"displayName"`
+		Enabled *bool `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -616,7 +639,7 @@ func (o *StorageClassCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "provisioner", "labels", "annotations", "parameters", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "description", "displayName", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{ "name", "provisioner", "labels", "annotations", "parameters", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "description", "displayName", "enabled",  })
 	} else {
 		return err
 	}

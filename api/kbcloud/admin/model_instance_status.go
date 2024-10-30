@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// InstanceStatus Status for instance
+
+
+// InstanceStatus Status for instance 
 type InstanceStatus struct {
 	// The current phase of the cluster
 	Phase string `json:"phase"`
@@ -19,9 +24,10 @@ type InstanceStatus struct {
 	// A human-readable message indicating details about the cluster's current phase
 	Message *string `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewInstanceStatus instantiates a new InstanceStatus object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,7 +46,6 @@ func NewInstanceStatusWithDefaults() *InstanceStatus {
 	this := InstanceStatus{}
 	return &this
 }
-
 // GetPhase returns the Phase field value.
 func (o *InstanceStatus) GetPhase() string {
 	if o == nil {
@@ -63,6 +68,7 @@ func (o *InstanceStatus) GetPhaseOk() (*string, bool) {
 func (o *InstanceStatus) SetPhase(v string) {
 	o.Phase = v
 }
+
 
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *InstanceStatus) GetReason() string {
@@ -92,6 +98,7 @@ func (o *InstanceStatus) SetReason(v string) {
 	o.Reason = &v
 }
 
+
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *InstanceStatus) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -120,6 +127,8 @@ func (o *InstanceStatus) SetMessage(v string) {
 	o.Message = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceStatus) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,8 +152,8 @@ func (o InstanceStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceStatus) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Phase   *string `json:"phase"`
-		Reason  *string `json:"reason,omitempty"`
+		Phase *string `json:"phase"`
+		Reason *string `json:"reason,omitempty"`
 		Message *string `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -155,7 +164,7 @@ func (o *InstanceStatus) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"phase", "reason", "message"})
+		common.DeleteKeys(additionalProperties, &[]string{ "phase", "reason", "message",  })
 	} else {
 		return err
 	}

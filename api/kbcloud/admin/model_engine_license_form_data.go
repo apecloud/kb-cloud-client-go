@@ -2,23 +2,28 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	_io "io"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// EngineLicenseFormData the data of the engine license
+
+
+// EngineLicenseFormData the data of the engine license 
 type EngineLicenseFormData struct {
 	// The license file to upload
 	LicenseFile _io.Reader `json:"licenseFile"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineLicenseFormData instantiates a new EngineLicenseFormData object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +42,6 @@ func NewEngineLicenseFormDataWithDefaults() *EngineLicenseFormData {
 	this := EngineLicenseFormData{}
 	return &this
 }
-
 // GetLicenseFile returns the LicenseFile field value.
 func (o *EngineLicenseFormData) GetLicenseFile() _io.Reader {
 	if o == nil {
@@ -60,6 +64,8 @@ func (o *EngineLicenseFormData) GetLicenseFileOk() (*_io.Reader, bool) {
 func (o *EngineLicenseFormData) SetLicenseFile(v _io.Reader) {
 	o.LicenseFile = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicenseFormData) MarshalJSON() ([]byte, error) {
@@ -88,7 +94,7 @@ func (o *EngineLicenseFormData) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"licenseFile"})
+		common.DeleteKeys(additionalProperties, &[]string{ "licenseFile",  })
 	} else {
 		return err
 	}

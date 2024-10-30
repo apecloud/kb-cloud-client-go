@@ -2,11 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// OpsVScale OpsVScale is the payload to vertically scale a KubeBlocks cluster
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// OpsVScale OpsVScale is the payload to vertically scale a KubeBlocks cluster 
 type OpsVScale struct {
 	// component type
 	Component *string `json:"component,omitempty"`
@@ -17,9 +26,10 @@ type OpsVScale struct {
 	// class code of the cluster
 	ClassCode *string `json:"classCode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewOpsVScale instantiates a new OpsVScale object.
 // This constructor will assign default values to properties that have it defined,
@@ -37,7 +47,6 @@ func NewOpsVScaleWithDefaults() *OpsVScale {
 	this := OpsVScale{}
 	return &this
 }
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsVScale) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -65,6 +74,7 @@ func (o *OpsVScale) HasComponent() bool {
 func (o *OpsVScale) SetComponent(v string) {
 	o.Component = &v
 }
+
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *OpsVScale) GetCpu() string {
@@ -94,6 +104,7 @@ func (o *OpsVScale) SetCpu(v string) {
 	o.Cpu = &v
 }
 
+
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *OpsVScale) GetMemory() string {
 	if o == nil || o.Memory == nil {
@@ -122,6 +133,7 @@ func (o *OpsVScale) SetMemory(v string) {
 	o.Memory = &v
 }
 
+
 // GetClassCode returns the ClassCode field value if set, zero value otherwise.
 func (o *OpsVScale) GetClassCode() string {
 	if o == nil || o.ClassCode == nil {
@@ -149,6 +161,8 @@ func (o *OpsVScale) HasClassCode() bool {
 func (o *OpsVScale) SetClassCode(v string) {
 	o.ClassCode = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsVScale) MarshalJSON() ([]byte, error) {
@@ -179,8 +193,8 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component *string `json:"component,omitempty"`
-		Cpu       *string `json:"cpu,omitempty"`
-		Memory    *string `json:"memory,omitempty"`
+		Cpu *string `json:"cpu,omitempty"`
+		Memory *string `json:"memory,omitempty"`
 		ClassCode *string `json:"classCode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -188,7 +202,7 @@ func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "cpu", "memory", "classCode"})
+		common.DeleteKeys(additionalProperties, &[]string{ "component", "cpu", "memory", "classCode",  })
 	} else {
 		return err
 	}

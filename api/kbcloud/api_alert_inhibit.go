@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -26,7 +30,6 @@ func NewCreateAlertInhibitOptionalParameters() *CreateAlertInhibitOptionalParame
 	this := CreateAlertInhibitOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *CreateAlertInhibitOptionalParameters) WithBody(body AlertInhibit) *CreateAlertInhibitOptionalParameters {
 	r.Body = &body
@@ -36,18 +39,20 @@ func (r *CreateAlertInhibitOptionalParameters) WithBody(body AlertInhibit) *Crea
 // CreateAlertInhibit Create alert inhibit.
 func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName string, o ...CreateAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue AlertInhibit
-		optionalParams      CreateAlertInhibitOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertInhibit
+		optionalParams CreateAlertInhibitOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateAlertInhibitOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type CreateAlertInhibitOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.CreateAlertInhibit")
 	if err != nil {
@@ -63,11 +68,13 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -89,10 +96,11 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -106,7 +114,7 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -118,10 +126,12 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 // DeleteAlertInhibit Delete alert inhibit.
 func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName string, inhibitId string) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
+		localVarReturnValue  interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.DeleteAlertInhibit")
 	if err != nil {
@@ -137,7 +147,8 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -159,10 +170,11 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -176,7 +188,7 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -188,10 +200,12 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 // GetAlertInhibit Get alert inhibit.
 func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, inhibitId string) (AlertInhibit, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertInhibit
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertInhibit
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.GetAlertInhibit")
 	if err != nil {
@@ -207,7 +221,8 @@ func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, 
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -229,10 +244,11 @@ func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -246,7 +262,7 @@ func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -258,10 +274,12 @@ func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, 
 // ListAlertInhibits List alert inhibits.
 func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, orgName string) (AlertInhibitList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertInhibitList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertInhibitList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.ListAlertInhibits")
 	if err != nil {
@@ -276,7 +294,8 @@ func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, orgName string
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -298,10 +317,11 @@ func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, orgName string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -315,7 +335,7 @@ func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, orgName string
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -334,7 +354,6 @@ func NewPatchAlertInhibitOptionalParameters() *PatchAlertInhibitOptionalParamete
 	this := PatchAlertInhibitOptionalParameters{}
 	return &this
 }
-
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *PatchAlertInhibitOptionalParameters) WithBody(body AlertInhibit) *PatchAlertInhibitOptionalParameters {
 	r.Body = &body
@@ -344,18 +363,20 @@ func (r *PatchAlertInhibitOptionalParameters) WithBody(body AlertInhibit) *Patch
 // PatchAlertInhibit Patch alert inhibit.
 func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string, o ...PatchAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue AlertInhibit
-		optionalParams      PatchAlertInhibitOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  AlertInhibit
+		optionalParams PatchAlertInhibitOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type PatchAlertInhibitOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type PatchAlertInhibitOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.PatchAlertInhibit")
 	if err != nil {
@@ -371,11 +392,13 @@ func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -397,10 +420,11 @@ func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -414,7 +438,7 @@ func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

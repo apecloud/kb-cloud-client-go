@@ -2,15 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Endpoint Endpoint is the information of cluster endpoints
+
+
+// Endpoint Endpoint is the information of cluster endpoints 
 type Endpoint struct {
 	// title of the endpoint
 	Title string `json:"title"`
@@ -33,9 +38,10 @@ type Endpoint struct {
 	// Whether the endpoint is mutable
 	Mutable bool `json:"mutable"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEndpoint instantiates a new Endpoint object.
 // This constructor will assign default values to properties that have it defined,
@@ -62,7 +68,6 @@ func NewEndpointWithDefaults() *Endpoint {
 	this := Endpoint{}
 	return &this
 }
-
 // GetTitle returns the Title field value.
 func (o *Endpoint) GetTitle() string {
 	if o == nil {
@@ -85,6 +90,7 @@ func (o *Endpoint) GetTitleOk() (*string, bool) {
 func (o *Endpoint) SetTitle(v string) {
 	o.Title = v
 }
+
 
 // GetComponent returns the Component field value.
 func (o *Endpoint) GetComponent() string {
@@ -109,6 +115,7 @@ func (o *Endpoint) SetComponent(v string) {
 	o.Component = v
 }
 
+
 // GetHosts returns the Hosts field value.
 func (o *Endpoint) GetHosts() []string {
 	if o == nil {
@@ -131,6 +138,7 @@ func (o *Endpoint) GetHostsOk() (*[]string, bool) {
 func (o *Endpoint) SetHosts(v []string) {
 	o.Hosts = v
 }
+
 
 // GetPort returns the Port field value.
 func (o *Endpoint) GetPort() int32 {
@@ -155,6 +163,7 @@ func (o *Endpoint) SetPort(v int32) {
 	o.Port = v
 }
 
+
 // GetType returns the Type field value.
 func (o *Endpoint) GetType() EndpointType {
 	if o == nil {
@@ -177,6 +186,7 @@ func (o *Endpoint) GetTypeOk() (*EndpointType, bool) {
 func (o *Endpoint) SetType(v EndpointType) {
 	o.Type = v
 }
+
 
 // GetNetworkType returns the NetworkType field value.
 func (o *Endpoint) GetNetworkType() EndpointNetworkType {
@@ -201,6 +211,7 @@ func (o *Endpoint) SetNetworkType(v EndpointNetworkType) {
 	o.NetworkType = v
 }
 
+
 // GetServiceName returns the ServiceName field value.
 func (o *Endpoint) GetServiceName() string {
 	if o == nil {
@@ -224,6 +235,7 @@ func (o *Endpoint) SetServiceName(v string) {
 	o.ServiceName = v
 }
 
+
 // GetPortName returns the PortName field value.
 func (o *Endpoint) GetPortName() string {
 	if o == nil {
@@ -246,6 +258,7 @@ func (o *Endpoint) GetPortNameOk() (*string, bool) {
 func (o *Endpoint) SetPortName(v string) {
 	o.PortName = v
 }
+
 
 // GetInstances returns the Instances field value if set, zero value otherwise.
 func (o *Endpoint) GetInstances() []string {
@@ -275,6 +288,7 @@ func (o *Endpoint) SetInstances(v []string) {
 	o.Instances = v
 }
 
+
 // GetMutable returns the Mutable field value.
 func (o *Endpoint) GetMutable() bool {
 	if o == nil {
@@ -297,6 +311,8 @@ func (o *Endpoint) GetMutableOk() (*bool, bool) {
 func (o *Endpoint) SetMutable(v bool) {
 	o.Mutable = v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Endpoint) MarshalJSON() ([]byte, error) {
@@ -326,16 +342,16 @@ func (o Endpoint) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title       *string              `json:"title"`
-		Component   *string              `json:"component"`
-		Hosts       *[]string            `json:"hosts"`
-		Port        *int32               `json:"port"`
-		Type        *EndpointType        `json:"type"`
+		Title *string `json:"title"`
+		Component *string `json:"component"`
+		Hosts *[]string `json:"hosts"`
+		Port *int32 `json:"port"`
+		Type *EndpointType `json:"type"`
 		NetworkType *EndpointNetworkType `json:"networkType"`
-		ServiceName *string              `json:"serviceName"`
-		PortName    *string              `json:"portName"`
-		Instances   []string             `json:"instances,omitempty"`
-		Mutable     *bool                `json:"mutable"`
+		ServiceName *string `json:"serviceName"`
+		PortName *string `json:"portName"`
+		Instances []string `json:"instances,omitempty"`
+		Mutable *bool `json:"mutable"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -369,7 +385,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "hosts", "port", "type", "networkType", "serviceName", "portName", "instances", "mutable"})
+		common.DeleteKeys(additionalProperties, &[]string{ "title", "component", "hosts", "port", "type", "networkType", "serviceName", "portName", "instances", "mutable",  })
 	} else {
 		return err
 	}

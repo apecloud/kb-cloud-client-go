@@ -2,28 +2,33 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
 import (
+	"github.com/google/uuid"
 	"fmt"
-	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
+
+ 
 type EngineLicense struct {
-	EngineName  string     `json:"engineName"`
-	Name        string     `json:"name"`
-	Key         *string    `json:"key,omitempty"`
-	Description *string    `json:"description,omitempty"`
-	ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
-	CreatedAt   *time.Time `json:"createdAt,omitempty"`
-	Id          *int32     `json:"id,omitempty"`
-	IdString    *string    `json:"idString,omitempty"`
+	EngineName string `json:"engineName"`
+	Name string `json:"name"`
+	Key *string `json:"key,omitempty"`
+	Description *string `json:"description,omitempty"`
+	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	Id *int32 `json:"id,omitempty"`
+	IdString *string `json:"idString,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEngineLicense instantiates a new EngineLicense object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,7 +48,6 @@ func NewEngineLicenseWithDefaults() *EngineLicense {
 	this := EngineLicense{}
 	return &this
 }
-
 // GetEngineName returns the EngineName field value.
 func (o *EngineLicense) GetEngineName() string {
 	if o == nil {
@@ -67,6 +71,7 @@ func (o *EngineLicense) SetEngineName(v string) {
 	o.EngineName = v
 }
 
+
 // GetName returns the Name field value.
 func (o *EngineLicense) GetName() string {
 	if o == nil {
@@ -89,6 +94,7 @@ func (o *EngineLicense) GetNameOk() (*string, bool) {
 func (o *EngineLicense) SetName(v string) {
 	o.Name = v
 }
+
 
 // GetKey returns the Key field value if set, zero value otherwise.
 func (o *EngineLicense) GetKey() string {
@@ -118,6 +124,7 @@ func (o *EngineLicense) SetKey(v string) {
 	o.Key = &v
 }
 
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *EngineLicense) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -145,6 +152,7 @@ func (o *EngineLicense) HasDescription() bool {
 func (o *EngineLicense) SetDescription(v string) {
 	o.Description = &v
 }
+
 
 // GetExpiredAt returns the ExpiredAt field value if set, zero value otherwise.
 func (o *EngineLicense) GetExpiredAt() time.Time {
@@ -174,6 +182,7 @@ func (o *EngineLicense) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *EngineLicense) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -201,6 +210,7 @@ func (o *EngineLicense) HasCreatedAt() bool {
 func (o *EngineLicense) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
+
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *EngineLicense) GetId() int32 {
@@ -230,6 +240,7 @@ func (o *EngineLicense) SetId(v int32) {
 	o.Id = &v
 }
 
+
 // GetIdString returns the IdString field value if set, zero value otherwise.
 func (o *EngineLicense) GetIdString() string {
 	if o == nil || o.IdString == nil {
@@ -257,6 +268,8 @@ func (o *EngineLicense) HasIdString() bool {
 func (o *EngineLicense) SetIdString(v string) {
 	o.IdString = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineLicense) MarshalJSON() ([]byte, error) {
@@ -302,14 +315,14 @@ func (o EngineLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName  *string    `json:"engineName"`
-		Name        *string    `json:"name"`
-		Key         *string    `json:"key,omitempty"`
-		Description *string    `json:"description,omitempty"`
-		ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
-		CreatedAt   *time.Time `json:"createdAt,omitempty"`
-		Id          *int32     `json:"id,omitempty"`
-		IdString    *string    `json:"idString,omitempty"`
+		EngineName *string `json:"engineName"`
+		Name *string `json:"name"`
+		Key *string `json:"key,omitempty"`
+		Description *string `json:"description,omitempty"`
+		ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Id *int32 `json:"id,omitempty"`
+		IdString *string `json:"idString,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -322,7 +335,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "name", "key", "description", "expiredAt", "createdAt", "id", "idString"})
+		common.DeleteKeys(additionalProperties, &[]string{ "engineName", "name", "key", "description", "expiredAt", "createdAt", "id", "idString",  })
 	} else {
 		return err
 	}

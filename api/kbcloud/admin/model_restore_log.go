@@ -2,20 +2,30 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/google/uuid"
+	"fmt"
 
-// RestoreLog restore workload logs
+	"github.com/apecloud/kb-cloud-client-go/api"
+
+)
+
+
+
+// RestoreLog restore workload logs 
 type RestoreLog struct {
 	// items is the list of restoreLogByPod objects
 	Items []RestoreLogByPod `json:"items,omitempty"`
 	// restore id
 	RestoreId *string `json:"restoreId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewRestoreLog instantiates a new RestoreLog object.
 // This constructor will assign default values to properties that have it defined,
@@ -33,7 +43,6 @@ func NewRestoreLogWithDefaults() *RestoreLog {
 	this := RestoreLog{}
 	return &this
 }
-
 // GetItems returns the Items field value if set, zero value otherwise.
 func (o *RestoreLog) GetItems() []RestoreLogByPod {
 	if o == nil || o.Items == nil {
@@ -61,6 +70,7 @@ func (o *RestoreLog) HasItems() bool {
 func (o *RestoreLog) SetItems(v []RestoreLogByPod) {
 	o.Items = v
 }
+
 
 // GetRestoreId returns the RestoreId field value if set, zero value otherwise.
 func (o *RestoreLog) GetRestoreId() string {
@@ -90,6 +100,8 @@ func (o *RestoreLog) SetRestoreId(v string) {
 	o.RestoreId = &v
 }
 
+
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RestoreLog) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,15 +124,15 @@ func (o RestoreLog) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RestoreLog) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items     []RestoreLogByPod `json:"items,omitempty"`
-		RestoreId *string           `json:"restoreId,omitempty"`
+		Items []RestoreLogByPod `json:"items,omitempty"`
+		RestoreId *string `json:"restoreId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "restoreId"})
+		common.DeleteKeys(additionalProperties, &[]string{ "items", "restoreId",  })
 	} else {
 		return err
 	}

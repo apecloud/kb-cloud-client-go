@@ -2,13 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
+	"bytes"
 	_context "context"
+	_fmt "fmt"
+	_io "io"
+	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -20,10 +24,12 @@ type MemberApi common.Service
 // Add organization with specific role
 func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgMemberAdd) (OrgMember, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue OrgMember
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarReturnValue  OrgMember
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.AddOrgMember")
 	if err != nil {
@@ -39,9 +45,11 @@ func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgM
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	
+
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -63,10 +71,11 @@ func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgM
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -80,7 +89,7 @@ func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgM
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -93,9 +102,11 @@ func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgM
 // delete a Org Member
 func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, memberId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
+		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarPostBody     interface{}
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.DeleteOrgMember")
 	if err != nil {
@@ -111,7 +122,8 @@ func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, member
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -133,10 +145,11 @@ func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, member
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -153,7 +166,7 @@ func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, member
 // ListOrgMemberOptionalParameters holds optional parameters for ListOrgMember.
 type ListOrgMemberOptionalParameters struct {
 	PageToken *string
-	PageSize  *string
+	PageSize *string
 }
 
 // NewListOrgMemberOptionalParameters creates an empty struct for parameters.
@@ -161,13 +174,11 @@ func NewListOrgMemberOptionalParameters() *ListOrgMemberOptionalParameters {
 	this := ListOrgMemberOptionalParameters{}
 	return &this
 }
-
 // WithPageToken sets the corresponding parameter name and returns the struct.
 func (r *ListOrgMemberOptionalParameters) WithPageToken(pageToken string) *ListOrgMemberOptionalParameters {
 	r.PageToken = &pageToken
 	return r
 }
-
 // WithPageSize sets the corresponding parameter name and returns the struct.
 func (r *ListOrgMemberOptionalParameters) WithPageSize(pageSize string) *ListOrgMemberOptionalParameters {
 	r.PageSize = &pageSize
@@ -178,18 +189,20 @@ func (r *ListOrgMemberOptionalParameters) WithPageSize(pageSize string) *ListOrg
 // list members of the specified Org
 func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...ListOrgMemberOptionalParameters) (OrgMemberList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue OrgMemberList
-		optionalParams      ListOrgMemberOptionalParameters
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  OrgMemberList
+		optionalParams ListOrgMemberOptionalParameters
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgMemberOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
+    
+    if len(o) > 1 {
+        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgMemberOptionalParameters is allowed")
+    }
+    if len(o) == 1 {
+        optionalParams = o[0]
+    }
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ListOrgMember")
 	if err != nil {
@@ -210,7 +223,8 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...Lis
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -232,10 +246,11 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...Lis
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -249,7 +264,7 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...Lis
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -261,10 +276,12 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...Lis
 // ListOrgMemberPermission List permissions of a member.
 func (a *MemberApi) ListOrgMemberPermission(ctx _context.Context, orgName string) (PermissionList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue PermissionList
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  PermissionList
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ListOrgMemberPermission")
 	if err != nil {
@@ -279,7 +296,8 @@ func (a *MemberApi) ListOrgMemberPermission(ctx _context.Context, orgName string
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -301,10 +319,11 @@ func (a *MemberApi) ListOrgMemberPermission(ctx _context.Context, orgName string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -318,7 +337,7 @@ func (a *MemberApi) ListOrgMemberPermission(ctx _context.Context, orgName string
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -331,10 +350,12 @@ func (a *MemberApi) ListOrgMemberPermission(ctx _context.Context, orgName string
 // Only authenticated organization admins can update the member's role
 func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberId string, body OrgMemberUpdate) (OrgMember, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
-		localVarPostBody    interface{}
-		localVarReturnValue OrgMember
+		localVarHTTPMethod   = _nethttp.MethodPatch
+		localVarPostBody     interface{}
+		localVarReturnValue  OrgMember
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.PatchOrgMember")
 	if err != nil {
@@ -348,12 +369,14 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/apply-patch+yaml"
+	localVarHeaderParams["Content-Type"] =  "application/apply-patch+yaml"
 	localVarHeaderParams["Accept"] = "application/json"
+
+	
 
 	// body params
 	localVarPostBody = &body
-	common.SetAuthKeys(
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -375,10 +398,11 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -392,7 +416,7 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -405,10 +429,12 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 // read the specified OrgMember
 func (a *MemberApi) ReadOrgMember(ctx _context.Context, orgName string, memberId string) (OrgMember, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue OrgMember
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarReturnValue  OrgMember
 	)
+
+    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ReadOrgMember")
 	if err != nil {
@@ -424,7 +450,8 @@ func (a *MemberApi) ReadOrgMember(ctx _context.Context, orgName string, memberId
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	common.SetAuthKeys(
+	
+        common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -446,10 +473,11 @@ func (a *MemberApi) ReadOrgMember(ctx _context.Context, orgName string, memberId
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if
+		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -463,7 +491,7 @@ func (a *MemberApi) ReadOrgMember(ctx _context.Context, orgName string, memberId
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
+			ErrorBody:  localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

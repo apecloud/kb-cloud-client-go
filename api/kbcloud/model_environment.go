@@ -2,17 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
+
 package kbcloud
 
 import (
-	"fmt"
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/google/uuid"
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api"
+
 )
 
-// Environment Environment info
+
+
+// Environment Environment info 
 type Environment struct {
 	// Provider
 	Provider string `json:"provider"`
@@ -49,9 +52,10 @@ type Environment struct {
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
+
 
 // NewEnvironment instantiates a new Environment object.
 // This constructor will assign default values to properties that have it defined,
@@ -83,7 +87,6 @@ func NewEnvironmentWithDefaults() *Environment {
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	return &this
 }
-
 // GetProvider returns the Provider field value.
 func (o *Environment) GetProvider() string {
 	if o == nil {
@@ -106,6 +109,7 @@ func (o *Environment) GetProviderOk() (*string, bool) {
 func (o *Environment) SetProvider(v string) {
 	o.Provider = v
 }
+
 
 // GetRegion returns the Region field value.
 func (o *Environment) GetRegion() string {
@@ -130,6 +134,7 @@ func (o *Environment) SetRegion(v string) {
 	o.Region = v
 }
 
+
 // GetAvailabilityZones returns the AvailabilityZones field value.
 func (o *Environment) GetAvailabilityZones() []string {
 	if o == nil {
@@ -152,6 +157,7 @@ func (o *Environment) GetAvailabilityZonesOk() (*[]string, bool) {
 func (o *Environment) SetAvailabilityZones(v []string) {
 	o.AvailabilityZones = v
 }
+
 
 // GetNetworkConfig returns the NetworkConfig field value if set, zero value otherwise.
 func (o *Environment) GetNetworkConfig() NetworkConfig {
@@ -181,6 +187,7 @@ func (o *Environment) SetNetworkConfig(v NetworkConfig) {
 	o.NetworkConfig = &v
 }
 
+
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Environment) GetCreatedAt() time.Time {
 	if o == nil {
@@ -203,6 +210,7 @@ func (o *Environment) GetCreatedAtOk() (*time.Time, bool) {
 func (o *Environment) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
+
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Environment) GetDescription() string {
@@ -232,6 +240,7 @@ func (o *Environment) SetDescription(v string) {
 	o.Description = &v
 }
 
+
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *Environment) GetDisplayName() string {
 	if o == nil || o.DisplayName == nil {
@@ -260,6 +269,7 @@ func (o *Environment) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
+
 // GetId returns the Id field value.
 func (o *Environment) GetId() uuid.UUID {
 	if o == nil {
@@ -282,6 +292,7 @@ func (o *Environment) GetIdOk() (*uuid.UUID, bool) {
 func (o *Environment) SetId(v uuid.UUID) {
 	o.Id = v
 }
+
 
 // GetName returns the Name field value.
 func (o *Environment) GetName() string {
@@ -306,6 +317,7 @@ func (o *Environment) SetName(v string) {
 	o.Name = v
 }
 
+
 // GetOrgName returns the OrgName field value.
 func (o *Environment) GetOrgName() string {
 	if o == nil {
@@ -328,6 +340,7 @@ func (o *Environment) GetOrgNameOk() (*string, bool) {
 func (o *Environment) SetOrgName(v string) {
 	o.OrgName = v
 }
+
 
 // GetState returns the State field value.
 func (o *Environment) GetState() EnvironmentState {
@@ -352,6 +365,7 @@ func (o *Environment) SetState(v EnvironmentState) {
 	o.State = v
 }
 
+
 // GetType returns the Type field value.
 func (o *Environment) GetType() EnvironmentType {
 	if o == nil {
@@ -375,6 +389,7 @@ func (o *Environment) SetType(v EnvironmentType) {
 	o.Type = v
 }
 
+
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *Environment) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -397,6 +412,7 @@ func (o *Environment) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *Environment) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
+
 
 // GetImageRegistry returns the ImageRegistry field value if set, zero value otherwise.
 func (o *Environment) GetImageRegistry() string {
@@ -426,6 +442,7 @@ func (o *Environment) SetImageRegistry(v string) {
 	o.ImageRegistry = &v
 }
 
+
 // GetExtraInfo returns the ExtraInfo field value if set, zero value otherwise.
 func (o *Environment) GetExtraInfo() string {
 	if o == nil || o.ExtraInfo == nil {
@@ -453,6 +470,7 @@ func (o *Environment) HasExtraInfo() bool {
 func (o *Environment) SetExtraInfo(v string) {
 	o.ExtraInfo = &v
 }
+
 
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Environment) GetNamespaces() []string {
@@ -482,6 +500,7 @@ func (o *Environment) SetNamespaces(v []string) {
 	o.Namespaces = v
 }
 
+
 // GetPodAntiAffinityEnabled returns the PodAntiAffinityEnabled field value if set, zero value otherwise.
 func (o *Environment) GetPodAntiAffinityEnabled() bool {
 	if o == nil || o.PodAntiAffinityEnabled == nil {
@@ -509,6 +528,8 @@ func (o *Environment) HasPodAntiAffinityEnabled() bool {
 func (o *Environment) SetPodAntiAffinityEnabled(v bool) {
 	o.PodAntiAffinityEnabled = &v
 }
+
+
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
@@ -565,23 +586,23 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider               *string           `json:"provider"`
-		Region                 *string           `json:"region"`
-		AvailabilityZones      *[]string         `json:"availabilityZones"`
-		NetworkConfig          *NetworkConfig    `json:"networkConfig,omitempty"`
-		CreatedAt              *time.Time        `json:"createdAt"`
-		Description            *string           `json:"description,omitempty"`
-		DisplayName            *string           `json:"displayName,omitempty"`
-		Id                     *uuid.UUID        `json:"id"`
-		Name                   *string           `json:"name"`
-		OrgName                *string           `json:"orgName"`
-		State                  *EnvironmentState `json:"state"`
-		Type                   *EnvironmentType  `json:"type"`
-		UpdatedAt              *time.Time        `json:"updatedAt"`
-		ImageRegistry          *string           `json:"imageRegistry,omitempty"`
-		ExtraInfo              *string           `json:"extraInfo,omitempty"`
-		Namespaces             []string          `json:"namespaces,omitempty"`
-		PodAntiAffinityEnabled *bool             `json:"podAntiAffinityEnabled,omitempty"`
+		Provider *string `json:"provider"`
+		Region *string `json:"region"`
+		AvailabilityZones *[]string `json:"availabilityZones"`
+		NetworkConfig *NetworkConfig `json:"networkConfig,omitempty"`
+		CreatedAt *time.Time `json:"createdAt"`
+		Description *string `json:"description,omitempty"`
+		DisplayName *string `json:"displayName,omitempty"`
+		Id *uuid.UUID `json:"id"`
+		Name *string `json:"name"`
+		OrgName *string `json:"orgName"`
+		State *EnvironmentState `json:"state"`
+		Type *EnvironmentType `json:"type"`
+		UpdatedAt *time.Time `json:"updatedAt"`
+		ImageRegistry *string `json:"imageRegistry,omitempty"`
+		ExtraInfo *string `json:"extraInfo,omitempty"`
+		Namespaces []string `json:"namespaces,omitempty"`
+		PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -618,7 +639,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{ "provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled",  })
 	} else {
 		return err
 	}
@@ -627,7 +648,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.Provider = *all.Provider
 	o.Region = *all.Region
 	o.AvailabilityZones = *all.AvailabilityZones
-	if all.NetworkConfig != nil && all.NetworkConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if  all.NetworkConfig != nil && all.NetworkConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.NetworkConfig = all.NetworkConfig
