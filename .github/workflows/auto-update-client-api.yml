@@ -1,0 +1,93 @@
+name: Auto Update Client API
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+  POETRY_VERSION: "1.7.1"
+  PYTHON_VERSION: "3.11"
+  GO_VERSION: "1.22"
+
+jobs:
+  check-swagger:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Poetry
+        uses: Gr1N/setup-poetry@v8
+        with:
+          poetry-version: "${{ env.POETRY_VERSION }}"
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "${{ env.PYTHON_VERSION }}"
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Checkout apecloud Code
+        uses: actions/checkout@v4
+        with:
+          repository: apecloud/apecloud
+          path: apecloud
+          token: ${{ env.GITHUB_TOKEN }}
+          ref: ${{ github.ref_name }}
+
+      - name: bundle openapi and adminapi
+        run: |
+          npm install @redocly/cli -g
+          
+          cd apecloud/apiserver
+          redocly bundle ./api/openapi.yaml > ./openapi-bundle-tmp.yaml
+          redocly bundle ./api/adminapi.yaml > ./adminapi-bundle-tmp.yaml
+
+      - name: update openapi and adminapi
+        id: update_client_api
+        run: |
+          COMMIT_SHA="$(git rev-parse HEAD)"
+          cp -r ./apecloud/apiserver/openapi-bundle-tmp.yaml ./.generator/schemas/openapi.yaml
+          cp -r ./apecloud/apiserver/adminapi-bundle-tmp.yaml ./.generator/schemas/adminapi.yaml
+          
+          FILE_CHANGES=`git diff --name-only ${COMMIT_SHA}`
+          if [[ ! -z "$FILE_CHANGES" ]]; then
+              echo $FILE_CHANGES
+          
+              cd .generator
+              poetry install
+              poetry run python -m generator ./schemas/* -o ../api
+  
+              cd ../api
+              goimports -w .
+          
+              git config --local user.name "$GITHUB_ACTOR"
+              git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+              git commit -a -m "chore: auto update clinent api"
+          fi
+          echo file_changes=$FILE_CHANGES >> $GITHUB_OUTPUT
+          
+          RELEASE_COMMIT="$(git rev-parse HEAD)"
+          echo 'RELEASE_COMMIT='${RELEASE_COMMIT} >> $GITHUB_ENV
+
+      - name: push changes to new branch
+        if: ${{ github.ref_name == 'main' && steps.update_client_api.outputs.file_changes }}
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ env.GITHUB_TOKEN }}
+          branch: support/auto-update-client-api-${{ env.RELEASE_COMMIT }}
+
+      - name: auto create pr head new branch
+        if: ${{ github.ref_name == 'main' && steps.update_client_api.outputs.file_changes }}
+        run: |
+          gh pr create --head "support/auto-update-client-api-${{ env.RELEASE_COMMIT }}" --title "chore: auto update clinent api" --body ""
+
+      - name: push changes
+        uses: ad-m/github-push-action@master
+        if: ${{ github.ref_name != 'main' && steps.update_client_api.outputs.file_changes }}
+        with:
+          github_token: ${{ env.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
