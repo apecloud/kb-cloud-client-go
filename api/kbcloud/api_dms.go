@@ -1545,11 +1545,11 @@ func (r *ListSessionsOptionalParameters) WithAll(all string) *ListSessionsOption
 }
 
 // ListSessions list all session for the cluster.
-func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]OBSession, *_nethttp.Response, error) {
+func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]ObSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []OBSession
+		localVarReturnValue []ObSession
 		optionalParams      ListSessionsOptionalParameters
 	)
 
