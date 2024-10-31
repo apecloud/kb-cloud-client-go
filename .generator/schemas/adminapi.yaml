@@ -7,6 +7,10 @@ info:
     altText: ApeCloud logo
   description: |
     The Admin API is used to manage the ApeCloud platform.
+  contact:
+    email: support@apecloud.com
+    name: ApeCloud Support
+    url: https://www.apecloud.com
 servers:
   - url: http://127.0.0.1:8080
     description: local

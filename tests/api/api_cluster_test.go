@@ -24,7 +24,7 @@ func TestCreateCluster(t *testing.T) {
 		Version:           common.PtrString("8.4.2"),
 		Namespace:         common.PtrString("kubeblocks-cloud-ns"),
 		SingleZone:        common.PtrBool(true),
-		TerminationPolicy: common.Ptr(kbcloud.CLUSTERTERMINATIONPOLICY_DELETE),
+		TerminationPolicy: common.Ptr(kbcloud.ClusterTerminationPolicyDelete),
 		ProxyEnabled:      common.PtrBool(true),
 		EnvironmentName:   "test",
 		Components: []kbcloud.ComponentsItem{

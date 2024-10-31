@@ -54,7 +54,16 @@ var (
 
 	// ContextOperationServerVariables overrides a server configuration variables using operation specific values.
 	ContextOperationServerVariables = contextKey("serverOperationVariables")
+
+	// ContextDigestAuth takes DigestAuth as authentication for the request.
+	ContextDigestAuth = contextKey("digest")
 )
+
+// DigestAuth provides digest http authentication to a request passed via context using ContextDigestAuth.
+type DigestAuth struct {
+	UserName string `json:"username,omitempty"`
+	Password string `json:"password,omitempty"`
+}
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth.
 type BasicAuth struct {
@@ -323,14 +332,17 @@ func NewDefaultContext(ctx context.Context) context.Context {
 		)
 	}
 
-	keys := make(map[string]APIKey)
-	if apiKey, ok := os.LookupEnv("KB_CLOUD_API_KEY"); ok {
-		keys["apiKeyAuth"] = APIKey{Key: apiKey}
+	auth := DigestAuth{}
+	if keyName, ok := os.LookupEnv("KB_CLOUD_API_KEY_NAME"); ok {
+		auth.UserName = keyName
+	}
+	if keySecret, ok := os.LookupEnv("KB_CLOUD_API_KEY_SECRET"); ok {
+		auth.Password = keySecret
 	}
 	ctx = context.WithValue(
 		ctx,
-		ContextAPIKeys,
-		keys,
+		ContextDigestAuth,
+		auth,
 	)
 
 	return ctx

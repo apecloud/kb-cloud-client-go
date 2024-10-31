@@ -15,6 +15,10 @@ info:
     We use standard HTTP authentication and provide API keys to identify who you are. Your API keys carry many privileges, so be sure to keep them secret! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
 
     All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
+  contact:
+    email: support@apecloud.com
+    name: ApeCloud Support
+    url: https://www.apecloud.com
 servers:
   - url: http://127.0.0.1:8080
     description: local

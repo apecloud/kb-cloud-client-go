@@ -27,6 +27,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/icholy/digest"
 	"golang.org/x/oauth2"
 )
 
@@ -388,6 +389,14 @@ func (c *APIClient) PrepareRequest(
 		// AccessToken Authentication
 		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
+		}
+
+		// Digest Authentication
+		if auth, ok := ctx.Value(ContextDigestAuth).(DigestAuth); ok {
+			c.Cfg.HTTPClient.Transport = &digest.Transport{
+				Username: auth.UserName,
+				Password: auth.Password,
+			}
 		}
 	}
 

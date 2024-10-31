@@ -6,6 +6,7 @@ require (
 	github.com/goccy/go-json v0.10.2
 	github.com/google/uuid v1.5.0
 	golang.org/x/oauth2 v0.10.0
+	github.com/icholy/digest v0.1.23
 )
 
 require (
