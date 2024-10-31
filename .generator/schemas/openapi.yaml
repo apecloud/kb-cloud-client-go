@@ -982,11 +982,9 @@ paths:
                 $ref: '#/components/schemas/environmentList'
           description: A successful response.
         '403':
-          content: {}
-          description: Returned when the user does not have permission to access the resource.
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: Returned when the resource does not exist.
+          $ref: '#/components/responses/NotFoundResponse'
       tags:
         - environment
   /api/v1/organizations/{orgName}/benchmark:
