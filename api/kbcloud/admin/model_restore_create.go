@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// RestoreCreate RestoreCreate is the payload to restore a KubeBlocks cluster 
+// RestoreCreate RestoreCreate is the payload to restore a KubeBlocks cluster
 type RestoreCreate struct {
 	// the env name of the target environment to restore
 	EnvironmentName string `json:"environmentName"`
@@ -30,10 +25,9 @@ type RestoreCreate struct {
 	// the volume claim restore policy, support values: [Serial, Parallel]
 	VolumeRestorePolicy *VolumeRestorePolicy `json:"volumeRestorePolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRestoreCreate instantiates a new RestoreCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -58,6 +52,7 @@ func NewRestoreCreateWithDefaults() *RestoreCreate {
 	this.VolumeRestorePolicy = &volumeRestorePolicy
 	return &this
 }
+
 // GetEnvironmentName returns the EnvironmentName field value.
 func (o *RestoreCreate) GetEnvironmentName() string {
 	if o == nil {
@@ -80,7 +75,6 @@ func (o *RestoreCreate) GetEnvironmentNameOk() (*string, bool) {
 func (o *RestoreCreate) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
 }
-
 
 // GetBackupId returns the BackupId field value.
 func (o *RestoreCreate) GetBackupId() string {
@@ -105,7 +99,6 @@ func (o *RestoreCreate) SetBackupId(v string) {
 	o.BackupId = v
 }
 
-
 // GetCluster returns the Cluster field value.
 func (o *RestoreCreate) GetCluster() Cluster {
 	if o == nil {
@@ -128,7 +121,6 @@ func (o *RestoreCreate) GetClusterOk() (*Cluster, bool) {
 func (o *RestoreCreate) SetCluster(v Cluster) {
 	o.Cluster = v
 }
-
 
 // GetRestoreTimeStr returns the RestoreTimeStr field value if set, zero value otherwise.
 func (o *RestoreCreate) GetRestoreTimeStr() string {
@@ -158,7 +150,6 @@ func (o *RestoreCreate) SetRestoreTimeStr(v string) {
 	o.RestoreTimeStr = &v
 }
 
-
 // GetDoReadyRestoreAfterClusterRunning returns the DoReadyRestoreAfterClusterRunning field value if set, zero value otherwise.
 func (o *RestoreCreate) GetDoReadyRestoreAfterClusterRunning() bool {
 	if o == nil || o.DoReadyRestoreAfterClusterRunning == nil {
@@ -186,7 +177,6 @@ func (o *RestoreCreate) HasDoReadyRestoreAfterClusterRunning() bool {
 func (o *RestoreCreate) SetDoReadyRestoreAfterClusterRunning(v bool) {
 	o.DoReadyRestoreAfterClusterRunning = &v
 }
-
 
 // GetVolumeRestorePolicy returns the VolumeRestorePolicy field value if set, zero value otherwise.
 func (o *RestoreCreate) GetVolumeRestorePolicy() VolumeRestorePolicy {
@@ -216,8 +206,6 @@ func (o *RestoreCreate) SetVolumeRestorePolicy(v VolumeRestorePolicy) {
 	o.VolumeRestorePolicy = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o RestoreCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -246,12 +234,12 @@ func (o RestoreCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RestoreCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentName *string `json:"environmentName"`
-		BackupId *string `json:"backupId"`
-		Cluster *Cluster `json:"cluster"`
-		RestoreTimeStr *string `json:"restoreTimeStr,omitempty"`
-		DoReadyRestoreAfterClusterRunning *bool `json:"doReadyRestoreAfterClusterRunning,omitempty"`
-		VolumeRestorePolicy *VolumeRestorePolicy `json:"volumeRestorePolicy,omitempty"`
+		EnvironmentName                   *string              `json:"environmentName"`
+		BackupId                          *string              `json:"backupId"`
+		Cluster                           *Cluster             `json:"cluster"`
+		RestoreTimeStr                    *string              `json:"restoreTimeStr,omitempty"`
+		DoReadyRestoreAfterClusterRunning *bool                `json:"doReadyRestoreAfterClusterRunning,omitempty"`
+		VolumeRestorePolicy               *VolumeRestorePolicy `json:"volumeRestorePolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -267,7 +255,7 @@ func (o *RestoreCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "environmentName", "backupId", "cluster", "restoreTimeStr", "doReadyRestoreAfterClusterRunning", "volumeRestorePolicy",  })
+		common.DeleteKeys(additionalProperties, &[]string{"environmentName", "backupId", "cluster", "restoreTimeStr", "doReadyRestoreAfterClusterRunning", "volumeRestorePolicy"})
 	} else {
 		return err
 	}
@@ -281,7 +269,7 @@ func (o *RestoreCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cluster = *all.Cluster
 	o.RestoreTimeStr = all.RestoreTimeStr
 	o.DoReadyRestoreAfterClusterRunning = all.DoReadyRestoreAfterClusterRunning
-	if all.VolumeRestorePolicy != nil &&!all.VolumeRestorePolicy.IsValid() {
+	if all.VolumeRestorePolicy != nil && !all.VolumeRestorePolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.VolumeRestorePolicy = all.VolumeRestorePolicy

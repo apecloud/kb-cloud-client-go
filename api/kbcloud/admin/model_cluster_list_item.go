@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ClusterListItem KubeBlocks cluster information 
+// ClusterListItem KubeBlocks cluster information
 type ClusterListItem struct {
 	// Cloud Provider
 	CloudProvider string `json:"cloudProvider"`
@@ -54,10 +50,9 @@ type ClusterListItem struct {
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClusterListItem instantiates a new ClusterListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -85,6 +80,7 @@ func NewClusterListItemWithDefaults() *ClusterListItem {
 	this := ClusterListItem{}
 	return &this
 }
+
 // GetCloudProvider returns the CloudProvider field value.
 func (o *ClusterListItem) GetCloudProvider() string {
 	if o == nil {
@@ -107,7 +103,6 @@ func (o *ClusterListItem) GetCloudProviderOk() (*string, bool) {
 func (o *ClusterListItem) SetCloudProvider(v string) {
 	o.CloudProvider = v
 }
-
 
 // GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
 func (o *ClusterListItem) GetCloudRegion() string {
@@ -137,7 +132,6 @@ func (o *ClusterListItem) SetCloudRegion(v string) {
 	o.CloudRegion = &v
 }
 
-
 // GetAvailabilityZones returns the AvailabilityZones field value if set, zero value otherwise.
 func (o *ClusterListItem) GetAvailabilityZones() []string {
 	if o == nil || o.AvailabilityZones == nil {
@@ -166,7 +160,6 @@ func (o *ClusterListItem) SetAvailabilityZones(v []string) {
 	o.AvailabilityZones = v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value.
 func (o *ClusterListItem) GetCreatedAt() time.Time {
 	if o == nil {
@@ -189,7 +182,6 @@ func (o *ClusterListItem) GetCreatedAtOk() (*time.Time, bool) {
 func (o *ClusterListItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
-
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *ClusterListItem) GetDisplayName() string {
@@ -219,7 +211,6 @@ func (o *ClusterListItem) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
-
 // GetEngine returns the Engine field value.
 func (o *ClusterListItem) GetEngine() string {
 	if o == nil {
@@ -242,7 +233,6 @@ func (o *ClusterListItem) GetEngineOk() (*string, bool) {
 func (o *ClusterListItem) SetEngine(v string) {
 	o.Engine = v
 }
-
 
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *ClusterListItem) GetMode() string {
@@ -272,7 +262,6 @@ func (o *ClusterListItem) SetMode(v string) {
 	o.Mode = &v
 }
 
-
 // GetEnvironmentName returns the EnvironmentName field value.
 func (o *ClusterListItem) GetEnvironmentName() string {
 	if o == nil {
@@ -295,7 +284,6 @@ func (o *ClusterListItem) GetEnvironmentNameOk() (*string, bool) {
 func (o *ClusterListItem) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
 }
-
 
 // GetId returns the Id field value.
 func (o *ClusterListItem) GetId() string {
@@ -320,7 +308,6 @@ func (o *ClusterListItem) SetId(v string) {
 	o.Id = v
 }
 
-
 // GetName returns the Name field value.
 func (o *ClusterListItem) GetName() string {
 	if o == nil {
@@ -343,7 +330,6 @@ func (o *ClusterListItem) GetNameOk() (*string, bool) {
 func (o *ClusterListItem) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetStatus returns the Status field value.
 func (o *ClusterListItem) GetStatus() string {
@@ -368,7 +354,6 @@ func (o *ClusterListItem) SetStatus(v string) {
 	o.Status = v
 }
 
-
 // GetTerminationPolicy returns the TerminationPolicy field value.
 func (o *ClusterListItem) GetTerminationPolicy() string {
 	if o == nil {
@@ -391,7 +376,6 @@ func (o *ClusterListItem) GetTerminationPolicyOk() (*string, bool) {
 func (o *ClusterListItem) SetTerminationPolicy(v string) {
 	o.TerminationPolicy = v
 }
-
 
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *ClusterListItem) GetUpdatedAt() time.Time {
@@ -416,7 +400,6 @@ func (o *ClusterListItem) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-
 // GetVersion returns the Version field value.
 func (o *ClusterListItem) GetVersion() string {
 	if o == nil {
@@ -439,7 +422,6 @@ func (o *ClusterListItem) GetVersionOk() (*string, bool) {
 func (o *ClusterListItem) SetVersion(v string) {
 	o.Version = v
 }
-
 
 // GetClassCode returns the ClassCode field value if set, zero value otherwise.
 func (o *ClusterListItem) GetClassCode() string {
@@ -469,7 +451,6 @@ func (o *ClusterListItem) SetClassCode(v string) {
 	o.ClassCode = &v
 }
 
-
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *ClusterListItem) GetStorage() string {
 	if o == nil || o.Storage == nil {
@@ -497,7 +478,6 @@ func (o *ClusterListItem) HasStorage() bool {
 func (o *ClusterListItem) SetStorage(v string) {
 	o.Storage = &v
 }
-
 
 // GetCodeShort returns the CodeShort field value if set, zero value otherwise.
 func (o *ClusterListItem) GetCodeShort() string {
@@ -527,7 +507,6 @@ func (o *ClusterListItem) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
 
-
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *ClusterListItem) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -555,8 +534,6 @@ func (o *ClusterListItem) HasOrgName() bool {
 func (o *ClusterListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterListItem) MarshalJSON() ([]byte, error) {
@@ -616,24 +593,24 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CloudProvider *string `json:"cloudProvider"`
-		CloudRegion *string `json:"cloudRegion,omitempty"`
-		AvailabilityZones []string `json:"availabilityZones,omitempty"`
-		CreatedAt *time.Time `json:"createdAt"`
-		DisplayName *string `json:"displayName,omitempty"`
-		Engine *string `json:"engine"`
-		Mode *string `json:"mode,omitempty"`
-		EnvironmentName *string `json:"environmentName"`
-		Id *string `json:"id"`
-		Name *string `json:"name"`
-		Status *string `json:"status"`
-		TerminationPolicy *string `json:"terminationPolicy"`
-		UpdatedAt *time.Time `json:"updatedAt"`
-		Version *string `json:"version"`
-		ClassCode *string `json:"classCode,omitempty"`
-		Storage *string `json:"storage,omitempty"`
-		CodeShort *string `json:"codeShort,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
+		CloudProvider     *string    `json:"cloudProvider"`
+		CloudRegion       *string    `json:"cloudRegion,omitempty"`
+		AvailabilityZones []string   `json:"availabilityZones,omitempty"`
+		CreatedAt         *time.Time `json:"createdAt"`
+		DisplayName       *string    `json:"displayName,omitempty"`
+		Engine            *string    `json:"engine"`
+		Mode              *string    `json:"mode,omitempty"`
+		EnvironmentName   *string    `json:"environmentName"`
+		Id                *string    `json:"id"`
+		Name              *string    `json:"name"`
+		Status            *string    `json:"status"`
+		TerminationPolicy *string    `json:"terminationPolicy"`
+		UpdatedAt         *time.Time `json:"updatedAt"`
+		Version           *string    `json:"version"`
+		ClassCode         *string    `json:"classCode,omitempty"`
+		Storage           *string    `json:"storage,omitempty"`
+		CodeShort         *string    `json:"codeShort,omitempty"`
+		OrgName           *string    `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -670,7 +647,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
 	} else {
 		return err
 	}

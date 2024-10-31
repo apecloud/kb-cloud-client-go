@@ -2,43 +2,37 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Inspection inspection 
+// Inspection inspection
 type Inspection struct {
-	Id *int32 `json:"id,omitempty"`
-	OrgName *string `json:"orgName,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Creator *string `json:"creator,omitempty"`
-	ClusterId *string `json:"clusterID,omitempty"`
-	ClusterName *string `json:"clusterName,omitempty"`
-	ClusterEngine *string `json:"clusterEngine,omitempty"`
-	Result *string `json:"result,omitempty"`
-	Severity *string `json:"severity,omitempty"`
-	Status *string `json:"status,omitempty"`
-	IsAuto *bool `json:"isAuto,omitempty"`
-	ScriptId *int32 `json:"scriptID,omitempty"`
-	ScriptName *string `json:"scriptName,omitempty"`
-	ScriptCategory *string `json:"scriptCategory,omitempty"`
-	Reason *string `json:"reason,omitempty"`
-	Suggestion *string `json:"suggestion,omitempty"`
+	Id             *int32     `json:"id,omitempty"`
+	OrgName        *string    `json:"orgName,omitempty"`
+	UpdatedAt      *time.Time `json:"updatedAt,omitempty"`
+	CreatedAt      *time.Time `json:"createdAt,omitempty"`
+	Creator        *string    `json:"creator,omitempty"`
+	ClusterId      *string    `json:"clusterID,omitempty"`
+	ClusterName    *string    `json:"clusterName,omitempty"`
+	ClusterEngine  *string    `json:"clusterEngine,omitempty"`
+	Result         *string    `json:"result,omitempty"`
+	Severity       *string    `json:"severity,omitempty"`
+	Status         *string    `json:"status,omitempty"`
+	IsAuto         *bool      `json:"isAuto,omitempty"`
+	ScriptId       *int32     `json:"scriptID,omitempty"`
+	ScriptName     *string    `json:"scriptName,omitempty"`
+	ScriptCategory *string    `json:"scriptCategory,omitempty"`
+	Reason         *string    `json:"reason,omitempty"`
+	Suggestion     *string    `json:"suggestion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewInspection instantiates a new Inspection object.
 // This constructor will assign default values to properties that have it defined,
@@ -56,6 +50,7 @@ func NewInspectionWithDefaults() *Inspection {
 	this := Inspection{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Inspection) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -83,7 +78,6 @@ func (o *Inspection) HasId() bool {
 func (o *Inspection) SetId(v int32) {
 	o.Id = &v
 }
-
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *Inspection) GetOrgName() string {
@@ -113,7 +107,6 @@ func (o *Inspection) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *Inspection) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -141,7 +134,6 @@ func (o *Inspection) HasUpdatedAt() bool {
 func (o *Inspection) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Inspection) GetCreatedAt() time.Time {
@@ -171,7 +163,6 @@ func (o *Inspection) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetCreator returns the Creator field value if set, zero value otherwise.
 func (o *Inspection) GetCreator() string {
 	if o == nil || o.Creator == nil {
@@ -199,7 +190,6 @@ func (o *Inspection) HasCreator() bool {
 func (o *Inspection) SetCreator(v string) {
 	o.Creator = &v
 }
-
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *Inspection) GetClusterId() string {
@@ -229,7 +219,6 @@ func (o *Inspection) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
-
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
 func (o *Inspection) GetClusterName() string {
 	if o == nil || o.ClusterName == nil {
@@ -257,7 +246,6 @@ func (o *Inspection) HasClusterName() bool {
 func (o *Inspection) SetClusterName(v string) {
 	o.ClusterName = &v
 }
-
 
 // GetClusterEngine returns the ClusterEngine field value if set, zero value otherwise.
 func (o *Inspection) GetClusterEngine() string {
@@ -287,7 +275,6 @@ func (o *Inspection) SetClusterEngine(v string) {
 	o.ClusterEngine = &v
 }
 
-
 // GetResult returns the Result field value if set, zero value otherwise.
 func (o *Inspection) GetResult() string {
 	if o == nil || o.Result == nil {
@@ -315,7 +302,6 @@ func (o *Inspection) HasResult() bool {
 func (o *Inspection) SetResult(v string) {
 	o.Result = &v
 }
-
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
 func (o *Inspection) GetSeverity() string {
@@ -345,7 +331,6 @@ func (o *Inspection) SetSeverity(v string) {
 	o.Severity = &v
 }
 
-
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Inspection) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -373,7 +358,6 @@ func (o *Inspection) HasStatus() bool {
 func (o *Inspection) SetStatus(v string) {
 	o.Status = &v
 }
-
 
 // GetIsAuto returns the IsAuto field value if set, zero value otherwise.
 func (o *Inspection) GetIsAuto() bool {
@@ -403,7 +387,6 @@ func (o *Inspection) SetIsAuto(v bool) {
 	o.IsAuto = &v
 }
 
-
 // GetScriptId returns the ScriptId field value if set, zero value otherwise.
 func (o *Inspection) GetScriptId() int32 {
 	if o == nil || o.ScriptId == nil {
@@ -431,7 +414,6 @@ func (o *Inspection) HasScriptId() bool {
 func (o *Inspection) SetScriptId(v int32) {
 	o.ScriptId = &v
 }
-
 
 // GetScriptName returns the ScriptName field value if set, zero value otherwise.
 func (o *Inspection) GetScriptName() string {
@@ -461,7 +443,6 @@ func (o *Inspection) SetScriptName(v string) {
 	o.ScriptName = &v
 }
 
-
 // GetScriptCategory returns the ScriptCategory field value if set, zero value otherwise.
 func (o *Inspection) GetScriptCategory() string {
 	if o == nil || o.ScriptCategory == nil {
@@ -489,7 +470,6 @@ func (o *Inspection) HasScriptCategory() bool {
 func (o *Inspection) SetScriptCategory(v string) {
 	o.ScriptCategory = &v
 }
-
 
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *Inspection) GetReason() string {
@@ -519,7 +499,6 @@ func (o *Inspection) SetReason(v string) {
 	o.Reason = &v
 }
 
-
 // GetSuggestion returns the Suggestion field value if set, zero value otherwise.
 func (o *Inspection) GetSuggestion() string {
 	if o == nil || o.Suggestion == nil {
@@ -547,8 +526,6 @@ func (o *Inspection) HasSuggestion() bool {
 func (o *Inspection) SetSuggestion(v string) {
 	o.Suggestion = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Inspection) MarshalJSON() ([]byte, error) {
@@ -625,30 +602,30 @@ func (o Inspection) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Inspection) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *int32 `json:"id,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		Creator *string `json:"creator,omitempty"`
-		ClusterId *string `json:"clusterID,omitempty"`
-		ClusterName *string `json:"clusterName,omitempty"`
-		ClusterEngine *string `json:"clusterEngine,omitempty"`
-		Result *string `json:"result,omitempty"`
-		Severity *string `json:"severity,omitempty"`
-		Status *string `json:"status,omitempty"`
-		IsAuto *bool `json:"isAuto,omitempty"`
-		ScriptId *int32 `json:"scriptID,omitempty"`
-		ScriptName *string `json:"scriptName,omitempty"`
-		ScriptCategory *string `json:"scriptCategory,omitempty"`
-		Reason *string `json:"reason,omitempty"`
-		Suggestion *string `json:"suggestion,omitempty"`
+		Id             *int32     `json:"id,omitempty"`
+		OrgName        *string    `json:"orgName,omitempty"`
+		UpdatedAt      *time.Time `json:"updatedAt,omitempty"`
+		CreatedAt      *time.Time `json:"createdAt,omitempty"`
+		Creator        *string    `json:"creator,omitempty"`
+		ClusterId      *string    `json:"clusterID,omitempty"`
+		ClusterName    *string    `json:"clusterName,omitempty"`
+		ClusterEngine  *string    `json:"clusterEngine,omitempty"`
+		Result         *string    `json:"result,omitempty"`
+		Severity       *string    `json:"severity,omitempty"`
+		Status         *string    `json:"status,omitempty"`
+		IsAuto         *bool      `json:"isAuto,omitempty"`
+		ScriptId       *int32     `json:"scriptID,omitempty"`
+		ScriptName     *string    `json:"scriptName,omitempty"`
+		ScriptCategory *string    `json:"scriptCategory,omitempty"`
+		Reason         *string    `json:"reason,omitempty"`
+		Suggestion     *string    `json:"suggestion,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "orgName", "updatedAt", "createdAt", "creator", "clusterID", "clusterName", "clusterEngine", "result", "severity", "status", "isAuto", "scriptID", "scriptName", "scriptCategory", "reason", "suggestion",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "updatedAt", "createdAt", "creator", "clusterID", "clusterName", "clusterEngine", "result", "severity", "status", "isAuto", "scriptID", "scriptName", "scriptCategory", "reason", "suggestion"})
 	} else {
 		return err
 	}

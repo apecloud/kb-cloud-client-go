@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// StorageClassUpdate StorageClassUpdate provides the fields for updating a specific storage class. 
+// StorageClassUpdate StorageClassUpdate provides the fields for updating a specific storage class.
 type StorageClassUpdate struct {
 	// Indicates if this is the default storage class.
 	IsDefaultClass bool `json:"isDefaultClass"`
@@ -26,10 +21,9 @@ type StorageClassUpdate struct {
 	// Indicates if the storage class is enabled.
 	Enabled bool `json:"enabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageClassUpdate instantiates a new StorageClassUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +45,7 @@ func NewStorageClassUpdateWithDefaults() *StorageClassUpdate {
 	this := StorageClassUpdate{}
 	return &this
 }
+
 // GetIsDefaultClass returns the IsDefaultClass field value.
 func (o *StorageClassUpdate) GetIsDefaultClass() bool {
 	if o == nil {
@@ -73,7 +68,6 @@ func (o *StorageClassUpdate) GetIsDefaultClassOk() (*bool, bool) {
 func (o *StorageClassUpdate) SetIsDefaultClass(v bool) {
 	o.IsDefaultClass = v
 }
-
 
 // GetDisplayName returns the DisplayName field value.
 func (o *StorageClassUpdate) GetDisplayName() string {
@@ -98,7 +92,6 @@ func (o *StorageClassUpdate) SetDisplayName(v string) {
 	o.DisplayName = v
 }
 
-
 // GetDescription returns the Description field value.
 func (o *StorageClassUpdate) GetDescription() string {
 	if o == nil {
@@ -121,7 +114,6 @@ func (o *StorageClassUpdate) GetDescriptionOk() (*string, bool) {
 func (o *StorageClassUpdate) SetDescription(v string) {
 	o.Description = v
 }
-
 
 // GetEnabled returns the Enabled field value.
 func (o *StorageClassUpdate) GetEnabled() bool {
@@ -146,8 +138,6 @@ func (o *StorageClassUpdate) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -168,10 +158,10 @@ func (o StorageClassUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		IsDefaultClass *bool `json:"isDefaultClass"`
-		DisplayName *string `json:"displayName"`
-		Description *string `json:"description"`
-		Enabled *bool `json:"enabled"`
+		IsDefaultClass *bool   `json:"isDefaultClass"`
+		DisplayName    *string `json:"displayName"`
+		Description    *string `json:"description"`
+		Enabled        *bool   `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -190,7 +180,7 @@ func (o *StorageClassUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "isDefaultClass", "displayName", "description", "enabled",  })
+		common.DeleteKeys(additionalProperties, &[]string{"isDefaultClass", "displayName", "description", "enabled"})
 	} else {
 		return err
 	}

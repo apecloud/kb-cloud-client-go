@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ViewInvolvedObjectsSelectorMatchExpressionsItem struct {
 	// key is the label key that the selector applies to.
 	Key *string `json:"key,omitempty"`
@@ -23,10 +14,9 @@ type ViewInvolvedObjectsSelectorMatchExpressionsItem struct {
 	// values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.
 	Values []string `json:"values,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewViewInvolvedObjectsSelectorMatchExpressionsItem instantiates a new ViewInvolvedObjectsSelectorMatchExpressionsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +34,7 @@ func NewViewInvolvedObjectsSelectorMatchExpressionsItemWithDefaults() *ViewInvol
 	this := ViewInvolvedObjectsSelectorMatchExpressionsItem{}
 	return &this
 }
+
 // GetKey returns the Key field value if set, zero value otherwise.
 func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) GetKey() string {
 	if o == nil || o.Key == nil {
@@ -71,7 +62,6 @@ func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) HasKey() bool {
 func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) SetKey(v string) {
 	o.Key = &v
 }
-
 
 // GetOperator returns the Operator field value if set, zero value otherwise.
 func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) GetOperator() string {
@@ -101,7 +91,6 @@ func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) SetOperator(v string) 
 	o.Operator = &v
 }
 
-
 // GetValues returns the Values field value if set, zero value otherwise.
 func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) GetValues() []string {
 	if o == nil || o.Values == nil {
@@ -130,8 +119,6 @@ func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) SetValues(v []string) 
 	o.Values = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ViewInvolvedObjectsSelectorMatchExpressionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -157,16 +144,16 @@ func (o ViewInvolvedObjectsSelectorMatchExpressionsItem) MarshalJSON() ([]byte, 
 // UnmarshalJSON deserializes the given payload.
 func (o *ViewInvolvedObjectsSelectorMatchExpressionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Key *string `json:"key,omitempty"`
-		Operator *string `json:"operator,omitempty"`
-		Values []string `json:"values,omitempty"`
+		Key      *string  `json:"key,omitempty"`
+		Operator *string  `json:"operator,omitempty"`
+		Values   []string `json:"values,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "key", "operator", "values",  })
+		common.DeleteKeys(additionalProperties, &[]string{"key", "operator", "values"})
 	} else {
 		return err
 	}

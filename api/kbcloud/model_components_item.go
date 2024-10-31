@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ComponentsItem struct {
 	// component name
 	Name *string `json:"name,omitempty"`
@@ -27,8 +18,8 @@ type ComponentsItem struct {
 	// enable monitor
 	Monitor *bool `json:"monitor,omitempty"`
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-	Replicas *int32 `json:"replicas,omitempty"`
-	ClassCode *string `json:"classCode,omitempty"`
+	Replicas    *int32  `json:"replicas,omitempty"`
+	ClassCode   *string `json:"classCode,omitempty"`
 	ClassSeries *string `json:"classSeries,omitempty"`
 	// CPU cores.
 	Cpu *float64 `json:"cpu,omitempty"`
@@ -37,15 +28,14 @@ type ComponentsItem struct {
 	// Storage
 	Storage *string `json:"storage,omitempty"`
 	// StorageClass name
-	StorageClass *string `json:"storageClass,omitempty"`
-	Volumes []ComponentsItemVolumesItem `json:"volumes,omitempty"`
+	StorageClass *string                     `json:"storageClass,omitempty"`
+	Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewComponentsItem instantiates a new ComponentsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -63,6 +53,7 @@ func NewComponentsItemWithDefaults() *ComponentsItem {
 	this := ComponentsItem{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *ComponentsItem) GetName() string {
 	if o == nil || o.Name == nil {
@@ -90,7 +81,6 @@ func (o *ComponentsItem) HasName() bool {
 func (o *ComponentsItem) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *ComponentsItem) GetComponent() string {
@@ -120,7 +110,6 @@ func (o *ComponentsItem) SetComponent(v string) {
 	o.Component = &v
 }
 
-
 // GetComponentDef returns the ComponentDef field value if set, zero value otherwise.
 func (o *ComponentsItem) GetComponentDef() string {
 	if o == nil || o.ComponentDef == nil {
@@ -148,7 +137,6 @@ func (o *ComponentsItem) HasComponentDef() bool {
 func (o *ComponentsItem) SetComponentDef(v string) {
 	o.ComponentDef = &v
 }
-
 
 // GetCompNum returns the CompNum field value if set, zero value otherwise.
 func (o *ComponentsItem) GetCompNum() int32 {
@@ -178,7 +166,6 @@ func (o *ComponentsItem) SetCompNum(v int32) {
 	o.CompNum = &v
 }
 
-
 // GetMonitor returns the Monitor field value if set, zero value otherwise.
 func (o *ComponentsItem) GetMonitor() bool {
 	if o == nil || o.Monitor == nil {
@@ -206,7 +193,6 @@ func (o *ComponentsItem) HasMonitor() bool {
 func (o *ComponentsItem) SetMonitor(v bool) {
 	o.Monitor = &v
 }
-
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *ComponentsItem) GetReplicas() int32 {
@@ -236,7 +222,6 @@ func (o *ComponentsItem) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
-
 // GetClassCode returns the ClassCode field value if set, zero value otherwise.
 func (o *ComponentsItem) GetClassCode() string {
 	if o == nil || o.ClassCode == nil {
@@ -264,7 +249,6 @@ func (o *ComponentsItem) HasClassCode() bool {
 func (o *ComponentsItem) SetClassCode(v string) {
 	o.ClassCode = &v
 }
-
 
 // GetClassSeries returns the ClassSeries field value if set, zero value otherwise.
 func (o *ComponentsItem) GetClassSeries() string {
@@ -294,7 +278,6 @@ func (o *ComponentsItem) SetClassSeries(v string) {
 	o.ClassSeries = &v
 }
 
-
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *ComponentsItem) GetCpu() float64 {
 	if o == nil || o.Cpu == nil {
@@ -322,7 +305,6 @@ func (o *ComponentsItem) HasCpu() bool {
 func (o *ComponentsItem) SetCpu(v float64) {
 	o.Cpu = &v
 }
-
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *ComponentsItem) GetMemory() float64 {
@@ -352,7 +334,6 @@ func (o *ComponentsItem) SetMemory(v float64) {
 	o.Memory = &v
 }
 
-
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *ComponentsItem) GetStorage() string {
 	if o == nil || o.Storage == nil {
@@ -380,7 +361,6 @@ func (o *ComponentsItem) HasStorage() bool {
 func (o *ComponentsItem) SetStorage(v string) {
 	o.Storage = &v
 }
-
 
 // GetStorageClass returns the StorageClass field value if set, zero value otherwise.
 func (o *ComponentsItem) GetStorageClass() string {
@@ -410,7 +390,6 @@ func (o *ComponentsItem) SetStorageClass(v string) {
 	o.StorageClass = &v
 }
 
-
 // GetVolumes returns the Volumes field value if set, zero value otherwise.
 func (o *ComponentsItem) GetVolumes() []ComponentsItemVolumesItem {
 	if o == nil || o.Volumes == nil {
@@ -439,7 +418,6 @@ func (o *ComponentsItem) SetVolumes(v []ComponentsItemVolumesItem) {
 	o.Volumes = v
 }
 
-
 // GetCodeShort returns the CodeShort field value if set, zero value otherwise.
 func (o *ComponentsItem) GetCodeShort() string {
 	if o == nil || o.CodeShort == nil {
@@ -467,8 +445,6 @@ func (o *ComponentsItem) HasCodeShort() bool {
 func (o *ComponentsItem) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentsItem) MarshalJSON() ([]byte, error) {
@@ -528,27 +504,27 @@ func (o ComponentsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Component *string `json:"component,omitempty"`
-		ComponentDef *string `json:"componentDef,omitempty"`
-		CompNum *int32 `json:"compNum,omitempty"`
-		Monitor *bool `json:"monitor,omitempty"`
-		Replicas *int32 `json:"replicas,omitempty"`
-		ClassCode *string `json:"classCode,omitempty"`
-		ClassSeries *string `json:"classSeries,omitempty"`
-		Cpu *float64 `json:"cpu,omitempty"`
-		Memory *float64 `json:"memory,omitempty"`
-		Storage *string `json:"storage,omitempty"`
-		StorageClass *string `json:"storageClass,omitempty"`
-		Volumes []ComponentsItemVolumesItem `json:"volumes,omitempty"`
-		CodeShort *string `json:"codeShort,omitempty"`
+		Name         *string                     `json:"name,omitempty"`
+		Component    *string                     `json:"component,omitempty"`
+		ComponentDef *string                     `json:"componentDef,omitempty"`
+		CompNum      *int32                      `json:"compNum,omitempty"`
+		Monitor      *bool                       `json:"monitor,omitempty"`
+		Replicas     *int32                      `json:"replicas,omitempty"`
+		ClassCode    *string                     `json:"classCode,omitempty"`
+		ClassSeries  *string                     `json:"classSeries,omitempty"`
+		Cpu          *float64                    `json:"cpu,omitempty"`
+		Memory       *float64                    `json:"memory,omitempty"`
+		Storage      *string                     `json:"storage,omitempty"`
+		StorageClass *string                     `json:"storageClass,omitempty"`
+		Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
+		CodeShort    *string                     `json:"codeShort,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "component", "componentDef", "compNum", "monitor", "replicas", "classCode", "classSeries", "cpu", "memory", "storage", "storageClass", "volumes", "codeShort",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "componentDef", "compNum", "monitor", "replicas", "classCode", "classSeries", "cpu", "memory", "storage", "storageClass", "volumes", "codeShort"})
 	} else {
 		return err
 	}

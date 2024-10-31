@@ -2,27 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// MonitorDataSinkList External Endpoint list 
+// MonitorDataSinkList External Endpoint list
 type MonitorDataSinkList struct {
 	Items []MonitorDataSink `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewMonitorDataSinkList instantiates a new MonitorDataSinkList object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +35,7 @@ func NewMonitorDataSinkListWithDefaults() *MonitorDataSinkList {
 	this := MonitorDataSinkList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *MonitorDataSinkList) GetItems() []MonitorDataSink {
 	if o == nil {
@@ -63,8 +58,6 @@ func (o *MonitorDataSinkList) GetItemsOk() (*[]MonitorDataSink, bool) {
 func (o *MonitorDataSinkList) SetItems(v []MonitorDataSink) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o MonitorDataSinkList) MarshalJSON() ([]byte, error) {
@@ -93,7 +86,7 @@ func (o *MonitorDataSinkList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

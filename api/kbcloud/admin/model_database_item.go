@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// DatabaseItem Cluster database information 
+// DatabaseItem Cluster database information
 type DatabaseItem struct {
 	// Specify the name of database, which must be unique.
 	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewDatabaseItem instantiates a new DatabaseItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewDatabaseItemWithDefaults() *DatabaseItem {
 	this := DatabaseItem{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *DatabaseItem) GetName() string {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *DatabaseItem) GetNameOk() (*string, bool) {
 func (o *DatabaseItem) SetName(v string) {
 	o.Name = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseItem) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *DatabaseItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name"})
 	} else {
 		return err
 	}

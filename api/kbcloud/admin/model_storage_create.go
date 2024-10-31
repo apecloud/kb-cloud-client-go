@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// StorageCreate storageCreate is the schema for the storage create request 
+// StorageCreate storageCreate is the schema for the storage create request
 type StorageCreate struct {
 	// Name of the storage
 	Name *string `json:"name,omitempty"`
@@ -28,10 +19,9 @@ type StorageCreate struct {
 	// the tags for the storage
 	Tags map[string]string `json:"tags,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageCreate instantiates a new StorageCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +39,7 @@ func NewStorageCreateWithDefaults() *StorageCreate {
 	this := StorageCreate{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *StorageCreate) GetName() string {
 	if o == nil || o.Name == nil {
@@ -76,7 +67,6 @@ func (o *StorageCreate) HasName() bool {
 func (o *StorageCreate) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetStorageProvider returns the StorageProvider field value if set, zero value otherwise.
 func (o *StorageCreate) GetStorageProvider() string {
@@ -106,7 +96,6 @@ func (o *StorageCreate) SetStorageProvider(v string) {
 	o.StorageProvider = &v
 }
 
-
 // GetParams returns the Params field value if set, zero value otherwise.
 func (o *StorageCreate) GetParams() map[string]string {
 	if o == nil || o.Params == nil {
@@ -134,7 +123,6 @@ func (o *StorageCreate) HasParams() bool {
 func (o *StorageCreate) SetParams(v map[string]string) {
 	o.Params = v
 }
-
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *StorageCreate) GetClusterId() string {
@@ -164,7 +152,6 @@ func (o *StorageCreate) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
-
 // GetTags returns the Tags field value if set, zero value otherwise.
 func (o *StorageCreate) GetTags() map[string]string {
 	if o == nil || o.Tags == nil {
@@ -192,8 +179,6 @@ func (o *StorageCreate) HasTags() bool {
 func (o *StorageCreate) SetTags(v map[string]string) {
 	o.Tags = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageCreate) MarshalJSON() ([]byte, error) {
@@ -226,18 +211,18 @@ func (o StorageCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		StorageProvider *string `json:"storageProvider,omitempty"`
-		Params map[string]string `json:"params,omitempty"`
-		ClusterId *string `json:"clusterID,omitempty"`
-		Tags map[string]string `json:"tags,omitempty"`
+		Name            *string           `json:"name,omitempty"`
+		StorageProvider *string           `json:"storageProvider,omitempty"`
+		Params          map[string]string `json:"params,omitempty"`
+		ClusterId       *string           `json:"clusterID,omitempty"`
+		Tags            map[string]string `json:"tags,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "storageProvider", "params", "clusterID", "tags",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "storageProvider", "params", "clusterID", "tags"})
 	} else {
 		return err
 	}

@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// Owner Owner related to the Event 
+// Owner Owner related to the Event
 type Owner struct {
 	// APIVersion is the API version of the owner.
 	ApiVersion *string `json:"apiVersion,omitempty"`
@@ -26,10 +17,9 @@ type Owner struct {
 	// UID is the unique identifier of the owner.
 	Uid *string `json:"uid,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOwner instantiates a new Owner object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +37,7 @@ func NewOwnerWithDefaults() *Owner {
 	this := Owner{}
 	return &this
 }
+
 // GetApiVersion returns the ApiVersion field value if set, zero value otherwise.
 func (o *Owner) GetApiVersion() string {
 	if o == nil || o.ApiVersion == nil {
@@ -74,7 +65,6 @@ func (o *Owner) HasApiVersion() bool {
 func (o *Owner) SetApiVersion(v string) {
 	o.ApiVersion = &v
 }
-
 
 // GetKind returns the Kind field value if set, zero value otherwise.
 func (o *Owner) GetKind() string {
@@ -104,7 +94,6 @@ func (o *Owner) SetKind(v string) {
 	o.Kind = &v
 }
 
-
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Owner) GetName() string {
 	if o == nil || o.Name == nil {
@@ -133,7 +122,6 @@ func (o *Owner) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetUid returns the Uid field value if set, zero value otherwise.
 func (o *Owner) GetUid() string {
 	if o == nil || o.Uid == nil {
@@ -161,8 +149,6 @@ func (o *Owner) HasUid() bool {
 func (o *Owner) SetUid(v string) {
 	o.Uid = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Owner) MarshalJSON() ([]byte, error) {
@@ -193,16 +179,16 @@ func (o Owner) MarshalJSON() ([]byte, error) {
 func (o *Owner) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ApiVersion *string `json:"apiVersion,omitempty"`
-		Kind *string `json:"kind,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Uid *string `json:"uid,omitempty"`
+		Kind       *string `json:"kind,omitempty"`
+		Name       *string `json:"name,omitempty"`
+		Uid        *string `json:"uid,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "apiVersion", "kind", "name", "uid",  })
+		common.DeleteKeys(additionalProperties, &[]string{"apiVersion", "kind", "name", "uid"})
 	} else {
 		return err
 	}

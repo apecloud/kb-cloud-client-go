@@ -2,32 +2,26 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type EngineOptionLicense struct {
 	// Indicate whether the current cluster requires users to input the license
 	Required *bool `json:"required,omitempty"`
 	// support to refer the cluster name with variable ${clusterName}
 	SecretName string `json:"secretName"`
 	// the license file name
-	FileName string `json:"fileName"`
+	FileName   string          `json:"fileName"`
 	Components []LicenseOption `json:"components,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEngineOptionLicense instantiates a new EngineOptionLicense object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +41,7 @@ func NewEngineOptionLicenseWithDefaults() *EngineOptionLicense {
 	this := EngineOptionLicense{}
 	return &this
 }
+
 // GetRequired returns the Required field value if set, zero value otherwise.
 func (o *EngineOptionLicense) GetRequired() bool {
 	if o == nil || o.Required == nil {
@@ -75,7 +70,6 @@ func (o *EngineOptionLicense) SetRequired(v bool) {
 	o.Required = &v
 }
 
-
 // GetSecretName returns the SecretName field value.
 func (o *EngineOptionLicense) GetSecretName() string {
 	if o == nil {
@@ -99,7 +93,6 @@ func (o *EngineOptionLicense) SetSecretName(v string) {
 	o.SecretName = v
 }
 
-
 // GetFileName returns the FileName field value.
 func (o *EngineOptionLicense) GetFileName() string {
 	if o == nil {
@@ -122,7 +115,6 @@ func (o *EngineOptionLicense) GetFileNameOk() (*string, bool) {
 func (o *EngineOptionLicense) SetFileName(v string) {
 	o.FileName = v
 }
-
 
 // GetComponents returns the Components field value if set, zero value otherwise.
 func (o *EngineOptionLicense) GetComponents() []LicenseOption {
@@ -152,8 +144,6 @@ func (o *EngineOptionLicense) SetComponents(v []LicenseOption) {
 	o.Components = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -178,9 +168,9 @@ func (o EngineOptionLicense) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Required *bool `json:"required,omitempty"`
-		SecretName *string `json:"secretName"`
-		FileName *string `json:"fileName"`
+		Required   *bool           `json:"required,omitempty"`
+		SecretName *string         `json:"secretName"`
+		FileName   *string         `json:"fileName"`
 		Components []LicenseOption `json:"components,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -194,7 +184,7 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "required", "secretName", "fileName", "components",  })
+		common.DeleteKeys(additionalProperties, &[]string{"required", "secretName", "fileName", "components"})
 	} else {
 		return err
 	}

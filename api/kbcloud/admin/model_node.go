@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Node node info 
+// Node node info
 type Node struct {
 	// CPU cores of the node
 	Cpu *int64 `json:"cpu,omitempty"`
@@ -48,10 +44,9 @@ type Node struct {
 	// node is in data plane
 	DataPlane *bool `json:"dataPlane,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewNode instantiates a new Node object.
 // This constructor will assign default values to properties that have it defined,
@@ -72,6 +67,7 @@ func NewNodeWithDefaults() *Node {
 	this := Node{}
 	return &this
 }
+
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *Node) GetCpu() int64 {
 	if o == nil || o.Cpu == nil {
@@ -99,7 +95,6 @@ func (o *Node) HasCpu() bool {
 func (o *Node) SetCpu(v int64) {
 	o.Cpu = &v
 }
-
 
 // GetCpuStats returns the CpuStats field value if set, zero value otherwise.
 func (o *Node) GetCpuStats() ResourceStats {
@@ -129,7 +124,6 @@ func (o *Node) SetCpuStats(v ResourceStats) {
 	o.CpuStats = &v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Node) GetCreatedAt() time.Time {
 	if o == nil {
@@ -153,7 +147,6 @@ func (o *Node) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-
 // GetHostName returns the HostName field value.
 func (o *Node) GetHostName() string {
 	if o == nil {
@@ -176,7 +169,6 @@ func (o *Node) GetHostNameOk() (*string, bool) {
 func (o *Node) SetHostName(v string) {
 	o.HostName = v
 }
-
 
 // GetInstanceType returns the InstanceType field value if set, zero value otherwise.
 func (o *Node) GetInstanceType() string {
@@ -206,7 +198,6 @@ func (o *Node) SetInstanceType(v string) {
 	o.InstanceType = &v
 }
 
-
 // GetIp returns the Ip field value.
 func (o *Node) GetIp() string {
 	if o == nil {
@@ -229,7 +220,6 @@ func (o *Node) GetIpOk() (*string, bool) {
 func (o *Node) SetIp(v string) {
 	o.Ip = v
 }
-
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *Node) GetMemory() int64 {
@@ -259,7 +249,6 @@ func (o *Node) SetMemory(v int64) {
 	o.Memory = &v
 }
 
-
 // GetMemoryStats returns the MemoryStats field value if set, zero value otherwise.
 func (o *Node) GetMemoryStats() ResourceStats {
 	if o == nil || o.MemoryStats == nil {
@@ -287,7 +276,6 @@ func (o *Node) HasMemoryStats() bool {
 func (o *Node) SetMemoryStats(v ResourceStats) {
 	o.MemoryStats = &v
 }
-
 
 // GetZone returns the Zone field value if set, zero value otherwise.
 func (o *Node) GetZone() string {
@@ -317,7 +305,6 @@ func (o *Node) SetZone(v string) {
 	o.Zone = &v
 }
 
-
 // GetRegion returns the Region field value if set, zero value otherwise.
 func (o *Node) GetRegion() string {
 	if o == nil || o.Region == nil {
@@ -345,7 +332,6 @@ func (o *Node) HasRegion() bool {
 func (o *Node) SetRegion(v string) {
 	o.Region = &v
 }
-
 
 // GetUnschedulable returns the Unschedulable field value if set, zero value otherwise.
 func (o *Node) GetUnschedulable() bool {
@@ -375,7 +361,6 @@ func (o *Node) SetUnschedulable(v bool) {
 	o.Unschedulable = &v
 }
 
-
 // GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
 func (o *Node) GetNodeGroup() string {
 	if o == nil || o.NodeGroup == nil {
@@ -403,7 +388,6 @@ func (o *Node) HasNodeGroup() bool {
 func (o *Node) SetNodeGroup(v string) {
 	o.NodeGroup = &v
 }
-
 
 // GetControlPlane returns the ControlPlane field value if set, zero value otherwise.
 func (o *Node) GetControlPlane() bool {
@@ -433,7 +417,6 @@ func (o *Node) SetControlPlane(v bool) {
 	o.ControlPlane = &v
 }
 
-
 // GetDataPlane returns the DataPlane field value if set, zero value otherwise.
 func (o *Node) GetDataPlane() bool {
 	if o == nil || o.DataPlane == nil {
@@ -461,8 +444,6 @@ func (o *Node) HasDataPlane() bool {
 func (o *Node) SetDataPlane(v bool) {
 	o.DataPlane = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Node) MarshalJSON() ([]byte, error) {
@@ -520,20 +501,20 @@ func (o Node) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cpu *int64 `json:"cpu,omitempty"`
-		CpuStats *ResourceStats `json:"cpuStats,omitempty"`
-		CreatedAt *time.Time `json:"createdAt"`
-		HostName *string `json:"hostName"`
-		InstanceType *string `json:"instanceType,omitempty"`
-		Ip *string `json:"ip"`
-		Memory *int64 `json:"memory,omitempty"`
-		MemoryStats *ResourceStats `json:"memoryStats,omitempty"`
-		Zone *string `json:"zone,omitempty"`
-		Region *string `json:"region,omitempty"`
-		Unschedulable *bool `json:"unschedulable,omitempty"`
-		NodeGroup *string `json:"nodeGroup,omitempty"`
-		ControlPlane *bool `json:"controlPlane,omitempty"`
-		DataPlane *bool `json:"dataPlane,omitempty"`
+		Cpu           *int64         `json:"cpu,omitempty"`
+		CpuStats      *ResourceStats `json:"cpuStats,omitempty"`
+		CreatedAt     *time.Time     `json:"createdAt"`
+		HostName      *string        `json:"hostName"`
+		InstanceType  *string        `json:"instanceType,omitempty"`
+		Ip            *string        `json:"ip"`
+		Memory        *int64         `json:"memory,omitempty"`
+		MemoryStats   *ResourceStats `json:"memoryStats,omitempty"`
+		Zone          *string        `json:"zone,omitempty"`
+		Region        *string        `json:"region,omitempty"`
+		Unschedulable *bool          `json:"unschedulable,omitempty"`
+		NodeGroup     *string        `json:"nodeGroup,omitempty"`
+		ControlPlane  *bool          `json:"controlPlane,omitempty"`
+		DataPlane     *bool          `json:"dataPlane,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -549,14 +530,14 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "unschedulable", "nodeGroup", "controlPlane", "dataPlane",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "unschedulable", "nodeGroup", "controlPlane", "dataPlane"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Cpu = all.Cpu
-	if  all.CpuStats != nil && all.CpuStats.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.CpuStats != nil && all.CpuStats.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.CpuStats = all.CpuStats
@@ -565,7 +546,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	o.InstanceType = all.InstanceType
 	o.Ip = *all.Ip
 	o.Memory = all.Memory
-	if  all.MemoryStats != nil && all.MemoryStats.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.MemoryStats != nil && all.MemoryStats.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.MemoryStats = all.MemoryStats

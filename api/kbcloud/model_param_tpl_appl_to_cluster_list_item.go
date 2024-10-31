@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ParamTplApplToClusterListItem parameter template applicable to the cluster information 
+// ParamTplApplToClusterListItem parameter template applicable to the cluster information
 type ParamTplApplToClusterListItem struct {
 	// The number of parameters in the parameter template
 	Count int32 `json:"count"`
@@ -26,10 +21,9 @@ type ParamTplApplToClusterListItem struct {
 	// the template partition
 	Partition string `json:"partition"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParamTplApplToClusterListItem instantiates a new ParamTplApplToClusterListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +45,7 @@ func NewParamTplApplToClusterListItemWithDefaults() *ParamTplApplToClusterListIt
 	this := ParamTplApplToClusterListItem{}
 	return &this
 }
+
 // GetCount returns the Count field value.
 func (o *ParamTplApplToClusterListItem) GetCount() int32 {
 	if o == nil {
@@ -73,7 +68,6 @@ func (o *ParamTplApplToClusterListItem) GetCountOk() (*int32, bool) {
 func (o *ParamTplApplToClusterListItem) SetCount(v int32) {
 	o.Count = v
 }
-
 
 // GetName returns the Name field value.
 func (o *ParamTplApplToClusterListItem) GetName() string {
@@ -98,7 +92,6 @@ func (o *ParamTplApplToClusterListItem) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetNeedRestart returns the NeedRestart field value.
 func (o *ParamTplApplToClusterListItem) GetNeedRestart() bool {
 	if o == nil {
@@ -121,7 +114,6 @@ func (o *ParamTplApplToClusterListItem) GetNeedRestartOk() (*bool, bool) {
 func (o *ParamTplApplToClusterListItem) SetNeedRestart(v bool) {
 	o.NeedRestart = v
 }
-
 
 // GetPartition returns the Partition field value.
 func (o *ParamTplApplToClusterListItem) GetPartition() string {
@@ -146,8 +138,6 @@ func (o *ParamTplApplToClusterListItem) SetPartition(v string) {
 	o.Partition = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplApplToClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -168,10 +158,10 @@ func (o ParamTplApplToClusterListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplApplToClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Count *int32 `json:"count"`
-		Name *string `json:"name"`
-		NeedRestart *bool `json:"needRestart"`
-		Partition *string `json:"partition"`
+		Count       *int32  `json:"count"`
+		Name        *string `json:"name"`
+		NeedRestart *bool   `json:"needRestart"`
+		Partition   *string `json:"partition"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -190,7 +180,7 @@ func (o *ParamTplApplToClusterListItem) UnmarshalJSON(bytes []byte) (err error) 
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "count", "name", "needRestart", "partition",  })
+		common.DeleteKeys(additionalProperties, &[]string{"count", "name", "needRestart", "partition"})
 	} else {
 		return err
 	}

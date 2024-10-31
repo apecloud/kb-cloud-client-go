@@ -2,29 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type FloatOption struct {
-	Min float64 `json:"min"`
-	Max float64 `json:"max"`
+	Min     float64 `json:"min"`
+	Max     float64 `json:"max"`
 	Default float64 `json:"default"`
-	Step float64 `json:"step"`
+	Step    float64 `json:"step"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewFloatOption instantiates a new FloatOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -46,6 +40,7 @@ func NewFloatOptionWithDefaults() *FloatOption {
 	this := FloatOption{}
 	return &this
 }
+
 // GetMin returns the Min field value.
 func (o *FloatOption) GetMin() float64 {
 	if o == nil {
@@ -68,7 +63,6 @@ func (o *FloatOption) GetMinOk() (*float64, bool) {
 func (o *FloatOption) SetMin(v float64) {
 	o.Min = v
 }
-
 
 // GetMax returns the Max field value.
 func (o *FloatOption) GetMax() float64 {
@@ -93,7 +87,6 @@ func (o *FloatOption) SetMax(v float64) {
 	o.Max = v
 }
 
-
 // GetDefault returns the Default field value.
 func (o *FloatOption) GetDefault() float64 {
 	if o == nil {
@@ -116,7 +109,6 @@ func (o *FloatOption) GetDefaultOk() (*float64, bool) {
 func (o *FloatOption) SetDefault(v float64) {
 	o.Default = v
 }
-
 
 // GetStep returns the Step field value.
 func (o *FloatOption) GetStep() float64 {
@@ -141,8 +133,6 @@ func (o *FloatOption) SetStep(v float64) {
 	o.Step = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o FloatOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -163,10 +153,10 @@ func (o FloatOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *FloatOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Min *float64 `json:"min"`
-		Max *float64 `json:"max"`
+		Min     *float64 `json:"min"`
+		Max     *float64 `json:"max"`
 		Default *float64 `json:"default"`
-		Step *float64 `json:"step"`
+		Step    *float64 `json:"step"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -185,7 +175,7 @@ func (o *FloatOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "min", "max", "default", "step",  })
+		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "default", "step"})
 	} else {
 		return err
 	}

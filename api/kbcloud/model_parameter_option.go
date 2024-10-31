@@ -2,37 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ParameterOption struct {
-	Component string `json:"component"`
-	Configs []ParameterConfig `json:"configs"`
+	Component string            `json:"component"`
+	Configs   []ParameterConfig `json:"configs"`
 	// deprecated
-	Versions []string `json:"versions"`
-	ExportTpl bool `json:"exportTpl"`
+	Versions  []string `json:"versions"`
+	ExportTpl bool     `json:"exportTpl"`
 	// a alias with major version.
 	Family string `json:"family"`
 	// match the major version
-	MajorVersion *string `json:"majorVersion,omitempty"`
-	DefaultTplName string `json:"defaultTplName"`
+	MajorVersion          *string              `json:"majorVersion,omitempty"`
+	DefaultTplName        string               `json:"defaultTplName"`
 	DefaultTplDescription LocalizedDescription `json:"defaultTplDescription"`
-	DisableHa *bool `json:"disableHA,omitempty"`
+	DisableHa             *bool                `json:"disableHA,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParameterOption instantiates a new ParameterOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -61,6 +55,7 @@ func NewParameterOptionWithDefaults() *ParameterOption {
 	this.DisableHa = &disableHa
 	return &this
 }
+
 // GetComponent returns the Component field value.
 func (o *ParameterOption) GetComponent() string {
 	if o == nil {
@@ -83,7 +78,6 @@ func (o *ParameterOption) GetComponentOk() (*string, bool) {
 func (o *ParameterOption) SetComponent(v string) {
 	o.Component = v
 }
-
 
 // GetConfigs returns the Configs field value.
 func (o *ParameterOption) GetConfigs() []ParameterConfig {
@@ -108,7 +102,6 @@ func (o *ParameterOption) SetConfigs(v []ParameterConfig) {
 	o.Configs = v
 }
 
-
 // GetVersions returns the Versions field value.
 func (o *ParameterOption) GetVersions() []string {
 	if o == nil {
@@ -131,7 +124,6 @@ func (o *ParameterOption) GetVersionsOk() (*[]string, bool) {
 func (o *ParameterOption) SetVersions(v []string) {
 	o.Versions = v
 }
-
 
 // GetExportTpl returns the ExportTpl field value.
 func (o *ParameterOption) GetExportTpl() bool {
@@ -156,7 +148,6 @@ func (o *ParameterOption) SetExportTpl(v bool) {
 	o.ExportTpl = v
 }
 
-
 // GetFamily returns the Family field value.
 func (o *ParameterOption) GetFamily() string {
 	if o == nil {
@@ -179,7 +170,6 @@ func (o *ParameterOption) GetFamilyOk() (*string, bool) {
 func (o *ParameterOption) SetFamily(v string) {
 	o.Family = v
 }
-
 
 // GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
 func (o *ParameterOption) GetMajorVersion() string {
@@ -209,7 +199,6 @@ func (o *ParameterOption) SetMajorVersion(v string) {
 	o.MajorVersion = &v
 }
 
-
 // GetDefaultTplName returns the DefaultTplName field value.
 func (o *ParameterOption) GetDefaultTplName() string {
 	if o == nil {
@@ -233,7 +222,6 @@ func (o *ParameterOption) SetDefaultTplName(v string) {
 	o.DefaultTplName = v
 }
 
-
 // GetDefaultTplDescription returns the DefaultTplDescription field value.
 func (o *ParameterOption) GetDefaultTplDescription() LocalizedDescription {
 	if o == nil {
@@ -256,7 +244,6 @@ func (o *ParameterOption) GetDefaultTplDescriptionOk() (*LocalizedDescription, b
 func (o *ParameterOption) SetDefaultTplDescription(v LocalizedDescription) {
 	o.DefaultTplDescription = v
 }
-
 
 // GetDisableHa returns the DisableHa field value if set, zero value otherwise.
 func (o *ParameterOption) GetDisableHa() bool {
@@ -285,8 +272,6 @@ func (o *ParameterOption) HasDisableHa() bool {
 func (o *ParameterOption) SetDisableHa(v bool) {
 	o.DisableHa = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterOption) MarshalJSON() ([]byte, error) {
@@ -317,15 +302,15 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component"`
-		Configs *[]ParameterConfig `json:"configs"`
-		Versions *[]string `json:"versions"`
-		ExportTpl *bool `json:"exportTpl"`
-		Family *string `json:"family"`
-		MajorVersion *string `json:"majorVersion,omitempty"`
-		DefaultTplName *string `json:"defaultTplName"`
+		Component             *string               `json:"component"`
+		Configs               *[]ParameterConfig    `json:"configs"`
+		Versions              *[]string             `json:"versions"`
+		ExportTpl             *bool                 `json:"exportTpl"`
+		Family                *string               `json:"family"`
+		MajorVersion          *string               `json:"majorVersion,omitempty"`
+		DefaultTplName        *string               `json:"defaultTplName"`
 		DefaultTplDescription *LocalizedDescription `json:"defaultTplDescription"`
-		DisableHa *bool `json:"disableHA,omitempty"`
+		DisableHa             *bool                 `json:"disableHA,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -353,7 +338,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "component", "configs", "versions", "exportTpl", "family", "majorVersion", "defaultTplName", "defaultTplDescription", "disableHA",  })
+		common.DeleteKeys(additionalProperties, &[]string{"component", "configs", "versions", "exportTpl", "family", "majorVersion", "defaultTplName", "defaultTplDescription", "disableHA"})
 	} else {
 		return err
 	}

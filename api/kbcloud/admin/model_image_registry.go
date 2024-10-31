@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ImageRegistry Represents an image registry. 
+// ImageRegistry Represents an image registry.
 type ImageRegistry struct {
 	// The name of the image registry.
 	Name string `json:"name"`
@@ -32,10 +28,9 @@ type ImageRegistry struct {
 	// The date and time when the image registry was last updated.
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewImageRegistry instantiates a new ImageRegistry object.
 // This constructor will assign default values to properties that have it defined,
@@ -55,6 +50,7 @@ func NewImageRegistryWithDefaults() *ImageRegistry {
 	this := ImageRegistry{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *ImageRegistry) GetName() string {
 	if o == nil {
@@ -77,7 +73,6 @@ func (o *ImageRegistry) GetNameOk() (*string, bool) {
 func (o *ImageRegistry) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetUrl returns the Url field value.
 func (o *ImageRegistry) GetUrl() string {
@@ -102,7 +97,6 @@ func (o *ImageRegistry) SetUrl(v string) {
 	o.Url = v
 }
 
-
 // GetUsername returns the Username field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageRegistry) GetUsername() string {
 	if o == nil || o.Username.Get() == nil {
@@ -116,7 +110,7 @@ func (o *ImageRegistry) GetUsername() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ImageRegistry) GetUsernameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Username.Get(), o.Username.IsSet()
@@ -131,6 +125,7 @@ func (o *ImageRegistry) HasUsername() bool {
 func (o *ImageRegistry) SetUsername(v string) {
 	o.Username.Set(&v)
 }
+
 // SetUsernameNil sets the value for Username to be an explicit nil.
 func (o *ImageRegistry) SetUsernameNil() {
 	o.Username.Set(nil)
@@ -140,7 +135,6 @@ func (o *ImageRegistry) SetUsernameNil() {
 func (o *ImageRegistry) UnsetUsername() {
 	o.Username.Unset()
 }
-
 
 // GetPassword returns the Password field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ImageRegistry) GetPassword() string {
@@ -155,7 +149,7 @@ func (o *ImageRegistry) GetPassword() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ImageRegistry) GetPasswordOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Password.Get(), o.Password.IsSet()
@@ -170,6 +164,7 @@ func (o *ImageRegistry) HasPassword() bool {
 func (o *ImageRegistry) SetPassword(v string) {
 	o.Password.Set(&v)
 }
+
 // SetPasswordNil sets the value for Password to be an explicit nil.
 func (o *ImageRegistry) SetPasswordNil() {
 	o.Password.Set(nil)
@@ -179,7 +174,6 @@ func (o *ImageRegistry) SetPasswordNil() {
 func (o *ImageRegistry) UnsetPassword() {
 	o.Password.Unset()
 }
-
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *ImageRegistry) GetId() string {
@@ -209,7 +203,6 @@ func (o *ImageRegistry) SetId(v string) {
 	o.Id = &v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *ImageRegistry) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -238,7 +231,6 @@ func (o *ImageRegistry) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *ImageRegistry) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -266,8 +258,6 @@ func (o *ImageRegistry) HasUpdatedAt() bool {
 func (o *ImageRegistry) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ImageRegistry) MarshalJSON() ([]byte, error) {
@@ -310,13 +300,13 @@ func (o ImageRegistry) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ImageRegistry) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		Url *string `json:"url"`
-		Username common.NullableString `json:"username,omitempty"`
-		Password common.NullableString `json:"password,omitempty"`
-		Id *string `json:"id,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		Name      *string               `json:"name"`
+		Url       *string               `json:"url"`
+		Username  common.NullableString `json:"username,omitempty"`
+		Password  common.NullableString `json:"password,omitempty"`
+		Id        *string               `json:"id,omitempty"`
+		CreatedAt *time.Time            `json:"createdAt,omitempty"`
+		UpdatedAt *time.Time            `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -329,7 +319,7 @@ func (o *ImageRegistry) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "url", "username", "password", "id", "createdAt", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "url", "username", "password", "id", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}

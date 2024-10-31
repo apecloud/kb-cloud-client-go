@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// InvitationSender InvitationSender is the User who send the Invitation 
+// InvitationSender InvitationSender is the User who send the Invitation
 type InvitationSender struct {
 	// The email of the User
 	Email *string `json:"email,omitempty"`
@@ -24,10 +15,9 @@ type InvitationSender struct {
 	// The name of the User
 	Name *string `json:"name,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewInvitationSender instantiates a new InvitationSender object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +35,7 @@ func NewInvitationSenderWithDefaults() *InvitationSender {
 	this := InvitationSender{}
 	return &this
 }
+
 // GetEmail returns the Email field value if set, zero value otherwise.
 func (o *InvitationSender) GetEmail() string {
 	if o == nil || o.Email == nil {
@@ -72,7 +63,6 @@ func (o *InvitationSender) HasEmail() bool {
 func (o *InvitationSender) SetEmail(v string) {
 	o.Email = &v
 }
-
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *InvitationSender) GetId() string {
@@ -102,7 +92,6 @@ func (o *InvitationSender) SetId(v string) {
 	o.Id = &v
 }
 
-
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *InvitationSender) GetName() string {
 	if o == nil || o.Name == nil {
@@ -131,8 +120,6 @@ func (o *InvitationSender) SetName(v string) {
 	o.Name = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o InvitationSender) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -159,15 +146,15 @@ func (o InvitationSender) MarshalJSON() ([]byte, error) {
 func (o *InvitationSender) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Email *string `json:"email,omitempty"`
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name,omitempty"`
+		Id    *string `json:"id,omitempty"`
+		Name  *string `json:"name,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "email", "id", "name",  })
+		common.DeleteKeys(additionalProperties, &[]string{"email", "id", "name"})
 	} else {
 		return err
 	}

@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -23,12 +19,10 @@ type PlatformParameterApi common.Service
 // GetPlatformParameter get platformParameter by name.
 func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platformParameterName string) (PlatformParameter, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  PlatformParameter
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PlatformParameter
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformParameterApi.GetPlatformParameter")
 	if err != nil {
@@ -43,8 +37,7 @@ func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platfo
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -66,11 +59,10 @@ func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platfo
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -84,7 +76,7 @@ func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platfo
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -96,12 +88,10 @@ func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platfo
 // ListPlatformParameters list platformParameters.
 func (a *PlatformParameterApi) ListPlatformParameters(ctx _context.Context) (PlatformParameterList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  PlatformParameterList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue PlatformParameterList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformParameterApi.ListPlatformParameters")
 	if err != nil {
@@ -115,8 +105,7 @@ func (a *PlatformParameterApi) ListPlatformParameters(ctx _context.Context) (Pla
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -138,11 +127,10 @@ func (a *PlatformParameterApi) ListPlatformParameters(ctx _context.Context) (Pla
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -156,7 +144,7 @@ func (a *PlatformParameterApi) ListPlatformParameters(ctx _context.Context) (Pla
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -175,6 +163,7 @@ func NewUpdatePlatformParametersOptionalParameters() *UpdatePlatformParametersOp
 	this := UpdatePlatformParametersOptionalParameters{}
 	return &this
 }
+
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *UpdatePlatformParametersOptionalParameters) WithBody(body []PlatformParameterUpdate) *UpdatePlatformParametersOptionalParameters {
 	r.Body = &body
@@ -184,20 +173,18 @@ func (r *UpdatePlatformParametersOptionalParameters) WithBody(body []PlatformPar
 // UpdatePlatformParameters update platformParameters.
 func (a *PlatformParameterApi) UpdatePlatformParameters(ctx _context.Context, o ...UpdatePlatformParametersOptionalParameters) ([]PlatformParameter, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		localVarReturnValue  []PlatformParameter
-		optionalParams UpdatePlatformParametersOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue []PlatformParameter
+		optionalParams      UpdatePlatformParametersOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type UpdatePlatformParametersOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdatePlatformParametersOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformParameterApi.UpdatePlatformParameters")
 	if err != nil {
@@ -212,13 +199,11 @@ func (a *PlatformParameterApi) UpdatePlatformParameters(ctx _context.Context, o 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -240,11 +225,10 @@ func (a *PlatformParameterApi) UpdatePlatformParameters(ctx _context.Context, o 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -258,7 +242,7 @@ func (a *PlatformParameterApi) UpdatePlatformParameters(ctx _context.Context, o 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

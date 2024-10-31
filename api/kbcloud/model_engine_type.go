@@ -2,34 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // EngineType engine type
 type EngineType string
 
 // List of EngineType.
 const (
-	EngineTypeRdbms EngineType = "RDBMS"
+	EngineTypeRdbms        EngineType = "RDBMS"
 	EngineTypeSearchEngine EngineType = "search-engine"
-	EngineTypeKeyValue EngineType = "key-value"
-	EngineTypeTimeSeries EngineType = "time-series"
-	EngineTypeStreaming EngineType = "streaming"
-	EngineTypeLlm EngineType = "LLM"
-	EngineTypeVector EngineType = "vector"
-	EngineTypeDocument EngineType = "document"
-	EngineTypeGraph EngineType = "graph"
-	EngineTypeOther EngineType = "other"
+	EngineTypeKeyValue     EngineType = "key-value"
+	EngineTypeTimeSeries   EngineType = "time-series"
+	EngineTypeStreaming    EngineType = "streaming"
+	EngineTypeLlm          EngineType = "LLM"
+	EngineTypeVector       EngineType = "vector"
+	EngineTypeDocument     EngineType = "document"
+	EngineTypeGraph        EngineType = "graph"
+	EngineTypeOther        EngineType = "other"
 )
 
 var allowedEngineTypeEnumValues = []EngineType{

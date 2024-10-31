@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// ParamTplUpdate paramTplUpdate is the payload to update a parameter template 
+// ParamTplUpdate paramTplUpdate is the payload to update a parameter template
 type ParamTplUpdate struct {
 	// Specify parameters belongs to which spec
 	SpecName *string `json:"specName,omitempty"`
@@ -24,10 +15,9 @@ type ParamTplUpdate struct {
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParamTplUpdate instantiates a new ParamTplUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +35,7 @@ func NewParamTplUpdateWithDefaults() *ParamTplUpdate {
 	this := ParamTplUpdate{}
 	return &this
 }
+
 // GetSpecName returns the SpecName field value if set, zero value otherwise.
 func (o *ParamTplUpdate) GetSpecName() string {
 	if o == nil || o.SpecName == nil {
@@ -72,7 +63,6 @@ func (o *ParamTplUpdate) HasSpecName() bool {
 func (o *ParamTplUpdate) SetSpecName(v string) {
 	o.SpecName = &v
 }
-
 
 // GetConfigFile returns the ConfigFile field value if set, zero value otherwise.
 func (o *ParamTplUpdate) GetConfigFile() string {
@@ -102,7 +92,6 @@ func (o *ParamTplUpdate) SetConfigFile(v string) {
 	o.ConfigFile = &v
 }
 
-
 // GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *ParamTplUpdate) GetParameters() map[string]string {
 	if o == nil || o.Parameters == nil {
@@ -131,8 +120,6 @@ func (o *ParamTplUpdate) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,8 +145,8 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SpecName *string `json:"specName,omitempty"`
-		ConfigFile *string `json:"configFile,omitempty"`
+		SpecName   *string           `json:"specName,omitempty"`
+		ConfigFile *string           `json:"configFile,omitempty"`
 		Parameters map[string]string `json:"parameters,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -167,7 +154,7 @@ func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "specName", "configFile", "parameters",  })
+		common.DeleteKeys(additionalProperties, &[]string{"specName", "configFile", "parameters"})
 	} else {
 		return err
 	}

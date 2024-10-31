@@ -2,7 +2,6 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package common
 
 import (
@@ -55,7 +54,16 @@ var (
 
 	// ContextOperationServerVariables overrides a server configuration variables using operation specific values.
 	ContextOperationServerVariables = contextKey("serverOperationVariables")
+
+	// ContextDigestAuth takes DigestAuth as authentication for the request.
+	ContextDigestAuth = contextKey("digest")
 )
+
+// DigestAuth provides digest http authentication to a request passed via context using ContextDigestAuth.
+type DigestAuth struct {
+	UserName string `json:"username,omitempty"`
+	Password string `json:"password,omitempty"`
+}
 
 // BasicAuth provides basic http authentication to a request passed via context using ContextBasicAuth.
 type BasicAuth struct {
@@ -109,6 +117,7 @@ type RetryConfiguration struct {
 	HTTPRetryTimeout  time.Duration
 	MaxRetries        int
 }
+
 // NewConfiguration returns a new Configuration object.
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
@@ -116,30 +125,25 @@ func NewConfiguration() *Configuration {
 		UserAgent:     getUserAgent(),
 		Debug:         false,
 		Compress:      true,
-		Servers:       ServerConfigurations{
+		Servers: ServerConfigurations{
 			{
 				URL:         "http://127.0.0.1:8080",
 				Description: "local",
-				Variables:   map[string]ServerVariable{
-				},
+				Variables:   map[string]ServerVariable{},
 			},
 			{
 				URL:         "https://api-dev.apecloud.cn",
 				Description: "dev",
-				Variables:   map[string]ServerVariable{
-				},
+				Variables:   map[string]ServerVariable{},
 			},
 			{
 				URL:         "https://cloudapi.apecloud.cn",
 				Description: "demo",
-				Variables:   map[string]ServerVariable{
-				},
+				Variables:   map[string]ServerVariable{},
 			},
 		},
-		OperationServers: map[string]ServerConfigurations{
-		},
-		unstableOperations: map[string]bool{
-		},
+		OperationServers:   map[string]ServerConfigurations{},
+		unstableOperations: map[string]bool{},
 		RetryConfiguration: RetryConfiguration{
 			EnableRetry:       false,
 			BackOffMultiplier: 2,
@@ -328,14 +332,17 @@ func NewDefaultContext(ctx context.Context) context.Context {
 		)
 	}
 
-	keys := make(map[string]APIKey)
-	if apiKey, ok := os.LookupEnv("KB_CLOUD_API_KEY"); ok {
-		keys["apiKeyAuth"] = APIKey{Key: apiKey}
+	auth := DigestAuth{}
+	if keyName, ok := os.LookupEnv("KB_CLOUD_API_KEY_NAME"); ok {
+		auth.UserName = keyName
+	}
+	if keySecret, ok := os.LookupEnv("KB_CLOUD_API_KEY_SECRET"); ok {
+		auth.Password = keySecret
 	}
 	ctx = context.WithValue(
 		ctx,
-		ContextAPIKeys,
-		keys,
+		ContextDigestAuth,
+		auth,
 	)
 
 	return ctx

@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ClusterExecutionLog Log entry for cluster execution 
+// ClusterExecutionLog Log entry for cluster execution
 type ClusterExecutionLog struct {
 	// Timestamp of the execution
 	Timestamp int64 `json:"timestamp"`
@@ -32,10 +27,9 @@ type ClusterExecutionLog struct {
 	// Additional information
 	Extra map[string]interface{} `json:"extra"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClusterExecutionLog instantiates a new ClusterExecutionLog object.
 // This constructor will assign default values to properties that have it defined,
@@ -60,6 +54,7 @@ func NewClusterExecutionLogWithDefaults() *ClusterExecutionLog {
 	this := ClusterExecutionLog{}
 	return &this
 }
+
 // GetTimestamp returns the Timestamp field value.
 func (o *ClusterExecutionLog) GetTimestamp() int64 {
 	if o == nil {
@@ -82,7 +77,6 @@ func (o *ClusterExecutionLog) GetTimestampOk() (*int64, bool) {
 func (o *ClusterExecutionLog) SetTimestamp(v int64) {
 	o.Timestamp = v
 }
-
 
 // GetClient returns the Client field value.
 func (o *ClusterExecutionLog) GetClient() string {
@@ -107,7 +101,6 @@ func (o *ClusterExecutionLog) SetClient(v string) {
 	o.Client = v
 }
 
-
 // GetDbName returns the DbName field value.
 func (o *ClusterExecutionLog) GetDbName() string {
 	if o == nil {
@@ -130,7 +123,6 @@ func (o *ClusterExecutionLog) GetDbNameOk() (*string, bool) {
 func (o *ClusterExecutionLog) SetDbName(v string) {
 	o.DbName = v
 }
-
 
 // GetUser returns the User field value.
 func (o *ClusterExecutionLog) GetUser() string {
@@ -155,7 +147,6 @@ func (o *ClusterExecutionLog) SetUser(v string) {
 	o.User = v
 }
 
-
 // GetExecutionTime returns the ExecutionTime field value.
 func (o *ClusterExecutionLog) GetExecutionTime() float64 {
 	if o == nil {
@@ -178,7 +169,6 @@ func (o *ClusterExecutionLog) GetExecutionTimeOk() (*float64, bool) {
 func (o *ClusterExecutionLog) SetExecutionTime(v float64) {
 	o.ExecutionTime = v
 }
-
 
 // GetCommand returns the Command field value.
 func (o *ClusterExecutionLog) GetCommand() string {
@@ -203,7 +193,6 @@ func (o *ClusterExecutionLog) SetCommand(v string) {
 	o.Command = v
 }
 
-
 // GetExtra returns the Extra field value.
 func (o *ClusterExecutionLog) GetExtra() map[string]interface{} {
 	if o == nil {
@@ -226,8 +215,6 @@ func (o *ClusterExecutionLog) GetExtraOk() (*map[string]interface{}, bool) {
 func (o *ClusterExecutionLog) SetExtra(v map[string]interface{}) {
 	o.Extra = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterExecutionLog) MarshalJSON() ([]byte, error) {
@@ -252,13 +239,13 @@ func (o ClusterExecutionLog) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterExecutionLog) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Timestamp *int64 `json:"timestamp"`
-		Client *string `json:"client"`
-		DbName *string `json:"dbName"`
-		User *string `json:"user"`
-		ExecutionTime *float64 `json:"executionTime"`
-		Command *string `json:"command"`
-		Extra *map[string]interface{} `json:"extra"`
+		Timestamp     *int64                  `json:"timestamp"`
+		Client        *string                 `json:"client"`
+		DbName        *string                 `json:"dbName"`
+		User          *string                 `json:"user"`
+		ExecutionTime *float64                `json:"executionTime"`
+		Command       *string                 `json:"command"`
+		Extra         *map[string]interface{} `json:"extra"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -286,7 +273,7 @@ func (o *ClusterExecutionLog) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "timestamp", "client", "dbName", "user", "executionTime", "command", "extra",  })
+		common.DeleteKeys(additionalProperties, &[]string{"timestamp", "client", "dbName", "user", "executionTime", "command", "extra"})
 	} else {
 		return err
 	}

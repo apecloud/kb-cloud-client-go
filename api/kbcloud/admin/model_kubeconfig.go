@@ -2,27 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type Kubeconfig struct {
 	// The base64 encoded kubeconfig file contents to connect to this Kubernetes
 	Kubeconfig string `json:"kubeconfig"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewKubeconfig instantiates a new Kubeconfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +35,7 @@ func NewKubeconfigWithDefaults() *Kubeconfig {
 	this := Kubeconfig{}
 	return &this
 }
+
 // GetKubeconfig returns the Kubeconfig field value.
 func (o *Kubeconfig) GetKubeconfig() string {
 	if o == nil {
@@ -63,8 +58,6 @@ func (o *Kubeconfig) GetKubeconfigOk() (*string, bool) {
 func (o *Kubeconfig) SetKubeconfig(v string) {
 	o.Kubeconfig = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Kubeconfig) MarshalJSON() ([]byte, error) {
@@ -93,7 +86,7 @@ func (o *Kubeconfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "kubeconfig",  })
+		common.DeleteKeys(additionalProperties, &[]string{"kubeconfig"})
 	} else {
 		return err
 	}

@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ParamTplList paramTplList is a list of parameter templates 
+// ParamTplList paramTplList is a list of parameter templates
 type ParamTplList struct {
 	// Items is the list of parameter templates objects in the list
 	Items []ParamTplListItem `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParamTplList instantiates a new ParamTplList object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +38,7 @@ func NewParamTplListWithDefaults() *ParamTplList {
 	this := ParamTplList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *ParamTplList) GetItems() []ParamTplListItem {
 	if o == nil {
@@ -66,7 +61,6 @@ func (o *ParamTplList) GetItemsOk() (*[]ParamTplListItem, bool) {
 func (o *ParamTplList) SetItems(v []ParamTplListItem) {
 	o.Items = v
 }
-
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
 func (o *ParamTplList) GetPageResult() PageResult {
@@ -96,8 +90,6 @@ func (o *ParamTplList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -118,8 +110,8 @@ func (o ParamTplList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]ParamTplListItem `json:"items"`
-		PageResult *PageResult `json:"pageResult,omitempty"`
+		Items      *[]ParamTplListItem `json:"items"`
+		PageResult *PageResult         `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -129,14 +121,14 @@ func (o *ParamTplList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items", "pageResult",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items", "pageResult"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Items = *all.Items
-	if  all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.PageResult = all.PageResult

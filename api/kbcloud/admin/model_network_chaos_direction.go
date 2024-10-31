@@ -2,25 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // NetworkChaosDirection Specifies the direction of network chaos effects. 'to' affects outgoing traffic, 'from' affects incoming traffic, and 'both' affects traffic in both directions.
 type NetworkChaosDirection string
 
 // List of NetworkChaosDirection.
 const (
-	NetworkChaosDirectionTo NetworkChaosDirection = "to"
+	NetworkChaosDirectionTo   NetworkChaosDirection = "to"
 	NetworkChaosDirectionFrom NetworkChaosDirection = "from"
 	NetworkChaosDirectionBoth NetworkChaosDirection = "both"
 )

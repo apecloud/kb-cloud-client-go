@@ -2,27 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// StorageProvisionerList StorageProvisionerList stands for stats for provisioners can be used by storage classes. 
+// StorageProvisionerList StorageProvisionerList stands for stats for provisioners can be used by storage classes.
 type StorageProvisionerList struct {
 	Items []StorageProvisioner `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageProvisionerList instantiates a new StorageProvisionerList object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +35,7 @@ func NewStorageProvisionerListWithDefaults() *StorageProvisionerList {
 	this := StorageProvisionerList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *StorageProvisionerList) GetItems() []StorageProvisioner {
 	if o == nil {
@@ -63,8 +58,6 @@ func (o *StorageProvisionerList) GetItemsOk() (*[]StorageProvisioner, bool) {
 func (o *StorageProvisionerList) SetItems(v []StorageProvisioner) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProvisionerList) MarshalJSON() ([]byte, error) {
@@ -93,7 +86,7 @@ func (o *StorageProvisionerList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

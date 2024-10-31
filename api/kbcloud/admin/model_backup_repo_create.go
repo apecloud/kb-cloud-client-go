@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// BackupRepoCreate BackupRepoCreate is the payload to create a KubeBlocks cluster backup repo 
+// BackupRepoCreate BackupRepoCreate is the payload to create a KubeBlocks cluster backup repo
 type BackupRepoCreate struct {
 	// the id of storage that backup repo used
 	StorageId string `json:"storageID"`
@@ -32,10 +27,9 @@ type BackupRepoCreate struct {
 	// Specify the capacity of the new created PVC
 	VolumeCapacity *string `json:"volumeCapacity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupRepoCreate instantiates a new BackupRepoCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -59,6 +53,7 @@ func NewBackupRepoCreateWithDefaults() *BackupRepoCreate {
 	this.AccessMethod = &accessMethod
 	return &this
 }
+
 // GetStorageId returns the StorageId field value.
 func (o *BackupRepoCreate) GetStorageId() string {
 	if o == nil {
@@ -81,7 +76,6 @@ func (o *BackupRepoCreate) GetStorageIdOk() (*string, bool) {
 func (o *BackupRepoCreate) SetStorageId(v string) {
 	o.StorageId = v
 }
-
 
 // GetAccessMethod returns the AccessMethod field value if set, zero value otherwise.
 func (o *BackupRepoCreate) GetAccessMethod() BackupRepoAccessMethod {
@@ -111,7 +105,6 @@ func (o *BackupRepoCreate) SetAccessMethod(v BackupRepoAccessMethod) {
 	o.AccessMethod = &v
 }
 
-
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *BackupRepoCreate) GetDefault() bool {
 	if o == nil || o.Default == nil {
@@ -140,7 +133,6 @@ func (o *BackupRepoCreate) SetDefault(v bool) {
 	o.Default = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *BackupRepoCreate) GetName() string {
 	if o == nil {
@@ -163,7 +155,6 @@ func (o *BackupRepoCreate) GetNameOk() (*string, bool) {
 func (o *BackupRepoCreate) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetParams returns the Params field value if set, zero value otherwise.
 func (o *BackupRepoCreate) GetParams() map[string]string {
@@ -193,7 +184,6 @@ func (o *BackupRepoCreate) SetParams(v map[string]string) {
 	o.Params = v
 }
 
-
 // GetPvReclaimPolicy returns the PvReclaimPolicy field value if set, zero value otherwise.
 func (o *BackupRepoCreate) GetPvReclaimPolicy() BackupRepoPVReclaimPolicy {
 	if o == nil || o.PvReclaimPolicy == nil {
@@ -222,7 +212,6 @@ func (o *BackupRepoCreate) SetPvReclaimPolicy(v BackupRepoPVReclaimPolicy) {
 	o.PvReclaimPolicy = &v
 }
 
-
 // GetVolumeCapacity returns the VolumeCapacity field value if set, zero value otherwise.
 func (o *BackupRepoCreate) GetVolumeCapacity() string {
 	if o == nil || o.VolumeCapacity == nil {
@@ -250,8 +239,6 @@ func (o *BackupRepoCreate) HasVolumeCapacity() bool {
 func (o *BackupRepoCreate) SetVolumeCapacity(v string) {
 	o.VolumeCapacity = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupRepoCreate) MarshalJSON() ([]byte, error) {
@@ -286,13 +273,13 @@ func (o BackupRepoCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepoCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StorageId *string `json:"storageID"`
-		AccessMethod *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
-		Default *bool `json:"default,omitempty"`
-		Name *string `json:"name"`
-		Params map[string]string `json:"params,omitempty"`
+		StorageId       *string                    `json:"storageID"`
+		AccessMethod    *BackupRepoAccessMethod    `json:"accessMethod,omitempty"`
+		Default         *bool                      `json:"default,omitempty"`
+		Name            *string                    `json:"name"`
+		Params          map[string]string          `json:"params,omitempty"`
 		PvReclaimPolicy *BackupRepoPVReclaimPolicy `json:"pvReclaimPolicy,omitempty"`
-		VolumeCapacity *string `json:"volumeCapacity,omitempty"`
+		VolumeCapacity  *string                    `json:"volumeCapacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -305,14 +292,14 @@ func (o *BackupRepoCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "storageID", "accessMethod", "default", "name", "params", "pvReclaimPolicy", "volumeCapacity",  })
+		common.DeleteKeys(additionalProperties, &[]string{"storageID", "accessMethod", "default", "name", "params", "pvReclaimPolicy", "volumeCapacity"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.StorageId = *all.StorageId
-	if all.AccessMethod != nil &&!all.AccessMethod.IsValid() {
+	if all.AccessMethod != nil && !all.AccessMethod.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.AccessMethod = all.AccessMethod
@@ -320,7 +307,7 @@ func (o *BackupRepoCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Default = all.Default
 	o.Name = *all.Name
 	o.Params = all.Params
-	if all.PvReclaimPolicy != nil &&!all.PvReclaimPolicy.IsValid() {
+	if all.PvReclaimPolicy != nil && !all.PvReclaimPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.PvReclaimPolicy = all.PvReclaimPolicy

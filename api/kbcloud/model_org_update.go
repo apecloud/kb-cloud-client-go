@@ -2,30 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// OrgUpdate Organization update 
+// OrgUpdate Organization update
 type OrgUpdate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`
 	// The display name of the organization
 	DisplayName *string `json:"displayName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOrgUpdate instantiates a new OrgUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +33,7 @@ func NewOrgUpdateWithDefaults() *OrgUpdate {
 	this := OrgUpdate{}
 	return &this
 }
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *OrgUpdate) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -71,7 +62,6 @@ func (o *OrgUpdate) SetDescription(v string) {
 	o.Description = &v
 }
 
-
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *OrgUpdate) GetDisplayName() string {
 	if o == nil || o.DisplayName == nil {
@@ -99,8 +89,6 @@ func (o *OrgUpdate) HasDisplayName() bool {
 func (o *OrgUpdate) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgUpdate) MarshalJSON() ([]byte, error) {
@@ -132,7 +120,7 @@ func (o *OrgUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "description", "displayName",  })
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName"})
 	} else {
 		return err
 	}

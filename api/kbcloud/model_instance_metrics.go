@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// InstanceMetrics instance metrics 
+// InstanceMetrics instance metrics
 type InstanceMetrics struct {
 	// the name of the instance
 	InstanceName string `json:"instanceName"`
@@ -26,10 +21,9 @@ type InstanceMetrics struct {
 	// disk with uint Gi.
 	DiskUsage string `json:"diskUsage"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewInstanceMetrics instantiates a new InstanceMetrics object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +45,7 @@ func NewInstanceMetricsWithDefaults() *InstanceMetrics {
 	this := InstanceMetrics{}
 	return &this
 }
+
 // GetInstanceName returns the InstanceName field value.
 func (o *InstanceMetrics) GetInstanceName() string {
 	if o == nil {
@@ -73,7 +68,6 @@ func (o *InstanceMetrics) GetInstanceNameOk() (*string, bool) {
 func (o *InstanceMetrics) SetInstanceName(v string) {
 	o.InstanceName = v
 }
-
 
 // GetCpuUsage returns the CpuUsage field value.
 func (o *InstanceMetrics) GetCpuUsage() string {
@@ -98,7 +92,6 @@ func (o *InstanceMetrics) SetCpuUsage(v string) {
 	o.CpuUsage = v
 }
 
-
 // GetMemoryUsage returns the MemoryUsage field value.
 func (o *InstanceMetrics) GetMemoryUsage() string {
 	if o == nil {
@@ -121,7 +114,6 @@ func (o *InstanceMetrics) GetMemoryUsageOk() (*string, bool) {
 func (o *InstanceMetrics) SetMemoryUsage(v string) {
 	o.MemoryUsage = v
 }
-
 
 // GetDiskUsage returns the DiskUsage field value.
 func (o *InstanceMetrics) GetDiskUsage() string {
@@ -146,8 +138,6 @@ func (o *InstanceMetrics) SetDiskUsage(v string) {
 	o.DiskUsage = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -169,9 +159,9 @@ func (o InstanceMetrics) MarshalJSON() ([]byte, error) {
 func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		InstanceName *string `json:"instanceName"`
-		CpuUsage *string `json:"cpuUsage"`
-		MemoryUsage *string `json:"memoryUsage"`
-		DiskUsage *string `json:"diskUsage"`
+		CpuUsage     *string `json:"cpuUsage"`
+		MemoryUsage  *string `json:"memoryUsage"`
+		DiskUsage    *string `json:"diskUsage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -190,7 +180,7 @@ func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "instanceName", "cpuUsage", "memoryUsage", "diskUsage",  })
+		common.DeleteKeys(additionalProperties, &[]string{"instanceName", "cpuUsage", "memoryUsage", "diskUsage"})
 	} else {
 		return err
 	}

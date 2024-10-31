@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// PlatformParameterConstraints platformParameter constraints including min, max, enum, default value 
+// PlatformParameterConstraints platformParameter constraints including min, max, enum, default value
 type PlatformParameterConstraints struct {
 	// platformParameter min value
 	Min *string `json:"min,omitempty"`
@@ -26,10 +17,9 @@ type PlatformParameterConstraints struct {
 	// platformParameter default value
 	Default *string `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPlatformParameterConstraints instantiates a new PlatformParameterConstraints object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +37,7 @@ func NewPlatformParameterConstraintsWithDefaults() *PlatformParameterConstraints
 	this := PlatformParameterConstraints{}
 	return &this
 }
+
 // GetMin returns the Min field value if set, zero value otherwise.
 func (o *PlatformParameterConstraints) GetMin() string {
 	if o == nil || o.Min == nil {
@@ -74,7 +65,6 @@ func (o *PlatformParameterConstraints) HasMin() bool {
 func (o *PlatformParameterConstraints) SetMin(v string) {
 	o.Min = &v
 }
-
 
 // GetMax returns the Max field value if set, zero value otherwise.
 func (o *PlatformParameterConstraints) GetMax() string {
@@ -104,7 +94,6 @@ func (o *PlatformParameterConstraints) SetMax(v string) {
 	o.Max = &v
 }
 
-
 // GetEnum returns the Enum field value if set, zero value otherwise.
 func (o *PlatformParameterConstraints) GetEnum() []string {
 	if o == nil || o.Enum == nil {
@@ -132,7 +121,6 @@ func (o *PlatformParameterConstraints) HasEnum() bool {
 func (o *PlatformParameterConstraints) SetEnum(v []string) {
 	o.Enum = v
 }
-
 
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *PlatformParameterConstraints) GetDefault() string {
@@ -162,8 +150,6 @@ func (o *PlatformParameterConstraints) SetDefault(v string) {
 	o.Default = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o PlatformParameterConstraints) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -192,17 +178,17 @@ func (o PlatformParameterConstraints) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PlatformParameterConstraints) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Min *string `json:"min,omitempty"`
-		Max *string `json:"max,omitempty"`
-		Enum []string `json:"enum,omitempty"`
-		Default *string `json:"default,omitempty"`
+		Min     *string  `json:"min,omitempty"`
+		Max     *string  `json:"max,omitempty"`
+		Enum    []string `json:"enum,omitempty"`
+		Default *string  `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "min", "max", "enum", "default",  })
+		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "enum", "default"})
 	} else {
 		return err
 	}

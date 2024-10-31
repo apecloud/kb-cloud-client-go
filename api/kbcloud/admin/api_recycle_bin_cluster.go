@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -23,11 +19,9 @@ type RecycleBinClusterApi common.Service
 // DeleteRecycleBinCluster Delete cluster from the Recycle Bin of the Org.
 func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, orgName string, clusterName string, isDeleteBackup bool) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.DeleteRecycleBinCluster")
 	if err != nil {
@@ -44,8 +38,7 @@ func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, org
 	localVarQueryParams.Add("isDeleteBackup", common.ParameterToString(isDeleteBackup, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -67,11 +60,10 @@ func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, org
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -88,12 +80,10 @@ func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, org
 // GetRecycleBinCluster Get cluster in the Recycle Bin of the Org.
 func (a *RecycleBinClusterApi) GetRecycleBinCluster(ctx _context.Context, orgName string, clusterName string) (RecycleBinCluster, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  RecycleBinCluster
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RecycleBinCluster
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.GetRecycleBinCluster")
 	if err != nil {
@@ -109,8 +99,7 @@ func (a *RecycleBinClusterApi) GetRecycleBinCluster(ctx _context.Context, orgNam
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -132,11 +121,10 @@ func (a *RecycleBinClusterApi) GetRecycleBinCluster(ctx _context.Context, orgNam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -150,7 +138,7 @@ func (a *RecycleBinClusterApi) GetRecycleBinCluster(ctx _context.Context, orgNam
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -162,12 +150,10 @@ func (a *RecycleBinClusterApi) GetRecycleBinCluster(ctx _context.Context, orgNam
 // ListRecycleBinCluster List clusters in the Recycle Bin of the Org.
 func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgName string) (RecycleBinClusterList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  RecycleBinClusterList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RecycleBinClusterList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.ListRecycleBinCluster")
 	if err != nil {
@@ -182,8 +168,7 @@ func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgNa
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -205,11 +190,10 @@ func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -223,7 +207,7 @@ func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -235,12 +219,10 @@ func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgNa
 // ListRecycleBinClusters List all clusters in the Recycle Bin.
 func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (RecycleBinClusterList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  RecycleBinClusterList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue RecycleBinClusterList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.ListRecycleBinClusters")
 	if err != nil {
@@ -254,8 +236,7 @@ func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (Rec
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -277,11 +258,10 @@ func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (Rec
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -295,7 +275,7 @@ func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (Rec
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -307,12 +287,10 @@ func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (Rec
 // RestoreRecycleBinCluster Restore cluster from the Recycle Bin of the Org.
 func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, orgName string, clusterName string) (RecycleBinCluster, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  RecycleBinCluster
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue RecycleBinCluster
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.RestoreRecycleBinCluster")
 	if err != nil {
@@ -328,8 +306,7 @@ func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, or
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -351,11 +328,10 @@ func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, or
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -369,7 +345,7 @@ func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, or
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

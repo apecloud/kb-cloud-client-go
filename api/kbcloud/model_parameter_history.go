@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ParameterHistory The history of a parameter 
+// ParameterHistory The history of a parameter
 type ParameterHistory struct {
 	// The name of the parameter
 	ParameterName string `json:"parameterName"`
@@ -26,10 +22,9 @@ type ParameterHistory struct {
 	// The date and time the parameter was last updated
 	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParameterHistory instantiates a new ParameterHistory object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +46,7 @@ func NewParameterHistoryWithDefaults() *ParameterHistory {
 	this := ParameterHistory{}
 	return &this
 }
+
 // GetParameterName returns the ParameterName field value.
 func (o *ParameterHistory) GetParameterName() string {
 	if o == nil {
@@ -73,7 +69,6 @@ func (o *ParameterHistory) GetParameterNameOk() (*string, bool) {
 func (o *ParameterHistory) SetParameterName(v string) {
 	o.ParameterName = v
 }
-
 
 // GetOldValue returns the OldValue field value.
 func (o *ParameterHistory) GetOldValue() string {
@@ -98,7 +93,6 @@ func (o *ParameterHistory) SetOldValue(v string) {
 	o.OldValue = v
 }
 
-
 // GetNewValue returns the NewValue field value.
 func (o *ParameterHistory) GetNewValue() string {
 	if o == nil {
@@ -122,7 +116,6 @@ func (o *ParameterHistory) SetNewValue(v string) {
 	o.NewValue = v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *ParameterHistory) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -145,8 +138,6 @@ func (o *ParameterHistory) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *ParameterHistory) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterHistory) MarshalJSON() ([]byte, error) {
@@ -172,10 +163,10 @@ func (o ParameterHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ParameterName *string `json:"parameterName"`
-		OldValue *string `json:"oldValue"`
-		NewValue *string `json:"newValue"`
-		UpdatedAt *time.Time `json:"updatedAt"`
+		ParameterName *string    `json:"parameterName"`
+		OldValue      *string    `json:"oldValue"`
+		NewValue      *string    `json:"newValue"`
+		UpdatedAt     *time.Time `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -194,7 +185,7 @@ func (o *ParameterHistory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "parameterName", "oldValue", "newValue", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"parameterName", "oldValue", "newValue", "updatedAt"})
 	} else {
 		return err
 	}

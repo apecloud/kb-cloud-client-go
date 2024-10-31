@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Provider The cloud provider that the environment is running on. 
+// Provider The cloud provider that the environment is running on.
 type Provider struct {
 	// The name of the cloud provider.
 	Name string `json:"name"`
@@ -40,10 +36,9 @@ type Provider struct {
 	// The time when the cloud provider was last updated.
 	UpdatedAt time.Time `json:"updatedAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewProvider instantiates a new Provider object.
 // This constructor will assign default values to properties that have it defined,
@@ -72,6 +67,7 @@ func NewProviderWithDefaults() *Provider {
 	this := Provider{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *Provider) GetName() string {
 	if o == nil {
@@ -94,7 +90,6 @@ func (o *Provider) GetNameOk() (*string, bool) {
 func (o *Provider) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetNameCn returns the NameCn field value.
 func (o *Provider) GetNameCn() string {
@@ -119,7 +114,6 @@ func (o *Provider) SetNameCn(v string) {
 	o.NameCn = v
 }
 
-
 // GetNameEn returns the NameEn field value.
 func (o *Provider) GetNameEn() string {
 	if o == nil {
@@ -142,7 +136,6 @@ func (o *Provider) GetNameEnOk() (*string, bool) {
 func (o *Provider) SetNameEn(v string) {
 	o.NameEn = v
 }
-
 
 // GetLogo returns the Logo field value.
 func (o *Provider) GetLogo() string {
@@ -167,7 +160,6 @@ func (o *Provider) SetLogo(v string) {
 	o.Logo = v
 }
 
-
 // GetEnabled returns the Enabled field value.
 func (o *Provider) GetEnabled() bool {
 	if o == nil {
@@ -190,7 +182,6 @@ func (o *Provider) GetEnabledOk() (*bool, bool) {
 func (o *Provider) SetEnabled(v bool) {
 	o.Enabled = v
 }
-
 
 // GetSupportArn returns the SupportArn field value.
 func (o *Provider) GetSupportArn() bool {
@@ -215,7 +206,6 @@ func (o *Provider) SetSupportArn(v bool) {
 	o.SupportArn = v
 }
 
-
 // GetEnvironmentCount returns the EnvironmentCount field value.
 func (o *Provider) GetEnvironmentCount() int32 {
 	if o == nil {
@@ -238,7 +228,6 @@ func (o *Provider) GetEnvironmentCountOk() (*int32, bool) {
 func (o *Provider) SetEnvironmentCount(v int32) {
 	o.EnvironmentCount = v
 }
-
 
 // GetRegionCount returns the RegionCount field value.
 func (o *Provider) GetRegionCount() int32 {
@@ -263,7 +252,6 @@ func (o *Provider) SetRegionCount(v int32) {
 	o.RegionCount = v
 }
 
-
 // GetZoneCount returns the ZoneCount field value.
 func (o *Provider) GetZoneCount() int32 {
 	if o == nil {
@@ -286,7 +274,6 @@ func (o *Provider) GetZoneCountOk() (*int32, bool) {
 func (o *Provider) SetZoneCount(v int32) {
 	o.ZoneCount = v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Provider) GetCreatedAt() time.Time {
@@ -311,7 +298,6 @@ func (o *Provider) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *Provider) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -334,8 +320,6 @@ func (o *Provider) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *Provider) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Provider) MarshalJSON() ([]byte, error) {
@@ -372,17 +356,17 @@ func (o Provider) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Provider) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		NameCn *string `json:"nameCN"`
-		NameEn *string `json:"nameEN"`
-		Logo *string `json:"logo"`
-		Enabled *bool `json:"enabled"`
-		SupportArn *bool `json:"supportARN"`
-		EnvironmentCount *int32 `json:"environmentCount"`
-		RegionCount *int32 `json:"regionCount"`
-		ZoneCount *int32 `json:"zoneCount"`
-		CreatedAt *time.Time `json:"createdAt"`
-		UpdatedAt *time.Time `json:"updatedAt"`
+		Name             *string    `json:"name"`
+		NameCn           *string    `json:"nameCN"`
+		NameEn           *string    `json:"nameEN"`
+		Logo             *string    `json:"logo"`
+		Enabled          *bool      `json:"enabled"`
+		SupportArn       *bool      `json:"supportARN"`
+		EnvironmentCount *int32     `json:"environmentCount"`
+		RegionCount      *int32     `json:"regionCount"`
+		ZoneCount        *int32     `json:"zoneCount"`
+		CreatedAt        *time.Time `json:"createdAt"`
+		UpdatedAt        *time.Time `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -422,7 +406,7 @@ func (o *Provider) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "nameCN", "nameEN", "logo", "enabled", "supportARN", "environmentCount", "regionCount", "zoneCount", "createdAt", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "nameCN", "nameEN", "logo", "enabled", "supportARN", "environmentCount", "regionCount", "zoneCount", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}

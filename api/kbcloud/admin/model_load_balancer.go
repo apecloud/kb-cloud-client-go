@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// LoadBalancer The load balancer info 
+// LoadBalancer The load balancer info
 type LoadBalancer struct {
 	// Version of the load balancer
 	Version *string `json:"version,omitempty"`
@@ -32,10 +27,9 @@ type LoadBalancer struct {
 	// Whether the ipam is enabled.
 	Ipam *LoadBalancerIpamStatus `json:"ipam,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewLoadBalancer instantiates a new LoadBalancer object.
 // This constructor will assign default values to properties that have it defined,
@@ -54,6 +48,7 @@ func NewLoadBalancerWithDefaults() *LoadBalancer {
 	this := LoadBalancer{}
 	return &this
 }
+
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *LoadBalancer) GetVersion() string {
 	if o == nil || o.Version == nil {
@@ -81,7 +76,6 @@ func (o *LoadBalancer) HasVersion() bool {
 func (o *LoadBalancer) SetVersion(v string) {
 	o.Version = &v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *LoadBalancer) GetType() string {
@@ -111,7 +105,6 @@ func (o *LoadBalancer) SetType(v string) {
 	o.Type = &v
 }
 
-
 // GetStatus returns the Status field value.
 func (o *LoadBalancer) GetStatus() LoadBalancerStatus {
 	if o == nil {
@@ -134,7 +127,6 @@ func (o *LoadBalancer) GetStatusOk() (*LoadBalancerStatus, bool) {
 func (o *LoadBalancer) SetStatus(v LoadBalancerStatus) {
 	o.Status = v
 }
-
 
 // GetAvailable returns the Available field value if set, zero value otherwise.
 func (o *LoadBalancer) GetAvailable() LoadBalancerAvailableType {
@@ -164,7 +156,6 @@ func (o *LoadBalancer) SetAvailable(v LoadBalancerAvailableType) {
 	o.Available = &v
 }
 
-
 // GetClass returns the Class field value if set, zero value otherwise.
 func (o *LoadBalancer) GetClass() string {
 	if o == nil || o.Class == nil {
@@ -192,7 +183,6 @@ func (o *LoadBalancer) HasClass() bool {
 func (o *LoadBalancer) SetClass(v string) {
 	o.Class = &v
 }
-
 
 // GetChargeType returns the ChargeType field value if set, zero value otherwise.
 func (o *LoadBalancer) GetChargeType() string {
@@ -222,7 +212,6 @@ func (o *LoadBalancer) SetChargeType(v string) {
 	o.ChargeType = &v
 }
 
-
 // GetIpam returns the Ipam field value if set, zero value otherwise.
 func (o *LoadBalancer) GetIpam() LoadBalancerIpamStatus {
 	if o == nil || o.Ipam == nil {
@@ -250,8 +239,6 @@ func (o *LoadBalancer) HasIpam() bool {
 func (o *LoadBalancer) SetIpam(v LoadBalancerIpamStatus) {
 	o.Ipam = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o LoadBalancer) MarshalJSON() ([]byte, error) {
@@ -288,13 +275,13 @@ func (o LoadBalancer) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Version *string `json:"version,omitempty"`
-		Type *string `json:"type,omitempty"`
-		Status *LoadBalancerStatus `json:"status"`
-		Available *LoadBalancerAvailableType `json:"available,omitempty"`
-		Class *string `json:"class,omitempty"`
-		ChargeType *string `json:"chargeType,omitempty"`
-		Ipam *LoadBalancerIpamStatus `json:"ipam,omitempty"`
+		Version    *string                    `json:"version,omitempty"`
+		Type       *string                    `json:"type,omitempty"`
+		Status     *LoadBalancerStatus        `json:"status"`
+		Available  *LoadBalancerAvailableType `json:"available,omitempty"`
+		Class      *string                    `json:"class,omitempty"`
+		ChargeType *string                    `json:"chargeType,omitempty"`
+		Ipam       *LoadBalancerIpamStatus    `json:"ipam,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -304,7 +291,7 @@ func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "version", "type", "status", "available", "class", "chargeType", "ipam",  })
+		common.DeleteKeys(additionalProperties, &[]string{"version", "type", "status", "available", "class", "chargeType", "ipam"})
 	} else {
 		return err
 	}
@@ -317,14 +304,14 @@ func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Status = *all.Status
 	}
-	if all.Available != nil &&!all.Available.IsValid() {
+	if all.Available != nil && !all.Available.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Available = all.Available
 	}
 	o.Class = all.Class
 	o.ChargeType = all.ChargeType
-	if all.Ipam != nil &&!all.Ipam.IsValid() {
+	if all.Ipam != nil && !all.Ipam.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Ipam = all.Ipam

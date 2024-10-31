@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type BackupOption struct {
-	DefaultMethod *string `json:"defaultMethod,omitempty"`
-	FullMethod []BackupMethodOption `json:"fullMethod,omitempty"`
+	DefaultMethod    *string              `json:"defaultMethod,omitempty"`
+	FullMethod       []BackupMethodOption `json:"fullMethod,omitempty"`
 	ContinuousMethod []BackupMethodOption `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupOption instantiates a new BackupOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewBackupOptionWithDefaults() *BackupOption {
 	this := BackupOption{}
 	return &this
 }
+
 // GetDefaultMethod returns the DefaultMethod field value if set, zero value otherwise.
 func (o *BackupOption) GetDefaultMethod() string {
 	if o == nil || o.DefaultMethod == nil {
@@ -68,7 +59,6 @@ func (o *BackupOption) HasDefaultMethod() bool {
 func (o *BackupOption) SetDefaultMethod(v string) {
 	o.DefaultMethod = &v
 }
-
 
 // GetFullMethod returns the FullMethod field value if set, zero value otherwise.
 func (o *BackupOption) GetFullMethod() []BackupMethodOption {
@@ -98,7 +88,6 @@ func (o *BackupOption) SetFullMethod(v []BackupMethodOption) {
 	o.FullMethod = v
 }
 
-
 // GetContinuousMethod returns the ContinuousMethod field value if set, zero value otherwise.
 func (o *BackupOption) GetContinuousMethod() []BackupMethodOption {
 	if o == nil || o.ContinuousMethod == nil {
@@ -127,8 +116,6 @@ func (o *BackupOption) SetContinuousMethod(v []BackupMethodOption) {
 	o.ContinuousMethod = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -154,8 +141,8 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultMethod *string `json:"defaultMethod,omitempty"`
-		FullMethod []BackupMethodOption `json:"fullMethod,omitempty"`
+		DefaultMethod    *string              `json:"defaultMethod,omitempty"`
+		FullMethod       []BackupMethodOption `json:"fullMethod,omitempty"`
 		ContinuousMethod []BackupMethodOption `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -163,7 +150,7 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "defaultMethod", "fullMethod", "continuousMethod",  })
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "fullMethod", "continuousMethod"})
 	} else {
 		return err
 	}

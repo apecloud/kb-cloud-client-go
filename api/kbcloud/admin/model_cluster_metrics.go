@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// ClusterMetrics Cluster metrics 
+// ClusterMetrics Cluster metrics
 type ClusterMetrics struct {
-	Value []interface{} `json:"value,omitempty"`
+	Value  []interface{}   `json:"value,omitempty"`
 	Values [][]interface{} `json:"values,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClusterMetrics instantiates a new ClusterMetrics object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,9 +31,10 @@ func NewClusterMetricsWithDefaults() *ClusterMetrics {
 	this := ClusterMetrics{}
 	return &this
 }
+
 // GetValue returns the Value field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterMetrics) GetValue() []interface{} {
-	if o == nil  {
+	if o == nil {
 		var ret []interface{}
 		return ret
 	}
@@ -69,7 +60,6 @@ func (o *ClusterMetrics) HasValue() bool {
 func (o *ClusterMetrics) SetValue(v []interface{}) {
 	o.Value = v
 }
-
 
 // GetValues returns the Values field value if set, zero value otherwise.
 func (o *ClusterMetrics) GetValues() [][]interface{} {
@@ -99,8 +89,6 @@ func (o *ClusterMetrics) SetValues(v [][]interface{}) {
 	o.Values = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -123,7 +111,7 @@ func (o ClusterMetrics) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Value []interface{} `json:"value,omitempty"`
+		Value  []interface{}   `json:"value,omitempty"`
 		Values [][]interface{} `json:"values,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -131,7 +119,7 @@ func (o *ClusterMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "value", "values",  })
+		common.DeleteKeys(additionalProperties, &[]string{"value", "values"})
 	} else {
 		return err
 	}

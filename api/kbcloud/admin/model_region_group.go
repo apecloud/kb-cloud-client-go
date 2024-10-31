@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// RegionGroup The region group 
+// RegionGroup The region group
 type RegionGroup struct {
 	// The name of the region group
 	Group string `json:"group"`
@@ -26,10 +21,9 @@ type RegionGroup struct {
 	// The name of the provider.
 	Provider string `json:"provider"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRegionGroup instantiates a new RegionGroup object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +45,7 @@ func NewRegionGroupWithDefaults() *RegionGroup {
 	this := RegionGroup{}
 	return &this
 }
+
 // GetGroup returns the Group field value.
 func (o *RegionGroup) GetGroup() string {
 	if o == nil {
@@ -73,7 +68,6 @@ func (o *RegionGroup) GetGroupOk() (*string, bool) {
 func (o *RegionGroup) SetGroup(v string) {
 	o.Group = v
 }
-
 
 // GetGroupCn returns the GroupCn field value.
 func (o *RegionGroup) GetGroupCn() string {
@@ -98,7 +92,6 @@ func (o *RegionGroup) SetGroupCn(v string) {
 	o.GroupCn = v
 }
 
-
 // GetGroupEn returns the GroupEn field value.
 func (o *RegionGroup) GetGroupEn() string {
 	if o == nil {
@@ -121,7 +114,6 @@ func (o *RegionGroup) GetGroupEnOk() (*string, bool) {
 func (o *RegionGroup) SetGroupEn(v string) {
 	o.GroupEn = v
 }
-
 
 // GetProvider returns the Provider field value.
 func (o *RegionGroup) GetProvider() string {
@@ -146,8 +138,6 @@ func (o *RegionGroup) SetProvider(v string) {
 	o.Provider = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o RegionGroup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -168,9 +158,9 @@ func (o RegionGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RegionGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Group *string `json:"group"`
-		GroupCn *string `json:"groupCN"`
-		GroupEn *string `json:"groupEN"`
+		Group    *string `json:"group"`
+		GroupCn  *string `json:"groupCN"`
+		GroupEn  *string `json:"groupEN"`
 		Provider *string `json:"provider"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -190,7 +180,7 @@ func (o *RegionGroup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "group", "groupCN", "groupEN", "provider",  })
+		common.DeleteKeys(additionalProperties, &[]string{"group", "groupCN", "groupEN", "provider"})
 	} else {
 		return err
 	}

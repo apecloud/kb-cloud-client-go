@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// IpWhitelist whitelist 
+// IpWhitelist whitelist
 type IpWhitelist struct {
 	// ID of the whitelist
 	Id string `json:"id"`
@@ -34,10 +30,9 @@ type IpWhitelist struct {
 	// Populated by the system. Read-only. Null for lists
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewIpWhitelist instantiates a new IpWhitelist object.
 // This constructor will assign default values to properties that have it defined,
@@ -58,6 +53,7 @@ func NewIpWhitelistWithDefaults() *IpWhitelist {
 	this := IpWhitelist{}
 	return &this
 }
+
 // GetId returns the Id field value.
 func (o *IpWhitelist) GetId() string {
 	if o == nil {
@@ -81,7 +77,6 @@ func (o *IpWhitelist) SetId(v string) {
 	o.Id = v
 }
 
-
 // GetName returns the Name field value.
 func (o *IpWhitelist) GetName() string {
 	if o == nil {
@@ -104,7 +99,6 @@ func (o *IpWhitelist) GetNameOk() (*string, bool) {
 func (o *IpWhitelist) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *IpWhitelist) GetDescription() string {
@@ -134,7 +128,6 @@ func (o *IpWhitelist) SetDescription(v string) {
 	o.Description = &v
 }
 
-
 // GetAddresses returns the Addresses field value.
 func (o *IpWhitelist) GetAddresses() []string {
 	if o == nil {
@@ -157,7 +150,6 @@ func (o *IpWhitelist) GetAddressesOk() (*[]string, bool) {
 func (o *IpWhitelist) SetAddresses(v []string) {
 	o.Addresses = v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *IpWhitelist) GetCreatedAt() time.Time {
@@ -187,7 +179,6 @@ func (o *IpWhitelist) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *IpWhitelist) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -215,8 +206,6 @@ func (o *IpWhitelist) HasUpdatedAt() bool {
 func (o *IpWhitelist) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o IpWhitelist) MarshalJSON() ([]byte, error) {
@@ -254,12 +243,12 @@ func (o IpWhitelist) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *IpWhitelist) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id"`
-		Name *string `json:"name"`
-		Description *string `json:"description,omitempty"`
-		Addresses *[]string `json:"addresses"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		Id          *string    `json:"id"`
+		Name        *string    `json:"name"`
+		Description *string    `json:"description,omitempty"`
+		Addresses   *[]string  `json:"addresses"`
+		CreatedAt   *time.Time `json:"createdAt,omitempty"`
+		UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -275,7 +264,7 @@ func (o *IpWhitelist) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "description", "addresses", "createdAt", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "description", "addresses", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}

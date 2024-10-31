@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// OpsRestart OpsRestart is the payload to restart a KubeBlocks cluster 
+// OpsRestart OpsRestart is the payload to restart a KubeBlocks cluster
 type OpsRestart struct {
 	// component type
 	Component *string `json:"component,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOpsRestart instantiates a new OpsRestart object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewOpsRestartWithDefaults() *OpsRestart {
 	this := OpsRestart{}
 	return &this
 }
+
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsRestart) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -69,8 +60,6 @@ func (o *OpsRestart) SetComponent(v string) {
 	o.Component = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRestart) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -97,7 +86,7 @@ func (o *OpsRestart) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "component",  })
+		common.DeleteKeys(additionalProperties, &[]string{"component"})
 	} else {
 		return err
 	}

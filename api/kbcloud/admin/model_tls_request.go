@@ -2,27 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type TlsRequest struct {
 	// Enable TLS or not
 	Enable *bool `json:"enable,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTlsRequest instantiates a new TlsRequest object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,6 +30,7 @@ func NewTlsRequestWithDefaults() *TlsRequest {
 	this := TlsRequest{}
 	return &this
 }
+
 // GetEnable returns the Enable field value if set, zero value otherwise.
 func (o *TlsRequest) GetEnable() bool {
 	if o == nil || o.Enable == nil {
@@ -68,8 +59,6 @@ func (o *TlsRequest) SetEnable(v bool) {
 	o.Enable = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o TlsRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -96,7 +85,7 @@ func (o *TlsRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "enable",  })
+		common.DeleteKeys(additionalProperties, &[]string{"enable"})
 	} else {
 		return err
 	}

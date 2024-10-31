@@ -2,29 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type IntegerOption struct {
-	Min int32 `json:"min"`
-	Max int32 `json:"max"`
+	Min     int32 `json:"min"`
+	Max     int32 `json:"max"`
 	Default int32 `json:"default"`
-	Step int32 `json:"step"`
+	Step    int32 `json:"step"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewIntegerOption instantiates a new IntegerOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -46,6 +40,7 @@ func NewIntegerOptionWithDefaults() *IntegerOption {
 	this := IntegerOption{}
 	return &this
 }
+
 // GetMin returns the Min field value.
 func (o *IntegerOption) GetMin() int32 {
 	if o == nil {
@@ -68,7 +63,6 @@ func (o *IntegerOption) GetMinOk() (*int32, bool) {
 func (o *IntegerOption) SetMin(v int32) {
 	o.Min = v
 }
-
 
 // GetMax returns the Max field value.
 func (o *IntegerOption) GetMax() int32 {
@@ -93,7 +87,6 @@ func (o *IntegerOption) SetMax(v int32) {
 	o.Max = v
 }
 
-
 // GetDefault returns the Default field value.
 func (o *IntegerOption) GetDefault() int32 {
 	if o == nil {
@@ -116,7 +109,6 @@ func (o *IntegerOption) GetDefaultOk() (*int32, bool) {
 func (o *IntegerOption) SetDefault(v int32) {
 	o.Default = v
 }
-
 
 // GetStep returns the Step field value.
 func (o *IntegerOption) GetStep() int32 {
@@ -141,8 +133,6 @@ func (o *IntegerOption) SetStep(v int32) {
 	o.Step = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o IntegerOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -163,10 +153,10 @@ func (o IntegerOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *IntegerOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Min *int32 `json:"min"`
-		Max *int32 `json:"max"`
+		Min     *int32 `json:"min"`
+		Max     *int32 `json:"max"`
 		Default *int32 `json:"default"`
-		Step *int32 `json:"step"`
+		Step    *int32 `json:"step"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -185,7 +175,7 @@ func (o *IntegerOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "min", "max", "default", "step",  })
+		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "default", "step"})
 	} else {
 		return err
 	}

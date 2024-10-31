@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// FeatureList A list of feature 
+// FeatureList A list of feature
 type FeatureList struct {
 	// The list of feature
 	Items []Feature `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewFeatureList instantiates a new FeatureList object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewFeatureListWithDefaults() *FeatureList {
 	this := FeatureList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *FeatureList) GetItems() []Feature {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *FeatureList) GetItemsOk() (*[]Feature, bool) {
 func (o *FeatureList) SetItems(v []Feature) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o FeatureList) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *FeatureList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

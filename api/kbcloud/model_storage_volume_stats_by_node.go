@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// StorageVolumeStatsByNode storageVolumeStatsByNode provides detailed information about storage volumes of nodes. 
+// StorageVolumeStatsByNode storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
 type StorageVolumeStatsByNode struct {
 	// the name of the node
 	NodeName *string `json:"nodeName,omitempty"`
@@ -26,10 +17,9 @@ type StorageVolumeStatsByNode struct {
 	// the sum of capacity of PVC on the node
 	Capacity *string `json:"capacity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageVolumeStatsByNode instantiates a new StorageVolumeStatsByNode object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +37,7 @@ func NewStorageVolumeStatsByNodeWithDefaults() *StorageVolumeStatsByNode {
 	this := StorageVolumeStatsByNode{}
 	return &this
 }
+
 // GetNodeName returns the NodeName field value if set, zero value otherwise.
 func (o *StorageVolumeStatsByNode) GetNodeName() string {
 	if o == nil || o.NodeName == nil {
@@ -74,7 +65,6 @@ func (o *StorageVolumeStatsByNode) HasNodeName() bool {
 func (o *StorageVolumeStatsByNode) SetNodeName(v string) {
 	o.NodeName = &v
 }
-
 
 // GetNodeStatus returns the NodeStatus field value if set, zero value otherwise.
 func (o *StorageVolumeStatsByNode) GetNodeStatus() string {
@@ -104,7 +94,6 @@ func (o *StorageVolumeStatsByNode) SetNodeStatus(v string) {
 	o.NodeStatus = &v
 }
 
-
 // GetVolumeNum returns the VolumeNum field value if set, zero value otherwise.
 func (o *StorageVolumeStatsByNode) GetVolumeNum() string {
 	if o == nil || o.VolumeNum == nil {
@@ -132,7 +121,6 @@ func (o *StorageVolumeStatsByNode) HasVolumeNum() bool {
 func (o *StorageVolumeStatsByNode) SetVolumeNum(v string) {
 	o.VolumeNum = &v
 }
-
 
 // GetCapacity returns the Capacity field value if set, zero value otherwise.
 func (o *StorageVolumeStatsByNode) GetCapacity() string {
@@ -162,8 +150,6 @@ func (o *StorageVolumeStatsByNode) SetCapacity(v string) {
 	o.Capacity = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageVolumeStatsByNode) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -192,17 +178,17 @@ func (o StorageVolumeStatsByNode) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageVolumeStatsByNode) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NodeName *string `json:"nodeName,omitempty"`
+		NodeName   *string `json:"nodeName,omitempty"`
 		NodeStatus *string `json:"nodeStatus,omitempty"`
-		VolumeNum *string `json:"VolumeNum,omitempty"`
-		Capacity *string `json:"capacity,omitempty"`
+		VolumeNum  *string `json:"VolumeNum,omitempty"`
+		Capacity   *string `json:"capacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "nodeName", "nodeStatus", "VolumeNum", "capacity",  })
+		common.DeleteKeys(additionalProperties, &[]string{"nodeName", "nodeStatus", "VolumeNum", "capacity"})
 	} else {
 		return err
 	}

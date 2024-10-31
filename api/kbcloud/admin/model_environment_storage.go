@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// EnvironmentStorage Storage config 
+// EnvironmentStorage Storage config
 type EnvironmentStorage struct {
 	// the storage name
 	Name *string `json:"name,omitempty"`
@@ -24,10 +15,9 @@ type EnvironmentStorage struct {
 	// storageCreate is the schema for the storage create request
 	Config *StorageCreate `json:"config,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEnvironmentStorage instantiates a new EnvironmentStorage object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +35,7 @@ func NewEnvironmentStorageWithDefaults() *EnvironmentStorage {
 	this := EnvironmentStorage{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *EnvironmentStorage) GetName() string {
 	if o == nil || o.Name == nil {
@@ -72,7 +63,6 @@ func (o *EnvironmentStorage) HasName() bool {
 func (o *EnvironmentStorage) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *EnvironmentStorage) GetType() EnvironmentStorageType {
@@ -102,7 +92,6 @@ func (o *EnvironmentStorage) SetType(v EnvironmentStorageType) {
 	o.Type = &v
 }
 
-
 // GetConfig returns the Config field value if set, zero value otherwise.
 func (o *EnvironmentStorage) GetConfig() StorageCreate {
 	if o == nil || o.Config == nil {
@@ -131,8 +120,6 @@ func (o *EnvironmentStorage) SetConfig(v StorageCreate) {
 	o.Config = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentStorage) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,28 +145,28 @@ func (o EnvironmentStorage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentStorage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Type *EnvironmentStorageType `json:"type,omitempty"`
-		Config *StorageCreate `json:"config,omitempty"`
+		Name   *string                 `json:"name,omitempty"`
+		Type   *EnvironmentStorageType `json:"type,omitempty"`
+		Config *StorageCreate          `json:"config,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "type", "config",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "config"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Name = all.Name
-	if all.Type != nil &&!all.Type.IsValid() {
+	if all.Type != nil && !all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Type = all.Type
 	}
-	if  all.Config != nil && all.Config.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Config != nil && all.Config.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Config = all.Config

@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// PreflightList The preflight results 
+// PreflightList The preflight results
 type PreflightList struct {
 	Pass []Preflight `json:"pass,omitempty"`
 	Warn []Preflight `json:"warn,omitempty"`
 	Fail []Preflight `json:"fail,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPreflightList instantiates a new PreflightList object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewPreflightListWithDefaults() *PreflightList {
 	this := PreflightList{}
 	return &this
 }
+
 // GetPass returns the Pass field value if set, zero value otherwise.
 func (o *PreflightList) GetPass() []Preflight {
 	if o == nil || o.Pass == nil {
@@ -69,7 +60,6 @@ func (o *PreflightList) HasPass() bool {
 func (o *PreflightList) SetPass(v []Preflight) {
 	o.Pass = v
 }
-
 
 // GetWarn returns the Warn field value if set, zero value otherwise.
 func (o *PreflightList) GetWarn() []Preflight {
@@ -99,7 +89,6 @@ func (o *PreflightList) SetWarn(v []Preflight) {
 	o.Warn = v
 }
 
-
 // GetFail returns the Fail field value if set, zero value otherwise.
 func (o *PreflightList) GetFail() []Preflight {
 	if o == nil || o.Fail == nil {
@@ -127,8 +116,6 @@ func (o *PreflightList) HasFail() bool {
 func (o *PreflightList) SetFail(v []Preflight) {
 	o.Fail = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o PreflightList) MarshalJSON() ([]byte, error) {
@@ -164,7 +151,7 @@ func (o *PreflightList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "pass", "warn", "fail",  })
+		common.DeleteKeys(additionalProperties, &[]string{"pass", "warn", "fail"})
 	} else {
 		return err
 	}

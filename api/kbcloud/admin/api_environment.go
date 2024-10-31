@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -24,12 +20,10 @@ type EnvironmentApi common.Service
 // Add nodes to environment
 func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, body []NodePoolNode) ([]NodePoolNode, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  []NodePoolNode
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue []NodePoolNode
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.AddNodes")
 	if err != nil {
@@ -45,11 +39,9 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -71,11 +63,10 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -89,7 +80,7 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -102,11 +93,9 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 // cordon the specified Environment node
 func (a *EnvironmentApi) CordonEnvironmentNode(ctx _context.Context, environmentName string, nodeName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CordonEnvironmentNode")
 	if err != nil {
@@ -122,8 +111,7 @@ func (a *EnvironmentApi) CordonEnvironmentNode(ctx _context.Context, environment
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -145,11 +133,10 @@ func (a *EnvironmentApi) CordonEnvironmentNode(ctx _context.Context, environment
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -166,12 +153,10 @@ func (a *EnvironmentApi) CordonEnvironmentNode(ctx _context.Context, environment
 // CreateEnvironment Create environment.
 func (a *EnvironmentApi) CreateEnvironment(ctx _context.Context, body EnvironmentCreate) (Environment, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Environment
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Environment
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateEnvironment")
 	if err != nil {
@@ -186,11 +171,9 @@ func (a *EnvironmentApi) CreateEnvironment(ctx _context.Context, body Environmen
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -212,11 +195,10 @@ func (a *EnvironmentApi) CreateEnvironment(ctx _context.Context, body Environmen
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -230,7 +212,7 @@ func (a *EnvironmentApi) CreateEnvironment(ctx _context.Context, body Environmen
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -242,12 +224,10 @@ func (a *EnvironmentApi) CreateEnvironment(ctx _context.Context, body Environmen
 // CreateNodeGroup Create environment node group.
 func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName string, body NodeGroup) (NodeGroup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  NodeGroup
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue NodeGroup
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateNodeGroup")
 	if err != nil {
@@ -263,11 +243,9 @@ func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName s
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -289,11 +267,10 @@ func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -307,7 +284,7 @@ func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -326,6 +303,7 @@ func NewCreateWorkflowOptionalParameters() *CreateWorkflowOptionalParameters {
 	this := CreateWorkflowOptionalParameters{}
 	return &this
 }
+
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *CreateWorkflowOptionalParameters) WithBody(body WorkflowCreate) *CreateWorkflowOptionalParameters {
 	r.Body = &body
@@ -335,20 +313,18 @@ func (r *CreateWorkflowOptionalParameters) WithBody(body WorkflowCreate) *Create
 // CreateWorkflow create component management workflow, used to upgrade kubeblocks/gemini.
 func (a *EnvironmentApi) CreateWorkflow(ctx _context.Context, environmentName string, o ...CreateWorkflowOptionalParameters) (Workflow, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Workflow
-		optionalParams CreateWorkflowOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Workflow
+		optionalParams      CreateWorkflowOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type CreateWorkflowOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateWorkflowOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateWorkflow")
 	if err != nil {
@@ -364,13 +340,11 @@ func (a *EnvironmentApi) CreateWorkflow(ctx _context.Context, environmentName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -393,7 +367,7 @@ func (a *EnvironmentApi) CreateWorkflow(ctx _context.Context, environmentName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -412,6 +386,7 @@ func NewDeleteEnvironmentOptionalParameters() *DeleteEnvironmentOptionalParamete
 	this := DeleteEnvironmentOptionalParameters{}
 	return &this
 }
+
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *DeleteEnvironmentOptionalParameters) WithBody(body EnvironmentDelete) *DeleteEnvironmentOptionalParameters {
 	r.Body = &body
@@ -421,19 +396,17 @@ func (r *DeleteEnvironmentOptionalParameters) WithBody(body EnvironmentDelete) *
 // DeleteEnvironment Delete environment.
 func (a *EnvironmentApi) DeleteEnvironment(ctx _context.Context, environmentName string, o ...DeleteEnvironmentOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
-		optionalParams DeleteEnvironmentOptionalParameters
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+		optionalParams     DeleteEnvironmentOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return nil, common.ReportError("only one argument of type DeleteEnvironmentOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type DeleteEnvironmentOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.DeleteEnvironment")
 	if err != nil {
@@ -449,13 +422,11 @@ func (a *EnvironmentApi) DeleteEnvironment(ctx _context.Context, environmentName
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -477,11 +448,10 @@ func (a *EnvironmentApi) DeleteEnvironment(ctx _context.Context, environmentName
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -498,11 +468,9 @@ func (a *EnvironmentApi) DeleteEnvironment(ctx _context.Context, environmentName
 // DeleteNodeGroup Delete environment node group.
 func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName string, nodeGroupName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.DeleteNodeGroup")
 	if err != nil {
@@ -518,8 +486,7 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -541,11 +508,10 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -563,12 +529,10 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 // List environments
 func (a *EnvironmentApi) FilterEnvironment(ctx _context.Context, orgName string, engineName string, version string) (EnvironmentList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EnvironmentList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EnvironmentList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.FilterEnvironment")
 	if err != nil {
@@ -585,8 +549,7 @@ func (a *EnvironmentApi) FilterEnvironment(ctx _context.Context, orgName string,
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -608,11 +571,10 @@ func (a *EnvironmentApi) FilterEnvironment(ctx _context.Context, orgName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -626,7 +588,7 @@ func (a *EnvironmentApi) FilterEnvironment(ctx _context.Context, orgName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -638,12 +600,10 @@ func (a *EnvironmentApi) FilterEnvironment(ctx _context.Context, orgName string,
 // GetEnvironment Get environment.
 func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName string) (Environment, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Environment
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Environment
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironment")
 	if err != nil {
@@ -658,8 +618,7 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -681,11 +640,10 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -699,7 +657,7 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -711,12 +669,10 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 // GetEnvironmentBootstrapManifests Get bootstrap manifests of an environment.
 func (a *EnvironmentApi) GetEnvironmentBootstrapManifests(ctx _context.Context, environmentName string) (HttpBody, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  HttpBody
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue HttpBody
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentBootstrapManifests")
 	if err != nil {
@@ -731,8 +687,7 @@ func (a *EnvironmentApi) GetEnvironmentBootstrapManifests(ctx _context.Context, 
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -754,11 +709,10 @@ func (a *EnvironmentApi) GetEnvironmentBootstrapManifests(ctx _context.Context, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -772,7 +726,7 @@ func (a *EnvironmentApi) GetEnvironmentBootstrapManifests(ctx _context.Context, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -784,12 +738,10 @@ func (a *EnvironmentApi) GetEnvironmentBootstrapManifests(ctx _context.Context, 
 // GetEnvironmentKubeconfig Get environment kubeconfig.
 func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environmentName string) (HttpBody, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  HttpBody
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue HttpBody
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentKubeconfig")
 	if err != nil {
@@ -804,8 +756,7 @@ func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environm
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -827,11 +778,10 @@ func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environm
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -845,7 +795,7 @@ func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environm
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -858,12 +808,10 @@ func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environm
 // Provides a summary of cluster statistics, aggregated and organized by namespace, for a given environment..
 func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, environmentName string) (NamespaceStatList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  NamespaceStatList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue NamespaceStatList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentNamespaceStats")
 	if err != nil {
@@ -876,10 +824,9 @@ func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, envi
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] =  "*/*"
+	localVarHeaderParams["Accept"] = "*/*"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -901,11 +848,10 @@ func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, envi
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 403 {
 			var v interface{}
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -914,8 +860,7 @@ func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, envi
 			newErr.ErrorModel = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if
-		localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 404 {
 			var v string
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -929,7 +874,7 @@ func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, envi
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -941,12 +886,10 @@ func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, envi
 // GetEnvironmentProvisioningProgress Get environment provisioning progress.
 func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context, environmentName string) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  map[string]interface{}
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue map[string]interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentProvisioningProgress")
 	if err != nil {
@@ -961,8 +904,7 @@ func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -984,11 +926,10 @@ func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1002,7 +943,7 @@ func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1014,12 +955,10 @@ func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context
 // GetEnvironmentStatus Get environment status.
 func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentName string) (EnvironmentStatus, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EnvironmentStatus
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EnvironmentStatus
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentStatus")
 	if err != nil {
@@ -1034,8 +973,7 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1057,11 +995,10 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1075,7 +1012,7 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1087,12 +1024,10 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 // GetLatestComponentVersion Get component latest version.
 func (a *EnvironmentApi) GetLatestComponentVersion(ctx _context.Context) (ComponentVersion, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  ComponentVersion
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ComponentVersion
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetLatestComponentVersion")
 	if err != nil {
@@ -1106,8 +1041,7 @@ func (a *EnvironmentApi) GetLatestComponentVersion(ctx _context.Context) (Compon
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1130,7 +1064,7 @@ func (a *EnvironmentApi) GetLatestComponentVersion(ctx _context.Context) (Compon
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1143,12 +1077,10 @@ func (a *EnvironmentApi) GetLatestComponentVersion(ctx _context.Context) (Compon
 // Get specified node info for environment
 func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, nodeName string) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  map[string]interface{}
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue map[string]interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetNode")
 	if err != nil {
@@ -1164,8 +1096,7 @@ func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, n
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1187,11 +1118,10 @@ func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, n
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1205,7 +1135,7 @@ func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, n
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1217,12 +1147,10 @@ func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, n
 // GetWorkflow Get component management workflows.
 func (a *EnvironmentApi) GetWorkflow(ctx _context.Context, environmentName string, workflowName string) (Workflow, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Workflow
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Workflow
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflow")
 	if err != nil {
@@ -1238,8 +1166,7 @@ func (a *EnvironmentApi) GetWorkflow(ctx _context.Context, environmentName strin
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1262,7 +1189,7 @@ func (a *EnvironmentApi) GetWorkflow(ctx _context.Context, environmentName strin
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1274,12 +1201,10 @@ func (a *EnvironmentApi) GetWorkflow(ctx _context.Context, environmentName strin
 // GetWorkflowList Get component management workflow list.
 func (a *EnvironmentApi) GetWorkflowList(ctx _context.Context, environmentName string) (WorkflowList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  WorkflowList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue WorkflowList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflowList")
 	if err != nil {
@@ -1294,8 +1219,7 @@ func (a *EnvironmentApi) GetWorkflowList(ctx _context.Context, environmentName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1318,7 +1242,7 @@ func (a *EnvironmentApi) GetWorkflowList(ctx _context.Context, environmentName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1330,12 +1254,10 @@ func (a *EnvironmentApi) GetWorkflowList(ctx _context.Context, environmentName s
 // GetWorkflowLog Get component management workflow log.
 func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName string, workflowName string) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  string
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue string
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflowLog")
 	if err != nil {
@@ -1349,10 +1271,9 @@ func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName st
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] =  "text/plain"
+	localVarHeaderParams["Accept"] = "text/plain"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1375,7 +1296,7 @@ func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1388,12 +1309,10 @@ func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName st
 // List available zones of an environment
 func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName string) ([]string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []string
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []string
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvNodeZone")
 	if err != nil {
@@ -1408,8 +1327,7 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1431,11 +1349,10 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1449,7 +1366,7 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1460,7 +1377,7 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName s
 
 // ListEnvironmentOptionalParameters holds optional parameters for ListEnvironment.
 type ListEnvironmentOptionalParameters struct {
-	OrgName *string
+	OrgName         *string
 	EnvironmentType *EnvironmentType
 }
 
@@ -1469,11 +1386,13 @@ func NewListEnvironmentOptionalParameters() *ListEnvironmentOptionalParameters {
 	this := ListEnvironmentOptionalParameters{}
 	return &this
 }
+
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListEnvironmentOptionalParameters) WithOrgName(orgName string) *ListEnvironmentOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
+
 // WithEnvironmentType sets the corresponding parameter name and returns the struct.
 func (r *ListEnvironmentOptionalParameters) WithEnvironmentType(environmentType EnvironmentType) *ListEnvironmentOptionalParameters {
 	r.EnvironmentType = &environmentType
@@ -1484,20 +1403,18 @@ func (r *ListEnvironmentOptionalParameters) WithEnvironmentType(environmentType 
 // List environments
 func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironmentOptionalParameters) (EnvironmentList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EnvironmentList
-		optionalParams ListEnvironmentOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EnvironmentList
+		optionalParams      ListEnvironmentOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListEnvironmentOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEnvironmentOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvironment")
 	if err != nil {
@@ -1517,8 +1434,7 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1540,11 +1456,10 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1558,7 +1473,7 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1570,8 +1485,8 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 // ListKubernetesNodeOptionalParameters holds optional parameters for ListKubernetesNode.
 type ListKubernetesNodeOptionalParameters struct {
 	Region *string
-	Zone *string
-	Op *ListKubernetesNodeOpType
+	Zone   *string
+	Op     *ListKubernetesNodeOpType
 }
 
 // NewListKubernetesNodeOptionalParameters creates an empty struct for parameters.
@@ -1579,16 +1494,19 @@ func NewListKubernetesNodeOptionalParameters() *ListKubernetesNodeOptionalParame
 	this := ListKubernetesNodeOptionalParameters{}
 	return &this
 }
+
 // WithRegion sets the corresponding parameter name and returns the struct.
 func (r *ListKubernetesNodeOptionalParameters) WithRegion(region string) *ListKubernetesNodeOptionalParameters {
 	r.Region = &region
 	return r
 }
+
 // WithZone sets the corresponding parameter name and returns the struct.
 func (r *ListKubernetesNodeOptionalParameters) WithZone(zone string) *ListKubernetesNodeOptionalParameters {
 	r.Zone = &zone
 	return r
 }
+
 // WithOp sets the corresponding parameter name and returns the struct.
 func (r *ListKubernetesNodeOptionalParameters) WithOp(op ListKubernetesNodeOpType) *ListKubernetesNodeOptionalParameters {
 	r.Op = &op
@@ -1599,20 +1517,18 @@ func (r *ListKubernetesNodeOptionalParameters) WithOp(op ListKubernetesNodeOpTyp
 // List Kubernetes nodes before registered as environment
 func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfig, o ...ListKubernetesNodeOptionalParameters) (NodeList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  NodeList
-		optionalParams ListKubernetesNodeOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue NodeList
+		optionalParams      ListKubernetesNodeOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListKubernetesNodeOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListKubernetesNodeOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListKubernetesNode")
 	if err != nil {
@@ -1636,11 +1552,9 @@ func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfi
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1662,11 +1576,10 @@ func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfi
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1680,7 +1593,7 @@ func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfi
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1693,12 +1606,10 @@ func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfi
 // List Kubernetes storageclass before registered as environment
 func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body Kubeconfig) (StorageClassList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  StorageClassList
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue StorageClassList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListKubernetesStorageClass")
 	if err != nil {
@@ -1713,11 +1624,9 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1739,11 +1648,10 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1757,7 +1665,7 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1769,12 +1677,10 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 // ListNodeGroup Create environment node group.
 func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string) (NodeGroup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  NodeGroup
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue NodeGroup
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroup")
 	if err != nil {
@@ -1789,8 +1695,7 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1812,11 +1717,10 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1830,7 +1734,7 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1843,12 +1747,10 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 // List Pod in the environment node
 func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName string, nodeName string, typeVar string) ([]map[string]interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []map[string]interface{}
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []map[string]interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodePod")
 	if err != nil {
@@ -1865,8 +1767,7 @@ func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName strin
 	localVarQueryParams.Add("type", common.ParameterToString(typeVar, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1888,11 +1789,10 @@ func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName strin
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1906,7 +1806,7 @@ func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName strin
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1917,9 +1817,9 @@ func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName strin
 
 // ListNodesOptionalParameters holds optional parameters for ListNodes.
 type ListNodesOptionalParameters struct {
-	HostName *string
+	HostName           *string
 	OutOfTopologyRange *bool
-	LabelKey *string
+	LabelKey           *string
 }
 
 // NewListNodesOptionalParameters creates an empty struct for parameters.
@@ -1927,16 +1827,19 @@ func NewListNodesOptionalParameters() *ListNodesOptionalParameters {
 	this := ListNodesOptionalParameters{}
 	return &this
 }
+
 // WithHostName sets the corresponding parameter name and returns the struct.
 func (r *ListNodesOptionalParameters) WithHostName(hostName string) *ListNodesOptionalParameters {
 	r.HostName = &hostName
 	return r
 }
+
 // WithOutOfTopologyRange sets the corresponding parameter name and returns the struct.
 func (r *ListNodesOptionalParameters) WithOutOfTopologyRange(outOfTopologyRange bool) *ListNodesOptionalParameters {
 	r.OutOfTopologyRange = &outOfTopologyRange
 	return r
 }
+
 // WithLabelKey sets the corresponding parameter name and returns the struct.
 func (r *ListNodesOptionalParameters) WithLabelKey(labelKey string) *ListNodesOptionalParameters {
 	r.LabelKey = &labelKey
@@ -1947,20 +1850,18 @@ func (r *ListNodesOptionalParameters) WithLabelKey(labelKey string) *ListNodesOp
 // List Kubernetes nodes in an environment
 func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string, o ...ListNodesOptionalParameters) (NodeList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  NodeList
-		optionalParams ListNodesOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue NodeList
+		optionalParams      ListNodesOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListNodesOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListNodesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodes")
 	if err != nil {
@@ -1984,8 +1885,7 @@ func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string,
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -2007,11 +1907,10 @@ func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -2025,7 +1924,7 @@ func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -2038,12 +1937,10 @@ func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string,
 // partially update the specified Environment
 func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName string, body EnvironmentUpdate) (Environment, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		localVarReturnValue  Environment
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue Environment
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PatchEnvironment")
 	if err != nil {
@@ -2059,11 +1956,9 @@ func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -2085,11 +1980,10 @@ func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -2103,7 +1997,7 @@ func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -2116,12 +2010,10 @@ func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName 
 // partially update the specified NodeGroup
 func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName string, nodeGroupName string, body NodeGroupUpdate) (NodeGroup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		localVarReturnValue  NodeGroup
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue NodeGroup
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PatchNodeGroup")
 	if err != nil {
@@ -2138,11 +2030,9 @@ func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName st
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -2164,11 +2054,10 @@ func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName st
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -2182,7 +2071,7 @@ func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -2194,12 +2083,10 @@ func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName st
 // PreflightEnvironment Preflight check before create Environment.
 func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubeconfig) (PreflightList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  PreflightList
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue PreflightList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PreflightEnvironment")
 	if err != nil {
@@ -2214,11 +2101,9 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -2241,7 +2126,7 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -2254,11 +2139,9 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 // cordon the specified Environment node
 func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environmentName string, nodeName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.UncordonEnvironmentNode")
 	if err != nil {
@@ -2274,8 +2157,7 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -2297,11 +2179,10 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

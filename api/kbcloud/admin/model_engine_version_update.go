@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// EngineVersionUpdate EngineVersionRecord update option 
+// EngineVersionUpdate EngineVersionRecord update option
 type EngineVersionUpdate struct {
 	// Name of the engine
 	EngineName string `json:"engineName"`
@@ -34,10 +29,9 @@ type EngineVersionUpdate struct {
 	// Determines if the image registry is set
 	SetImageRegistry common.NullableBool `json:"setImageRegistry,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEngineVersionUpdate instantiates a new EngineVersionUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -61,6 +55,7 @@ func NewEngineVersionUpdateWithDefaults() *EngineVersionUpdate {
 	this.SetImageRegistry = *common.NewNullableBool(&setImageRegistry)
 	return &this
 }
+
 // GetEngineName returns the EngineName field value.
 func (o *EngineVersionUpdate) GetEngineName() string {
 	if o == nil {
@@ -83,7 +78,6 @@ func (o *EngineVersionUpdate) GetEngineNameOk() (*string, bool) {
 func (o *EngineVersionUpdate) SetEngineName(v string) {
 	o.EngineName = v
 }
-
 
 // GetVersion returns the Version field value.
 func (o *EngineVersionUpdate) GetVersion() string {
@@ -108,7 +102,6 @@ func (o *EngineVersionUpdate) SetVersion(v string) {
 	o.Version = v
 }
 
-
 // GetKbVersionConstraint returns the KbVersionConstraint field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersionUpdate) GetKbVersionConstraint() string {
 	if o == nil || o.KbVersionConstraint.Get() == nil {
@@ -122,7 +115,7 @@ func (o *EngineVersionUpdate) GetKbVersionConstraint() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersionUpdate) GetKbVersionConstraintOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.KbVersionConstraint.Get(), o.KbVersionConstraint.IsSet()
@@ -137,6 +130,7 @@ func (o *EngineVersionUpdate) HasKbVersionConstraint() bool {
 func (o *EngineVersionUpdate) SetKbVersionConstraint(v string) {
 	o.KbVersionConstraint.Set(&v)
 }
+
 // SetKbVersionConstraintNil sets the value for KbVersionConstraint to be an explicit nil.
 func (o *EngineVersionUpdate) SetKbVersionConstraintNil() {
 	o.KbVersionConstraint.Set(nil)
@@ -146,7 +140,6 @@ func (o *EngineVersionUpdate) SetKbVersionConstraintNil() {
 func (o *EngineVersionUpdate) UnsetKbVersionConstraint() {
 	o.KbVersionConstraint.Unset()
 }
-
 
 // GetClusterChartUrl returns the ClusterChartUrl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersionUpdate) GetClusterChartUrl() string {
@@ -161,7 +154,7 @@ func (o *EngineVersionUpdate) GetClusterChartUrl() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersionUpdate) GetClusterChartUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ClusterChartUrl.Get(), o.ClusterChartUrl.IsSet()
@@ -176,6 +169,7 @@ func (o *EngineVersionUpdate) HasClusterChartUrl() bool {
 func (o *EngineVersionUpdate) SetClusterChartUrl(v string) {
 	o.ClusterChartUrl.Set(&v)
 }
+
 // SetClusterChartUrlNil sets the value for ClusterChartUrl to be an explicit nil.
 func (o *EngineVersionUpdate) SetClusterChartUrlNil() {
 	o.ClusterChartUrl.Set(nil)
@@ -185,7 +179,6 @@ func (o *EngineVersionUpdate) SetClusterChartUrlNil() {
 func (o *EngineVersionUpdate) UnsetClusterChartUrl() {
 	o.ClusterChartUrl.Unset()
 }
-
 
 // GetChartUrl returns the ChartUrl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersionUpdate) GetChartUrl() string {
@@ -200,7 +193,7 @@ func (o *EngineVersionUpdate) GetChartUrl() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersionUpdate) GetChartUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ChartUrl.Get(), o.ChartUrl.IsSet()
@@ -215,6 +208,7 @@ func (o *EngineVersionUpdate) HasChartUrl() bool {
 func (o *EngineVersionUpdate) SetChartUrl(v string) {
 	o.ChartUrl.Set(&v)
 }
+
 // SetChartUrlNil sets the value for ChartUrl to be an explicit nil.
 func (o *EngineVersionUpdate) SetChartUrlNil() {
 	o.ChartUrl.Set(nil)
@@ -224,7 +218,6 @@ func (o *EngineVersionUpdate) SetChartUrlNil() {
 func (o *EngineVersionUpdate) UnsetChartUrl() {
 	o.ChartUrl.Unset()
 }
-
 
 // GetSetValues returns the SetValues field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersionUpdate) GetSetValues() string {
@@ -239,7 +232,7 @@ func (o *EngineVersionUpdate) GetSetValues() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersionUpdate) GetSetValuesOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.SetValues.Get(), o.SetValues.IsSet()
@@ -254,6 +247,7 @@ func (o *EngineVersionUpdate) HasSetValues() bool {
 func (o *EngineVersionUpdate) SetSetValues(v string) {
 	o.SetValues.Set(&v)
 }
+
 // SetSetValuesNil sets the value for SetValues to be an explicit nil.
 func (o *EngineVersionUpdate) SetSetValuesNil() {
 	o.SetValues.Set(nil)
@@ -263,7 +257,6 @@ func (o *EngineVersionUpdate) SetSetValuesNil() {
 func (o *EngineVersionUpdate) UnsetSetValues() {
 	o.SetValues.Unset()
 }
-
 
 // GetChartsImage returns the ChartsImage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersionUpdate) GetChartsImage() string {
@@ -278,7 +271,7 @@ func (o *EngineVersionUpdate) GetChartsImage() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersionUpdate) GetChartsImageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ChartsImage.Get(), o.ChartsImage.IsSet()
@@ -293,6 +286,7 @@ func (o *EngineVersionUpdate) HasChartsImage() bool {
 func (o *EngineVersionUpdate) SetChartsImage(v string) {
 	o.ChartsImage.Set(&v)
 }
+
 // SetChartsImageNil sets the value for ChartsImage to be an explicit nil.
 func (o *EngineVersionUpdate) SetChartsImageNil() {
 	o.ChartsImage.Set(nil)
@@ -302,7 +296,6 @@ func (o *EngineVersionUpdate) SetChartsImageNil() {
 func (o *EngineVersionUpdate) UnsetChartsImage() {
 	o.ChartsImage.Unset()
 }
-
 
 // GetSetImageRegistry returns the SetImageRegistry field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersionUpdate) GetSetImageRegistry() bool {
@@ -317,7 +310,7 @@ func (o *EngineVersionUpdate) GetSetImageRegistry() bool {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersionUpdate) GetSetImageRegistryOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.SetImageRegistry.Get(), o.SetImageRegistry.IsSet()
@@ -332,6 +325,7 @@ func (o *EngineVersionUpdate) HasSetImageRegistry() bool {
 func (o *EngineVersionUpdate) SetSetImageRegistry(v bool) {
 	o.SetImageRegistry.Set(&v)
 }
+
 // SetSetImageRegistryNil sets the value for SetImageRegistry to be an explicit nil.
 func (o *EngineVersionUpdate) SetSetImageRegistryNil() {
 	o.SetImageRegistry.Set(nil)
@@ -341,8 +335,6 @@ func (o *EngineVersionUpdate) SetSetImageRegistryNil() {
 func (o *EngineVersionUpdate) UnsetSetImageRegistry() {
 	o.SetImageRegistry.Unset()
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineVersionUpdate) MarshalJSON() ([]byte, error) {
@@ -380,14 +372,14 @@ func (o EngineVersionUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineVersionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName *string `json:"engineName"`
-		Version *string `json:"version"`
+		EngineName          *string               `json:"engineName"`
+		Version             *string               `json:"version"`
 		KbVersionConstraint common.NullableString `json:"kbVersionConstraint,omitempty"`
-		ClusterChartUrl common.NullableString `json:"clusterChartUrl,omitempty"`
-		ChartUrl common.NullableString `json:"chartUrl,omitempty"`
-		SetValues common.NullableString `json:"setValues,omitempty"`
-		ChartsImage common.NullableString `json:"chartsImage,omitempty"`
-		SetImageRegistry common.NullableBool `json:"setImageRegistry,omitempty"`
+		ClusterChartUrl     common.NullableString `json:"clusterChartUrl,omitempty"`
+		ChartUrl            common.NullableString `json:"chartUrl,omitempty"`
+		SetValues           common.NullableString `json:"setValues,omitempty"`
+		ChartsImage         common.NullableString `json:"chartsImage,omitempty"`
+		SetImageRegistry    common.NullableBool   `json:"setImageRegistry,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -400,7 +392,7 @@ func (o *EngineVersionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry",  })
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry"})
 	} else {
 		return err
 	}

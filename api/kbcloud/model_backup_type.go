@@ -2,28 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // BackupType the type of backup
 type BackupType string
 
 // List of BackupType.
 const (
-	BackupTypeFull BackupType = "Full"
-	BackupTypeIncremental BackupType = "Incremental"
+	BackupTypeFull         BackupType = "Full"
+	BackupTypeIncremental  BackupType = "Incremental"
 	BackupTypeDifferential BackupType = "Differential"
-	BackupTypeContinuous BackupType = "Continuous"
+	BackupTypeContinuous   BackupType = "Continuous"
 )
 
 var allowedBackupTypeEnumValues = []BackupType{

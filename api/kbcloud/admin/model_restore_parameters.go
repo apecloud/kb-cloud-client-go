@@ -2,26 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// RestoreParameters restore parameters to inject env of the restore CR. 
+// RestoreParameters restore parameters to inject env of the restore CR.
 type RestoreParameters struct {
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRestoreParameters instantiates a new RestoreParameters object.
 // This constructor will assign default values to properties that have it defined,
@@ -62,7 +52,7 @@ func (o *RestoreParameters) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{  })
+		common.DeleteKeys(additionalProperties, &[]string{})
 	} else {
 		return err
 	}

@@ -2,39 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type Tenant struct {
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Mode *string `json:"mode,omitempty"`
-	CreateAt *string `json:"create_at,omitempty"`
-	Role *string `json:"role,omitempty"`
-	PrimaryZone *string `json:"primary_zone,omitempty"`
-	Status *string `json:"status,omitempty"`
-	PrimaryZoneProxy *string `json:"primary_zone_proxy,omitempty"`
-	ChartSet *string `json:"chart_set,omitempty"`
-	Resource *string `json:"resource,omitempty"`
-	Cpu *CPU `json:"cpu,omitempty"`
-	Memory *Memory `json:"memory,omitempty"`
-	LogDisk *LogDisk `json:"log_disk,omitempty"`
-	DataDisk *DataDisk `json:"data_disk,omitempty"`
+	Id               *string   `json:"id,omitempty"`
+	Name             *string   `json:"name,omitempty"`
+	Mode             *string   `json:"mode,omitempty"`
+	CreateAt         *string   `json:"create_at,omitempty"`
+	Role             *string   `json:"role,omitempty"`
+	PrimaryZone      *string   `json:"primary_zone,omitempty"`
+	Status           *string   `json:"status,omitempty"`
+	PrimaryZoneProxy *string   `json:"primary_zone_proxy,omitempty"`
+	ChartSet         *string   `json:"chart_set,omitempty"`
+	Resource         *string   `json:"resource,omitempty"`
+	Cpu              *CPU      `json:"cpu,omitempty"`
+	Memory           *Memory   `json:"memory,omitempty"`
+	LogDisk          *LogDisk  `json:"log_disk,omitempty"`
+	DataDisk         *DataDisk `json:"data_disk,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTenant instantiates a new Tenant object.
 // This constructor will assign default values to properties that have it defined,
@@ -52,6 +42,7 @@ func NewTenantWithDefaults() *Tenant {
 	this := Tenant{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Tenant) GetId() string {
 	if o == nil || o.Id == nil {
@@ -79,7 +70,6 @@ func (o *Tenant) HasId() bool {
 func (o *Tenant) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Tenant) GetName() string {
@@ -109,7 +99,6 @@ func (o *Tenant) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *Tenant) GetMode() string {
 	if o == nil || o.Mode == nil {
@@ -137,7 +126,6 @@ func (o *Tenant) HasMode() bool {
 func (o *Tenant) SetMode(v string) {
 	o.Mode = &v
 }
-
 
 // GetCreateAt returns the CreateAt field value if set, zero value otherwise.
 func (o *Tenant) GetCreateAt() string {
@@ -167,7 +155,6 @@ func (o *Tenant) SetCreateAt(v string) {
 	o.CreateAt = &v
 }
 
-
 // GetRole returns the Role field value if set, zero value otherwise.
 func (o *Tenant) GetRole() string {
 	if o == nil || o.Role == nil {
@@ -195,7 +182,6 @@ func (o *Tenant) HasRole() bool {
 func (o *Tenant) SetRole(v string) {
 	o.Role = &v
 }
-
 
 // GetPrimaryZone returns the PrimaryZone field value if set, zero value otherwise.
 func (o *Tenant) GetPrimaryZone() string {
@@ -225,7 +211,6 @@ func (o *Tenant) SetPrimaryZone(v string) {
 	o.PrimaryZone = &v
 }
 
-
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Tenant) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -253,7 +238,6 @@ func (o *Tenant) HasStatus() bool {
 func (o *Tenant) SetStatus(v string) {
 	o.Status = &v
 }
-
 
 // GetPrimaryZoneProxy returns the PrimaryZoneProxy field value if set, zero value otherwise.
 func (o *Tenant) GetPrimaryZoneProxy() string {
@@ -283,7 +267,6 @@ func (o *Tenant) SetPrimaryZoneProxy(v string) {
 	o.PrimaryZoneProxy = &v
 }
 
-
 // GetChartSet returns the ChartSet field value if set, zero value otherwise.
 func (o *Tenant) GetChartSet() string {
 	if o == nil || o.ChartSet == nil {
@@ -311,7 +294,6 @@ func (o *Tenant) HasChartSet() bool {
 func (o *Tenant) SetChartSet(v string) {
 	o.ChartSet = &v
 }
-
 
 // GetResource returns the Resource field value if set, zero value otherwise.
 func (o *Tenant) GetResource() string {
@@ -341,7 +323,6 @@ func (o *Tenant) SetResource(v string) {
 	o.Resource = &v
 }
 
-
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *Tenant) GetCpu() CPU {
 	if o == nil || o.Cpu == nil {
@@ -369,7 +350,6 @@ func (o *Tenant) HasCpu() bool {
 func (o *Tenant) SetCpu(v CPU) {
 	o.Cpu = &v
 }
-
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *Tenant) GetMemory() Memory {
@@ -399,7 +379,6 @@ func (o *Tenant) SetMemory(v Memory) {
 	o.Memory = &v
 }
 
-
 // GetLogDisk returns the LogDisk field value if set, zero value otherwise.
 func (o *Tenant) GetLogDisk() LogDisk {
 	if o == nil || o.LogDisk == nil {
@@ -428,7 +407,6 @@ func (o *Tenant) SetLogDisk(v LogDisk) {
 	o.LogDisk = &v
 }
 
-
 // GetDataDisk returns the DataDisk field value if set, zero value otherwise.
 func (o *Tenant) GetDataDisk() DataDisk {
 	if o == nil || o.DataDisk == nil {
@@ -456,8 +434,6 @@ func (o *Tenant) HasDataDisk() bool {
 func (o *Tenant) SetDataDisk(v DataDisk) {
 	o.DataDisk = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Tenant) MarshalJSON() ([]byte, error) {
@@ -517,27 +493,27 @@ func (o Tenant) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Tenant) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Mode *string `json:"mode,omitempty"`
-		CreateAt *string `json:"create_at,omitempty"`
-		Role *string `json:"role,omitempty"`
-		PrimaryZone *string `json:"primary_zone,omitempty"`
-		Status *string `json:"status,omitempty"`
-		PrimaryZoneProxy *string `json:"primary_zone_proxy,omitempty"`
-		ChartSet *string `json:"chart_set,omitempty"`
-		Resource *string `json:"resource,omitempty"`
-		Cpu *CPU `json:"cpu,omitempty"`
-		Memory *Memory `json:"memory,omitempty"`
-		LogDisk *LogDisk `json:"log_disk,omitempty"`
-		DataDisk *DataDisk `json:"data_disk,omitempty"`
+		Id               *string   `json:"id,omitempty"`
+		Name             *string   `json:"name,omitempty"`
+		Mode             *string   `json:"mode,omitempty"`
+		CreateAt         *string   `json:"create_at,omitempty"`
+		Role             *string   `json:"role,omitempty"`
+		PrimaryZone      *string   `json:"primary_zone,omitempty"`
+		Status           *string   `json:"status,omitempty"`
+		PrimaryZoneProxy *string   `json:"primary_zone_proxy,omitempty"`
+		ChartSet         *string   `json:"chart_set,omitempty"`
+		Resource         *string   `json:"resource,omitempty"`
+		Cpu              *CPU      `json:"cpu,omitempty"`
+		Memory           *Memory   `json:"memory,omitempty"`
+		LogDisk          *LogDisk  `json:"log_disk,omitempty"`
+		DataDisk         *DataDisk `json:"data_disk,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "mode", "create_at", "role", "primary_zone", "status", "primary_zone_proxy", "chart_set", "resource", "cpu", "memory", "log_disk", "data_disk",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "mode", "create_at", "role", "primary_zone", "status", "primary_zone_proxy", "chart_set", "resource", "cpu", "memory", "log_disk", "data_disk"})
 	} else {
 		return err
 	}
@@ -553,19 +529,19 @@ func (o *Tenant) UnmarshalJSON(bytes []byte) (err error) {
 	o.PrimaryZoneProxy = all.PrimaryZoneProxy
 	o.ChartSet = all.ChartSet
 	o.Resource = all.Resource
-	if  all.Cpu != nil && all.Cpu.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Cpu != nil && all.Cpu.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Cpu = all.Cpu
-	if  all.Memory != nil && all.Memory.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Memory != nil && all.Memory.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Memory = all.Memory
-	if  all.LogDisk != nil && all.LogDisk.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.LogDisk != nil && all.LogDisk.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.LogDisk = all.LogDisk
-	if  all.DataDisk != nil && all.DataDisk.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.DataDisk != nil && all.DataDisk.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.DataDisk = all.DataDisk

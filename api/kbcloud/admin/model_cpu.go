@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type CPU struct {
-	CpuCapacity *string `json:"cpu_capacity,omitempty"`
+	CpuCapacity    *string `json:"cpu_capacity,omitempty"`
 	CpuCapacityMax *string `json:"cpu_capacity_max,omitempty"`
-	CpuAssigned *string `json:"cpu_assigned,omitempty"`
+	CpuAssigned    *string `json:"cpu_assigned,omitempty"`
 	CpuAssignedMax *string `json:"cpu_assigned_max,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewCPU instantiates a new CPU object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewCPUWithDefaults() *CPU {
 	this := CPU{}
 	return &this
 }
+
 // GetCpuCapacity returns the CpuCapacity field value if set, zero value otherwise.
 func (o *CPU) GetCpuCapacity() string {
 	if o == nil || o.CpuCapacity == nil {
@@ -69,7 +60,6 @@ func (o *CPU) HasCpuCapacity() bool {
 func (o *CPU) SetCpuCapacity(v string) {
 	o.CpuCapacity = &v
 }
-
 
 // GetCpuCapacityMax returns the CpuCapacityMax field value if set, zero value otherwise.
 func (o *CPU) GetCpuCapacityMax() string {
@@ -99,7 +89,6 @@ func (o *CPU) SetCpuCapacityMax(v string) {
 	o.CpuCapacityMax = &v
 }
 
-
 // GetCpuAssigned returns the CpuAssigned field value if set, zero value otherwise.
 func (o *CPU) GetCpuAssigned() string {
 	if o == nil || o.CpuAssigned == nil {
@@ -127,7 +116,6 @@ func (o *CPU) HasCpuAssigned() bool {
 func (o *CPU) SetCpuAssigned(v string) {
 	o.CpuAssigned = &v
 }
-
 
 // GetCpuAssignedMax returns the CpuAssignedMax field value if set, zero value otherwise.
 func (o *CPU) GetCpuAssignedMax() string {
@@ -157,8 +145,6 @@ func (o *CPU) SetCpuAssignedMax(v string) {
 	o.CpuAssignedMax = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o CPU) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -187,9 +173,9 @@ func (o CPU) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CPU) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CpuCapacity *string `json:"cpu_capacity,omitempty"`
+		CpuCapacity    *string `json:"cpu_capacity,omitempty"`
 		CpuCapacityMax *string `json:"cpu_capacity_max,omitempty"`
-		CpuAssigned *string `json:"cpu_assigned,omitempty"`
+		CpuAssigned    *string `json:"cpu_assigned,omitempty"`
 		CpuAssignedMax *string `json:"cpu_assigned_max,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -197,7 +183,7 @@ func (o *CPU) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cpu_capacity", "cpu_capacity_max", "cpu_assigned", "cpu_assigned_max",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cpu_capacity", "cpu_capacity_max", "cpu_assigned", "cpu_assigned_max"})
 	} else {
 		return err
 	}

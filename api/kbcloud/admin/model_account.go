@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Account Cluster account information 
+// Account Cluster account information
 type Account struct {
 	// A list of privileges and their databases.
 	PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
@@ -30,10 +25,9 @@ type Account struct {
 	// Role name should be one of [SUPERUSER, BASICUSER].
 	Role AccountRoleType `json:"role"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAccount instantiates a new Account object.
 // This constructor will assign default values to properties that have it defined,
@@ -55,6 +49,7 @@ func NewAccountWithDefaults() *Account {
 	this.Role = role
 	return &this
 }
+
 // GetPrivilegesList returns the PrivilegesList field value if set, zero value otherwise.
 func (o *Account) GetPrivilegesList() []PrivilegeListItem {
 	if o == nil || o.PrivilegesList == nil {
@@ -82,7 +77,6 @@ func (o *Account) HasPrivilegesList() bool {
 func (o *Account) SetPrivilegesList(v []PrivilegeListItem) {
 	o.PrivilegesList = v
 }
-
 
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *Account) GetComponent() string {
@@ -112,7 +106,6 @@ func (o *Account) SetComponent(v string) {
 	o.Component = &v
 }
 
-
 // GetInstance returns the Instance field value if set, zero value otherwise.
 func (o *Account) GetInstance() string {
 	if o == nil || o.Instance == nil {
@@ -141,7 +134,6 @@ func (o *Account) SetInstance(v string) {
 	o.Instance = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *Account) GetName() string {
 	if o == nil {
@@ -164,7 +156,6 @@ func (o *Account) GetNameOk() (*string, bool) {
 func (o *Account) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetPassword returns the Password field value if set, zero value otherwise.
 func (o *Account) GetPassword() string {
@@ -194,7 +185,6 @@ func (o *Account) SetPassword(v string) {
 	o.Password = &v
 }
 
-
 // GetRole returns the Role field value.
 func (o *Account) GetRole() AccountRoleType {
 	if o == nil {
@@ -217,8 +207,6 @@ func (o *Account) GetRoleOk() (*AccountRoleType, bool) {
 func (o *Account) SetRole(v AccountRoleType) {
 	o.Role = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Account) MarshalJSON() ([]byte, error) {
@@ -251,11 +239,11 @@ func (o Account) MarshalJSON() ([]byte, error) {
 func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
-		Component *string `json:"component,omitempty"`
-		Instance *string `json:"instance,omitempty"`
-		Name *string `json:"name"`
-		Password *string `json:"password,omitempty"`
-		Role *AccountRoleType `json:"role"`
+		Component      *string             `json:"component,omitempty"`
+		Instance       *string             `json:"instance,omitempty"`
+		Name           *string             `json:"name"`
+		Password       *string             `json:"password,omitempty"`
+		Role           *AccountRoleType    `json:"role"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -268,7 +256,7 @@ func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "privilegesList", "component", "instance", "name", "password", "role",  })
+		common.DeleteKeys(additionalProperties, &[]string{"privilegesList", "component", "instance", "name", "password", "role"})
 	} else {
 		return err
 	}

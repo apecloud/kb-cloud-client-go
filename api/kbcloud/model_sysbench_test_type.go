@@ -2,36 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // SysbenchTestType Test type for sysbench
 type SysbenchTestType string
 
 // List of SysbenchTestType.
 const (
-	SysbenchTestTypeOltpDelete SysbenchTestType = "oltp_delete"
-	SysbenchTestTypeOltpInsert SysbenchTestType = "oltp_insert"
-	SysbenchTestTypeOltpPointSelect SysbenchTestType = "oltp_point_select"
-	SysbenchTestTypeOltpReadOnly SysbenchTestType = "oltp_read_only"
-	SysbenchTestTypeOltpReadWrite SysbenchTestType = "oltp_read_write"
-	SysbenchTestTypeOltpUpdateIndex SysbenchTestType = "oltp_update_index"
+	SysbenchTestTypeOltpDelete         SysbenchTestType = "oltp_delete"
+	SysbenchTestTypeOltpInsert         SysbenchTestType = "oltp_insert"
+	SysbenchTestTypeOltpPointSelect    SysbenchTestType = "oltp_point_select"
+	SysbenchTestTypeOltpReadOnly       SysbenchTestType = "oltp_read_only"
+	SysbenchTestTypeOltpReadWrite      SysbenchTestType = "oltp_read_write"
+	SysbenchTestTypeOltpUpdateIndex    SysbenchTestType = "oltp_update_index"
 	SysbenchTestTypeOltpUpdateNonIndex SysbenchTestType = "oltp_update_non_index"
-	SysbenchTestTypeOltpWriteOnly SysbenchTestType = "oltp_write_only"
+	SysbenchTestTypeOltpWriteOnly      SysbenchTestType = "oltp_write_only"
 	SysbenchTestTypeSelectRandomPoints SysbenchTestType = "select_random_points"
 	SysbenchTestTypeSelectRandomRanges SysbenchTestType = "select_random_ranges"
-	SysbenchTestTypeBulkInsert SysbenchTestType = "bulk_insert"
-	SysbenchTestTypeOltpReadWritePct SysbenchTestType = "oltp_read_write_pct"
+	SysbenchTestTypeBulkInsert         SysbenchTestType = "bulk_insert"
+	SysbenchTestTypeOltpReadWritePct   SysbenchTestType = "oltp_read_write_pct"
 )
 
 var allowedSysbenchTestTypeEnumValues = []SysbenchTestType{

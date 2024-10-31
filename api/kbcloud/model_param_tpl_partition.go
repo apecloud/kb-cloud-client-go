@@ -2,25 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 type ParamTplPartition string
 
 // List of ParamTplPartition.
 const (
 	ParamTplPartitionDefault ParamTplPartition = "default"
-	ParamTplPartitionCustom ParamTplPartition = "custom"
+	ParamTplPartitionCustom  ParamTplPartition = "custom"
 )
 
 var allowedParamTplPartitionEnumValues = []ParamTplPartition{

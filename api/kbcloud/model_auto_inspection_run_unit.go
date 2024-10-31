@@ -2,27 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // AutoInspectionRunUnit Specifies the unit of time for the auto inspection schedule.
 type AutoInspectionRunUnit string
 
 // List of AutoInspectionRunUnit.
 const (
-	AutoInspectionRunUnitHour AutoInspectionRunUnit = "hour"
-	AutoInspectionRunUnitDay AutoInspectionRunUnit = "day"
-	AutoInspectionRunUnitWeek AutoInspectionRunUnit = "week"
+	AutoInspectionRunUnitHour  AutoInspectionRunUnit = "hour"
+	AutoInspectionRunUnitDay   AutoInspectionRunUnit = "day"
+	AutoInspectionRunUnitWeek  AutoInspectionRunUnit = "week"
 	AutoInspectionRunUnitMonth AutoInspectionRunUnit = "month"
 )
 

@@ -2,29 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type DmsOption struct {
-	Enabled bool `json:"enabled"`
-	Protocol string `json:"protocol"`
-	Feature map[string]interface{} `json:"feature,omitempty"`
-	TableMetadata []interface{} `json:"tableMetadata,omitempty"`
+	Enabled       bool                   `json:"enabled"`
+	Protocol      string                 `json:"protocol"`
+	Feature       map[string]interface{} `json:"feature,omitempty"`
+	TableMetadata []interface{}          `json:"tableMetadata,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewDmsOption instantiates a new DmsOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +38,7 @@ func NewDmsOptionWithDefaults() *DmsOption {
 	this := DmsOption{}
 	return &this
 }
+
 // GetEnabled returns the Enabled field value.
 func (o *DmsOption) GetEnabled() bool {
 	if o == nil {
@@ -67,7 +62,6 @@ func (o *DmsOption) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
-
 // GetProtocol returns the Protocol field value.
 func (o *DmsOption) GetProtocol() string {
 	if o == nil {
@@ -90,7 +84,6 @@ func (o *DmsOption) GetProtocolOk() (*string, bool) {
 func (o *DmsOption) SetProtocol(v string) {
 	o.Protocol = v
 }
-
 
 // GetFeature returns the Feature field value if set, zero value otherwise.
 func (o *DmsOption) GetFeature() map[string]interface{} {
@@ -120,7 +113,6 @@ func (o *DmsOption) SetFeature(v map[string]interface{}) {
 	o.Feature = v
 }
 
-
 // GetTableMetadata returns the TableMetadata field value if set, zero value otherwise.
 func (o *DmsOption) GetTableMetadata() []interface{} {
 	if o == nil || o.TableMetadata == nil {
@@ -149,8 +141,6 @@ func (o *DmsOption) SetTableMetadata(v []interface{}) {
 	o.TableMetadata = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o DmsOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -175,10 +165,10 @@ func (o DmsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled *bool `json:"enabled"`
-		Protocol *string `json:"protocol"`
-		Feature map[string]interface{} `json:"feature,omitempty"`
-		TableMetadata []interface{} `json:"tableMetadata,omitempty"`
+		Enabled       *bool                  `json:"enabled"`
+		Protocol      *string                `json:"protocol"`
+		Feature       map[string]interface{} `json:"feature,omitempty"`
+		TableMetadata []interface{}          `json:"tableMetadata,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -191,7 +181,7 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "enabled", "protocol", "feature", "tableMetadata",  })
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "protocol", "feature", "tableMetadata"})
 	} else {
 		return err
 	}

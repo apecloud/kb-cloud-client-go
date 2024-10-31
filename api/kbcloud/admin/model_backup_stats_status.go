@@ -2,30 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// BackupStatsStatus Number of backups for the status 
+// BackupStatsStatus Number of backups for the status
 type BackupStatsStatus struct {
 	// Backup status
 	Status *string `json:"status,omitempty"`
 	// Number of backups for each status
 	BackupNum *int64 `json:"backupNum,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupStatsStatus instantiates a new BackupStatsStatus object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +33,7 @@ func NewBackupStatsStatusWithDefaults() *BackupStatsStatus {
 	this := BackupStatsStatus{}
 	return &this
 }
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *BackupStatsStatus) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -70,7 +61,6 @@ func (o *BackupStatsStatus) HasStatus() bool {
 func (o *BackupStatsStatus) SetStatus(v string) {
 	o.Status = &v
 }
-
 
 // GetBackupNum returns the BackupNum field value if set, zero value otherwise.
 func (o *BackupStatsStatus) GetBackupNum() int64 {
@@ -100,8 +90,6 @@ func (o *BackupStatsStatus) SetBackupNum(v int64) {
 	o.BackupNum = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupStatsStatus) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -124,15 +112,15 @@ func (o BackupStatsStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupStatsStatus) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Status *string `json:"status,omitempty"`
-		BackupNum *int64 `json:"backupNum,omitempty"`
+		Status    *string `json:"status,omitempty"`
+		BackupNum *int64  `json:"backupNum,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "status", "backupNum",  })
+		common.DeleteKeys(additionalProperties, &[]string{"status", "backupNum"})
 	} else {
 		return err
 	}

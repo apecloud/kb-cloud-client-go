@@ -2,28 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // LoadBalancerAvailableType Whether the loadbalancer is available in the environment.
 type LoadBalancerAvailableType string
 
 // List of LoadBalancerAvailableType.
 const (
-	LoadBalancerAvailableTypeAvailable LoadBalancerAvailableType = "Available"
+	LoadBalancerAvailableTypeAvailable   LoadBalancerAvailableType = "Available"
 	LoadBalancerAvailableTypeUnavailable LoadBalancerAvailableType = "Unavailable"
-	LoadBalancerAvailableTypeChecking LoadBalancerAvailableType = "Checking"
-	LoadBalancerAvailableTypeUnknown LoadBalancerAvailableType = "Unknown"
+	LoadBalancerAvailableTypeChecking    LoadBalancerAvailableType = "Checking"
+	LoadBalancerAvailableTypeUnknown     LoadBalancerAvailableType = "Unknown"
 )
 
 var allowedLoadBalancerAvailableTypeEnumValues = []LoadBalancerAvailableType{

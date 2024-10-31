@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ResultStats struct {
-	ColumnsCount *int32 `json:"columns_count,omitempty"`
-	RowsCount *int32 `json:"rows_count,omitempty"`
-	RowsAffected *int32 `json:"rows_affected,omitempty"`
-	QueryStartTime *time.Time `json:"query_start_time,omitempty"`
+	ColumnsCount    *int32     `json:"columns_count,omitempty"`
+	RowsCount       *int32     `json:"rows_count,omitempty"`
+	RowsAffected    *int32     `json:"rows_affected,omitempty"`
+	QueryStartTime  *time.Time `json:"query_start_time,omitempty"`
 	QueryFinishTime *time.Time `json:"query_finish_time,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewResultStats instantiates a new ResultStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +37,7 @@ func NewResultStatsWithDefaults() *ResultStats {
 	this := ResultStats{}
 	return &this
 }
+
 // GetColumnsCount returns the ColumnsCount field value if set, zero value otherwise.
 func (o *ResultStats) GetColumnsCount() int32 {
 	if o == nil || o.ColumnsCount == nil {
@@ -70,7 +65,6 @@ func (o *ResultStats) HasColumnsCount() bool {
 func (o *ResultStats) SetColumnsCount(v int32) {
 	o.ColumnsCount = &v
 }
-
 
 // GetRowsCount returns the RowsCount field value if set, zero value otherwise.
 func (o *ResultStats) GetRowsCount() int32 {
@@ -100,7 +94,6 @@ func (o *ResultStats) SetRowsCount(v int32) {
 	o.RowsCount = &v
 }
 
-
 // GetRowsAffected returns the RowsAffected field value if set, zero value otherwise.
 func (o *ResultStats) GetRowsAffected() int32 {
 	if o == nil || o.RowsAffected == nil {
@@ -128,7 +121,6 @@ func (o *ResultStats) HasRowsAffected() bool {
 func (o *ResultStats) SetRowsAffected(v int32) {
 	o.RowsAffected = &v
 }
-
 
 // GetQueryStartTime returns the QueryStartTime field value if set, zero value otherwise.
 func (o *ResultStats) GetQueryStartTime() time.Time {
@@ -158,7 +150,6 @@ func (o *ResultStats) SetQueryStartTime(v time.Time) {
 	o.QueryStartTime = &v
 }
 
-
 // GetQueryFinishTime returns the QueryFinishTime field value if set, zero value otherwise.
 func (o *ResultStats) GetQueryFinishTime() time.Time {
 	if o == nil || o.QueryFinishTime == nil {
@@ -186,8 +177,6 @@ func (o *ResultStats) HasQueryFinishTime() bool {
 func (o *ResultStats) SetQueryFinishTime(v time.Time) {
 	o.QueryFinishTime = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ResultStats) MarshalJSON() ([]byte, error) {
@@ -228,10 +217,10 @@ func (o ResultStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ResultStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ColumnsCount *int32 `json:"columns_count,omitempty"`
-		RowsCount *int32 `json:"rows_count,omitempty"`
-		RowsAffected *int32 `json:"rows_affected,omitempty"`
-		QueryStartTime *time.Time `json:"query_start_time,omitempty"`
+		ColumnsCount    *int32     `json:"columns_count,omitempty"`
+		RowsCount       *int32     `json:"rows_count,omitempty"`
+		RowsAffected    *int32     `json:"rows_affected,omitempty"`
+		QueryStartTime  *time.Time `json:"query_start_time,omitempty"`
 		QueryFinishTime *time.Time `json:"query_finish_time,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -239,7 +228,7 @@ func (o *ResultStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "columns_count", "rows_count", "rows_affected", "query_start_time", "query_finish_time",  })
+		common.DeleteKeys(additionalProperties, &[]string{"columns_count", "rows_count", "rows_affected", "query_start_time", "query_finish_time"})
 	} else {
 		return err
 	}

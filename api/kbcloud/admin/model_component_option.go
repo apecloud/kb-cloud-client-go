@@ -2,37 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ComponentOption struct {
 	// component type
 	Name string `json:"name"`
 	// Determine whether the componentDef of kb-cluster belongs to this component type through this matching regularization.
 	// if not set, componentDef must be equal to component type.
 	//
-	MatchRegex *string `json:"matchRegex,omitempty"`
-	Title LocalizedDescription `json:"title"`
-	Order int32 `json:"order"`
-	RoleOrder []string `json:"roleOrder"`
-	Version *ComponentOptionVersion `json:"version,omitempty"`
+	MatchRegex *string                 `json:"matchRegex,omitempty"`
+	Title      LocalizedDescription    `json:"title"`
+	Order      int32                   `json:"order"`
+	RoleOrder  []string                `json:"roleOrder"`
+	Version    *ComponentOptionVersion `json:"version,omitempty"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewComponentOption instantiates a new ComponentOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -54,6 +48,7 @@ func NewComponentOptionWithDefaults() *ComponentOption {
 	this := ComponentOption{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *ComponentOption) GetName() string {
 	if o == nil {
@@ -76,7 +71,6 @@ func (o *ComponentOption) GetNameOk() (*string, bool) {
 func (o *ComponentOption) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetMatchRegex returns the MatchRegex field value if set, zero value otherwise.
 func (o *ComponentOption) GetMatchRegex() string {
@@ -106,7 +100,6 @@ func (o *ComponentOption) SetMatchRegex(v string) {
 	o.MatchRegex = &v
 }
 
-
 // GetTitle returns the Title field value.
 func (o *ComponentOption) GetTitle() LocalizedDescription {
 	if o == nil {
@@ -129,7 +122,6 @@ func (o *ComponentOption) GetTitleOk() (*LocalizedDescription, bool) {
 func (o *ComponentOption) SetTitle(v LocalizedDescription) {
 	o.Title = v
 }
-
 
 // GetOrder returns the Order field value.
 func (o *ComponentOption) GetOrder() int32 {
@@ -154,7 +146,6 @@ func (o *ComponentOption) SetOrder(v int32) {
 	o.Order = v
 }
 
-
 // GetRoleOrder returns the RoleOrder field value.
 func (o *ComponentOption) GetRoleOrder() []string {
 	if o == nil {
@@ -177,7 +168,6 @@ func (o *ComponentOption) GetRoleOrderOk() (*[]string, bool) {
 func (o *ComponentOption) SetRoleOrder(v []string) {
 	o.RoleOrder = v
 }
-
 
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *ComponentOption) GetVersion() ComponentOptionVersion {
@@ -207,7 +197,6 @@ func (o *ComponentOption) SetVersion(v ComponentOptionVersion) {
 	o.Version = &v
 }
 
-
 // GetMain returns the Main field value if set, zero value otherwise.
 func (o *ComponentOption) GetMain() bool {
 	if o == nil || o.Main == nil {
@@ -235,8 +224,6 @@ func (o *ComponentOption) HasMain() bool {
 func (o *ComponentOption) SetMain(v bool) {
 	o.Main = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOption) MarshalJSON() ([]byte, error) {
@@ -267,13 +254,13 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		MatchRegex *string `json:"matchRegex,omitempty"`
-		Title *LocalizedDescription `json:"title"`
-		Order *int32 `json:"order"`
-		RoleOrder *[]string `json:"roleOrder"`
-		Version *ComponentOptionVersion `json:"version,omitempty"`
-		Main *bool `json:"main,omitempty"`
+		Name       *string                 `json:"name"`
+		MatchRegex *string                 `json:"matchRegex,omitempty"`
+		Title      *LocalizedDescription   `json:"title"`
+		Order      *int32                  `json:"order"`
+		RoleOrder  *[]string               `json:"roleOrder"`
+		Version    *ComponentOptionVersion `json:"version,omitempty"`
+		Main       *bool                   `json:"main,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -292,7 +279,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "matchRegex", "title", "order", "roleOrder", "version", "main",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "matchRegex", "title", "order", "roleOrder", "version", "main"})
 	} else {
 		return err
 	}
@@ -306,7 +293,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Title = *all.Title
 	o.Order = *all.Order
 	o.RoleOrder = *all.RoleOrder
-	if  all.Version != nil && all.Version.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Version != nil && all.Version.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Version = all.Version

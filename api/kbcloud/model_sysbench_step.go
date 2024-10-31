@@ -2,18 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // SysbenchStep Step of sysbench
 type SysbenchStep string
@@ -21,9 +16,9 @@ type SysbenchStep string
 // List of SysbenchStep.
 const (
 	SysbenchStepPrepare SysbenchStep = "prepare"
-	SysbenchStepRun SysbenchStep = "run"
+	SysbenchStepRun     SysbenchStep = "run"
 	SysbenchStepCleanup SysbenchStep = "cleanup"
-	SysbenchStepAll SysbenchStep = "all"
+	SysbenchStepAll     SysbenchStep = "all"
 )
 
 var allowedSysbenchStepEnumValues = []SysbenchStep{

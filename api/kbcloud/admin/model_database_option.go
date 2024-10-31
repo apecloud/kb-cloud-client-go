@@ -2,26 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type DatabaseOption struct {
 	Enabled bool `json:"enabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewDatabaseOption instantiates a new DatabaseOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,6 +34,7 @@ func NewDatabaseOptionWithDefaults() *DatabaseOption {
 	this := DatabaseOption{}
 	return &this
 }
+
 // GetEnabled returns the Enabled field value.
 func (o *DatabaseOption) GetEnabled() bool {
 	if o == nil {
@@ -62,8 +57,6 @@ func (o *DatabaseOption) GetEnabledOk() (*bool, bool) {
 func (o *DatabaseOption) SetEnabled(v bool) {
 	o.Enabled = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseOption) MarshalJSON() ([]byte, error) {
@@ -92,7 +85,7 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "enabled",  })
+		common.DeleteKeys(additionalProperties, &[]string{"enabled"})
 	} else {
 		return err
 	}

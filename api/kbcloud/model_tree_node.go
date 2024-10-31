@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type TreeNode struct {
 	// A string representing the level of the node.
 	Level *string `json:"level,omitempty"`
@@ -27,10 +18,9 @@ type TreeNode struct {
 	// An array of child nodes.
 	Children []TreeNode `json:"children,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTreeNode instantiates a new TreeNode object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,6 +38,7 @@ func NewTreeNodeWithDefaults() *TreeNode {
 	this := TreeNode{}
 	return &this
 }
+
 // GetLevel returns the Level field value if set, zero value otherwise.
 func (o *TreeNode) GetLevel() string {
 	if o == nil || o.Level == nil {
@@ -75,7 +66,6 @@ func (o *TreeNode) HasLevel() bool {
 func (o *TreeNode) SetLevel(v string) {
 	o.Level = &v
 }
-
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *TreeNode) GetName() string {
@@ -105,7 +95,6 @@ func (o *TreeNode) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetUid returns the Uid field value if set, zero value otherwise.
 func (o *TreeNode) GetUid() string {
 	if o == nil || o.Uid == nil {
@@ -133,7 +122,6 @@ func (o *TreeNode) HasUid() bool {
 func (o *TreeNode) SetUid(v string) {
 	o.Uid = &v
 }
-
 
 // GetEvents returns the Events field value if set, zero value otherwise.
 func (o *TreeNode) GetEvents() []View_event {
@@ -163,7 +151,6 @@ func (o *TreeNode) SetEvents(v []View_event) {
 	o.Events = v
 }
 
-
 // GetChildren returns the Children field value if set, zero value otherwise.
 func (o *TreeNode) GetChildren() []TreeNode {
 	if o == nil || o.Children == nil {
@@ -191,8 +178,6 @@ func (o *TreeNode) HasChildren() bool {
 func (o *TreeNode) SetChildren(v []TreeNode) {
 	o.Children = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o TreeNode) MarshalJSON() ([]byte, error) {
@@ -225,18 +210,18 @@ func (o TreeNode) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TreeNode) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Level *string `json:"level,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Uid *string `json:"uid,omitempty"`
-		Events []View_event `json:"events,omitempty"`
-		Children []TreeNode `json:"children,omitempty"`
+		Level    *string      `json:"level,omitempty"`
+		Name     *string      `json:"name,omitempty"`
+		Uid      *string      `json:"uid,omitempty"`
+		Events   []View_event `json:"events,omitempty"`
+		Children []TreeNode   `json:"children,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "level", "name", "uid", "events", "children",  })
+		common.DeleteKeys(additionalProperties, &[]string{"level", "name", "uid", "events", "children"})
 	} else {
 		return err
 	}

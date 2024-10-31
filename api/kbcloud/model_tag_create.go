@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// TagCreate Tag create 
+// TagCreate Tag create
 type TagCreate struct {
 	// The cluster id corresponding to the tag
 	ClusterId string `json:"clusterId"`
 	// The key value pair of the tag needed to create
 	Items []TagCreateItemsItem `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTagCreate instantiates a new TagCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +39,7 @@ func NewTagCreateWithDefaults() *TagCreate {
 	this := TagCreate{}
 	return &this
 }
+
 // GetClusterId returns the ClusterId field value.
 func (o *TagCreate) GetClusterId() string {
 	if o == nil {
@@ -67,7 +62,6 @@ func (o *TagCreate) GetClusterIdOk() (*string, bool) {
 func (o *TagCreate) SetClusterId(v string) {
 	o.ClusterId = v
 }
-
 
 // GetItems returns the Items field value.
 func (o *TagCreate) GetItems() []TagCreateItemsItem {
@@ -92,8 +86,6 @@ func (o *TagCreate) SetItems(v []TagCreateItemsItem) {
 	o.Items = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o TagCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,8 +104,8 @@ func (o TagCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TagCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterId *string `json:"clusterId"`
-		Items *[]TagCreateItemsItem `json:"items"`
+		ClusterId *string               `json:"clusterId"`
+		Items     *[]TagCreateItemsItem `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -126,7 +118,7 @@ func (o *TagCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "clusterId", "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"clusterId", "items"})
 	} else {
 		return err
 	}

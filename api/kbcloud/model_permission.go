@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// Permission Permission information 
+// Permission Permission information
 type Permission struct {
 	// The name of the permission
 	Name *string `json:"name,omitempty"`
@@ -24,10 +15,9 @@ type Permission struct {
 	// The description of the permission
 	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPermission instantiates a new Permission object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +35,7 @@ func NewPermissionWithDefaults() *Permission {
 	this := Permission{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Permission) GetName() string {
 	if o == nil || o.Name == nil {
@@ -72,7 +63,6 @@ func (o *Permission) HasName() bool {
 func (o *Permission) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetGroup returns the Group field value if set, zero value otherwise.
 func (o *Permission) GetGroup() string {
@@ -102,7 +92,6 @@ func (o *Permission) SetGroup(v string) {
 	o.Group = &v
 }
 
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Permission) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -131,8 +120,6 @@ func (o *Permission) SetDescription(v string) {
 	o.Description = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Permission) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,8 +145,8 @@ func (o Permission) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Permission) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Group *string `json:"group,omitempty"`
+		Name        *string `json:"name,omitempty"`
+		Group       *string `json:"group,omitempty"`
 		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -167,7 +154,7 @@ func (o *Permission) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "group", "description",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "group", "description"})
 	} else {
 		return err
 	}

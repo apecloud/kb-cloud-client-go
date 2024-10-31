@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type Result struct {
-	Pagination *Pagination `json:"pagination,omitempty"`
-	Columns []string `json:"columns,omitempty"`
-	Rows [][]interface{} `json:"rows,omitempty"`
-	Stats *ResultStats `json:"stats,omitempty"`
+	Pagination *Pagination     `json:"pagination,omitempty"`
+	Columns    []string        `json:"columns,omitempty"`
+	Rows       [][]interface{} `json:"rows,omitempty"`
+	Stats      *ResultStats    `json:"stats,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewResult instantiates a new Result object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewResultWithDefaults() *Result {
 	this := Result{}
 	return &this
 }
+
 // GetPagination returns the Pagination field value if set, zero value otherwise.
 func (o *Result) GetPagination() Pagination {
 	if o == nil || o.Pagination == nil {
@@ -69,7 +60,6 @@ func (o *Result) HasPagination() bool {
 func (o *Result) SetPagination(v Pagination) {
 	o.Pagination = &v
 }
-
 
 // GetColumns returns the Columns field value if set, zero value otherwise.
 func (o *Result) GetColumns() []string {
@@ -99,7 +89,6 @@ func (o *Result) SetColumns(v []string) {
 	o.Columns = v
 }
 
-
 // GetRows returns the Rows field value if set, zero value otherwise.
 func (o *Result) GetRows() [][]interface{} {
 	if o == nil || o.Rows == nil {
@@ -127,7 +116,6 @@ func (o *Result) HasRows() bool {
 func (o *Result) SetRows(v [][]interface{}) {
 	o.Rows = v
 }
-
 
 // GetStats returns the Stats field value if set, zero value otherwise.
 func (o *Result) GetStats() ResultStats {
@@ -157,8 +145,6 @@ func (o *Result) SetStats(v ResultStats) {
 	o.Stats = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Result) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -187,29 +173,29 @@ func (o Result) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Result) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Pagination *Pagination `json:"pagination,omitempty"`
-		Columns []string `json:"columns,omitempty"`
-		Rows [][]interface{} `json:"rows,omitempty"`
-		Stats *ResultStats `json:"stats,omitempty"`
+		Pagination *Pagination     `json:"pagination,omitempty"`
+		Columns    []string        `json:"columns,omitempty"`
+		Rows       [][]interface{} `json:"rows,omitempty"`
+		Stats      *ResultStats    `json:"stats,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "pagination", "columns", "rows", "stats",  })
+		common.DeleteKeys(additionalProperties, &[]string{"pagination", "columns", "rows", "stats"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if  all.Pagination != nil && all.Pagination.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Pagination != nil && all.Pagination.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Pagination = all.Pagination
 	o.Columns = all.Columns
 	o.Rows = all.Rows
-	if  all.Stats != nil && all.Stats.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Stats != nil && all.Stats.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Stats = all.Stats

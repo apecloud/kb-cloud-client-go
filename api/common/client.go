@@ -2,14 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package common
 
 import (
 	"bytes"
-	"context"
-	"compress/zlib"
 	"compress/gzip"
+	"compress/zlib"
+	"context"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -27,8 +26,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"unicode/utf8"
 
+	"github.com/icholy/digest"
 	"golang.org/x/oauth2"
 )
 
@@ -41,14 +40,14 @@ var (
 // APIClient manages communication with the KubeBlocks Cloud API API v1.0.0.
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
-	Cfg    *Configuration
+	Cfg *Configuration
 }
 
 // FormFile holds parameters for a file in multipart/form-data request.
 type FormFile struct {
 	FormFileName string
-	FileName string
-	FileBytes []byte
+	FileName     string
+	FileBytes    []byte
 }
 
 // Service holds APIClient
@@ -182,7 +181,7 @@ func (c *APIClient) CallAPI(request *http.Request) (*http.Response, error) {
 	}
 }
 
-// Determine if a request should be retried 
+// Determine if a request should be retried
 func (c *APIClient) shouldRetryRequest(response *http.Response, retryCount int) (*time.Duration, bool) {
 	enableRetry := c.Cfg.RetryConfiguration.EnableRetry
 	maxRetries := c.Cfg.RetryConfiguration.MaxRetries
@@ -391,6 +390,14 @@ func (c *APIClient) PrepareRequest(
 		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
+
+		// Digest Authentication
+		if auth, ok := ctx.Value(ContextDigestAuth).(DigestAuth); ok {
+			c.Cfg.HTTPClient.Transport = &digest.Transport{
+				Username: auth.UserName,
+				Password: auth.Password,
+			}
+		}
 	}
 
 	for header, value := range c.Cfg.DefaultHeader {
@@ -514,9 +521,9 @@ func detectContentType(body interface{}) string {
 
 // GenericOpenAPIError Provides access to the body, error and model on returned errors.
 type GenericOpenAPIError struct {
-	ErrorBody  []byte
+	ErrorBody    []byte
 	ErrorMessage string
-	ErrorModel interface{}
+	ErrorModel   interface{}
 }
 
 // Error returns non-empty string if there was an error.

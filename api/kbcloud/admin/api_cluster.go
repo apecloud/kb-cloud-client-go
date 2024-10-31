@@ -2,17 +2,14 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"reflect"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -23,12 +20,10 @@ type ClusterApi common.Service
 // CreateCluster Create new cluster.
 func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body Cluster) (Cluster, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Cluster
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Cluster
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.CreateCluster")
 	if err != nil {
@@ -44,11 +39,9 @@ func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body Cl
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -70,11 +63,10 @@ func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body Cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -88,7 +80,7 @@ func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body Cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -107,6 +99,7 @@ func NewDeleteClusterOptionalParameters() *DeleteClusterOptionalParameters {
 	this := DeleteClusterOptionalParameters{}
 	return &this
 }
+
 // WithForce sets the corresponding parameter name and returns the struct.
 func (r *DeleteClusterOptionalParameters) WithForce(force bool) *DeleteClusterOptionalParameters {
 	r.Force = &force
@@ -116,20 +109,18 @@ func (r *DeleteClusterOptionalParameters) WithForce(force bool) *DeleteClusterOp
 // DeleteCluster Delete cluster.
 func (a *ClusterApi) DeleteCluster(ctx _context.Context, orgName string, clusterName string, o ...DeleteClusterOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
-		localVarReturnValue  interface{}
-		optionalParams DeleteClusterOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodDelete
+		localVarPostBody    interface{}
+		localVarReturnValue interface{}
+		optionalParams      DeleteClusterOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type DeleteClusterOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteClusterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.DeleteCluster")
 	if err != nil {
@@ -148,8 +139,7 @@ func (a *ClusterApi) DeleteCluster(ctx _context.Context, orgName string, cluster
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -171,11 +161,10 @@ func (a *ClusterApi) DeleteCluster(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -189,7 +178,7 @@ func (a *ClusterApi) DeleteCluster(ctx _context.Context, orgName string, cluster
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -208,6 +197,7 @@ func NewDescribeClusterHaHistoryOptionalParameters() *DescribeClusterHaHistoryOp
 	this := DescribeClusterHaHistoryOptionalParameters{}
 	return &this
 }
+
 // WithComponentName sets the corresponding parameter name and returns the struct.
 func (r *DescribeClusterHaHistoryOptionalParameters) WithComponentName(componentName string) *DescribeClusterHaHistoryOptionalParameters {
 	r.ComponentName = &componentName
@@ -217,20 +207,18 @@ func (r *DescribeClusterHaHistoryOptionalParameters) WithComponentName(component
 // DescribeClusterHaHistory describe cluster HA history.
 func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName string, clusterName string, o ...DescribeClusterHaHistoryOptionalParameters) (HaHistoryResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  HaHistoryResponse
-		optionalParams DescribeClusterHaHistoryOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue HaHistoryResponse
+		optionalParams      DescribeClusterHaHistoryOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type DescribeClusterHaHistoryOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DescribeClusterHaHistoryOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.DescribeClusterHaHistory")
 	if err != nil {
@@ -249,8 +237,7 @@ func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName stri
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -272,11 +259,10 @@ func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -290,7 +276,7 @@ func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName stri
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -302,12 +288,10 @@ func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName stri
 // GetCluster Get cluster details.
 func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterName string) (Cluster, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Cluster
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Cluster
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetCluster")
 	if err != nil {
@@ -323,8 +307,7 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -346,11 +329,10 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 409{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -364,7 +346,7 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -376,12 +358,10 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 // GetClusterByID Get cluster details by ID.
 func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, clusterId int32) (Cluster, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Cluster
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Cluster
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetClusterByID")
 	if err != nil {
@@ -397,8 +377,7 @@ func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, cluste
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -420,11 +399,10 @@ func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, cluste
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 409{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -438,7 +416,7 @@ func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, cluste
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -450,9 +428,9 @@ func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, cluste
 // GetClusterInstanceLogOptionalParameters holds optional parameters for GetClusterInstanceLog.
 type GetClusterInstanceLogOptionalParameters struct {
 	WorkloadType *string
-	Previous *bool
+	Previous     *bool
 	SinceSeconds *int32
-	TailLines *int32
+	TailLines    *int32
 }
 
 // NewGetClusterInstanceLogOptionalParameters creates an empty struct for parameters.
@@ -460,21 +438,25 @@ func NewGetClusterInstanceLogOptionalParameters() *GetClusterInstanceLogOptional
 	this := GetClusterInstanceLogOptionalParameters{}
 	return &this
 }
+
 // WithWorkloadType sets the corresponding parameter name and returns the struct.
 func (r *GetClusterInstanceLogOptionalParameters) WithWorkloadType(workloadType string) *GetClusterInstanceLogOptionalParameters {
 	r.WorkloadType = &workloadType
 	return r
 }
+
 // WithPrevious sets the corresponding parameter name and returns the struct.
 func (r *GetClusterInstanceLogOptionalParameters) WithPrevious(previous bool) *GetClusterInstanceLogOptionalParameters {
 	r.Previous = &previous
 	return r
 }
+
 // WithSinceSeconds sets the corresponding parameter name and returns the struct.
 func (r *GetClusterInstanceLogOptionalParameters) WithSinceSeconds(sinceSeconds int32) *GetClusterInstanceLogOptionalParameters {
 	r.SinceSeconds = &sinceSeconds
 	return r
 }
+
 // WithTailLines sets the corresponding parameter name and returns the struct.
 func (r *GetClusterInstanceLogOptionalParameters) WithTailLines(tailLines int32) *GetClusterInstanceLogOptionalParameters {
 	r.TailLines = &tailLines
@@ -485,20 +467,18 @@ func (r *GetClusterInstanceLogOptionalParameters) WithTailLines(tailLines int32)
 // read log of the specified cluster instance
 func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string, clusterName string, workloadName string, o ...GetClusterInstanceLogOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  string
-		optionalParams GetClusterInstanceLogOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue string
+		optionalParams      GetClusterInstanceLogOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterInstanceLogOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterInstanceLogOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetClusterInstanceLog")
 	if err != nil {
@@ -527,8 +507,7 @@ func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string,
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -550,11 +529,10 @@ func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401{
+		if localVarHTTPResponse.StatusCode == 401 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -568,7 +546,7 @@ func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -579,7 +557,7 @@ func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string,
 
 // GetClusterManifestOptionalParameters holds optional parameters for GetClusterManifest.
 type GetClusterManifestOptionalParameters struct {
-	OpsType *OpsType
+	OpsType   *OpsType
 	Component *string
 }
 
@@ -588,11 +566,13 @@ func NewGetClusterManifestOptionalParameters() *GetClusterManifestOptionalParame
 	this := GetClusterManifestOptionalParameters{}
 	return &this
 }
+
 // WithOpsType sets the corresponding parameter name and returns the struct.
 func (r *GetClusterManifestOptionalParameters) WithOpsType(opsType OpsType) *GetClusterManifestOptionalParameters {
 	r.OpsType = &opsType
 	return r
 }
+
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *GetClusterManifestOptionalParameters) WithComponent(component string) *GetClusterManifestOptionalParameters {
 	r.Component = &component
@@ -602,20 +582,18 @@ func (r *GetClusterManifestOptionalParameters) WithComponent(component string) *
 // GetClusterManifest Get cluster manifests of kubernetes.
 func (a *ClusterApi) GetClusterManifest(ctx _context.Context, orgName string, clusterName string, manifestType ManifestType, o ...GetClusterManifestOptionalParameters) (KubernetesManifestList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  KubernetesManifestList
-		optionalParams GetClusterManifestOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue KubernetesManifestList
+		optionalParams      GetClusterManifestOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterManifestOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetClusterManifestOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetClusterManifest")
 	if err != nil {
@@ -638,8 +616,7 @@ func (a *ClusterApi) GetClusterManifest(ctx _context.Context, orgName string, cl
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -661,11 +638,10 @@ func (a *ClusterApi) GetClusterManifest(ctx _context.Context, orgName string, cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -679,7 +655,7 @@ func (a *ClusterApi) GetClusterManifest(ctx _context.Context, orgName string, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -691,12 +667,10 @@ func (a *ClusterApi) GetClusterManifest(ctx _context.Context, orgName string, cl
 // GetInstacesMetrics Get instaces metrics in cluster.
 func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, clusterName string) (InstanceMetricsList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  InstanceMetricsList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue InstanceMetricsList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetInstacesMetrics")
 	if err != nil {
@@ -712,8 +686,7 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -735,11 +708,10 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 409{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -753,7 +725,7 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -765,13 +737,13 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 // ListClusterOptionalParameters holds optional parameters for ListCluster.
 type ListClusterOptionalParameters struct {
 	ClusterDefinition *string
-	EnvironmentName *string
-	EnvironmentType *EnvironmentType
-	TagKey *string
-	TagValue *string
-	TagKeys *[]string
-	TagValues *[]string
-	LicenseId *int32
+	EnvironmentName   *string
+	EnvironmentType   *EnvironmentType
+	TagKey            *string
+	TagValue          *string
+	TagKeys           *[]string
+	TagValues         *[]string
+	LicenseId         *int32
 }
 
 // NewListClusterOptionalParameters creates an empty struct for parameters.
@@ -779,41 +751,49 @@ func NewListClusterOptionalParameters() *ListClusterOptionalParameters {
 	this := ListClusterOptionalParameters{}
 	return &this
 }
+
 // WithClusterDefinition sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithClusterDefinition(clusterDefinition string) *ListClusterOptionalParameters {
 	r.ClusterDefinition = &clusterDefinition
 	return r
 }
+
 // WithEnvironmentName sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithEnvironmentName(environmentName string) *ListClusterOptionalParameters {
 	r.EnvironmentName = &environmentName
 	return r
 }
+
 // WithEnvironmentType sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithEnvironmentType(environmentType EnvironmentType) *ListClusterOptionalParameters {
 	r.EnvironmentType = &environmentType
 	return r
 }
+
 // WithTagKey sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithTagKey(tagKey string) *ListClusterOptionalParameters {
 	r.TagKey = &tagKey
 	return r
 }
+
 // WithTagValue sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithTagValue(tagValue string) *ListClusterOptionalParameters {
 	r.TagValue = &tagValue
 	return r
 }
+
 // WithTagKeys sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithTagKeys(tagKeys []string) *ListClusterOptionalParameters {
 	r.TagKeys = &tagKeys
 	return r
 }
+
 // WithTagValues sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithTagValues(tagValues []string) *ListClusterOptionalParameters {
 	r.TagValues = &tagValues
 	return r
 }
+
 // WithLicenseId sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithLicenseId(licenseId int32) *ListClusterOptionalParameters {
 	r.LicenseId = &licenseId
@@ -823,20 +803,18 @@ func (r *ListClusterOptionalParameters) WithLicenseId(licenseId int32) *ListClus
 // ListCluster List clusters in the Org.
 func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...ListClusterOptionalParameters) (ClusterList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  ClusterList
-		optionalParams ListClusterOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterList
+		optionalParams      ListClusterOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListClusterOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListClusterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListCluster")
 	if err != nil {
@@ -891,8 +869,7 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -914,11 +891,10 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -932,7 +908,7 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -952,11 +928,13 @@ func NewListClustersOptionalParameters() *ListClustersOptionalParameters {
 	this := ListClustersOptionalParameters{}
 	return &this
 }
+
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListClustersOptionalParameters) WithOrgName(orgName string) *ListClustersOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
+
 // WithEnvName sets the corresponding parameter name and returns the struct.
 func (r *ListClustersOptionalParameters) WithEnvName(envName string) *ListClustersOptionalParameters {
 	r.EnvName = &envName
@@ -967,20 +945,18 @@ func (r *ListClustersOptionalParameters) WithEnvName(envName string) *ListCluste
 // Get cluster list
 func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptionalParameters) (ClusterList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  ClusterList
-		optionalParams ListClustersOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterList
+		optionalParams      ListClustersOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListClustersOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListClustersOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListClusters")
 	if err != nil {
@@ -1000,8 +976,7 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1023,11 +998,10 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1041,7 +1015,7 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1053,7 +1027,7 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 // ListEndpointsOptionalParameters holds optional parameters for ListEndpoints.
 type ListEndpointsOptionalParameters struct {
 	NodePortHostCount *int32
-	IncludeClusterIp *bool
+	IncludeClusterIp  *bool
 }
 
 // NewListEndpointsOptionalParameters creates an empty struct for parameters.
@@ -1061,11 +1035,13 @@ func NewListEndpointsOptionalParameters() *ListEndpointsOptionalParameters {
 	this := ListEndpointsOptionalParameters{}
 	return &this
 }
+
 // WithNodePortHostCount sets the corresponding parameter name and returns the struct.
 func (r *ListEndpointsOptionalParameters) WithNodePortHostCount(nodePortHostCount int32) *ListEndpointsOptionalParameters {
 	r.NodePortHostCount = &nodePortHostCount
 	return r
 }
+
 // WithIncludeClusterIp sets the corresponding parameter name and returns the struct.
 func (r *ListEndpointsOptionalParameters) WithIncludeClusterIp(includeClusterIp bool) *ListEndpointsOptionalParameters {
 	r.IncludeClusterIp = &includeClusterIp
@@ -1075,20 +1051,18 @@ func (r *ListEndpointsOptionalParameters) WithIncludeClusterIp(includeClusterIp 
 // ListEndpoints List cluster endpoints.
 func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, clusterName string, o ...ListEndpointsOptionalParameters) (EndpointList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EndpointList
-		optionalParams ListEndpointsOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EndpointList
+		optionalParams      ListEndpointsOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListEndpointsOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEndpointsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListEndpoints")
 	if err != nil {
@@ -1110,8 +1084,7 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1133,11 +1106,10 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1151,7 +1123,7 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1163,12 +1135,10 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 // ListInstance List cluster instances.
 func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterName string) (InstanceList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  InstanceList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue InstanceList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListInstance")
 	if err != nil {
@@ -1184,8 +1154,7 @@ func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterN
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1207,11 +1176,10 @@ func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterN
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1225,7 +1193,7 @@ func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1238,12 +1206,10 @@ func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterN
 // Update the specified Cluster
 func (a *ClusterApi) PatchCluster(ctx _context.Context, orgName string, clusterName string, body ClusterUpdate) (Cluster, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		localVarReturnValue  Cluster
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue Cluster
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.PatchCluster")
 	if err != nil {
@@ -1257,14 +1223,12 @@ func (a *ClusterApi) PatchCluster(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] =  "application/apply-patch+yaml"
+	localVarHeaderParams["Content-Type"] = "application/apply-patch+yaml"
 	localVarHeaderParams["Accept"] = "application/json"
-
-	
 
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1286,11 +1250,10 @@ func (a *ClusterApi) PatchCluster(ctx _context.Context, orgName string, clusterN
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401{
+		if localVarHTTPResponse.StatusCode == 401 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1304,7 +1267,7 @@ func (a *ClusterApi) PatchCluster(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

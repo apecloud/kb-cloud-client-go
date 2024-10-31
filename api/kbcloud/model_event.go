@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Event event is the information of operation event 
+// Event event is the information of operation event
 type Event struct {
 	// ID of the event
 	Id *string `json:"id,omitempty"`
@@ -48,10 +43,9 @@ type Event struct {
 	// event created time
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEvent instantiates a new Event object.
 // This constructor will assign default values to properties that have it defined,
@@ -69,6 +63,7 @@ func NewEventWithDefaults() *Event {
 	this := Event{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Event) GetId() string {
 	if o == nil || o.Id == nil {
@@ -96,7 +91,6 @@ func (o *Event) HasId() bool {
 func (o *Event) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetResourceId returns the ResourceId field value if set, zero value otherwise.
 func (o *Event) GetResourceId() string {
@@ -126,7 +120,6 @@ func (o *Event) SetResourceId(v string) {
 	o.ResourceId = &v
 }
 
-
 // GetResourceType returns the ResourceType field value if set, zero value otherwise.
 func (o *Event) GetResourceType() EventResourceType {
 	if o == nil || o.ResourceType == nil {
@@ -154,7 +147,6 @@ func (o *Event) HasResourceType() bool {
 func (o *Event) SetResourceType(v EventResourceType) {
 	o.ResourceType = &v
 }
-
 
 // GetResourceName returns the ResourceName field value if set, zero value otherwise.
 func (o *Event) GetResourceName() string {
@@ -184,7 +176,6 @@ func (o *Event) SetResourceName(v string) {
 	o.ResourceName = &v
 }
 
-
 // GetOperator returns the Operator field value if set, zero value otherwise.
 func (o *Event) GetOperator() string {
 	if o == nil || o.Operator == nil {
@@ -212,7 +203,6 @@ func (o *Event) HasOperator() bool {
 func (o *Event) SetOperator(v string) {
 	o.Operator = &v
 }
-
 
 // GetOperatorId returns the OperatorId field value if set, zero value otherwise.
 func (o *Event) GetOperatorId() string {
@@ -242,7 +232,6 @@ func (o *Event) SetOperatorId(v string) {
 	o.OperatorId = &v
 }
 
-
 // GetDetails returns the Details field value if set, zero value otherwise.
 func (o *Event) GetDetails() string {
 	if o == nil || o.Details == nil {
@@ -270,7 +259,6 @@ func (o *Event) HasDetails() bool {
 func (o *Event) SetDetails(v string) {
 	o.Details = &v
 }
-
 
 // GetHasTask returns the HasTask field value if set, zero value otherwise.
 func (o *Event) GetHasTask() bool {
@@ -300,7 +288,6 @@ func (o *Event) SetHasTask(v bool) {
 	o.HasTask = &v
 }
 
-
 // GetResult returns the Result field value if set, zero value otherwise.
 func (o *Event) GetResult() string {
 	if o == nil || o.Result == nil {
@@ -328,7 +315,6 @@ func (o *Event) HasResult() bool {
 func (o *Event) SetResult(v string) {
 	o.Result = &v
 }
-
 
 // GetEventName returns the EventName field value if set, zero value otherwise.
 func (o *Event) GetEventName() string {
@@ -358,7 +344,6 @@ func (o *Event) SetEventName(v string) {
 	o.EventName = &v
 }
 
-
 // GetResultStatus returns the ResultStatus field value if set, zero value otherwise.
 func (o *Event) GetResultStatus() EventResultStatus {
 	if o == nil || o.ResultStatus == nil {
@@ -386,7 +371,6 @@ func (o *Event) HasResultStatus() bool {
 func (o *Event) SetResultStatus(v EventResultStatus) {
 	o.ResultStatus = &v
 }
-
 
 // GetSource returns the Source field value if set, zero value otherwise.
 func (o *Event) GetSource() EventSource {
@@ -416,7 +400,6 @@ func (o *Event) SetSource(v EventSource) {
 	o.Source = &v
 }
 
-
 // GetEnd returns the End field value if set, zero value otherwise.
 func (o *Event) GetEnd() time.Time {
 	if o == nil || o.End == nil {
@@ -444,7 +427,6 @@ func (o *Event) HasEnd() bool {
 func (o *Event) SetEnd(v time.Time) {
 	o.End = &v
 }
-
 
 // GetStart returns the Start field value if set, zero value otherwise.
 func (o *Event) GetStart() time.Time {
@@ -474,7 +456,6 @@ func (o *Event) SetStart(v time.Time) {
 	o.Start = &v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Event) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -502,8 +483,6 @@ func (o *Event) HasCreatedAt() bool {
 func (o *Event) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Event) MarshalJSON() ([]byte, error) {
@@ -578,28 +557,28 @@ func (o Event) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		ResourceId *string `json:"resourceId,omitempty"`
+		Id           *string            `json:"id,omitempty"`
+		ResourceId   *string            `json:"resourceId,omitempty"`
 		ResourceType *EventResourceType `json:"resourceType,omitempty"`
-		ResourceName *string `json:"resourceName,omitempty"`
-		Operator *string `json:"operator,omitempty"`
-		OperatorId *string `json:"operatorId,omitempty"`
-		Details *string `json:"details,omitempty"`
-		HasTask *bool `json:"hasTask,omitempty"`
-		Result *string `json:"result,omitempty"`
-		EventName *string `json:"eventName,omitempty"`
+		ResourceName *string            `json:"resourceName,omitempty"`
+		Operator     *string            `json:"operator,omitempty"`
+		OperatorId   *string            `json:"operatorId,omitempty"`
+		Details      *string            `json:"details,omitempty"`
+		HasTask      *bool              `json:"hasTask,omitempty"`
+		Result       *string            `json:"result,omitempty"`
+		EventName    *string            `json:"eventName,omitempty"`
 		ResultStatus *EventResultStatus `json:"resultStatus,omitempty"`
-		Source *EventSource `json:"source,omitempty"`
-		End *time.Time `json:"end,omitempty"`
-		Start *time.Time `json:"start,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Source       *EventSource       `json:"source,omitempty"`
+		End          *time.Time         `json:"end,omitempty"`
+		Start        *time.Time         `json:"start,omitempty"`
+		CreatedAt    *time.Time         `json:"createdAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "resultStatus", "source", "end", "start", "createdAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "resultStatus", "source", "end", "start", "createdAt"})
 	} else {
 		return err
 	}
@@ -607,7 +586,7 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Id = all.Id
 	o.ResourceId = all.ResourceId
-	if all.ResourceType != nil &&!all.ResourceType.IsValid() {
+	if all.ResourceType != nil && !all.ResourceType.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ResourceType = all.ResourceType
@@ -619,12 +598,12 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	o.HasTask = all.HasTask
 	o.Result = all.Result
 	o.EventName = all.EventName
-	if all.ResultStatus != nil &&!all.ResultStatus.IsValid() {
+	if all.ResultStatus != nil && !all.ResultStatus.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ResultStatus = all.ResultStatus
 	}
-	if all.Source != nil &&!all.Source.IsValid() {
+	if all.Source != nil && !all.Source.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Source = all.Source

@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// InvitationCreate Invitation create payload 
+// InvitationCreate Invitation create payload
 type InvitationCreate struct {
 	// The email of the invitee
 	Email string `json:"email"`
@@ -24,10 +19,9 @@ type InvitationCreate struct {
 	// The name of the role
 	RoleName string `json:"roleName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewInvitationCreate instantiates a new InvitationCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,6 +42,7 @@ func NewInvitationCreateWithDefaults() *InvitationCreate {
 	this := InvitationCreate{}
 	return &this
 }
+
 // GetEmail returns the Email field value.
 func (o *InvitationCreate) GetEmail() string {
 	if o == nil {
@@ -70,7 +65,6 @@ func (o *InvitationCreate) GetEmailOk() (*string, bool) {
 func (o *InvitationCreate) SetEmail(v string) {
 	o.Email = v
 }
-
 
 // GetOrgName returns the OrgName field value.
 func (o *InvitationCreate) GetOrgName() string {
@@ -95,7 +89,6 @@ func (o *InvitationCreate) SetOrgName(v string) {
 	o.OrgName = v
 }
 
-
 // GetRoleName returns the RoleName field value.
 func (o *InvitationCreate) GetRoleName() string {
 	if o == nil {
@@ -119,8 +112,6 @@ func (o *InvitationCreate) SetRoleName(v string) {
 	o.RoleName = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o InvitationCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -140,8 +131,8 @@ func (o InvitationCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InvitationCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Email *string `json:"email"`
-		OrgName *string `json:"orgName"`
+		Email    *string `json:"email"`
+		OrgName  *string `json:"orgName"`
 		RoleName *string `json:"roleName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -158,7 +149,7 @@ func (o *InvitationCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "email", "orgName", "roleName",  })
+		common.DeleteKeys(additionalProperties, &[]string{"email", "orgName", "roleName"})
 	} else {
 		return err
 	}

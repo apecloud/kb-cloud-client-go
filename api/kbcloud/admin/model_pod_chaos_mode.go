@@ -2,28 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // PodChaosMode specify the mode of chaos
 type PodChaosMode string
 
 // List of PodChaosMode.
 const (
-	PodChaosModeOne PodChaosMode = "one"
-	PodChaosModeAll PodChaosMode = "all"
-	PodChaosModeFixed PodChaosMode = "fixed"
-	PodChaosModeFixedPercent PodChaosMode = "fixed-percent"
+	PodChaosModeOne              PodChaosMode = "one"
+	PodChaosModeAll              PodChaosMode = "all"
+	PodChaosModeFixed            PodChaosMode = "fixed"
+	PodChaosModeFixedPercent     PodChaosMode = "fixed-percent"
 	PodChaosModeRandomMaxPercent PodChaosMode = "random-max-percent"
 )
 

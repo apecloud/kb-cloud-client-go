@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// PersistentVolumeClaim persistentVolumeClaim provides detailed information about the PVC . 
+// PersistentVolumeClaim persistentVolumeClaim provides detailed information about the PVC .
 type PersistentVolumeClaim struct {
 	// the namespace of the PVC
 	NameSpace string `json:"nameSpace"`
@@ -32,10 +27,9 @@ type PersistentVolumeClaim struct {
 	// the node of the PVC
 	Node string `json:"node"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPersistentVolumeClaim instantiates a new PersistentVolumeClaim object.
 // This constructor will assign default values to properties that have it defined,
@@ -60,6 +54,7 @@ func NewPersistentVolumeClaimWithDefaults() *PersistentVolumeClaim {
 	this := PersistentVolumeClaim{}
 	return &this
 }
+
 // GetNameSpace returns the NameSpace field value.
 func (o *PersistentVolumeClaim) GetNameSpace() string {
 	if o == nil {
@@ -82,7 +77,6 @@ func (o *PersistentVolumeClaim) GetNameSpaceOk() (*string, bool) {
 func (o *PersistentVolumeClaim) SetNameSpace(v string) {
 	o.NameSpace = v
 }
-
 
 // GetName returns the Name field value.
 func (o *PersistentVolumeClaim) GetName() string {
@@ -107,7 +101,6 @@ func (o *PersistentVolumeClaim) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetPhase returns the Phase field value.
 func (o *PersistentVolumeClaim) GetPhase() string {
 	if o == nil {
@@ -130,7 +123,6 @@ func (o *PersistentVolumeClaim) GetPhaseOk() (*string, bool) {
 func (o *PersistentVolumeClaim) SetPhase(v string) {
 	o.Phase = v
 }
-
 
 // GetCapacity returns the Capacity field value.
 func (o *PersistentVolumeClaim) GetCapacity() string {
@@ -155,7 +147,6 @@ func (o *PersistentVolumeClaim) SetCapacity(v string) {
 	o.Capacity = v
 }
 
-
 // GetAccessMode returns the AccessMode field value.
 func (o *PersistentVolumeClaim) GetAccessMode() string {
 	if o == nil {
@@ -178,7 +169,6 @@ func (o *PersistentVolumeClaim) GetAccessModeOk() (*string, bool) {
 func (o *PersistentVolumeClaim) SetAccessMode(v string) {
 	o.AccessMode = v
 }
-
 
 // GetVolumeName returns the VolumeName field value.
 func (o *PersistentVolumeClaim) GetVolumeName() string {
@@ -203,7 +193,6 @@ func (o *PersistentVolumeClaim) SetVolumeName(v string) {
 	o.VolumeName = v
 }
 
-
 // GetNode returns the Node field value.
 func (o *PersistentVolumeClaim) GetNode() string {
 	if o == nil {
@@ -226,8 +215,6 @@ func (o *PersistentVolumeClaim) GetNodeOk() (*string, bool) {
 func (o *PersistentVolumeClaim) SetNode(v string) {
 	o.Node = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o PersistentVolumeClaim) MarshalJSON() ([]byte, error) {
@@ -252,13 +239,13 @@ func (o PersistentVolumeClaim) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PersistentVolumeClaim) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NameSpace *string `json:"nameSpace"`
-		Name *string `json:"name"`
-		Phase *string `json:"phase"`
-		Capacity *string `json:"capacity"`
+		NameSpace  *string `json:"nameSpace"`
+		Name       *string `json:"name"`
+		Phase      *string `json:"phase"`
+		Capacity   *string `json:"capacity"`
 		AccessMode *string `json:"accessMode"`
 		VolumeName *string `json:"volumeName"`
-		Node *string `json:"node"`
+		Node       *string `json:"node"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -286,7 +273,7 @@ func (o *PersistentVolumeClaim) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "nameSpace", "name", "phase", "capacity", "accessMode", "volumeName", "node",  })
+		common.DeleteKeys(additionalProperties, &[]string{"nameSpace", "name", "phase", "capacity", "accessMode", "volumeName", "node"})
 	} else {
 		return err
 	}

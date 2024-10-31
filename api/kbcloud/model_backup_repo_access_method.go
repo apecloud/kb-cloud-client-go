@@ -2,18 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // BackupRepoAccessMethod the access method for backup repo
 type BackupRepoAccessMethod string
@@ -21,7 +16,7 @@ type BackupRepoAccessMethod string
 // List of BackupRepoAccessMethod.
 const (
 	BackupRepoAccessMethodMount BackupRepoAccessMethod = "Mount"
-	BackupRepoAccessMethodTool BackupRepoAccessMethod = "Tool"
+	BackupRepoAccessMethodTool  BackupRepoAccessMethod = "Tool"
 )
 
 var allowedBackupRepoAccessMethodEnumValues = []BackupRepoAccessMethod{

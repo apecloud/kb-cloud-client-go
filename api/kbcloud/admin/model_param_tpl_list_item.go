@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ParamTplListItem parameter template information 
+// ParamTplListItem parameter template information
 type ParamTplListItem struct {
 	// Name of the organization
 	OrgName *string `json:"orgName,omitempty"`
@@ -36,10 +32,9 @@ type ParamTplListItem struct {
 	// Populated by the system. Read-only. Null for lists
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParamTplListItem instantiates a new ParamTplListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -61,6 +56,7 @@ func NewParamTplListItemWithDefaults() *ParamTplListItem {
 	this := ParamTplListItem{}
 	return &this
 }
+
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *ParamTplListItem) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -88,7 +84,6 @@ func (o *ParamTplListItem) HasOrgName() bool {
 func (o *ParamTplListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *ParamTplListItem) GetCreatedAt() time.Time {
@@ -118,7 +113,6 @@ func (o *ParamTplListItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetDescription returns the Description field value.
 func (o *ParamTplListItem) GetDescription() string {
 	if o == nil {
@@ -141,7 +135,6 @@ func (o *ParamTplListItem) GetDescriptionOk() (*string, bool) {
 func (o *ParamTplListItem) SetDescription(v string) {
 	o.Description = v
 }
-
 
 // GetFamily returns the Family field value.
 func (o *ParamTplListItem) GetFamily() string {
@@ -166,7 +159,6 @@ func (o *ParamTplListItem) SetFamily(v string) {
 	o.Family = v
 }
 
-
 // GetName returns the Name field value.
 func (o *ParamTplListItem) GetName() string {
 	if o == nil {
@@ -190,7 +182,6 @@ func (o *ParamTplListItem) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetPartition returns the Partition field value.
 func (o *ParamTplListItem) GetPartition() string {
 	if o == nil {
@@ -213,7 +204,6 @@ func (o *ParamTplListItem) GetPartitionOk() (*string, bool) {
 func (o *ParamTplListItem) SetPartition(v string) {
 	o.Partition = v
 }
-
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *ParamTplListItem) GetUpdatedAt() time.Time {
@@ -242,8 +232,6 @@ func (o *ParamTplListItem) HasUpdatedAt() bool {
 func (o *ParamTplListItem) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
@@ -282,13 +270,13 @@ func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName *string `json:"orgName,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		Description *string `json:"description"`
-		Family *string `json:"family"`
-		Name *string `json:"name"`
-		Partition *string `json:"partition"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		OrgName     *string    `json:"orgName,omitempty"`
+		CreatedAt   *time.Time `json:"createdAt,omitempty"`
+		Description *string    `json:"description"`
+		Family      *string    `json:"family"`
+		Name        *string    `json:"name"`
+		Partition   *string    `json:"partition"`
+		UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -307,7 +295,7 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "orgName", "createdAt", "description", "family", "name", "partition", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "family", "name", "partition", "updatedAt"})
 	} else {
 		return err
 	}

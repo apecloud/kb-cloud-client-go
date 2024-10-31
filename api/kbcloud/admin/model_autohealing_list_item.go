@@ -2,21 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type AutohealingListItem struct {
-	Name *string `json:"name,omitempty"`
+	Name      *string    `json:"name,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// component to be rebuilt
@@ -28,18 +23,17 @@ type AutohealingListItem struct {
 	// current phase of rebuild job
 	Phase *string `json:"phase,omitempty"`
 	// whether the job is started
-	Started *bool `json:"started,omitempty"`
+	Started      *bool   `json:"started,omitempty"`
 	StartMessage *string `json:"startMessage,omitempty"`
 	// whether the job is finished
-	Finished *bool `json:"finished,omitempty"`
-	FinishMessage *string `json:"finishMessage,omitempty"`
-	BackupName *string `json:"backupName,omitempty"`
+	Finished                      *bool   `json:"finished,omitempty"`
+	FinishMessage                 *string `json:"finishMessage,omitempty"`
+	BackupName                    *string `json:"backupName,omitempty"`
 	RebuildInstanceOpsRequestName *string `json:"rebuildInstanceOpsRequestName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAutohealingListItem instantiates a new AutohealingListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -57,6 +51,7 @@ func NewAutohealingListItemWithDefaults() *AutohealingListItem {
 	this := AutohealingListItem{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetName() string {
 	if o == nil || o.Name == nil {
@@ -84,7 +79,6 @@ func (o *AutohealingListItem) HasName() bool {
 func (o *AutohealingListItem) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetCreatedAt() time.Time {
@@ -114,7 +108,6 @@ func (o *AutohealingListItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -142,7 +135,6 @@ func (o *AutohealingListItem) HasUpdatedAt() bool {
 func (o *AutohealingListItem) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
 
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetComponentName() string {
@@ -172,7 +164,6 @@ func (o *AutohealingListItem) SetComponentName(v string) {
 	o.ComponentName = &v
 }
 
-
 // GetPodName returns the PodName field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetPodName() string {
 	if o == nil || o.PodName == nil {
@@ -200,7 +191,6 @@ func (o *AutohealingListItem) HasPodName() bool {
 func (o *AutohealingListItem) SetPodName(v string) {
 	o.PodName = &v
 }
-
 
 // GetStartTime returns the StartTime field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetStartTime() time.Time {
@@ -230,7 +220,6 @@ func (o *AutohealingListItem) SetStartTime(v time.Time) {
 	o.StartTime = &v
 }
 
-
 // GetPhase returns the Phase field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetPhase() string {
 	if o == nil || o.Phase == nil {
@@ -258,7 +247,6 @@ func (o *AutohealingListItem) HasPhase() bool {
 func (o *AutohealingListItem) SetPhase(v string) {
 	o.Phase = &v
 }
-
 
 // GetStarted returns the Started field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetStarted() bool {
@@ -288,7 +276,6 @@ func (o *AutohealingListItem) SetStarted(v bool) {
 	o.Started = &v
 }
 
-
 // GetStartMessage returns the StartMessage field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetStartMessage() string {
 	if o == nil || o.StartMessage == nil {
@@ -316,7 +303,6 @@ func (o *AutohealingListItem) HasStartMessage() bool {
 func (o *AutohealingListItem) SetStartMessage(v string) {
 	o.StartMessage = &v
 }
-
 
 // GetFinished returns the Finished field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetFinished() bool {
@@ -346,7 +332,6 @@ func (o *AutohealingListItem) SetFinished(v bool) {
 	o.Finished = &v
 }
 
-
 // GetFinishMessage returns the FinishMessage field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetFinishMessage() string {
 	if o == nil || o.FinishMessage == nil {
@@ -374,7 +359,6 @@ func (o *AutohealingListItem) HasFinishMessage() bool {
 func (o *AutohealingListItem) SetFinishMessage(v string) {
 	o.FinishMessage = &v
 }
-
 
 // GetBackupName returns the BackupName field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetBackupName() string {
@@ -404,7 +388,6 @@ func (o *AutohealingListItem) SetBackupName(v string) {
 	o.BackupName = &v
 }
 
-
 // GetRebuildInstanceOpsRequestName returns the RebuildInstanceOpsRequestName field value if set, zero value otherwise.
 func (o *AutohealingListItem) GetRebuildInstanceOpsRequestName() string {
 	if o == nil || o.RebuildInstanceOpsRequestName == nil {
@@ -432,8 +415,6 @@ func (o *AutohealingListItem) HasRebuildInstanceOpsRequestName() bool {
 func (o *AutohealingListItem) SetRebuildInstanceOpsRequestName(v string) {
 	o.RebuildInstanceOpsRequestName = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AutohealingListItem) MarshalJSON() ([]byte, error) {
@@ -502,26 +483,26 @@ func (o AutohealingListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AutohealingListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-		ComponentName *string `json:"componentName,omitempty"`
-		PodName *string `json:"podName,omitempty"`
-		StartTime *time.Time `json:"startTime,omitempty"`
-		Phase *string `json:"phase,omitempty"`
-		Started *bool `json:"started,omitempty"`
-		StartMessage *string `json:"startMessage,omitempty"`
-		Finished *bool `json:"finished,omitempty"`
-		FinishMessage *string `json:"finishMessage,omitempty"`
-		BackupName *string `json:"backupName,omitempty"`
-		RebuildInstanceOpsRequestName *string `json:"rebuildInstanceOpsRequestName,omitempty"`
+		Name                          *string    `json:"name,omitempty"`
+		CreatedAt                     *time.Time `json:"createdAt,omitempty"`
+		UpdatedAt                     *time.Time `json:"updatedAt,omitempty"`
+		ComponentName                 *string    `json:"componentName,omitempty"`
+		PodName                       *string    `json:"podName,omitempty"`
+		StartTime                     *time.Time `json:"startTime,omitempty"`
+		Phase                         *string    `json:"phase,omitempty"`
+		Started                       *bool      `json:"started,omitempty"`
+		StartMessage                  *string    `json:"startMessage,omitempty"`
+		Finished                      *bool      `json:"finished,omitempty"`
+		FinishMessage                 *string    `json:"finishMessage,omitempty"`
+		BackupName                    *string    `json:"backupName,omitempty"`
+		RebuildInstanceOpsRequestName *string    `json:"rebuildInstanceOpsRequestName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "createdAt", "updatedAt", "componentName", "podName", "startTime", "phase", "started", "startMessage", "finished", "finishMessage", "backupName", "rebuildInstanceOpsRequestName",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "createdAt", "updatedAt", "componentName", "podName", "startTime", "phase", "started", "startMessage", "finished", "finishMessage", "backupName", "rebuildInstanceOpsRequestName"})
 	} else {
 		return err
 	}

@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// NodeGroupUpdate NodeGroup patch info 
+// NodeGroupUpdate NodeGroup patch info
 type NodeGroupUpdate struct {
 	// NodeGroup description
 	Description common.NullableString `json:"description,omitempty"`
-	Nodes []NodeOperation `json:"nodes,omitempty"`
+	Nodes       []NodeOperation       `json:"nodes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewNodeGroupUpdate instantiates a new NodeGroupUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewNodeGroupUpdateWithDefaults() *NodeGroupUpdate {
 	this := NodeGroupUpdate{}
 	return &this
 }
+
 // GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NodeGroupUpdate) GetDescription() string {
 	if o == nil || o.Description.Get() == nil {
@@ -55,7 +46,7 @@ func (o *NodeGroupUpdate) GetDescription() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *NodeGroupUpdate) GetDescriptionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Description.Get(), o.Description.IsSet()
@@ -70,6 +61,7 @@ func (o *NodeGroupUpdate) HasDescription() bool {
 func (o *NodeGroupUpdate) SetDescription(v string) {
 	o.Description.Set(&v)
 }
+
 // SetDescriptionNil sets the value for Description to be an explicit nil.
 func (o *NodeGroupUpdate) SetDescriptionNil() {
 	o.Description.Set(nil)
@@ -79,7 +71,6 @@ func (o *NodeGroupUpdate) SetDescriptionNil() {
 func (o *NodeGroupUpdate) UnsetDescription() {
 	o.Description.Unset()
 }
-
 
 // GetNodes returns the Nodes field value if set, zero value otherwise.
 func (o *NodeGroupUpdate) GetNodes() []NodeOperation {
@@ -109,8 +100,6 @@ func (o *NodeGroupUpdate) SetNodes(v []NodeOperation) {
 	o.Nodes = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o NodeGroupUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -134,14 +123,14 @@ func (o NodeGroupUpdate) MarshalJSON() ([]byte, error) {
 func (o *NodeGroupUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Description common.NullableString `json:"description,omitempty"`
-		Nodes []NodeOperation `json:"nodes,omitempty"`
+		Nodes       []NodeOperation       `json:"nodes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "description", "nodes",  })
+		common.DeleteKeys(additionalProperties, &[]string{"description", "nodes"})
 	} else {
 		return err
 	}

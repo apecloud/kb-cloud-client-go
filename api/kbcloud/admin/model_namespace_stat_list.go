@@ -2,27 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// NamespaceStatList NamespaceStatList stands for stats for environment namespaces 
+// NamespaceStatList NamespaceStatList stands for stats for environment namespaces
 type NamespaceStatList struct {
 	Items []NamespaceInfo `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewNamespaceStatList instantiates a new NamespaceStatList object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +35,7 @@ func NewNamespaceStatListWithDefaults() *NamespaceStatList {
 	this := NamespaceStatList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *NamespaceStatList) GetItems() []NamespaceInfo {
 	if o == nil {
@@ -63,8 +58,6 @@ func (o *NamespaceStatList) GetItemsOk() (*[]NamespaceInfo, bool) {
 func (o *NamespaceStatList) SetItems(v []NamespaceInfo) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o NamespaceStatList) MarshalJSON() ([]byte, error) {
@@ -93,7 +86,7 @@ func (o *NamespaceStatList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

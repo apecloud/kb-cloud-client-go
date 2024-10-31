@@ -2,36 +2,31 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// AdminUser Admin user info 
+// AdminUser Admin user info
 type AdminUser struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`
 	// The email for the user
 	Email *string `json:"email,omitempty"`
 	// The phonenumber for the user.
-	PhoneNumber *string `json:"phoneNumber,omitempty"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
+	PhoneNumber *string   `json:"phoneNumber,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
 	// return true if the default admin user need to reset password
 	IsDefaultPassword bool `json:"isDefaultPassword"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAdminUser instantiates a new AdminUser object.
 // This constructor will assign default values to properties that have it defined,
@@ -53,6 +48,7 @@ func NewAdminUserWithDefaults() *AdminUser {
 	this := AdminUser{}
 	return &this
 }
+
 // GetUserName returns the UserName field value.
 func (o *AdminUser) GetUserName() string {
 	if o == nil {
@@ -75,7 +71,6 @@ func (o *AdminUser) GetUserNameOk() (*string, bool) {
 func (o *AdminUser) SetUserName(v string) {
 	o.UserName = v
 }
-
 
 // GetEmail returns the Email field value if set, zero value otherwise.
 func (o *AdminUser) GetEmail() string {
@@ -105,7 +100,6 @@ func (o *AdminUser) SetEmail(v string) {
 	o.Email = &v
 }
 
-
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
 func (o *AdminUser) GetPhoneNumber() string {
 	if o == nil || o.PhoneNumber == nil {
@@ -134,7 +128,6 @@ func (o *AdminUser) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value.
 func (o *AdminUser) GetCreatedAt() time.Time {
 	if o == nil {
@@ -157,7 +150,6 @@ func (o *AdminUser) GetCreatedAtOk() (*time.Time, bool) {
 func (o *AdminUser) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
-
 
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *AdminUser) GetUpdatedAt() time.Time {
@@ -182,7 +174,6 @@ func (o *AdminUser) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-
 // GetIsDefaultPassword returns the IsDefaultPassword field value.
 func (o *AdminUser) GetIsDefaultPassword() bool {
 	if o == nil {
@@ -205,8 +196,6 @@ func (o *AdminUser) GetIsDefaultPasswordOk() (*bool, bool) {
 func (o *AdminUser) SetIsDefaultPassword(v bool) {
 	o.IsDefaultPassword = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AdminUser) MarshalJSON() ([]byte, error) {
@@ -242,12 +231,12 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		UserName *string `json:"userName"`
-		Email *string `json:"email,omitempty"`
-		PhoneNumber *string `json:"phoneNumber,omitempty"`
-		CreatedAt *time.Time `json:"createdAt"`
-		UpdatedAt *time.Time `json:"updatedAt"`
-		IsDefaultPassword *bool `json:"isDefaultPassword"`
+		UserName          *string    `json:"userName"`
+		Email             *string    `json:"email,omitempty"`
+		PhoneNumber       *string    `json:"phoneNumber,omitempty"`
+		CreatedAt         *time.Time `json:"createdAt"`
+		UpdatedAt         *time.Time `json:"updatedAt"`
+		IsDefaultPassword *bool      `json:"isDefaultPassword"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -266,7 +255,7 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword",  })
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword"})
 	} else {
 		return err
 	}

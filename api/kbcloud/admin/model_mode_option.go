@@ -2,31 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ModeOption struct {
-	Name string `json:"name"`
-	Title LocalizedDescription `json:"title"`
-	Description LocalizedDescription `json:"description"`
-	Components []ModeComponent `json:"components"`
-	Proxy *ModeOptionProxy `json:"proxy,omitempty"`
-	Extra map[string]interface{} `json:"extra,omitempty"`
+	Name        string                 `json:"name"`
+	Title       LocalizedDescription   `json:"title"`
+	Description LocalizedDescription   `json:"description"`
+	Components  []ModeComponent        `json:"components"`
+	Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
+	Extra       map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewModeOption instantiates a new ModeOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,6 +42,7 @@ func NewModeOptionWithDefaults() *ModeOption {
 	this := ModeOption{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *ModeOption) GetName() string {
 	if o == nil {
@@ -70,7 +65,6 @@ func (o *ModeOption) GetNameOk() (*string, bool) {
 func (o *ModeOption) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetTitle returns the Title field value.
 func (o *ModeOption) GetTitle() LocalizedDescription {
@@ -95,7 +89,6 @@ func (o *ModeOption) SetTitle(v LocalizedDescription) {
 	o.Title = v
 }
 
-
 // GetDescription returns the Description field value.
 func (o *ModeOption) GetDescription() LocalizedDescription {
 	if o == nil {
@@ -119,7 +112,6 @@ func (o *ModeOption) SetDescription(v LocalizedDescription) {
 	o.Description = v
 }
 
-
 // GetComponents returns the Components field value.
 func (o *ModeOption) GetComponents() []ModeComponent {
 	if o == nil {
@@ -142,7 +134,6 @@ func (o *ModeOption) GetComponentsOk() (*[]ModeComponent, bool) {
 func (o *ModeOption) SetComponents(v []ModeComponent) {
 	o.Components = v
 }
-
 
 // GetProxy returns the Proxy field value if set, zero value otherwise.
 func (o *ModeOption) GetProxy() ModeOptionProxy {
@@ -172,7 +163,6 @@ func (o *ModeOption) SetProxy(v ModeOptionProxy) {
 	o.Proxy = &v
 }
 
-
 // GetExtra returns the Extra field value if set, zero value otherwise.
 func (o *ModeOption) GetExtra() map[string]interface{} {
 	if o == nil || o.Extra == nil {
@@ -201,8 +191,6 @@ func (o *ModeOption) SetExtra(v map[string]interface{}) {
 	o.Extra = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -229,12 +217,12 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		Title *LocalizedDescription `json:"title"`
-		Description *LocalizedDescription `json:"description"`
-		Components *[]ModeComponent `json:"components"`
-		Proxy *ModeOptionProxy `json:"proxy,omitempty"`
-		Extra map[string]interface{} `json:"extra,omitempty"`
+		Name        *string                `json:"name"`
+		Title       *LocalizedDescription  `json:"title"`
+		Description *LocalizedDescription  `json:"description"`
+		Components  *[]ModeComponent       `json:"components"`
+		Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
+		Extra       map[string]interface{} `json:"extra,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -253,7 +241,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "title", "description", "components", "proxy", "extra",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "components", "proxy", "extra"})
 	} else {
 		return err
 	}
@@ -269,7 +257,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Description = *all.Description
 	o.Components = *all.Components
-	if  all.Proxy != nil && all.Proxy.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Proxy != nil && all.Proxy.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Proxy = all.Proxy

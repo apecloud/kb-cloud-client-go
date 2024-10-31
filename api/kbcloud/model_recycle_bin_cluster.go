@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// RecycleBinCluster KubeBlocks cluster(in recycle bin) information 
+// RecycleBinCluster KubeBlocks cluster(in recycle bin) information
 type RecycleBinCluster struct {
 	// Cluster Recycle Bin ID
 	Id *string `json:"id,omitempty"`
@@ -74,10 +70,9 @@ type RecycleBinCluster struct {
 	// ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRecycleBinCluster instantiates a new RecycleBinCluster object.
 // This constructor will assign default values to properties that have it defined,
@@ -106,6 +101,7 @@ func NewRecycleBinClusterWithDefaults() *RecycleBinCluster {
 	this.SingleZone = &singleZone
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetId() string {
 	if o == nil || o.Id == nil {
@@ -133,7 +129,6 @@ func (o *RecycleBinCluster) HasId() bool {
 func (o *RecycleBinCluster) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetClusterId() string {
@@ -163,7 +158,6 @@ func (o *RecycleBinCluster) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
-
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -191,7 +185,6 @@ func (o *RecycleBinCluster) HasOrgName() bool {
 func (o *RecycleBinCluster) SetOrgName(v string) {
 	o.OrgName = &v
 }
-
 
 // GetCloudProvider returns the CloudProvider field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetCloudProvider() string {
@@ -221,7 +214,6 @@ func (o *RecycleBinCluster) SetCloudProvider(v string) {
 	o.CloudProvider = &v
 }
 
-
 // GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetEnvironmentId() string {
 	if o == nil || o.EnvironmentId == nil {
@@ -250,7 +242,6 @@ func (o *RecycleBinCluster) SetEnvironmentId(v string) {
 	o.EnvironmentId = &v
 }
 
-
 // GetEnvironmentName returns the EnvironmentName field value.
 func (o *RecycleBinCluster) GetEnvironmentName() string {
 	if o == nil {
@@ -273,7 +264,6 @@ func (o *RecycleBinCluster) GetEnvironmentNameOk() (*string, bool) {
 func (o *RecycleBinCluster) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
 }
-
 
 // GetEnvironmentType returns the EnvironmentType field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetEnvironmentType() string {
@@ -303,7 +293,6 @@ func (o *RecycleBinCluster) SetEnvironmentType(v string) {
 	o.EnvironmentType = &v
 }
 
-
 // GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetCloudRegion() string {
 	if o == nil || o.CloudRegion == nil {
@@ -331,7 +320,6 @@ func (o *RecycleBinCluster) HasCloudRegion() bool {
 func (o *RecycleBinCluster) SetCloudRegion(v string) {
 	o.CloudRegion = &v
 }
-
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetNamespace() string {
@@ -361,7 +349,6 @@ func (o *RecycleBinCluster) SetNamespace(v string) {
 	o.Namespace = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *RecycleBinCluster) GetName() string {
 	if o == nil {
@@ -384,7 +371,6 @@ func (o *RecycleBinCluster) GetNameOk() (*string, bool) {
 func (o *RecycleBinCluster) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetHash returns the Hash field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetHash() string {
@@ -414,7 +400,6 @@ func (o *RecycleBinCluster) SetHash(v string) {
 	o.Hash = &v
 }
 
-
 // GetEngine returns the Engine field value.
 func (o *RecycleBinCluster) GetEngine() string {
 	if o == nil {
@@ -437,7 +422,6 @@ func (o *RecycleBinCluster) GetEngineOk() (*string, bool) {
 func (o *RecycleBinCluster) SetEngine(v string) {
 	o.Engine = v
 }
-
 
 // GetValues returns the Values field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetValues() map[string]interface{} {
@@ -467,7 +451,6 @@ func (o *RecycleBinCluster) SetValues(v map[string]interface{}) {
 	o.Values = v
 }
 
-
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetVersion() string {
 	if o == nil || o.Version == nil {
@@ -495,7 +478,6 @@ func (o *RecycleBinCluster) HasVersion() bool {
 func (o *RecycleBinCluster) SetVersion(v string) {
 	o.Version = &v
 }
-
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetReplicas() int32 {
@@ -525,7 +507,6 @@ func (o *RecycleBinCluster) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
-
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetCpu() float64 {
 	if o == nil || o.Cpu == nil {
@@ -553,7 +534,6 @@ func (o *RecycleBinCluster) HasCpu() bool {
 func (o *RecycleBinCluster) SetCpu(v float64) {
 	o.Cpu = &v
 }
-
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetMemory() float64 {
@@ -583,7 +563,6 @@ func (o *RecycleBinCluster) SetMemory(v float64) {
 	o.Memory = &v
 }
 
-
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetStorage() float64 {
 	if o == nil || o.Storage == nil {
@@ -611,7 +590,6 @@ func (o *RecycleBinCluster) HasStorage() bool {
 func (o *RecycleBinCluster) SetStorage(v float64) {
 	o.Storage = &v
 }
-
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetStatus() string {
@@ -641,7 +619,6 @@ func (o *RecycleBinCluster) SetStatus(v string) {
 	o.Status = &v
 }
 
-
 // GetState returns the State field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetState() string {
 	if o == nil || o.State == nil {
@@ -669,7 +646,6 @@ func (o *RecycleBinCluster) HasState() bool {
 func (o *RecycleBinCluster) SetState(v string) {
 	o.State = &v
 }
-
 
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetMode() string {
@@ -699,7 +675,6 @@ func (o *RecycleBinCluster) SetMode(v string) {
 	o.Mode = &v
 }
 
-
 // GetComponents returns the Components field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetComponents() []ComponentsItem {
 	if o == nil || o.Components == nil {
@@ -727,7 +702,6 @@ func (o *RecycleBinCluster) HasComponents() bool {
 func (o *RecycleBinCluster) SetComponents(v []ComponentsItem) {
 	o.Components = v
 }
-
 
 // GetSingleZone returns the SingleZone field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetSingleZone() bool {
@@ -757,7 +731,6 @@ func (o *RecycleBinCluster) SetSingleZone(v bool) {
 	o.SingleZone = &v
 }
 
-
 // GetAvailabilityZones returns the AvailabilityZones field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetAvailabilityZones() []string {
 	if o == nil || o.AvailabilityZones == nil {
@@ -785,7 +758,6 @@ func (o *RecycleBinCluster) HasAvailabilityZones() bool {
 func (o *RecycleBinCluster) SetAvailabilityZones(v []string) {
 	o.AvailabilityZones = v
 }
-
 
 // GetBackup returns the Backup field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetBackup() ClusterBackup {
@@ -815,7 +787,6 @@ func (o *RecycleBinCluster) SetBackup(v ClusterBackup) {
 	o.Backup = &v
 }
 
-
 // GetStoppedAt returns the StoppedAt field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetStoppedAt() time.Time {
 	if o == nil || o.StoppedAt == nil {
@@ -843,7 +814,6 @@ func (o *RecycleBinCluster) HasStoppedAt() bool {
 func (o *RecycleBinCluster) SetStoppedAt(v time.Time) {
 	o.StoppedAt = &v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetCreatedAt() time.Time {
@@ -873,7 +843,6 @@ func (o *RecycleBinCluster) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetExpiredAt returns the ExpiredAt field value if set, zero value otherwise.
 func (o *RecycleBinCluster) GetExpiredAt() time.Time {
 	if o == nil || o.ExpiredAt == nil {
@@ -901,8 +870,6 @@ func (o *RecycleBinCluster) HasExpiredAt() bool {
 func (o *RecycleBinCluster) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o RecycleBinCluster) MarshalJSON() ([]byte, error) {
@@ -1010,34 +977,34 @@ func (o RecycleBinCluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RecycleBinCluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		ClusterId *string `json:"clusterId,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
-		CloudProvider *string `json:"cloudProvider,omitempty"`
-		EnvironmentId *string `json:"environmentId,omitempty"`
-		EnvironmentName *string `json:"environmentName"`
-		EnvironmentType *string `json:"environmentType,omitempty"`
-		CloudRegion *string `json:"cloudRegion,omitempty"`
-		Namespace *string `json:"namespace,omitempty"`
-		Name *string `json:"name"`
-		Hash *string `json:"hash,omitempty"`
-		Engine *string `json:"engine"`
-		Values map[string]interface{} `json:"values,omitempty"`
-		Version *string `json:"version,omitempty"`
-		Replicas *int32 `json:"replicas,omitempty"`
-		Cpu *float64 `json:"cpu,omitempty"`
-		Memory *float64 `json:"memory,omitempty"`
-		Storage *float64 `json:"storage,omitempty"`
-		Status *string `json:"status,omitempty"`
-		State *string `json:"state,omitempty"`
-		Mode *string `json:"mode,omitempty"`
-		Components []ComponentsItem `json:"components,omitempty"`
-		SingleZone *bool `json:"singleZone,omitempty"`
-		AvailabilityZones []string `json:"availabilityZones,omitempty"`
-		Backup *ClusterBackup `json:"backup,omitempty"`
-		StoppedAt *time.Time `json:"stoppedAt,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+		Id                *string                `json:"id,omitempty"`
+		ClusterId         *string                `json:"clusterId,omitempty"`
+		OrgName           *string                `json:"orgName,omitempty"`
+		CloudProvider     *string                `json:"cloudProvider,omitempty"`
+		EnvironmentId     *string                `json:"environmentId,omitempty"`
+		EnvironmentName   *string                `json:"environmentName"`
+		EnvironmentType   *string                `json:"environmentType,omitempty"`
+		CloudRegion       *string                `json:"cloudRegion,omitempty"`
+		Namespace         *string                `json:"namespace,omitempty"`
+		Name              *string                `json:"name"`
+		Hash              *string                `json:"hash,omitempty"`
+		Engine            *string                `json:"engine"`
+		Values            map[string]interface{} `json:"values,omitempty"`
+		Version           *string                `json:"version,omitempty"`
+		Replicas          *int32                 `json:"replicas,omitempty"`
+		Cpu               *float64               `json:"cpu,omitempty"`
+		Memory            *float64               `json:"memory,omitempty"`
+		Storage           *float64               `json:"storage,omitempty"`
+		Status            *string                `json:"status,omitempty"`
+		State             *string                `json:"state,omitempty"`
+		Mode              *string                `json:"mode,omitempty"`
+		Components        []ComponentsItem       `json:"components,omitempty"`
+		SingleZone        *bool                  `json:"singleZone,omitempty"`
+		AvailabilityZones []string               `json:"availabilityZones,omitempty"`
+		Backup            *ClusterBackup         `json:"backup,omitempty"`
+		StoppedAt         *time.Time             `json:"stoppedAt,omitempty"`
+		CreatedAt         *time.Time             `json:"createdAt,omitempty"`
+		ExpiredAt         *time.Time             `json:"expiredAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1053,7 +1020,7 @@ func (o *RecycleBinCluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "clusterId", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "values", "version", "replicas", "cpu", "memory", "storage", "status", "state", "mode", "components", "singleZone", "availabilityZones", "backup", "stoppedAt", "createdAt", "expiredAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "clusterId", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "values", "version", "replicas", "cpu", "memory", "storage", "status", "state", "mode", "components", "singleZone", "availabilityZones", "backup", "stoppedAt", "createdAt", "expiredAt"})
 	} else {
 		return err
 	}
@@ -1083,7 +1050,7 @@ func (o *RecycleBinCluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.Components = all.Components
 	o.SingleZone = all.SingleZone
 	o.AvailabilityZones = all.AvailabilityZones
-	if  all.Backup != nil && all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Backup != nil && all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Backup = all.Backup

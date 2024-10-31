@@ -2,15 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
 	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
 
@@ -24,12 +20,10 @@ type EngineLicenseApi common.Service
 // Create a new engineLicense
 func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile _io.Reader) (EngineLicense, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  EngineLicense
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue EngineLicense
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.CreateEngineLicense")
 	if err != nil {
@@ -44,15 +38,14 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-    formFile := common.FormFile{}
+	formFile := common.FormFile{}
 	formFile.FormFileName = "licenseFile"
 	localVarFile := licenseFile
 	if localVarFile != nil {
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -74,11 +67,10 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -92,7 +84,7 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -105,11 +97,9 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 // delete an engine license
 func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId int32) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.DeleteEngineLicense")
 	if err != nil {
@@ -124,8 +114,7 @@ func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId i
 	localVarQueryParams.Add("licenseId", common.ParameterToString(licenseId, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -147,11 +136,10 @@ func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId i
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -169,12 +157,10 @@ func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId i
 // Get a engineLicense detail
 func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int32) (EngineLicense, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EngineLicense
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EngineLicense
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.EngineLicense")
 	if err != nil {
@@ -189,8 +175,7 @@ func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int32) 
 	localVarQueryParams.Add("licenseId", common.ParameterToString(licenseId, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -212,11 +197,10 @@ func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int32) 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -230,7 +214,7 @@ func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int32) 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -249,6 +233,7 @@ func NewListEngineLicensesOptionalParameters() *ListEngineLicensesOptionalParame
 	this := ListEngineLicensesOptionalParameters{}
 	return &this
 }
+
 // WithEngineName sets the corresponding parameter name and returns the struct.
 func (r *ListEngineLicensesOptionalParameters) WithEngineName(engineName string) *ListEngineLicensesOptionalParameters {
 	r.EngineName = &engineName
@@ -259,20 +244,18 @@ func (r *ListEngineLicensesOptionalParameters) WithEngineName(engineName string)
 // list all engineLicenses
 func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEngineLicensesOptionalParameters) (EngineLicenseList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EngineLicenseList
-		optionalParams ListEngineLicensesOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EngineLicenseList
+		optionalParams      ListEngineLicensesOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineLicensesOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineLicensesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.ListEngineLicenses")
 	if err != nil {
@@ -289,8 +272,7 @@ func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEng
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -312,11 +294,10 @@ func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEng
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -330,7 +311,7 @@ func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEng
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

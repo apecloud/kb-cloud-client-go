@@ -2,34 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 type OpsType string
 
 // List of OpsType.
 const (
-	OpsTypeVerticalScaling OpsType = "VerticalScaling"
+	OpsTypeVerticalScaling   OpsType = "VerticalScaling"
 	OpsTypeHorizontalScaling OpsType = "HorizontalScaling"
-	OpsTypeVolumeExpansion OpsType = "VolumeExpansion"
-	OpsTypeUpgrade OpsType = "Upgrade"
-	OpsTypeReconfiguring OpsType = "Reconfiguring"
-	OpsTypeSwitchover OpsType = "Switchover"
-	OpsTypeRestart OpsType = "Restart"
-	OpsTypeStop OpsType = "Stop"
-	OpsTypeStart OpsType = "Start"
-	OpsTypeExpose OpsType = "Expose"
-	OpsTypeDataScript OpsType = "DataScript"
+	OpsTypeVolumeExpansion   OpsType = "VolumeExpansion"
+	OpsTypeUpgrade           OpsType = "Upgrade"
+	OpsTypeReconfiguring     OpsType = "Reconfiguring"
+	OpsTypeSwitchover        OpsType = "Switchover"
+	OpsTypeRestart           OpsType = "Restart"
+	OpsTypeStop              OpsType = "Stop"
+	OpsTypeStart             OpsType = "Start"
+	OpsTypeExpose            OpsType = "Expose"
+	OpsTypeDataScript        OpsType = "DataScript"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{

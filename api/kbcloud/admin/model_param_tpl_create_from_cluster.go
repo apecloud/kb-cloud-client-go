@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ParamTplCreateFromCluster parameter template create 
+// ParamTplCreateFromCluster parameter template create
 type ParamTplCreateFromCluster struct {
 	// Description of parameter template
 	Description string `json:"description"`
@@ -26,10 +21,9 @@ type ParamTplCreateFromCluster struct {
 	// database engine Version
 	EngineVersion *string `json:"engineVersion,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewParamTplCreateFromCluster instantiates a new ParamTplCreateFromCluster object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +43,7 @@ func NewParamTplCreateFromClusterWithDefaults() *ParamTplCreateFromCluster {
 	this := ParamTplCreateFromCluster{}
 	return &this
 }
+
 // GetDescription returns the Description field value.
 func (o *ParamTplCreateFromCluster) GetDescription() string {
 	if o == nil {
@@ -72,7 +67,6 @@ func (o *ParamTplCreateFromCluster) SetDescription(v string) {
 	o.Description = v
 }
 
-
 // GetName returns the Name field value.
 func (o *ParamTplCreateFromCluster) GetName() string {
 	if o == nil {
@@ -95,7 +89,6 @@ func (o *ParamTplCreateFromCluster) GetNameOk() (*string, bool) {
 func (o *ParamTplCreateFromCluster) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *ParamTplCreateFromCluster) GetComponent() string {
@@ -125,7 +118,6 @@ func (o *ParamTplCreateFromCluster) SetComponent(v string) {
 	o.Component = &v
 }
 
-
 // GetEngineVersion returns the EngineVersion field value if set, zero value otherwise.
 func (o *ParamTplCreateFromCluster) GetEngineVersion() string {
 	if o == nil || o.EngineVersion == nil {
@@ -154,8 +146,6 @@ func (o *ParamTplCreateFromCluster) SetEngineVersion(v string) {
 	o.EngineVersion = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplCreateFromCluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -180,9 +170,9 @@ func (o ParamTplCreateFromCluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplCreateFromCluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description *string `json:"description"`
-		Name *string `json:"name"`
-		Component *string `json:"component,omitempty"`
+		Description   *string `json:"description"`
+		Name          *string `json:"name"`
+		Component     *string `json:"component,omitempty"`
 		EngineVersion *string `json:"engineVersion,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -196,7 +186,7 @@ func (o *ParamTplCreateFromCluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "description", "name", "component", "engineVersion",  })
+		common.DeleteKeys(additionalProperties, &[]string{"description", "name", "component", "engineVersion"})
 	} else {
 		return err
 	}

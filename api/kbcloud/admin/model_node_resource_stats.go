@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// NodeResourceStats ResourceStats holds the requests, limits, and available stats for a resource. 
+// NodeResourceStats ResourceStats holds the requests, limits, and available stats for a resource.
 type NodeResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`
@@ -26,10 +21,9 @@ type NodeResourceStats struct {
 	// Name of the node.
 	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewNodeResourceStats instantiates a new NodeResourceStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +45,7 @@ func NewNodeResourceStatsWithDefaults() *NodeResourceStats {
 	this := NodeResourceStats{}
 	return &this
 }
+
 // GetCpuStats returns the CpuStats field value.
 func (o *NodeResourceStats) GetCpuStats() ResourceStats {
 	if o == nil {
@@ -73,7 +68,6 @@ func (o *NodeResourceStats) GetCpuStatsOk() (*ResourceStats, bool) {
 func (o *NodeResourceStats) SetCpuStats(v ResourceStats) {
 	o.CpuStats = v
 }
-
 
 // GetMemoryStats returns the MemoryStats field value.
 func (o *NodeResourceStats) GetMemoryStats() ResourceStats {
@@ -98,7 +92,6 @@ func (o *NodeResourceStats) SetMemoryStats(v ResourceStats) {
 	o.MemoryStats = v
 }
 
-
 // GetEphemeralStorageStats returns the EphemeralStorageStats field value.
 func (o *NodeResourceStats) GetEphemeralStorageStats() ResourceStats {
 	if o == nil {
@@ -121,7 +114,6 @@ func (o *NodeResourceStats) GetEphemeralStorageStatsOk() (*ResourceStats, bool) 
 func (o *NodeResourceStats) SetEphemeralStorageStats(v ResourceStats) {
 	o.EphemeralStorageStats = v
 }
-
 
 // GetName returns the Name field value.
 func (o *NodeResourceStats) GetName() string {
@@ -146,8 +138,6 @@ func (o *NodeResourceStats) SetName(v string) {
 	o.Name = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -168,10 +158,10 @@ func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CpuStats *ResourceStats `json:"cpuStats"`
-		MemoryStats *ResourceStats `json:"memoryStats"`
+		CpuStats              *ResourceStats `json:"cpuStats"`
+		MemoryStats           *ResourceStats `json:"memoryStats"`
 		EphemeralStorageStats *ResourceStats `json:"ephemeralStorageStats"`
-		Name *string `json:"name"`
+		Name                  *string        `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -190,7 +180,7 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cpuStats", "memoryStats", "ephemeralStorageStats", "name",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name"})
 	} else {
 		return err
 	}

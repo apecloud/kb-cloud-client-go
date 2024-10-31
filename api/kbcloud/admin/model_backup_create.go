@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// BackupCreate BackupCreate is the payload to create a KubeBlocks cluster backup 
+// BackupCreate BackupCreate is the payload to create a KubeBlocks cluster backup
 type BackupCreate struct {
 	// name of the backup, if not specified, a name will be generated automatically
 	Name *string `json:"name,omitempty"`
 	// specified the backup method
 	BackupMethod string `json:"backupMethod"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupCreate instantiates a new BackupCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +38,7 @@ func NewBackupCreateWithDefaults() *BackupCreate {
 	this := BackupCreate{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *BackupCreate) GetName() string {
 	if o == nil || o.Name == nil {
@@ -72,7 +67,6 @@ func (o *BackupCreate) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetBackupMethod returns the BackupMethod field value.
 func (o *BackupCreate) GetBackupMethod() string {
 	if o == nil {
@@ -96,8 +90,6 @@ func (o *BackupCreate) SetBackupMethod(v string) {
 	o.BackupMethod = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -118,7 +110,7 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
+		Name         *string `json:"name,omitempty"`
 		BackupMethod *string `json:"backupMethod"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -129,7 +121,7 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "backupMethod",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "backupMethod"})
 	} else {
 		return err
 	}

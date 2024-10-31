@@ -2,19 +2,14 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type Metadb_backup struct {
 	// the path of storaging backups
 	Path *string `json:"path,omitempty"`
@@ -27,10 +22,9 @@ type Metadb_backup struct {
 	// name of the backup
 	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewMetadb_backup instantiates a new Metadb_backup object.
 // This constructor will assign default values to properties that have it defined,
@@ -52,6 +46,7 @@ func NewMetadb_backupWithDefaults() *Metadb_backup {
 	this := Metadb_backup{}
 	return &this
 }
+
 // GetPath returns the Path field value if set, zero value otherwise.
 func (o *Metadb_backup) GetPath() string {
 	if o == nil || o.Path == nil {
@@ -80,7 +75,6 @@ func (o *Metadb_backup) SetPath(v string) {
 	o.Path = &v
 }
 
-
 // GetCompletionTimestamp returns the CompletionTimestamp field value.
 func (o *Metadb_backup) GetCompletionTimestamp() string {
 	if o == nil {
@@ -103,7 +97,6 @@ func (o *Metadb_backup) GetCompletionTimestampOk() (*string, bool) {
 func (o *Metadb_backup) SetCompletionTimestamp(v string) {
 	o.CompletionTimestamp = v
 }
-
 
 // GetCreationTimestamp returns the CreationTimestamp field value.
 func (o *Metadb_backup) GetCreationTimestamp() string {
@@ -128,7 +121,6 @@ func (o *Metadb_backup) SetCreationTimestamp(v string) {
 	o.CreationTimestamp = v
 }
 
-
 // GetDuration returns the Duration field value.
 func (o *Metadb_backup) GetDuration() string {
 	if o == nil {
@@ -151,7 +143,6 @@ func (o *Metadb_backup) GetDurationOk() (*string, bool) {
 func (o *Metadb_backup) SetDuration(v string) {
 	o.Duration = v
 }
-
 
 // GetName returns the Name field value.
 func (o *Metadb_backup) GetName() string {
@@ -176,8 +167,6 @@ func (o *Metadb_backup) SetName(v string) {
 	o.Name = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Metadb_backup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -201,11 +190,11 @@ func (o Metadb_backup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Metadb_backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Path *string `json:"path,omitempty"`
+		Path                *string `json:"path,omitempty"`
 		CompletionTimestamp *string `json:"completionTimestamp"`
-		CreationTimestamp *string `json:"creationTimestamp"`
-		Duration *string `json:"duration"`
-		Name *string `json:"name"`
+		CreationTimestamp   *string `json:"creationTimestamp"`
+		Duration            *string `json:"duration"`
+		Name                *string `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -224,7 +213,7 @@ func (o *Metadb_backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "path", "completionTimestamp", "creationTimestamp", "duration", "name",  })
+		common.DeleteKeys(additionalProperties, &[]string{"path", "completionTimestamp", "creationTimestamp", "duration", "name"})
 	} else {
 		return err
 	}

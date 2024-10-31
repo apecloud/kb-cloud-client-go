@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// StorageConfigBackup the storage config for backup 
+// StorageConfigBackup the storage config for backup
 type StorageConfigBackup struct {
 	// the name of storage
 	StorageName string `json:"storageName"`
@@ -24,10 +19,9 @@ type StorageConfigBackup struct {
 	// judge whether to set the backup is default which will be init
 	DefaultBackupRepo bool `json:"defaultBackupRepo"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageConfigBackup instantiates a new StorageConfigBackup object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,6 +42,7 @@ func NewStorageConfigBackupWithDefaults() *StorageConfigBackup {
 	this := StorageConfigBackup{}
 	return &this
 }
+
 // GetStorageName returns the StorageName field value.
 func (o *StorageConfigBackup) GetStorageName() string {
 	if o == nil {
@@ -70,7 +65,6 @@ func (o *StorageConfigBackup) GetStorageNameOk() (*string, bool) {
 func (o *StorageConfigBackup) SetStorageName(v string) {
 	o.StorageName = v
 }
-
 
 // GetBackupRepoName returns the BackupRepoName field value.
 func (o *StorageConfigBackup) GetBackupRepoName() string {
@@ -95,7 +89,6 @@ func (o *StorageConfigBackup) SetBackupRepoName(v string) {
 	o.BackupRepoName = v
 }
 
-
 // GetDefaultBackupRepo returns the DefaultBackupRepo field value.
 func (o *StorageConfigBackup) GetDefaultBackupRepo() bool {
 	if o == nil {
@@ -119,8 +112,6 @@ func (o *StorageConfigBackup) SetDefaultBackupRepo(v bool) {
 	o.DefaultBackupRepo = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageConfigBackup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -140,9 +131,9 @@ func (o StorageConfigBackup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageConfigBackup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StorageName *string `json:"storageName"`
-		BackupRepoName *string `json:"backupRepoName"`
-		DefaultBackupRepo *bool `json:"defaultBackupRepo"`
+		StorageName       *string `json:"storageName"`
+		BackupRepoName    *string `json:"backupRepoName"`
+		DefaultBackupRepo *bool   `json:"defaultBackupRepo"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -158,7 +149,7 @@ func (o *StorageConfigBackup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "storageName", "backupRepoName", "defaultBackupRepo",  })
+		common.DeleteKeys(additionalProperties, &[]string{"storageName", "backupRepoName", "defaultBackupRepo"})
 	} else {
 		return err
 	}

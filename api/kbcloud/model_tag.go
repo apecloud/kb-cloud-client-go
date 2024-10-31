@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Tag tag info 
+// Tag tag info
 type Tag struct {
 	// The id of the tag
 	Id string `json:"id"`
@@ -24,10 +19,9 @@ type Tag struct {
 	// The value corresponding to the key
 	Value *string `json:"value,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTag instantiates a new Tag object.
 // This constructor will assign default values to properties that have it defined,
@@ -46,6 +40,7 @@ func NewTagWithDefaults() *Tag {
 	this := Tag{}
 	return &this
 }
+
 // GetId returns the Id field value.
 func (o *Tag) GetId() string {
 	if o == nil {
@@ -68,7 +63,6 @@ func (o *Tag) GetIdOk() (*string, bool) {
 func (o *Tag) SetId(v string) {
 	o.Id = v
 }
-
 
 // GetKey returns the Key field value if set, zero value otherwise.
 func (o *Tag) GetKey() string {
@@ -98,7 +92,6 @@ func (o *Tag) SetKey(v string) {
 	o.Key = &v
 }
 
-
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *Tag) GetValue() string {
 	if o == nil || o.Value == nil {
@@ -127,8 +120,6 @@ func (o *Tag) SetValue(v string) {
 	o.Value = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Tag) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -152,8 +143,8 @@ func (o Tag) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Tag) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id"`
-		Key *string `json:"key,omitempty"`
+		Id    *string `json:"id"`
+		Key   *string `json:"key,omitempty"`
 		Value *string `json:"value,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -164,7 +155,7 @@ func (o *Tag) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "key", "value",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "key", "value"})
 	} else {
 		return err
 	}

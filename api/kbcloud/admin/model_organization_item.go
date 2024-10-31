@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// OrganizationItem Organization items. 
+// OrganizationItem Organization items.
 type OrganizationItem struct {
 	// The name of the organization.
 	Name string `json:"name"`
@@ -30,10 +26,9 @@ type OrganizationItem struct {
 	// The time the organization was created.
 	CreatedAt time.Time `json:"createdAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOrganizationItem instantiates a new OrganizationItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -57,6 +52,7 @@ func NewOrganizationItemWithDefaults() *OrganizationItem {
 	this := OrganizationItem{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *OrganizationItem) GetName() string {
 	if o == nil {
@@ -79,7 +75,6 @@ func (o *OrganizationItem) GetNameOk() (*string, bool) {
 func (o *OrganizationItem) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetDisplayName returns the DisplayName field value.
 func (o *OrganizationItem) GetDisplayName() string {
@@ -104,7 +99,6 @@ func (o *OrganizationItem) SetDisplayName(v string) {
 	o.DisplayName = v
 }
 
-
 // GetCreator returns the Creator field value.
 func (o *OrganizationItem) GetCreator() string {
 	if o == nil {
@@ -127,7 +121,6 @@ func (o *OrganizationItem) GetCreatorOk() (*string, bool) {
 func (o *OrganizationItem) SetCreator(v string) {
 	o.Creator = v
 }
-
 
 // GetCreatorId returns the CreatorId field value.
 func (o *OrganizationItem) GetCreatorId() string {
@@ -152,7 +145,6 @@ func (o *OrganizationItem) SetCreatorId(v string) {
 	o.CreatorId = v
 }
 
-
 // GetClusterTotal returns the ClusterTotal field value.
 func (o *OrganizationItem) GetClusterTotal() int32 {
 	if o == nil {
@@ -176,7 +168,6 @@ func (o *OrganizationItem) SetClusterTotal(v int32) {
 	o.ClusterTotal = v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value.
 func (o *OrganizationItem) GetCreatedAt() time.Time {
 	if o == nil {
@@ -199,8 +190,6 @@ func (o *OrganizationItem) GetCreatedAtOk() (*time.Time, bool) {
 func (o *OrganizationItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o OrganizationItem) MarshalJSON() ([]byte, error) {
@@ -228,12 +217,12 @@ func (o OrganizationItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		DisplayName *string `json:"displayName"`
-		Creator *string `json:"creator"`
-		CreatorId *string `json:"creatorID"`
-		ClusterTotal *int32 `json:"clusterTotal"`
-		CreatedAt *time.Time `json:"createdAt"`
+		Name         *string    `json:"name"`
+		DisplayName  *string    `json:"displayName"`
+		Creator      *string    `json:"creator"`
+		CreatorId    *string    `json:"creatorID"`
+		ClusterTotal *int32     `json:"clusterTotal"`
+		CreatedAt    *time.Time `json:"createdAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -258,7 +247,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "displayName", "creator", "creatorID", "clusterTotal", "createdAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "displayName", "creator", "creatorID", "clusterTotal", "createdAt"})
 	} else {
 		return err
 	}

@@ -44,17 +44,10 @@ func WithFakeAuth(ctx context.Context) context.Context {
 func WithTestAuth(ctx context.Context) context.Context {
 	return context.WithValue(
 		ctx,
-		common.ContextAPIKeys,
-		map[string]common.APIKey{
-			"BearerToken": {
-				Key: os.Getenv("KB_CLOUD_TEST_CLIENT_BEARER_TOKEN"),
-			},
-			"apiKeyAuth": {
-				Key: os.Getenv("KB_CLOUD_TEST_CLIENT_API_KEY"),
-			},
-			"appKeyAuth": {
-				Key: os.Getenv("KB_CLOUD_TEST_CLIENT_APP_KEY"),
-			},
+		common.ContextDigestAuth,
+		common.DigestAuth{
+			UserName: os.Getenv("KB_CLOUD_TEST_API_KEY_NAME"),
+			Password: os.Getenv("KB_CLOUD_TEST_API_KEY_SECRET"),
 		},
 	)
 }

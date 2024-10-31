@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster 
+// ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster
 type ClusterUpdate struct {
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
 	Replicas *int32 `json:"replicas,omitempty"`
@@ -38,10 +29,9 @@ type ClusterUpdate struct {
 	// Tolerations of cluster
 	Tolerations *string `json:"tolerations,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClusterUpdate instantiates a new ClusterUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -63,6 +53,7 @@ func NewClusterUpdateWithDefaults() *ClusterUpdate {
 	this.TerminationPolicy = &terminationPolicy
 	return &this
 }
+
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetReplicas() int32 {
 	if o == nil || o.Replicas == nil {
@@ -90,7 +81,6 @@ func (o *ClusterUpdate) HasReplicas() bool {
 func (o *ClusterUpdate) SetReplicas(v int32) {
 	o.Replicas = &v
 }
-
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetCpu() float64 {
@@ -120,7 +110,6 @@ func (o *ClusterUpdate) SetCpu(v float64) {
 	o.Cpu = &v
 }
 
-
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetMemory() float64 {
 	if o == nil || o.Memory == nil {
@@ -148,7 +137,6 @@ func (o *ClusterUpdate) HasMemory() bool {
 func (o *ClusterUpdate) SetMemory(v float64) {
 	o.Memory = &v
 }
-
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetStorage() float64 {
@@ -178,7 +166,6 @@ func (o *ClusterUpdate) SetStorage(v float64) {
 	o.Storage = &v
 }
 
-
 // GetTerminationPolicy returns the TerminationPolicy field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetTerminationPolicy() ClusterTerminationPolicy {
 	if o == nil || o.TerminationPolicy == nil {
@@ -206,7 +193,6 @@ func (o *ClusterUpdate) HasTerminationPolicy() bool {
 func (o *ClusterUpdate) SetTerminationPolicy(v ClusterTerminationPolicy) {
 	o.TerminationPolicy = &v
 }
-
 
 // GetMonitorEnabled returns the MonitorEnabled field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetMonitorEnabled() bool {
@@ -236,7 +222,6 @@ func (o *ClusterUpdate) SetMonitorEnabled(v bool) {
 	o.MonitorEnabled = &v
 }
 
-
 // GetVpcEndpointEnabled returns the VpcEndpointEnabled field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetVpcEndpointEnabled() bool {
 	if o == nil || o.VpcEndpointEnabled == nil {
@@ -264,7 +249,6 @@ func (o *ClusterUpdate) HasVpcEndpointEnabled() bool {
 func (o *ClusterUpdate) SetVpcEndpointEnabled(v bool) {
 	o.VpcEndpointEnabled = &v
 }
-
 
 // GetInternetEndpointEnabled returns the InternetEndpointEnabled field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetInternetEndpointEnabled() bool {
@@ -294,7 +278,6 @@ func (o *ClusterUpdate) SetInternetEndpointEnabled(v bool) {
 	o.InternetEndpointEnabled = &v
 }
 
-
 // GetParamTpls returns the ParamTpls field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetParamTpls() []ParamTplsItem {
 	if o == nil || o.ParamTpls == nil {
@@ -323,7 +306,6 @@ func (o *ClusterUpdate) SetParamTpls(v []ParamTplsItem) {
 	o.ParamTpls = v
 }
 
-
 // GetTolerations returns the Tolerations field value if set, zero value otherwise.
 func (o *ClusterUpdate) GetTolerations() string {
 	if o == nil || o.Tolerations == nil {
@@ -351,8 +333,6 @@ func (o *ClusterUpdate) HasTolerations() bool {
 func (o *ClusterUpdate) SetTolerations(v string) {
 	o.Tolerations = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
@@ -400,23 +380,23 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Replicas *int32 `json:"replicas,omitempty"`
-		Cpu *float64 `json:"cpu,omitempty"`
-		Memory *float64 `json:"memory,omitempty"`
-		Storage *float64 `json:"storage,omitempty"`
-		TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		MonitorEnabled *bool `json:"monitorEnabled,omitempty"`
-		VpcEndpointEnabled *bool `json:"vpcEndpointEnabled,omitempty"`
-		InternetEndpointEnabled *bool `json:"internetEndpointEnabled,omitempty"`
-		ParamTpls []ParamTplsItem `json:"paramTpls,omitempty"`
-		Tolerations *string `json:"tolerations,omitempty"`
+		Replicas                *int32                    `json:"replicas,omitempty"`
+		Cpu                     *float64                  `json:"cpu,omitempty"`
+		Memory                  *float64                  `json:"memory,omitempty"`
+		Storage                 *float64                  `json:"storage,omitempty"`
+		TerminationPolicy       *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
+		MonitorEnabled          *bool                     `json:"monitorEnabled,omitempty"`
+		VpcEndpointEnabled      *bool                     `json:"vpcEndpointEnabled,omitempty"`
+		InternetEndpointEnabled *bool                     `json:"internetEndpointEnabled,omitempty"`
+		ParamTpls               []ParamTplsItem           `json:"paramTpls,omitempty"`
+		Tolerations             *string                   `json:"tolerations,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "paramTpls", "tolerations",  })
+		common.DeleteKeys(additionalProperties, &[]string{"replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "paramTpls", "tolerations"})
 	} else {
 		return err
 	}
@@ -426,7 +406,7 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.Storage = all.Storage
-	if all.TerminationPolicy != nil &&!all.TerminationPolicy.IsValid() {
+	if all.TerminationPolicy != nil && !all.TerminationPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.TerminationPolicy = all.TerminationPolicy

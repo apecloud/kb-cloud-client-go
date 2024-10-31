@@ -2,30 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// RoleCreate Role create 
+// RoleCreate Role create
 type RoleCreate struct {
 	// The name of the role
 	Name *string `json:"name,omitempty"`
 	// The description of the role
 	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRoleCreate instantiates a new RoleCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +33,7 @@ func NewRoleCreateWithDefaults() *RoleCreate {
 	this := RoleCreate{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *RoleCreate) GetName() string {
 	if o == nil || o.Name == nil {
@@ -70,7 +61,6 @@ func (o *RoleCreate) HasName() bool {
 func (o *RoleCreate) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *RoleCreate) GetDescription() string {
@@ -100,8 +90,6 @@ func (o *RoleCreate) SetDescription(v string) {
 	o.Description = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o RoleCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -124,7 +112,7 @@ func (o RoleCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
+		Name        *string `json:"name,omitempty"`
 		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -132,7 +120,7 @@ func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "description",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
 	} else {
 		return err
 	}

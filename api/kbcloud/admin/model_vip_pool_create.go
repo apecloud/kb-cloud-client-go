@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// VipPoolCreate VIP Pool create 
+// VipPoolCreate VIP Pool create
 type VipPoolCreate struct {
 	// IP Addresses
 	Addresses string `json:"addresses"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewVipPoolCreate instantiates a new VipPoolCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewVipPoolCreateWithDefaults() *VipPoolCreate {
 	this := VipPoolCreate{}
 	return &this
 }
+
 // GetAddresses returns the Addresses field value.
 func (o *VipPoolCreate) GetAddresses() string {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *VipPoolCreate) GetAddressesOk() (*string, bool) {
 func (o *VipPoolCreate) SetAddresses(v string) {
 	o.Addresses = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o VipPoolCreate) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *VipPoolCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "addresses",  })
+		common.DeleteKeys(additionalProperties, &[]string{"addresses"})
 	} else {
 		return err
 	}

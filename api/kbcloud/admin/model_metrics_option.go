@@ -2,26 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type MetricsOption struct {
 	ReplicationLag *MetricsOptionReplicationLag `json:"replicationLag,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewMetricsOption instantiates a new MetricsOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,6 +29,7 @@ func NewMetricsOptionWithDefaults() *MetricsOption {
 	this := MetricsOption{}
 	return &this
 }
+
 // GetReplicationLag returns the ReplicationLag field value if set, zero value otherwise.
 func (o *MetricsOption) GetReplicationLag() MetricsOptionReplicationLag {
 	if o == nil || o.ReplicationLag == nil {
@@ -67,8 +58,6 @@ func (o *MetricsOption) SetReplicationLag(v MetricsOptionReplicationLag) {
 	o.ReplicationLag = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o MetricsOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -95,13 +84,13 @@ func (o *MetricsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "replicationLag",  })
+		common.DeleteKeys(additionalProperties, &[]string{"replicationLag"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if  all.ReplicationLag != nil && all.ReplicationLag.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.ReplicationLag != nil && all.ReplicationLag.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.ReplicationLag = all.ReplicationLag

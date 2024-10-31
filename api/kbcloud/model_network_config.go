@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// NetworkConfig Configuration of networking for this environment 
+// NetworkConfig Configuration of networking for this environment
 type NetworkConfig struct {
 	// Enable node port service for this environment
 	NodePortEnabled *bool `json:"nodePortEnabled,omitempty"`
@@ -24,10 +15,9 @@ type NetworkConfig struct {
 	// Enable the Internet load balancer service for this environment
 	InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewNetworkConfig instantiates a new NetworkConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -57,6 +47,7 @@ func NewNetworkConfigWithDefaults() *NetworkConfig {
 	this.InternetLbEnabled = &internetLbEnabled
 	return &this
 }
+
 // GetNodePortEnabled returns the NodePortEnabled field value if set, zero value otherwise.
 func (o *NetworkConfig) GetNodePortEnabled() bool {
 	if o == nil || o.NodePortEnabled == nil {
@@ -84,7 +75,6 @@ func (o *NetworkConfig) HasNodePortEnabled() bool {
 func (o *NetworkConfig) SetNodePortEnabled(v bool) {
 	o.NodePortEnabled = &v
 }
-
 
 // GetLbEnabled returns the LbEnabled field value if set, zero value otherwise.
 func (o *NetworkConfig) GetLbEnabled() bool {
@@ -114,7 +104,6 @@ func (o *NetworkConfig) SetLbEnabled(v bool) {
 	o.LbEnabled = &v
 }
 
-
 // GetInternetLbEnabled returns the InternetLbEnabled field value if set, zero value otherwise.
 func (o *NetworkConfig) GetInternetLbEnabled() bool {
 	if o == nil || o.InternetLbEnabled == nil {
@@ -143,8 +132,6 @@ func (o *NetworkConfig) SetInternetLbEnabled(v bool) {
 	o.InternetLbEnabled = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o NetworkConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -170,8 +157,8 @@ func (o NetworkConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NetworkConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NodePortEnabled *bool `json:"nodePortEnabled,omitempty"`
-		LbEnabled *bool `json:"lbEnabled,omitempty"`
+		NodePortEnabled   *bool `json:"nodePortEnabled,omitempty"`
+		LbEnabled         *bool `json:"lbEnabled,omitempty"`
 		InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -179,7 +166,7 @@ func (o *NetworkConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "nodePortEnabled", "lbEnabled", "internetLBEnabled",  })
+		common.DeleteKeys(additionalProperties, &[]string{"nodePortEnabled", "lbEnabled", "internetLBEnabled"})
 	} else {
 		return err
 	}

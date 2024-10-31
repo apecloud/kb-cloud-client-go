@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// StorageProviderSchemaProps the schema properties for storage provider parameters 
+// StorageProviderSchemaProps the schema properties for storage provider parameters
 type StorageProviderSchemaProps struct {
 	// default value for the parameter
 	Default interface{} `json:"default,omitempty"`
@@ -24,10 +15,9 @@ type StorageProviderSchemaProps struct {
 	// type of the parameter
 	Type *string `json:"type,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageProviderSchemaProps instantiates a new StorageProviderSchemaProps object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +35,7 @@ func NewStorageProviderSchemaPropsWithDefaults() *StorageProviderSchemaProps {
 	this := StorageProviderSchemaProps{}
 	return &this
 }
+
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *StorageProviderSchemaProps) GetDefault() interface{} {
 	if o == nil || o.Default == nil {
@@ -72,7 +63,6 @@ func (o *StorageProviderSchemaProps) HasDefault() bool {
 func (o *StorageProviderSchemaProps) SetDefault(v interface{}) {
 	o.Default = v
 }
-
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *StorageProviderSchemaProps) GetDescription() string {
@@ -102,7 +92,6 @@ func (o *StorageProviderSchemaProps) SetDescription(v string) {
 	o.Description = &v
 }
 
-
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *StorageProviderSchemaProps) GetType() string {
 	if o == nil || o.Type == nil {
@@ -131,8 +120,6 @@ func (o *StorageProviderSchemaProps) SetType(v string) {
 	o.Type = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProviderSchemaProps) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -158,16 +145,16 @@ func (o StorageProviderSchemaProps) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProviderSchemaProps) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Default interface{} `json:"default,omitempty"`
-		Description *string `json:"description,omitempty"`
-		Type *string `json:"type,omitempty"`
+		Default     interface{} `json:"default,omitempty"`
+		Description *string     `json:"description,omitempty"`
+		Type        *string     `json:"type,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "default", "description", "type",  })
+		common.DeleteKeys(additionalProperties, &[]string{"default", "description", "type"})
 	} else {
 		return err
 	}

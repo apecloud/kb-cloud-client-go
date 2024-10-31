@@ -2,26 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // EnvironmentRegisterType Configuration for privisoining environment resources
 type EnvironmentRegisterType string
 
 // List of EnvironmentRegisterType.
 const (
-	EnvironmentRegisterTypeKubeconfig EnvironmentRegisterType = "kubeconfig"
-	EnvironmentRegisterTypeIac EnvironmentRegisterType = "iac"
+	EnvironmentRegisterTypeKubeconfig   EnvironmentRegisterType = "kubeconfig"
+	EnvironmentRegisterTypeIac          EnvironmentRegisterType = "iac"
 	EnvironmentRegisterTypeConnectAgent EnvironmentRegisterType = "connect-agent"
 )
 

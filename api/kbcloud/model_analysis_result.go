@@ -2,27 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type AnalysisResult struct {
 	Explanation *string `json:"explanation,omitempty"`
-	Error *string `json:"error,omitempty"`
+	Error       *string `json:"error,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAnalysisResult instantiates a new AnalysisResult object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,6 +30,7 @@ func NewAnalysisResultWithDefaults() *AnalysisResult {
 	this := AnalysisResult{}
 	return &this
 }
+
 // GetExplanation returns the Explanation field value if set, zero value otherwise.
 func (o *AnalysisResult) GetExplanation() string {
 	if o == nil || o.Explanation == nil {
@@ -67,7 +58,6 @@ func (o *AnalysisResult) HasExplanation() bool {
 func (o *AnalysisResult) SetExplanation(v string) {
 	o.Explanation = &v
 }
-
 
 // GetError returns the Error field value if set, zero value otherwise.
 func (o *AnalysisResult) GetError() string {
@@ -97,8 +87,6 @@ func (o *AnalysisResult) SetError(v string) {
 	o.Error = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AnalysisResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -122,14 +110,14 @@ func (o AnalysisResult) MarshalJSON() ([]byte, error) {
 func (o *AnalysisResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Explanation *string `json:"explanation,omitempty"`
-		Error *string `json:"error,omitempty"`
+		Error       *string `json:"error,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "explanation", "error",  })
+		common.DeleteKeys(additionalProperties, &[]string{"explanation", "error"})
 	} else {
 		return err
 	}

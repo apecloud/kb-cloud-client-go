@@ -2,15 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
 
@@ -23,12 +18,10 @@ type MetadbApi common.Service
 // GetMetadbInstancesMetrics Get instances metrics in metadb.
 func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_instanceMetricsList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Metadb_instanceMetricsList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Metadb_instanceMetricsList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.GetMetadbInstancesMetrics")
 	if err != nil {
@@ -42,8 +35,7 @@ func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_inst
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -65,11 +57,10 @@ func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_inst
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 409{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -83,7 +74,7 @@ func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_inst
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -95,7 +86,7 @@ func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_inst
 // GetPostgresClusterInfoOptionalParameters holds optional parameters for GetPostgresClusterInfo.
 type GetPostgresClusterInfoOptionalParameters struct {
 	ClusterName *string
-	Namespace *string
+	Namespace   *string
 }
 
 // NewGetPostgresClusterInfoOptionalParameters creates an empty struct for parameters.
@@ -103,11 +94,13 @@ func NewGetPostgresClusterInfoOptionalParameters() *GetPostgresClusterInfoOption
 	this := GetPostgresClusterInfoOptionalParameters{}
 	return &this
 }
+
 // WithClusterName sets the corresponding parameter name and returns the struct.
 func (r *GetPostgresClusterInfoOptionalParameters) WithClusterName(clusterName string) *GetPostgresClusterInfoOptionalParameters {
 	r.ClusterName = &clusterName
 	return r
 }
+
 // WithNamespace sets the corresponding parameter name and returns the struct.
 func (r *GetPostgresClusterInfoOptionalParameters) WithNamespace(namespace string) *GetPostgresClusterInfoOptionalParameters {
 	r.Namespace = &namespace
@@ -117,20 +110,18 @@ func (r *GetPostgresClusterInfoOptionalParameters) WithNamespace(namespace strin
 // GetPostgresClusterInfo Get summary of postgresql cluster..
 func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgresClusterInfoOptionalParameters) (Summary, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Summary
-		optionalParams GetPostgresClusterInfoOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Summary
+		optionalParams      GetPostgresClusterInfoOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetPostgresClusterInfoOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetPostgresClusterInfoOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.GetPostgresClusterInfo")
 	if err != nil {
@@ -150,8 +141,7 @@ func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgre
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -173,11 +163,10 @@ func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgre
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -191,7 +180,7 @@ func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgre
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -203,12 +192,10 @@ func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgre
 // ListMetadbBackups List all names of backups in S3..
 func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Metadb_backupList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Metadb_backupList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.ListMetadbBackups")
 	if err != nil {
@@ -222,8 +209,7 @@ func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, 
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -245,11 +231,10 @@ func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -263,7 +248,7 @@ func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -275,12 +260,10 @@ func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, 
 // MetadbBackup Backup metadb to S3(AWS S3 or minio).
 func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Metadb_backup
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Metadb_backup
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbBackup")
 	if err != nil {
@@ -294,8 +277,7 @@ func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -317,11 +299,10 @@ func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -335,7 +316,7 @@ func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -347,12 +328,10 @@ func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp
 // MetadbBackupConfig set backup config.
 func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) (BackupConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		localVarReturnValue  BackupConfig
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue BackupConfig
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbBackupConfig")
 	if err != nil {
@@ -367,11 +346,9 @@ func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -393,11 +370,10 @@ func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -411,7 +387,7 @@ func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -423,12 +399,10 @@ func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) 
 // MetadbBackupGetConfig get backup config.
 func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  BackupConfig
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue BackupConfig
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbBackupGetConfig")
 	if err != nil {
@@ -442,8 +416,7 @@ func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -465,11 +438,10 @@ func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -483,7 +455,7 @@ func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -495,12 +467,10 @@ func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *
 // MetadbCheckRestore Check pods ready after restore.
 func (a *MetadbApi) MetadbCheckRestore(ctx _context.Context, body Metadb_restore) (Metadb_restore, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Metadb_restore
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Metadb_restore
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbCheckRestore")
 	if err != nil {
@@ -515,11 +485,9 @@ func (a *MetadbApi) MetadbCheckRestore(ctx _context.Context, body Metadb_restore
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -541,11 +509,10 @@ func (a *MetadbApi) MetadbCheckRestore(ctx _context.Context, body Metadb_restore
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v None
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -559,7 +526,7 @@ func (a *MetadbApi) MetadbCheckRestore(ctx _context.Context, body Metadb_restore
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -571,12 +538,10 @@ func (a *MetadbApi) MetadbCheckRestore(ctx _context.Context, body Metadb_restore
 // MetadbListInstances List metadb cluster instances.
 func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Metadb_instanceList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Metadb_instanceList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbListInstances")
 	if err != nil {
@@ -590,8 +555,7 @@ func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceLi
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -613,11 +577,10 @@ func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceLi
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -631,7 +594,7 @@ func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceLi
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -643,12 +606,10 @@ func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceLi
 // MetadbRestore Restore metadb.
 func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Metadb_restore, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Metadb_restore
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Metadb_restore
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbRestore")
 	if err != nil {
@@ -663,11 +624,9 @@ func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Me
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -689,11 +648,10 @@ func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Me
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -707,7 +665,7 @@ func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Me
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -719,12 +677,10 @@ func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Me
 // MetadbVerticalScale vertical scale.
 func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vscale, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Vscale
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Vscale
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbVerticalScale")
 	if err != nil {
@@ -739,11 +695,9 @@ func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vsca
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -765,11 +719,10 @@ func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vsca
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -783,7 +736,7 @@ func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vsca
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -795,12 +748,10 @@ func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vsca
 // MetadbVolumeExpand Expand cluster volume size.
 func (a *MetadbApi) MetadbVolumeExpand(ctx _context.Context, body VolumeExpand) (VolumeExpand, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  VolumeExpand
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue VolumeExpand
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbVolumeExpand")
 	if err != nil {
@@ -815,11 +766,9 @@ func (a *MetadbApi) MetadbVolumeExpand(ctx _context.Context, body VolumeExpand) 
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -841,11 +790,10 @@ func (a *MetadbApi) MetadbVolumeExpand(ctx _context.Context, body VolumeExpand) 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -859,7 +807,7 @@ func (a *MetadbApi) MetadbVolumeExpand(ctx _context.Context, body VolumeExpand) 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

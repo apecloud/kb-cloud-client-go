@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -24,11 +20,9 @@ type InvitationApi common.Service
 // partially update the specified Invitation
 func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.AcceptInvitation")
 	if err != nil {
@@ -43,8 +37,7 @@ func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId stri
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -66,11 +59,10 @@ func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -87,7 +79,7 @@ func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId stri
 // CreateInvitationOptionalParameters holds optional parameters for CreateInvitation.
 type CreateInvitationOptionalParameters struct {
 	OrgName *string
-	UserId *string
+	UserId  *string
 }
 
 // NewCreateInvitationOptionalParameters creates an empty struct for parameters.
@@ -95,11 +87,13 @@ func NewCreateInvitationOptionalParameters() *CreateInvitationOptionalParameters
 	this := CreateInvitationOptionalParameters{}
 	return &this
 }
+
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *CreateInvitationOptionalParameters) WithOrgName(orgName string) *CreateInvitationOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
+
 // WithUserId sets the corresponding parameter name and returns the struct.
 func (r *CreateInvitationOptionalParameters) WithUserId(userId string) *CreateInvitationOptionalParameters {
 	r.UserId = &userId
@@ -110,20 +104,18 @@ func (r *CreateInvitationOptionalParameters) WithUserId(userId string) *CreateIn
 // create a Invitation
 func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCreate, o ...CreateInvitationOptionalParameters) (Invitation, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Invitation
-		optionalParams CreateInvitationOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Invitation
+		optionalParams      CreateInvitationOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type CreateInvitationOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateInvitationOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.CreateInvitation")
 	if err != nil {
@@ -144,11 +136,9 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -170,11 +160,10 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401{
+		if localVarHTTPResponse.StatusCode == 401 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -188,7 +177,7 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -201,11 +190,9 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 // delete the specified Invitation for organization admin
 func (a *InvitationApi) DeleteInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.DeleteInvitation")
 	if err != nil {
@@ -220,8 +207,7 @@ func (a *InvitationApi) DeleteInvitation(ctx _context.Context, invitationId stri
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -243,11 +229,10 @@ func (a *InvitationApi) DeleteInvitation(ctx _context.Context, invitationId stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -263,10 +248,10 @@ func (a *InvitationApi) DeleteInvitation(ctx _context.Context, invitationId stri
 
 // ListInvitationOptionalParameters holds optional parameters for ListInvitation.
 type ListInvitationOptionalParameters struct {
-	OrgName *string
-	UserId *string
+	OrgName   *string
+	UserId    *string
 	PageToken *string
-	PageSize *string
+	PageSize  *string
 }
 
 // NewListInvitationOptionalParameters creates an empty struct for parameters.
@@ -274,21 +259,25 @@ func NewListInvitationOptionalParameters() *ListInvitationOptionalParameters {
 	this := ListInvitationOptionalParameters{}
 	return &this
 }
+
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListInvitationOptionalParameters) WithOrgName(orgName string) *ListInvitationOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
+
 // WithUserId sets the corresponding parameter name and returns the struct.
 func (r *ListInvitationOptionalParameters) WithUserId(userId string) *ListInvitationOptionalParameters {
 	r.UserId = &userId
 	return r
 }
+
 // WithPageToken sets the corresponding parameter name and returns the struct.
 func (r *ListInvitationOptionalParameters) WithPageToken(pageToken string) *ListInvitationOptionalParameters {
 	r.PageToken = &pageToken
 	return r
 }
+
 // WithPageSize sets the corresponding parameter name and returns the struct.
 func (r *ListInvitationOptionalParameters) WithPageSize(pageSize string) *ListInvitationOptionalParameters {
 	r.PageSize = &pageSize
@@ -299,20 +288,18 @@ func (r *ListInvitationOptionalParameters) WithPageSize(pageSize string) *ListIn
 // list the Invitation of specified Org or User
 func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitationOptionalParameters) (InvitationList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  InvitationList
-		optionalParams ListInvitationOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue InvitationList
+		optionalParams      ListInvitationOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListInvitationOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListInvitationOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ListInvitation")
 	if err != nil {
@@ -338,8 +325,7 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -361,11 +347,10 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -379,7 +364,7 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -392,12 +377,10 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 // read the specified Invitation for organization admin or invitee
 func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string) (Invitation, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  Invitation
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue Invitation
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ReadInvitation")
 	if err != nil {
@@ -412,8 +395,7 @@ func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -435,11 +417,10 @@ func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -453,7 +434,7 @@ func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -466,11 +447,9 @@ func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string
 // partially update the specified Invitation
 func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.RejectInvitation")
 	if err != nil {
@@ -485,8 +464,7 @@ func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId stri
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -508,11 +486,10 @@ func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -530,11 +507,9 @@ func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId stri
 // partially update the specified Invitation
 func (a *InvitationApi) ResendInvitation(ctx _context.Context, invitationId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ResendInvitation")
 	if err != nil {
@@ -549,8 +524,7 @@ func (a *InvitationApi) ResendInvitation(ctx _context.Context, invitationId stri
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -572,11 +546,10 @@ func (a *InvitationApi) ResendInvitation(ctx _context.Context, invitationId stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

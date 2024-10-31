@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Role Role information 
+// Role Role information
 type Role struct {
 	// The name of the role
 	Name *string `json:"name,omitempty"`
@@ -28,10 +23,9 @@ type Role struct {
 	// The time when the role was updated. Read-Only
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRole instantiates a new Role object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +43,7 @@ func NewRoleWithDefaults() *Role {
 	this := Role{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Role) GetName() string {
 	if o == nil || o.Name == nil {
@@ -76,7 +71,6 @@ func (o *Role) HasName() bool {
 func (o *Role) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Role) GetType() string {
@@ -106,7 +100,6 @@ func (o *Role) SetType(v string) {
 	o.Type = &v
 }
 
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Role) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -134,7 +127,6 @@ func (o *Role) HasDescription() bool {
 func (o *Role) SetDescription(v string) {
 	o.Description = &v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Role) GetCreatedAt() time.Time {
@@ -164,7 +156,6 @@ func (o *Role) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *Role) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -192,8 +183,6 @@ func (o *Role) HasUpdatedAt() bool {
 func (o *Role) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Role) MarshalJSON() ([]byte, error) {
@@ -234,18 +223,18 @@ func (o Role) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Role) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Type *string `json:"type,omitempty"`
-		Description *string `json:"description,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+		Name        *string    `json:"name,omitempty"`
+		Type        *string    `json:"type,omitempty"`
+		Description *string    `json:"description,omitempty"`
+		CreatedAt   *time.Time `json:"createdAt,omitempty"`
+		UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "type", "description", "createdAt", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "description", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}

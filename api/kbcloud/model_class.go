@@ -2,37 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type Class struct {
-	Engine *string `json:"engine,omitempty"`
-	Code *string `json:"code,omitempty"`
-	CodeShort *string `json:"codeShort,omitempty"`
-	Mode *string `json:"mode,omitempty"`
-	Cpu *float64 `json:"cpu,omitempty"`
-	CpuRequest *float64 `json:"cpuRequest,omitempty"`
-	CpuLimit *float64 `json:"cpuLimit,omitempty"`
-	Memory *float64 `json:"memory,omitempty"`
-	MemoryRequest *float64 `json:"memoryRequest,omitempty"`
-	MemoryLimit *float64 `json:"memoryLimit,omitempty"`
-	Component *string `json:"component,omitempty"`
-	Series *ClassSeries `json:"series,omitempty"`
+	Engine        *string      `json:"engine,omitempty"`
+	Code          *string      `json:"code,omitempty"`
+	CodeShort     *string      `json:"codeShort,omitempty"`
+	Mode          *string      `json:"mode,omitempty"`
+	Cpu           *float64     `json:"cpu,omitempty"`
+	CpuRequest    *float64     `json:"cpuRequest,omitempty"`
+	CpuLimit      *float64     `json:"cpuLimit,omitempty"`
+	Memory        *float64     `json:"memory,omitempty"`
+	MemoryRequest *float64     `json:"memoryRequest,omitempty"`
+	MemoryLimit   *float64     `json:"memoryLimit,omitempty"`
+	Component     *string      `json:"component,omitempty"`
+	Series        *ClassSeries `json:"series,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClass instantiates a new Class object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +40,7 @@ func NewClassWithDefaults() *Class {
 	this := Class{}
 	return &this
 }
+
 // GetEngine returns the Engine field value if set, zero value otherwise.
 func (o *Class) GetEngine() string {
 	if o == nil || o.Engine == nil {
@@ -77,7 +68,6 @@ func (o *Class) HasEngine() bool {
 func (o *Class) SetEngine(v string) {
 	o.Engine = &v
 }
-
 
 // GetCode returns the Code field value if set, zero value otherwise.
 func (o *Class) GetCode() string {
@@ -107,7 +97,6 @@ func (o *Class) SetCode(v string) {
 	o.Code = &v
 }
 
-
 // GetCodeShort returns the CodeShort field value if set, zero value otherwise.
 func (o *Class) GetCodeShort() string {
 	if o == nil || o.CodeShort == nil {
@@ -135,7 +124,6 @@ func (o *Class) HasCodeShort() bool {
 func (o *Class) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
-
 
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *Class) GetMode() string {
@@ -165,7 +153,6 @@ func (o *Class) SetMode(v string) {
 	o.Mode = &v
 }
 
-
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *Class) GetCpu() float64 {
 	if o == nil || o.Cpu == nil {
@@ -193,7 +180,6 @@ func (o *Class) HasCpu() bool {
 func (o *Class) SetCpu(v float64) {
 	o.Cpu = &v
 }
-
 
 // GetCpuRequest returns the CpuRequest field value if set, zero value otherwise.
 func (o *Class) GetCpuRequest() float64 {
@@ -223,7 +209,6 @@ func (o *Class) SetCpuRequest(v float64) {
 	o.CpuRequest = &v
 }
 
-
 // GetCpuLimit returns the CpuLimit field value if set, zero value otherwise.
 func (o *Class) GetCpuLimit() float64 {
 	if o == nil || o.CpuLimit == nil {
@@ -251,7 +236,6 @@ func (o *Class) HasCpuLimit() bool {
 func (o *Class) SetCpuLimit(v float64) {
 	o.CpuLimit = &v
 }
-
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *Class) GetMemory() float64 {
@@ -281,7 +265,6 @@ func (o *Class) SetMemory(v float64) {
 	o.Memory = &v
 }
 
-
 // GetMemoryRequest returns the MemoryRequest field value if set, zero value otherwise.
 func (o *Class) GetMemoryRequest() float64 {
 	if o == nil || o.MemoryRequest == nil {
@@ -309,7 +292,6 @@ func (o *Class) HasMemoryRequest() bool {
 func (o *Class) SetMemoryRequest(v float64) {
 	o.MemoryRequest = &v
 }
-
 
 // GetMemoryLimit returns the MemoryLimit field value if set, zero value otherwise.
 func (o *Class) GetMemoryLimit() float64 {
@@ -339,7 +321,6 @@ func (o *Class) SetMemoryLimit(v float64) {
 	o.MemoryLimit = &v
 }
 
-
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *Class) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -368,7 +349,6 @@ func (o *Class) SetComponent(v string) {
 	o.Component = &v
 }
 
-
 // GetSeries returns the Series field value if set, zero value otherwise.
 func (o *Class) GetSeries() ClassSeries {
 	if o == nil || o.Series == nil {
@@ -396,8 +376,6 @@ func (o *Class) HasSeries() bool {
 func (o *Class) SetSeries(v ClassSeries) {
 	o.Series = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Class) MarshalJSON() ([]byte, error) {
@@ -451,25 +429,25 @@ func (o Class) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Engine *string `json:"engine,omitempty"`
-		Code *string `json:"code,omitempty"`
-		CodeShort *string `json:"codeShort,omitempty"`
-		Mode *string `json:"mode,omitempty"`
-		Cpu *float64 `json:"cpu,omitempty"`
-		CpuRequest *float64 `json:"cpuRequest,omitempty"`
-		CpuLimit *float64 `json:"cpuLimit,omitempty"`
-		Memory *float64 `json:"memory,omitempty"`
-		MemoryRequest *float64 `json:"memoryRequest,omitempty"`
-		MemoryLimit *float64 `json:"memoryLimit,omitempty"`
-		Component *string `json:"component,omitempty"`
-		Series *ClassSeries `json:"series,omitempty"`
+		Engine        *string      `json:"engine,omitempty"`
+		Code          *string      `json:"code,omitempty"`
+		CodeShort     *string      `json:"codeShort,omitempty"`
+		Mode          *string      `json:"mode,omitempty"`
+		Cpu           *float64     `json:"cpu,omitempty"`
+		CpuRequest    *float64     `json:"cpuRequest,omitempty"`
+		CpuLimit      *float64     `json:"cpuLimit,omitempty"`
+		Memory        *float64     `json:"memory,omitempty"`
+		MemoryRequest *float64     `json:"memoryRequest,omitempty"`
+		MemoryLimit   *float64     `json:"memoryLimit,omitempty"`
+		Component     *string      `json:"component,omitempty"`
+		Series        *ClassSeries `json:"series,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "engine", "code", "codeShort", "mode", "cpu", "cpuRequest", "cpuLimit", "memory", "memoryRequest", "memoryLimit", "component", "series",  })
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "code", "codeShort", "mode", "cpu", "cpuRequest", "cpuLimit", "memory", "memoryRequest", "memoryLimit", "component", "series"})
 	} else {
 		return err
 	}
@@ -486,7 +464,7 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	o.MemoryRequest = all.MemoryRequest
 	o.MemoryLimit = all.MemoryLimit
 	o.Component = all.Component
-	if all.Series != nil &&!all.Series.IsValid() {
+	if all.Series != nil && !all.Series.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Series = all.Series

@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// PersistentVolumeClaimList the List stands for stats for persistentvolumeclaims. 
+// PersistentVolumeClaimList the List stands for stats for persistentvolumeclaims.
 type PersistentVolumeClaimList struct {
 	Items []PersistentVolumeClaim `json:"items"`
 	// the current page number
@@ -25,10 +20,9 @@ type PersistentVolumeClaimList struct {
 	// the page size
 	PageSize int64 `json:"pageSize"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPersistentVolumeClaimList instantiates a new PersistentVolumeClaimList object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +44,7 @@ func NewPersistentVolumeClaimListWithDefaults() *PersistentVolumeClaimList {
 	this := PersistentVolumeClaimList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *PersistentVolumeClaimList) GetItems() []PersistentVolumeClaim {
 	if o == nil {
@@ -72,7 +67,6 @@ func (o *PersistentVolumeClaimList) GetItemsOk() (*[]PersistentVolumeClaim, bool
 func (o *PersistentVolumeClaimList) SetItems(v []PersistentVolumeClaim) {
 	o.Items = v
 }
-
 
 // GetCurrentPage returns the CurrentPage field value.
 func (o *PersistentVolumeClaimList) GetCurrentPage() int64 {
@@ -97,7 +91,6 @@ func (o *PersistentVolumeClaimList) SetCurrentPage(v int64) {
 	o.CurrentPage = v
 }
 
-
 // GetTotalPage returns the TotalPage field value.
 func (o *PersistentVolumeClaimList) GetTotalPage() int64 {
 	if o == nil {
@@ -120,7 +113,6 @@ func (o *PersistentVolumeClaimList) GetTotalPageOk() (*int64, bool) {
 func (o *PersistentVolumeClaimList) SetTotalPage(v int64) {
 	o.TotalPage = v
 }
-
 
 // GetPageSize returns the PageSize field value.
 func (o *PersistentVolumeClaimList) GetPageSize() int64 {
@@ -145,8 +137,6 @@ func (o *PersistentVolumeClaimList) SetPageSize(v int64) {
 	o.PageSize = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o PersistentVolumeClaimList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -167,10 +157,10 @@ func (o PersistentVolumeClaimList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PersistentVolumeClaimList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]PersistentVolumeClaim `json:"items"`
-		CurrentPage *int64 `json:"currentPage"`
-		TotalPage *int64 `json:"totalPage"`
-		PageSize *int64 `json:"pageSize"`
+		Items       *[]PersistentVolumeClaim `json:"items"`
+		CurrentPage *int64                   `json:"currentPage"`
+		TotalPage   *int64                   `json:"totalPage"`
+		PageSize    *int64                   `json:"pageSize"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -189,7 +179,7 @@ func (o *PersistentVolumeClaimList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items", "currentPage", "totalPage", "pageSize",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items", "currentPage", "totalPage", "pageSize"})
 	} else {
 		return err
 	}

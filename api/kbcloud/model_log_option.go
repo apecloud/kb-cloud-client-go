@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type LogOption struct {
 	Component string `json:"component"`
-	Error bool `json:"error"`
-	Slow bool `json:"slow"`
-	Audit bool `json:"audit"`
-	Running bool `json:"running"`
+	Error     bool   `json:"error"`
+	Slow      bool   `json:"slow"`
+	Audit     bool   `json:"audit"`
+	Running   bool   `json:"running"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewLogOption instantiates a new LogOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,6 +42,7 @@ func NewLogOptionWithDefaults() *LogOption {
 	this := LogOption{}
 	return &this
 }
+
 // GetComponent returns the Component field value.
 func (o *LogOption) GetComponent() string {
 	if o == nil {
@@ -70,7 +65,6 @@ func (o *LogOption) GetComponentOk() (*string, bool) {
 func (o *LogOption) SetComponent(v string) {
 	o.Component = v
 }
-
 
 // GetError returns the Error field value.
 func (o *LogOption) GetError() bool {
@@ -95,7 +89,6 @@ func (o *LogOption) SetError(v bool) {
 	o.Error = v
 }
 
-
 // GetSlow returns the Slow field value.
 func (o *LogOption) GetSlow() bool {
 	if o == nil {
@@ -118,7 +111,6 @@ func (o *LogOption) GetSlowOk() (*bool, bool) {
 func (o *LogOption) SetSlow(v bool) {
 	o.Slow = v
 }
-
 
 // GetAudit returns the Audit field value.
 func (o *LogOption) GetAudit() bool {
@@ -143,7 +135,6 @@ func (o *LogOption) SetAudit(v bool) {
 	o.Audit = v
 }
 
-
 // GetRunning returns the Running field value.
 func (o *LogOption) GetRunning() bool {
 	if o == nil {
@@ -167,8 +158,6 @@ func (o *LogOption) SetRunning(v bool) {
 	o.Running = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -191,10 +180,10 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component *string `json:"component"`
-		Error *bool `json:"error"`
-		Slow *bool `json:"slow"`
-		Audit *bool `json:"audit"`
-		Running *bool `json:"running"`
+		Error     *bool   `json:"error"`
+		Slow      *bool   `json:"slow"`
+		Audit     *bool   `json:"audit"`
+		Running   *bool   `json:"running"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -216,7 +205,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "component", "error", "slow", "audit", "running",  })
+		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running"})
 	} else {
 		return err
 	}

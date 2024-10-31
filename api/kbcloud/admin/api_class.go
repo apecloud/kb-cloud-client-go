@@ -2,15 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
 
@@ -30,6 +25,7 @@ func NewBatchClassOptionalParameters() *BatchClassOptionalParameters {
 	this := BatchClassOptionalParameters{}
 	return &this
 }
+
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *BatchClassOptionalParameters) WithBody(body ClassBatch) *BatchClassOptionalParameters {
 	r.Body = &body
@@ -39,19 +35,17 @@ func (r *BatchClassOptionalParameters) WithBody(body ClassBatch) *BatchClassOpti
 // BatchClass batch update class over-commit.
 func (a *ClassApi) BatchClass(ctx _context.Context, o ...BatchClassOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		optionalParams BatchClassOptionalParameters
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
+		optionalParams     BatchClassOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return nil, common.ReportError("only one argument of type BatchClassOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type BatchClassOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.BatchClass")
 	if err != nil {
@@ -66,13 +60,11 @@ func (a *ClassApi) BatchClass(ctx _context.Context, o ...BatchClassOptionalParam
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -94,11 +86,10 @@ func (a *ClassApi) BatchClass(ctx _context.Context, o ...BatchClassOptionalParam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -122,6 +113,7 @@ func NewCreateClassOptionalParameters() *CreateClassOptionalParameters {
 	this := CreateClassOptionalParameters{}
 	return &this
 }
+
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *CreateClassOptionalParameters) WithBody(body Class) *CreateClassOptionalParameters {
 	r.Body = &body
@@ -131,20 +123,18 @@ func (r *CreateClassOptionalParameters) WithBody(body Class) *CreateClassOptiona
 // CreateClass Create class.
 func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalParameters) (Class, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Class
-		optionalParams CreateClassOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Class
+		optionalParams      CreateClassOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type CreateClassOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateClassOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.CreateClass")
 	if err != nil {
@@ -159,13 +149,11 @@ func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalPar
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -187,11 +175,10 @@ func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalPar
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -205,7 +192,7 @@ func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalPar
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -217,12 +204,10 @@ func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalPar
 // DeleteClass Delete class.
 func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
-		localVarReturnValue  interface{}
+		localVarHTTPMethod  = _nethttp.MethodDelete
+		localVarPostBody    interface{}
+		localVarReturnValue interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.DeleteClass")
 	if err != nil {
@@ -237,8 +222,7 @@ func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, 
 	localVarQueryParams.Add("code", common.ParameterToString(code, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -260,11 +244,10 @@ func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -278,7 +261,7 @@ func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -290,12 +273,10 @@ func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, 
 // ListClasses List classes.
 func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []Class
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []Class
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.ListClasses")
 	if err != nil {
@@ -309,8 +290,7 @@ func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Respons
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -332,11 +312,10 @@ func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Respons
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -350,7 +329,7 @@ func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Respons
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -369,6 +348,7 @@ func NewPatchClassOptionalParameters() *PatchClassOptionalParameters {
 	this := PatchClassOptionalParameters{}
 	return &this
 }
+
 // WithBody sets the corresponding parameter name and returns the struct.
 func (r *PatchClassOptionalParameters) WithBody(body Class) *PatchClassOptionalParameters {
 	r.Body = &body
@@ -378,20 +358,18 @@ func (r *PatchClassOptionalParameters) WithBody(body Class) *PatchClassOptionalP
 // PatchClass Patch class.
 func (a *ClassApi) PatchClass(ctx _context.Context, o ...PatchClassOptionalParameters) (Class, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		localVarReturnValue  Class
-		optionalParams PatchClassOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue Class
+		optionalParams      PatchClassOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type PatchClassOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type PatchClassOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.PatchClass")
 	if err != nil {
@@ -406,13 +384,11 @@ func (a *ClassApi) PatchClass(ctx _context.Context, o ...PatchClassOptionalParam
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -434,11 +410,10 @@ func (a *ClassApi) PatchClass(ctx _context.Context, o ...PatchClassOptionalParam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -452,7 +427,7 @@ func (a *ClassApi) PatchClass(ctx _context.Context, o ...PatchClassOptionalParam
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

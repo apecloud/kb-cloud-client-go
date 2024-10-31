@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// EnvironmentCondition EnvironmentCondition contains details for the current condition of this environment. 
+// EnvironmentCondition EnvironmentCondition contains details for the current condition of this environment.
 type EnvironmentCondition struct {
 	// Human-readable message indicating details about last transition.
 	Message *string `json:"message,omitempty"`
@@ -26,10 +21,9 @@ type EnvironmentCondition struct {
 	// Type is the type of the condition.
 	Type string `json:"type"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEnvironmentCondition instantiates a new EnvironmentCondition object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +43,7 @@ func NewEnvironmentConditionWithDefaults() *EnvironmentCondition {
 	this := EnvironmentCondition{}
 	return &this
 }
+
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *EnvironmentCondition) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -76,7 +71,6 @@ func (o *EnvironmentCondition) HasMessage() bool {
 func (o *EnvironmentCondition) SetMessage(v string) {
 	o.Message = &v
 }
-
 
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *EnvironmentCondition) GetReason() string {
@@ -106,7 +100,6 @@ func (o *EnvironmentCondition) SetReason(v string) {
 	o.Reason = &v
 }
 
-
 // GetStatus returns the Status field value.
 func (o *EnvironmentCondition) GetStatus() EnvironmentConditionStatus {
 	if o == nil {
@@ -130,7 +123,6 @@ func (o *EnvironmentCondition) SetStatus(v EnvironmentConditionStatus) {
 	o.Status = v
 }
 
-
 // GetType returns the Type field value.
 func (o *EnvironmentCondition) GetType() string {
 	if o == nil {
@@ -153,8 +145,6 @@ func (o *EnvironmentCondition) GetTypeOk() (*string, bool) {
 func (o *EnvironmentCondition) SetType(v string) {
 	o.Type = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentCondition) MarshalJSON() ([]byte, error) {
@@ -180,10 +170,10 @@ func (o EnvironmentCondition) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCondition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Message *string `json:"message,omitempty"`
-		Reason *string `json:"reason,omitempty"`
-		Status *EnvironmentConditionStatus `json:"status"`
-		Type *string `json:"type"`
+		Message *string                     `json:"message,omitempty"`
+		Reason  *string                     `json:"reason,omitempty"`
+		Status  *EnvironmentConditionStatus `json:"status"`
+		Type    *string                     `json:"type"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -196,7 +186,7 @@ func (o *EnvironmentCondition) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "message", "reason", "status", "type",  })
+		common.DeleteKeys(additionalProperties, &[]string{"message", "reason", "status", "type"})
 	} else {
 		return err
 	}

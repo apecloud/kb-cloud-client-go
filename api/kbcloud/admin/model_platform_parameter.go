@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// PlatformParameter platformParameter item 
+// PlatformParameter platformParameter item
 type PlatformParameter struct {
 	// platformParameter ID
 	Id string `json:"id"`
@@ -32,10 +27,9 @@ type PlatformParameter struct {
 	// platformParameter description
 	Description string `json:"description"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPlatformParameter instantiates a new PlatformParameter object.
 // This constructor will assign default values to properties that have it defined,
@@ -59,6 +53,7 @@ func NewPlatformParameterWithDefaults() *PlatformParameter {
 	this := PlatformParameter{}
 	return &this
 }
+
 // GetId returns the Id field value.
 func (o *PlatformParameter) GetId() string {
 	if o == nil {
@@ -81,7 +76,6 @@ func (o *PlatformParameter) GetIdOk() (*string, bool) {
 func (o *PlatformParameter) SetId(v string) {
 	o.Id = v
 }
-
 
 // GetName returns the Name field value.
 func (o *PlatformParameter) GetName() string {
@@ -106,7 +100,6 @@ func (o *PlatformParameter) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetCategory returns the Category field value.
 func (o *PlatformParameter) GetCategory() PlatformParameterCategory {
 	if o == nil {
@@ -129,7 +122,6 @@ func (o *PlatformParameter) GetCategoryOk() (*PlatformParameterCategory, bool) {
 func (o *PlatformParameter) SetCategory(v PlatformParameterCategory) {
 	o.Category = v
 }
-
 
 // GetType returns the Type field value.
 func (o *PlatformParameter) GetType() string {
@@ -154,7 +146,6 @@ func (o *PlatformParameter) SetType(v string) {
 	o.Type = v
 }
 
-
 // GetConstraints returns the Constraints field value.
 func (o *PlatformParameter) GetConstraints() PlatformParameterConstraints {
 	if o == nil {
@@ -177,7 +168,6 @@ func (o *PlatformParameter) GetConstraintsOk() (*PlatformParameterConstraints, b
 func (o *PlatformParameter) SetConstraints(v PlatformParameterConstraints) {
 	o.Constraints = v
 }
-
 
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *PlatformParameter) GetValue() string {
@@ -207,7 +197,6 @@ func (o *PlatformParameter) SetValue(v string) {
 	o.Value = &v
 }
 
-
 // GetDescription returns the Description field value.
 func (o *PlatformParameter) GetDescription() string {
 	if o == nil {
@@ -230,8 +219,6 @@ func (o *PlatformParameter) GetDescriptionOk() (*string, bool) {
 func (o *PlatformParameter) SetDescription(v string) {
 	o.Description = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o PlatformParameter) MarshalJSON() ([]byte, error) {
@@ -258,13 +245,13 @@ func (o PlatformParameter) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id"`
-		Name *string `json:"name"`
-		Category *PlatformParameterCategory `json:"category"`
-		Type *string `json:"type"`
+		Id          *string                       `json:"id"`
+		Name        *string                       `json:"name"`
+		Category    *PlatformParameterCategory    `json:"category"`
+		Type        *string                       `json:"type"`
 		Constraints *PlatformParameterConstraints `json:"constraints"`
-		Value *string `json:"value,omitempty"`
-		Description *string `json:"description"`
+		Value       *string                       `json:"value,omitempty"`
+		Description *string                       `json:"description"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -289,7 +276,7 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "category", "type", "constraints", "value", "description",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "category", "type", "constraints", "value", "description"})
 	} else {
 		return err
 	}

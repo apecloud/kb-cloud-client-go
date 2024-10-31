@@ -2,33 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// OpsExpose OpsExpose is the payload to expose a KubeBlocks cluster 
+// OpsExpose OpsExpose is the payload to expose a KubeBlocks cluster
 type OpsExpose struct {
 	Component *string `json:"component,omitempty"`
-	Enable bool `json:"enable"`
+	Enable    bool    `json:"enable"`
 	// Specifies the type of exposure for the KubeBlocks cluster.
 	Type OpsExposeType `json:"type"`
 	// Specifies the type of service for the KubeBlocks cluster.
-	VpcServiceType *OpsExposeVPCServiceType `json:"vpcServiceType,omitempty"`
-	PortsMapping []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
+	VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
+	PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOpsExpose instantiates a new OpsExpose object.
 // This constructor will assign default values to properties that have it defined,
@@ -52,6 +46,7 @@ func NewOpsExposeWithDefaults() *OpsExpose {
 	this.VpcServiceType = &vpcServiceType
 	return &this
 }
+
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsExpose) GetComponent() string {
 	if o == nil || o.Component == nil {
@@ -80,7 +75,6 @@ func (o *OpsExpose) SetComponent(v string) {
 	o.Component = &v
 }
 
-
 // GetEnable returns the Enable field value.
 func (o *OpsExpose) GetEnable() bool {
 	if o == nil {
@@ -104,7 +98,6 @@ func (o *OpsExpose) SetEnable(v bool) {
 	o.Enable = v
 }
 
-
 // GetType returns the Type field value.
 func (o *OpsExpose) GetType() OpsExposeType {
 	if o == nil {
@@ -127,7 +120,6 @@ func (o *OpsExpose) GetTypeOk() (*OpsExposeType, bool) {
 func (o *OpsExpose) SetType(v OpsExposeType) {
 	o.Type = v
 }
-
 
 // GetVpcServiceType returns the VpcServiceType field value if set, zero value otherwise.
 func (o *OpsExpose) GetVpcServiceType() OpsExposeVPCServiceType {
@@ -157,7 +149,6 @@ func (o *OpsExpose) SetVpcServiceType(v OpsExposeVPCServiceType) {
 	o.VpcServiceType = &v
 }
 
-
 // GetPortsMapping returns the PortsMapping field value if set, zero value otherwise.
 func (o *OpsExpose) GetPortsMapping() []OpsExposePortsMappingItem {
 	if o == nil || o.PortsMapping == nil {
@@ -186,8 +177,6 @@ func (o *OpsExpose) SetPortsMapping(v []OpsExposePortsMappingItem) {
 	o.PortsMapping = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -215,11 +204,11 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component,omitempty"`
-		Enable *bool `json:"enable"`
-		Type *OpsExposeType `json:"type"`
-		VpcServiceType *OpsExposeVPCServiceType `json:"vpcServiceType,omitempty"`
-		PortsMapping []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
+		Component      *string                     `json:"component,omitempty"`
+		Enable         *bool                       `json:"enable"`
+		Type           *OpsExposeType              `json:"type"`
+		VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
+		PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -232,7 +221,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "component", "enable", "type", "vpcServiceType", "portsMapping",  })
+		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "type", "vpcServiceType", "portsMapping"})
 	} else {
 		return err
 	}
@@ -245,7 +234,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Type = *all.Type
 	}
-	if all.VpcServiceType != nil &&!all.VpcServiceType.IsValid() {
+	if all.VpcServiceType != nil && !all.VpcServiceType.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.VpcServiceType = all.VpcServiceType

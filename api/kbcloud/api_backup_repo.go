@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -23,11 +19,9 @@ type BackupRepoApi common.Service
 // DeleteBackupRepo Delete backup repo.
 func (a *BackupRepoApi) DeleteBackupRepo(ctx _context.Context, environmentName string, backupRepoName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.DeleteBackupRepo")
 	if err != nil {
@@ -43,8 +37,7 @@ func (a *BackupRepoApi) DeleteBackupRepo(ctx _context.Context, environmentName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -66,11 +59,10 @@ func (a *BackupRepoApi) DeleteBackupRepo(ctx _context.Context, environmentName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -94,6 +86,7 @@ func NewGetBackupRepoOptionalParameters() *GetBackupRepoOptionalParameters {
 	this := GetBackupRepoOptionalParameters{}
 	return &this
 }
+
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *GetBackupRepoOptionalParameters) WithOrgName(orgName string) *GetBackupRepoOptionalParameters {
 	r.OrgName = &orgName
@@ -103,20 +96,18 @@ func (r *GetBackupRepoOptionalParameters) WithOrgName(orgName string) *GetBackup
 // GetBackupRepo Get backup repo.
 func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName string, backupRepoName string, o ...GetBackupRepoOptionalParameters) (BackupRepo, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  BackupRepo
-		optionalParams GetBackupRepoOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue BackupRepo
+		optionalParams      GetBackupRepoOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetBackupRepoOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetBackupRepoOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.GetBackupRepo")
 	if err != nil {
@@ -135,8 +126,7 @@ func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName stri
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -158,11 +148,10 @@ func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -176,7 +165,7 @@ func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName stri
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -188,12 +177,10 @@ func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName stri
 // ListBackupRepos List backup repos.
 func (a *BackupRepoApi) ListBackupRepos(ctx _context.Context, orgName string) (BackupRepoList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  BackupRepoList
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue BackupRepoList
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.ListBackupRepos")
 	if err != nil {
@@ -208,8 +195,7 @@ func (a *BackupRepoApi) ListBackupRepos(ctx _context.Context, orgName string) (B
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -231,11 +217,10 @@ func (a *BackupRepoApi) ListBackupRepos(ctx _context.Context, orgName string) (B
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -249,7 +234,7 @@ func (a *BackupRepoApi) ListBackupRepos(ctx _context.Context, orgName string) (B
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -261,12 +246,10 @@ func (a *BackupRepoApi) ListBackupRepos(ctx _context.Context, orgName string) (B
 // UpdateBackupRepo Update backup repo.
 func (a *BackupRepoApi) UpdateBackupRepo(ctx _context.Context, environmentName string, backupRepoName string, body BackupRepoUpdate) (BackupRepo, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  BackupRepo
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue BackupRepo
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.UpdateBackupRepo")
 	if err != nil {
@@ -283,11 +266,9 @@ func (a *BackupRepoApi) UpdateBackupRepo(ctx _context.Context, environmentName s
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -309,11 +290,10 @@ func (a *BackupRepoApi) UpdateBackupRepo(ctx _context.Context, environmentName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -327,7 +307,7 @@ func (a *BackupRepoApi) UpdateBackupRepo(ctx _context.Context, environmentName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

@@ -2,7 +2,6 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 //go:build !goccy_gojson
 
 package common

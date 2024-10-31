@@ -2,33 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ComponentOpsOption struct {
 	Component string `json:"component"`
-	DisableHa *bool `json:"disableHA,omitempty"`
+	DisableHa *bool  `json:"disableHA,omitempty"`
 	// parameter for rebuild instance ops
 	InPlace *bool `json:"inPlace,omitempty"`
 	// indicate whether backup is required when Inplace is true
-	NeedBackupWhenInPlace *bool `json:"needBackupWhenInPlace,omitempty"`
-	RestoreEnv []ComponentOpsOptionRestoreEnvItem `json:"restoreEnv,omitempty"`
-	DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+	NeedBackupWhenInPlace *bool                                 `json:"needBackupWhenInPlace,omitempty"`
+	RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+	DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewComponentOpsOption instantiates a new ComponentOpsOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -59,6 +53,7 @@ func NewComponentOpsOptionWithDefaults() *ComponentOpsOption {
 	this.NeedBackupWhenInPlace = &needBackupWhenInPlace
 	return &this
 }
+
 // GetComponent returns the Component field value.
 func (o *ComponentOpsOption) GetComponent() string {
 	if o == nil {
@@ -81,7 +76,6 @@ func (o *ComponentOpsOption) GetComponentOk() (*string, bool) {
 func (o *ComponentOpsOption) SetComponent(v string) {
 	o.Component = v
 }
-
 
 // GetDisableHa returns the DisableHa field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetDisableHa() bool {
@@ -111,7 +105,6 @@ func (o *ComponentOpsOption) SetDisableHa(v bool) {
 	o.DisableHa = &v
 }
 
-
 // GetInPlace returns the InPlace field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetInPlace() bool {
 	if o == nil || o.InPlace == nil {
@@ -139,7 +132,6 @@ func (o *ComponentOpsOption) HasInPlace() bool {
 func (o *ComponentOpsOption) SetInPlace(v bool) {
 	o.InPlace = &v
 }
-
 
 // GetNeedBackupWhenInPlace returns the NeedBackupWhenInPlace field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetNeedBackupWhenInPlace() bool {
@@ -169,7 +161,6 @@ func (o *ComponentOpsOption) SetNeedBackupWhenInPlace(v bool) {
 	o.NeedBackupWhenInPlace = &v
 }
 
-
 // GetRestoreEnv returns the RestoreEnv field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetRestoreEnv() []ComponentOpsOptionRestoreEnvItem {
 	if o == nil || o.RestoreEnv == nil {
@@ -198,7 +189,6 @@ func (o *ComponentOpsOption) SetRestoreEnv(v []ComponentOpsOptionRestoreEnvItem)
 	o.RestoreEnv = v
 }
 
-
 // GetDependentCustomOps returns the DependentCustomOps field value if set, zero value otherwise.
 func (o *ComponentOpsOption) GetDependentCustomOps() ComponentOpsOptionDependentCustomOps {
 	if o == nil || o.DependentCustomOps == nil {
@@ -226,8 +216,6 @@ func (o *ComponentOpsOption) HasDependentCustomOps() bool {
 func (o *ComponentOpsOption) SetDependentCustomOps(v ComponentOpsOptionDependentCustomOps) {
 	o.DependentCustomOps = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
@@ -261,12 +249,12 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component"`
-		DisableHa *bool `json:"disableHA,omitempty"`
-		InPlace *bool `json:"inPlace,omitempty"`
-		NeedBackupWhenInPlace *bool `json:"needBackupWhenInPlace,omitempty"`
-		RestoreEnv []ComponentOpsOptionRestoreEnvItem `json:"restoreEnv,omitempty"`
-		DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+		Component             *string                               `json:"component"`
+		DisableHa             *bool                                 `json:"disableHA,omitempty"`
+		InPlace               *bool                                 `json:"inPlace,omitempty"`
+		NeedBackupWhenInPlace *bool                                 `json:"needBackupWhenInPlace,omitempty"`
+		RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+		DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -276,7 +264,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "component", "disableHA", "inPlace", "needBackupWhenInPlace", "restoreEnv", "dependentCustomOps",  })
+		common.DeleteKeys(additionalProperties, &[]string{"component", "disableHA", "inPlace", "needBackupWhenInPlace", "restoreEnv", "dependentCustomOps"})
 	} else {
 		return err
 	}
@@ -287,7 +275,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.InPlace = all.InPlace
 	o.NeedBackupWhenInPlace = all.NeedBackupWhenInPlace
 	o.RestoreEnv = all.RestoreEnv
-	if  all.DependentCustomOps != nil && all.DependentCustomOps.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.DependentCustomOps != nil && all.DependentCustomOps.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.DependentCustomOps = all.DependentCustomOps

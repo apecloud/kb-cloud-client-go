@@ -2,20 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+	"github.com/google/uuid"
 )
 
-
-
-// Environment Environment info 
+// Environment Environment info
 type Environment struct {
 	// Cloud Provider
 	Provider string `json:"provider"`
@@ -30,8 +27,8 @@ type Environment struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`
 	// The display name of the context
-	DisplayName string `json:"displayName"`
-	Id uuid.UUID `json:"id"`
+	DisplayName string    `json:"displayName"`
+	Id          uuid.UUID `json:"id"`
 	// The full, unique name of this Object in the format contexts/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`
 	// Organizations that have access for this environment
@@ -55,10 +52,9 @@ type Environment struct {
 	// Environment delete policy to protect environment from false delete
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEnvironment instantiates a new Environment object.
 // This constructor will assign default values to properties that have it defined,
@@ -92,6 +88,7 @@ func NewEnvironmentWithDefaults() *Environment {
 	this.DeletePolicy = &deletePolicy
 	return &this
 }
+
 // GetProvider returns the Provider field value.
 func (o *Environment) GetProvider() string {
 	if o == nil {
@@ -114,7 +111,6 @@ func (o *Environment) GetProviderOk() (*string, bool) {
 func (o *Environment) SetProvider(v string) {
 	o.Provider = v
 }
-
 
 // GetRegion returns the Region field value.
 func (o *Environment) GetRegion() string {
@@ -139,7 +135,6 @@ func (o *Environment) SetRegion(v string) {
 	o.Region = v
 }
 
-
 // GetAvailabilityZones returns the AvailabilityZones field value.
 func (o *Environment) GetAvailabilityZones() []string {
 	if o == nil {
@@ -162,7 +157,6 @@ func (o *Environment) GetAvailabilityZonesOk() (*[]string, bool) {
 func (o *Environment) SetAvailabilityZones(v []string) {
 	o.AvailabilityZones = v
 }
-
 
 // GetSchedulingConfig returns the SchedulingConfig field value if set, zero value otherwise.
 func (o *Environment) GetSchedulingConfig() SchedulingConfig {
@@ -192,7 +186,6 @@ func (o *Environment) SetSchedulingConfig(v SchedulingConfig) {
 	o.SchedulingConfig = &v
 }
 
-
 // GetNetworkConfig returns the NetworkConfig field value if set, zero value otherwise.
 func (o *Environment) GetNetworkConfig() NetworkConfig {
 	if o == nil || o.NetworkConfig == nil {
@@ -220,7 +213,6 @@ func (o *Environment) HasNetworkConfig() bool {
 func (o *Environment) SetNetworkConfig(v NetworkConfig) {
 	o.NetworkConfig = &v
 }
-
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Environment) GetDescription() string {
@@ -250,7 +242,6 @@ func (o *Environment) SetDescription(v string) {
 	o.Description = &v
 }
 
-
 // GetDisplayName returns the DisplayName field value.
 func (o *Environment) GetDisplayName() string {
 	if o == nil {
@@ -273,7 +264,6 @@ func (o *Environment) GetDisplayNameOk() (*string, bool) {
 func (o *Environment) SetDisplayName(v string) {
 	o.DisplayName = v
 }
-
 
 // GetId returns the Id field value.
 func (o *Environment) GetId() uuid.UUID {
@@ -298,7 +288,6 @@ func (o *Environment) SetId(v uuid.UUID) {
 	o.Id = v
 }
 
-
 // GetName returns the Name field value.
 func (o *Environment) GetName() string {
 	if o == nil {
@@ -322,7 +311,6 @@ func (o *Environment) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetOrganizations returns the Organizations field value.
 func (o *Environment) GetOrganizations() []string {
 	if o == nil {
@@ -345,7 +333,6 @@ func (o *Environment) GetOrganizationsOk() (*[]string, bool) {
 func (o *Environment) SetOrganizations(v []string) {
 	o.Organizations = v
 }
-
 
 // GetMetricsMonitorEnabled returns the MetricsMonitorEnabled field value if set, zero value otherwise.
 func (o *Environment) GetMetricsMonitorEnabled() bool {
@@ -375,7 +362,6 @@ func (o *Environment) SetMetricsMonitorEnabled(v bool) {
 	o.MetricsMonitorEnabled = &v
 }
 
-
 // GetState returns the State field value.
 func (o *Environment) GetState() EnvironmentState {
 	if o == nil {
@@ -398,7 +384,6 @@ func (o *Environment) GetStateOk() (*EnvironmentState, bool) {
 func (o *Environment) SetState(v EnvironmentState) {
 	o.State = v
 }
-
 
 // GetType returns the Type field value.
 func (o *Environment) GetType() EnvironmentType {
@@ -423,7 +408,6 @@ func (o *Environment) SetType(v EnvironmentType) {
 	o.Type = v
 }
 
-
 // GetProvisionConfig returns the ProvisionConfig field value.
 func (o *Environment) GetProvisionConfig() ProvisionConfig {
 	if o == nil {
@@ -446,7 +430,6 @@ func (o *Environment) GetProvisionConfigOk() (*ProvisionConfig, bool) {
 func (o *Environment) SetProvisionConfig(v ProvisionConfig) {
 	o.ProvisionConfig = v
 }
-
 
 // GetAutohealingConfig returns the AutohealingConfig field value if set, zero value otherwise.
 func (o *Environment) GetAutohealingConfig() AutohealingConfig {
@@ -476,7 +459,6 @@ func (o *Environment) SetAutohealingConfig(v AutohealingConfig) {
 	o.AutohealingConfig = &v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value.
 func (o *Environment) GetCreatedAt() time.Time {
 	if o == nil {
@@ -500,7 +482,6 @@ func (o *Environment) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value.
 func (o *Environment) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -523,7 +504,6 @@ func (o *Environment) GetUpdatedAtOk() (*time.Time, bool) {
 func (o *Environment) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
-
 
 // GetExtraInfo returns the ExtraInfo field value if set, zero value otherwise.
 func (o *Environment) GetExtraInfo() string {
@@ -553,7 +533,6 @@ func (o *Environment) SetExtraInfo(v string) {
 	o.ExtraInfo = &v
 }
 
-
 // GetDeletePolicy returns the DeletePolicy field value if set, zero value otherwise.
 func (o *Environment) GetDeletePolicy() EnvironmentDeletePolicy {
 	if o == nil || o.DeletePolicy == nil {
@@ -581,8 +560,6 @@ func (o *Environment) HasDeletePolicy() bool {
 func (o *Environment) SetDeletePolicy(v EnvironmentDeletePolicy) {
 	o.DeletePolicy = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
@@ -641,25 +618,25 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider *string `json:"provider"`
-		Region *string `json:"region"`
-		AvailabilityZones *[]string `json:"availabilityZones"`
-		SchedulingConfig *SchedulingConfig `json:"schedulingConfig,omitempty"`
-		NetworkConfig *NetworkConfig `json:"networkConfig,omitempty"`
-		Description *string `json:"description,omitempty"`
-		DisplayName *string `json:"displayName"`
-		Id *uuid.UUID `json:"id"`
-		Name *string `json:"name"`
-		Organizations *[]string `json:"organizations"`
-		MetricsMonitorEnabled *bool `json:"metricsMonitorEnabled,omitempty"`
-		State *EnvironmentState `json:"state"`
-		Type *EnvironmentType `json:"type"`
-		ProvisionConfig *ProvisionConfig `json:"provisionConfig"`
-		AutohealingConfig *AutohealingConfig `json:"autohealingConfig,omitempty"`
-		CreatedAt *time.Time `json:"createdAt"`
-		UpdatedAt *time.Time `json:"updatedAt"`
-		ExtraInfo *string `json:"extraInfo,omitempty"`
-		DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		Provider              *string                  `json:"provider"`
+		Region                *string                  `json:"region"`
+		AvailabilityZones     *[]string                `json:"availabilityZones"`
+		SchedulingConfig      *SchedulingConfig        `json:"schedulingConfig,omitempty"`
+		NetworkConfig         *NetworkConfig           `json:"networkConfig,omitempty"`
+		Description           *string                  `json:"description,omitempty"`
+		DisplayName           *string                  `json:"displayName"`
+		Id                    *uuid.UUID               `json:"id"`
+		Name                  *string                  `json:"name"`
+		Organizations         *[]string                `json:"organizations"`
+		MetricsMonitorEnabled *bool                    `json:"metricsMonitorEnabled,omitempty"`
+		State                 *EnvironmentState        `json:"state"`
+		Type                  *EnvironmentType         `json:"type"`
+		ProvisionConfig       *ProvisionConfig         `json:"provisionConfig"`
+		AutohealingConfig     *AutohealingConfig       `json:"autohealingConfig,omitempty"`
+		CreatedAt             *time.Time               `json:"createdAt"`
+		UpdatedAt             *time.Time               `json:"updatedAt"`
+		ExtraInfo             *string                  `json:"extraInfo,omitempty"`
+		DeletePolicy          *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -702,7 +679,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy",  })
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy"})
 	} else {
 		return err
 	}
@@ -711,11 +688,11 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.Provider = *all.Provider
 	o.Region = *all.Region
 	o.AvailabilityZones = *all.AvailabilityZones
-	if  all.SchedulingConfig != nil && all.SchedulingConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.SchedulingConfig != nil && all.SchedulingConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.SchedulingConfig = all.SchedulingConfig
-	if  all.NetworkConfig != nil && all.NetworkConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.NetworkConfig != nil && all.NetworkConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.NetworkConfig = all.NetworkConfig
@@ -739,14 +716,14 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ProvisionConfig = *all.ProvisionConfig
-	if  all.AutohealingConfig != nil && all.AutohealingConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.AutohealingConfig != nil && all.AutohealingConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.AutohealingConfig = all.AutohealingConfig
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
 	o.ExtraInfo = all.ExtraInfo
-	if all.DeletePolicy != nil &&!all.DeletePolicy.IsValid() {
+	if all.DeletePolicy != nil && !all.DeletePolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.DeletePolicy = all.DeletePolicy

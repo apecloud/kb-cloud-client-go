@@ -2,35 +2,29 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// AlertReceiver Alert receiver information 
+// AlertReceiver Alert receiver information
 type AlertReceiver struct {
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Category *AlertReceiverCategory `json:"category,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	CreatedAt *time.Time              `json:"createdAt,omitempty"`
+	Id        *string                 `json:"id,omitempty"`
+	Name      *string                 `json:"name,omitempty"`
+	Category  *AlertReceiverCategory  `json:"category,omitempty"`
+	UpdatedAt *time.Time              `json:"updatedAt,omitempty"`
 	UserGroup *AlertReceiverUserGroup `json:"userGroup,omitempty"`
 	// Webhook config of alert receiver
 	WebhookConfig *WebhookConfig `json:"webhookConfig,omitempty"`
-	OrgName *string `json:"orgName,omitempty"`
+	OrgName       *string        `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAlertReceiver instantiates a new AlertReceiver object.
 // This constructor will assign default values to properties that have it defined,
@@ -48,6 +42,7 @@ func NewAlertReceiverWithDefaults() *AlertReceiver {
 	this := AlertReceiver{}
 	return &this
 }
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AlertReceiver) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -75,7 +70,6 @@ func (o *AlertReceiver) HasCreatedAt() bool {
 func (o *AlertReceiver) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
-
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *AlertReceiver) GetId() string {
@@ -105,7 +99,6 @@ func (o *AlertReceiver) SetId(v string) {
 	o.Id = &v
 }
 
-
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AlertReceiver) GetName() string {
 	if o == nil || o.Name == nil {
@@ -133,7 +126,6 @@ func (o *AlertReceiver) HasName() bool {
 func (o *AlertReceiver) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetCategory returns the Category field value if set, zero value otherwise.
 func (o *AlertReceiver) GetCategory() AlertReceiverCategory {
@@ -163,7 +155,6 @@ func (o *AlertReceiver) SetCategory(v AlertReceiverCategory) {
 	o.Category = &v
 }
 
-
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *AlertReceiver) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -191,7 +182,6 @@ func (o *AlertReceiver) HasUpdatedAt() bool {
 func (o *AlertReceiver) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
-
 
 // GetUserGroup returns the UserGroup field value if set, zero value otherwise.
 func (o *AlertReceiver) GetUserGroup() AlertReceiverUserGroup {
@@ -221,7 +211,6 @@ func (o *AlertReceiver) SetUserGroup(v AlertReceiverUserGroup) {
 	o.UserGroup = &v
 }
 
-
 // GetWebhookConfig returns the WebhookConfig field value if set, zero value otherwise.
 func (o *AlertReceiver) GetWebhookConfig() WebhookConfig {
 	if o == nil || o.WebhookConfig == nil {
@@ -250,7 +239,6 @@ func (o *AlertReceiver) SetWebhookConfig(v WebhookConfig) {
 	o.WebhookConfig = &v
 }
 
-
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertReceiver) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -278,8 +266,6 @@ func (o *AlertReceiver) HasOrgName() bool {
 func (o *AlertReceiver) SetOrgName(v string) {
 	o.OrgName = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertReceiver) MarshalJSON() ([]byte, error) {
@@ -329,21 +315,21 @@ func (o AlertReceiver) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertReceiver) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Category *AlertReceiverCategory `json:"category,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-		UserGroup *AlertReceiverUserGroup `json:"userGroup,omitempty"`
-		WebhookConfig *WebhookConfig `json:"webhookConfig,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
+		CreatedAt     *time.Time              `json:"createdAt,omitempty"`
+		Id            *string                 `json:"id,omitempty"`
+		Name          *string                 `json:"name,omitempty"`
+		Category      *AlertReceiverCategory  `json:"category,omitempty"`
+		UpdatedAt     *time.Time              `json:"updatedAt,omitempty"`
+		UserGroup     *AlertReceiverUserGroup `json:"userGroup,omitempty"`
+		WebhookConfig *WebhookConfig          `json:"webhookConfig,omitempty"`
+		OrgName       *string                 `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "createdAt", "id", "name", "category", "updatedAt", "userGroup", "webhookConfig", "orgName",  })
+		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "id", "name", "category", "updatedAt", "userGroup", "webhookConfig", "orgName"})
 	} else {
 		return err
 	}
@@ -352,17 +338,17 @@ func (o *AlertReceiver) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = all.CreatedAt
 	o.Id = all.Id
 	o.Name = all.Name
-	if all.Category != nil &&!all.Category.IsValid() {
+	if all.Category != nil && !all.Category.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Category = all.Category
 	}
 	o.UpdatedAt = all.UpdatedAt
-	if  all.UserGroup != nil && all.UserGroup.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.UserGroup != nil && all.UserGroup.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.UserGroup = all.UserGroup
-	if  all.WebhookConfig != nil && all.WebhookConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.WebhookConfig != nil && all.WebhookConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.WebhookConfig = all.WebhookConfig

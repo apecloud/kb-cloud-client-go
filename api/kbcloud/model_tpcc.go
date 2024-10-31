@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Tpcc tpcc is the tpcc benchmark object 
+// Tpcc tpcc is the tpcc benchmark object
 type Tpcc struct {
 	// Step of sysbench
 	Step *TpccStep `json:"step,omitempty"`
@@ -60,10 +55,9 @@ type Tpcc struct {
 	// Extra arguments for tpcc
 	ExtraArgs *string `json:"extraArgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTpcc instantiates a new Tpcc object.
 // This constructor will assign default values to properties that have it defined,
@@ -106,6 +100,7 @@ func NewTpccWithDefaults() *Tpcc {
 	this.RequestMemory = &requestMemory
 	return &this
 }
+
 // GetStep returns the Step field value if set, zero value otherwise.
 func (o *Tpcc) GetStep() TpccStep {
 	if o == nil || o.Step == nil {
@@ -133,7 +128,6 @@ func (o *Tpcc) HasStep() bool {
 func (o *Tpcc) SetStep(v TpccStep) {
 	o.Step = &v
 }
-
 
 // GetLimitCpu returns the LimitCpu field value if set, zero value otherwise.
 func (o *Tpcc) GetLimitCpu() string {
@@ -163,7 +157,6 @@ func (o *Tpcc) SetLimitCpu(v string) {
 	o.LimitCpu = &v
 }
 
-
 // GetLimitMemory returns the LimitMemory field value if set, zero value otherwise.
 func (o *Tpcc) GetLimitMemory() string {
 	if o == nil || o.LimitMemory == nil {
@@ -191,7 +184,6 @@ func (o *Tpcc) HasLimitMemory() bool {
 func (o *Tpcc) SetLimitMemory(v string) {
 	o.LimitMemory = &v
 }
-
 
 // GetRequestCpu returns the RequestCpu field value if set, zero value otherwise.
 func (o *Tpcc) GetRequestCpu() string {
@@ -221,7 +213,6 @@ func (o *Tpcc) SetRequestCpu(v string) {
 	o.RequestCpu = &v
 }
 
-
 // GetRequestMemory returns the RequestMemory field value if set, zero value otherwise.
 func (o *Tpcc) GetRequestMemory() string {
 	if o == nil || o.RequestMemory == nil {
@@ -249,7 +240,6 @@ func (o *Tpcc) HasRequestMemory() bool {
 func (o *Tpcc) SetRequestMemory(v string) {
 	o.RequestMemory = &v
 }
-
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Tpcc) GetName() string {
@@ -279,7 +269,6 @@ func (o *Tpcc) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetCluster returns the Cluster field value.
 func (o *Tpcc) GetCluster() string {
 	if o == nil {
@@ -302,7 +291,6 @@ func (o *Tpcc) GetClusterOk() (*string, bool) {
 func (o *Tpcc) SetCluster(v string) {
 	o.Cluster = v
 }
-
 
 // GetDatabase returns the Database field value.
 func (o *Tpcc) GetDatabase() string {
@@ -327,7 +315,6 @@ func (o *Tpcc) SetDatabase(v string) {
 	o.Database = v
 }
 
-
 // GetUsername returns the Username field value.
 func (o *Tpcc) GetUsername() string {
 	if o == nil {
@@ -350,7 +337,6 @@ func (o *Tpcc) GetUsernameOk() (*string, bool) {
 func (o *Tpcc) SetUsername(v string) {
 	o.Username = v
 }
-
 
 // GetPassword returns the Password field value.
 func (o *Tpcc) GetPassword() string {
@@ -375,7 +361,6 @@ func (o *Tpcc) SetPassword(v string) {
 	o.Password = v
 }
 
-
 // GetAddress returns the Address field value.
 func (o *Tpcc) GetAddress() string {
 	if o == nil {
@@ -398,7 +383,6 @@ func (o *Tpcc) GetAddressOk() (*string, bool) {
 func (o *Tpcc) SetAddress(v string) {
 	o.Address = v
 }
-
 
 // GetThreads returns the Threads field value if set, zero value otherwise.
 func (o *Tpcc) GetThreads() int32 {
@@ -428,7 +412,6 @@ func (o *Tpcc) SetThreads(v int32) {
 	o.Threads = &v
 }
 
-
 // GetWarehouses returns the Warehouses field value if set, zero value otherwise.
 func (o *Tpcc) GetWarehouses() int32 {
 	if o == nil || o.Warehouses == nil {
@@ -456,7 +439,6 @@ func (o *Tpcc) HasWarehouses() bool {
 func (o *Tpcc) SetWarehouses(v int32) {
 	o.Warehouses = &v
 }
-
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *Tpcc) GetDuration() int32 {
@@ -486,7 +468,6 @@ func (o *Tpcc) SetDuration(v int32) {
 	o.Duration = &v
 }
 
-
 // GetLimitTxPerMin returns the LimitTxPerMin field value if set, zero value otherwise.
 func (o *Tpcc) GetLimitTxPerMin() int32 {
 	if o == nil || o.LimitTxPerMin == nil {
@@ -514,7 +495,6 @@ func (o *Tpcc) HasLimitTxPerMin() bool {
 func (o *Tpcc) SetLimitTxPerMin(v int32) {
 	o.LimitTxPerMin = &v
 }
-
 
 // GetNewOrderWeight returns the NewOrderWeight field value if set, zero value otherwise.
 func (o *Tpcc) GetNewOrderWeight() int32 {
@@ -544,7 +524,6 @@ func (o *Tpcc) SetNewOrderWeight(v int32) {
 	o.NewOrderWeight = &v
 }
 
-
 // GetPaymentWeight returns the PaymentWeight field value if set, zero value otherwise.
 func (o *Tpcc) GetPaymentWeight() int32 {
 	if o == nil || o.PaymentWeight == nil {
@@ -572,7 +551,6 @@ func (o *Tpcc) HasPaymentWeight() bool {
 func (o *Tpcc) SetPaymentWeight(v int32) {
 	o.PaymentWeight = &v
 }
-
 
 // GetOrderStatusWeight returns the OrderStatusWeight field value if set, zero value otherwise.
 func (o *Tpcc) GetOrderStatusWeight() int32 {
@@ -602,7 +580,6 @@ func (o *Tpcc) SetOrderStatusWeight(v int32) {
 	o.OrderStatusWeight = &v
 }
 
-
 // GetDeliveryWeight returns the DeliveryWeight field value if set, zero value otherwise.
 func (o *Tpcc) GetDeliveryWeight() int32 {
 	if o == nil || o.DeliveryWeight == nil {
@@ -630,7 +607,6 @@ func (o *Tpcc) HasDeliveryWeight() bool {
 func (o *Tpcc) SetDeliveryWeight(v int32) {
 	o.DeliveryWeight = &v
 }
-
 
 // GetStockLevelWeight returns the StockLevelWeight field value if set, zero value otherwise.
 func (o *Tpcc) GetStockLevelWeight() int32 {
@@ -660,7 +636,6 @@ func (o *Tpcc) SetStockLevelWeight(v int32) {
 	o.StockLevelWeight = &v
 }
 
-
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
 func (o *Tpcc) GetExtraArgs() string {
 	if o == nil || o.ExtraArgs == nil {
@@ -688,8 +663,6 @@ func (o *Tpcc) HasExtraArgs() bool {
 func (o *Tpcc) SetExtraArgs(v string) {
 	o.ExtraArgs = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Tpcc) MarshalJSON() ([]byte, error) {
@@ -760,27 +733,27 @@ func (o Tpcc) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Tpcc) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step *TpccStep `json:"step,omitempty"`
-		LimitCpu *string `json:"limitCpu,omitempty"`
-		LimitMemory *string `json:"limitMemory,omitempty"`
-		RequestCpu *string `json:"requestCpu,omitempty"`
-		RequestMemory *string `json:"requestMemory,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Cluster *string `json:"cluster"`
-		Database *string `json:"database"`
-		Username *string `json:"username"`
-		Password *string `json:"password"`
-		Address *string `json:"address"`
-		Threads *int32 `json:"threads,omitempty"`
-		Warehouses *int32 `json:"warehouses,omitempty"`
-		Duration *int32 `json:"duration,omitempty"`
-		LimitTxPerMin *int32 `json:"limitTxPerMin,omitempty"`
-		NewOrderWeight *int32 `json:"newOrderWeight,omitempty"`
-		PaymentWeight *int32 `json:"paymentWeight,omitempty"`
-		OrderStatusWeight *int32 `json:"orderStatusWeight,omitempty"`
-		DeliveryWeight *int32 `json:"deliveryWeight,omitempty"`
-		StockLevelWeight *int32 `json:"stockLevelWeight,omitempty"`
-		ExtraArgs *string `json:"extraArgs,omitempty"`
+		Step              *TpccStep `json:"step,omitempty"`
+		LimitCpu          *string   `json:"limitCpu,omitempty"`
+		LimitMemory       *string   `json:"limitMemory,omitempty"`
+		RequestCpu        *string   `json:"requestCpu,omitempty"`
+		RequestMemory     *string   `json:"requestMemory,omitempty"`
+		Name              *string   `json:"name,omitempty"`
+		Cluster           *string   `json:"cluster"`
+		Database          *string   `json:"database"`
+		Username          *string   `json:"username"`
+		Password          *string   `json:"password"`
+		Address           *string   `json:"address"`
+		Threads           *int32    `json:"threads,omitempty"`
+		Warehouses        *int32    `json:"warehouses,omitempty"`
+		Duration          *int32    `json:"duration,omitempty"`
+		LimitTxPerMin     *int32    `json:"limitTxPerMin,omitempty"`
+		NewOrderWeight    *int32    `json:"newOrderWeight,omitempty"`
+		PaymentWeight     *int32    `json:"paymentWeight,omitempty"`
+		OrderStatusWeight *int32    `json:"orderStatusWeight,omitempty"`
+		DeliveryWeight    *int32    `json:"deliveryWeight,omitempty"`
+		StockLevelWeight  *int32    `json:"stockLevelWeight,omitempty"`
+		ExtraArgs         *string   `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -802,13 +775,13 @@ func (o *Tpcc) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "threads", "warehouses", "duration", "limitTxPerMin", "newOrderWeight", "paymentWeight", "orderStatusWeight", "deliveryWeight", "stockLevelWeight", "extraArgs",  })
+		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "threads", "warehouses", "duration", "limitTxPerMin", "newOrderWeight", "paymentWeight", "orderStatusWeight", "deliveryWeight", "stockLevelWeight", "extraArgs"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.Step != nil &&!all.Step.IsValid() {
+	if all.Step != nil && !all.Step.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Step = all.Step

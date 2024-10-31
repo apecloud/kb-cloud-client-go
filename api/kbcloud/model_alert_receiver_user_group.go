@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type AlertReceiverUserGroup struct {
-	EmailEnabled *bool `json:"emailEnabled,omitempty"`
-	Ids []string `json:"ids,omitempty"`
-	SmsEnabled *bool `json:"smsEnabled,omitempty"`
+	EmailEnabled *bool    `json:"emailEnabled,omitempty"`
+	Ids          []string `json:"ids,omitempty"`
+	SmsEnabled   *bool    `json:"smsEnabled,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAlertReceiverUserGroup instantiates a new AlertReceiverUserGroup object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewAlertReceiverUserGroupWithDefaults() *AlertReceiverUserGroup {
 	this := AlertReceiverUserGroup{}
 	return &this
 }
+
 // GetEmailEnabled returns the EmailEnabled field value if set, zero value otherwise.
 func (o *AlertReceiverUserGroup) GetEmailEnabled() bool {
 	if o == nil || o.EmailEnabled == nil {
@@ -68,7 +59,6 @@ func (o *AlertReceiverUserGroup) HasEmailEnabled() bool {
 func (o *AlertReceiverUserGroup) SetEmailEnabled(v bool) {
 	o.EmailEnabled = &v
 }
-
 
 // GetIds returns the Ids field value if set, zero value otherwise.
 func (o *AlertReceiverUserGroup) GetIds() []string {
@@ -98,7 +88,6 @@ func (o *AlertReceiverUserGroup) SetIds(v []string) {
 	o.Ids = v
 }
 
-
 // GetSmsEnabled returns the SmsEnabled field value if set, zero value otherwise.
 func (o *AlertReceiverUserGroup) GetSmsEnabled() bool {
 	if o == nil || o.SmsEnabled == nil {
@@ -127,8 +116,6 @@ func (o *AlertReceiverUserGroup) SetSmsEnabled(v bool) {
 	o.SmsEnabled = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertReceiverUserGroup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -154,16 +141,16 @@ func (o AlertReceiverUserGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertReceiverUserGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EmailEnabled *bool `json:"emailEnabled,omitempty"`
-		Ids []string `json:"ids,omitempty"`
-		SmsEnabled *bool `json:"smsEnabled,omitempty"`
+		EmailEnabled *bool    `json:"emailEnabled,omitempty"`
+		Ids          []string `json:"ids,omitempty"`
+		SmsEnabled   *bool    `json:"smsEnabled,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "emailEnabled", "ids", "smsEnabled",  })
+		common.DeleteKeys(additionalProperties, &[]string{"emailEnabled", "ids", "smsEnabled"})
 	} else {
 		return err
 	}

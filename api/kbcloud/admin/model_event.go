@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Event Event related to the view 
+// Event Event related to the view
 type Event struct {
 	// Group is the API group of the event.
 	Group string `json:"group"`
@@ -44,10 +39,9 @@ type Event struct {
 	// Reason is the reason of the event.
 	Reason *string `json:"reason,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEvent instantiates a new Event object.
 // This constructor will assign default values to properties that have it defined,
@@ -70,6 +64,7 @@ func NewEventWithDefaults() *Event {
 	this := Event{}
 	return &this
 }
+
 // GetGroup returns the Group field value.
 func (o *Event) GetGroup() string {
 	if o == nil {
@@ -92,7 +87,6 @@ func (o *Event) GetGroupOk() (*string, bool) {
 func (o *Event) SetGroup(v string) {
 	o.Group = v
 }
-
 
 // GetKind returns the Kind field value.
 func (o *Event) GetKind() string {
@@ -117,7 +111,6 @@ func (o *Event) SetKind(v string) {
 	o.Kind = v
 }
 
-
 // GetName returns the Name field value.
 func (o *Event) GetName() string {
 	if o == nil {
@@ -141,7 +134,6 @@ func (o *Event) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetNamespace returns the Namespace field value.
 func (o *Event) GetNamespace() string {
 	if o == nil {
@@ -164,7 +156,6 @@ func (o *Event) GetNamespaceOk() (*string, bool) {
 func (o *Event) SetNamespace(v string) {
 	o.Namespace = v
 }
-
 
 // GetOwners returns the Owners field value if set, zero value otherwise.
 func (o *Event) GetOwners() []Owner {
@@ -194,7 +185,6 @@ func (o *Event) SetOwners(v []Owner) {
 	o.Owners = v
 }
 
-
 // GetProgress returns the Progress field value if set, zero value otherwise.
 func (o *Event) GetProgress() string {
 	if o == nil || o.Progress == nil {
@@ -222,7 +212,6 @@ func (o *Event) HasProgress() bool {
 func (o *Event) SetProgress(v string) {
 	o.Progress = &v
 }
-
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *Event) GetMessage() string {
@@ -252,7 +241,6 @@ func (o *Event) SetMessage(v string) {
 	o.Message = &v
 }
 
-
 // GetResourceVersion returns the ResourceVersion field value if set, zero value otherwise.
 func (o *Event) GetResourceVersion() string {
 	if o == nil || o.ResourceVersion == nil {
@@ -281,7 +269,6 @@ func (o *Event) SetResourceVersion(v string) {
 	o.ResourceVersion = &v
 }
 
-
 // GetType returns the Type field value.
 func (o *Event) GetType() string {
 	if o == nil {
@@ -304,7 +291,6 @@ func (o *Event) GetTypeOk() (*string, bool) {
 func (o *Event) SetType(v string) {
 	o.Type = v
 }
-
 
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *Event) GetVersion() string {
@@ -334,7 +320,6 @@ func (o *Event) SetVersion(v string) {
 	o.Version = &v
 }
 
-
 // GetTime returns the Time field value if set, zero value otherwise.
 func (o *Event) GetTime() string {
 	if o == nil || o.Time == nil {
@@ -362,7 +347,6 @@ func (o *Event) HasTime() bool {
 func (o *Event) SetTime(v string) {
 	o.Time = &v
 }
-
 
 // GetLevel returns the Level field value if set, zero value otherwise.
 func (o *Event) GetLevel() string {
@@ -392,7 +376,6 @@ func (o *Event) SetLevel(v string) {
 	o.Level = &v
 }
 
-
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *Event) GetReason() string {
 	if o == nil || o.Reason == nil {
@@ -420,8 +403,6 @@ func (o *Event) HasReason() bool {
 func (o *Event) SetReason(v string) {
 	o.Reason = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Event) MarshalJSON() ([]byte, error) {
@@ -468,19 +449,19 @@ func (o Event) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Group *string `json:"group"`
-		Kind *string `json:"kind"`
-		Name *string `json:"name"`
-		Namespace *string `json:"namespace"`
-		Owners []Owner `json:"owners,omitempty"`
-		Progress *string `json:"progress,omitempty"`
-		Message *string `json:"message,omitempty"`
+		Group           *string `json:"group"`
+		Kind            *string `json:"kind"`
+		Name            *string `json:"name"`
+		Namespace       *string `json:"namespace"`
+		Owners          []Owner `json:"owners,omitempty"`
+		Progress        *string `json:"progress,omitempty"`
+		Message         *string `json:"message,omitempty"`
 		ResourceVersion *string `json:"resourceVersion,omitempty"`
-		Type *string `json:"type"`
-		Version *string `json:"version,omitempty"`
-		Time *string `json:"time,omitempty"`
-		Level *string `json:"level,omitempty"`
-		Reason *string `json:"reason,omitempty"`
+		Type            *string `json:"type"`
+		Version         *string `json:"version,omitempty"`
+		Time            *string `json:"time,omitempty"`
+		Level           *string `json:"level,omitempty"`
+		Reason          *string `json:"reason,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -502,7 +483,7 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "group", "kind", "name", "namespace", "owners", "progress", "message", "resourceVersion", "type", "version", "time", "level", "reason",  })
+		common.DeleteKeys(additionalProperties, &[]string{"group", "kind", "name", "namespace", "owners", "progress", "message", "resourceVersion", "type", "version", "time", "level", "reason"})
 	} else {
 		return err
 	}

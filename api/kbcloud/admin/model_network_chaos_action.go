@@ -2,28 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // NetworkChaosAction Specifies the type of network chaos action to be performed. Options include introducing delay, packet loss, duplication, corruption, network partition, or bandwidth limitation.
 type NetworkChaosAction string
 
 // List of NetworkChaosAction.
 const (
-	NetworkChaosActionDelay NetworkChaosAction = "delay"
-	NetworkChaosActionLoss NetworkChaosAction = "loss"
+	NetworkChaosActionDelay     NetworkChaosAction = "delay"
+	NetworkChaosActionLoss      NetworkChaosAction = "loss"
 	NetworkChaosActionDuplicate NetworkChaosAction = "duplicate"
-	NetworkChaosActionCorrupt NetworkChaosAction = "corrupt"
+	NetworkChaosActionCorrupt   NetworkChaosAction = "corrupt"
 	NetworkChaosActionPartition NetworkChaosAction = "partition"
 	NetworkChaosActionBandwidth NetworkChaosAction = "bandwidth"
 )

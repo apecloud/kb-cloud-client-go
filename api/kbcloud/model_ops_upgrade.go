@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster 
+// OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
 type OpsUpgrade struct {
-	Version string `json:"version"`
+	Version   string  `json:"version"`
 	Component *string `json:"component,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOpsUpgrade instantiates a new OpsUpgrade object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewOpsUpgradeWithDefaults() *OpsUpgrade {
 	this := OpsUpgrade{}
 	return &this
 }
+
 // GetVersion returns the Version field value.
 func (o *OpsUpgrade) GetVersion() string {
 	if o == nil {
@@ -64,7 +59,6 @@ func (o *OpsUpgrade) GetVersionOk() (*string, bool) {
 func (o *OpsUpgrade) SetVersion(v string) {
 	o.Version = v
 }
-
 
 // GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsUpgrade) GetComponent() string {
@@ -94,8 +88,6 @@ func (o *OpsUpgrade) SetComponent(v string) {
 	o.Component = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -116,7 +108,7 @@ func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Version *string `json:"version"`
+		Version   *string `json:"version"`
 		Component *string `json:"component,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -127,7 +119,7 @@ func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "version", "component",  })
+		common.DeleteKeys(additionalProperties, &[]string{"version", "component"})
 	} else {
 		return err
 	}

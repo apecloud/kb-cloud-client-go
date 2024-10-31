@@ -2,28 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // NetworkChaosMode Specifies the mode of network chaos to be applied. This determines how the chaos is distributed among the target pods.
 type NetworkChaosMode string
 
 // List of NetworkChaosMode.
 const (
-	NetworkChaosModeOne NetworkChaosMode = "one"
-	NetworkChaosModeAll NetworkChaosMode = "all"
-	NetworkChaosModeFixed NetworkChaosMode = "fixed"
-	NetworkChaosModeFixedPercent NetworkChaosMode = "fixed-percent"
+	NetworkChaosModeOne              NetworkChaosMode = "one"
+	NetworkChaosModeAll              NetworkChaosMode = "all"
+	NetworkChaosModeFixed            NetworkChaosMode = "fixed"
+	NetworkChaosModeFixedPercent     NetworkChaosMode = "fixed-percent"
 	NetworkChaosModeRandomMaxPercent NetworkChaosMode = "random-max-percent"
 )
 

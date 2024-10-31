@@ -2,27 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type LocalizedDescription struct {
 	ZhCn string `json:"zh-CN"`
 	EnUs string `json:"en-US"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewLocalizedDescription instantiates a new LocalizedDescription object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewLocalizedDescriptionWithDefaults() *LocalizedDescription {
 	this := LocalizedDescription{}
 	return &this
 }
+
 // GetZhCn returns the ZhCn field value.
 func (o *LocalizedDescription) GetZhCn() string {
 	if o == nil {
@@ -65,7 +60,6 @@ func (o *LocalizedDescription) SetZhCn(v string) {
 	o.ZhCn = v
 }
 
-
 // GetEnUs returns the EnUs field value.
 func (o *LocalizedDescription) GetEnUs() string {
 	if o == nil {
@@ -88,8 +82,6 @@ func (o *LocalizedDescription) GetEnUsOk() (*string, bool) {
 func (o *LocalizedDescription) SetEnUs(v string) {
 	o.EnUs = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o LocalizedDescription) MarshalJSON() ([]byte, error) {
@@ -123,7 +115,7 @@ func (o *LocalizedDescription) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "zh-CN", "en-US",  })
+		common.DeleteKeys(additionalProperties, &[]string{"zh-CN", "en-US"})
 	} else {
 		return err
 	}

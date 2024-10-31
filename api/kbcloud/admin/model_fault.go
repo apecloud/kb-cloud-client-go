@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Fault response of the fault 
+// Fault response of the fault
 type Fault struct {
 	// id of the fault
 	Id *string `json:"id,omitempty"`
@@ -44,10 +39,9 @@ type Fault struct {
 	// create time of the fault
 	CreateTime *time.Time `json:"createTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewFault instantiates a new Fault object.
 // This constructor will assign default values to properties that have it defined,
@@ -65,6 +59,7 @@ func NewFaultWithDefaults() *Fault {
 	this := Fault{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Fault) GetId() string {
 	if o == nil || o.Id == nil {
@@ -92,7 +87,6 @@ func (o *Fault) HasId() bool {
 func (o *Fault) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Fault) GetName() string {
@@ -122,7 +116,6 @@ func (o *Fault) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *Fault) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
@@ -150,7 +143,6 @@ func (o *Fault) HasNamespace() bool {
 func (o *Fault) SetNamespace(v string) {
 	o.Namespace = &v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Fault) GetType() string {
@@ -180,7 +172,6 @@ func (o *Fault) SetType(v string) {
 	o.Type = &v
 }
 
-
 // GetAction returns the Action field value if set, zero value otherwise.
 func (o *Fault) GetAction() string {
 	if o == nil || o.Action == nil {
@@ -208,7 +199,6 @@ func (o *Fault) HasAction() bool {
 func (o *Fault) SetAction(v string) {
 	o.Action = &v
 }
-
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Fault) GetStatus() string {
@@ -238,7 +228,6 @@ func (o *Fault) SetStatus(v string) {
 	o.Status = &v
 }
 
-
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *Fault) GetDuration() string {
 	if o == nil || o.Duration == nil {
@@ -266,7 +255,6 @@ func (o *Fault) HasDuration() bool {
 func (o *Fault) SetDuration(v string) {
 	o.Duration = &v
 }
-
 
 // GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
 func (o *Fault) GetEnvironmentId() string {
@@ -296,7 +284,6 @@ func (o *Fault) SetEnvironmentId(v string) {
 	o.EnvironmentId = &v
 }
 
-
 // GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
 func (o *Fault) GetEnvironmentName() string {
 	if o == nil || o.EnvironmentName == nil {
@@ -324,7 +311,6 @@ func (o *Fault) HasEnvironmentName() bool {
 func (o *Fault) SetEnvironmentName(v string) {
 	o.EnvironmentName = &v
 }
-
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *Fault) GetOrgName() string {
@@ -354,7 +340,6 @@ func (o *Fault) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *Fault) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
@@ -382,7 +367,6 @@ func (o *Fault) HasClusterId() bool {
 func (o *Fault) SetClusterId(v string) {
 	o.ClusterId = &v
 }
-
 
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
 func (o *Fault) GetClusterName() string {
@@ -412,7 +396,6 @@ func (o *Fault) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
-
 // GetCreateTime returns the CreateTime field value if set, zero value otherwise.
 func (o *Fault) GetCreateTime() time.Time {
 	if o == nil || o.CreateTime == nil {
@@ -440,8 +423,6 @@ func (o *Fault) HasCreateTime() bool {
 func (o *Fault) SetCreateTime(v time.Time) {
 	o.CreateTime = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Fault) MarshalJSON() ([]byte, error) {
@@ -502,26 +483,26 @@ func (o Fault) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Fault) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Namespace *string `json:"namespace,omitempty"`
-		Type *string `json:"type,omitempty"`
-		Action *string `json:"action,omitempty"`
-		Status *string `json:"status,omitempty"`
-		Duration *string `json:"duration,omitempty"`
-		EnvironmentId *string `json:"environmentID,omitempty"`
-		EnvironmentName *string `json:"environmentName,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
-		ClusterId *string `json:"clusterID,omitempty"`
-		ClusterName *string `json:"clusterName,omitempty"`
-		CreateTime *time.Time `json:"createTime,omitempty"`
+		Id              *string    `json:"id,omitempty"`
+		Name            *string    `json:"name,omitempty"`
+		Namespace       *string    `json:"namespace,omitempty"`
+		Type            *string    `json:"type,omitempty"`
+		Action          *string    `json:"action,omitempty"`
+		Status          *string    `json:"status,omitempty"`
+		Duration        *string    `json:"duration,omitempty"`
+		EnvironmentId   *string    `json:"environmentID,omitempty"`
+		EnvironmentName *string    `json:"environmentName,omitempty"`
+		OrgName         *string    `json:"orgName,omitempty"`
+		ClusterId       *string    `json:"clusterID,omitempty"`
+		ClusterName     *string    `json:"clusterName,omitempty"`
+		CreateTime      *time.Time `json:"createTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "namespace", "type", "action", "status", "duration", "environmentID", "environmentName", "orgName", "clusterID", "clusterName", "createTime",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "type", "action", "status", "duration", "environmentID", "environmentName", "orgName", "clusterID", "clusterName", "createTime"})
 	} else {
 		return err
 	}

@@ -2,28 +2,23 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // BenchmarkStatus the status of benchmark
 type BenchmarkStatus string
 
 // List of BenchmarkStatus.
 const (
-	BenchmarkStatusPending BenchmarkStatus = "Pending"
-	BenchmarkStatusRunning BenchmarkStatus = "Running"
+	BenchmarkStatusPending   BenchmarkStatus = "Pending"
+	BenchmarkStatusRunning   BenchmarkStatus = "Running"
 	BenchmarkStatusCompleted BenchmarkStatus = "Completed"
-	BenchmarkStatusFailed BenchmarkStatus = "Failed"
+	BenchmarkStatusFailed    BenchmarkStatus = "Failed"
 )
 
 var allowedBenchmarkStatusEnumValues = []BenchmarkStatus{

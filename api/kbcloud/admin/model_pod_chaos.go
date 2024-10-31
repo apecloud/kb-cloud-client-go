@@ -2,25 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type PodChaos struct {
 	// specify the mode of chaos
 	Mode PodChaosMode `json:"mode"`
 	// the id of cluster to perform chaos
-	ClusterId string `json:"clusterID"`
-	Value *string `json:"value,omitempty"`
+	ClusterId string  `json:"clusterID"`
+	Value     *string `json:"value,omitempty"`
 	// specify the action to be performed
 	Action PodChaosAction `json:"action"`
 	// specify the duration of the chaos action
@@ -30,10 +25,9 @@ type PodChaos struct {
 	// the name of the pod to perform the chaos
 	Name *string `json:"name,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPodChaos instantiates a new PodChaos object.
 // This constructor will assign default values to properties that have it defined,
@@ -54,6 +48,7 @@ func NewPodChaosWithDefaults() *PodChaos {
 	this := PodChaos{}
 	return &this
 }
+
 // GetMode returns the Mode field value.
 func (o *PodChaos) GetMode() PodChaosMode {
 	if o == nil {
@@ -77,7 +72,6 @@ func (o *PodChaos) SetMode(v PodChaosMode) {
 	o.Mode = v
 }
 
-
 // GetClusterId returns the ClusterId field value.
 func (o *PodChaos) GetClusterId() string {
 	if o == nil {
@@ -100,7 +94,6 @@ func (o *PodChaos) GetClusterIdOk() (*string, bool) {
 func (o *PodChaos) SetClusterId(v string) {
 	o.ClusterId = v
 }
-
 
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *PodChaos) GetValue() string {
@@ -130,7 +123,6 @@ func (o *PodChaos) SetValue(v string) {
 	o.Value = &v
 }
 
-
 // GetAction returns the Action field value.
 func (o *PodChaos) GetAction() PodChaosAction {
 	if o == nil {
@@ -153,7 +145,6 @@ func (o *PodChaos) GetActionOk() (*PodChaosAction, bool) {
 func (o *PodChaos) SetAction(v PodChaosAction) {
 	o.Action = v
 }
-
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *PodChaos) GetDuration() string {
@@ -183,7 +174,6 @@ func (o *PodChaos) SetDuration(v string) {
 	o.Duration = &v
 }
 
-
 // GetGracePeriod returns the GracePeriod field value if set, zero value otherwise.
 func (o *PodChaos) GetGracePeriod() int32 {
 	if o == nil || o.GracePeriod == nil {
@@ -212,7 +202,6 @@ func (o *PodChaos) SetGracePeriod(v int32) {
 	o.GracePeriod = &v
 }
 
-
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *PodChaos) GetName() string {
 	if o == nil || o.Name == nil {
@@ -240,8 +229,6 @@ func (o *PodChaos) HasName() bool {
 func (o *PodChaos) SetName(v string) {
 	o.Name = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o PodChaos) MarshalJSON() ([]byte, error) {
@@ -274,13 +261,13 @@ func (o PodChaos) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PodChaos) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode *PodChaosMode `json:"mode"`
-		ClusterId *string `json:"clusterID"`
-		Value *string `json:"value,omitempty"`
-		Action *PodChaosAction `json:"action"`
-		Duration *string `json:"duration,omitempty"`
-		GracePeriod *int32 `json:"gracePeriod,omitempty"`
-		Name *string `json:"name,omitempty"`
+		Mode        *PodChaosMode   `json:"mode"`
+		ClusterId   *string         `json:"clusterID"`
+		Value       *string         `json:"value,omitempty"`
+		Action      *PodChaosAction `json:"action"`
+		Duration    *string         `json:"duration,omitempty"`
+		GracePeriod *int32          `json:"gracePeriod,omitempty"`
+		Name        *string         `json:"name,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -296,7 +283,7 @@ func (o *PodChaos) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "mode", "clusterID", "value", "action", "duration", "gracePeriod", "name",  })
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "clusterID", "value", "action", "duration", "gracePeriod", "name"})
 	} else {
 		return err
 	}

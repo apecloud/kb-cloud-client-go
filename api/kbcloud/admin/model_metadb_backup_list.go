@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Metadb_backupList BackupList is a list of backups 
+// Metadb_backupList BackupList is a list of backups
 type Metadb_backupList struct {
 	// Items is the list of backup objects in the list
 	Items []Metadb_backup `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewMetadb_backupList instantiates a new Metadb_backupList object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewMetadb_backupListWithDefaults() *Metadb_backupList {
 	this := Metadb_backupList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *Metadb_backupList) GetItems() []Metadb_backup {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *Metadb_backupList) GetItemsOk() (*[]Metadb_backup, bool) {
 func (o *Metadb_backupList) SetItems(v []Metadb_backup) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Metadb_backupList) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *Metadb_backupList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

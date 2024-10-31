@@ -2,33 +2,27 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ModeComponent struct {
-	Component string `json:"component"`
-	Shards *IntegerOption `json:"shards,omitempty"`
-	Replicas IntegerOption `json:"replicas"`
-	Cpu FloatOption `json:"cpu"`
-	Memory FloatOption `json:"memory"`
-	HideEnpoints bool `json:"hideEnpoints"`
-	HideOnCreate bool `json:"hideOnCreate"`
-	Storages []StorageOption `json:"storages"`
+	Component    string          `json:"component"`
+	Shards       *IntegerOption  `json:"shards,omitempty"`
+	Replicas     IntegerOption   `json:"replicas"`
+	Cpu          FloatOption     `json:"cpu"`
+	Memory       FloatOption     `json:"memory"`
+	HideEnpoints bool            `json:"hideEnpoints"`
+	HideOnCreate bool            `json:"hideOnCreate"`
+	Storages     []StorageOption `json:"storages"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewModeComponent instantiates a new ModeComponent object.
 // This constructor will assign default values to properties that have it defined,
@@ -53,6 +47,7 @@ func NewModeComponentWithDefaults() *ModeComponent {
 	this := ModeComponent{}
 	return &this
 }
+
 // GetComponent returns the Component field value.
 func (o *ModeComponent) GetComponent() string {
 	if o == nil {
@@ -75,7 +70,6 @@ func (o *ModeComponent) GetComponentOk() (*string, bool) {
 func (o *ModeComponent) SetComponent(v string) {
 	o.Component = v
 }
-
 
 // GetShards returns the Shards field value if set, zero value otherwise.
 func (o *ModeComponent) GetShards() IntegerOption {
@@ -105,7 +99,6 @@ func (o *ModeComponent) SetShards(v IntegerOption) {
 	o.Shards = &v
 }
 
-
 // GetReplicas returns the Replicas field value.
 func (o *ModeComponent) GetReplicas() IntegerOption {
 	if o == nil {
@@ -128,7 +121,6 @@ func (o *ModeComponent) GetReplicasOk() (*IntegerOption, bool) {
 func (o *ModeComponent) SetReplicas(v IntegerOption) {
 	o.Replicas = v
 }
-
 
 // GetCpu returns the Cpu field value.
 func (o *ModeComponent) GetCpu() FloatOption {
@@ -153,7 +145,6 @@ func (o *ModeComponent) SetCpu(v FloatOption) {
 	o.Cpu = v
 }
 
-
 // GetMemory returns the Memory field value.
 func (o *ModeComponent) GetMemory() FloatOption {
 	if o == nil {
@@ -176,7 +167,6 @@ func (o *ModeComponent) GetMemoryOk() (*FloatOption, bool) {
 func (o *ModeComponent) SetMemory(v FloatOption) {
 	o.Memory = v
 }
-
 
 // GetHideEnpoints returns the HideEnpoints field value.
 func (o *ModeComponent) GetHideEnpoints() bool {
@@ -201,7 +191,6 @@ func (o *ModeComponent) SetHideEnpoints(v bool) {
 	o.HideEnpoints = v
 }
 
-
 // GetHideOnCreate returns the HideOnCreate field value.
 func (o *ModeComponent) GetHideOnCreate() bool {
 	if o == nil {
@@ -225,7 +214,6 @@ func (o *ModeComponent) SetHideOnCreate(v bool) {
 	o.HideOnCreate = v
 }
 
-
 // GetStorages returns the Storages field value.
 func (o *ModeComponent) GetStorages() []StorageOption {
 	if o == nil {
@@ -248,8 +236,6 @@ func (o *ModeComponent) GetStoragesOk() (*[]StorageOption, bool) {
 func (o *ModeComponent) SetStorages(v []StorageOption) {
 	o.Storages = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeComponent) MarshalJSON() ([]byte, error) {
@@ -277,14 +263,14 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component"`
-		Shards *IntegerOption `json:"shards,omitempty"`
-		Replicas *IntegerOption `json:"replicas"`
-		Cpu *FloatOption `json:"cpu"`
-		Memory *FloatOption `json:"memory"`
-		HideEnpoints *bool `json:"hideEnpoints"`
-		HideOnCreate *bool `json:"hideOnCreate"`
-		Storages *[]StorageOption `json:"storages"`
+		Component    *string          `json:"component"`
+		Shards       *IntegerOption   `json:"shards,omitempty"`
+		Replicas     *IntegerOption   `json:"replicas"`
+		Cpu          *FloatOption     `json:"cpu"`
+		Memory       *FloatOption     `json:"memory"`
+		HideEnpoints *bool            `json:"hideEnpoints"`
+		HideOnCreate *bool            `json:"hideOnCreate"`
+		Storages     *[]StorageOption `json:"storages"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -312,14 +298,14 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "component", "shards", "replicas", "cpu", "memory", "hideEnpoints", "hideOnCreate", "storages",  })
+		common.DeleteKeys(additionalProperties, &[]string{"component", "shards", "replicas", "cpu", "memory", "hideEnpoints", "hideOnCreate", "storages"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Component = *all.Component
-	if  all.Shards != nil && all.Shards.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Shards != nil && all.Shards.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Shards = all.Shards

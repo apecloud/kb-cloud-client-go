@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// RecycleBinClusterListItem information of kubeblocks cluster in recycle bin 
+// RecycleBinClusterListItem information of kubeblocks cluster in recycle bin
 type RecycleBinClusterListItem struct {
 	// Cloud Provider
 	CloudProvider string `json:"cloudProvider"`
@@ -54,10 +50,9 @@ type RecycleBinClusterListItem struct {
 	// ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
 	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRecycleBinClusterListItem instantiates a new RecycleBinClusterListItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -83,6 +78,7 @@ func NewRecycleBinClusterListItemWithDefaults() *RecycleBinClusterListItem {
 	this := RecycleBinClusterListItem{}
 	return &this
 }
+
 // GetCloudProvider returns the CloudProvider field value.
 func (o *RecycleBinClusterListItem) GetCloudProvider() string {
 	if o == nil {
@@ -105,7 +101,6 @@ func (o *RecycleBinClusterListItem) GetCloudProviderOk() (*string, bool) {
 func (o *RecycleBinClusterListItem) SetCloudProvider(v string) {
 	o.CloudProvider = v
 }
-
 
 // GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetCloudRegion() string {
@@ -135,7 +130,6 @@ func (o *RecycleBinClusterListItem) SetCloudRegion(v string) {
 	o.CloudRegion = &v
 }
 
-
 // GetAvailabilityZones returns the AvailabilityZones field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetAvailabilityZones() []string {
 	if o == nil || o.AvailabilityZones == nil {
@@ -163,7 +157,6 @@ func (o *RecycleBinClusterListItem) HasAvailabilityZones() bool {
 func (o *RecycleBinClusterListItem) SetAvailabilityZones(v []string) {
 	o.AvailabilityZones = v
 }
-
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetDisplayName() string {
@@ -193,7 +186,6 @@ func (o *RecycleBinClusterListItem) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
-
 // GetEngine returns the Engine field value.
 func (o *RecycleBinClusterListItem) GetEngine() string {
 	if o == nil {
@@ -216,7 +208,6 @@ func (o *RecycleBinClusterListItem) GetEngineOk() (*string, bool) {
 func (o *RecycleBinClusterListItem) SetEngine(v string) {
 	o.Engine = v
 }
-
 
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetMode() string {
@@ -246,7 +237,6 @@ func (o *RecycleBinClusterListItem) SetMode(v string) {
 	o.Mode = &v
 }
 
-
 // GetEnvironmentName returns the EnvironmentName field value.
 func (o *RecycleBinClusterListItem) GetEnvironmentName() string {
 	if o == nil {
@@ -270,7 +260,6 @@ func (o *RecycleBinClusterListItem) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
 }
 
-
 // GetId returns the Id field value.
 func (o *RecycleBinClusterListItem) GetId() string {
 	if o == nil {
@@ -293,7 +282,6 @@ func (o *RecycleBinClusterListItem) GetIdOk() (*string, bool) {
 func (o *RecycleBinClusterListItem) SetId(v string) {
 	o.Id = v
 }
-
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetClusterId() string {
@@ -323,7 +311,6 @@ func (o *RecycleBinClusterListItem) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *RecycleBinClusterListItem) GetName() string {
 	if o == nil {
@@ -347,7 +334,6 @@ func (o *RecycleBinClusterListItem) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetVersion returns the Version field value.
 func (o *RecycleBinClusterListItem) GetVersion() string {
 	if o == nil {
@@ -370,7 +356,6 @@ func (o *RecycleBinClusterListItem) GetVersionOk() (*string, bool) {
 func (o *RecycleBinClusterListItem) SetVersion(v string) {
 	o.Version = v
 }
-
 
 // GetClassCode returns the ClassCode field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetClassCode() string {
@@ -400,7 +385,6 @@ func (o *RecycleBinClusterListItem) SetClassCode(v string) {
 	o.ClassCode = &v
 }
 
-
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetStorage() string {
 	if o == nil || o.Storage == nil {
@@ -428,7 +412,6 @@ func (o *RecycleBinClusterListItem) HasStorage() bool {
 func (o *RecycleBinClusterListItem) SetStorage(v string) {
 	o.Storage = &v
 }
-
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetOrgName() string {
@@ -458,7 +441,6 @@ func (o *RecycleBinClusterListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-
 // GetState returns the State field value.
 func (o *RecycleBinClusterListItem) GetState() string {
 	if o == nil {
@@ -482,7 +464,6 @@ func (o *RecycleBinClusterListItem) SetState(v string) {
 	o.State = v
 }
 
-
 // GetStoppedAt returns the StoppedAt field value.
 func (o *RecycleBinClusterListItem) GetStoppedAt() time.Time {
 	if o == nil {
@@ -505,7 +486,6 @@ func (o *RecycleBinClusterListItem) GetStoppedAtOk() (*time.Time, bool) {
 func (o *RecycleBinClusterListItem) SetStoppedAt(v time.Time) {
 	o.StoppedAt = v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetCreatedAt() time.Time {
@@ -535,7 +515,6 @@ func (o *RecycleBinClusterListItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetExpiredAt returns the ExpiredAt field value if set, zero value otherwise.
 func (o *RecycleBinClusterListItem) GetExpiredAt() time.Time {
 	if o == nil || o.ExpiredAt == nil {
@@ -563,8 +542,6 @@ func (o *RecycleBinClusterListItem) HasExpiredAt() bool {
 func (o *RecycleBinClusterListItem) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o RecycleBinClusterListItem) MarshalJSON() ([]byte, error) {
@@ -632,24 +609,24 @@ func (o RecycleBinClusterListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RecycleBinClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CloudProvider *string `json:"cloudProvider"`
-		CloudRegion *string `json:"cloudRegion,omitempty"`
-		AvailabilityZones []string `json:"availabilityZones,omitempty"`
-		DisplayName *string `json:"displayName,omitempty"`
-		Engine *string `json:"engine"`
-		Mode *string `json:"mode,omitempty"`
-		EnvironmentName *string `json:"environmentName"`
-		Id *string `json:"id"`
-		ClusterId *string `json:"clusterId,omitempty"`
-		Name *string `json:"name"`
-		Version *string `json:"version"`
-		ClassCode *string `json:"classCode,omitempty"`
-		Storage *string `json:"storage,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
-		State *string `json:"state"`
-		StoppedAt *time.Time `json:"stoppedAt"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		ExpiredAt *time.Time `json:"expiredAt,omitempty"`
+		CloudProvider     *string    `json:"cloudProvider"`
+		CloudRegion       *string    `json:"cloudRegion,omitempty"`
+		AvailabilityZones []string   `json:"availabilityZones,omitempty"`
+		DisplayName       *string    `json:"displayName,omitempty"`
+		Engine            *string    `json:"engine"`
+		Mode              *string    `json:"mode,omitempty"`
+		EnvironmentName   *string    `json:"environmentName"`
+		Id                *string    `json:"id"`
+		ClusterId         *string    `json:"clusterId,omitempty"`
+		Name              *string    `json:"name"`
+		Version           *string    `json:"version"`
+		ClassCode         *string    `json:"classCode,omitempty"`
+		Storage           *string    `json:"storage,omitempty"`
+		OrgName           *string    `json:"orgName,omitempty"`
+		State             *string    `json:"state"`
+		StoppedAt         *time.Time `json:"stoppedAt"`
+		CreatedAt         *time.Time `json:"createdAt,omitempty"`
+		ExpiredAt         *time.Time `json:"expiredAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -680,7 +657,7 @@ func (o *RecycleBinClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cloudProvider", "cloudRegion", "availabilityZones", "displayName", "engine", "mode", "environmentName", "id", "clusterId", "name", "version", "classCode", "storage", "orgName", "state", "stoppedAt", "createdAt", "expiredAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "displayName", "engine", "mode", "environmentName", "id", "clusterId", "name", "version", "classCode", "storage", "orgName", "state", "stoppedAt", "createdAt", "expiredAt"})
 	} else {
 		return err
 	}

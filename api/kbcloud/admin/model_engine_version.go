@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// EngineVersion EngineVersionRecord 
+// EngineVersion EngineVersionRecord
 type EngineVersion struct {
 	// Primary Key for the EngineVersionRecord
 	Id int32 `json:"id"`
@@ -40,10 +36,9 @@ type EngineVersion struct {
 	// Timestamp when the record was last updated
 	UpdatedAt common.NullableTime `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEngineVersion instantiates a new EngineVersion object.
 // This constructor will assign default values to properties that have it defined,
@@ -70,6 +65,7 @@ func NewEngineVersionWithDefaults() *EngineVersion {
 	this.SetImageRegistry = *common.NewNullableBool(&setImageRegistry)
 	return &this
 }
+
 // GetId returns the Id field value.
 func (o *EngineVersion) GetId() int32 {
 	if o == nil {
@@ -92,7 +88,6 @@ func (o *EngineVersion) GetIdOk() (*int32, bool) {
 func (o *EngineVersion) SetId(v int32) {
 	o.Id = v
 }
-
 
 // GetEngineName returns the EngineName field value.
 func (o *EngineVersion) GetEngineName() string {
@@ -117,7 +112,6 @@ func (o *EngineVersion) SetEngineName(v string) {
 	o.EngineName = v
 }
 
-
 // GetVersion returns the Version field value.
 func (o *EngineVersion) GetVersion() string {
 	if o == nil {
@@ -140,7 +134,6 @@ func (o *EngineVersion) GetVersionOk() (*string, bool) {
 func (o *EngineVersion) SetVersion(v string) {
 	o.Version = v
 }
-
 
 // GetKbVersionConstraint returns the KbVersionConstraint field value.
 func (o *EngineVersion) GetKbVersionConstraint() string {
@@ -165,7 +158,6 @@ func (o *EngineVersion) SetKbVersionConstraint(v string) {
 	o.KbVersionConstraint = v
 }
 
-
 // GetClusterChartUrl returns the ClusterChartUrl field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetClusterChartUrl() string {
 	if o == nil || o.ClusterChartUrl.Get() == nil {
@@ -179,7 +171,7 @@ func (o *EngineVersion) GetClusterChartUrl() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersion) GetClusterChartUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ClusterChartUrl.Get(), o.ClusterChartUrl.IsSet()
@@ -194,6 +186,7 @@ func (o *EngineVersion) HasClusterChartUrl() bool {
 func (o *EngineVersion) SetClusterChartUrl(v string) {
 	o.ClusterChartUrl.Set(&v)
 }
+
 // SetClusterChartUrlNil sets the value for ClusterChartUrl to be an explicit nil.
 func (o *EngineVersion) SetClusterChartUrlNil() {
 	o.ClusterChartUrl.Set(nil)
@@ -203,7 +196,6 @@ func (o *EngineVersion) SetClusterChartUrlNil() {
 func (o *EngineVersion) UnsetClusterChartUrl() {
 	o.ClusterChartUrl.Unset()
 }
-
 
 // GetChartUrl returns the ChartUrl field value.
 func (o *EngineVersion) GetChartUrl() string {
@@ -228,7 +220,6 @@ func (o *EngineVersion) SetChartUrl(v string) {
 	o.ChartUrl = v
 }
 
-
 // GetSetValues returns the SetValues field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetSetValues() string {
 	if o == nil || o.SetValues.Get() == nil {
@@ -242,7 +233,7 @@ func (o *EngineVersion) GetSetValues() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersion) GetSetValuesOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.SetValues.Get(), o.SetValues.IsSet()
@@ -257,6 +248,7 @@ func (o *EngineVersion) HasSetValues() bool {
 func (o *EngineVersion) SetSetValues(v string) {
 	o.SetValues.Set(&v)
 }
+
 // SetSetValuesNil sets the value for SetValues to be an explicit nil.
 func (o *EngineVersion) SetSetValuesNil() {
 	o.SetValues.Set(nil)
@@ -266,7 +258,6 @@ func (o *EngineVersion) SetSetValuesNil() {
 func (o *EngineVersion) UnsetSetValues() {
 	o.SetValues.Unset()
 }
-
 
 // GetChartsImage returns the ChartsImage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetChartsImage() string {
@@ -281,7 +272,7 @@ func (o *EngineVersion) GetChartsImage() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersion) GetChartsImageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ChartsImage.Get(), o.ChartsImage.IsSet()
@@ -296,6 +287,7 @@ func (o *EngineVersion) HasChartsImage() bool {
 func (o *EngineVersion) SetChartsImage(v string) {
 	o.ChartsImage.Set(&v)
 }
+
 // SetChartsImageNil sets the value for ChartsImage to be an explicit nil.
 func (o *EngineVersion) SetChartsImageNil() {
 	o.ChartsImage.Set(nil)
@@ -305,7 +297,6 @@ func (o *EngineVersion) SetChartsImageNil() {
 func (o *EngineVersion) UnsetChartsImage() {
 	o.ChartsImage.Unset()
 }
-
 
 // GetSetImageRegistry returns the SetImageRegistry field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetSetImageRegistry() bool {
@@ -320,7 +311,7 @@ func (o *EngineVersion) GetSetImageRegistry() bool {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersion) GetSetImageRegistryOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.SetImageRegistry.Get(), o.SetImageRegistry.IsSet()
@@ -335,6 +326,7 @@ func (o *EngineVersion) HasSetImageRegistry() bool {
 func (o *EngineVersion) SetSetImageRegistry(v bool) {
 	o.SetImageRegistry.Set(&v)
 }
+
 // SetSetImageRegistryNil sets the value for SetImageRegistry to be an explicit nil.
 func (o *EngineVersion) SetSetImageRegistryNil() {
 	o.SetImageRegistry.Set(nil)
@@ -344,7 +336,6 @@ func (o *EngineVersion) SetSetImageRegistryNil() {
 func (o *EngineVersion) UnsetSetImageRegistry() {
 	o.SetImageRegistry.Unset()
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetCreatedAt() time.Time {
@@ -359,7 +350,7 @@ func (o *EngineVersion) GetCreatedAt() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersion) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.CreatedAt.Get(), o.CreatedAt.IsSet()
@@ -374,6 +365,7 @@ func (o *EngineVersion) HasCreatedAt() bool {
 func (o *EngineVersion) SetCreatedAt(v time.Time) {
 	o.CreatedAt.Set(&v)
 }
+
 // SetCreatedAtNil sets the value for CreatedAt to be an explicit nil.
 func (o *EngineVersion) SetCreatedAtNil() {
 	o.CreatedAt.Set(nil)
@@ -383,7 +375,6 @@ func (o *EngineVersion) SetCreatedAtNil() {
 func (o *EngineVersion) UnsetCreatedAt() {
 	o.CreatedAt.Unset()
 }
-
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EngineVersion) GetUpdatedAt() time.Time {
@@ -398,7 +389,7 @@ func (o *EngineVersion) GetUpdatedAt() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EngineVersion) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.UpdatedAt.Get(), o.UpdatedAt.IsSet()
@@ -413,6 +404,7 @@ func (o *EngineVersion) HasUpdatedAt() bool {
 func (o *EngineVersion) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt.Set(&v)
 }
+
 // SetUpdatedAtNil sets the value for UpdatedAt to be an explicit nil.
 func (o *EngineVersion) SetUpdatedAtNil() {
 	o.UpdatedAt.Set(nil)
@@ -422,8 +414,6 @@ func (o *EngineVersion) SetUpdatedAtNil() {
 func (o *EngineVersion) UnsetUpdatedAt() {
 	o.UpdatedAt.Unset()
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineVersion) MarshalJSON() ([]byte, error) {
@@ -464,17 +454,17 @@ func (o EngineVersion) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *int32 `json:"id"`
-		EngineName *string `json:"engineName"`
-		Version *string `json:"version"`
-		KbVersionConstraint *string `json:"kbVersionConstraint"`
-		ClusterChartUrl common.NullableString `json:"clusterChartUrl,omitempty"`
-		ChartUrl *string `json:"chartUrl"`
-		SetValues common.NullableString `json:"setValues,omitempty"`
-		ChartsImage common.NullableString `json:"chartsImage,omitempty"`
-		SetImageRegistry common.NullableBool `json:"setImageRegistry,omitempty"`
-		CreatedAt common.NullableTime `json:"createdAt,omitempty"`
-		UpdatedAt common.NullableTime `json:"updatedAt,omitempty"`
+		Id                  *int32                `json:"id"`
+		EngineName          *string               `json:"engineName"`
+		Version             *string               `json:"version"`
+		KbVersionConstraint *string               `json:"kbVersionConstraint"`
+		ClusterChartUrl     common.NullableString `json:"clusterChartUrl,omitempty"`
+		ChartUrl            *string               `json:"chartUrl"`
+		SetValues           common.NullableString `json:"setValues,omitempty"`
+		ChartsImage         common.NullableString `json:"chartsImage,omitempty"`
+		SetImageRegistry    common.NullableBool   `json:"setImageRegistry,omitempty"`
+		CreatedAt           common.NullableTime   `json:"createdAt,omitempty"`
+		UpdatedAt           common.NullableTime   `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -496,7 +486,7 @@ func (o *EngineVersion) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry", "createdAt", "updatedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "engineName", "version", "kbVersionConstraint", "clusterChartUrl", "chartUrl", "setValues", "chartsImage", "setImageRegistry", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}

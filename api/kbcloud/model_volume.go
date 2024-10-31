@@ -2,31 +2,21 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type Volume struct {
-	Name *string `json:"name,omitempty"`
-	Type *string `json:"type,omitempty"`
+	Name      *string `json:"name,omitempty"`
+	Type      *string `json:"type,omitempty"`
 	IsDefault *string `json:"isDefault,omitempty"`
-	Location *string `json:"location,omitempty"`
-	Params *string `json:"params,omitempty"`
-	Comment *string `json:"comment,omitempty"`
+	Location  *string `json:"location,omitempty"`
+	Params    *string `json:"params,omitempty"`
+	Comment   *string `json:"comment,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewVolume instantiates a new Volume object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +34,7 @@ func NewVolumeWithDefaults() *Volume {
 	this := Volume{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Volume) GetName() string {
 	if o == nil || o.Name == nil {
@@ -71,7 +62,6 @@ func (o *Volume) HasName() bool {
 func (o *Volume) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Volume) GetType() string {
@@ -101,7 +91,6 @@ func (o *Volume) SetType(v string) {
 	o.Type = &v
 }
 
-
 // GetIsDefault returns the IsDefault field value if set, zero value otherwise.
 func (o *Volume) GetIsDefault() string {
 	if o == nil || o.IsDefault == nil {
@@ -129,7 +118,6 @@ func (o *Volume) HasIsDefault() bool {
 func (o *Volume) SetIsDefault(v string) {
 	o.IsDefault = &v
 }
-
 
 // GetLocation returns the Location field value if set, zero value otherwise.
 func (o *Volume) GetLocation() string {
@@ -159,7 +147,6 @@ func (o *Volume) SetLocation(v string) {
 	o.Location = &v
 }
 
-
 // GetParams returns the Params field value if set, zero value otherwise.
 func (o *Volume) GetParams() string {
 	if o == nil || o.Params == nil {
@@ -188,7 +175,6 @@ func (o *Volume) SetParams(v string) {
 	o.Params = &v
 }
 
-
 // GetComment returns the Comment field value if set, zero value otherwise.
 func (o *Volume) GetComment() string {
 	if o == nil || o.Comment == nil {
@@ -216,8 +202,6 @@ func (o *Volume) HasComment() bool {
 func (o *Volume) SetComment(v string) {
 	o.Comment = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Volume) MarshalJSON() ([]byte, error) {
@@ -253,19 +237,19 @@ func (o Volume) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Volume) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Type *string `json:"type,omitempty"`
+		Name      *string `json:"name,omitempty"`
+		Type      *string `json:"type,omitempty"`
 		IsDefault *string `json:"isDefault,omitempty"`
-		Location *string `json:"location,omitempty"`
-		Params *string `json:"params,omitempty"`
-		Comment *string `json:"comment,omitempty"`
+		Location  *string `json:"location,omitempty"`
+		Params    *string `json:"params,omitempty"`
+		Comment   *string `json:"comment,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "type", "isDefault", "location", "params", "comment",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "isDefault", "location", "params", "comment"})
 	} else {
 		return err
 	}

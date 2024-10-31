@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type AlertStrategyMuteTimeInterval struct {
-	Weekdays []int32 `json:"weekdays,omitempty"`
-	Times *AlertStrategyMuteTimeIntervalTimes `json:"times,omitempty"`
+	Weekdays []int32                             `json:"weekdays,omitempty"`
+	Times    *AlertStrategyMuteTimeIntervalTimes `json:"times,omitempty"`
 	// Only mute once for `onceMinutes` minutes
 	OnceMinutes *int32 `json:"onceMinutes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAlertStrategyMuteTimeInterval instantiates a new AlertStrategyMuteTimeInterval object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewAlertStrategyMuteTimeIntervalWithDefaults() *AlertStrategyMuteTimeInterv
 	this := AlertStrategyMuteTimeInterval{}
 	return &this
 }
+
 // GetWeekdays returns the Weekdays field value if set, zero value otherwise.
 func (o *AlertStrategyMuteTimeInterval) GetWeekdays() []int32 {
 	if o == nil || o.Weekdays == nil {
@@ -69,7 +60,6 @@ func (o *AlertStrategyMuteTimeInterval) HasWeekdays() bool {
 func (o *AlertStrategyMuteTimeInterval) SetWeekdays(v []int32) {
 	o.Weekdays = v
 }
-
 
 // GetTimes returns the Times field value if set, zero value otherwise.
 func (o *AlertStrategyMuteTimeInterval) GetTimes() AlertStrategyMuteTimeIntervalTimes {
@@ -99,7 +89,6 @@ func (o *AlertStrategyMuteTimeInterval) SetTimes(v AlertStrategyMuteTimeInterval
 	o.Times = &v
 }
 
-
 // GetOnceMinutes returns the OnceMinutes field value if set, zero value otherwise.
 func (o *AlertStrategyMuteTimeInterval) GetOnceMinutes() int32 {
 	if o == nil || o.OnceMinutes == nil {
@@ -128,8 +117,6 @@ func (o *AlertStrategyMuteTimeInterval) SetOnceMinutes(v int32) {
 	o.OnceMinutes = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertStrategyMuteTimeInterval) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -155,23 +142,23 @@ func (o AlertStrategyMuteTimeInterval) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertStrategyMuteTimeInterval) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Weekdays []int32 `json:"weekdays,omitempty"`
-		Times *AlertStrategyMuteTimeIntervalTimes `json:"times,omitempty"`
-		OnceMinutes *int32 `json:"onceMinutes,omitempty"`
+		Weekdays    []int32                             `json:"weekdays,omitempty"`
+		Times       *AlertStrategyMuteTimeIntervalTimes `json:"times,omitempty"`
+		OnceMinutes *int32                              `json:"onceMinutes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "weekdays", "times", "onceMinutes",  })
+		common.DeleteKeys(additionalProperties, &[]string{"weekdays", "times", "onceMinutes"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Weekdays = all.Weekdays
-	if  all.Times != nil && all.Times.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Times != nil && all.Times.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Times = all.Times

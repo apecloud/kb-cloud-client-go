@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// VipPool VIP Pool 
+// VipPool VIP Pool
 type VipPool struct {
 	// IP Addresses
 	Addresses string `json:"addresses"`
@@ -26,10 +21,9 @@ type VipPool struct {
 	// Used number of IP addresses
 	Used int64 `json:"used"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewVipPool instantiates a new VipPool object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +44,7 @@ func NewVipPoolWithDefaults() *VipPool {
 	this := VipPool{}
 	return &this
 }
+
 // GetAddresses returns the Addresses field value.
 func (o *VipPool) GetAddresses() string {
 	if o == nil {
@@ -72,7 +67,6 @@ func (o *VipPool) GetAddressesOk() (*string, bool) {
 func (o *VipPool) SetAddresses(v string) {
 	o.Addresses = v
 }
-
 
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *VipPool) GetId() interface{} {
@@ -102,7 +96,6 @@ func (o *VipPool) SetId(v interface{}) {
 	o.Id = v
 }
 
-
 // GetTotal returns the Total field value.
 func (o *VipPool) GetTotal() int64 {
 	if o == nil {
@@ -125,7 +118,6 @@ func (o *VipPool) GetTotalOk() (*int64, bool) {
 func (o *VipPool) SetTotal(v int64) {
 	o.Total = v
 }
-
 
 // GetUsed returns the Used field value.
 func (o *VipPool) GetUsed() int64 {
@@ -150,8 +142,6 @@ func (o *VipPool) SetUsed(v int64) {
 	o.Used = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o VipPool) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -174,10 +164,10 @@ func (o VipPool) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Addresses *string `json:"addresses"`
-		Id interface{} `json:"id,omitempty"`
-		Total *int64 `json:"total"`
-		Used *int64 `json:"used"`
+		Addresses *string     `json:"addresses"`
+		Id        interface{} `json:"id,omitempty"`
+		Total     *int64      `json:"total"`
+		Used      *int64      `json:"used"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -193,7 +183,7 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "addresses", "id", "total", "used",  })
+		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "total", "used"})
 	} else {
 		return err
 	}

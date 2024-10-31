@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ProviderCreate The cloud provider that needs to be created. 
+// ProviderCreate The cloud provider that needs to be created.
 type ProviderCreate struct {
 	// The name of the cloud provider.
 	Name string `json:"name"`
@@ -30,10 +25,9 @@ type ProviderCreate struct {
 	// Whether the cloud provider supports ARN.
 	SupportArn bool `json:"supportARN"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewProviderCreate instantiates a new ProviderCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -57,6 +51,7 @@ func NewProviderCreateWithDefaults() *ProviderCreate {
 	this := ProviderCreate{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *ProviderCreate) GetName() string {
 	if o == nil {
@@ -79,7 +74,6 @@ func (o *ProviderCreate) GetNameOk() (*string, bool) {
 func (o *ProviderCreate) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetLogo returns the Logo field value.
 func (o *ProviderCreate) GetLogo() string {
@@ -104,7 +98,6 @@ func (o *ProviderCreate) SetLogo(v string) {
 	o.Logo = v
 }
 
-
 // GetEnabled returns the Enabled field value.
 func (o *ProviderCreate) GetEnabled() bool {
 	if o == nil {
@@ -127,7 +120,6 @@ func (o *ProviderCreate) GetEnabledOk() (*bool, bool) {
 func (o *ProviderCreate) SetEnabled(v bool) {
 	o.Enabled = v
 }
-
 
 // GetNameCn returns the NameCn field value.
 func (o *ProviderCreate) GetNameCn() string {
@@ -152,7 +144,6 @@ func (o *ProviderCreate) SetNameCn(v string) {
 	o.NameCn = v
 }
 
-
 // GetNameEn returns the NameEn field value.
 func (o *ProviderCreate) GetNameEn() string {
 	if o == nil {
@@ -175,7 +166,6 @@ func (o *ProviderCreate) GetNameEnOk() (*string, bool) {
 func (o *ProviderCreate) SetNameEn(v string) {
 	o.NameEn = v
 }
-
 
 // GetSupportArn returns the SupportArn field value.
 func (o *ProviderCreate) GetSupportArn() bool {
@@ -200,8 +190,6 @@ func (o *ProviderCreate) SetSupportArn(v bool) {
 	o.SupportArn = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ProviderCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -224,12 +212,12 @@ func (o ProviderCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProviderCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		Logo *string `json:"logo"`
-		Enabled *bool `json:"enabled"`
-		NameCn *string `json:"nameCN"`
-		NameEn *string `json:"nameEN"`
-		SupportArn *bool `json:"supportARN"`
+		Name       *string `json:"name"`
+		Logo       *string `json:"logo"`
+		Enabled    *bool   `json:"enabled"`
+		NameCn     *string `json:"nameCN"`
+		NameEn     *string `json:"nameEN"`
+		SupportArn *bool   `json:"supportARN"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -254,7 +242,7 @@ func (o *ProviderCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "logo", "enabled", "nameCN", "nameEN", "supportARN",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "logo", "enabled", "nameCN", "nameEN", "supportARN"})
 	} else {
 		return err
 	}

@@ -2,42 +2,37 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// AlertTemplate Alert template 
+// AlertTemplate Alert template
 type AlertTemplate struct {
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Description *string `json:"description,omitempty"`
-	EmailSubject *string `json:"emailSubject,omitempty"`
-	EmailText *string `json:"emailText,omitempty"`
-	FeishuText *string `json:"feishuText,omitempty"`
-	FeishuTitle *string `json:"feishuTitle,omitempty"`
-	DingdingText *string `json:"dingdingText,omitempty"`
-	DingdingTitle *string `json:"dingdingTitle,omitempty"`
-	WeixinText *string `json:"weixinText,omitempty"`
-	WeixinTitle *string `json:"weixinTitle,omitempty"`
-	WebhookText *string `json:"webhookText,omitempty"`
-	WebhookTitle *string `json:"webhookTitle,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Name string `json:"name"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	IsDefault *bool `json:"isDefault,omitempty"`
+	CreatedAt     *time.Time `json:"createdAt,omitempty"`
+	Description   *string    `json:"description,omitempty"`
+	EmailSubject  *string    `json:"emailSubject,omitempty"`
+	EmailText     *string    `json:"emailText,omitempty"`
+	FeishuText    *string    `json:"feishuText,omitempty"`
+	FeishuTitle   *string    `json:"feishuTitle,omitempty"`
+	DingdingText  *string    `json:"dingdingText,omitempty"`
+	DingdingTitle *string    `json:"dingdingTitle,omitempty"`
+	WeixinText    *string    `json:"weixinText,omitempty"`
+	WeixinTitle   *string    `json:"weixinTitle,omitempty"`
+	WebhookText   *string    `json:"webhookText,omitempty"`
+	WebhookTitle  *string    `json:"webhookTitle,omitempty"`
+	Id            *string    `json:"id,omitempty"`
+	Name          string     `json:"name"`
+	UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
+	IsDefault     *bool      `json:"isDefault,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAlertTemplate instantiates a new AlertTemplate object.
 // This constructor will assign default values to properties that have it defined,
@@ -56,6 +51,7 @@ func NewAlertTemplateWithDefaults() *AlertTemplate {
 	this := AlertTemplate{}
 	return &this
 }
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *AlertTemplate) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -83,7 +79,6 @@ func (o *AlertTemplate) HasCreatedAt() bool {
 func (o *AlertTemplate) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
-
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *AlertTemplate) GetDescription() string {
@@ -113,7 +108,6 @@ func (o *AlertTemplate) SetDescription(v string) {
 	o.Description = &v
 }
 
-
 // GetEmailSubject returns the EmailSubject field value if set, zero value otherwise.
 func (o *AlertTemplate) GetEmailSubject() string {
 	if o == nil || o.EmailSubject == nil {
@@ -141,7 +135,6 @@ func (o *AlertTemplate) HasEmailSubject() bool {
 func (o *AlertTemplate) SetEmailSubject(v string) {
 	o.EmailSubject = &v
 }
-
 
 // GetEmailText returns the EmailText field value if set, zero value otherwise.
 func (o *AlertTemplate) GetEmailText() string {
@@ -171,7 +164,6 @@ func (o *AlertTemplate) SetEmailText(v string) {
 	o.EmailText = &v
 }
 
-
 // GetFeishuText returns the FeishuText field value if set, zero value otherwise.
 func (o *AlertTemplate) GetFeishuText() string {
 	if o == nil || o.FeishuText == nil {
@@ -199,7 +191,6 @@ func (o *AlertTemplate) HasFeishuText() bool {
 func (o *AlertTemplate) SetFeishuText(v string) {
 	o.FeishuText = &v
 }
-
 
 // GetFeishuTitle returns the FeishuTitle field value if set, zero value otherwise.
 func (o *AlertTemplate) GetFeishuTitle() string {
@@ -229,7 +220,6 @@ func (o *AlertTemplate) SetFeishuTitle(v string) {
 	o.FeishuTitle = &v
 }
 
-
 // GetDingdingText returns the DingdingText field value if set, zero value otherwise.
 func (o *AlertTemplate) GetDingdingText() string {
 	if o == nil || o.DingdingText == nil {
@@ -257,7 +247,6 @@ func (o *AlertTemplate) HasDingdingText() bool {
 func (o *AlertTemplate) SetDingdingText(v string) {
 	o.DingdingText = &v
 }
-
 
 // GetDingdingTitle returns the DingdingTitle field value if set, zero value otherwise.
 func (o *AlertTemplate) GetDingdingTitle() string {
@@ -287,7 +276,6 @@ func (o *AlertTemplate) SetDingdingTitle(v string) {
 	o.DingdingTitle = &v
 }
 
-
 // GetWeixinText returns the WeixinText field value if set, zero value otherwise.
 func (o *AlertTemplate) GetWeixinText() string {
 	if o == nil || o.WeixinText == nil {
@@ -315,7 +303,6 @@ func (o *AlertTemplate) HasWeixinText() bool {
 func (o *AlertTemplate) SetWeixinText(v string) {
 	o.WeixinText = &v
 }
-
 
 // GetWeixinTitle returns the WeixinTitle field value if set, zero value otherwise.
 func (o *AlertTemplate) GetWeixinTitle() string {
@@ -345,7 +332,6 @@ func (o *AlertTemplate) SetWeixinTitle(v string) {
 	o.WeixinTitle = &v
 }
 
-
 // GetWebhookText returns the WebhookText field value if set, zero value otherwise.
 func (o *AlertTemplate) GetWebhookText() string {
 	if o == nil || o.WebhookText == nil {
@@ -373,7 +359,6 @@ func (o *AlertTemplate) HasWebhookText() bool {
 func (o *AlertTemplate) SetWebhookText(v string) {
 	o.WebhookText = &v
 }
-
 
 // GetWebhookTitle returns the WebhookTitle field value if set, zero value otherwise.
 func (o *AlertTemplate) GetWebhookTitle() string {
@@ -403,7 +388,6 @@ func (o *AlertTemplate) SetWebhookTitle(v string) {
 	o.WebhookTitle = &v
 }
 
-
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *AlertTemplate) GetId() string {
 	if o == nil || o.Id == nil {
@@ -432,7 +416,6 @@ func (o *AlertTemplate) SetId(v string) {
 	o.Id = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *AlertTemplate) GetName() string {
 	if o == nil {
@@ -455,7 +438,6 @@ func (o *AlertTemplate) GetNameOk() (*string, bool) {
 func (o *AlertTemplate) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *AlertTemplate) GetUpdatedAt() time.Time {
@@ -485,7 +467,6 @@ func (o *AlertTemplate) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
-
 // GetIsDefault returns the IsDefault field value if set, zero value otherwise.
 func (o *AlertTemplate) GetIsDefault() bool {
 	if o == nil || o.IsDefault == nil {
@@ -513,8 +494,6 @@ func (o *AlertTemplate) HasIsDefault() bool {
 func (o *AlertTemplate) SetIsDefault(v bool) {
 	o.IsDefault = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertTemplate) MarshalJSON() ([]byte, error) {
@@ -586,22 +565,22 @@ func (o AlertTemplate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		Description *string `json:"description,omitempty"`
-		EmailSubject *string `json:"emailSubject,omitempty"`
-		EmailText *string `json:"emailText,omitempty"`
-		FeishuText *string `json:"feishuText,omitempty"`
-		FeishuTitle *string `json:"feishuTitle,omitempty"`
-		DingdingText *string `json:"dingdingText,omitempty"`
-		DingdingTitle *string `json:"dingdingTitle,omitempty"`
-		WeixinText *string `json:"weixinText,omitempty"`
-		WeixinTitle *string `json:"weixinTitle,omitempty"`
-		WebhookText *string `json:"webhookText,omitempty"`
-		WebhookTitle *string `json:"webhookTitle,omitempty"`
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-		IsDefault *bool `json:"isDefault,omitempty"`
+		CreatedAt     *time.Time `json:"createdAt,omitempty"`
+		Description   *string    `json:"description,omitempty"`
+		EmailSubject  *string    `json:"emailSubject,omitempty"`
+		EmailText     *string    `json:"emailText,omitempty"`
+		FeishuText    *string    `json:"feishuText,omitempty"`
+		FeishuTitle   *string    `json:"feishuTitle,omitempty"`
+		DingdingText  *string    `json:"dingdingText,omitempty"`
+		DingdingTitle *string    `json:"dingdingTitle,omitempty"`
+		WeixinText    *string    `json:"weixinText,omitempty"`
+		WeixinTitle   *string    `json:"weixinTitle,omitempty"`
+		WebhookText   *string    `json:"webhookText,omitempty"`
+		WebhookTitle  *string    `json:"webhookTitle,omitempty"`
+		Id            *string    `json:"id,omitempty"`
+		Name          *string    `json:"name"`
+		UpdatedAt     *time.Time `json:"updatedAt,omitempty"`
+		IsDefault     *bool      `json:"isDefault,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -611,7 +590,7 @@ func (o *AlertTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "createdAt", "description", "emailSubject", "emailText", "feishuText", "feishuTitle", "dingdingText", "dingdingTitle", "weixinText", "weixinTitle", "webhookText", "webhookTitle", "id", "name", "updatedAt", "isDefault",  })
+		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "description", "emailSubject", "emailText", "feishuText", "feishuTitle", "dingdingText", "dingdingTitle", "weixinText", "weixinTitle", "webhookText", "webhookTitle", "id", "name", "updatedAt", "isDefault"})
 	} else {
 		return err
 	}

@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// InstanceResourceStats InstanceResourceStats holds the requests, limits, and available stats for an instance. 
+// InstanceResourceStats InstanceResourceStats holds the requests, limits, and available stats for an instance.
 type InstanceResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`
@@ -26,10 +21,9 @@ type InstanceResourceStats struct {
 	// Type of the instance, choose cluster or system
 	Type *ResourceStatsInstanceType `json:"type,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewInstanceResourceStats instantiates a new InstanceResourceStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +44,7 @@ func NewInstanceResourceStatsWithDefaults() *InstanceResourceStats {
 	this := InstanceResourceStats{}
 	return &this
 }
+
 // GetCpuStats returns the CpuStats field value.
 func (o *InstanceResourceStats) GetCpuStats() ResourceStats {
 	if o == nil {
@@ -72,7 +67,6 @@ func (o *InstanceResourceStats) GetCpuStatsOk() (*ResourceStats, bool) {
 func (o *InstanceResourceStats) SetCpuStats(v ResourceStats) {
 	o.CpuStats = v
 }
-
 
 // GetMemoryStats returns the MemoryStats field value.
 func (o *InstanceResourceStats) GetMemoryStats() ResourceStats {
@@ -97,7 +91,6 @@ func (o *InstanceResourceStats) SetMemoryStats(v ResourceStats) {
 	o.MemoryStats = v
 }
 
-
 // GetName returns the Name field value.
 func (o *InstanceResourceStats) GetName() string {
 	if o == nil {
@@ -120,7 +113,6 @@ func (o *InstanceResourceStats) GetNameOk() (*string, bool) {
 func (o *InstanceResourceStats) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *InstanceResourceStats) GetType() ResourceStatsInstanceType {
@@ -150,8 +142,6 @@ func (o *InstanceResourceStats) SetType(v ResourceStatsInstanceType) {
 	o.Type = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o InstanceResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -174,10 +164,10 @@ func (o InstanceResourceStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CpuStats *ResourceStats `json:"cpuStats"`
-		MemoryStats *ResourceStats `json:"memoryStats"`
-		Name *string `json:"name"`
-		Type *ResourceStatsInstanceType `json:"type,omitempty"`
+		CpuStats    *ResourceStats             `json:"cpuStats"`
+		MemoryStats *ResourceStats             `json:"memoryStats"`
+		Name        *string                    `json:"name"`
+		Type        *ResourceStatsInstanceType `json:"type,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -193,7 +183,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cpuStats", "memoryStats", "name", "type",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "name", "type"})
 	} else {
 		return err
 	}
@@ -208,7 +198,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.MemoryStats = *all.MemoryStats
 	o.Name = *all.Name
-	if all.Type != nil &&!all.Type.IsValid() {
+	if all.Type != nil && !all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Type = all.Type

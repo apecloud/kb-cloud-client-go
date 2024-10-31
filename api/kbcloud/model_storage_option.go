@@ -2,31 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type StorageOption struct {
-	Title LocalizedDescription `json:"title"`
-	Name string `json:"name"`
-	Min int32 `json:"min"`
-	Max int32 `json:"max"`
-	Default int32 `json:"default"`
-	Step int32 `json:"step"`
+	Title   LocalizedDescription `json:"title"`
+	Name    string               `json:"name"`
+	Min     int32                `json:"min"`
+	Max     int32                `json:"max"`
+	Default int32                `json:"default"`
+	Step    int32                `json:"step"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewStorageOption instantiates a new StorageOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +44,7 @@ func NewStorageOptionWithDefaults() *StorageOption {
 	this := StorageOption{}
 	return &this
 }
+
 // GetTitle returns the Title field value.
 func (o *StorageOption) GetTitle() LocalizedDescription {
 	if o == nil {
@@ -72,7 +67,6 @@ func (o *StorageOption) GetTitleOk() (*LocalizedDescription, bool) {
 func (o *StorageOption) SetTitle(v LocalizedDescription) {
 	o.Title = v
 }
-
 
 // GetName returns the Name field value.
 func (o *StorageOption) GetName() string {
@@ -97,7 +91,6 @@ func (o *StorageOption) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetMin returns the Min field value.
 func (o *StorageOption) GetMin() int32 {
 	if o == nil {
@@ -120,7 +113,6 @@ func (o *StorageOption) GetMinOk() (*int32, bool) {
 func (o *StorageOption) SetMin(v int32) {
 	o.Min = v
 }
-
 
 // GetMax returns the Max field value.
 func (o *StorageOption) GetMax() int32 {
@@ -145,7 +137,6 @@ func (o *StorageOption) SetMax(v int32) {
 	o.Max = v
 }
 
-
 // GetDefault returns the Default field value.
 func (o *StorageOption) GetDefault() int32 {
 	if o == nil {
@@ -168,7 +159,6 @@ func (o *StorageOption) GetDefaultOk() (*int32, bool) {
 func (o *StorageOption) SetDefault(v int32) {
 	o.Default = v
 }
-
 
 // GetStep returns the Step field value.
 func (o *StorageOption) GetStep() int32 {
@@ -193,8 +183,6 @@ func (o *StorageOption) SetStep(v int32) {
 	o.Step = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -217,12 +205,12 @@ func (o StorageOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title *LocalizedDescription `json:"title"`
-		Name *string `json:"name"`
-		Min *int32 `json:"min"`
-		Max *int32 `json:"max"`
-		Default *int32 `json:"default"`
-		Step *int32 `json:"step"`
+		Title   *LocalizedDescription `json:"title"`
+		Name    *string               `json:"name"`
+		Min     *int32                `json:"min"`
+		Max     *int32                `json:"max"`
+		Default *int32                `json:"default"`
+		Step    *int32                `json:"step"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -247,7 +235,7 @@ func (o *StorageOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "title", "name", "min", "max", "default", "step",  })
+		common.DeleteKeys(additionalProperties, &[]string{"title", "name", "min", "max", "default", "step"})
 	} else {
 		return err
 	}

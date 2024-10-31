@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Component Component info in environment 
+// Component Component info in environment
 type Component struct {
 	// Kubernetes version of the environment
 	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
@@ -36,10 +31,9 @@ type Component struct {
 	// Namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewComponent instantiates a new Component object.
 // This constructor will assign default values to properties that have it defined,
@@ -58,6 +52,7 @@ func NewComponentWithDefaults() *Component {
 	this := Component{}
 	return &this
 }
+
 // GetKubernetesVersion returns the KubernetesVersion field value if set, zero value otherwise.
 func (o *Component) GetKubernetesVersion() string {
 	if o == nil || o.KubernetesVersion == nil {
@@ -85,7 +80,6 @@ func (o *Component) HasKubernetesVersion() bool {
 func (o *Component) SetKubernetesVersion(v string) {
 	o.KubernetesVersion = &v
 }
-
 
 // GetKbVersion returns the KbVersion field value if set, zero value otherwise.
 func (o *Component) GetKbVersion() string {
@@ -115,7 +109,6 @@ func (o *Component) SetKbVersion(v string) {
 	o.KbVersion = &v
 }
 
-
 // GetGeminiVersion returns the GeminiVersion field value if set, zero value otherwise.
 func (o *Component) GetGeminiVersion() string {
 	if o == nil || o.GeminiVersion == nil {
@@ -143,7 +136,6 @@ func (o *Component) HasGeminiVersion() bool {
 func (o *Component) SetGeminiVersion(v string) {
 	o.GeminiVersion = &v
 }
-
 
 // GetOteldVersion returns the OteldVersion field value if set, zero value otherwise.
 func (o *Component) GetOteldVersion() string {
@@ -173,7 +165,6 @@ func (o *Component) SetOteldVersion(v string) {
 	o.OteldVersion = &v
 }
 
-
 // GetImageRegistry returns the ImageRegistry field value if set, zero value otherwise.
 func (o *Component) GetImageRegistry() string {
 	if o == nil || o.ImageRegistry == nil {
@@ -202,7 +193,6 @@ func (o *Component) SetImageRegistry(v string) {
 	o.ImageRegistry = &v
 }
 
-
 // GetDefaultStorageClass returns the DefaultStorageClass field value.
 func (o *Component) GetDefaultStorageClass() string {
 	if o == nil {
@@ -225,7 +215,6 @@ func (o *Component) GetDefaultStorageClassOk() (*string, bool) {
 func (o *Component) SetDefaultStorageClass(v string) {
 	o.DefaultStorageClass = v
 }
-
 
 // GetCpuOvercommitRatio returns the CpuOvercommitRatio field value if set, zero value otherwise.
 func (o *Component) GetCpuOvercommitRatio() float64 {
@@ -255,7 +244,6 @@ func (o *Component) SetCpuOvercommitRatio(v float64) {
 	o.CpuOvercommitRatio = &v
 }
 
-
 // GetMemoryOvercommitRatio returns the MemoryOvercommitRatio field value if set, zero value otherwise.
 func (o *Component) GetMemoryOvercommitRatio() float64 {
 	if o == nil || o.MemoryOvercommitRatio == nil {
@@ -284,7 +272,6 @@ func (o *Component) SetMemoryOvercommitRatio(v float64) {
 	o.MemoryOvercommitRatio = &v
 }
 
-
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Component) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -312,8 +299,6 @@ func (o *Component) HasNamespaces() bool {
 func (o *Component) SetNamespaces(v []string) {
 	o.Namespaces = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Component) MarshalJSON() ([]byte, error) {
@@ -356,15 +341,15 @@ func (o Component) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
-		KbVersion *string `json:"kbVersion,omitempty"`
-		GeminiVersion *string `json:"geminiVersion,omitempty"`
-		OteldVersion *string `json:"oteldVersion,omitempty"`
-		ImageRegistry *string `json:"imageRegistry,omitempty"`
-		DefaultStorageClass *string `json:"defaultStorageClass"`
-		CpuOvercommitRatio *float64 `json:"cpuOvercommitRatio,omitempty"`
+		KubernetesVersion     *string  `json:"kubernetesVersion,omitempty"`
+		KbVersion             *string  `json:"kbVersion,omitempty"`
+		GeminiVersion         *string  `json:"geminiVersion,omitempty"`
+		OteldVersion          *string  `json:"oteldVersion,omitempty"`
+		ImageRegistry         *string  `json:"imageRegistry,omitempty"`
+		DefaultStorageClass   *string  `json:"defaultStorageClass"`
+		CpuOvercommitRatio    *float64 `json:"cpuOvercommitRatio,omitempty"`
 		MemoryOvercommitRatio *float64 `json:"memoryOvercommitRatio,omitempty"`
-		Namespaces []string `json:"namespaces,omitempty"`
+		Namespaces            []string `json:"namespaces,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -374,7 +359,7 @@ func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "kubernetesVersion", "kbVersion", "geminiVersion", "oteldVersion", "imageRegistry", "defaultStorageClass", "cpuOvercommitRatio", "memoryOvercommitRatio", "namespaces",  })
+		common.DeleteKeys(additionalProperties, &[]string{"kubernetesVersion", "kbVersion", "geminiVersion", "oteldVersion", "imageRegistry", "defaultStorageClass", "cpuOvercommitRatio", "memoryOvercommitRatio", "namespaces"})
 	} else {
 		return err
 	}

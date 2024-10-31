@@ -2,31 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type AccountOption struct {
-	Enabled bool `json:"enabled"`
-	Privileges []string `json:"privileges"`
-	AccountNamePattern string `json:"accountNamePattern"`
-	Create bool `json:"create"`
-	ResetPassword bool `json:"resetPassword"`
-	Delete bool `json:"delete"`
+	Enabled            bool     `json:"enabled"`
+	Privileges         []string `json:"privileges"`
+	AccountNamePattern string   `json:"accountNamePattern"`
+	Create             bool     `json:"create"`
+	ResetPassword      bool     `json:"resetPassword"`
+	Delete             bool     `json:"delete"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAccountOption instantiates a new AccountOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +44,7 @@ func NewAccountOptionWithDefaults() *AccountOption {
 	this := AccountOption{}
 	return &this
 }
+
 // GetEnabled returns the Enabled field value.
 func (o *AccountOption) GetEnabled() bool {
 	if o == nil {
@@ -72,7 +67,6 @@ func (o *AccountOption) GetEnabledOk() (*bool, bool) {
 func (o *AccountOption) SetEnabled(v bool) {
 	o.Enabled = v
 }
-
 
 // GetPrivileges returns the Privileges field value.
 func (o *AccountOption) GetPrivileges() []string {
@@ -97,7 +91,6 @@ func (o *AccountOption) SetPrivileges(v []string) {
 	o.Privileges = v
 }
 
-
 // GetAccountNamePattern returns the AccountNamePattern field value.
 func (o *AccountOption) GetAccountNamePattern() string {
 	if o == nil {
@@ -120,7 +113,6 @@ func (o *AccountOption) GetAccountNamePatternOk() (*string, bool) {
 func (o *AccountOption) SetAccountNamePattern(v string) {
 	o.AccountNamePattern = v
 }
-
 
 // GetCreate returns the Create field value.
 func (o *AccountOption) GetCreate() bool {
@@ -145,7 +137,6 @@ func (o *AccountOption) SetCreate(v bool) {
 	o.Create = v
 }
 
-
 // GetResetPassword returns the ResetPassword field value.
 func (o *AccountOption) GetResetPassword() bool {
 	if o == nil {
@@ -168,7 +159,6 @@ func (o *AccountOption) GetResetPasswordOk() (*bool, bool) {
 func (o *AccountOption) SetResetPassword(v bool) {
 	o.ResetPassword = v
 }
-
 
 // GetDelete returns the Delete field value.
 func (o *AccountOption) GetDelete() bool {
@@ -193,8 +183,6 @@ func (o *AccountOption) SetDelete(v bool) {
 	o.Delete = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -217,12 +205,12 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled *bool `json:"enabled"`
-		Privileges *[]string `json:"privileges"`
-		AccountNamePattern *string `json:"accountNamePattern"`
-		Create *bool `json:"create"`
-		ResetPassword *bool `json:"resetPassword"`
-		Delete *bool `json:"delete"`
+		Enabled            *bool     `json:"enabled"`
+		Privileges         *[]string `json:"privileges"`
+		AccountNamePattern *string   `json:"accountNamePattern"`
+		Create             *bool     `json:"create"`
+		ResetPassword      *bool     `json:"resetPassword"`
+		Delete             *bool     `json:"delete"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -247,7 +235,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete",  })
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
 	} else {
 		return err
 	}

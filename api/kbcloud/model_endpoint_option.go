@@ -2,25 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type EndpointOption struct {
-	Title LocalizedDescription `json:"title"`
-	Component string `json:"component"`
-	PortName string `json:"portName"`
-	Type []string `json:"type"`
-	Port int32 `json:"port"`
+	Title     LocalizedDescription `json:"title"`
+	Component string               `json:"component"`
+	PortName  string               `json:"portName"`
+	Type      []string             `json:"type"`
+	Port      int32                `json:"port"`
 	// whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
 	SupportsSystemUse *bool `json:"supportsSystemUse,omitempty"`
 	// service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
@@ -32,10 +27,9 @@ type EndpointOption struct {
 	// selector of k8s service
 	Selector map[string]string `json:"selector,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEndpointOption instantiates a new EndpointOption object.
 // This constructor will assign default values to properties that have it defined,
@@ -62,6 +56,7 @@ func NewEndpointOptionWithDefaults() *EndpointOption {
 	this.ServicePattern = &servicePattern
 	return &this
 }
+
 // GetTitle returns the Title field value.
 func (o *EndpointOption) GetTitle() LocalizedDescription {
 	if o == nil {
@@ -84,7 +79,6 @@ func (o *EndpointOption) GetTitleOk() (*LocalizedDescription, bool) {
 func (o *EndpointOption) SetTitle(v LocalizedDescription) {
 	o.Title = v
 }
-
 
 // GetComponent returns the Component field value.
 func (o *EndpointOption) GetComponent() string {
@@ -109,7 +103,6 @@ func (o *EndpointOption) SetComponent(v string) {
 	o.Component = v
 }
 
-
 // GetPortName returns the PortName field value.
 func (o *EndpointOption) GetPortName() string {
 	if o == nil {
@@ -132,7 +125,6 @@ func (o *EndpointOption) GetPortNameOk() (*string, bool) {
 func (o *EndpointOption) SetPortName(v string) {
 	o.PortName = v
 }
-
 
 // GetType returns the Type field value.
 func (o *EndpointOption) GetType() []string {
@@ -157,7 +149,6 @@ func (o *EndpointOption) SetType(v []string) {
 	o.Type = v
 }
 
-
 // GetPort returns the Port field value.
 func (o *EndpointOption) GetPort() int32 {
 	if o == nil {
@@ -180,7 +171,6 @@ func (o *EndpointOption) GetPortOk() (*int32, bool) {
 func (o *EndpointOption) SetPort(v int32) {
 	o.Port = v
 }
-
 
 // GetSupportsSystemUse returns the SupportsSystemUse field value if set, zero value otherwise.
 func (o *EndpointOption) GetSupportsSystemUse() bool {
@@ -210,7 +200,6 @@ func (o *EndpointOption) SetSupportsSystemUse(v bool) {
 	o.SupportsSystemUse = &v
 }
 
-
 // GetServicePattern returns the ServicePattern field value if set, zero value otherwise.
 func (o *EndpointOption) GetServicePattern() EngineOptionsServicePattern {
 	if o == nil || o.ServicePattern == nil {
@@ -238,7 +227,6 @@ func (o *EndpointOption) HasServicePattern() bool {
 func (o *EndpointOption) SetServicePattern(v EngineOptionsServicePattern) {
 	o.ServicePattern = &v
 }
-
 
 // GetServiceNameRegex returns the ServiceNameRegex field value if set, zero value otherwise.
 func (o *EndpointOption) GetServiceNameRegex() string {
@@ -268,7 +256,6 @@ func (o *EndpointOption) SetServiceNameRegex(v string) {
 	o.ServiceNameRegex = &v
 }
 
-
 // GetServiceName returns the ServiceName field value if set, zero value otherwise.
 func (o *EndpointOption) GetServiceName() string {
 	if o == nil || o.ServiceName == nil {
@@ -297,7 +284,6 @@ func (o *EndpointOption) SetServiceName(v string) {
 	o.ServiceName = &v
 }
 
-
 // GetSelector returns the Selector field value if set, zero value otherwise.
 func (o *EndpointOption) GetSelector() map[string]string {
 	if o == nil || o.Selector == nil {
@@ -325,8 +311,6 @@ func (o *EndpointOption) HasSelector() bool {
 func (o *EndpointOption) SetSelector(v map[string]string) {
 	o.Selector = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EndpointOption) MarshalJSON() ([]byte, error) {
@@ -364,16 +348,16 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Title *LocalizedDescription `json:"title"`
-		Component *string `json:"component"`
-		PortName *string `json:"portName"`
-		Type *[]string `json:"type"`
-		Port *int32 `json:"port"`
-		SupportsSystemUse *bool `json:"supportsSystemUse,omitempty"`
-		ServicePattern *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
-		ServiceNameRegex *string `json:"serviceNameRegex,omitempty"`
-		ServiceName *string `json:"serviceName,omitempty"`
-		Selector map[string]string `json:"selector,omitempty"`
+		Title             *LocalizedDescription        `json:"title"`
+		Component         *string                      `json:"component"`
+		PortName          *string                      `json:"portName"`
+		Type              *[]string                    `json:"type"`
+		Port              *int32                       `json:"port"`
+		SupportsSystemUse *bool                        `json:"supportsSystemUse,omitempty"`
+		ServicePattern    *EngineOptionsServicePattern `json:"servicePattern,omitempty"`
+		ServiceNameRegex  *string                      `json:"serviceNameRegex,omitempty"`
+		ServiceName       *string                      `json:"serviceName,omitempty"`
+		Selector          map[string]string            `json:"selector,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -395,7 +379,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector",  })
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector"})
 	} else {
 		return err
 	}
@@ -410,7 +394,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Type = *all.Type
 	o.Port = *all.Port
 	o.SupportsSystemUse = all.SupportsSystemUse
-	if all.ServicePattern != nil &&!all.ServicePattern.IsValid() {
+	if all.ServicePattern != nil && !all.ServicePattern.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.ServicePattern = all.ServicePattern

@@ -2,19 +2,14 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type DmsTaskInfo struct {
 	// task id
 	Id *string `json:"id,omitempty"`
@@ -25,14 +20,13 @@ type DmsTaskInfo struct {
 	// task status
 	Status *string `json:"status,omitempty"`
 	// task type
-	Type *string `json:"type,omitempty"`
+	Type      *string    `json:"type,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewDmsTaskInfo instantiates a new DmsTaskInfo object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +44,7 @@ func NewDmsTaskInfoWithDefaults() *DmsTaskInfo {
 	this := DmsTaskInfo{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *DmsTaskInfo) GetId() string {
 	if o == nil || o.Id == nil {
@@ -77,7 +72,6 @@ func (o *DmsTaskInfo) HasId() bool {
 func (o *DmsTaskInfo) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetDatasource returns the Datasource field value if set, zero value otherwise.
 func (o *DmsTaskInfo) GetDatasource() string {
@@ -107,7 +101,6 @@ func (o *DmsTaskInfo) SetDatasource(v string) {
 	o.Datasource = &v
 }
 
-
 // GetMessage returns the Message field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsTaskInfo) GetMessage() string {
 	if o == nil || o.Message.Get() == nil {
@@ -121,7 +114,7 @@ func (o *DmsTaskInfo) GetMessage() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsTaskInfo) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Message.Get(), o.Message.IsSet()
@@ -136,6 +129,7 @@ func (o *DmsTaskInfo) HasMessage() bool {
 func (o *DmsTaskInfo) SetMessage(v string) {
 	o.Message.Set(&v)
 }
+
 // SetMessageNil sets the value for Message to be an explicit nil.
 func (o *DmsTaskInfo) SetMessageNil() {
 	o.Message.Set(nil)
@@ -145,7 +139,6 @@ func (o *DmsTaskInfo) SetMessageNil() {
 func (o *DmsTaskInfo) UnsetMessage() {
 	o.Message.Unset()
 }
-
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *DmsTaskInfo) GetStatus() string {
@@ -175,7 +168,6 @@ func (o *DmsTaskInfo) SetStatus(v string) {
 	o.Status = &v
 }
 
-
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *DmsTaskInfo) GetType() string {
 	if o == nil || o.Type == nil {
@@ -203,7 +195,6 @@ func (o *DmsTaskInfo) HasType() bool {
 func (o *DmsTaskInfo) SetType(v string) {
 	o.Type = &v
 }
-
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *DmsTaskInfo) GetUpdatedAt() time.Time {
@@ -233,7 +224,6 @@ func (o *DmsTaskInfo) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
-
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *DmsTaskInfo) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -261,8 +251,6 @@ func (o *DmsTaskInfo) HasCreatedAt() bool {
 func (o *DmsTaskInfo) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o DmsTaskInfo) MarshalJSON() ([]byte, error) {
@@ -309,20 +297,20 @@ func (o DmsTaskInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsTaskInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		Datasource *string `json:"datasource,omitempty"`
-		Message common.NullableString `json:"message,omitempty"`
-		Status *string `json:"status,omitempty"`
-		Type *string `json:"type,omitempty"`
-		UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
+		Id         *string               `json:"id,omitempty"`
+		Datasource *string               `json:"datasource,omitempty"`
+		Message    common.NullableString `json:"message,omitempty"`
+		Status     *string               `json:"status,omitempty"`
+		Type       *string               `json:"type,omitempty"`
+		UpdatedAt  *time.Time            `json:"updatedAt,omitempty"`
+		CreatedAt  *time.Time            `json:"createdAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "datasource", "message", "status", "type", "updatedAt", "createdAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "datasource", "message", "status", "type", "updatedAt", "createdAt"})
 	} else {
 		return err
 	}

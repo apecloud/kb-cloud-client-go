@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// ResourceStats ResourceStats holds the requests, limits, and available stats for a resource. 
+// ResourceStats ResourceStats holds the requests, limits, and available stats for a resource.
 type ResourceStats struct {
 	// The amount of CPU or Memory resources that are available on the node. Unit is GiB for memory and Cores for CPU.
 	Allocatable *float64 `json:"allocatable,omitempty"`
@@ -28,10 +19,9 @@ type ResourceStats struct {
 	// The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
 	Capacity *float64 `json:"capacity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewResourceStats instantiates a new ResourceStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +39,7 @@ func NewResourceStatsWithDefaults() *ResourceStats {
 	this := ResourceStats{}
 	return &this
 }
+
 // GetAllocatable returns the Allocatable field value if set, zero value otherwise.
 func (o *ResourceStats) GetAllocatable() float64 {
 	if o == nil || o.Allocatable == nil {
@@ -76,7 +67,6 @@ func (o *ResourceStats) HasAllocatable() bool {
 func (o *ResourceStats) SetAllocatable(v float64) {
 	o.Allocatable = &v
 }
-
 
 // GetLimits returns the Limits field value if set, zero value otherwise.
 func (o *ResourceStats) GetLimits() float64 {
@@ -106,7 +96,6 @@ func (o *ResourceStats) SetLimits(v float64) {
 	o.Limits = &v
 }
 
-
 // GetRequests returns the Requests field value if set, zero value otherwise.
 func (o *ResourceStats) GetRequests() float64 {
 	if o == nil || o.Requests == nil {
@@ -134,7 +123,6 @@ func (o *ResourceStats) HasRequests() bool {
 func (o *ResourceStats) SetRequests(v float64) {
 	o.Requests = &v
 }
-
 
 // GetUsage returns the Usage field value if set, zero value otherwise.
 func (o *ResourceStats) GetUsage() float64 {
@@ -164,7 +152,6 @@ func (o *ResourceStats) SetUsage(v float64) {
 	o.Usage = &v
 }
 
-
 // GetCapacity returns the Capacity field value if set, zero value otherwise.
 func (o *ResourceStats) GetCapacity() float64 {
 	if o == nil || o.Capacity == nil {
@@ -192,8 +179,6 @@ func (o *ResourceStats) HasCapacity() bool {
 func (o *ResourceStats) SetCapacity(v float64) {
 	o.Capacity = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ResourceStats) MarshalJSON() ([]byte, error) {
@@ -227,17 +212,17 @@ func (o ResourceStats) MarshalJSON() ([]byte, error) {
 func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Allocatable *float64 `json:"allocatable,omitempty"`
-		Limits *float64 `json:"limits,omitempty"`
-		Requests *float64 `json:"requests,omitempty"`
-		Usage *float64 `json:"usage,omitempty"`
-		Capacity *float64 `json:"capacity,omitempty"`
+		Limits      *float64 `json:"limits,omitempty"`
+		Requests    *float64 `json:"requests,omitempty"`
+		Usage       *float64 `json:"usage,omitempty"`
+		Capacity    *float64 `json:"capacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "allocatable", "limits", "requests", "usage", "capacity",  })
+		common.DeleteKeys(additionalProperties, &[]string{"allocatable", "limits", "requests", "usage", "capacity"})
 	} else {
 		return err
 	}

@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// KubernetesManifestList KubernetesManifestList is the list of Kubernetes objects in the list 
+// KubernetesManifestList KubernetesManifestList is the list of Kubernetes objects in the list
 type KubernetesManifestList struct {
 	// Items is the list of Kubernetes objects in the list
 	KubernetesManifests []map[string]interface{} `json:"kubernetesManifests,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewKubernetesManifestList instantiates a new KubernetesManifestList object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewKubernetesManifestListWithDefaults() *KubernetesManifestList {
 	this := KubernetesManifestList{}
 	return &this
 }
+
 // GetKubernetesManifests returns the KubernetesManifests field value if set, zero value otherwise.
 func (o *KubernetesManifestList) GetKubernetesManifests() []map[string]interface{} {
 	if o == nil || o.KubernetesManifests == nil {
@@ -69,8 +60,6 @@ func (o *KubernetesManifestList) SetKubernetesManifests(v []map[string]interface
 	o.KubernetesManifests = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o KubernetesManifestList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -97,7 +86,7 @@ func (o *KubernetesManifestList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "kubernetesManifests",  })
+		common.DeleteKeys(additionalProperties, &[]string{"kubernetesManifests"})
 	} else {
 		return err
 	}

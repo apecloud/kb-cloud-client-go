@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -22,12 +18,12 @@ type EventApi common.Service
 
 // QueryClusterEventsOptionalParameters holds optional parameters for QueryClusterEvents.
 type QueryClusterEventsOptionalParameters struct {
-	ResourceId *int32
+	ResourceId   *int32
 	ResourceType *string
-	EventName *string
-	OperatorId *int32
-	Start *int64
-	End *int64
+	EventName    *string
+	OperatorId   *int32
+	Start        *int64
+	End          *int64
 }
 
 // NewQueryClusterEventsOptionalParameters creates an empty struct for parameters.
@@ -35,31 +31,37 @@ func NewQueryClusterEventsOptionalParameters() *QueryClusterEventsOptionalParame
 	this := QueryClusterEventsOptionalParameters{}
 	return &this
 }
+
 // WithResourceId sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithResourceId(resourceId int32) *QueryClusterEventsOptionalParameters {
 	r.ResourceId = &resourceId
 	return r
 }
+
 // WithResourceType sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithResourceType(resourceType string) *QueryClusterEventsOptionalParameters {
 	r.ResourceType = &resourceType
 	return r
 }
+
 // WithEventName sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithEventName(eventName string) *QueryClusterEventsOptionalParameters {
 	r.EventName = &eventName
 	return r
 }
+
 // WithOperatorId sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithOperatorId(operatorId int32) *QueryClusterEventsOptionalParameters {
 	r.OperatorId = &operatorId
 	return r
 }
+
 // WithStart sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithStart(start int64) *QueryClusterEventsOptionalParameters {
 	r.Start = &start
 	return r
 }
+
 // WithEnd sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithEnd(end int64) *QueryClusterEventsOptionalParameters {
 	r.End = &end
@@ -70,20 +72,18 @@ func (r *QueryClusterEventsOptionalParameters) WithEnd(end int64) *QueryClusterE
 // Query events of clusters
 func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  EventList
-		optionalParams QueryClusterEventsOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EventList
+		optionalParams      QueryClusterEventsOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterEventsOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterEventsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryClusterEvents")
 	if err != nil {
@@ -116,8 +116,7 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ..
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -139,11 +138,10 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ..
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -157,7 +155,7 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ..
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

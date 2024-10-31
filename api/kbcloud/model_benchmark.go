@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Benchmark Benchmark is the benchmark object 
+// Benchmark Benchmark is the benchmark object
 type Benchmark struct {
 	// ID of benchmark
 	Id *string `json:"id,omitempty"`
@@ -48,10 +43,9 @@ type Benchmark struct {
 	// the status of benchmark
 	Status *BenchmarkStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBenchmark instantiates a new Benchmark object.
 // This constructor will assign default values to properties that have it defined,
@@ -69,6 +63,7 @@ func NewBenchmarkWithDefaults() *Benchmark {
 	this := Benchmark{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Benchmark) GetId() string {
 	if o == nil || o.Id == nil {
@@ -96,7 +91,6 @@ func (o *Benchmark) HasId() bool {
 func (o *Benchmark) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *Benchmark) GetName() string {
@@ -126,7 +120,6 @@ func (o *Benchmark) SetName(v string) {
 	o.Name = &v
 }
 
-
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *Benchmark) GetType() BenchmarkType {
 	if o == nil || o.Type == nil {
@@ -154,7 +147,6 @@ func (o *Benchmark) HasType() bool {
 func (o *Benchmark) SetType(v BenchmarkType) {
 	o.Type = &v
 }
-
 
 // GetConfig returns the Config field value if set, zero value otherwise.
 func (o *Benchmark) GetConfig() string {
@@ -184,7 +176,6 @@ func (o *Benchmark) SetConfig(v string) {
 	o.Config = &v
 }
 
-
 // GetPrepareLog returns the PrepareLog field value if set, zero value otherwise.
 func (o *Benchmark) GetPrepareLog() string {
 	if o == nil || o.PrepareLog == nil {
@@ -212,7 +203,6 @@ func (o *Benchmark) HasPrepareLog() bool {
 func (o *Benchmark) SetPrepareLog(v string) {
 	o.PrepareLog = &v
 }
-
 
 // GetRunLog returns the RunLog field value if set, zero value otherwise.
 func (o *Benchmark) GetRunLog() string {
@@ -242,7 +232,6 @@ func (o *Benchmark) SetRunLog(v string) {
 	o.RunLog = &v
 }
 
-
 // GetCleanupLog returns the CleanupLog field value if set, zero value otherwise.
 func (o *Benchmark) GetCleanupLog() string {
 	if o == nil || o.CleanupLog == nil {
@@ -270,7 +259,6 @@ func (o *Benchmark) HasCleanupLog() bool {
 func (o *Benchmark) SetCleanupLog(v string) {
 	o.CleanupLog = &v
 }
-
 
 // GetResult returns the Result field value if set, zero value otherwise.
 func (o *Benchmark) GetResult() string {
@@ -300,7 +288,6 @@ func (o *Benchmark) SetResult(v string) {
 	o.Result = &v
 }
 
-
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *Benchmark) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -328,7 +315,6 @@ func (o *Benchmark) HasMessage() bool {
 func (o *Benchmark) SetMessage(v string) {
 	o.Message = &v
 }
-
 
 // GetCluster returns the Cluster field value if set, zero value otherwise.
 func (o *Benchmark) GetCluster() string {
@@ -358,7 +344,6 @@ func (o *Benchmark) SetCluster(v string) {
 	o.Cluster = &v
 }
 
-
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
 func (o *Benchmark) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
@@ -386,7 +371,6 @@ func (o *Benchmark) HasClusterId() bool {
 func (o *Benchmark) SetClusterId(v string) {
 	o.ClusterId = &v
 }
-
 
 // GetDatabase returns the Database field value if set, zero value otherwise.
 func (o *Benchmark) GetDatabase() string {
@@ -416,7 +400,6 @@ func (o *Benchmark) SetDatabase(v string) {
 	o.Database = &v
 }
 
-
 // GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
 func (o *Benchmark) GetCompletionTimestamp() time.Time {
 	if o == nil || o.CompletionTimestamp == nil {
@@ -444,7 +427,6 @@ func (o *Benchmark) HasCompletionTimestamp() bool {
 func (o *Benchmark) SetCompletionTimestamp(v time.Time) {
 	o.CompletionTimestamp = &v
 }
-
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Benchmark) GetCreatedAt() time.Time {
@@ -474,7 +456,6 @@ func (o *Benchmark) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
-
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Benchmark) GetStatus() BenchmarkStatus {
 	if o == nil || o.Status == nil {
@@ -502,8 +483,6 @@ func (o *Benchmark) HasStatus() bool {
 func (o *Benchmark) SetStatus(v BenchmarkStatus) {
 	o.Status = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Benchmark) MarshalJSON() ([]byte, error) {
@@ -574,28 +553,28 @@ func (o Benchmark) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name,omitempty"`
-		Type *BenchmarkType `json:"type,omitempty"`
-		Config *string `json:"config,omitempty"`
-		PrepareLog *string `json:"prepareLog,omitempty"`
-		RunLog *string `json:"runLog,omitempty"`
-		CleanupLog *string `json:"cleanupLog,omitempty"`
-		Result *string `json:"result,omitempty"`
-		Message *string `json:"message,omitempty"`
-		Cluster *string `json:"cluster,omitempty"`
-		ClusterId *string `json:"clusterID,omitempty"`
-		Database *string `json:"database,omitempty"`
-		CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
-		CreatedAt *time.Time `json:"createdAt,omitempty"`
-		Status *BenchmarkStatus `json:"status,omitempty"`
+		Id                  *string          `json:"id,omitempty"`
+		Name                *string          `json:"name,omitempty"`
+		Type                *BenchmarkType   `json:"type,omitempty"`
+		Config              *string          `json:"config,omitempty"`
+		PrepareLog          *string          `json:"prepareLog,omitempty"`
+		RunLog              *string          `json:"runLog,omitempty"`
+		CleanupLog          *string          `json:"cleanupLog,omitempty"`
+		Result              *string          `json:"result,omitempty"`
+		Message             *string          `json:"message,omitempty"`
+		Cluster             *string          `json:"cluster,omitempty"`
+		ClusterId           *string          `json:"clusterID,omitempty"`
+		Database            *string          `json:"database,omitempty"`
+		CompletionTimestamp *time.Time       `json:"completionTimestamp,omitempty"`
+		CreatedAt           *time.Time       `json:"createdAt,omitempty"`
+		Status              *BenchmarkStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "type", "config", "prepareLog", "runLog", "cleanupLog", "result", "message", "cluster", "clusterID", "database", "completionTimestamp", "createdAt", "status",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "config", "prepareLog", "runLog", "cleanupLog", "result", "message", "cluster", "clusterID", "database", "completionTimestamp", "createdAt", "status"})
 	} else {
 		return err
 	}
@@ -603,7 +582,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Id = all.Id
 	o.Name = all.Name
-	if all.Type != nil &&!all.Type.IsValid() {
+	if all.Type != nil && !all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Type = all.Type
@@ -619,7 +598,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	o.Database = all.Database
 	o.CompletionTimestamp = all.CompletionTimestamp
 	o.CreatedAt = all.CreatedAt
-	if all.Status != nil &&!all.Status.IsValid() {
+	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Status = all.Status

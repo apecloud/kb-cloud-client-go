@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// RestoreLogByPod info of restore workload log 
+// RestoreLogByPod info of restore workload log
 type RestoreLogByPod struct {
 	// restore pod log
 	Log *string `json:"log,omitempty"`
@@ -26,10 +21,9 @@ type RestoreLogByPod struct {
 	// Date/time when the restore pod was created.
 	CreationTimestamp *time.Time `json:"creationTimestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRestoreLogByPod instantiates a new RestoreLogByPod object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +41,7 @@ func NewRestoreLogByPodWithDefaults() *RestoreLogByPod {
 	this := RestoreLogByPod{}
 	return &this
 }
+
 // GetLog returns the Log field value if set, zero value otherwise.
 func (o *RestoreLogByPod) GetLog() string {
 	if o == nil || o.Log == nil {
@@ -74,7 +69,6 @@ func (o *RestoreLogByPod) HasLog() bool {
 func (o *RestoreLogByPod) SetLog(v string) {
 	o.Log = &v
 }
-
 
 // GetOwnerObjectKey returns the OwnerObjectKey field value if set, zero value otherwise.
 func (o *RestoreLogByPod) GetOwnerObjectKey() string {
@@ -104,7 +98,6 @@ func (o *RestoreLogByPod) SetOwnerObjectKey(v string) {
 	o.OwnerObjectKey = &v
 }
 
-
 // GetPodName returns the PodName field value if set, zero value otherwise.
 func (o *RestoreLogByPod) GetPodName() string {
 	if o == nil || o.PodName == nil {
@@ -133,7 +126,6 @@ func (o *RestoreLogByPod) SetPodName(v string) {
 	o.PodName = &v
 }
 
-
 // GetCreationTimestamp returns the CreationTimestamp field value if set, zero value otherwise.
 func (o *RestoreLogByPod) GetCreationTimestamp() time.Time {
 	if o == nil || o.CreationTimestamp == nil {
@@ -161,8 +153,6 @@ func (o *RestoreLogByPod) HasCreationTimestamp() bool {
 func (o *RestoreLogByPod) SetCreationTimestamp(v time.Time) {
 	o.CreationTimestamp = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o RestoreLogByPod) MarshalJSON() ([]byte, error) {
@@ -196,9 +186,9 @@ func (o RestoreLogByPod) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RestoreLogByPod) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Log *string `json:"log,omitempty"`
-		OwnerObjectKey *string `json:"ownerObjectKey,omitempty"`
-		PodName *string `json:"podName,omitempty"`
+		Log               *string    `json:"log,omitempty"`
+		OwnerObjectKey    *string    `json:"ownerObjectKey,omitempty"`
+		PodName           *string    `json:"podName,omitempty"`
 		CreationTimestamp *time.Time `json:"creationTimestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -206,7 +196,7 @@ func (o *RestoreLogByPod) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "log", "ownerObjectKey", "podName", "creationTimestamp",  })
+		common.DeleteKeys(additionalProperties, &[]string{"log", "ownerObjectKey", "podName", "creationTimestamp"})
 	} else {
 		return err
 	}

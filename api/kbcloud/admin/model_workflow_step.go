@@ -2,31 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// WorkflowStep workflow step 
+// WorkflowStep workflow step
 type WorkflowStep struct {
-	Name *string `json:"name,omitempty"`
-	Phase *string `json:"phase,omitempty"`
-	Message *string `json:"message,omitempty"`
-	StartedAt common.NullableTime `json:"startedAt,omitempty"`
+	Name       *string             `json:"name,omitempty"`
+	Phase      *string             `json:"phase,omitempty"`
+	Message    *string             `json:"message,omitempty"`
+	StartedAt  common.NullableTime `json:"startedAt,omitempty"`
 	FinishedAt common.NullableTime `json:"finishedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewWorkflowStep instantiates a new WorkflowStep object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +38,7 @@ func NewWorkflowStepWithDefaults() *WorkflowStep {
 	this := WorkflowStep{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *WorkflowStep) GetName() string {
 	if o == nil || o.Name == nil {
@@ -71,7 +66,6 @@ func (o *WorkflowStep) HasName() bool {
 func (o *WorkflowStep) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetPhase returns the Phase field value if set, zero value otherwise.
 func (o *WorkflowStep) GetPhase() string {
@@ -101,7 +95,6 @@ func (o *WorkflowStep) SetPhase(v string) {
 	o.Phase = &v
 }
 
-
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *WorkflowStep) GetMessage() string {
 	if o == nil || o.Message == nil {
@@ -130,7 +123,6 @@ func (o *WorkflowStep) SetMessage(v string) {
 	o.Message = &v
 }
 
-
 // GetStartedAt returns the StartedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *WorkflowStep) GetStartedAt() time.Time {
 	if o == nil || o.StartedAt.Get() == nil {
@@ -144,7 +136,7 @@ func (o *WorkflowStep) GetStartedAt() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *WorkflowStep) GetStartedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.StartedAt.Get(), o.StartedAt.IsSet()
@@ -159,6 +151,7 @@ func (o *WorkflowStep) HasStartedAt() bool {
 func (o *WorkflowStep) SetStartedAt(v time.Time) {
 	o.StartedAt.Set(&v)
 }
+
 // SetStartedAtNil sets the value for StartedAt to be an explicit nil.
 func (o *WorkflowStep) SetStartedAtNil() {
 	o.StartedAt.Set(nil)
@@ -168,7 +161,6 @@ func (o *WorkflowStep) SetStartedAtNil() {
 func (o *WorkflowStep) UnsetStartedAt() {
 	o.StartedAt.Unset()
 }
-
 
 // GetFinishedAt returns the FinishedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *WorkflowStep) GetFinishedAt() time.Time {
@@ -183,7 +175,7 @@ func (o *WorkflowStep) GetFinishedAt() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *WorkflowStep) GetFinishedAtOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.FinishedAt.Get(), o.FinishedAt.IsSet()
@@ -198,6 +190,7 @@ func (o *WorkflowStep) HasFinishedAt() bool {
 func (o *WorkflowStep) SetFinishedAt(v time.Time) {
 	o.FinishedAt.Set(&v)
 }
+
 // SetFinishedAtNil sets the value for FinishedAt to be an explicit nil.
 func (o *WorkflowStep) SetFinishedAtNil() {
 	o.FinishedAt.Set(nil)
@@ -207,8 +200,6 @@ func (o *WorkflowStep) SetFinishedAtNil() {
 func (o *WorkflowStep) UnsetFinishedAt() {
 	o.FinishedAt.Unset()
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o WorkflowStep) MarshalJSON() ([]byte, error) {
@@ -241,10 +232,10 @@ func (o WorkflowStep) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *WorkflowStep) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Phase *string `json:"phase,omitempty"`
-		Message *string `json:"message,omitempty"`
-		StartedAt common.NullableTime `json:"startedAt,omitempty"`
+		Name       *string             `json:"name,omitempty"`
+		Phase      *string             `json:"phase,omitempty"`
+		Message    *string             `json:"message,omitempty"`
+		StartedAt  common.NullableTime `json:"startedAt,omitempty"`
 		FinishedAt common.NullableTime `json:"finishedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -252,7 +243,7 @@ func (o *WorkflowStep) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "phase", "message", "startedAt", "finishedAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "phase", "message", "startedAt", "finishedAt"})
 	} else {
 		return err
 	}

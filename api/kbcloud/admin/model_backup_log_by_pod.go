@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// BackupLogByPod info of backup workload log 
+// BackupLogByPod info of backup workload log
 type BackupLogByPod struct {
 	// logs of the backup workload
 	Log *string `json:"log,omitempty"`
@@ -24,10 +19,9 @@ type BackupLogByPod struct {
 	// Date/time when the backup pod was created.
 	CreationTimestamp *time.Time `json:"creationTimestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupLogByPod instantiates a new BackupLogByPod object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +39,7 @@ func NewBackupLogByPodWithDefaults() *BackupLogByPod {
 	this := BackupLogByPod{}
 	return &this
 }
+
 // GetLog returns the Log field value if set, zero value otherwise.
 func (o *BackupLogByPod) GetLog() string {
 	if o == nil || o.Log == nil {
@@ -72,7 +67,6 @@ func (o *BackupLogByPod) HasLog() bool {
 func (o *BackupLogByPod) SetLog(v string) {
 	o.Log = &v
 }
-
 
 // GetPodName returns the PodName field value if set, zero value otherwise.
 func (o *BackupLogByPod) GetPodName() string {
@@ -102,7 +96,6 @@ func (o *BackupLogByPod) SetPodName(v string) {
 	o.PodName = &v
 }
 
-
 // GetCreationTimestamp returns the CreationTimestamp field value if set, zero value otherwise.
 func (o *BackupLogByPod) GetCreationTimestamp() time.Time {
 	if o == nil || o.CreationTimestamp == nil {
@@ -130,8 +123,6 @@ func (o *BackupLogByPod) HasCreationTimestamp() bool {
 func (o *BackupLogByPod) SetCreationTimestamp(v time.Time) {
 	o.CreationTimestamp = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupLogByPod) MarshalJSON() ([]byte, error) {
@@ -162,8 +153,8 @@ func (o BackupLogByPod) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupLogByPod) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Log *string `json:"log,omitempty"`
-		PodName *string `json:"podName,omitempty"`
+		Log               *string    `json:"log,omitempty"`
+		PodName           *string    `json:"podName,omitempty"`
 		CreationTimestamp *time.Time `json:"creationTimestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -171,7 +162,7 @@ func (o *BackupLogByPod) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "log", "podName", "creationTimestamp",  })
+		common.DeleteKeys(additionalProperties, &[]string{"log", "podName", "creationTimestamp"})
 	} else {
 		return err
 	}

@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// BackupPolicy BackupPolicy is the payload for KubeBlocks cluster backup policy 
+// BackupPolicy BackupPolicy is the payload for KubeBlocks cluster backup policy
 type BackupPolicy struct {
 	// specify whether to use auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`
@@ -34,10 +29,9 @@ type BackupPolicy struct {
 	// the time to do next backup
 	NextBackupTime *time.Time `json:"nextBackupTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupPolicy instantiates a new BackupPolicy object.
 // This constructor will assign default values to properties that have it defined,
@@ -63,6 +57,7 @@ func NewBackupPolicyWithDefaults() *BackupPolicy {
 	this.PitrEnabled = &pitrEnabled
 	return &this
 }
+
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
 func (o *BackupPolicy) GetAutoBackup() bool {
 	if o == nil || o.AutoBackup == nil {
@@ -90,7 +85,6 @@ func (o *BackupPolicy) HasAutoBackup() bool {
 func (o *BackupPolicy) SetAutoBackup(v bool) {
 	o.AutoBackup = &v
 }
-
 
 // GetAutoBackupMethod returns the AutoBackupMethod field value if set, zero value otherwise.
 func (o *BackupPolicy) GetAutoBackupMethod() string {
@@ -120,7 +114,6 @@ func (o *BackupPolicy) SetAutoBackupMethod(v string) {
 	o.AutoBackupMethod = &v
 }
 
-
 // GetPitrEnabled returns the PitrEnabled field value if set, zero value otherwise.
 func (o *BackupPolicy) GetPitrEnabled() bool {
 	if o == nil || o.PitrEnabled == nil {
@@ -148,7 +141,6 @@ func (o *BackupPolicy) HasPitrEnabled() bool {
 func (o *BackupPolicy) SetPitrEnabled(v bool) {
 	o.PitrEnabled = &v
 }
-
 
 // GetCronExpression returns the CronExpression field value if set, zero value otherwise.
 func (o *BackupPolicy) GetCronExpression() string {
@@ -178,7 +170,6 @@ func (o *BackupPolicy) SetCronExpression(v string) {
 	o.CronExpression = &v
 }
 
-
 // GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
 func (o *BackupPolicy) GetRetentionPeriod() string {
 	if o == nil || o.RetentionPeriod == nil {
@@ -206,7 +197,6 @@ func (o *BackupPolicy) HasRetentionPeriod() bool {
 func (o *BackupPolicy) SetRetentionPeriod(v string) {
 	o.RetentionPeriod = &v
 }
-
 
 // GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
 func (o *BackupPolicy) GetBackupRepo() string {
@@ -236,7 +226,6 @@ func (o *BackupPolicy) SetBackupRepo(v string) {
 	o.BackupRepo = &v
 }
 
-
 // GetRetentionPolicy returns the RetentionPolicy field value if set, zero value otherwise.
 func (o *BackupPolicy) GetRetentionPolicy() BackupRetentionPolicy {
 	if o == nil || o.RetentionPolicy == nil {
@@ -265,7 +254,6 @@ func (o *BackupPolicy) SetRetentionPolicy(v BackupRetentionPolicy) {
 	o.RetentionPolicy = &v
 }
 
-
 // GetNextBackupTime returns the NextBackupTime field value if set, zero value otherwise.
 func (o *BackupPolicy) GetNextBackupTime() time.Time {
 	if o == nil || o.NextBackupTime == nil {
@@ -293,8 +281,6 @@ func (o *BackupPolicy) HasNextBackupTime() bool {
 func (o *BackupPolicy) SetNextBackupTime(v time.Time) {
 	o.NextBackupTime = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupPolicy) MarshalJSON() ([]byte, error) {
@@ -340,21 +326,21 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup *bool `json:"autoBackup,omitempty"`
-		AutoBackupMethod *string `json:"autoBackupMethod,omitempty"`
-		PitrEnabled *bool `json:"pitrEnabled,omitempty"`
-		CronExpression *string `json:"cronExpression,omitempty"`
-		RetentionPeriod *string `json:"retentionPeriod,omitempty"`
-		BackupRepo *string `json:"backupRepo,omitempty"`
-		RetentionPolicy *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
-		NextBackupTime *time.Time `json:"nextBackupTime,omitempty"`
+		AutoBackup       *bool                  `json:"autoBackup,omitempty"`
+		AutoBackupMethod *string                `json:"autoBackupMethod,omitempty"`
+		PitrEnabled      *bool                  `json:"pitrEnabled,omitempty"`
+		CronExpression   *string                `json:"cronExpression,omitempty"`
+		RetentionPeriod  *string                `json:"retentionPeriod,omitempty"`
+		BackupRepo       *string                `json:"backupRepo,omitempty"`
+		RetentionPolicy  *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
+		NextBackupTime   *time.Time             `json:"nextBackupTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "autoBackup", "autoBackupMethod", "pitrEnabled", "cronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime",  })
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "cronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime"})
 	} else {
 		return err
 	}
@@ -366,7 +352,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	o.CronExpression = all.CronExpression
 	o.RetentionPeriod = all.RetentionPeriod
 	o.BackupRepo = all.BackupRepo
-	if all.RetentionPolicy != nil &&!all.RetentionPolicy.IsValid() {
+	if all.RetentionPolicy != nil && !all.RetentionPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.RetentionPolicy = all.RetentionPolicy

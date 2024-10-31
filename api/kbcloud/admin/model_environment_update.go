@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// EnvironmentUpdate Environment info 
+// EnvironmentUpdate Environment info
 type EnvironmentUpdate struct {
 	// The description of the organization
 	Description common.NullableString `json:"description,omitempty"`
@@ -46,10 +37,9 @@ type EnvironmentUpdate struct {
 	// Environment delete policy to protect environment from false delete
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEnvironmentUpdate instantiates a new EnvironmentUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -87,6 +77,7 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.DeletePolicy = &deletePolicy
 	return &this
 }
+
 // GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetDescription() string {
 	if o == nil || o.Description.Get() == nil {
@@ -100,7 +91,7 @@ func (o *EnvironmentUpdate) GetDescription() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetDescriptionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Description.Get(), o.Description.IsSet()
@@ -115,6 +106,7 @@ func (o *EnvironmentUpdate) HasDescription() bool {
 func (o *EnvironmentUpdate) SetDescription(v string) {
 	o.Description.Set(&v)
 }
+
 // SetDescriptionNil sets the value for Description to be an explicit nil.
 func (o *EnvironmentUpdate) SetDescriptionNil() {
 	o.Description.Set(nil)
@@ -124,7 +116,6 @@ func (o *EnvironmentUpdate) SetDescriptionNil() {
 func (o *EnvironmentUpdate) UnsetDescription() {
 	o.Description.Unset()
 }
-
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetDisplayName() string {
@@ -139,7 +130,7 @@ func (o *EnvironmentUpdate) GetDisplayName() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetDisplayNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.DisplayName.Get(), o.DisplayName.IsSet()
@@ -154,6 +145,7 @@ func (o *EnvironmentUpdate) HasDisplayName() bool {
 func (o *EnvironmentUpdate) SetDisplayName(v string) {
 	o.DisplayName.Set(&v)
 }
+
 // SetDisplayNameNil sets the value for DisplayName to be an explicit nil.
 func (o *EnvironmentUpdate) SetDisplayNameNil() {
 	o.DisplayName.Set(nil)
@@ -163,7 +155,6 @@ func (o *EnvironmentUpdate) SetDisplayNameNil() {
 func (o *EnvironmentUpdate) UnsetDisplayName() {
 	o.DisplayName.Unset()
 }
-
 
 // GetOrganizations returns the Organizations field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetOrganizations() []string {
@@ -178,7 +169,7 @@ func (o *EnvironmentUpdate) GetOrganizations() []string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetOrganizationsOk() (*[]string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Organizations.Get(), o.Organizations.IsSet()
@@ -193,6 +184,7 @@ func (o *EnvironmentUpdate) HasOrganizations() bool {
 func (o *EnvironmentUpdate) SetOrganizations(v []string) {
 	o.Organizations.Set(&v)
 }
+
 // SetOrganizationsNil sets the value for Organizations to be an explicit nil.
 func (o *EnvironmentUpdate) SetOrganizationsNil() {
 	o.Organizations.Set(nil)
@@ -202,7 +194,6 @@ func (o *EnvironmentUpdate) SetOrganizationsNil() {
 func (o *EnvironmentUpdate) UnsetOrganizations() {
 	o.Organizations.Unset()
 }
-
 
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetNamespaces() []string {
@@ -217,7 +208,7 @@ func (o *EnvironmentUpdate) GetNamespaces() []string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetNamespacesOk() (*[]string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.Namespaces.Get(), o.Namespaces.IsSet()
@@ -232,6 +223,7 @@ func (o *EnvironmentUpdate) HasNamespaces() bool {
 func (o *EnvironmentUpdate) SetNamespaces(v []string) {
 	o.Namespaces.Set(&v)
 }
+
 // SetNamespacesNil sets the value for Namespaces to be an explicit nil.
 func (o *EnvironmentUpdate) SetNamespacesNil() {
 	o.Namespaces.Set(nil)
@@ -241,7 +233,6 @@ func (o *EnvironmentUpdate) SetNamespacesNil() {
 func (o *EnvironmentUpdate) UnsetNamespaces() {
 	o.Namespaces.Unset()
 }
-
 
 // GetCpuOverCommitRatio returns the CpuOverCommitRatio field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetCpuOverCommitRatio() float64 {
@@ -256,7 +247,7 @@ func (o *EnvironmentUpdate) GetCpuOverCommitRatio() float64 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetCpuOverCommitRatioOk() (*float64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.CpuOverCommitRatio.Get(), o.CpuOverCommitRatio.IsSet()
@@ -271,6 +262,7 @@ func (o *EnvironmentUpdate) HasCpuOverCommitRatio() bool {
 func (o *EnvironmentUpdate) SetCpuOverCommitRatio(v float64) {
 	o.CpuOverCommitRatio.Set(&v)
 }
+
 // SetCpuOverCommitRatioNil sets the value for CpuOverCommitRatio to be an explicit nil.
 func (o *EnvironmentUpdate) SetCpuOverCommitRatioNil() {
 	o.CpuOverCommitRatio.Set(nil)
@@ -280,7 +272,6 @@ func (o *EnvironmentUpdate) SetCpuOverCommitRatioNil() {
 func (o *EnvironmentUpdate) UnsetCpuOverCommitRatio() {
 	o.CpuOverCommitRatio.Unset()
 }
-
 
 // GetMemoryOverCommitRatio returns the MemoryOverCommitRatio field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetMemoryOverCommitRatio() float64 {
@@ -295,7 +286,7 @@ func (o *EnvironmentUpdate) GetMemoryOverCommitRatio() float64 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetMemoryOverCommitRatioOk() (*float64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.MemoryOverCommitRatio.Get(), o.MemoryOverCommitRatio.IsSet()
@@ -310,6 +301,7 @@ func (o *EnvironmentUpdate) HasMemoryOverCommitRatio() bool {
 func (o *EnvironmentUpdate) SetMemoryOverCommitRatio(v float64) {
 	o.MemoryOverCommitRatio.Set(&v)
 }
+
 // SetMemoryOverCommitRatioNil sets the value for MemoryOverCommitRatio to be an explicit nil.
 func (o *EnvironmentUpdate) SetMemoryOverCommitRatioNil() {
 	o.MemoryOverCommitRatio.Set(nil)
@@ -319,7 +311,6 @@ func (o *EnvironmentUpdate) SetMemoryOverCommitRatioNil() {
 func (o *EnvironmentUpdate) UnsetMemoryOverCommitRatio() {
 	o.MemoryOverCommitRatio.Unset()
 }
-
 
 // GetAutohealingConfig returns the AutohealingConfig field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetAutohealingConfig() AutohealingConfig {
@@ -349,7 +340,6 @@ func (o *EnvironmentUpdate) SetAutohealingConfig(v AutohealingConfig) {
 	o.AutohealingConfig = &v
 }
 
-
 // GetDefaultStorageClass returns the DefaultStorageClass field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetDefaultStorageClass() string {
 	if o == nil || o.DefaultStorageClass.Get() == nil {
@@ -363,7 +353,7 @@ func (o *EnvironmentUpdate) GetDefaultStorageClass() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetDefaultStorageClassOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.DefaultStorageClass.Get(), o.DefaultStorageClass.IsSet()
@@ -378,6 +368,7 @@ func (o *EnvironmentUpdate) HasDefaultStorageClass() bool {
 func (o *EnvironmentUpdate) SetDefaultStorageClass(v string) {
 	o.DefaultStorageClass.Set(&v)
 }
+
 // SetDefaultStorageClassNil sets the value for DefaultStorageClass to be an explicit nil.
 func (o *EnvironmentUpdate) SetDefaultStorageClassNil() {
 	o.DefaultStorageClass.Set(nil)
@@ -387,7 +378,6 @@ func (o *EnvironmentUpdate) SetDefaultStorageClassNil() {
 func (o *EnvironmentUpdate) UnsetDefaultStorageClass() {
 	o.DefaultStorageClass.Unset()
 }
-
 
 // GetPodAntiAffinityEnabled returns the PodAntiAffinityEnabled field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetPodAntiAffinityEnabled() bool {
@@ -417,7 +407,6 @@ func (o *EnvironmentUpdate) SetPodAntiAffinityEnabled(v bool) {
 	o.PodAntiAffinityEnabled = &v
 }
 
-
 // GetImageRegistry returns the ImageRegistry field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EnvironmentUpdate) GetImageRegistry() string {
 	if o == nil || o.ImageRegistry.Get() == nil {
@@ -431,7 +420,7 @@ func (o *EnvironmentUpdate) GetImageRegistry() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentUpdate) GetImageRegistryOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ImageRegistry.Get(), o.ImageRegistry.IsSet()
@@ -446,6 +435,7 @@ func (o *EnvironmentUpdate) HasImageRegistry() bool {
 func (o *EnvironmentUpdate) SetImageRegistry(v string) {
 	o.ImageRegistry.Set(&v)
 }
+
 // SetImageRegistryNil sets the value for ImageRegistry to be an explicit nil.
 func (o *EnvironmentUpdate) SetImageRegistryNil() {
 	o.ImageRegistry.Set(nil)
@@ -455,7 +445,6 @@ func (o *EnvironmentUpdate) SetImageRegistryNil() {
 func (o *EnvironmentUpdate) UnsetImageRegistry() {
 	o.ImageRegistry.Unset()
 }
-
 
 // GetNodePortEnabled returns the NodePortEnabled field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetNodePortEnabled() bool {
@@ -485,7 +474,6 @@ func (o *EnvironmentUpdate) SetNodePortEnabled(v bool) {
 	o.NodePortEnabled = &v
 }
 
-
 // GetLbEnabled returns the LbEnabled field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetLbEnabled() bool {
 	if o == nil || o.LbEnabled == nil {
@@ -513,7 +501,6 @@ func (o *EnvironmentUpdate) HasLbEnabled() bool {
 func (o *EnvironmentUpdate) SetLbEnabled(v bool) {
 	o.LbEnabled = &v
 }
-
 
 // GetInternetLbEnabled returns the InternetLbEnabled field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetInternetLbEnabled() bool {
@@ -543,7 +530,6 @@ func (o *EnvironmentUpdate) SetInternetLbEnabled(v bool) {
 	o.InternetLbEnabled = &v
 }
 
-
 // GetDeletePolicy returns the DeletePolicy field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetDeletePolicy() EnvironmentDeletePolicy {
 	if o == nil || o.DeletePolicy == nil {
@@ -571,8 +557,6 @@ func (o *EnvironmentUpdate) HasDeletePolicy() bool {
 func (o *EnvironmentUpdate) SetDeletePolicy(v EnvironmentDeletePolicy) {
 	o.DeletePolicy = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
@@ -632,27 +616,27 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description common.NullableString `json:"description,omitempty"`
-		DisplayName common.NullableString `json:"displayName,omitempty"`
-		Organizations common.NullableList[string] `json:"organizations,omitempty"`
-		Namespaces common.NullableList[string] `json:"namespaces,omitempty"`
-		CpuOverCommitRatio common.NullableFloat64 `json:"cpuOverCommitRatio,omitempty"`
-		MemoryOverCommitRatio common.NullableFloat64 `json:"memoryOverCommitRatio,omitempty"`
-		AutohealingConfig *AutohealingConfig `json:"autohealingConfig,omitempty"`
-		DefaultStorageClass common.NullableString `json:"defaultStorageClass,omitempty"`
-		PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
-		ImageRegistry common.NullableString `json:"imageRegistry,omitempty"`
-		NodePortEnabled *bool `json:"nodePortEnabled,omitempty"`
-		LbEnabled *bool `json:"lbEnabled,omitempty"`
-		InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
-		DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		Description            common.NullableString       `json:"description,omitempty"`
+		DisplayName            common.NullableString       `json:"displayName,omitempty"`
+		Organizations          common.NullableList[string] `json:"organizations,omitempty"`
+		Namespaces             common.NullableList[string] `json:"namespaces,omitempty"`
+		CpuOverCommitRatio     common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
+		MemoryOverCommitRatio  common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
+		AutohealingConfig      *AutohealingConfig          `json:"autohealingConfig,omitempty"`
+		DefaultStorageClass    common.NullableString       `json:"defaultStorageClass,omitempty"`
+		PodAntiAffinityEnabled *bool                       `json:"podAntiAffinityEnabled,omitempty"`
+		ImageRegistry          common.NullableString       `json:"imageRegistry,omitempty"`
+		NodePortEnabled        *bool                       `json:"nodePortEnabled,omitempty"`
+		LbEnabled              *bool                       `json:"lbEnabled,omitempty"`
+		InternetLbEnabled      *bool                       `json:"internetLBEnabled,omitempty"`
+		DeletePolicy           *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "description", "displayName", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "deletePolicy",  })
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "deletePolicy"})
 	} else {
 		return err
 	}
@@ -664,7 +648,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Namespaces = all.Namespaces
 	o.CpuOverCommitRatio = all.CpuOverCommitRatio
 	o.MemoryOverCommitRatio = all.MemoryOverCommitRatio
-	if  all.AutohealingConfig != nil && all.AutohealingConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.AutohealingConfig != nil && all.AutohealingConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.AutohealingConfig = all.AutohealingConfig
@@ -674,7 +658,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.NodePortEnabled = all.NodePortEnabled
 	o.LbEnabled = all.LbEnabled
 	o.InternetLbEnabled = all.InternetLbEnabled
-	if all.DeletePolicy != nil &&!all.DeletePolicy.IsValid() {
+	if all.DeletePolicy != nil && !all.DeletePolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.DeletePolicy = all.DeletePolicy

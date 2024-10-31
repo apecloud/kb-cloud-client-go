@@ -2,27 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type EngineServiceVersionsVersionsItem struct {
-	MajorVersion *string `json:"majorVersion,omitempty"`
+	MajorVersion  *string  `json:"majorVersion,omitempty"`
 	MinorVersions []string `json:"minorVersions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEngineServiceVersionsVersionsItem instantiates a new EngineServiceVersionsVersionsItem object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,6 +30,7 @@ func NewEngineServiceVersionsVersionsItemWithDefaults() *EngineServiceVersionsVe
 	this := EngineServiceVersionsVersionsItem{}
 	return &this
 }
+
 // GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
 func (o *EngineServiceVersionsVersionsItem) GetMajorVersion() string {
 	if o == nil || o.MajorVersion == nil {
@@ -67,7 +58,6 @@ func (o *EngineServiceVersionsVersionsItem) HasMajorVersion() bool {
 func (o *EngineServiceVersionsVersionsItem) SetMajorVersion(v string) {
 	o.MajorVersion = &v
 }
-
 
 // GetMinorVersions returns the MinorVersions field value if set, zero value otherwise.
 func (o *EngineServiceVersionsVersionsItem) GetMinorVersions() []string {
@@ -97,8 +87,6 @@ func (o *EngineServiceVersionsVersionsItem) SetMinorVersions(v []string) {
 	o.MinorVersions = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -121,7 +109,7 @@ func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineServiceVersionsVersionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		MajorVersion *string `json:"majorVersion,omitempty"`
+		MajorVersion  *string  `json:"majorVersion,omitempty"`
 		MinorVersions []string `json:"minorVersions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -129,7 +117,7 @@ func (o *EngineServiceVersionsVersionsItem) UnmarshalJSON(bytes []byte) (err err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "majorVersion", "minorVersions",  })
+		common.DeleteKeys(additionalProperties, &[]string{"majorVersion", "minorVersions"})
 	} else {
 		return err
 	}

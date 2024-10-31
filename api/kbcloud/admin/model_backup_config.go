@@ -2,26 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type BackupConfig struct {
-	Schedule *string `json:"schedule,omitempty"`
-	AccessKeyId *string `json:"accessKeyId,omitempty"`
+	Schedule        *string `json:"schedule,omitempty"`
+	AccessKeyId     *string `json:"accessKeyId,omitempty"`
 	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
-	Endpoint *string `json:"endpoint,omitempty"`
-	Region *string `json:"region,omitempty"`
-	S3Prefix *string `json:"s3Prefix,omitempty"`
+	Endpoint        *string `json:"endpoint,omitempty"`
+	Region          *string `json:"region,omitempty"`
+	S3Prefix        *string `json:"s3Prefix,omitempty"`
 	// enable or disable auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// time for next backup
@@ -31,10 +22,9 @@ type BackupConfig struct {
 	// the time of last backup
 	LastBackupTime *string `json:"lastBackupTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupConfig instantiates a new BackupConfig object.
 // This constructor will assign default values to properties that have it defined,
@@ -56,6 +46,7 @@ func NewBackupConfigWithDefaults() *BackupConfig {
 	this.AutoBackup = &autoBackup
 	return &this
 }
+
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
 func (o *BackupConfig) GetSchedule() string {
 	if o == nil || o.Schedule == nil {
@@ -83,7 +74,6 @@ func (o *BackupConfig) HasSchedule() bool {
 func (o *BackupConfig) SetSchedule(v string) {
 	o.Schedule = &v
 }
-
 
 // GetAccessKeyId returns the AccessKeyId field value if set, zero value otherwise.
 func (o *BackupConfig) GetAccessKeyId() string {
@@ -113,7 +103,6 @@ func (o *BackupConfig) SetAccessKeyId(v string) {
 	o.AccessKeyId = &v
 }
 
-
 // GetSecretAccessKey returns the SecretAccessKey field value if set, zero value otherwise.
 func (o *BackupConfig) GetSecretAccessKey() string {
 	if o == nil || o.SecretAccessKey == nil {
@@ -141,7 +130,6 @@ func (o *BackupConfig) HasSecretAccessKey() bool {
 func (o *BackupConfig) SetSecretAccessKey(v string) {
 	o.SecretAccessKey = &v
 }
-
 
 // GetEndpoint returns the Endpoint field value if set, zero value otherwise.
 func (o *BackupConfig) GetEndpoint() string {
@@ -171,7 +159,6 @@ func (o *BackupConfig) SetEndpoint(v string) {
 	o.Endpoint = &v
 }
 
-
 // GetRegion returns the Region field value if set, zero value otherwise.
 func (o *BackupConfig) GetRegion() string {
 	if o == nil || o.Region == nil {
@@ -199,7 +186,6 @@ func (o *BackupConfig) HasRegion() bool {
 func (o *BackupConfig) SetRegion(v string) {
 	o.Region = &v
 }
-
 
 // GetS3Prefix returns the S3Prefix field value if set, zero value otherwise.
 func (o *BackupConfig) GetS3Prefix() string {
@@ -229,7 +215,6 @@ func (o *BackupConfig) SetS3Prefix(v string) {
 	o.S3Prefix = &v
 }
 
-
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
 func (o *BackupConfig) GetAutoBackup() bool {
 	if o == nil || o.AutoBackup == nil {
@@ -257,7 +242,6 @@ func (o *BackupConfig) HasAutoBackup() bool {
 func (o *BackupConfig) SetAutoBackup(v bool) {
 	o.AutoBackup = &v
 }
-
 
 // GetNextBackupTime returns the NextBackupTime field value if set, zero value otherwise.
 func (o *BackupConfig) GetNextBackupTime() string {
@@ -287,7 +271,6 @@ func (o *BackupConfig) SetNextBackupTime(v string) {
 	o.NextBackupTime = &v
 }
 
-
 // GetRetentionPolicy returns the RetentionPolicy field value if set, zero value otherwise.
 func (o *BackupConfig) GetRetentionPolicy() string {
 	if o == nil || o.RetentionPolicy == nil {
@@ -316,7 +299,6 @@ func (o *BackupConfig) SetRetentionPolicy(v string) {
 	o.RetentionPolicy = &v
 }
 
-
 // GetLastBackupTime returns the LastBackupTime field value if set, zero value otherwise.
 func (o *BackupConfig) GetLastBackupTime() string {
 	if o == nil || o.LastBackupTime == nil {
@@ -344,8 +326,6 @@ func (o *BackupConfig) HasLastBackupTime() bool {
 func (o *BackupConfig) SetLastBackupTime(v string) {
 	o.LastBackupTime = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupConfig) MarshalJSON() ([]byte, error) {
@@ -393,23 +373,23 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Schedule *string `json:"schedule,omitempty"`
-		AccessKeyId *string `json:"accessKeyId,omitempty"`
+		Schedule        *string `json:"schedule,omitempty"`
+		AccessKeyId     *string `json:"accessKeyId,omitempty"`
 		SecretAccessKey *string `json:"secretAccessKey,omitempty"`
-		Endpoint *string `json:"endpoint,omitempty"`
-		Region *string `json:"region,omitempty"`
-		S3Prefix *string `json:"s3Prefix,omitempty"`
-		AutoBackup *bool `json:"autoBackup,omitempty"`
-		NextBackupTime *string `json:"nextBackupTime,omitempty"`
+		Endpoint        *string `json:"endpoint,omitempty"`
+		Region          *string `json:"region,omitempty"`
+		S3Prefix        *string `json:"s3Prefix,omitempty"`
+		AutoBackup      *bool   `json:"autoBackup,omitempty"`
+		NextBackupTime  *string `json:"nextBackupTime,omitempty"`
 		RetentionPolicy *string `json:"retentionPolicy,omitempty"`
-		LastBackupTime *string `json:"lastBackupTime,omitempty"`
+		LastBackupTime  *string `json:"lastBackupTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "s3Prefix", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime",  })
+		common.DeleteKeys(additionalProperties, &[]string{"schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "s3Prefix", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime"})
 	} else {
 		return err
 	}

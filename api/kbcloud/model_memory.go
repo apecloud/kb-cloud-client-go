@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type Memory struct {
 	MemCapacity *string `json:"mem_capacity,omitempty"`
 	MemoryLimit *string `json:"memory_limit,omitempty"`
 	MemAssigned *string `json:"mem_assigned,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewMemory instantiates a new Memory object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewMemoryWithDefaults() *Memory {
 	this := Memory{}
 	return &this
 }
+
 // GetMemCapacity returns the MemCapacity field value if set, zero value otherwise.
 func (o *Memory) GetMemCapacity() string {
 	if o == nil || o.MemCapacity == nil {
@@ -68,7 +59,6 @@ func (o *Memory) HasMemCapacity() bool {
 func (o *Memory) SetMemCapacity(v string) {
 	o.MemCapacity = &v
 }
-
 
 // GetMemoryLimit returns the MemoryLimit field value if set, zero value otherwise.
 func (o *Memory) GetMemoryLimit() string {
@@ -98,7 +88,6 @@ func (o *Memory) SetMemoryLimit(v string) {
 	o.MemoryLimit = &v
 }
 
-
 // GetMemAssigned returns the MemAssigned field value if set, zero value otherwise.
 func (o *Memory) GetMemAssigned() string {
 	if o == nil || o.MemAssigned == nil {
@@ -126,8 +115,6 @@ func (o *Memory) HasMemAssigned() bool {
 func (o *Memory) SetMemAssigned(v string) {
 	o.MemAssigned = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Memory) MarshalJSON() ([]byte, error) {
@@ -163,7 +150,7 @@ func (o *Memory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "mem_capacity", "memory_limit", "mem_assigned",  })
+		common.DeleteKeys(additionalProperties, &[]string{"mem_capacity", "memory_limit", "mem_assigned"})
 	} else {
 		return err
 	}

@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// OrgMemberAdd MemberAdd is the payload for adding organization member 
+// OrgMemberAdd MemberAdd is the payload for adding organization member
 type OrgMemberAdd struct {
 	// The name of the role in the organization
 	Role string `json:"role"`
 	// The ID of the user
 	UserId string `json:"userId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewOrgMemberAdd instantiates a new OrgMemberAdd object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +39,7 @@ func NewOrgMemberAddWithDefaults() *OrgMemberAdd {
 	this := OrgMemberAdd{}
 	return &this
 }
+
 // GetRole returns the Role field value.
 func (o *OrgMemberAdd) GetRole() string {
 	if o == nil {
@@ -67,7 +62,6 @@ func (o *OrgMemberAdd) GetRoleOk() (*string, bool) {
 func (o *OrgMemberAdd) SetRole(v string) {
 	o.Role = v
 }
-
 
 // GetUserId returns the UserId field value.
 func (o *OrgMemberAdd) GetUserId() string {
@@ -92,8 +86,6 @@ func (o *OrgMemberAdd) SetUserId(v string) {
 	o.UserId = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgMemberAdd) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -112,7 +104,7 @@ func (o OrgMemberAdd) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrgMemberAdd) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Role *string `json:"role"`
+		Role   *string `json:"role"`
 		UserId *string `json:"userId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -126,7 +118,7 @@ func (o *OrgMemberAdd) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "role", "userId",  })
+		common.DeleteKeys(additionalProperties, &[]string{"role", "userId"})
 	} else {
 		return err
 	}

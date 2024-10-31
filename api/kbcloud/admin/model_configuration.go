@@ -2,30 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Configuration Cluster parameters configuration, include the file name and content of the parameters 
+// Configuration Cluster parameters configuration, include the file name and content of the parameters
 type Configuration struct {
 	// The name of the configuration file
 	FileName string `json:"fileName"`
 	// The content of the configuration file
 	Content string `json:"content"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewConfiguration instantiates a new Configuration object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +39,7 @@ func NewConfigurationWithDefaults() *Configuration {
 	this := Configuration{}
 	return &this
 }
+
 // GetFileName returns the FileName field value.
 func (o *Configuration) GetFileName() string {
 	if o == nil {
@@ -67,7 +62,6 @@ func (o *Configuration) GetFileNameOk() (*string, bool) {
 func (o *Configuration) SetFileName(v string) {
 	o.FileName = v
 }
-
 
 // GetContent returns the Content field value.
 func (o *Configuration) GetContent() string {
@@ -92,8 +86,6 @@ func (o *Configuration) SetContent(v string) {
 	o.Content = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Configuration) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -113,7 +105,7 @@ func (o Configuration) MarshalJSON() ([]byte, error) {
 func (o *Configuration) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		FileName *string `json:"fileName"`
-		Content *string `json:"content"`
+		Content  *string `json:"content"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -126,7 +118,7 @@ func (o *Configuration) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "fileName", "content",  })
+		common.DeleteKeys(additionalProperties, &[]string{"fileName", "content"})
 	} else {
 		return err
 	}

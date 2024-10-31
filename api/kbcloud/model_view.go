@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// View View is the schema for the views API 
+// View View is the schema for the views API
 type View struct {
 	// A label selector is a label query over a set of resources.
 	InvolvedObjectsSelector *ViewInvolvedObjectsSelector `json:"involvedObjectsSelector,omitempty"`
@@ -28,10 +19,9 @@ type View struct {
 	// Progress describes the overall progress of the view.
 	Progress *string `json:"progress,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewView instantiates a new View object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +39,7 @@ func NewViewWithDefaults() *View {
 	this := View{}
 	return &this
 }
+
 // GetInvolvedObjectsSelector returns the InvolvedObjectsSelector field value if set, zero value otherwise.
 func (o *View) GetInvolvedObjectsSelector() ViewInvolvedObjectsSelector {
 	if o == nil || o.InvolvedObjectsSelector == nil {
@@ -76,7 +67,6 @@ func (o *View) HasInvolvedObjectsSelector() bool {
 func (o *View) SetInvolvedObjectsSelector(v ViewInvolvedObjectsSelector) {
 	o.InvolvedObjectsSelector = &v
 }
-
 
 // GetTargetResource returns the TargetResource field value if set, zero value otherwise.
 func (o *View) GetTargetResource() string {
@@ -106,7 +96,6 @@ func (o *View) SetTargetResource(v string) {
 	o.TargetResource = &v
 }
 
-
 // GetViewDefRef returns the ViewDefRef field value if set, zero value otherwise.
 func (o *View) GetViewDefRef() string {
 	if o == nil || o.ViewDefRef == nil {
@@ -134,7 +123,6 @@ func (o *View) HasViewDefRef() bool {
 func (o *View) SetViewDefRef(v string) {
 	o.ViewDefRef = &v
 }
-
 
 // GetEvents returns the Events field value if set, zero value otherwise.
 func (o *View) GetEvents() []View_event {
@@ -164,7 +152,6 @@ func (o *View) SetEvents(v []View_event) {
 	o.Events = v
 }
 
-
 // GetProgress returns the Progress field value if set, zero value otherwise.
 func (o *View) GetProgress() string {
 	if o == nil || o.Progress == nil {
@@ -192,8 +179,6 @@ func (o *View) HasProgress() bool {
 func (o *View) SetProgress(v string) {
 	o.Progress = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o View) MarshalJSON() ([]byte, error) {
@@ -227,23 +212,23 @@ func (o View) MarshalJSON() ([]byte, error) {
 func (o *View) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		InvolvedObjectsSelector *ViewInvolvedObjectsSelector `json:"involvedObjectsSelector,omitempty"`
-		TargetResource *string `json:"targetResource,omitempty"`
-		ViewDefRef *string `json:"viewDefRef,omitempty"`
-		Events []View_event `json:"events,omitempty"`
-		Progress *string `json:"progress,omitempty"`
+		TargetResource          *string                      `json:"targetResource,omitempty"`
+		ViewDefRef              *string                      `json:"viewDefRef,omitempty"`
+		Events                  []View_event                 `json:"events,omitempty"`
+		Progress                *string                      `json:"progress,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "involvedObjectsSelector", "targetResource", "viewDefRef", "events", "progress",  })
+		common.DeleteKeys(additionalProperties, &[]string{"involvedObjectsSelector", "targetResource", "viewDefRef", "events", "progress"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if  all.InvolvedObjectsSelector != nil && all.InvolvedObjectsSelector.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.InvolvedObjectsSelector != nil && all.InvolvedObjectsSelector.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.InvolvedObjectsSelector = all.InvolvedObjectsSelector

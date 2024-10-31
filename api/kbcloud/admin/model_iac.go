@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Iac Create environment by IaC 
+// Iac Create environment by IaC
 type Iac struct {
 	// Role used to do AssumeRole action
 	Role string `json:"role"`
@@ -24,10 +19,9 @@ type Iac struct {
 	// Computing instance type
 	InstanceType *string `json:"instanceType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewIac instantiates a new Iac object.
 // This constructor will assign default values to properties that have it defined,
@@ -46,6 +40,7 @@ func NewIacWithDefaults() *Iac {
 	this := Iac{}
 	return &this
 }
+
 // GetRole returns the Role field value.
 func (o *Iac) GetRole() string {
 	if o == nil {
@@ -68,7 +63,6 @@ func (o *Iac) GetRoleOk() (*string, bool) {
 func (o *Iac) SetRole(v string) {
 	o.Role = v
 }
-
 
 // GetDesiredNodeSize returns the DesiredNodeSize field value if set, zero value otherwise.
 func (o *Iac) GetDesiredNodeSize() int32 {
@@ -98,7 +92,6 @@ func (o *Iac) SetDesiredNodeSize(v int32) {
 	o.DesiredNodeSize = &v
 }
 
-
 // GetInstanceType returns the InstanceType field value if set, zero value otherwise.
 func (o *Iac) GetInstanceType() string {
 	if o == nil || o.InstanceType == nil {
@@ -127,8 +120,6 @@ func (o *Iac) SetInstanceType(v string) {
 	o.InstanceType = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Iac) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -152,9 +143,9 @@ func (o Iac) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Iac) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Role *string `json:"role"`
-		DesiredNodeSize *int32 `json:"desiredNodeSize,omitempty"`
-		InstanceType *string `json:"instanceType,omitempty"`
+		Role            *string `json:"role"`
+		DesiredNodeSize *int32  `json:"desiredNodeSize,omitempty"`
+		InstanceType    *string `json:"instanceType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -164,7 +155,7 @@ func (o *Iac) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "role", "desiredNodeSize", "instanceType",  })
+		common.DeleteKeys(additionalProperties, &[]string{"role", "desiredNodeSize", "instanceType"})
 	} else {
 		return err
 	}

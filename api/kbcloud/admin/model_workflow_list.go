@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// WorkflowList component management workflow list 
+// WorkflowList component management workflow list
 type WorkflowList struct {
 	// component management workflow
 	Install *Workflow `json:"install,omitempty"`
@@ -28,10 +19,9 @@ type WorkflowList struct {
 	// component management workflow
 	UpgradeVictoriaMetrics *Workflow `json:"upgradeVictoriaMetrics,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewWorkflowList instantiates a new WorkflowList object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +39,7 @@ func NewWorkflowListWithDefaults() *WorkflowList {
 	this := WorkflowList{}
 	return &this
 }
+
 // GetInstall returns the Install field value if set, zero value otherwise.
 func (o *WorkflowList) GetInstall() Workflow {
 	if o == nil || o.Install == nil {
@@ -76,7 +67,6 @@ func (o *WorkflowList) HasInstall() bool {
 func (o *WorkflowList) SetInstall(v Workflow) {
 	o.Install = &v
 }
-
 
 // GetUninstall returns the Uninstall field value if set, zero value otherwise.
 func (o *WorkflowList) GetUninstall() Workflow {
@@ -106,7 +96,6 @@ func (o *WorkflowList) SetUninstall(v Workflow) {
 	o.Uninstall = &v
 }
 
-
 // GetUpgradeKubeblocks returns the UpgradeKubeblocks field value if set, zero value otherwise.
 func (o *WorkflowList) GetUpgradeKubeblocks() Workflow {
 	if o == nil || o.UpgradeKubeblocks == nil {
@@ -134,7 +123,6 @@ func (o *WorkflowList) HasUpgradeKubeblocks() bool {
 func (o *WorkflowList) SetUpgradeKubeblocks(v Workflow) {
 	o.UpgradeKubeblocks = &v
 }
-
 
 // GetUpgradeGemini returns the UpgradeGemini field value if set, zero value otherwise.
 func (o *WorkflowList) GetUpgradeGemini() Workflow {
@@ -164,7 +152,6 @@ func (o *WorkflowList) SetUpgradeGemini(v Workflow) {
 	o.UpgradeGemini = &v
 }
 
-
 // GetUpgradeVictoriaMetrics returns the UpgradeVictoriaMetrics field value if set, zero value otherwise.
 func (o *WorkflowList) GetUpgradeVictoriaMetrics() Workflow {
 	if o == nil || o.UpgradeVictoriaMetrics == nil {
@@ -192,8 +179,6 @@ func (o *WorkflowList) HasUpgradeVictoriaMetrics() bool {
 func (o *WorkflowList) SetUpgradeVictoriaMetrics(v Workflow) {
 	o.UpgradeVictoriaMetrics = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o WorkflowList) MarshalJSON() ([]byte, error) {
@@ -226,10 +211,10 @@ func (o WorkflowList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *WorkflowList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Install *Workflow `json:"install,omitempty"`
-		Uninstall *Workflow `json:"uninstall,omitempty"`
-		UpgradeKubeblocks *Workflow `json:"upgradeKubeblocks,omitempty"`
-		UpgradeGemini *Workflow `json:"upgradeGemini,omitempty"`
+		Install                *Workflow `json:"install,omitempty"`
+		Uninstall              *Workflow `json:"uninstall,omitempty"`
+		UpgradeKubeblocks      *Workflow `json:"upgradeKubeblocks,omitempty"`
+		UpgradeGemini          *Workflow `json:"upgradeGemini,omitempty"`
 		UpgradeVictoriaMetrics *Workflow `json:"upgradeVictoriaMetrics,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -237,29 +222,29 @@ func (o *WorkflowList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "install", "uninstall", "upgradeKubeblocks", "upgradeGemini", "upgradeVictoriaMetrics",  })
+		common.DeleteKeys(additionalProperties, &[]string{"install", "uninstall", "upgradeKubeblocks", "upgradeGemini", "upgradeVictoriaMetrics"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if  all.Install != nil && all.Install.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Install != nil && all.Install.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Install = all.Install
-	if  all.Uninstall != nil && all.Uninstall.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Uninstall != nil && all.Uninstall.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Uninstall = all.Uninstall
-	if  all.UpgradeKubeblocks != nil && all.UpgradeKubeblocks.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.UpgradeKubeblocks != nil && all.UpgradeKubeblocks.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.UpgradeKubeblocks = all.UpgradeKubeblocks
-	if  all.UpgradeGemini != nil && all.UpgradeGemini.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.UpgradeGemini != nil && all.UpgradeGemini.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.UpgradeGemini = all.UpgradeGemini
-	if  all.UpgradeVictoriaMetrics != nil && all.UpgradeVictoriaMetrics.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.UpgradeVictoriaMetrics != nil && all.UpgradeVictoriaMetrics.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.UpgradeVictoriaMetrics = all.UpgradeVictoriaMetrics

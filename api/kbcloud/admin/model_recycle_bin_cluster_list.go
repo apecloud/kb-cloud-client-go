@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// RecycleBinClusterList recycleBinClusterList is a list of KubeBlocks clusters in the recycle bin 
+// RecycleBinClusterList recycleBinClusterList is a list of KubeBlocks clusters in the recycle bin
 type RecycleBinClusterList struct {
 	// Items is the KubeBlocks cluster objects in the recycleBinClusterList
 	Items []RecycleBinClusterListItem `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRecycleBinClusterList instantiates a new RecycleBinClusterList object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewRecycleBinClusterListWithDefaults() *RecycleBinClusterList {
 	this := RecycleBinClusterList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *RecycleBinClusterList) GetItems() []RecycleBinClusterListItem {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *RecycleBinClusterList) GetItemsOk() (*[]RecycleBinClusterListItem, bool
 func (o *RecycleBinClusterList) SetItems(v []RecycleBinClusterListItem) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o RecycleBinClusterList) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *RecycleBinClusterList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

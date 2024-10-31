@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// PageResult PageResult info 
+// PageResult PageResult info
 type PageResult struct {
 	// a link to the first page of results. This link is optional for collections that cannot be indexed directly to a given page
 	First *string `json:"first,omitempty"`
@@ -28,10 +19,9 @@ type PageResult struct {
 	// the total count of items in the list irrespective of pagination
 	TotalSize *int64 `json:"totalSize,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPageResult instantiates a new PageResult object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +39,7 @@ func NewPageResultWithDefaults() *PageResult {
 	this := PageResult{}
 	return &this
 }
+
 // GetFirst returns the First field value if set, zero value otherwise.
 func (o *PageResult) GetFirst() string {
 	if o == nil || o.First == nil {
@@ -76,7 +67,6 @@ func (o *PageResult) HasFirst() bool {
 func (o *PageResult) SetFirst(v string) {
 	o.First = &v
 }
-
 
 // GetLast returns the Last field value if set, zero value otherwise.
 func (o *PageResult) GetLast() string {
@@ -106,7 +96,6 @@ func (o *PageResult) SetLast(v string) {
 	o.Last = &v
 }
 
-
 // GetNext returns the Next field value if set, zero value otherwise.
 func (o *PageResult) GetNext() string {
 	if o == nil || o.Next == nil {
@@ -134,7 +123,6 @@ func (o *PageResult) HasNext() bool {
 func (o *PageResult) SetNext(v string) {
 	o.Next = &v
 }
-
 
 // GetPrev returns the Prev field value if set, zero value otherwise.
 func (o *PageResult) GetPrev() string {
@@ -164,7 +152,6 @@ func (o *PageResult) SetPrev(v string) {
 	o.Prev = &v
 }
 
-
 // GetTotalSize returns the TotalSize field value if set, zero value otherwise.
 func (o *PageResult) GetTotalSize() int64 {
 	if o == nil || o.TotalSize == nil {
@@ -192,8 +179,6 @@ func (o *PageResult) HasTotalSize() bool {
 func (o *PageResult) SetTotalSize(v int64) {
 	o.TotalSize = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o PageResult) MarshalJSON() ([]byte, error) {
@@ -226,18 +211,18 @@ func (o PageResult) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PageResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		First *string `json:"first,omitempty"`
-		Last *string `json:"last,omitempty"`
-		Next *string `json:"next,omitempty"`
-		Prev *string `json:"prev,omitempty"`
-		TotalSize *int64 `json:"totalSize,omitempty"`
+		First     *string `json:"first,omitempty"`
+		Last      *string `json:"last,omitempty"`
+		Next      *string `json:"next,omitempty"`
+		Prev      *string `json:"prev,omitempty"`
+		TotalSize *int64  `json:"totalSize,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "first", "last", "next", "prev", "totalSize",  })
+		common.DeleteKeys(additionalProperties, &[]string{"first", "last", "next", "prev", "totalSize"})
 	} else {
 		return err
 	}

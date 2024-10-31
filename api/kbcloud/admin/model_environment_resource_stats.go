@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// EnvironmentResourceStats EnvironmentResourceStats holds the cpuStats for a environment. 
+// EnvironmentResourceStats EnvironmentResourceStats holds the cpuStats for a environment.
 type EnvironmentResourceStats struct {
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	CpuStats ResourceStats `json:"cpuStats"`
@@ -26,10 +21,9 @@ type EnvironmentResourceStats struct {
 	// StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
 	StorageStats StorageStats `json:"storageStats"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEnvironmentResourceStats instantiates a new EnvironmentResourceStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -51,6 +45,7 @@ func NewEnvironmentResourceStatsWithDefaults() *EnvironmentResourceStats {
 	this := EnvironmentResourceStats{}
 	return &this
 }
+
 // GetCpuStats returns the CpuStats field value.
 func (o *EnvironmentResourceStats) GetCpuStats() ResourceStats {
 	if o == nil {
@@ -73,7 +68,6 @@ func (o *EnvironmentResourceStats) GetCpuStatsOk() (*ResourceStats, bool) {
 func (o *EnvironmentResourceStats) SetCpuStats(v ResourceStats) {
 	o.CpuStats = v
 }
-
 
 // GetMemoryStats returns the MemoryStats field value.
 func (o *EnvironmentResourceStats) GetMemoryStats() ResourceStats {
@@ -98,7 +92,6 @@ func (o *EnvironmentResourceStats) SetMemoryStats(v ResourceStats) {
 	o.MemoryStats = v
 }
 
-
 // GetName returns the Name field value.
 func (o *EnvironmentResourceStats) GetName() string {
 	if o == nil {
@@ -121,7 +114,6 @@ func (o *EnvironmentResourceStats) GetNameOk() (*string, bool) {
 func (o *EnvironmentResourceStats) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetStorageStats returns the StorageStats field value.
 func (o *EnvironmentResourceStats) GetStorageStats() StorageStats {
@@ -146,8 +138,6 @@ func (o *EnvironmentResourceStats) SetStorageStats(v StorageStats) {
 	o.StorageStats = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentResourceStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -168,10 +158,10 @@ func (o EnvironmentResourceStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CpuStats *ResourceStats `json:"cpuStats"`
-		MemoryStats *ResourceStats `json:"memoryStats"`
-		Name *string `json:"name"`
-		StorageStats *StorageStats `json:"storageStats"`
+		CpuStats     *ResourceStats `json:"cpuStats"`
+		MemoryStats  *ResourceStats `json:"memoryStats"`
+		Name         *string        `json:"name"`
+		StorageStats *StorageStats  `json:"storageStats"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -190,7 +180,7 @@ func (o *EnvironmentResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cpuStats", "memoryStats", "name", "storageStats",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "name", "storageStats"})
 	} else {
 		return err
 	}

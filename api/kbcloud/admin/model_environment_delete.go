@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// EnvironmentDelete Environment deletion option 
+// EnvironmentDelete Environment deletion option
 type EnvironmentDelete struct {
 	// clean up resources in the cloud (only valid if creation is done by role ARN)
 	CleanCloudResources *bool `json:"cleanCloudResources,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewEnvironmentDelete instantiates a new EnvironmentDelete object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewEnvironmentDeleteWithDefaults() *EnvironmentDelete {
 	this := EnvironmentDelete{}
 	return &this
 }
+
 // GetCleanCloudResources returns the CleanCloudResources field value if set, zero value otherwise.
 func (o *EnvironmentDelete) GetCleanCloudResources() bool {
 	if o == nil || o.CleanCloudResources == nil {
@@ -69,8 +60,6 @@ func (o *EnvironmentDelete) SetCleanCloudResources(v bool) {
 	o.CleanCloudResources = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -97,7 +86,7 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "cleanCloudResources",  })
+		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources"})
 	} else {
 		return err
 	}

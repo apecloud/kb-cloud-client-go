@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ObjectResponse struct {
 	// The data of the Object
 	Data map[string]interface{} `json:"data,omitempty"`
 	// The type of the Object
 	Type *string `json:"type,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewObjectResponse instantiates a new ObjectResponse object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewObjectResponseWithDefaults() *ObjectResponse {
 	this := ObjectResponse{}
 	return &this
 }
+
 // GetData returns the Data field value if set, zero value otherwise.
 func (o *ObjectResponse) GetData() map[string]interface{} {
 	if o == nil || o.Data == nil {
@@ -69,7 +60,6 @@ func (o *ObjectResponse) HasData() bool {
 func (o *ObjectResponse) SetData(v map[string]interface{}) {
 	o.Data = v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *ObjectResponse) GetType() string {
@@ -99,8 +89,6 @@ func (o *ObjectResponse) SetType(v string) {
 	o.Type = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ObjectResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -124,14 +112,14 @@ func (o ObjectResponse) MarshalJSON() ([]byte, error) {
 func (o *ObjectResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Data map[string]interface{} `json:"data,omitempty"`
-		Type *string `json:"type,omitempty"`
+		Type *string                `json:"type,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "data", "type",  })
+		common.DeleteKeys(additionalProperties, &[]string{"data", "type"})
 	} else {
 		return err
 	}

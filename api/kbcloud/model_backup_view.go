@@ -2,27 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type BackupView struct {
 	// the paths of file to view
 	Filepaths []string `json:"filepaths,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupView instantiates a new BackupView object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,6 +30,7 @@ func NewBackupViewWithDefaults() *BackupView {
 	this := BackupView{}
 	return &this
 }
+
 // GetFilepaths returns the Filepaths field value if set, zero value otherwise.
 func (o *BackupView) GetFilepaths() []string {
 	if o == nil || o.Filepaths == nil {
@@ -68,8 +59,6 @@ func (o *BackupView) SetFilepaths(v []string) {
 	o.Filepaths = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupView) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -96,7 +85,7 @@ func (o *BackupView) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "filepaths",  })
+		common.DeleteKeys(additionalProperties, &[]string{"filepaths"})
 	} else {
 		return err
 	}

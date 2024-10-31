@@ -2,18 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // ResourceStatsInstanceType Type of the instance, choose cluster or system
 type ResourceStatsInstanceType string
@@ -21,7 +16,7 @@ type ResourceStatsInstanceType string
 // List of ResourceStatsInstanceType.
 const (
 	ResourceStatsInstanceTypeCluster ResourceStatsInstanceType = "cluster"
-	ResourceStatsInstanceTypeSystem ResourceStatsInstanceType = "system"
+	ResourceStatsInstanceTypeSystem  ResourceStatsInstanceType = "system"
 )
 
 var allowedResourceStatsInstanceTypeEnumValues = []ResourceStatsInstanceType{

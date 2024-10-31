@@ -2,18 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // ClusterTerminationPolicy The termination policy of cluster.
 type ClusterTerminationPolicy string
@@ -21,9 +16,9 @@ type ClusterTerminationPolicy string
 // List of ClusterTerminationPolicy.
 const (
 	ClusterTerminationPolicyDoNotTerminate ClusterTerminationPolicy = "DoNotTerminate"
-	ClusterTerminationPolicyHalt ClusterTerminationPolicy = "Halt"
-	ClusterTerminationPolicyDelete ClusterTerminationPolicy = "Delete"
-	ClusterTerminationPolicyWipeOut ClusterTerminationPolicy = "WipeOut"
+	ClusterTerminationPolicyHalt           ClusterTerminationPolicy = "Halt"
+	ClusterTerminationPolicyDelete         ClusterTerminationPolicy = "Delete"
+	ClusterTerminationPolicyWipeOut        ClusterTerminationPolicy = "WipeOut"
 )
 
 var allowedClusterTerminationPolicyEnumValues = []ClusterTerminationPolicy{

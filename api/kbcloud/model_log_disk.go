@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type LogDisk struct {
 	LogDiskCapacity *string `json:"log_disk_capacity,omitempty"`
 	LogDiskAssigned *string `json:"log_disk_assigned,omitempty"`
-	LogDiskInUse *string `json:"log_disk_in_use,omitempty"`
+	LogDiskInUse    *string `json:"log_disk_in_use,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewLogDisk instantiates a new LogDisk object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewLogDiskWithDefaults() *LogDisk {
 	this := LogDisk{}
 	return &this
 }
+
 // GetLogDiskCapacity returns the LogDiskCapacity field value if set, zero value otherwise.
 func (o *LogDisk) GetLogDiskCapacity() string {
 	if o == nil || o.LogDiskCapacity == nil {
@@ -68,7 +59,6 @@ func (o *LogDisk) HasLogDiskCapacity() bool {
 func (o *LogDisk) SetLogDiskCapacity(v string) {
 	o.LogDiskCapacity = &v
 }
-
 
 // GetLogDiskAssigned returns the LogDiskAssigned field value if set, zero value otherwise.
 func (o *LogDisk) GetLogDiskAssigned() string {
@@ -98,7 +88,6 @@ func (o *LogDisk) SetLogDiskAssigned(v string) {
 	o.LogDiskAssigned = &v
 }
 
-
 // GetLogDiskInUse returns the LogDiskInUse field value if set, zero value otherwise.
 func (o *LogDisk) GetLogDiskInUse() string {
 	if o == nil || o.LogDiskInUse == nil {
@@ -127,8 +116,6 @@ func (o *LogDisk) SetLogDiskInUse(v string) {
 	o.LogDiskInUse = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o LogDisk) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -156,14 +143,14 @@ func (o *LogDisk) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		LogDiskCapacity *string `json:"log_disk_capacity,omitempty"`
 		LogDiskAssigned *string `json:"log_disk_assigned,omitempty"`
-		LogDiskInUse *string `json:"log_disk_in_use,omitempty"`
+		LogDiskInUse    *string `json:"log_disk_in_use,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "log_disk_capacity", "log_disk_assigned", "log_disk_in_use",  })
+		common.DeleteKeys(additionalProperties, &[]string{"log_disk_capacity", "log_disk_assigned", "log_disk_in_use"})
 	} else {
 		return err
 	}

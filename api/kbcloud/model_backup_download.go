@@ -2,27 +2,17 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type BackupDownload struct {
 	// the paths of file to download
 	Filepaths []string `json:"filepaths,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupDownload instantiates a new BackupDownload object.
 // This constructor will assign default values to properties that have it defined,
@@ -40,6 +30,7 @@ func NewBackupDownloadWithDefaults() *BackupDownload {
 	this := BackupDownload{}
 	return &this
 }
+
 // GetFilepaths returns the Filepaths field value if set, zero value otherwise.
 func (o *BackupDownload) GetFilepaths() []string {
 	if o == nil || o.Filepaths == nil {
@@ -68,8 +59,6 @@ func (o *BackupDownload) SetFilepaths(v []string) {
 	o.Filepaths = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupDownload) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -96,7 +85,7 @@ func (o *BackupDownload) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "filepaths",  })
+		common.DeleteKeys(additionalProperties, &[]string{"filepaths"})
 	} else {
 		return err
 	}

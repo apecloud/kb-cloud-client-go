@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type QueryResponse struct {
 	// result set of query
 	Data []Result `json:"data,omitempty"`
 	// error message set of query
 	ErrMessage common.NullableList[string] `json:"errMessage,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewQueryResponse instantiates a new QueryResponse object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewQueryResponseWithDefaults() *QueryResponse {
 	this := QueryResponse{}
 	return &this
 }
+
 // GetData returns the Data field value if set, zero value otherwise.
 func (o *QueryResponse) GetData() []Result {
 	if o == nil || o.Data == nil {
@@ -70,7 +61,6 @@ func (o *QueryResponse) SetData(v []Result) {
 	o.Data = v
 }
 
-
 // GetErrMessage returns the ErrMessage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *QueryResponse) GetErrMessage() []string {
 	if o == nil || o.ErrMessage.Get() == nil {
@@ -84,7 +74,7 @@ func (o *QueryResponse) GetErrMessage() []string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *QueryResponse) GetErrMessageOk() (*[]string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ErrMessage.Get(), o.ErrMessage.IsSet()
@@ -99,6 +89,7 @@ func (o *QueryResponse) HasErrMessage() bool {
 func (o *QueryResponse) SetErrMessage(v []string) {
 	o.ErrMessage.Set(&v)
 }
+
 // SetErrMessageNil sets the value for ErrMessage to be an explicit nil.
 func (o *QueryResponse) SetErrMessageNil() {
 	o.ErrMessage.Set(nil)
@@ -108,8 +99,6 @@ func (o *QueryResponse) SetErrMessageNil() {
 func (o *QueryResponse) UnsetErrMessage() {
 	o.ErrMessage.Unset()
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o QueryResponse) MarshalJSON() ([]byte, error) {
@@ -133,7 +122,7 @@ func (o QueryResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *QueryResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Data []Result `json:"data,omitempty"`
+		Data       []Result                    `json:"data,omitempty"`
 		ErrMessage common.NullableList[string] `json:"errMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -141,7 +130,7 @@ func (o *QueryResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "data", "errMessage",  })
+		common.DeleteKeys(additionalProperties, &[]string{"data", "errMessage"})
 	} else {
 		return err
 	}

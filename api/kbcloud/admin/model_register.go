@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// Register Register manifest for environment 
+// Register Register manifest for environment
 type Register struct {
 	// Configuration for privisoining environment resources
 	Type EnvironmentRegisterType `json:"type"`
@@ -24,10 +19,9 @@ type Register struct {
 	// The base64 encoded kubeconfig file contents to connect to this environment
 	Kubeconfig *string `json:"kubeconfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewRegister instantiates a new Register object.
 // This constructor will assign default values to properties that have it defined,
@@ -46,6 +40,7 @@ func NewRegisterWithDefaults() *Register {
 	this := Register{}
 	return &this
 }
+
 // GetType returns the Type field value.
 func (o *Register) GetType() EnvironmentRegisterType {
 	if o == nil {
@@ -68,7 +63,6 @@ func (o *Register) GetTypeOk() (*EnvironmentRegisterType, bool) {
 func (o *Register) SetType(v EnvironmentRegisterType) {
 	o.Type = v
 }
-
 
 // GetIac returns the Iac field value if set, zero value otherwise.
 func (o *Register) GetIac() Iac {
@@ -98,7 +92,6 @@ func (o *Register) SetIac(v Iac) {
 	o.Iac = &v
 }
 
-
 // GetKubeconfig returns the Kubeconfig field value if set, zero value otherwise.
 func (o *Register) GetKubeconfig() string {
 	if o == nil || o.Kubeconfig == nil {
@@ -127,8 +120,6 @@ func (o *Register) SetKubeconfig(v string) {
 	o.Kubeconfig = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Register) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -152,9 +143,9 @@ func (o Register) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Register) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Type *EnvironmentRegisterType `json:"type"`
-		Iac *Iac `json:"iac,omitempty"`
-		Kubeconfig *string `json:"kubeconfig,omitempty"`
+		Type       *EnvironmentRegisterType `json:"type"`
+		Iac        *Iac                     `json:"iac,omitempty"`
+		Kubeconfig *string                  `json:"kubeconfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -164,7 +155,7 @@ func (o *Register) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "type", "iac", "kubeconfig",  })
+		common.DeleteKeys(additionalProperties, &[]string{"type", "iac", "kubeconfig"})
 	} else {
 		return err
 	}
@@ -175,7 +166,7 @@ func (o *Register) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Type = *all.Type
 	}
-	if  all.Iac != nil && all.Iac.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Iac != nil && all.Iac.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Iac = all.Iac

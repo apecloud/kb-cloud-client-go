@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// BackupStats Backup statistic info 
+// BackupStats Backup statistic info
 type BackupStats struct {
 	// Number of backups for each defferent status
 	BackupStatsStatus []BackupStatsStatus `json:"backupStatsStatus,omitempty"`
@@ -26,10 +21,9 @@ type BackupStats struct {
 	// backup status of the latest backup
 	LatestBackupStatus common.NullableString `json:"latestBackupStatus,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBackupStats instantiates a new BackupStats object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +41,7 @@ func NewBackupStatsWithDefaults() *BackupStats {
 	this := BackupStats{}
 	return &this
 }
+
 // GetBackupStatsStatus returns the BackupStatsStatus field value if set, zero value otherwise.
 func (o *BackupStats) GetBackupStatsStatus() []BackupStatsStatus {
 	if o == nil || o.BackupStatsStatus == nil {
@@ -74,7 +69,6 @@ func (o *BackupStats) HasBackupStatsStatus() bool {
 func (o *BackupStats) SetBackupStatsStatus(v []BackupStatsStatus) {
 	o.BackupStatsStatus = v
 }
-
 
 // GetBackupStatsEngine returns the BackupStatsEngine field value if set, zero value otherwise.
 func (o *BackupStats) GetBackupStatsEngine() []BackupStatsEngine {
@@ -104,7 +98,6 @@ func (o *BackupStats) SetBackupStatsEngine(v []BackupStatsEngine) {
 	o.BackupStatsEngine = v
 }
 
-
 // GetLatestBackupTime returns the LatestBackupTime field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BackupStats) GetLatestBackupTime() time.Time {
 	if o == nil || o.LatestBackupTime.Get() == nil {
@@ -118,7 +111,7 @@ func (o *BackupStats) GetLatestBackupTime() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *BackupStats) GetLatestBackupTimeOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.LatestBackupTime.Get(), o.LatestBackupTime.IsSet()
@@ -133,6 +126,7 @@ func (o *BackupStats) HasLatestBackupTime() bool {
 func (o *BackupStats) SetLatestBackupTime(v time.Time) {
 	o.LatestBackupTime.Set(&v)
 }
+
 // SetLatestBackupTimeNil sets the value for LatestBackupTime to be an explicit nil.
 func (o *BackupStats) SetLatestBackupTimeNil() {
 	o.LatestBackupTime.Set(nil)
@@ -142,7 +136,6 @@ func (o *BackupStats) SetLatestBackupTimeNil() {
 func (o *BackupStats) UnsetLatestBackupTime() {
 	o.LatestBackupTime.Unset()
 }
-
 
 // GetLatestBackupStatus returns the LatestBackupStatus field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BackupStats) GetLatestBackupStatus() string {
@@ -157,7 +150,7 @@ func (o *BackupStats) GetLatestBackupStatus() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *BackupStats) GetLatestBackupStatusOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.LatestBackupStatus.Get(), o.LatestBackupStatus.IsSet()
@@ -172,6 +165,7 @@ func (o *BackupStats) HasLatestBackupStatus() bool {
 func (o *BackupStats) SetLatestBackupStatus(v string) {
 	o.LatestBackupStatus.Set(&v)
 }
+
 // SetLatestBackupStatusNil sets the value for LatestBackupStatus to be an explicit nil.
 func (o *BackupStats) SetLatestBackupStatusNil() {
 	o.LatestBackupStatus.Set(nil)
@@ -181,8 +175,6 @@ func (o *BackupStats) SetLatestBackupStatusNil() {
 func (o *BackupStats) UnsetLatestBackupStatus() {
 	o.LatestBackupStatus.Unset()
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupStats) MarshalJSON() ([]byte, error) {
@@ -212,9 +204,9 @@ func (o BackupStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		BackupStatsStatus []BackupStatsStatus `json:"backupStatsStatus,omitempty"`
-		BackupStatsEngine []BackupStatsEngine `json:"backupStatsEngine,omitempty"`
-		LatestBackupTime common.NullableTime `json:"latestBackupTime,omitempty"`
+		BackupStatsStatus  []BackupStatsStatus   `json:"backupStatsStatus,omitempty"`
+		BackupStatsEngine  []BackupStatsEngine   `json:"backupStatsEngine,omitempty"`
+		LatestBackupTime   common.NullableTime   `json:"latestBackupTime,omitempty"`
 		LatestBackupStatus common.NullableString `json:"latestBackupStatus,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -222,7 +214,7 @@ func (o *BackupStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "backupStatsStatus", "backupStatsEngine", "latestBackupTime", "latestBackupStatus",  })
+		common.DeleteKeys(additionalProperties, &[]string{"backupStatsStatus", "backupStatsEngine", "latestBackupTime", "latestBackupStatus"})
 	} else {
 		return err
 	}

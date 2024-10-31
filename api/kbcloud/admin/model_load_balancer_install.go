@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// LoadBalancerInstall Install the load balancer in the environment 
+// LoadBalancerInstall Install the load balancer in the environment
 type LoadBalancerInstall struct {
 	// Type of the load balancer
 	Type LoadBalancerType `json:"type"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewLoadBalancerInstall instantiates a new LoadBalancerInstall object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewLoadBalancerInstallWithDefaults() *LoadBalancerInstall {
 	this := LoadBalancerInstall{}
 	return &this
 }
+
 // GetType returns the Type field value.
 func (o *LoadBalancerInstall) GetType() LoadBalancerType {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *LoadBalancerInstall) GetTypeOk() (*LoadBalancerType, bool) {
 func (o *LoadBalancerInstall) SetType(v LoadBalancerType) {
 	o.Type = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o LoadBalancerInstall) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *LoadBalancerInstall) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "type",  })
+		common.DeleteKeys(additionalProperties, &[]string{"type"})
 	} else {
 		return err
 	}

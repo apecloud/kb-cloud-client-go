@@ -2,30 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package kbcloud
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ApikeyCreate APIKeyCreate is the payload for creating an APIKey 
+// ApikeyCreate APIKeyCreate is the payload for creating an APIKey
 type ApikeyCreate struct {
 	// The description of the APIKey
 	Description string `json:"description"`
 	// The expired time of the APIKey
 	ExpiredAt time.Time `json:"expiredAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewApikeyCreate instantiates a new ApikeyCreate object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +40,7 @@ func NewApikeyCreateWithDefaults() *ApikeyCreate {
 	this := ApikeyCreate{}
 	return &this
 }
+
 // GetDescription returns the Description field value.
 func (o *ApikeyCreate) GetDescription() string {
 	if o == nil {
@@ -67,7 +63,6 @@ func (o *ApikeyCreate) GetDescriptionOk() (*string, bool) {
 func (o *ApikeyCreate) SetDescription(v string) {
 	o.Description = v
 }
-
 
 // GetExpiredAt returns the ExpiredAt field value.
 func (o *ApikeyCreate) GetExpiredAt() time.Time {
@@ -92,8 +87,6 @@ func (o *ApikeyCreate) SetExpiredAt(v time.Time) {
 	o.ExpiredAt = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ApikeyCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -116,8 +109,8 @@ func (o ApikeyCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ApikeyCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description *string `json:"description"`
-		ExpiredAt *time.Time `json:"expiredAt"`
+		Description *string    `json:"description"`
+		ExpiredAt   *time.Time `json:"expiredAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -130,7 +123,7 @@ func (o *ApikeyCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "description", "expiredAt",  })
+		common.DeleteKeys(additionalProperties, &[]string{"description", "expiredAt"})
 	} else {
 		return err
 	}

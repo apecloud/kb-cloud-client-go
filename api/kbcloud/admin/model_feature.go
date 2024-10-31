@@ -2,19 +2,14 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type Feature struct {
 	// Name of a feature
 	Name string `json:"name"`
@@ -23,10 +18,9 @@ type Feature struct {
 	// Indicates the maturity level of a feature
 	PreRelease FeaturePreReleaseType `json:"preRelease"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewFeature instantiates a new Feature object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +41,7 @@ func NewFeatureWithDefaults() *Feature {
 	this := Feature{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *Feature) GetName() string {
 	if o == nil {
@@ -69,7 +64,6 @@ func (o *Feature) GetNameOk() (*string, bool) {
 func (o *Feature) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetEnabled returns the Enabled field value.
 func (o *Feature) GetEnabled() bool {
@@ -94,7 +88,6 @@ func (o *Feature) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
-
 // GetPreRelease returns the PreRelease field value.
 func (o *Feature) GetPreRelease() FeaturePreReleaseType {
 	if o == nil {
@@ -118,8 +111,6 @@ func (o *Feature) SetPreRelease(v FeaturePreReleaseType) {
 	o.PreRelease = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o Feature) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -139,8 +130,8 @@ func (o Feature) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Feature) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		Enabled *bool `json:"enabled"`
+		Name       *string                `json:"name"`
+		Enabled    *bool                  `json:"enabled"`
 		PreRelease *FeaturePreReleaseType `json:"preRelease"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -157,7 +148,7 @@ func (o *Feature) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "enabled", "preRelease",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "enabled", "preRelease"})
 	} else {
 		return err
 	}

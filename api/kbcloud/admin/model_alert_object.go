@@ -2,42 +2,36 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// AlertObject Alert object information 
+// AlertObject Alert object information
 type AlertObject struct {
-	Id *int32 `json:"id,omitempty"`
-	AlertName *string `json:"alertName,omitempty"`
-	GroupName *string `json:"groupName,omitempty"`
-	Expr *string `json:"expr,omitempty"`
-	ClusterName *string `json:"clusterName,omitempty"`
-	Engine *string `json:"engine,omitempty"`
-	Namespace *string `json:"namespace,omitempty"`
-	Pod *string `json:"pod,omitempty"`
-	Severity *AlertSeverity `json:"severity,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Fingerprint *string `json:"fingerprint,omitempty"`
-	StartsAt *time.Time `json:"startsAt,omitempty"`
-	EndsAt *time.Time `json:"endsAt,omitempty"`
-	Status *AlertStatus `json:"status,omitempty"`
-	Count *int32 `json:"count,omitempty"`
-	OrgName *string `json:"orgName,omitempty"`
+	Id          *int32         `json:"id,omitempty"`
+	AlertName   *string        `json:"alertName,omitempty"`
+	GroupName   *string        `json:"groupName,omitempty"`
+	Expr        *string        `json:"expr,omitempty"`
+	ClusterName *string        `json:"clusterName,omitempty"`
+	Engine      *string        `json:"engine,omitempty"`
+	Namespace   *string        `json:"namespace,omitempty"`
+	Pod         *string        `json:"pod,omitempty"`
+	Severity    *AlertSeverity `json:"severity,omitempty"`
+	Description *string        `json:"description,omitempty"`
+	Fingerprint *string        `json:"fingerprint,omitempty"`
+	StartsAt    *time.Time     `json:"startsAt,omitempty"`
+	EndsAt      *time.Time     `json:"endsAt,omitempty"`
+	Status      *AlertStatus   `json:"status,omitempty"`
+	Count       *int32         `json:"count,omitempty"`
+	OrgName     *string        `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAlertObject instantiates a new AlertObject object.
 // This constructor will assign default values to properties that have it defined,
@@ -55,6 +49,7 @@ func NewAlertObjectWithDefaults() *AlertObject {
 	this := AlertObject{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *AlertObject) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -82,7 +77,6 @@ func (o *AlertObject) HasId() bool {
 func (o *AlertObject) SetId(v int32) {
 	o.Id = &v
 }
-
 
 // GetAlertName returns the AlertName field value if set, zero value otherwise.
 func (o *AlertObject) GetAlertName() string {
@@ -112,7 +106,6 @@ func (o *AlertObject) SetAlertName(v string) {
 	o.AlertName = &v
 }
 
-
 // GetGroupName returns the GroupName field value if set, zero value otherwise.
 func (o *AlertObject) GetGroupName() string {
 	if o == nil || o.GroupName == nil {
@@ -140,7 +133,6 @@ func (o *AlertObject) HasGroupName() bool {
 func (o *AlertObject) SetGroupName(v string) {
 	o.GroupName = &v
 }
-
 
 // GetExpr returns the Expr field value if set, zero value otherwise.
 func (o *AlertObject) GetExpr() string {
@@ -170,7 +162,6 @@ func (o *AlertObject) SetExpr(v string) {
 	o.Expr = &v
 }
 
-
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
 func (o *AlertObject) GetClusterName() string {
 	if o == nil || o.ClusterName == nil {
@@ -198,7 +189,6 @@ func (o *AlertObject) HasClusterName() bool {
 func (o *AlertObject) SetClusterName(v string) {
 	o.ClusterName = &v
 }
-
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
 func (o *AlertObject) GetEngine() string {
@@ -228,7 +218,6 @@ func (o *AlertObject) SetEngine(v string) {
 	o.Engine = &v
 }
 
-
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *AlertObject) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
@@ -256,7 +245,6 @@ func (o *AlertObject) HasNamespace() bool {
 func (o *AlertObject) SetNamespace(v string) {
 	o.Namespace = &v
 }
-
 
 // GetPod returns the Pod field value if set, zero value otherwise.
 func (o *AlertObject) GetPod() string {
@@ -286,7 +274,6 @@ func (o *AlertObject) SetPod(v string) {
 	o.Pod = &v
 }
 
-
 // GetSeverity returns the Severity field value if set, zero value otherwise.
 func (o *AlertObject) GetSeverity() AlertSeverity {
 	if o == nil || o.Severity == nil {
@@ -314,7 +301,6 @@ func (o *AlertObject) HasSeverity() bool {
 func (o *AlertObject) SetSeverity(v AlertSeverity) {
 	o.Severity = &v
 }
-
 
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *AlertObject) GetDescription() string {
@@ -344,7 +330,6 @@ func (o *AlertObject) SetDescription(v string) {
 	o.Description = &v
 }
 
-
 // GetFingerprint returns the Fingerprint field value if set, zero value otherwise.
 func (o *AlertObject) GetFingerprint() string {
 	if o == nil || o.Fingerprint == nil {
@@ -372,7 +357,6 @@ func (o *AlertObject) HasFingerprint() bool {
 func (o *AlertObject) SetFingerprint(v string) {
 	o.Fingerprint = &v
 }
-
 
 // GetStartsAt returns the StartsAt field value if set, zero value otherwise.
 func (o *AlertObject) GetStartsAt() time.Time {
@@ -402,7 +386,6 @@ func (o *AlertObject) SetStartsAt(v time.Time) {
 	o.StartsAt = &v
 }
 
-
 // GetEndsAt returns the EndsAt field value if set, zero value otherwise.
 func (o *AlertObject) GetEndsAt() time.Time {
 	if o == nil || o.EndsAt == nil {
@@ -430,7 +413,6 @@ func (o *AlertObject) HasEndsAt() bool {
 func (o *AlertObject) SetEndsAt(v time.Time) {
 	o.EndsAt = &v
 }
-
 
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *AlertObject) GetStatus() AlertStatus {
@@ -460,7 +442,6 @@ func (o *AlertObject) SetStatus(v AlertStatus) {
 	o.Status = &v
 }
 
-
 // GetCount returns the Count field value if set, zero value otherwise.
 func (o *AlertObject) GetCount() int32 {
 	if o == nil || o.Count == nil {
@@ -489,7 +470,6 @@ func (o *AlertObject) SetCount(v int32) {
 	o.Count = &v
 }
 
-
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertObject) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -517,8 +497,6 @@ func (o *AlertObject) HasOrgName() bool {
 func (o *AlertObject) SetOrgName(v string) {
 	o.OrgName = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertObject) MarshalJSON() ([]byte, error) {
@@ -592,29 +570,29 @@ func (o AlertObject) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *int32 `json:"id,omitempty"`
-		AlertName *string `json:"alertName,omitempty"`
-		GroupName *string `json:"groupName,omitempty"`
-		Expr *string `json:"expr,omitempty"`
-		ClusterName *string `json:"clusterName,omitempty"`
-		Engine *string `json:"engine,omitempty"`
-		Namespace *string `json:"namespace,omitempty"`
-		Pod *string `json:"pod,omitempty"`
-		Severity *AlertSeverity `json:"severity,omitempty"`
-		Description *string `json:"description,omitempty"`
-		Fingerprint *string `json:"fingerprint,omitempty"`
-		StartsAt *time.Time `json:"startsAt,omitempty"`
-		EndsAt *time.Time `json:"endsAt,omitempty"`
-		Status *AlertStatus `json:"status,omitempty"`
-		Count *int32 `json:"count,omitempty"`
-		OrgName *string `json:"orgName,omitempty"`
+		Id          *int32         `json:"id,omitempty"`
+		AlertName   *string        `json:"alertName,omitempty"`
+		GroupName   *string        `json:"groupName,omitempty"`
+		Expr        *string        `json:"expr,omitempty"`
+		ClusterName *string        `json:"clusterName,omitempty"`
+		Engine      *string        `json:"engine,omitempty"`
+		Namespace   *string        `json:"namespace,omitempty"`
+		Pod         *string        `json:"pod,omitempty"`
+		Severity    *AlertSeverity `json:"severity,omitempty"`
+		Description *string        `json:"description,omitempty"`
+		Fingerprint *string        `json:"fingerprint,omitempty"`
+		StartsAt    *time.Time     `json:"startsAt,omitempty"`
+		EndsAt      *time.Time     `json:"endsAt,omitempty"`
+		Status      *AlertStatus   `json:"status,omitempty"`
+		Count       *int32         `json:"count,omitempty"`
+		OrgName     *string        `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName"})
 	} else {
 		return err
 	}
@@ -628,7 +606,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	o.Engine = all.Engine
 	o.Namespace = all.Namespace
 	o.Pod = all.Pod
-	if all.Severity != nil &&!all.Severity.IsValid() {
+	if all.Severity != nil && !all.Severity.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Severity = all.Severity
@@ -637,7 +615,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	o.Fingerprint = all.Fingerprint
 	o.StartsAt = all.StartsAt
 	o.EndsAt = all.EndsAt
-	if all.Status != nil &&!all.Status.IsValid() {
+	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Status = all.Status

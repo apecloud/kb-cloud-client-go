@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// AdminUserUpdate Admin user update 
+// AdminUserUpdate Admin user update
 type AdminUserUpdate struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`
@@ -24,10 +19,9 @@ type AdminUserUpdate struct {
 	// The phonenumber for the user.
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewAdminUserUpdate instantiates a new AdminUserUpdate object.
 // This constructor will assign default values to properties that have it defined,
@@ -46,6 +40,7 @@ func NewAdminUserUpdateWithDefaults() *AdminUserUpdate {
 	this := AdminUserUpdate{}
 	return &this
 }
+
 // GetUserName returns the UserName field value.
 func (o *AdminUserUpdate) GetUserName() string {
 	if o == nil {
@@ -68,7 +63,6 @@ func (o *AdminUserUpdate) GetUserNameOk() (*string, bool) {
 func (o *AdminUserUpdate) SetUserName(v string) {
 	o.UserName = v
 }
-
 
 // GetEmail returns the Email field value if set, zero value otherwise.
 func (o *AdminUserUpdate) GetEmail() string {
@@ -98,7 +92,6 @@ func (o *AdminUserUpdate) SetEmail(v string) {
 	o.Email = &v
 }
 
-
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
 func (o *AdminUserUpdate) GetPhoneNumber() string {
 	if o == nil || o.PhoneNumber == nil {
@@ -127,8 +120,6 @@ func (o *AdminUserUpdate) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AdminUserUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -152,8 +143,8 @@ func (o AdminUserUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AdminUserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		UserName *string `json:"userName"`
-		Email *string `json:"email,omitempty"`
+		UserName    *string `json:"userName"`
+		Email       *string `json:"email,omitempty"`
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -164,7 +155,7 @@ func (o *AdminUserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "userName", "email", "phoneNumber",  })
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber"})
 	} else {
 		return err
 	}

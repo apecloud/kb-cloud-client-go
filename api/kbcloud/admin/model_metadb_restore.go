@@ -2,19 +2,14 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package admin
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type Metadb_restore struct {
 	// the namespace of new cluster, default value is original namespace
 	Namespace *string `json:"namespace,omitempty"`
@@ -29,19 +24,18 @@ type Metadb_restore struct {
 	// completion time
 	CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
 	// start time
-	StartTimestamp *string `json:"startTimestamp,omitempty"`
-	Cpu *float64 `json:"cpu,omitempty"`
-	Memory *float64 `json:"memory,omitempty"`
-	Storage *float64 `json:"storage,omitempty"`
+	StartTimestamp *string  `json:"startTimestamp,omitempty"`
+	Cpu            *float64 `json:"cpu,omitempty"`
+	Memory         *float64 `json:"memory,omitempty"`
+	Storage        *float64 `json:"storage,omitempty"`
 	// the number of postgresql pods
 	Replicas *int32 `json:"replicas,omitempty"`
 	// whether pods are ready
 	Ready *string `json:"ready,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewMetadb_restore instantiates a new Metadb_restore object.
 // This constructor will assign default values to properties that have it defined,
@@ -60,6 +54,7 @@ func NewMetadb_restoreWithDefaults() *Metadb_restore {
 	this := Metadb_restore{}
 	return &this
 }
+
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *Metadb_restore) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
@@ -87,7 +82,6 @@ func (o *Metadb_restore) HasNamespace() bool {
 func (o *Metadb_restore) SetNamespace(v string) {
 	o.Namespace = &v
 }
-
 
 // GetBackupName returns the BackupName field value if set, zero value otherwise.
 func (o *Metadb_restore) GetBackupName() string {
@@ -117,7 +111,6 @@ func (o *Metadb_restore) SetBackupName(v string) {
 	o.BackupName = &v
 }
 
-
 // GetClusterName returns the ClusterName field value.
 func (o *Metadb_restore) GetClusterName() string {
 	if o == nil {
@@ -140,7 +133,6 @@ func (o *Metadb_restore) GetClusterNameOk() (*string, bool) {
 func (o *Metadb_restore) SetClusterName(v string) {
 	o.ClusterName = v
 }
-
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
 func (o *Metadb_restore) GetTimestamp() string {
@@ -170,7 +162,6 @@ func (o *Metadb_restore) SetTimestamp(v string) {
 	o.Timestamp = &v
 }
 
-
 // GetDuration returns the Duration field value if set, zero value otherwise.
 func (o *Metadb_restore) GetDuration() string {
 	if o == nil || o.Duration == nil {
@@ -198,7 +189,6 @@ func (o *Metadb_restore) HasDuration() bool {
 func (o *Metadb_restore) SetDuration(v string) {
 	o.Duration = &v
 }
-
 
 // GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
 func (o *Metadb_restore) GetCompletionTimestamp() string {
@@ -228,7 +218,6 @@ func (o *Metadb_restore) SetCompletionTimestamp(v string) {
 	o.CompletionTimestamp = &v
 }
 
-
 // GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
 func (o *Metadb_restore) GetStartTimestamp() string {
 	if o == nil || o.StartTimestamp == nil {
@@ -256,7 +245,6 @@ func (o *Metadb_restore) HasStartTimestamp() bool {
 func (o *Metadb_restore) SetStartTimestamp(v string) {
 	o.StartTimestamp = &v
 }
-
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *Metadb_restore) GetCpu() float64 {
@@ -286,7 +274,6 @@ func (o *Metadb_restore) SetCpu(v float64) {
 	o.Cpu = &v
 }
 
-
 // GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *Metadb_restore) GetMemory() float64 {
 	if o == nil || o.Memory == nil {
@@ -314,7 +301,6 @@ func (o *Metadb_restore) HasMemory() bool {
 func (o *Metadb_restore) SetMemory(v float64) {
 	o.Memory = &v
 }
-
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *Metadb_restore) GetStorage() float64 {
@@ -344,7 +330,6 @@ func (o *Metadb_restore) SetStorage(v float64) {
 	o.Storage = &v
 }
 
-
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *Metadb_restore) GetReplicas() int32 {
 	if o == nil || o.Replicas == nil {
@@ -373,7 +358,6 @@ func (o *Metadb_restore) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
-
 // GetReady returns the Ready field value if set, zero value otherwise.
 func (o *Metadb_restore) GetReady() string {
 	if o == nil || o.Ready == nil {
@@ -401,8 +385,6 @@ func (o *Metadb_restore) HasReady() bool {
 func (o *Metadb_restore) SetReady(v string) {
 	o.Ready = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Metadb_restore) MarshalJSON() ([]byte, error) {
@@ -454,18 +436,18 @@ func (o Metadb_restore) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Metadb_restore) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Namespace *string `json:"namespace,omitempty"`
-		BackupName *string `json:"backupName,omitempty"`
-		ClusterName *string `json:"clusterName"`
-		Timestamp *string `json:"timestamp,omitempty"`
-		Duration *string `json:"duration,omitempty"`
-		CompletionTimestamp *string `json:"completionTimestamp,omitempty"`
-		StartTimestamp *string `json:"startTimestamp,omitempty"`
-		Cpu *float64 `json:"cpu,omitempty"`
-		Memory *float64 `json:"memory,omitempty"`
-		Storage *float64 `json:"storage,omitempty"`
-		Replicas *int32 `json:"replicas,omitempty"`
-		Ready *string `json:"ready,omitempty"`
+		Namespace           *string  `json:"namespace,omitempty"`
+		BackupName          *string  `json:"backupName,omitempty"`
+		ClusterName         *string  `json:"clusterName"`
+		Timestamp           *string  `json:"timestamp,omitempty"`
+		Duration            *string  `json:"duration,omitempty"`
+		CompletionTimestamp *string  `json:"completionTimestamp,omitempty"`
+		StartTimestamp      *string  `json:"startTimestamp,omitempty"`
+		Cpu                 *float64 `json:"cpu,omitempty"`
+		Memory              *float64 `json:"memory,omitempty"`
+		Storage             *float64 `json:"storage,omitempty"`
+		Replicas            *int32   `json:"replicas,omitempty"`
+		Ready               *string  `json:"ready,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -475,7 +457,7 @@ func (o *Metadb_restore) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "namespace", "backupName", "clusterName", "timestamp", "duration", "completionTimestamp", "startTimestamp", "cpu", "memory", "storage", "replicas", "ready",  })
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "backupName", "clusterName", "timestamp", "duration", "completionTimestamp", "startTimestamp", "cpu", "memory", "storage", "replicas", "ready"})
 	} else {
 		return err
 	}
