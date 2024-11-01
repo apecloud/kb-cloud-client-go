@@ -1876,6 +1876,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
           name: limit
           schema:
             type: string
@@ -1965,6 +1969,10 @@ paths:
             type: string
         - in: query
           name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
           schema:
             type: string
         - in: query
@@ -11030,6 +11038,8 @@ components:
           items:
             type: object
             properties:
+              default:
+                type: boolean
               majorVersion:
                 type: string
               minorVersions:

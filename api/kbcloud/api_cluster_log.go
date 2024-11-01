@@ -20,6 +20,7 @@ type ClusterLogApi common.Service
 type QueryAuditLogsOptionalParameters struct {
 	Limit         *string
 	ComponentName *string
+	InstanceName  *string
 	SortType      *SortType
 }
 
@@ -38,6 +39,12 @@ func (r *QueryAuditLogsOptionalParameters) WithLimit(limit string) *QueryAuditLo
 // WithComponentName sets the corresponding parameter name and returns the struct.
 func (r *QueryAuditLogsOptionalParameters) WithComponentName(componentName string) *QueryAuditLogsOptionalParameters {
 	r.ComponentName = &componentName
+	return r
+}
+
+// WithInstanceName sets the corresponding parameter name and returns the struct.
+func (r *QueryAuditLogsOptionalParameters) WithInstanceName(instanceName string) *QueryAuditLogsOptionalParameters {
+	r.InstanceName = &instanceName
 	return r
 }
 
@@ -83,6 +90,9 @@ func (a *ClusterLogApi) QueryAuditLogs(ctx _context.Context, orgName string, clu
 	}
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
+	}
+	if optionalParams.InstanceName != nil {
+		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
 	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
@@ -533,6 +543,7 @@ func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, c
 // QuerySlowLogsOptionalParameters holds optional parameters for QuerySlowLogs.
 type QuerySlowLogsOptionalParameters struct {
 	ComponentName *string
+	InstanceName  *string
 	Limit         *string
 	SortType      *SortType
 }
@@ -546,6 +557,12 @@ func NewQuerySlowLogsOptionalParameters() *QuerySlowLogsOptionalParameters {
 // WithComponentName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithComponentName(componentName string) *QuerySlowLogsOptionalParameters {
 	r.ComponentName = &componentName
+	return r
+}
+
+// WithInstanceName sets the corresponding parameter name and returns the struct.
+func (r *QuerySlowLogsOptionalParameters) WithInstanceName(instanceName string) *QuerySlowLogsOptionalParameters {
+	r.InstanceName = &instanceName
 	return r
 }
 
@@ -594,6 +611,9 @@ func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clus
 	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
+	}
+	if optionalParams.InstanceName != nil {
+		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
