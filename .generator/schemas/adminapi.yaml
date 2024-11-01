@@ -3826,6 +3826,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
           name: limit
           schema:
             type: string
@@ -3915,6 +3919,10 @@ paths:
             type: string
         - in: query
           name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
           schema:
             type: string
         - in: query
