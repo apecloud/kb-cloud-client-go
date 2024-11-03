@@ -4,6 +4,7 @@ package {{ common_package_name }}
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"compress/zlib"
 	"compress/gzip"
 	"encoding/xml"
@@ -391,12 +392,33 @@ func (c *APIClient) PrepareRequest(
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
 
+		// Set transport TLSClientConfig
+		setTLSClientConfig := func(transport *http.Transport, insecureSkipVerify bool) {
+			if transport.TLSClientConfig == nil {
+				transport.TLSClientConfig = &tls.Config{}
+			}
+			transport.TLSClientConfig.InsecureSkipVerify = insecureSkipVerify
+		}
+
+		transport := c.Cfg.HTTPClient.Transport
+		if transport == nil {
+			transport = http.DefaultTransport
+		}
+
+		// InsecureSkipVerify
+		if insecureSkipVerify, ok := ctx.Value(ContextInsecureSkipVerify).(bool); ok {
+			setTLSClientConfig(transport.(*http.Transport), insecureSkipVerify)
+		}
+
 		// Digest Authentication
 		if auth, ok := ctx.Value(ContextDigestAuth).(DigestAuth); ok {
 			c.Cfg.HTTPClient.Transport = &digest.Transport{
-				Username: auth.UserName,
-				Password: auth.Password,
+				Username:  auth.UserName,
+				Password:  auth.Password,
+				Transport: transport,
 			}
+		} else {
+			c.Cfg.HTTPClient.Transport = transport
 		}
 	}
 
