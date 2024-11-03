@@ -57,6 +57,9 @@ var (
 
 	// ContextDigestAuth takes DigestAuth as authentication for the request.
 	ContextDigestAuth = contextKey("digest")
+
+	// ContextInsecureSkipVerify takes a boolean to skip the TLS certificate verification.
+	ContextInsecureSkipVerify = contextKey("insecureSkipVerify")
 )
 
 // DigestAuth provides digest http authentication to a request passed via context using ContextDigestAuth.
