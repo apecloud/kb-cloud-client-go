@@ -32,7 +32,7 @@ type EngineOption struct {
 	License          *EngineOptionLicense `json:"license,omitempty"`
 	StorageExpansion []ComponentOpsOption `json:"storageExpansion"`
 	RebuildInstance  []ComponentOpsOption `json:"rebuildInstance,omitempty"`
-	Metrics          *MetricsOption       `json:"metrics,omitempty"`
+	Metrics          MetricsOption        `json:"metrics"`
 	Dashboards       []DashboardOption    `json:"dashboards"`
 	Logs             []LogOption          `json:"logs"`
 	Parameters       []ParameterOption    `json:"parameters"`
@@ -45,7 +45,7 @@ type EngineOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, account AccountOption, dms DmsOption, backup BackupOption, bench BenchOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
+func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, account AccountOption, dms DmsOption, backup BackupOption, bench BenchOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, metrics MetricsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
@@ -65,6 +65,7 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 	this.Hscale = hscale
 	this.Vscale = vscale
 	this.StorageExpansion = storageExpansion
+	this.Metrics = metrics
 	this.Dashboards = dashboards
 	this.Logs = logs
 	this.Parameters = parameters
@@ -577,32 +578,27 @@ func (o *EngineOption) SetRebuildInstance(v []ComponentOpsOption) {
 	o.RebuildInstance = v
 }
 
-// GetMetrics returns the Metrics field value if set, zero value otherwise.
+// GetMetrics returns the Metrics field value.
 func (o *EngineOption) GetMetrics() MetricsOption {
-	if o == nil || o.Metrics == nil {
+	if o == nil {
 		var ret MetricsOption
 		return ret
 	}
-	return *o.Metrics
+	return o.Metrics
 }
 
-// GetMetricsOk returns a tuple with the Metrics field value if set, nil otherwise
+// GetMetricsOk returns a tuple with the Metrics field value
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetMetricsOk() (*MetricsOption, bool) {
-	if o == nil || o.Metrics == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Metrics, true
+	return &o.Metrics, true
 }
 
-// HasMetrics returns a boolean if a field has been set.
-func (o *EngineOption) HasMetrics() bool {
-	return o != nil && o.Metrics != nil
-}
-
-// SetMetrics gets a reference to the given MetricsOption and assigns it to the Metrics field.
+// SetMetrics sets field value.
 func (o *EngineOption) SetMetrics(v MetricsOption) {
-	o.Metrics = &v
+	o.Metrics = v
 }
 
 // GetDashboards returns the Dashboards field value.
@@ -707,9 +703,7 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.RebuildInstance != nil {
 		toSerialize["rebuildInstance"] = o.RebuildInstance
 	}
-	if o.Metrics != nil {
-		toSerialize["metrics"] = o.Metrics
-	}
+	toSerialize["metrics"] = o.Metrics
 	toSerialize["dashboards"] = o.Dashboards
 	toSerialize["logs"] = o.Logs
 	toSerialize["parameters"] = o.Parameters
@@ -744,7 +738,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		License          *EngineOptionLicense  `json:"license,omitempty"`
 		StorageExpansion *[]ComponentOpsOption `json:"storageExpansion"`
 		RebuildInstance  []ComponentOpsOption  `json:"rebuildInstance,omitempty"`
-		Metrics          *MetricsOption        `json:"metrics,omitempty"`
+		Metrics          *MetricsOption        `json:"metrics"`
 		Dashboards       *[]DashboardOption    `json:"dashboards"`
 		Logs             *[]LogOption          `json:"logs"`
 		Parameters       *[]ParameterOption    `json:"parameters"`
@@ -806,6 +800,9 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.StorageExpansion == nil {
 		return fmt.Errorf("required field storageExpansion missing")
 	}
+	if all.Metrics == nil {
+		return fmt.Errorf("required field metrics missing")
+	}
 	if all.Dashboards == nil {
 		return fmt.Errorf("required field dashboards missing")
 	}
@@ -865,10 +862,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.License = all.License
 	o.StorageExpansion = *all.StorageExpansion
 	o.RebuildInstance = all.RebuildInstance
-	if all.Metrics != nil && all.Metrics.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Metrics.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Metrics = all.Metrics
+	o.Metrics = *all.Metrics
 	o.Dashboards = *all.Dashboards
 	o.Logs = *all.Logs
 	o.Parameters = *all.Parameters

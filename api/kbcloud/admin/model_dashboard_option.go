@@ -14,7 +14,7 @@ type DashboardOption struct {
 	Component      string                              `json:"component"`
 	DashboardUid   string                              `json:"dashboardUid"`
 	Variables      map[string]string                   `json:"variables"`
-	InstancePanels []DashboardOptionInstancePanelsItem `json:"instancePanels,omitempty"`
+	InstancePanels []DashboardOptionInstancePanelsItem `json:"instancePanels"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,11 +24,12 @@ type DashboardOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDashboardOption(component string, dashboardUid string, variables map[string]string) *DashboardOption {
+func NewDashboardOption(component string, dashboardUid string, variables map[string]string, instancePanels []DashboardOptionInstancePanelsItem) *DashboardOption {
 	this := DashboardOption{}
 	this.Component = component
 	this.DashboardUid = dashboardUid
 	this.Variables = variables
+	this.InstancePanels = instancePanels
 	return &this
 }
 
@@ -109,30 +110,25 @@ func (o *DashboardOption) SetVariables(v map[string]string) {
 	o.Variables = v
 }
 
-// GetInstancePanels returns the InstancePanels field value if set, zero value otherwise.
+// GetInstancePanels returns the InstancePanels field value.
 func (o *DashboardOption) GetInstancePanels() []DashboardOptionInstancePanelsItem {
-	if o == nil || o.InstancePanels == nil {
+	if o == nil {
 		var ret []DashboardOptionInstancePanelsItem
 		return ret
 	}
 	return o.InstancePanels
 }
 
-// GetInstancePanelsOk returns a tuple with the InstancePanels field value if set, nil otherwise
+// GetInstancePanelsOk returns a tuple with the InstancePanels field value
 // and a boolean to check if the value has been set.
 func (o *DashboardOption) GetInstancePanelsOk() (*[]DashboardOptionInstancePanelsItem, bool) {
-	if o == nil || o.InstancePanels == nil {
+	if o == nil {
 		return nil, false
 	}
 	return &o.InstancePanels, true
 }
 
-// HasInstancePanels returns a boolean if a field has been set.
-func (o *DashboardOption) HasInstancePanels() bool {
-	return o != nil && o.InstancePanels != nil
-}
-
-// SetInstancePanels gets a reference to the given []DashboardOptionInstancePanelsItem and assigns it to the InstancePanels field.
+// SetInstancePanels sets field value.
 func (o *DashboardOption) SetInstancePanels(v []DashboardOptionInstancePanelsItem) {
 	o.InstancePanels = v
 }
@@ -146,9 +142,7 @@ func (o DashboardOption) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["dashboardUid"] = o.DashboardUid
 	toSerialize["variables"] = o.Variables
-	if o.InstancePanels != nil {
-		toSerialize["instancePanels"] = o.InstancePanels
-	}
+	toSerialize["instancePanels"] = o.InstancePanels
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -159,10 +153,10 @@ func (o DashboardOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DashboardOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string                             `json:"component"`
-		DashboardUid   *string                             `json:"dashboardUid"`
-		Variables      *map[string]string                  `json:"variables"`
-		InstancePanels []DashboardOptionInstancePanelsItem `json:"instancePanels,omitempty"`
+		Component      *string                              `json:"component"`
+		DashboardUid   *string                              `json:"dashboardUid"`
+		Variables      *map[string]string                   `json:"variables"`
+		InstancePanels *[]DashboardOptionInstancePanelsItem `json:"instancePanels"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -176,6 +170,9 @@ func (o *DashboardOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Variables == nil {
 		return fmt.Errorf("required field variables missing")
 	}
+	if all.InstancePanels == nil {
+		return fmt.Errorf("required field instancePanels missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"component", "dashboardUid", "variables", "instancePanels"})
@@ -185,7 +182,7 @@ func (o *DashboardOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.DashboardUid = *all.DashboardUid
 	o.Variables = *all.Variables
-	o.InstancePanels = all.InstancePanels
+	o.InstancePanels = *all.InstancePanels
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
