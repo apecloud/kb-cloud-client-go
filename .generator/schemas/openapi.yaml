@@ -13345,7 +13345,6 @@ components:
         - component
         - dashboardUid
         - variables
-        - instancePanels
       properties:
         component:
           type: string
