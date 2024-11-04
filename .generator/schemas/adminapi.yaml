@@ -3826,6 +3826,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
           name: limit
           schema:
             type: string
@@ -3915,6 +3919,10 @@ paths:
             type: string
         - in: query
           name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
           schema:
             type: string
         - in: query
@@ -14467,6 +14475,8 @@ components:
           items:
             type: object
             properties:
+              default:
+                type: boolean
               majorVersion:
                 type: string
               minorVersions:
@@ -17708,6 +17718,7 @@ components:
         - component
         - dashboardUid
         - variables
+        - instancePanels
       properties:
         component:
           type: string
@@ -17791,6 +17802,32 @@ components:
           additionalProperties:
             type: object
             properties: {}
+        calculationParams:
+          type: array
+          x-nullable: false
+          description: Parameters to be calculated based on the instance specifications
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the parameter
+              description:
+                type: string
+                description: description of each variables and expression
+        dedicatedParams:
+          type: array
+          x-nullable: false
+          description: dedicated means that the parameter value is different from the shared specification under the dedicated specification
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the parameter
+              expression:
+                type: string
+                description: expression of the parameter value
     parameterOption:
       type: object
       required:
@@ -17853,6 +17890,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - metrics
         - dashboards
         - logs
         - parameters
