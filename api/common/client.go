@@ -405,9 +405,11 @@ func (c *APIClient) PrepareRequest(
 			transport = http.DefaultTransport
 		}
 
-		// InsecureSkipVerify
-		if insecureSkipVerify, ok := ctx.Value(ContextInsecureSkipVerify).(bool); ok {
-			setTLSClientConfig(transport.(*http.Transport), insecureSkipVerify)
+		// Set insecureSkipVerify
+		if transport, ok := transport.(*http.Transport); ok {
+			if insecureSkipVerify, ok := ctx.Value(ContextInsecureSkipVerify).(bool); ok {
+				setTLSClientConfig(transport, insecureSkipVerify)
+			}
 		}
 
 		// Digest Authentication

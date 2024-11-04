@@ -17853,7 +17853,6 @@ components:
         - hscale
         - vscale
         - storageExpansion
-        - metrics
         - dashboards
         - logs
         - parameters
