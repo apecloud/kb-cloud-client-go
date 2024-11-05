@@ -17191,7 +17191,6 @@ components:
       type: object
       required:
         - enabled
-        - privileges
         - accountNamePattern
         - create
         - resetPassword
@@ -17535,7 +17534,6 @@ components:
       required:
         - component
         - configs
-        - versions
         - exportTpl
         - family
         - defaultTplName
