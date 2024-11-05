@@ -98,6 +98,8 @@ type Cluster struct {
 	CodeShort *string `json:"codeShort,omitempty"`
 	// Display name of cluster.
 	DisplayName *string `json:"displayName,omitempty"`
+	// if cluster is static cluster
+	Static *bool `json:"static,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1363,6 +1365,34 @@ func (o *Cluster) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
+// GetStatic returns the Static field value if set, zero value otherwise.
+func (o *Cluster) GetStatic() bool {
+	if o == nil || o.Static == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Static
+}
+
+// GetStaticOk returns a tuple with the Static field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetStaticOk() (*bool, bool) {
+	if o == nil || o.Static == nil {
+		return nil, false
+	}
+	return o.Static, true
+}
+
+// HasStatic returns a boolean if a field has been set.
+func (o *Cluster) HasStatic() bool {
+	return o != nil && o.Static != nil
+}
+
+// SetStatic gets a reference to the given bool and assigns it to the Static field.
+func (o *Cluster) SetStatic(v bool) {
+	o.Static = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1500,6 +1530,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.DisplayName != nil {
 		toSerialize["displayName"] = o.DisplayName
 	}
+	if o.Static != nil {
+		toSerialize["static"] = o.Static
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1553,6 +1586,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		NodeGroup               common.NullableString     `json:"nodeGroup,omitempty"`
 		CodeShort               *string                   `json:"codeShort,omitempty"`
 		DisplayName             *string                   `json:"displayName,omitempty"`
+		Static                  *bool                     `json:"static,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1568,7 +1602,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
 	} else {
 		return err
 	}
@@ -1627,6 +1661,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.NodeGroup = all.NodeGroup
 	o.CodeShort = all.CodeShort
 	o.DisplayName = all.DisplayName
+	o.Static = all.Static
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

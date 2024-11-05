@@ -73,6 +73,7 @@
 //   - [backupRepoApi.createBackupRepo]
 //   - [backupRepoApi.deleteBackupRepo]
 //   - [backupRepoApi.getBackupRepo]
+//   - [backupRepoApi.listBackupRepoStats]
 //   - [backupRepoApi.listBackupRepos]
 //   - [backupRepoApi.listStorageProvidersArchive]
 //   - [backupRepoApi.updateBackupRepo]
