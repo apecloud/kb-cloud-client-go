@@ -11109,14 +11109,11 @@ paths:
                 $ref: '#/components/schemas/metadb_restore'
           description: A successful response.
         '401':
-          content: {}
-          description: Unauthorized
+          $ref: '#/components/responses/UnauthorizedResponse'
         '403':
-          content: {}
-          description: Forbidden
+          $ref: '#/components/responses/ForbiddenResponse'
         '404':
-          content: {}
-          description: NotFound
+          $ref: '#/components/responses/NotFoundResponse'
     post:
       tags:
         - metadb
