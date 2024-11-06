@@ -3826,6 +3826,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
           name: limit
           schema:
             type: string
@@ -3915,6 +3919,10 @@ paths:
             type: string
         - in: query
           name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
           schema:
             type: string
         - in: query
@@ -6608,6 +6616,50 @@ paths:
           $ref: '#/components/responses/ForbiddenResponse'
         '404':
           $ref: '#/components/responses/NotFoundResponse'
+  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/stats:
+    get:
+      operationId: listBackupRepoStats
+      summary: list backup repo stats
+      parameters:
+        - name: environmentName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+        - name: backupRepoName
+          in: path
+          description: name of the environment
+          required: true
+          schema:
+            type: string
+        - description: the start time
+          in: query
+          name: start
+          required: false
+          schema:
+            type: string
+        - description: the end time
+          in: query
+          name: end
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupRepoStatsList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/UnauthorizedResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenResponse'
+        '404':
+          $ref: '#/components/responses/NotFoundResponse'
+      tags:
+        - backupRepo
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -12565,6 +12617,9 @@ components:
         displayName:
           description: Display name of cluster.
           type: string
+        static:
+          description: if cluster is static cluster
+          type: boolean
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -14467,6 +14522,8 @@ components:
           items:
             type: object
             properties:
+              default:
+                type: boolean
               majorVersion:
                 type: string
               minorVersions:
@@ -16306,6 +16363,85 @@ components:
       required:
         - items
       type: object
+    backupStatsStatus:
+      description: Number of backups for the status
+      properties:
+        status:
+          description: Backup status
+          type: string
+        backupNum:
+          description: Number of backups for each status
+          format: int64
+          type: integer
+      type: object
+    backupStatsEngine:
+      description: Totalsize and number of backups for the engine
+      properties:
+        engineName:
+          description: Engine name
+          type: string
+        backupSize:
+          description: totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
+          type: string
+        backupNum:
+          description: The number of backups for each engine
+          format: int64
+          type: integer
+      type: object
+    backupStatsType:
+      description: Totalsize and number of backups for the backup type
+      properties:
+        backupType:
+          description: backup type
+          type: string
+        backupSize:
+          description: totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
+          type: string
+        backupNum:
+          description: The number of backups for each engine
+          format: int64
+          type: integer
+      type: object
+    backupRepoStats:
+      properties:
+        totalBackup:
+          description: the total backup in backup repo
+          type: integer
+        totalSize:
+          description: the total backup size in backup repo
+          type: string
+        backupStatsStatus:
+          description: Number of backups for each defferent status
+          items:
+            $ref: '#/components/schemas/backupStatsStatus'
+          type: array
+        backupStatsEngine:
+          description: Totalsize and number of backups for each engine
+          items:
+            $ref: '#/components/schemas/backupStatsEngine'
+          type: array
+        backupStatsType:
+          description: Totalsize and number of backups for each engine
+          items:
+            $ref: '#/components/schemas/backupStatsType'
+          type: array
+        createdAt:
+          description: the time that the stats is created
+          format: date-time
+          type: string
+    backupRepoStatsList:
+      description: backupRepoStatsList is a list of backup repo stats
+      properties:
+        items:
+          description: Items is the list of backup repo stats in the list
+          items:
+            $ref: '#/components/schemas/backupRepoStats'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
     imageRegistry:
       type: object
       description: Represents an image registry.
@@ -16532,31 +16668,6 @@ components:
           $ref: '#/components/schemas/pageResult'
       required:
         - items
-      type: object
-    backupStatsStatus:
-      description: Number of backups for the status
-      properties:
-        status:
-          description: Backup status
-          type: string
-        backupNum:
-          description: Number of backups for each status
-          format: int64
-          type: integer
-      type: object
-    backupStatsEngine:
-      description: Totalsize and number of backups for the engine
-      properties:
-        engineName:
-          description: Engine name
-          type: string
-        backupSize:
-          description: totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-          type: string
-        backupNum:
-          description: The number of backups for each engine
-          format: int64
-          type: integer
       type: object
     backupStats:
       description: Backup statistic info
@@ -17708,6 +17819,7 @@ components:
         - component
         - dashboardUid
         - variables
+        - instancePanels
       properties:
         component:
           type: string
@@ -17791,6 +17903,32 @@ components:
           additionalProperties:
             type: object
             properties: {}
+        calculationParams:
+          type: array
+          x-nullable: false
+          description: Parameters to be calculated based on the instance specifications
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the parameter
+              description:
+                type: string
+                description: description of each variables and expression
+        sharedSpecParams:
+          type: array
+          x-nullable: false
+          description: sharedSpecParams means that the parameter value is different from the dedicated specification under the shared specification
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the parameter
+              expression:
+                type: string
+                description: expression of the parameter value
     parameterOption:
       type: object
       required:
@@ -17853,6 +17991,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - metrics
         - dashboards
         - logs
         - parameters

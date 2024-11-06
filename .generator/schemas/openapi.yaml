@@ -1876,6 +1876,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
           name: limit
           schema:
             type: string
@@ -1965,6 +1969,10 @@ paths:
             type: string
         - in: query
           name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
           schema:
             type: string
         - in: query
@@ -10526,6 +10534,9 @@ components:
         displayName:
           description: Display name of cluster.
           type: string
+        static:
+          description: if cluster is static cluster
+          type: boolean
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -11030,6 +11041,8 @@ components:
           items:
             type: object
             properties:
+              default:
+                type: boolean
               majorVersion:
                 type: string
               minorVersions:
@@ -13345,6 +13358,7 @@ components:
         - component
         - dashboardUid
         - variables
+        - instancePanels
       properties:
         component:
           type: string
@@ -13428,6 +13442,32 @@ components:
           additionalProperties:
             type: object
             properties: {}
+        calculationParams:
+          type: array
+          x-nullable: false
+          description: Parameters to be calculated based on the instance specifications
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the parameter
+              description:
+                type: string
+                description: description of each variables and expression
+        sharedSpecParams:
+          type: array
+          x-nullable: false
+          description: sharedSpecParams means that the parameter value is different from the dedicated specification under the shared specification
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the parameter
+              expression:
+                type: string
+                description: expression of the parameter value
     parameterOption:
       type: object
       required:
@@ -13490,6 +13530,7 @@ components:
         - hscale
         - vscale
         - storageExpansion
+        - metrics
         - dashboards
         - logs
         - parameters
