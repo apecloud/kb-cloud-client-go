@@ -17,6 +17,10 @@ type ParameterConfig struct {
 	Regex         string                 `json:"regex"`
 	ConfigTplName string                 `json:"configTplName"`
 	InitOptions   map[string]interface{} `json:"initOptions,omitempty"`
+	// Parameters to be calculated based on the instance specifications
+	CalculationParams []ParameterConfigCalculationParamsItem `json:"calculationParams,omitempty"`
+	// sharedSpecParams means that the parameter value is different from the dedicated specification under the shared specification
+	SharedSpecParams []ParameterConfigSharedSpecParamsItem `json:"sharedSpecParams,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -187,6 +191,62 @@ func (o *ParameterConfig) SetInitOptions(v map[string]interface{}) {
 	o.InitOptions = v
 }
 
+// GetCalculationParams returns the CalculationParams field value if set, zero value otherwise.
+func (o *ParameterConfig) GetCalculationParams() []ParameterConfigCalculationParamsItem {
+	if o == nil || o.CalculationParams == nil {
+		var ret []ParameterConfigCalculationParamsItem
+		return ret
+	}
+	return o.CalculationParams
+}
+
+// GetCalculationParamsOk returns a tuple with the CalculationParams field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterConfig) GetCalculationParamsOk() (*[]ParameterConfigCalculationParamsItem, bool) {
+	if o == nil || o.CalculationParams == nil {
+		return nil, false
+	}
+	return &o.CalculationParams, true
+}
+
+// HasCalculationParams returns a boolean if a field has been set.
+func (o *ParameterConfig) HasCalculationParams() bool {
+	return o != nil && o.CalculationParams != nil
+}
+
+// SetCalculationParams gets a reference to the given []ParameterConfigCalculationParamsItem and assigns it to the CalculationParams field.
+func (o *ParameterConfig) SetCalculationParams(v []ParameterConfigCalculationParamsItem) {
+	o.CalculationParams = v
+}
+
+// GetSharedSpecParams returns the SharedSpecParams field value if set, zero value otherwise.
+func (o *ParameterConfig) GetSharedSpecParams() []ParameterConfigSharedSpecParamsItem {
+	if o == nil || o.SharedSpecParams == nil {
+		var ret []ParameterConfigSharedSpecParamsItem
+		return ret
+	}
+	return o.SharedSpecParams
+}
+
+// GetSharedSpecParamsOk returns a tuple with the SharedSpecParams field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterConfig) GetSharedSpecParamsOk() (*[]ParameterConfigSharedSpecParamsItem, bool) {
+	if o == nil || o.SharedSpecParams == nil {
+		return nil, false
+	}
+	return &o.SharedSpecParams, true
+}
+
+// HasSharedSpecParams returns a boolean if a field has been set.
+func (o *ParameterConfig) HasSharedSpecParams() bool {
+	return o != nil && o.SharedSpecParams != nil
+}
+
+// SetSharedSpecParams gets a reference to the given []ParameterConfigSharedSpecParamsItem and assigns it to the SharedSpecParams field.
+func (o *ParameterConfig) SetSharedSpecParams(v []ParameterConfigSharedSpecParamsItem) {
+	o.SharedSpecParams = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -201,6 +261,12 @@ func (o ParameterConfig) MarshalJSON() ([]byte, error) {
 	if o.InitOptions != nil {
 		toSerialize["initOptions"] = o.InitOptions
 	}
+	if o.CalculationParams != nil {
+		toSerialize["calculationParams"] = o.CalculationParams
+	}
+	if o.SharedSpecParams != nil {
+		toSerialize["sharedSpecParams"] = o.SharedSpecParams
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -211,12 +277,14 @@ func (o ParameterConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ConfigName    *string                `json:"configName"`
-		SpecName      *string                `json:"specName"`
-		Constraint    *string                `json:"constraint"`
-		Regex         *string                `json:"regex"`
-		ConfigTplName *string                `json:"configTplName"`
-		InitOptions   map[string]interface{} `json:"initOptions,omitempty"`
+		ConfigName        *string                                `json:"configName"`
+		SpecName          *string                                `json:"specName"`
+		Constraint        *string                                `json:"constraint"`
+		Regex             *string                                `json:"regex"`
+		ConfigTplName     *string                                `json:"configTplName"`
+		InitOptions       map[string]interface{}                 `json:"initOptions,omitempty"`
+		CalculationParams []ParameterConfigCalculationParamsItem `json:"calculationParams,omitempty"`
+		SharedSpecParams  []ParameterConfigSharedSpecParamsItem  `json:"sharedSpecParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -238,7 +306,7 @@ func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"configName", "specName", "constraint", "regex", "configTplName", "initOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"configName", "specName", "constraint", "regex", "configTplName", "initOptions", "calculationParams", "sharedSpecParams"})
 	} else {
 		return err
 	}
@@ -248,6 +316,8 @@ func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 	o.Regex = *all.Regex
 	o.ConfigTplName = *all.ConfigTplName
 	o.InitOptions = all.InitOptions
+	o.CalculationParams = all.CalculationParams
+	o.SharedSpecParams = all.SharedSpecParams
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
