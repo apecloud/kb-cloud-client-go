@@ -6325,7 +6325,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/environment'
       responses:
         '200':
           content:
@@ -17916,6 +17916,9 @@ components:
               description:
                 type: string
                 description: description of each variables and expression
+              unit:
+                type: string
+                description: unit of parameter
         sharedSpecParams:
           type: array
           x-nullable: false
