@@ -6325,7 +6325,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeConfig'
+              $ref: '#/components/schemas/environmentRestore'
       responses:
         '200':
           content:
@@ -15388,6 +15388,15 @@ components:
           description: whether the environment is still in use
         environment:
           $ref: '#/components/schemas/environment'
+        loki:
+          type: boolean
+          description: whether loki component is running
+        backupRepo:
+          type: boolean
+          description: whether backup repo is exist and ready
+        victoriaMetrics:
+          type: boolean
+          description: whether victoria metrics is exist
     cloudResourceCleanPolicy:
       type: string
       description: The policy to clean cloud resources, either `Delete` or `Retain`
@@ -16137,6 +16146,16 @@ components:
       items:
         type: string
       type: array
+    environmentRestore:
+      type: object
+      required:
+        - environment
+      properties:
+        environment:
+          $ref: '#/components/schemas/environment'
+        victoriaMetrics:
+          type: boolean
+          description: whether to install victoria metrics
     kubeConfig:
       pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
       type: string
@@ -17916,6 +17935,9 @@ components:
               description:
                 type: string
                 description: description of each variables and expression
+              unit:
+                type: string
+                description: unit of parameter
         sharedSpecParams:
           type: array
           x-nullable: false

@@ -2573,7 +2573,7 @@ func (a *EnvironmentApi) PreflightRestoreEnvironment(ctx _context.Context, body 
 
 // RestoreEnvironmentOptionalParameters holds optional parameters for RestoreEnvironment.
 type RestoreEnvironmentOptionalParameters struct {
-	Body *string
+	Body *EnvironmentRestore
 }
 
 // NewRestoreEnvironmentOptionalParameters creates an empty struct for parameters.
@@ -2583,7 +2583,7 @@ func NewRestoreEnvironmentOptionalParameters() *RestoreEnvironmentOptionalParame
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *RestoreEnvironmentOptionalParameters) WithBody(body string) *RestoreEnvironmentOptionalParameters {
+func (r *RestoreEnvironmentOptionalParameters) WithBody(body EnvironmentRestore) *RestoreEnvironmentOptionalParameters {
 	r.Body = &body
 	return r
 }
