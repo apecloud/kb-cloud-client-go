@@ -4,15 +4,11 @@
 
 package admin
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // StorageProvisionerList StorageProvisionerList stands for stats for provisioners can be used by storage classes.
 type StorageProvisionerList struct {
-	Items []StorageProvisioner `json:"items"`
+	Items []StorageProvisioner `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -22,9 +18,8 @@ type StorageProvisionerList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageProvisionerList(items []StorageProvisioner) *StorageProvisionerList {
+func NewStorageProvisionerList() *StorageProvisionerList {
 	this := StorageProvisionerList{}
-	this.Items = items
 	return &this
 }
 
@@ -36,25 +31,30 @@ func NewStorageProvisionerListWithDefaults() *StorageProvisionerList {
 	return &this
 }
 
-// GetItems returns the Items field value.
+// GetItems returns the Items field value if set, zero value otherwise.
 func (o *StorageProvisionerList) GetItems() []StorageProvisioner {
-	if o == nil {
+	if o == nil || o.Items == nil {
 		var ret []StorageProvisioner
 		return ret
 	}
 	return o.Items
 }
 
-// GetItemsOk returns a tuple with the Items field value
+// GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageProvisionerList) GetItemsOk() (*[]StorageProvisioner, bool) {
-	if o == nil {
+	if o == nil || o.Items == nil {
 		return nil, false
 	}
 	return &o.Items, true
 }
 
-// SetItems sets field value.
+// HasItems returns a boolean if a field has been set.
+func (o *StorageProvisionerList) HasItems() bool {
+	return o != nil && o.Items != nil
+}
+
+// SetItems gets a reference to the given []StorageProvisioner and assigns it to the Items field.
 func (o *StorageProvisionerList) SetItems(v []StorageProvisioner) {
 	o.Items = v
 }
@@ -65,7 +65,9 @@ func (o StorageProvisionerList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["items"] = o.Items
+	if o.Items != nil {
+		toSerialize["items"] = o.Items
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -76,13 +78,10 @@ func (o StorageProvisionerList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProvisionerList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]StorageProvisioner `json:"items"`
+		Items []StorageProvisioner `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.Items == nil {
-		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -90,7 +89,7 @@ func (o *StorageProvisionerList) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Items = *all.Items
+	o.Items = all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
