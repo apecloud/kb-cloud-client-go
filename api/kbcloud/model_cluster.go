@@ -14,7 +14,7 @@ import (
 // Cluster KubeBlocks cluster information
 type Cluster struct {
 	// Cluster ID
-	Id interface{} `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
 	// Cloud Provider
@@ -162,21 +162,21 @@ func NewClusterWithDefaults() *Cluster {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Cluster) GetId() interface{} {
+func (o *Cluster) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
-	return o.Id
+	return *o.Id
 }
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetIdOk() (*interface{}, bool) {
+func (o *Cluster) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
-	return &o.Id, true
+	return o.Id, true
 }
 
 // HasId returns a boolean if a field has been set.
@@ -184,9 +184,9 @@ func (o *Cluster) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given interface{} and assigns it to the Id field.
-func (o *Cluster) SetId(v interface{}) {
-	o.Id = v
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *Cluster) SetId(v string) {
+	o.Id = &v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
@@ -1477,7 +1477,7 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                      interface{}               `json:"id,omitempty"`
+		Id                      *string                   `json:"id,omitempty"`
 		OrgName                 *string                   `json:"orgName,omitempty"`
 		CloudProvider           *string                   `json:"cloudProvider,omitempty"`
 		EnvironmentId           *string                   `json:"environmentId,omitempty"`
