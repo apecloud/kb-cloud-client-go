@@ -13,6 +13,12 @@ type EnvironmentAdded struct {
 	StillInUse *bool `json:"stillInUse,omitempty"`
 	// Environment info
 	Environment *Environment `json:"environment,omitempty"`
+	// whether loki component is running
+	Loki *bool `json:"loki,omitempty"`
+	// whether backup repo is exist and ready
+	BackupRepo *bool `json:"backupRepo,omitempty"`
+	// whether victoria metrics is exist
+	VictoriaMetrics *bool `json:"victoriaMetrics,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -119,6 +125,90 @@ func (o *EnvironmentAdded) SetEnvironment(v Environment) {
 	o.Environment = &v
 }
 
+// GetLoki returns the Loki field value if set, zero value otherwise.
+func (o *EnvironmentAdded) GetLoki() bool {
+	if o == nil || o.Loki == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Loki
+}
+
+// GetLokiOk returns a tuple with the Loki field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentAdded) GetLokiOk() (*bool, bool) {
+	if o == nil || o.Loki == nil {
+		return nil, false
+	}
+	return o.Loki, true
+}
+
+// HasLoki returns a boolean if a field has been set.
+func (o *EnvironmentAdded) HasLoki() bool {
+	return o != nil && o.Loki != nil
+}
+
+// SetLoki gets a reference to the given bool and assigns it to the Loki field.
+func (o *EnvironmentAdded) SetLoki(v bool) {
+	o.Loki = &v
+}
+
+// GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
+func (o *EnvironmentAdded) GetBackupRepo() bool {
+	if o == nil || o.BackupRepo == nil {
+		var ret bool
+		return ret
+	}
+	return *o.BackupRepo
+}
+
+// GetBackupRepoOk returns a tuple with the BackupRepo field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentAdded) GetBackupRepoOk() (*bool, bool) {
+	if o == nil || o.BackupRepo == nil {
+		return nil, false
+	}
+	return o.BackupRepo, true
+}
+
+// HasBackupRepo returns a boolean if a field has been set.
+func (o *EnvironmentAdded) HasBackupRepo() bool {
+	return o != nil && o.BackupRepo != nil
+}
+
+// SetBackupRepo gets a reference to the given bool and assigns it to the BackupRepo field.
+func (o *EnvironmentAdded) SetBackupRepo(v bool) {
+	o.BackupRepo = &v
+}
+
+// GetVictoriaMetrics returns the VictoriaMetrics field value if set, zero value otherwise.
+func (o *EnvironmentAdded) GetVictoriaMetrics() bool {
+	if o == nil || o.VictoriaMetrics == nil {
+		var ret bool
+		return ret
+	}
+	return *o.VictoriaMetrics
+}
+
+// GetVictoriaMetricsOk returns a tuple with the VictoriaMetrics field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentAdded) GetVictoriaMetricsOk() (*bool, bool) {
+	if o == nil || o.VictoriaMetrics == nil {
+		return nil, false
+	}
+	return o.VictoriaMetrics, true
+}
+
+// HasVictoriaMetrics returns a boolean if a field has been set.
+func (o *EnvironmentAdded) HasVictoriaMetrics() bool {
+	return o != nil && o.VictoriaMetrics != nil
+}
+
+// SetVictoriaMetrics gets a reference to the given bool and assigns it to the VictoriaMetrics field.
+func (o *EnvironmentAdded) SetVictoriaMetrics(v bool) {
+	o.VictoriaMetrics = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentAdded) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -134,6 +224,15 @@ func (o EnvironmentAdded) MarshalJSON() ([]byte, error) {
 	if o.Environment != nil {
 		toSerialize["environment"] = o.Environment
 	}
+	if o.Loki != nil {
+		toSerialize["loki"] = o.Loki
+	}
+	if o.BackupRepo != nil {
+		toSerialize["backupRepo"] = o.BackupRepo
+	}
+	if o.VictoriaMetrics != nil {
+		toSerialize["victoriaMetrics"] = o.VictoriaMetrics
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -144,16 +243,19 @@ func (o EnvironmentAdded) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentAdded) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AddedBefore *bool        `json:"addedBefore,omitempty"`
-		StillInUse  *bool        `json:"stillInUse,omitempty"`
-		Environment *Environment `json:"environment,omitempty"`
+		AddedBefore     *bool        `json:"addedBefore,omitempty"`
+		StillInUse      *bool        `json:"stillInUse,omitempty"`
+		Environment     *Environment `json:"environment,omitempty"`
+		Loki            *bool        `json:"loki,omitempty"`
+		BackupRepo      *bool        `json:"backupRepo,omitempty"`
+		VictoriaMetrics *bool        `json:"victoriaMetrics,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"addedBefore", "stillInUse", "environment"})
+		common.DeleteKeys(additionalProperties, &[]string{"addedBefore", "stillInUse", "environment", "loki", "backupRepo", "victoriaMetrics"})
 	} else {
 		return err
 	}
@@ -165,6 +267,9 @@ func (o *EnvironmentAdded) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Environment = all.Environment
+	o.Loki = all.Loki
+	o.BackupRepo = all.BackupRepo
+	o.VictoriaMetrics = all.VictoriaMetrics
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
