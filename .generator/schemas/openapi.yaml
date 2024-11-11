@@ -10345,7 +10345,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         orgName:
           title: Org Name
@@ -11716,19 +11716,12 @@ components:
           type: string
       required:
         - autoBackup
-        - backupMethod
-        - backupPolicyName
         - backupType
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - name
         - orgName
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
-        - status
-        - totalSize
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
