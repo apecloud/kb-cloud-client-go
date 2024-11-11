@@ -16,9 +16,9 @@ type Backup struct {
 	// autoBackup or not
 	AutoBackup bool `json:"autoBackup"`
 	// Backup Method.
-	BackupMethod string `json:"backupMethod"`
+	BackupMethod *string `json:"backupMethod,omitempty"`
 	// Which backupPolicy is applied to perform this backup
-	BackupPolicyName string `json:"backupPolicyName"`
+	BackupPolicyName *string `json:"backupPolicyName,omitempty"`
 	// backupRepo is the name of backupRepo and it is used to store the backup data
 	BackupRepo *string `json:"backupRepo,omitempty"`
 	// the type of backup
@@ -78,11 +78,9 @@ type Backup struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string) *Backup {
+func NewBackup(autoBackup bool, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string) *Backup {
 	this := Backup{}
 	this.AutoBackup = autoBackup
-	this.BackupMethod = backupMethod
-	this.BackupPolicyName = backupPolicyName
 	this.BackupType = backupType
 	this.CreationTimestamp = creationTimestamp
 	this.Name = name
@@ -123,50 +121,60 @@ func (o *Backup) SetAutoBackup(v bool) {
 	o.AutoBackup = v
 }
 
-// GetBackupMethod returns the BackupMethod field value.
+// GetBackupMethod returns the BackupMethod field value if set, zero value otherwise.
 func (o *Backup) GetBackupMethod() string {
-	if o == nil {
+	if o == nil || o.BackupMethod == nil {
 		var ret string
 		return ret
 	}
-	return o.BackupMethod
+	return *o.BackupMethod
 }
 
-// GetBackupMethodOk returns a tuple with the BackupMethod field value
+// GetBackupMethodOk returns a tuple with the BackupMethod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetBackupMethodOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.BackupMethod == nil {
 		return nil, false
 	}
-	return &o.BackupMethod, true
+	return o.BackupMethod, true
 }
 
-// SetBackupMethod sets field value.
+// HasBackupMethod returns a boolean if a field has been set.
+func (o *Backup) HasBackupMethod() bool {
+	return o != nil && o.BackupMethod != nil
+}
+
+// SetBackupMethod gets a reference to the given string and assigns it to the BackupMethod field.
 func (o *Backup) SetBackupMethod(v string) {
-	o.BackupMethod = v
+	o.BackupMethod = &v
 }
 
-// GetBackupPolicyName returns the BackupPolicyName field value.
+// GetBackupPolicyName returns the BackupPolicyName field value if set, zero value otherwise.
 func (o *Backup) GetBackupPolicyName() string {
-	if o == nil {
+	if o == nil || o.BackupPolicyName == nil {
 		var ret string
 		return ret
 	}
-	return o.BackupPolicyName
+	return *o.BackupPolicyName
 }
 
-// GetBackupPolicyNameOk returns a tuple with the BackupPolicyName field value
+// GetBackupPolicyNameOk returns a tuple with the BackupPolicyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetBackupPolicyNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.BackupPolicyName == nil {
 		return nil, false
 	}
-	return &o.BackupPolicyName, true
+	return o.BackupPolicyName, true
 }
 
-// SetBackupPolicyName sets field value.
+// HasBackupPolicyName returns a boolean if a field has been set.
+func (o *Backup) HasBackupPolicyName() bool {
+	return o != nil && o.BackupPolicyName != nil
+}
+
+// SetBackupPolicyName gets a reference to the given string and assigns it to the BackupPolicyName field.
 func (o *Backup) SetBackupPolicyName(v string) {
-	o.BackupPolicyName = v
+	o.BackupPolicyName = &v
 }
 
 // GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
@@ -929,8 +937,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["autoBackup"] = o.AutoBackup
-	toSerialize["backupMethod"] = o.BackupMethod
-	toSerialize["backupPolicyName"] = o.BackupPolicyName
+	if o.BackupMethod != nil {
+		toSerialize["backupMethod"] = o.BackupMethod
+	}
+	if o.BackupPolicyName != nil {
+		toSerialize["backupPolicyName"] = o.BackupPolicyName
+	}
 	if o.BackupRepo != nil {
 		toSerialize["backupRepo"] = o.BackupRepo
 	}
@@ -1024,8 +1036,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		AutoBackup          *bool                 `json:"autoBackup"`
-		BackupMethod        *string               `json:"backupMethod"`
-		BackupPolicyName    *string               `json:"backupPolicyName"`
+		BackupMethod        *string               `json:"backupMethod,omitempty"`
+		BackupPolicyName    *string               `json:"backupPolicyName,omitempty"`
 		BackupRepo          *string               `json:"backupRepo,omitempty"`
 		BackupType          *BackupType           `json:"backupType"`
 		CompletionTimestamp common.NullableTime   `json:"completionTimestamp,omitempty"`
@@ -1059,12 +1071,6 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	if all.AutoBackup == nil {
 		return fmt.Errorf("required field autoBackup missing")
 	}
-	if all.BackupMethod == nil {
-		return fmt.Errorf("required field backupMethod missing")
-	}
-	if all.BackupPolicyName == nil {
-		return fmt.Errorf("required field backupPolicyName missing")
-	}
 	if all.BackupType == nil {
 		return fmt.Errorf("required field backupType missing")
 	}
@@ -1092,8 +1098,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.AutoBackup = *all.AutoBackup
-	o.BackupMethod = *all.BackupMethod
-	o.BackupPolicyName = *all.BackupPolicyName
+	o.BackupMethod = all.BackupMethod
+	o.BackupPolicyName = all.BackupPolicyName
 	o.BackupRepo = all.BackupRepo
 	if !all.BackupType.IsValid() {
 		hasInvalidField = true

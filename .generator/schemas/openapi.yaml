@@ -11728,8 +11728,6 @@ components:
           type: string
       required:
         - autoBackup
-        - backupMethod
-        - backupPolicyName
         - backupType
         - creationTimestamp
         - name
