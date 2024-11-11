@@ -11644,6 +11644,7 @@ components:
         backupType:
           $ref: '#/components/schemas/backupType'
         completionTimestamp:
+          nullable: true
           description: Date/time when the backup finished being processed.
           format: date-time
           type: string
@@ -11652,6 +11653,7 @@ components:
           format: date-time
           type: string
         duration:
+          nullable: true
           description: The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
           type: string
         name:
@@ -11667,10 +11669,12 @@ components:
           description: sourceCluster records the source cluster information for this backup.
           type: string
         startTimestamp:
+          nullable: true
           description: Date/time when the backup started being processed.
           format: date-time
           type: string
         status:
+          nullable: true
           $ref: '#/components/schemas/backupStatus'
         timeRangeEnd:
           description: timeRangeEnd records the end time of the backup.
@@ -11681,6 +11685,7 @@ components:
           format: date-time
           type: string
         totalSize:
+          nullable: true
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
         failureReason:
@@ -11696,6 +11701,7 @@ components:
           description: the path of backup files
           type: string
         retentionPeriod:
+          nullable: true
           description: determines a duration up to which the backup should be kept
           type: string
         expiration:
@@ -11725,16 +11731,11 @@ components:
         - backupMethod
         - backupPolicyName
         - backupType
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - name
         - orgName
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
-        - status
-        - totalSize
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
