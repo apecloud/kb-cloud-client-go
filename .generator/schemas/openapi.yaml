@@ -125,7 +125,7 @@ paths:
                 $ref: '#/components/schemas/user'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - user
     patch:
@@ -143,7 +143,7 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -169,13 +169,13 @@ paths:
           content: {}
           description: Password updated successfully.
         '400':
-          $ref: '#/components/responses/BadRequestResponse'
+          $ref: '#/components/responses/400'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -198,11 +198,11 @@ paths:
           content: {}
           description: Verification code sent to user's phone
         '400':
-          $ref: '#/components/responses/BadRequestResponse'
+          $ref: '#/components/responses/400'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -216,11 +216,11 @@ paths:
           content: {}
           description: Send verification email to user successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -250,7 +250,7 @@ paths:
                 $ref: '#/components/schemas/apikey'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -270,9 +270,9 @@ paths:
           content: {}
           description: Returned when apikey is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - user
   /api/v1/user/apikeys:
@@ -288,7 +288,7 @@ paths:
                 $ref: '#/components/schemas/apikeyList'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - user
     post:
@@ -309,9 +309,9 @@ paths:
                 $ref: '#/components/schemas/apikeyWithSK'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -339,7 +339,7 @@ paths:
                 $ref: '#/components/schemas/orgList'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - organization
     post:
@@ -360,7 +360,7 @@ paths:
                 $ref: '#/components/schemas/org'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       x-codeSamples:
         - lang: curl
           source: |-
@@ -407,9 +407,9 @@ paths:
                 $ref: '#/components/schemas/org'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - organization
     patch:
@@ -452,9 +452,9 @@ paths:
                 $ref: '#/components/schemas/org'
           description: Created
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - organization
       x-codegen-request-body-name: body
@@ -488,9 +488,9 @@ paths:
                 $ref: '#/components/schemas/orgMemberList'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - member
     post:
@@ -518,11 +518,11 @@ paths:
                 $ref: '#/components/schemas/orgMember'
           description: OK
         '400':
-          $ref: '#/components/responses/BadRequestResponse'
+          $ref: '#/components/responses/400'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - member
       x-codegen-request-body-name: body
@@ -549,11 +549,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - member
     get:
@@ -581,11 +581,11 @@ paths:
                 $ref: '#/components/schemas/orgMember'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - member
     patch:
@@ -628,11 +628,11 @@ paths:
                 $ref: '#/components/schemas/orgMember'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - member
       x-codegen-request-body-name: body
@@ -659,9 +659,9 @@ paths:
           content: {}
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - organization
   /api/v1/organizations/{orgName}/members/{memberId}/unfreeze:
@@ -687,9 +687,9 @@ paths:
           content: {}
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - organization
   /api/v1/organizations/{orgName}/permissions:
@@ -711,11 +711,11 @@ paths:
                 $ref: '#/components/schemas/permissionList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - member
         - role
@@ -761,11 +761,11 @@ paths:
                 $ref: '#/components/schemas/eventList'
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - event
   /api/v1/organizations/{orgName}/environments:
@@ -798,9 +798,9 @@ paths:
                 $ref: '#/components/schemas/environmentList'
           description: A successful response.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - environment
   /api/v1/organizations/{orgName}/environments/{environmentName}:
@@ -828,9 +828,9 @@ paths:
                 $ref: '#/components/schemas/environment'
           description: A successful response.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - environment
   /api/v1/organizations/{orgName}/environments/{environmentName}/availableZones:
@@ -861,11 +861,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/zoneList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/environments/{environmentName}/storageClasses:
     get:
       description: Provides a summary of storage class statistics, aggregated and organized by namespace.
@@ -931,9 +931,9 @@ paths:
                 $ref: '#/components/schemas/loadBalancer'
           description: A successful response.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - loadBalancer
       x-codegen-request-body-name: body
@@ -956,7 +956,7 @@ paths:
                 $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -1024,9 +1024,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/benchmark/{benchmarkId}:
     get:
@@ -1198,9 +1198,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/invitationList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
     post:
       tags:
         - invitation
@@ -1232,7 +1232,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/invitation'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       x-codegen-request-body-name: body
   /api/v1/invitations/{invitationId}:
     get:
@@ -1256,9 +1256,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/invitation'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
     delete:
       tags:
         - invitation
@@ -1277,11 +1277,11 @@ paths:
           description: Returned when project is deleted successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/invitations/{invitationId}/accept:
     patch:
       tags:
@@ -1301,9 +1301,9 @@ paths:
           description: Returned when project is deleted successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/reject:
     patch:
       tags:
@@ -1323,9 +1323,9 @@ paths:
           description: Returned when project is deleted successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/resend:
     patch:
       tags:
@@ -1345,9 +1345,9 @@ paths:
           description: Returned when project is deleted successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
   /api/v1/organizations/{orgName}/clusters:
     get:
       tags:
@@ -1413,11 +1413,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       operationId: createCluster
       summary: Create new cluster
@@ -1442,11 +1442,11 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - cluster
       x-codegen-request-body-name: body
@@ -1475,13 +1475,13 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - cluster
     patch:
@@ -1524,7 +1524,7 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: Returned when project is updated successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - cluster
       x-codegen-request-body-name: body
@@ -1559,9 +1559,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clustersWithDelete/{clusterID}:
     get:
       operationId: getClusterByID
@@ -1587,13 +1587,13 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances:
@@ -1621,9 +1621,9 @@ paths:
                 $ref: '#/components/schemas/instanceList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
@@ -1678,7 +1678,7 @@ paths:
                 type: string
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/manifests/{manifestType}:
@@ -1722,9 +1722,9 @@ paths:
                 $ref: '#/components/schemas/kubernetesManifestList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/haHistory:
@@ -1757,11 +1757,11 @@ paths:
                 $ref: '#/components/schemas/haHistoryResponse'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - cluster
       x-codegen-request-body-name: body
@@ -1838,11 +1838,11 @@ paths:
                 type: object
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - clusterLog
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow:
@@ -1930,11 +1930,11 @@ paths:
                 type: object
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - clusterLog
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit:
@@ -2022,11 +2022,11 @@ paths:
                 type: object
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - clusterLog
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error:
@@ -2102,11 +2102,11 @@ paths:
                 type: object
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - clusterLog
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/pod:
@@ -2182,11 +2182,11 @@ paths:
                 type: object
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - clusterLog
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
@@ -2239,11 +2239,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze:
@@ -2275,11 +2275,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: Successful operation
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts:
@@ -2316,11 +2316,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - account
       x-codegen-request-body-name: body
@@ -2352,11 +2352,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - account
       x-codegen-request-body-name: body
@@ -2389,11 +2389,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - account
     patch:
@@ -2430,11 +2430,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - account
       x-codegen-request-body-name: body
@@ -2473,11 +2473,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - account
       x-codegen-request-body-name: body
@@ -2516,11 +2516,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - account
       x-codegen-request-body-name: body
@@ -2550,11 +2550,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/databaseList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - database
     post:
@@ -2585,11 +2585,11 @@ paths:
           content: {}
           description: Returned when database is created successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - database
       x-codegen-request-body-name: body
@@ -2622,11 +2622,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - database
   /api/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure:
@@ -2660,11 +2660,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -2693,11 +2693,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
   /api/v1/organizations/{orgName}/clusters/{clusterName}/start:
@@ -2725,11 +2725,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
   /api/v1/organizations/{orgName}/clusters/{clusterName}/restart:
@@ -2763,11 +2763,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -2802,11 +2802,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -2841,11 +2841,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -2881,9 +2881,9 @@ paths:
                 $ref: '#/components/schemas/engineServiceVersions'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - engineOption
   /api/v1/organizations/{orgName}/clusters/{clusterName}/volume-expand:
@@ -2917,11 +2917,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -2956,11 +2956,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -2995,11 +2995,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -3034,11 +3034,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -3073,11 +3073,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -3112,11 +3112,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -3175,11 +3175,11 @@ paths:
                 $ref: '#/components/schemas/opsRequestName'
           description: Accepted
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
       x-codegen-request-body-name: body
@@ -3218,11 +3218,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - opsrequest
   /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/analyze:
@@ -3263,11 +3263,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: Successful analysis
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
@@ -3345,11 +3345,11 @@ paths:
           description: Returned when project is deleted successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - tag
@@ -3380,11 +3380,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/tag'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: tagUpdate
   /api/v1/organizations/{orgName}/tags:
     get:
@@ -3408,11 +3408,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/orgTagsList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - tag
@@ -3454,11 +3454,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/tagCreate'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/endpoints:
     get:
@@ -3497,9 +3497,9 @@ paths:
                 $ref: '#/components/schemas/endpointList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
@@ -3542,11 +3542,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/clusterMetrics'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - metrics
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics:
@@ -3574,13 +3574,13 @@ paths:
                 $ref: '#/components/schemas/instanceMetricsList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/runSQL:
@@ -3615,13 +3615,13 @@ paths:
                 $ref: '#/components/schemas/sqlReqRes'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - sqlEditor
       x-codegen-request-body-name: body
@@ -3650,11 +3650,11 @@ paths:
                 $ref: '#/components/schemas/tlsCertList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - tls
     post:
@@ -3685,13 +3685,13 @@ paths:
           content: {}
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - tls
       x-codegen-request-body-name: body
@@ -3736,13 +3736,13 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/view:
@@ -3770,13 +3770,13 @@ paths:
                 $ref: '#/components/schemas/view'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - view
   /api/v1/organizations/{orgName}/clusters/{clusterName}/view/tree:
@@ -3804,13 +3804,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/treeNode'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - view
   /api/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze:
@@ -3838,13 +3838,13 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/backups:
@@ -3878,9 +3878,9 @@ paths:
                 $ref: '#/components/schemas/backup'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - backup
       x-codegen-request-body-name: body
@@ -3915,11 +3915,11 @@ paths:
                 $ref: '#/components/schemas/backupPolicy'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - backup
     patch:
@@ -3959,7 +3959,7 @@ paths:
                 $ref: '#/components/schemas/backupPolicy'
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - backup
       x-codegen-request-body-name: body
@@ -4017,9 +4017,9 @@ paths:
                 $ref: '#/components/schemas/backupList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - backup
   /api/v1/organizations/{orgName}/backupStats:
@@ -4041,9 +4041,9 @@ paths:
                 $ref: '#/components/schemas/backupStats'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - backup
   /api/v1/organizations/{orgName}/backups/{backupId}:
@@ -4068,11 +4068,11 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - backup
     get:
@@ -4099,11 +4099,11 @@ paths:
                 $ref: '#/components/schemas/backup'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - backup
   /api/v1/organizations/{orgName}/backups/{backupId}/logs:
@@ -4131,11 +4131,11 @@ paths:
                 $ref: '#/components/schemas/backupLog'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - backup
   /api/v1/organizations/{orgName}/backups/{backupId}/analyze:
@@ -4163,11 +4163,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/backups/{backupId}/view:
@@ -4202,11 +4202,11 @@ paths:
                 $ref: '#/components/schemas/fileEntryList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/backups/{backupId}/download:
     get:
       tags:
@@ -4291,9 +4291,9 @@ paths:
                 $ref: '#/components/schemas/backup'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - restore
   /api/v1/organizations/{orgName}/clusters/{clusterName}/restore:
@@ -4324,11 +4324,11 @@ paths:
           content: {}
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - restore
     get:
@@ -4355,9 +4355,9 @@ paths:
                 $ref: '#/components/schemas/restoreList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - restore
     post:
@@ -4390,11 +4390,11 @@ paths:
                 $ref: '#/components/schemas/restore'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - restore
       x-codegen-request-body-name: body
@@ -4429,9 +4429,9 @@ paths:
                 $ref: '#/components/schemas/restoreLog'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - restore
       x-codegen-request-body-name: body
@@ -4457,11 +4457,11 @@ paths:
           content: {}
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - markCluster
       x-codegen-request-body-name: body
@@ -4490,11 +4490,11 @@ paths:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - restore
       x-codegen-request-body-name: body
@@ -4518,9 +4518,9 @@ paths:
                 $ref: '#/components/schemas/restoreList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze:
     get:
       operationId: analyzeClusterRestore
@@ -4546,11 +4546,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/environments/{environmentName}/engines/{engineName}/serviceVersion:
@@ -4591,11 +4591,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineServiceVersions'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - serviceVersion
   /api/v1/organizations/{orgName}/backupRepo:
@@ -4617,9 +4617,9 @@ paths:
                 $ref: '#/components/schemas/backupRepoList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - backupRepo
   /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}:
@@ -4644,9 +4644,9 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - backupRepo
     get:
@@ -4678,11 +4678,11 @@ paths:
                 $ref: '#/components/schemas/backupRepo'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - backupRepo
     post:
@@ -4715,9 +4715,9 @@ paths:
                 $ref: '#/components/schemas/backupRepo'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - backupRepo
       x-codegen-request-body-name: body
@@ -4752,11 +4752,11 @@ paths:
                 $ref: '#/components/schemas/parameterHistoryList'
           description: get parameters history of the cluster successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - parameter
   /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs:
@@ -4792,13 +4792,13 @@ paths:
                 $ref: '#/components/schemas/parameterSpecList'
           description: get parameters of the cluster successfully
         '400':
-          $ref: '#/components/responses/BadRequestResponse'
+          $ref: '#/components/responses/400'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/configurations:
     get:
       operationId: listConfigurations
@@ -4832,13 +4832,13 @@ paths:
                 $ref: '#/components/schemas/configurationList'
           description: get configuration of the cluster successfully
         '400':
-          $ref: '#/components/responses/BadRequestResponse'
+          $ref: '#/components/responses/400'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/paramTpls:
     get:
       operationId: listParamTpl
@@ -4873,11 +4873,11 @@ paths:
                 $ref: '#/components/schemas/paramTplList'
           description: list parameter templates successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
     post:
@@ -4904,11 +4904,11 @@ paths:
                 $ref: '#/components/schemas/paramTplListItem'
           description: create parameter template successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
       x-codegen-request-body-name: body
@@ -4934,9 +4934,9 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
     get:
@@ -4968,11 +4968,11 @@ paths:
                 $ref: '#/components/schemas/paramTplGet'
           description: read parameter template successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
     patch:
@@ -5015,11 +5015,11 @@ paths:
                 $ref: '#/components/schemas/paramTplListItem'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
       x-codegen-request-body-name: body
@@ -5060,11 +5060,11 @@ paths:
                 $ref: '#/components/schemas/paramTplApplToClusterList'
           description: get parameter template applicable to the cluster successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
     post:
@@ -5094,11 +5094,11 @@ paths:
           content: {}
           description: create parameter template from cluster successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - paramTpl
       x-codegen-request-body-name: body
@@ -5138,11 +5138,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
@@ -5181,11 +5181,11 @@ paths:
                 $ref: '#/components/schemas/analysisResult'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - analyze
   /api/v1/organizations/{orgName}/receivers:
@@ -5214,11 +5214,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertReceiverList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - alertReceiver
@@ -5251,11 +5251,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertReceiver'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/receivers/{receiverId}:
     delete:
@@ -5279,9 +5279,9 @@ paths:
           content: {}
           description: Returned when project is deleted successfully.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - alertReceiver
     get:
@@ -5308,13 +5308,13 @@ paths:
                 $ref: '#/components/schemas/alertReceiver'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
         '409':
-          $ref: '#/components/responses/ConflictResponse'
+          $ref: '#/components/responses/409'
       tags:
         - alertReceiver
     patch:
@@ -5357,7 +5357,7 @@ paths:
                 $ref: '#/components/schemas/alertReceiver'
           description: Returned when project is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
       tags:
         - alertReceiver
       x-codegen-request-body-name: body
@@ -5382,11 +5382,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertStrategyList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - alertStrategy
@@ -5413,11 +5413,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertStrategy'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
     patch:
       tags:
@@ -5445,9 +5445,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/alerts/strategies/{strategyId}:
     delete:
@@ -5476,9 +5476,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - alertStrategy
@@ -5511,9 +5511,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/alerts/rules:
     get:
@@ -5536,11 +5536,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertRuleList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - alertRule
@@ -5567,11 +5567,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertRule'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/alerts/rules/{alertName}:
     get:
@@ -5599,11 +5599,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertRule'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - alertRule
@@ -5630,9 +5630,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - alertRule
@@ -5665,11 +5665,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertRule'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/alerts/metrics:
     get:
@@ -5696,11 +5696,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertMetricList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/objects:
     get:
       tags:
@@ -5722,11 +5722,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertObjectList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - alertObject
@@ -5760,11 +5760,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertObjectList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/objects/{alertId}:
     patch:
       tags:
@@ -5797,11 +5797,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertObject'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/cluster/{clusterName}:
     get:
       tags:
@@ -5829,11 +5829,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertCluster'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - clusterAlertSwitch
@@ -5865,11 +5865,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertCluster'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/config:
     get:
       tags:
@@ -5891,11 +5891,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertConfig'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - alertConfig
@@ -5921,11 +5921,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertConfig'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/inhibits:
     get:
       tags:
@@ -5947,11 +5947,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertInhibitList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - alertInhibit
@@ -5977,11 +5977,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertInhibit'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - alertInhibit
@@ -6007,11 +6007,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertInhibit'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}:
     get:
       tags:
@@ -6039,11 +6039,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/alertInhibit'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - alertInhibit
@@ -6070,9 +6070,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/engines:
     get:
       tags:
@@ -6119,11 +6119,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - engine
@@ -6157,11 +6157,11 @@ paths:
               schema:
                 type: boolean
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       x-codegen-request-body-name: actionInfo
   /api/v1/environments/{environmentName}/engines:
     get:
@@ -6208,11 +6208,11 @@ paths:
                 $ref: '#/components/schemas/engineList'
           description: A successful response.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - engine
   /api/v1/engineOptions:
@@ -6228,11 +6228,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineOptionList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - engineOption
   /api/v1/engineOptions/{engineName}:
@@ -6255,9 +6255,9 @@ paths:
                 $ref: '#/components/schemas/engineOption'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
       tags:
         - engineOption
   /api/v1/engineLicenses:
@@ -6280,11 +6280,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineLicenseList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - engineLicense
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
@@ -6348,11 +6348,11 @@ paths:
           content: {}
           description: Returned when datasource is deleted successfully.
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource:
     get:
       tags:
@@ -6579,11 +6579,11 @@ paths:
         '200':
           description: data in format
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/import:
     post:
       tags:
@@ -6666,11 +6666,11 @@ paths:
                     type: string
                     description: the task id
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/task:
     get:
       tags:
@@ -6710,11 +6710,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DmsTaskInfo'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/tasks:
     get:
       tags:
@@ -6748,11 +6748,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/DmsTaskList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/schemas:
     get:
       tags:
@@ -7119,11 +7119,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/VolumeList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/createVolume:
     post:
       tags:
@@ -7168,11 +7168,11 @@ paths:
               schema:
                 type: string
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/volume/{volumeName}:
     post:
       tags:
@@ -7215,11 +7215,11 @@ paths:
               schema:
                 type: string
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
     delete:
       tags:
         - dms
@@ -7252,11 +7252,11 @@ paths:
               schema:
                 type: string
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/volume/{volumeName}/setDefault:
     post:
       tags:
@@ -7290,11 +7290,11 @@ paths:
               schema:
                 type: string
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       tags:
@@ -7328,11 +7328,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ObSessionList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/session/{session}:
     delete:
       tags:
@@ -7372,11 +7372,11 @@ paths:
               schema:
                 type: string
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/ipWhitelist:
     get:
       operationId: listIPWhitelist
@@ -7402,9 +7402,9 @@ paths:
                 $ref: '#/components/schemas/ipWhitelistList'
           description: A successful response.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
     post:
@@ -7456,9 +7456,9 @@ paths:
                 $ref: '#/components/schemas/ipWhitelist'
           description: Returned when object is created successfully.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
       x-codegen-request-body-name: body
@@ -7518,9 +7518,9 @@ paths:
                 $ref: '#/components/schemas/ipWhitelist'
           description: Returned when object is updated successfully.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
       x-codegen-request-body-name: body
@@ -7551,9 +7551,9 @@ paths:
           content: {}
           description: Returned when object is deleted successfully.
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
       tags:
         - whitelist
   /api/v1/permissions:
@@ -7571,7 +7571,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/permissionList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
   /api/v1/organizations/{orgName}/roles:
     get:
       tags:
@@ -7594,11 +7594,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/roleList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - role
@@ -7626,11 +7626,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/role'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/roles/{roleName}:
     get:
       tags:
@@ -7658,11 +7658,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/role'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - role
@@ -7695,11 +7695,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/role'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - role
@@ -7723,11 +7723,11 @@ paths:
           description: Returned when role is deleted successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/roles/{roleName}/permissions:
     get:
       tags:
@@ -7755,11 +7755,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/permissionList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/roles/{roleName}/permissions/batch:
     post:
       tags:
@@ -7792,11 +7792,11 @@ paths:
           description: Returned when permissions are added successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - role
@@ -7828,11 +7828,11 @@ paths:
           description: Returned when permissions are removed successfully.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/classes:
     get:
       tags:
@@ -7849,11 +7849,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/class'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - class
@@ -7872,11 +7872,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/class'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - class
@@ -7895,11 +7895,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/class'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - class
@@ -7920,9 +7920,9 @@ paths:
               schema:
                 type: object
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/providers:
     get:
       tags:
@@ -7938,11 +7938,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/providerList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/providers/{providerName}:
     get:
       tags:
@@ -7965,11 +7965,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/provider'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/providers/{providerName}/regions:
     get:
       tags:
@@ -7992,11 +7992,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/regionList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/providers/{providerName}/regions/{regionName}:
     get:
       tags:
@@ -8025,11 +8025,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/region'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/providers/{providerName}/regions/{regionName}/zones:
     get:
       tags:
@@ -8058,11 +8058,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/zoneList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}:
     get:
       tags:
@@ -8097,11 +8097,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/zone'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/inspections:
     get:
       tags:
@@ -8135,11 +8135,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/inspection'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - inspection
@@ -8166,11 +8166,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/inspection'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/autoInspection:
     get:
       tags:
@@ -8192,11 +8192,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/autoInspection'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - inspection
@@ -8223,11 +8223,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/autoInspection'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - inspection
@@ -8254,11 +8254,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/autoInspection'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/inspectionScripts:
     get:
       tags:
@@ -8287,11 +8287,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/inspectionScript'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     post:
       tags:
         - inspection
@@ -8318,11 +8318,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/inspectionScript'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     patch:
       tags:
         - inspection
@@ -8349,11 +8349,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/inspectionScript'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - inspection
@@ -8380,11 +8380,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/inspectionScript'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/features:
     get:
       description: Get feature list
@@ -8405,11 +8405,11 @@ paths:
                 $ref: '#/components/schemas/featureList'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
       tags:
         - feature
   /api/v1/features/{featureName}:
@@ -8432,11 +8432,11 @@ paths:
                 $ref: '#/components/schemas/feature'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
       tags:
         - feature
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tenants:
@@ -8466,11 +8466,11 @@ paths:
                 $ref: '#/components/schemas/TenantList'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}:
     get:
       tags:
@@ -8504,11 +8504,11 @@ paths:
                 $ref: '#/components/schemas/Tenant'
           description: OK
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}/parameters:
     get:
       tags:
@@ -8546,11 +8546,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ParameterList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}/parameter:
     post:
       tags:
@@ -8602,11 +8602,11 @@ paths:
               schema:
                 type: string
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '500':
-          $ref: '#/components/responses/InternalServerErrorResponse'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}/parameterHistory:
     get:
       tags:
@@ -8646,11 +8646,11 @@ paths:
                 $ref: '#/components/schemas/parameterHistoryList'
           description: get parameters history of the cluster successfully
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/recycleBin/clusters:
     get:
       tags:
@@ -8672,11 +8672,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/recycleBinClusterList'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/recycleBin/clusters/{clusterName}:
     get:
       tags:
@@ -8704,11 +8704,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/recycleBinCluster'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
     delete:
       tags:
         - recycleBinCluster
@@ -8738,11 +8738,11 @@ paths:
           description: A successful response.
           content: {}
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/recycleBin/clusters/{clusterName}/restore:
     post:
       tags:
@@ -8770,11 +8770,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/recycleBinCluster'
         '401':
-          $ref: '#/components/responses/UnauthorizedResponse'
+          $ref: '#/components/responses/401'
         '403':
-          $ref: '#/components/responses/ForbiddenResponse'
+          $ref: '#/components/responses/403'
         '404':
-          $ref: '#/components/responses/NotFoundResponse'
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -13455,6 +13455,9 @@ components:
               description:
                 type: string
                 description: description of each variables and expression
+              unit:
+                type: string
+                description: unit of parameter
         sharedSpecParams:
           type: array
           x-nullable: false
@@ -15024,42 +15027,42 @@ components:
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
   responses:
-    UnauthorizedResponse:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/APIErrorResponse'
-      description: Unauthorized
-    BadRequestResponse:
+    '400':
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Bad Request
-    ForbiddenResponse:
+    '401':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Unauthorized
+    '403':
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Forbidden
-    InternalServerErrorResponse:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/APIErrorResponse'
-      description: Internal server error
-    NotFoundResponse:
+    '404':
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Not Found
-    ConflictResponse:
+    '409':
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
+    '500':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Internal server error
   parameters:
     startTime:
       name: start

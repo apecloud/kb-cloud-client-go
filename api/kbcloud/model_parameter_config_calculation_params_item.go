@@ -11,6 +11,8 @@ type ParameterConfigCalculationParamsItem struct {
 	Name *string `json:"name,omitempty"`
 	// description of each variables and expression
 	Description *string `json:"description,omitempty"`
+	// unit of parameter
+	Unit *string `json:"unit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -89,6 +91,34 @@ func (o *ParameterConfigCalculationParamsItem) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetUnit returns the Unit field value if set, zero value otherwise.
+func (o *ParameterConfigCalculationParamsItem) GetUnit() string {
+	if o == nil || o.Unit == nil {
+		var ret string
+		return ret
+	}
+	return *o.Unit
+}
+
+// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterConfigCalculationParamsItem) GetUnitOk() (*string, bool) {
+	if o == nil || o.Unit == nil {
+		return nil, false
+	}
+	return o.Unit, true
+}
+
+// HasUnit returns a boolean if a field has been set.
+func (o *ParameterConfigCalculationParamsItem) HasUnit() bool {
+	return o != nil && o.Unit != nil
+}
+
+// SetUnit gets a reference to the given string and assigns it to the Unit field.
+func (o *ParameterConfigCalculationParamsItem) SetUnit(v string) {
+	o.Unit = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterConfigCalculationParamsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -100,6 +130,9 @@ func (o ParameterConfigCalculationParamsItem) MarshalJSON() ([]byte, error) {
 	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
+	}
+	if o.Unit != nil {
+		toSerialize["unit"] = o.Unit
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -113,18 +146,20 @@ func (o *ParameterConfigCalculationParamsItem) UnmarshalJSON(bytes []byte) (err 
 	all := struct {
 		Name        *string `json:"name,omitempty"`
 		Description *string `json:"description,omitempty"`
+		Unit        *string `json:"unit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "unit"})
 	} else {
 		return err
 	}
 	o.Name = all.Name
 	o.Description = all.Description
+	o.Unit = all.Unit
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
