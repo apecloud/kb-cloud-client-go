@@ -26,9 +26,9 @@ type Backup struct {
 	// Date/time when the backup finished being processed.
 	CompletionTimestamp time.Time `json:"completionTimestamp"`
 	// Date/time when the backup was created.
-	CreationTimestamp time.Time `json:"creationTimestamp"`
+	CreationTimestamp time.Time `json:"creationTimestamp,omitempty"`
 	// The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
-	Duration string `json:"duration"`
+	Duration string `json:"duration,omitempty"`
 	// name of the backup
 	Name string `json:"name"`
 	// orgName records the organization name for this backup.
@@ -38,15 +38,15 @@ type Backup struct {
 	// sourceCluster records the source cluster information for this backup.
 	SourceCluster string `json:"sourceCluster"`
 	// Date/time when the backup started being processed.
-	StartTimestamp time.Time `json:"startTimestamp"`
+	StartTimestamp time.Time `json:"startTimestamp,omitempty"`
 	// The current status. Valid values are New, InProgress, Completed, Failed.
-	Status BackupStatus `json:"status"`
+	Status BackupStatus `json:"status,omitempty"`
 	// timeRangeEnd records the end time of the backup.
 	TimeRangeEnd *time.Time `json:"timeRangeEnd,omitempty"`
 	// timeRangeStart records the start time of the backup.
 	TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
 	// Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-	TotalSize     string  `json:"totalSize"`
+	TotalSize     string  `json:"totalSize,omitempty"`
 	FailureReason *string `json:"failureReason,omitempty"`
 	Extras        *string `json:"extras,omitempty"`
 	// backup target pods
@@ -78,22 +78,17 @@ type Backup struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, completionTimestamp time.Time, creationTimestamp time.Time, duration string, name string, orgName string, snapshotVolumes bool, sourceCluster string, startTimestamp time.Time, status BackupStatus, totalSize string) *Backup {
+func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string) *Backup {
 	this := Backup{}
 	this.AutoBackup = autoBackup
 	this.BackupMethod = backupMethod
 	this.BackupPolicyName = backupPolicyName
 	this.BackupType = backupType
-	this.CompletionTimestamp = completionTimestamp
 	this.CreationTimestamp = creationTimestamp
-	this.Duration = duration
 	this.Name = name
 	this.OrgName = orgName
 	this.SnapshotVolumes = snapshotVolumes
 	this.SourceCluster = sourceCluster
-	this.StartTimestamp = startTimestamp
-	this.Status = status
-	this.TotalSize = totalSize
 	return &this
 }
 
@@ -227,7 +222,7 @@ func (o *Backup) SetBackupType(v BackupType) {
 
 // GetCompletionTimestamp returns the CompletionTimestamp field value.
 func (o *Backup) GetCompletionTimestamp() time.Time {
-	if o == nil {
+	if o == nil || o.CompletionTimestamp.IsZero() {
 		var ret time.Time
 		return ret
 	}
@@ -273,7 +268,7 @@ func (o *Backup) SetCreationTimestamp(v time.Time) {
 
 // GetDuration returns the Duration field value.
 func (o *Backup) GetDuration() string {
-	if o == nil {
+	if o == nil || o.Duration == "" {
 		var ret string
 		return ret
 	}
@@ -388,7 +383,7 @@ func (o *Backup) SetSourceCluster(v string) {
 
 // GetStartTimestamp returns the StartTimestamp field value.
 func (o *Backup) GetStartTimestamp() time.Time {
-	if o == nil {
+	if o == nil || o.StartTimestamp.IsZero() {
 		var ret time.Time
 		return ret
 	}
@@ -411,7 +406,7 @@ func (o *Backup) SetStartTimestamp(v time.Time) {
 
 // GetStatus returns the Status field value.
 func (o *Backup) GetStatus() BackupStatus {
-	if o == nil {
+	if o == nil || o.Status == "" {
 		var ret BackupStatus
 		return ret
 	}
@@ -490,7 +485,7 @@ func (o *Backup) SetTimeRangeStart(v time.Time) {
 
 // GetTotalSize returns the TotalSize field value.
 func (o *Backup) GetTotalSize() string {
-	if o == nil {
+	if o == nil || o.TotalSize == "" {
 		var ret string
 		return ret
 	}
