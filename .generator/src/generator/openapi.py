@@ -8,7 +8,7 @@ import yaml
 
 from jsonref import JsonRef
 from urllib.parse import urlparse
-from yaml import CSafeLoader
+from yaml import SafeLoader
 
 from . import formatter
 from . import utils
@@ -16,7 +16,7 @@ from . import utils
 def load(filename):
     path = pathlib.Path(filename)
     with path.open() as fp:
-        return JsonRef.replace_refs(yaml.load(fp, Loader=CSafeLoader))
+        return JsonRef.replace_refs(yaml.load(fp, Loader=SafeLoader))
 
 
 def get_name(schema):

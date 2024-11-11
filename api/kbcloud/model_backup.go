@@ -24,11 +24,11 @@ type Backup struct {
 	// the type of backup
 	BackupType BackupType `json:"backupType"`
 	// Date/time when the backup finished being processed.
-	CompletionTimestamp time.Time `json:"completionTimestamp,omitempty"`
+	CompletionTimestamp common.NullableTime `json:"completionTimestamp,omitempty"`
 	// Date/time when the backup was created.
 	CreationTimestamp time.Time `json:"creationTimestamp"`
 	// The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
-	Duration string `json:"duration,omitempty"`
+	Duration common.NullableString `json:"duration,omitempty"`
 	// name of the backup
 	Name string `json:"name"`
 	// orgName records the organization name for this backup.
@@ -38,23 +38,23 @@ type Backup struct {
 	// sourceCluster records the source cluster information for this backup.
 	SourceCluster string `json:"sourceCluster"`
 	// Date/time when the backup started being processed.
-	StartTimestamp time.Time `json:"startTimestamp,omitempty"`
+	StartTimestamp common.NullableTime `json:"startTimestamp,omitempty"`
 	// The current status. Valid values are New, InProgress, Completed, Failed.
-	Status BackupStatus `json:"status,omitempty"`
+	Status *BackupStatus `json:"status,omitempty"`
 	// timeRangeEnd records the end time of the backup.
 	TimeRangeEnd *time.Time `json:"timeRangeEnd,omitempty"`
 	// timeRangeStart records the start time of the backup.
 	TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
 	// Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-	TotalSize     string  `json:"totalSize,omitempty"`
-	FailureReason *string `json:"failureReason,omitempty"`
-	Extras        *string `json:"extras,omitempty"`
+	TotalSize     common.NullableString `json:"totalSize,omitempty"`
+	FailureReason *string               `json:"failureReason,omitempty"`
+	Extras        *string               `json:"extras,omitempty"`
 	// backup target pods
 	TargetPods []string `json:"targetPods,omitempty"`
 	// the path of backup files
 	Path *string `json:"path,omitempty"`
 	// determines a duration up to which the backup should be kept
-	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
+	RetentionPeriod common.NullableString `json:"retentionPeriod,omitempty"`
 	// indicates when this backup becomes eligible for garbage collection
 	Expiration *time.Time `json:"expiration,omitempty"`
 	// the backup id
@@ -220,27 +220,43 @@ func (o *Backup) SetBackupType(v BackupType) {
 	o.BackupType = v
 }
 
-// GetCompletionTimestamp returns the CompletionTimestamp field value.
+// GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetCompletionTimestamp() time.Time {
-	if o == nil || o.CompletionTimestamp.IsZero() {
+	if o == nil || o.CompletionTimestamp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.CompletionTimestamp
+	return *o.CompletionTimestamp.Get()
 }
 
-// GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value
+// GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetCompletionTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CompletionTimestamp, true
+	return o.CompletionTimestamp.Get(), o.CompletionTimestamp.IsSet()
 }
 
-// SetCompletionTimestamp sets field value.
+// HasCompletionTimestamp returns a boolean if a field has been set.
+func (o *Backup) HasCompletionTimestamp() bool {
+	return o != nil && o.CompletionTimestamp.IsSet()
+}
+
+// SetCompletionTimestamp gets a reference to the given common.NullableTime and assigns it to the CompletionTimestamp field.
 func (o *Backup) SetCompletionTimestamp(v time.Time) {
-	o.CompletionTimestamp = v
+	o.CompletionTimestamp.Set(&v)
+}
+
+// SetCompletionTimestampNil sets the value for CompletionTimestamp to be an explicit nil.
+func (o *Backup) SetCompletionTimestampNil() {
+	o.CompletionTimestamp.Set(nil)
+}
+
+// UnsetCompletionTimestamp ensures that no value is present for CompletionTimestamp, not even an explicit nil.
+func (o *Backup) UnsetCompletionTimestamp() {
+	o.CompletionTimestamp.Unset()
 }
 
 // GetCreationTimestamp returns the CreationTimestamp field value.
@@ -266,27 +282,43 @@ func (o *Backup) SetCreationTimestamp(v time.Time) {
 	o.CreationTimestamp = v
 }
 
-// GetDuration returns the Duration field value.
+// GetDuration returns the Duration field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetDuration() string {
-	if o == nil || o.Duration == "" {
+	if o == nil || o.Duration.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.Duration
+	return *o.Duration.Get()
 }
 
-// GetDurationOk returns a tuple with the Duration field value
+// GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetDurationOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Duration, true
+	return o.Duration.Get(), o.Duration.IsSet()
 }
 
-// SetDuration sets field value.
+// HasDuration returns a boolean if a field has been set.
+func (o *Backup) HasDuration() bool {
+	return o != nil && o.Duration.IsSet()
+}
+
+// SetDuration gets a reference to the given common.NullableString and assigns it to the Duration field.
 func (o *Backup) SetDuration(v string) {
-	o.Duration = v
+	o.Duration.Set(&v)
+}
+
+// SetDurationNil sets the value for Duration to be an explicit nil.
+func (o *Backup) SetDurationNil() {
+	o.Duration.Set(nil)
+}
+
+// UnsetDuration ensures that no value is present for Duration, not even an explicit nil.
+func (o *Backup) UnsetDuration() {
+	o.Duration.Unset()
 }
 
 // GetName returns the Name field value.
@@ -381,50 +413,71 @@ func (o *Backup) SetSourceCluster(v string) {
 	o.SourceCluster = v
 }
 
-// GetStartTimestamp returns the StartTimestamp field value.
+// GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetStartTimestamp() time.Time {
-	if o == nil || o.StartTimestamp.IsZero() {
+	if o == nil || o.StartTimestamp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.StartTimestamp
+	return *o.StartTimestamp.Get()
 }
 
-// GetStartTimestampOk returns a tuple with the StartTimestamp field value
+// GetStartTimestampOk returns a tuple with the StartTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetStartTimestampOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.StartTimestamp, true
+	return o.StartTimestamp.Get(), o.StartTimestamp.IsSet()
 }
 
-// SetStartTimestamp sets field value.
+// HasStartTimestamp returns a boolean if a field has been set.
+func (o *Backup) HasStartTimestamp() bool {
+	return o != nil && o.StartTimestamp.IsSet()
+}
+
+// SetStartTimestamp gets a reference to the given common.NullableTime and assigns it to the StartTimestamp field.
 func (o *Backup) SetStartTimestamp(v time.Time) {
-	o.StartTimestamp = v
+	o.StartTimestamp.Set(&v)
 }
 
-// GetStatus returns the Status field value.
+// SetStartTimestampNil sets the value for StartTimestamp to be an explicit nil.
+func (o *Backup) SetStartTimestampNil() {
+	o.StartTimestamp.Set(nil)
+}
+
+// UnsetStartTimestamp ensures that no value is present for StartTimestamp, not even an explicit nil.
+func (o *Backup) UnsetStartTimestamp() {
+	o.StartTimestamp.Unset()
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
 func (o *Backup) GetStatus() BackupStatus {
-	if o == nil || o.Status == "" {
+	if o == nil || o.Status == nil {
 		var ret BackupStatus
 		return ret
 	}
-	return o.Status
+	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetStatusOk() (*BackupStatus, bool) {
-	if o == nil {
+	if o == nil || o.Status == nil {
 		return nil, false
 	}
-	return &o.Status, true
+	return o.Status, true
 }
 
-// SetStatus sets field value.
+// HasStatus returns a boolean if a field has been set.
+func (o *Backup) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given BackupStatus and assigns it to the Status field.
 func (o *Backup) SetStatus(v BackupStatus) {
-	o.Status = v
+	o.Status = &v
 }
 
 // GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise.
@@ -483,27 +536,43 @@ func (o *Backup) SetTimeRangeStart(v time.Time) {
 	o.TimeRangeStart = &v
 }
 
-// GetTotalSize returns the TotalSize field value.
+// GetTotalSize returns the TotalSize field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetTotalSize() string {
-	if o == nil || o.TotalSize == "" {
+	if o == nil || o.TotalSize.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.TotalSize
+	return *o.TotalSize.Get()
 }
 
-// GetTotalSizeOk returns a tuple with the TotalSize field value
+// GetTotalSizeOk returns a tuple with the TotalSize field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetTotalSizeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.TotalSize, true
+	return o.TotalSize.Get(), o.TotalSize.IsSet()
 }
 
-// SetTotalSize sets field value.
+// HasTotalSize returns a boolean if a field has been set.
+func (o *Backup) HasTotalSize() bool {
+	return o != nil && o.TotalSize.IsSet()
+}
+
+// SetTotalSize gets a reference to the given common.NullableString and assigns it to the TotalSize field.
 func (o *Backup) SetTotalSize(v string) {
-	o.TotalSize = v
+	o.TotalSize.Set(&v)
+}
+
+// SetTotalSizeNil sets the value for TotalSize to be an explicit nil.
+func (o *Backup) SetTotalSizeNil() {
+	o.TotalSize.Set(nil)
+}
+
+// UnsetTotalSize ensures that no value is present for TotalSize, not even an explicit nil.
+func (o *Backup) UnsetTotalSize() {
+	o.TotalSize.Unset()
 }
 
 // GetFailureReason returns the FailureReason field value if set, zero value otherwise.
@@ -618,32 +687,43 @@ func (o *Backup) SetPath(v string) {
 	o.Path = &v
 }
 
-// GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
+// GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetRetentionPeriod() string {
-	if o == nil || o.RetentionPeriod == nil {
+	if o == nil || o.RetentionPeriod.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.RetentionPeriod
+	return *o.RetentionPeriod.Get()
 }
 
 // GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetRetentionPeriodOk() (*string, bool) {
-	if o == nil || o.RetentionPeriod == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.RetentionPeriod, true
+	return o.RetentionPeriod.Get(), o.RetentionPeriod.IsSet()
 }
 
 // HasRetentionPeriod returns a boolean if a field has been set.
 func (o *Backup) HasRetentionPeriod() bool {
-	return o != nil && o.RetentionPeriod != nil
+	return o != nil && o.RetentionPeriod.IsSet()
 }
 
-// SetRetentionPeriod gets a reference to the given string and assigns it to the RetentionPeriod field.
+// SetRetentionPeriod gets a reference to the given common.NullableString and assigns it to the RetentionPeriod field.
 func (o *Backup) SetRetentionPeriod(v string) {
-	o.RetentionPeriod = &v
+	o.RetentionPeriod.Set(&v)
+}
+
+// SetRetentionPeriodNil sets the value for RetentionPeriod to be an explicit nil.
+func (o *Backup) SetRetentionPeriodNil() {
+	o.RetentionPeriod.Set(nil)
+}
+
+// UnsetRetentionPeriod ensures that no value is present for RetentionPeriod, not even an explicit nil.
+func (o *Backup) UnsetRetentionPeriod() {
+	o.RetentionPeriod.Unset()
 }
 
 // GetExpiration returns the Expiration field value if set, zero value otherwise.
@@ -855,27 +935,27 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		toSerialize["backupRepo"] = o.BackupRepo
 	}
 	toSerialize["backupType"] = o.BackupType
-	if o.CompletionTimestamp.Nanosecond() == 0 {
-		toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.CompletionTimestamp.IsSet() {
+		toSerialize["completionTimestamp"] = o.CompletionTimestamp.Get()
 	}
 	if o.CreationTimestamp.Nanosecond() == 0 {
 		toSerialize["creationTimestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05Z07:00")
 	} else {
 		toSerialize["creationTimestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	toSerialize["duration"] = o.Duration
+	if o.Duration.IsSet() {
+		toSerialize["duration"] = o.Duration.Get()
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["orgName"] = o.OrgName
 	toSerialize["snapshotVolumes"] = o.SnapshotVolumes
 	toSerialize["sourceCluster"] = o.SourceCluster
-	if o.StartTimestamp.Nanosecond() == 0 {
-		toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.StartTimestamp.IsSet() {
+		toSerialize["startTimestamp"] = o.StartTimestamp.Get()
 	}
-	toSerialize["status"] = o.Status
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 	if o.TimeRangeEnd != nil {
 		if o.TimeRangeEnd.Nanosecond() == 0 {
 			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05Z07:00")
@@ -890,7 +970,9 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	toSerialize["totalSize"] = o.TotalSize
+	if o.TotalSize.IsSet() {
+		toSerialize["totalSize"] = o.TotalSize.Get()
+	}
 	if o.FailureReason != nil {
 		toSerialize["failureReason"] = o.FailureReason
 	}
@@ -903,8 +985,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.Path != nil {
 		toSerialize["path"] = o.Path
 	}
-	if o.RetentionPeriod != nil {
-		toSerialize["retentionPeriod"] = o.RetentionPeriod
+	if o.RetentionPeriod.IsSet() {
+		toSerialize["retentionPeriod"] = o.RetentionPeriod.Get()
 	}
 	if o.Expiration != nil {
 		if o.Expiration.Nanosecond() == 0 {
@@ -941,35 +1023,35 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup          *bool         `json:"autoBackup"`
-		BackupMethod        *string       `json:"backupMethod"`
-		BackupPolicyName    *string       `json:"backupPolicyName"`
-		BackupRepo          *string       `json:"backupRepo,omitempty"`
-		BackupType          *BackupType   `json:"backupType"`
-		CompletionTimestamp *time.Time    `json:"completionTimestamp"`
-		CreationTimestamp   *time.Time    `json:"creationTimestamp"`
-		Duration            *string       `json:"duration"`
-		Name                *string       `json:"name"`
-		OrgName             *string       `json:"orgName"`
-		SnapshotVolumes     *bool         `json:"snapshotVolumes"`
-		SourceCluster       *string       `json:"sourceCluster"`
-		StartTimestamp      *time.Time    `json:"startTimestamp"`
-		Status              *BackupStatus `json:"status"`
-		TimeRangeEnd        *time.Time    `json:"timeRangeEnd,omitempty"`
-		TimeRangeStart      *time.Time    `json:"timeRangeStart,omitempty"`
-		TotalSize           *string       `json:"totalSize"`
-		FailureReason       *string       `json:"failureReason,omitempty"`
-		Extras              *string       `json:"extras,omitempty"`
-		TargetPods          []string      `json:"targetPods,omitempty"`
-		Path                *string       `json:"path,omitempty"`
-		RetentionPeriod     *string       `json:"retentionPeriod,omitempty"`
-		Expiration          *time.Time    `json:"expiration,omitempty"`
-		Id                  *string       `json:"id,omitempty"`
-		ClusterId           *string       `json:"clusterId,omitempty"`
-		CloudProvider       *string       `json:"cloudProvider,omitempty"`
-		CloudRegion         *string       `json:"cloudRegion,omitempty"`
-		EnvironmentName     *string       `json:"environmentName,omitempty"`
-		Engine              *string       `json:"engine,omitempty"`
+		AutoBackup          *bool                 `json:"autoBackup"`
+		BackupMethod        *string               `json:"backupMethod"`
+		BackupPolicyName    *string               `json:"backupPolicyName"`
+		BackupRepo          *string               `json:"backupRepo,omitempty"`
+		BackupType          *BackupType           `json:"backupType"`
+		CompletionTimestamp common.NullableTime   `json:"completionTimestamp,omitempty"`
+		CreationTimestamp   *time.Time            `json:"creationTimestamp"`
+		Duration            common.NullableString `json:"duration,omitempty"`
+		Name                *string               `json:"name"`
+		OrgName             *string               `json:"orgName"`
+		SnapshotVolumes     *bool                 `json:"snapshotVolumes"`
+		SourceCluster       *string               `json:"sourceCluster"`
+		StartTimestamp      common.NullableTime   `json:"startTimestamp,omitempty"`
+		Status              *BackupStatus         `json:"status,omitempty"`
+		TimeRangeEnd        *time.Time            `json:"timeRangeEnd,omitempty"`
+		TimeRangeStart      *time.Time            `json:"timeRangeStart,omitempty"`
+		TotalSize           common.NullableString `json:"totalSize,omitempty"`
+		FailureReason       *string               `json:"failureReason,omitempty"`
+		Extras              *string               `json:"extras,omitempty"`
+		TargetPods          []string              `json:"targetPods,omitempty"`
+		Path                *string               `json:"path,omitempty"`
+		RetentionPeriod     common.NullableString `json:"retentionPeriod,omitempty"`
+		Expiration          *time.Time            `json:"expiration,omitempty"`
+		Id                  *string               `json:"id,omitempty"`
+		ClusterId           *string               `json:"clusterId,omitempty"`
+		CloudProvider       *string               `json:"cloudProvider,omitempty"`
+		CloudRegion         *string               `json:"cloudRegion,omitempty"`
+		EnvironmentName     *string               `json:"environmentName,omitempty"`
+		Engine              *string               `json:"engine,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -986,14 +1068,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	if all.BackupType == nil {
 		return fmt.Errorf("required field backupType missing")
 	}
-	if all.CompletionTimestamp == nil {
-		return fmt.Errorf("required field completionTimestamp missing")
-	}
 	if all.CreationTimestamp == nil {
 		return fmt.Errorf("required field creationTimestamp missing")
-	}
-	if all.Duration == nil {
-		return fmt.Errorf("required field duration missing")
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
@@ -1006,15 +1082,6 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.SourceCluster == nil {
 		return fmt.Errorf("required field sourceCluster missing")
-	}
-	if all.StartTimestamp == nil {
-		return fmt.Errorf("required field startTimestamp missing")
-	}
-	if all.Status == nil {
-		return fmt.Errorf("required field status missing")
-	}
-	if all.TotalSize == nil {
-		return fmt.Errorf("required field totalSize missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -1033,22 +1100,22 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.BackupType = *all.BackupType
 	}
-	o.CompletionTimestamp = *all.CompletionTimestamp
+	o.CompletionTimestamp = all.CompletionTimestamp
 	o.CreationTimestamp = *all.CreationTimestamp
-	o.Duration = *all.Duration
+	o.Duration = all.Duration
 	o.Name = *all.Name
 	o.OrgName = *all.OrgName
 	o.SnapshotVolumes = *all.SnapshotVolumes
 	o.SourceCluster = *all.SourceCluster
-	o.StartTimestamp = *all.StartTimestamp
-	if !all.Status.IsValid() {
+	o.StartTimestamp = all.StartTimestamp
+	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Status = *all.Status
+		o.Status = all.Status
 	}
 	o.TimeRangeEnd = all.TimeRangeEnd
 	o.TimeRangeStart = all.TimeRangeStart
-	o.TotalSize = *all.TotalSize
+	o.TotalSize = all.TotalSize
 	o.FailureReason = all.FailureReason
 	o.Extras = all.Extras
 	o.TargetPods = all.TargetPods
