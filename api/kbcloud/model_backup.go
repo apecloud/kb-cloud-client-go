@@ -24,9 +24,9 @@ type Backup struct {
 	// the type of backup
 	BackupType BackupType `json:"backupType"`
 	// Date/time when the backup finished being processed.
-	CompletionTimestamp time.Time `json:"completionTimestamp"`
+	CompletionTimestamp time.Time `json:"completionTimestamp,omitempty"`
 	// Date/time when the backup was created.
-	CreationTimestamp time.Time `json:"creationTimestamp,omitempty"`
+	CreationTimestamp time.Time `json:"creationTimestamp"`
 	// The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
 	Duration string `json:"duration,omitempty"`
 	// name of the backup
