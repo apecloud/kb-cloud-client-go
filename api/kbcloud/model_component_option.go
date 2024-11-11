@@ -19,7 +19,7 @@ type ComponentOption struct {
 	MatchRegex *string                 `json:"matchRegex,omitempty"`
 	Title      LocalizedDescription    `json:"title"`
 	Order      int32                   `json:"order"`
-	RoleOrder  []string                `json:"roleOrder"`
+	RoleOrder  []string                `json:"roleOrder,omitempty"`
 	Version    *ComponentOptionVersion `json:"version,omitempty"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
@@ -32,12 +32,11 @@ type ComponentOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentOption(name string, title LocalizedDescription, order int32, roleOrder []string) *ComponentOption {
+func NewComponentOption(name string, title LocalizedDescription, order int32) *ComponentOption {
 	this := ComponentOption{}
 	this.Name = name
 	this.Title = title
 	this.Order = order
-	this.RoleOrder = roleOrder
 	return &this
 }
 
@@ -146,25 +145,30 @@ func (o *ComponentOption) SetOrder(v int32) {
 	o.Order = v
 }
 
-// GetRoleOrder returns the RoleOrder field value.
+// GetRoleOrder returns the RoleOrder field value if set, zero value otherwise.
 func (o *ComponentOption) GetRoleOrder() []string {
-	if o == nil {
+	if o == nil || o.RoleOrder == nil {
 		var ret []string
 		return ret
 	}
 	return o.RoleOrder
 }
 
-// GetRoleOrderOk returns a tuple with the RoleOrder field value
+// GetRoleOrderOk returns a tuple with the RoleOrder field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ComponentOption) GetRoleOrderOk() (*[]string, bool) {
-	if o == nil {
+	if o == nil || o.RoleOrder == nil {
 		return nil, false
 	}
 	return &o.RoleOrder, true
 }
 
-// SetRoleOrder sets field value.
+// HasRoleOrder returns a boolean if a field has been set.
+func (o *ComponentOption) HasRoleOrder() bool {
+	return o != nil && o.RoleOrder != nil
+}
+
+// SetRoleOrder gets a reference to the given []string and assigns it to the RoleOrder field.
 func (o *ComponentOption) SetRoleOrder(v []string) {
 	o.RoleOrder = v
 }
@@ -237,7 +241,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["order"] = o.Order
-	toSerialize["roleOrder"] = o.RoleOrder
+	if o.RoleOrder != nil {
+		toSerialize["roleOrder"] = o.RoleOrder
+	}
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
 	}
@@ -258,7 +264,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 		MatchRegex *string                 `json:"matchRegex,omitempty"`
 		Title      *LocalizedDescription   `json:"title"`
 		Order      *int32                  `json:"order"`
-		RoleOrder  *[]string               `json:"roleOrder"`
+		RoleOrder  []string                `json:"roleOrder,omitempty"`
 		Version    *ComponentOptionVersion `json:"version,omitempty"`
 		Main       *bool                   `json:"main,omitempty"`
 	}{}
@@ -273,9 +279,6 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Order == nil {
 		return fmt.Errorf("required field order missing")
-	}
-	if all.RoleOrder == nil {
-		return fmt.Errorf("required field roleOrder missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -292,7 +295,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Title = *all.Title
 	o.Order = *all.Order
-	o.RoleOrder = *all.RoleOrder
+	o.RoleOrder = all.RoleOrder
 	if all.Version != nil && all.Version.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
