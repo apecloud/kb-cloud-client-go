@@ -13,6 +13,8 @@ import (
 
 // Restore create a KubeBlocks restore API
 type Restore struct {
+	// ID of the restore
+	Id *string `json:"id,omitempty"`
 	// organization name
 	OrgName *string `json:"orgName,omitempty"`
 	// backup name
@@ -27,7 +29,7 @@ type Restore struct {
 	// kubeBlocks restore name
 	Name *string `json:"name,omitempty"`
 	// restore parameters to inject env of the restore CR.
-	Parameters *RestoreParameters `json:"parameters,omitempty"`
+	Parameters map[string]string `json:"parameters,omitempty"`
 	// restore time
 	RestoreTime *string `json:"restoreTime,omitempty"`
 	// restore status
@@ -55,6 +57,34 @@ func NewRestore(backupName string, clusterName string, componentName string) *Re
 func NewRestoreWithDefaults() *Restore {
 	this := Restore{}
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *Restore) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Restore) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *Restore) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *Restore) SetId(v string) {
+	o.Id = &v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
@@ -239,21 +269,21 @@ func (o *Restore) SetName(v string) {
 }
 
 // GetParameters returns the Parameters field value if set, zero value otherwise.
-func (o *Restore) GetParameters() RestoreParameters {
+func (o *Restore) GetParameters() map[string]string {
 	if o == nil || o.Parameters == nil {
-		var ret RestoreParameters
+		var ret map[string]string
 		return ret
 	}
-	return *o.Parameters
+	return o.Parameters
 }
 
 // GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Restore) GetParametersOk() (*RestoreParameters, bool) {
+func (o *Restore) GetParametersOk() (*map[string]string, bool) {
 	if o == nil || o.Parameters == nil {
 		return nil, false
 	}
-	return o.Parameters, true
+	return &o.Parameters, true
 }
 
 // HasParameters returns a boolean if a field has been set.
@@ -261,9 +291,9 @@ func (o *Restore) HasParameters() bool {
 	return o != nil && o.Parameters != nil
 }
 
-// SetParameters gets a reference to the given RestoreParameters and assigns it to the Parameters field.
-func (o *Restore) SetParameters(v RestoreParameters) {
-	o.Parameters = &v
+// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
+func (o *Restore) SetParameters(v map[string]string) {
+	o.Parameters = v
 }
 
 // GetRestoreTime returns the RestoreTime field value if set, zero value otherwise.
@@ -328,6 +358,9 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
@@ -366,16 +399,17 @@ func (o Restore) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName       *string            `json:"orgName,omitempty"`
-		BackupName    *string            `json:"backupName"`
-		ClusterName   *string            `json:"clusterName"`
-		ComponentName *string            `json:"componentName"`
-		TargetPodName *string            `json:"targetPodName,omitempty"`
-		CreatedAt     *time.Time         `json:"createdAt,omitempty"`
-		Name          *string            `json:"name,omitempty"`
-		Parameters    *RestoreParameters `json:"parameters,omitempty"`
-		RestoreTime   *string            `json:"restoreTime,omitempty"`
-		Status        *RestoreStatus     `json:"status,omitempty"`
+		Id            *string           `json:"id,omitempty"`
+		OrgName       *string           `json:"orgName,omitempty"`
+		BackupName    *string           `json:"backupName"`
+		ClusterName   *string           `json:"clusterName"`
+		ComponentName *string           `json:"componentName"`
+		TargetPodName *string           `json:"targetPodName,omitempty"`
+		CreatedAt     *time.Time        `json:"createdAt,omitempty"`
+		Name          *string           `json:"name,omitempty"`
+		Parameters    map[string]string `json:"parameters,omitempty"`
+		RestoreTime   *string           `json:"restoreTime,omitempty"`
+		Status        *RestoreStatus    `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -391,12 +425,13 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "backupName", "clusterName", "componentName", "targetPodName", "createdAt", "name", "parameters", "restoreTime", "status"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Id = all.Id
 	o.OrgName = all.OrgName
 	o.BackupName = *all.BackupName
 	o.ClusterName = *all.ClusterName
@@ -404,9 +439,6 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 	o.TargetPodName = all.TargetPodName
 	o.CreatedAt = all.CreatedAt
 	o.Name = all.Name
-	if all.Parameters != nil && all.Parameters.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
 	o.Parameters = all.Parameters
 	o.RestoreTime = all.RestoreTime
 	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {

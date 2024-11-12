@@ -955,85 +955,6 @@ func (a *EnvironmentApi) GetEnvironmentMetricsMonitorStats(ctx _context.Context,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetEnvironmentNamespaceStats Get namespace stats of a environment.
-// Provides a summary of cluster statistics, aggregated and organized by namespace, for a given environment..
-func (a *EnvironmentApi) GetEnvironmentNamespaceStats(ctx _context.Context, environmentName string) (NamespaceStatList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue NamespaceStatList
-	)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentNamespaceStats")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/namespaceStats"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "*/*"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 403 {
-			var v interface{}
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 404 {
-			var v string
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // GetEnvironmentProvisioningProgress Get environment provisioning progress.
 func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context, environmentName string) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
@@ -2573,7 +2494,7 @@ func (a *EnvironmentApi) PreflightRestoreEnvironment(ctx _context.Context, body 
 
 // RestoreEnvironmentOptionalParameters holds optional parameters for RestoreEnvironment.
 type RestoreEnvironmentOptionalParameters struct {
-	Body *string
+	Body *EnvironmentRestore
 }
 
 // NewRestoreEnvironmentOptionalParameters creates an empty struct for parameters.
@@ -2583,7 +2504,7 @@ func NewRestoreEnvironmentOptionalParameters() *RestoreEnvironmentOptionalParame
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *RestoreEnvironmentOptionalParameters) WithBody(body string) *RestoreEnvironmentOptionalParameters {
+func (r *RestoreEnvironmentOptionalParameters) WithBody(body EnvironmentRestore) *RestoreEnvironmentOptionalParameters {
 	r.Body = &body
 	return r
 }

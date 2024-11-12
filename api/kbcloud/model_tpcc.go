@@ -35,23 +35,23 @@ type Tpcc struct {
 	// Address for database
 	Address string `json:"address"`
 	// Number of threads to use
-	Threads *int32 `json:"threads,omitempty"`
+	Threads common.NullableInt32 `json:"threads,omitempty"`
 	// Number of warehouses
-	Warehouses *int32 `json:"warehouses,omitempty"`
+	Warehouses common.NullableInt32 `json:"warehouses,omitempty"`
 	// the minutes of test duration
-	Duration *int32 `json:"duration,omitempty"`
+	Duration common.NullableInt32 `json:"duration,omitempty"`
 	// limit the number of transactions per minute, 0 means no limit
 	LimitTxPerMin *int32 `json:"limitTxPerMin,omitempty"`
 	// Percentage of new order transactions
-	NewOrderWeight *int32 `json:"newOrderWeight,omitempty"`
+	NewOrderWeight common.NullableInt32 `json:"newOrderWeight,omitempty"`
 	// Percentage of payment transactions
-	PaymentWeight *int32 `json:"paymentWeight,omitempty"`
+	PaymentWeight common.NullableInt32 `json:"paymentWeight,omitempty"`
 	// Percentage of order status transactions
-	OrderStatusWeight *int32 `json:"orderStatusWeight,omitempty"`
+	OrderStatusWeight common.NullableInt32 `json:"orderStatusWeight,omitempty"`
 	// Percentage of delivery transactions
-	DeliveryWeight *int32 `json:"deliveryWeight,omitempty"`
+	DeliveryWeight common.NullableInt32 `json:"deliveryWeight,omitempty"`
 	// Percentage of stock level transactions
-	StockLevelWeight *int32 `json:"stockLevelWeight,omitempty"`
+	StockLevelWeight common.NullableInt32 `json:"stockLevelWeight,omitempty"`
 	// Extra arguments for tpcc
 	ExtraArgs *string `json:"extraArgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -384,88 +384,121 @@ func (o *Tpcc) SetAddress(v string) {
 	o.Address = v
 }
 
-// GetThreads returns the Threads field value if set, zero value otherwise.
+// GetThreads returns the Threads field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetThreads() int32 {
-	if o == nil || o.Threads == nil {
+	if o == nil || o.Threads.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Threads
+	return *o.Threads.Get()
 }
 
 // GetThreadsOk returns a tuple with the Threads field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetThreadsOk() (*int32, bool) {
-	if o == nil || o.Threads == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Threads, true
+	return o.Threads.Get(), o.Threads.IsSet()
 }
 
 // HasThreads returns a boolean if a field has been set.
 func (o *Tpcc) HasThreads() bool {
-	return o != nil && o.Threads != nil
+	return o != nil && o.Threads.IsSet()
 }
 
-// SetThreads gets a reference to the given int32 and assigns it to the Threads field.
+// SetThreads gets a reference to the given common.NullableInt32 and assigns it to the Threads field.
 func (o *Tpcc) SetThreads(v int32) {
-	o.Threads = &v
+	o.Threads.Set(&v)
 }
 
-// GetWarehouses returns the Warehouses field value if set, zero value otherwise.
+// SetThreadsNil sets the value for Threads to be an explicit nil.
+func (o *Tpcc) SetThreadsNil() {
+	o.Threads.Set(nil)
+}
+
+// UnsetThreads ensures that no value is present for Threads, not even an explicit nil.
+func (o *Tpcc) UnsetThreads() {
+	o.Threads.Unset()
+}
+
+// GetWarehouses returns the Warehouses field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetWarehouses() int32 {
-	if o == nil || o.Warehouses == nil {
+	if o == nil || o.Warehouses.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Warehouses
+	return *o.Warehouses.Get()
 }
 
 // GetWarehousesOk returns a tuple with the Warehouses field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetWarehousesOk() (*int32, bool) {
-	if o == nil || o.Warehouses == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Warehouses, true
+	return o.Warehouses.Get(), o.Warehouses.IsSet()
 }
 
 // HasWarehouses returns a boolean if a field has been set.
 func (o *Tpcc) HasWarehouses() bool {
-	return o != nil && o.Warehouses != nil
+	return o != nil && o.Warehouses.IsSet()
 }
 
-// SetWarehouses gets a reference to the given int32 and assigns it to the Warehouses field.
+// SetWarehouses gets a reference to the given common.NullableInt32 and assigns it to the Warehouses field.
 func (o *Tpcc) SetWarehouses(v int32) {
-	o.Warehouses = &v
+	o.Warehouses.Set(&v)
 }
 
-// GetDuration returns the Duration field value if set, zero value otherwise.
+// SetWarehousesNil sets the value for Warehouses to be an explicit nil.
+func (o *Tpcc) SetWarehousesNil() {
+	o.Warehouses.Set(nil)
+}
+
+// UnsetWarehouses ensures that no value is present for Warehouses, not even an explicit nil.
+func (o *Tpcc) UnsetWarehouses() {
+	o.Warehouses.Unset()
+}
+
+// GetDuration returns the Duration field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetDuration() int32 {
-	if o == nil || o.Duration == nil {
+	if o == nil || o.Duration.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Duration
+	return *o.Duration.Get()
 }
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetDurationOk() (*int32, bool) {
-	if o == nil || o.Duration == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Duration, true
+	return o.Duration.Get(), o.Duration.IsSet()
 }
 
 // HasDuration returns a boolean if a field has been set.
 func (o *Tpcc) HasDuration() bool {
-	return o != nil && o.Duration != nil
+	return o != nil && o.Duration.IsSet()
 }
 
-// SetDuration gets a reference to the given int32 and assigns it to the Duration field.
+// SetDuration gets a reference to the given common.NullableInt32 and assigns it to the Duration field.
 func (o *Tpcc) SetDuration(v int32) {
-	o.Duration = &v
+	o.Duration.Set(&v)
+}
+
+// SetDurationNil sets the value for Duration to be an explicit nil.
+func (o *Tpcc) SetDurationNil() {
+	o.Duration.Set(nil)
+}
+
+// UnsetDuration ensures that no value is present for Duration, not even an explicit nil.
+func (o *Tpcc) UnsetDuration() {
+	o.Duration.Unset()
 }
 
 // GetLimitTxPerMin returns the LimitTxPerMin field value if set, zero value otherwise.
@@ -496,144 +529,199 @@ func (o *Tpcc) SetLimitTxPerMin(v int32) {
 	o.LimitTxPerMin = &v
 }
 
-// GetNewOrderWeight returns the NewOrderWeight field value if set, zero value otherwise.
+// GetNewOrderWeight returns the NewOrderWeight field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetNewOrderWeight() int32 {
-	if o == nil || o.NewOrderWeight == nil {
+	if o == nil || o.NewOrderWeight.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.NewOrderWeight
+	return *o.NewOrderWeight.Get()
 }
 
 // GetNewOrderWeightOk returns a tuple with the NewOrderWeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetNewOrderWeightOk() (*int32, bool) {
-	if o == nil || o.NewOrderWeight == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.NewOrderWeight, true
+	return o.NewOrderWeight.Get(), o.NewOrderWeight.IsSet()
 }
 
 // HasNewOrderWeight returns a boolean if a field has been set.
 func (o *Tpcc) HasNewOrderWeight() bool {
-	return o != nil && o.NewOrderWeight != nil
+	return o != nil && o.NewOrderWeight.IsSet()
 }
 
-// SetNewOrderWeight gets a reference to the given int32 and assigns it to the NewOrderWeight field.
+// SetNewOrderWeight gets a reference to the given common.NullableInt32 and assigns it to the NewOrderWeight field.
 func (o *Tpcc) SetNewOrderWeight(v int32) {
-	o.NewOrderWeight = &v
+	o.NewOrderWeight.Set(&v)
 }
 
-// GetPaymentWeight returns the PaymentWeight field value if set, zero value otherwise.
+// SetNewOrderWeightNil sets the value for NewOrderWeight to be an explicit nil.
+func (o *Tpcc) SetNewOrderWeightNil() {
+	o.NewOrderWeight.Set(nil)
+}
+
+// UnsetNewOrderWeight ensures that no value is present for NewOrderWeight, not even an explicit nil.
+func (o *Tpcc) UnsetNewOrderWeight() {
+	o.NewOrderWeight.Unset()
+}
+
+// GetPaymentWeight returns the PaymentWeight field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetPaymentWeight() int32 {
-	if o == nil || o.PaymentWeight == nil {
+	if o == nil || o.PaymentWeight.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.PaymentWeight
+	return *o.PaymentWeight.Get()
 }
 
 // GetPaymentWeightOk returns a tuple with the PaymentWeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetPaymentWeightOk() (*int32, bool) {
-	if o == nil || o.PaymentWeight == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.PaymentWeight, true
+	return o.PaymentWeight.Get(), o.PaymentWeight.IsSet()
 }
 
 // HasPaymentWeight returns a boolean if a field has been set.
 func (o *Tpcc) HasPaymentWeight() bool {
-	return o != nil && o.PaymentWeight != nil
+	return o != nil && o.PaymentWeight.IsSet()
 }
 
-// SetPaymentWeight gets a reference to the given int32 and assigns it to the PaymentWeight field.
+// SetPaymentWeight gets a reference to the given common.NullableInt32 and assigns it to the PaymentWeight field.
 func (o *Tpcc) SetPaymentWeight(v int32) {
-	o.PaymentWeight = &v
+	o.PaymentWeight.Set(&v)
 }
 
-// GetOrderStatusWeight returns the OrderStatusWeight field value if set, zero value otherwise.
+// SetPaymentWeightNil sets the value for PaymentWeight to be an explicit nil.
+func (o *Tpcc) SetPaymentWeightNil() {
+	o.PaymentWeight.Set(nil)
+}
+
+// UnsetPaymentWeight ensures that no value is present for PaymentWeight, not even an explicit nil.
+func (o *Tpcc) UnsetPaymentWeight() {
+	o.PaymentWeight.Unset()
+}
+
+// GetOrderStatusWeight returns the OrderStatusWeight field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetOrderStatusWeight() int32 {
-	if o == nil || o.OrderStatusWeight == nil {
+	if o == nil || o.OrderStatusWeight.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.OrderStatusWeight
+	return *o.OrderStatusWeight.Get()
 }
 
 // GetOrderStatusWeightOk returns a tuple with the OrderStatusWeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetOrderStatusWeightOk() (*int32, bool) {
-	if o == nil || o.OrderStatusWeight == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.OrderStatusWeight, true
+	return o.OrderStatusWeight.Get(), o.OrderStatusWeight.IsSet()
 }
 
 // HasOrderStatusWeight returns a boolean if a field has been set.
 func (o *Tpcc) HasOrderStatusWeight() bool {
-	return o != nil && o.OrderStatusWeight != nil
+	return o != nil && o.OrderStatusWeight.IsSet()
 }
 
-// SetOrderStatusWeight gets a reference to the given int32 and assigns it to the OrderStatusWeight field.
+// SetOrderStatusWeight gets a reference to the given common.NullableInt32 and assigns it to the OrderStatusWeight field.
 func (o *Tpcc) SetOrderStatusWeight(v int32) {
-	o.OrderStatusWeight = &v
+	o.OrderStatusWeight.Set(&v)
 }
 
-// GetDeliveryWeight returns the DeliveryWeight field value if set, zero value otherwise.
+// SetOrderStatusWeightNil sets the value for OrderStatusWeight to be an explicit nil.
+func (o *Tpcc) SetOrderStatusWeightNil() {
+	o.OrderStatusWeight.Set(nil)
+}
+
+// UnsetOrderStatusWeight ensures that no value is present for OrderStatusWeight, not even an explicit nil.
+func (o *Tpcc) UnsetOrderStatusWeight() {
+	o.OrderStatusWeight.Unset()
+}
+
+// GetDeliveryWeight returns the DeliveryWeight field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetDeliveryWeight() int32 {
-	if o == nil || o.DeliveryWeight == nil {
+	if o == nil || o.DeliveryWeight.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.DeliveryWeight
+	return *o.DeliveryWeight.Get()
 }
 
 // GetDeliveryWeightOk returns a tuple with the DeliveryWeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetDeliveryWeightOk() (*int32, bool) {
-	if o == nil || o.DeliveryWeight == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.DeliveryWeight, true
+	return o.DeliveryWeight.Get(), o.DeliveryWeight.IsSet()
 }
 
 // HasDeliveryWeight returns a boolean if a field has been set.
 func (o *Tpcc) HasDeliveryWeight() bool {
-	return o != nil && o.DeliveryWeight != nil
+	return o != nil && o.DeliveryWeight.IsSet()
 }
 
-// SetDeliveryWeight gets a reference to the given int32 and assigns it to the DeliveryWeight field.
+// SetDeliveryWeight gets a reference to the given common.NullableInt32 and assigns it to the DeliveryWeight field.
 func (o *Tpcc) SetDeliveryWeight(v int32) {
-	o.DeliveryWeight = &v
+	o.DeliveryWeight.Set(&v)
 }
 
-// GetStockLevelWeight returns the StockLevelWeight field value if set, zero value otherwise.
+// SetDeliveryWeightNil sets the value for DeliveryWeight to be an explicit nil.
+func (o *Tpcc) SetDeliveryWeightNil() {
+	o.DeliveryWeight.Set(nil)
+}
+
+// UnsetDeliveryWeight ensures that no value is present for DeliveryWeight, not even an explicit nil.
+func (o *Tpcc) UnsetDeliveryWeight() {
+	o.DeliveryWeight.Unset()
+}
+
+// GetStockLevelWeight returns the StockLevelWeight field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tpcc) GetStockLevelWeight() int32 {
-	if o == nil || o.StockLevelWeight == nil {
+	if o == nil || o.StockLevelWeight.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.StockLevelWeight
+	return *o.StockLevelWeight.Get()
 }
 
 // GetStockLevelWeightOk returns a tuple with the StockLevelWeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Tpcc) GetStockLevelWeightOk() (*int32, bool) {
-	if o == nil || o.StockLevelWeight == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.StockLevelWeight, true
+	return o.StockLevelWeight.Get(), o.StockLevelWeight.IsSet()
 }
 
 // HasStockLevelWeight returns a boolean if a field has been set.
 func (o *Tpcc) HasStockLevelWeight() bool {
-	return o != nil && o.StockLevelWeight != nil
+	return o != nil && o.StockLevelWeight.IsSet()
 }
 
-// SetStockLevelWeight gets a reference to the given int32 and assigns it to the StockLevelWeight field.
+// SetStockLevelWeight gets a reference to the given common.NullableInt32 and assigns it to the StockLevelWeight field.
 func (o *Tpcc) SetStockLevelWeight(v int32) {
-	o.StockLevelWeight = &v
+	o.StockLevelWeight.Set(&v)
+}
+
+// SetStockLevelWeightNil sets the value for StockLevelWeight to be an explicit nil.
+func (o *Tpcc) SetStockLevelWeightNil() {
+	o.StockLevelWeight.Set(nil)
+}
+
+// UnsetStockLevelWeight ensures that no value is present for StockLevelWeight, not even an explicit nil.
+func (o *Tpcc) UnsetStockLevelWeight() {
+	o.StockLevelWeight.Unset()
 }
 
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
@@ -693,32 +781,32 @@ func (o Tpcc) MarshalJSON() ([]byte, error) {
 	toSerialize["username"] = o.Username
 	toSerialize["password"] = o.Password
 	toSerialize["address"] = o.Address
-	if o.Threads != nil {
-		toSerialize["threads"] = o.Threads
+	if o.Threads.IsSet() {
+		toSerialize["threads"] = o.Threads.Get()
 	}
-	if o.Warehouses != nil {
-		toSerialize["warehouses"] = o.Warehouses
+	if o.Warehouses.IsSet() {
+		toSerialize["warehouses"] = o.Warehouses.Get()
 	}
-	if o.Duration != nil {
-		toSerialize["duration"] = o.Duration
+	if o.Duration.IsSet() {
+		toSerialize["duration"] = o.Duration.Get()
 	}
 	if o.LimitTxPerMin != nil {
 		toSerialize["limitTxPerMin"] = o.LimitTxPerMin
 	}
-	if o.NewOrderWeight != nil {
-		toSerialize["newOrderWeight"] = o.NewOrderWeight
+	if o.NewOrderWeight.IsSet() {
+		toSerialize["newOrderWeight"] = o.NewOrderWeight.Get()
 	}
-	if o.PaymentWeight != nil {
-		toSerialize["paymentWeight"] = o.PaymentWeight
+	if o.PaymentWeight.IsSet() {
+		toSerialize["paymentWeight"] = o.PaymentWeight.Get()
 	}
-	if o.OrderStatusWeight != nil {
-		toSerialize["orderStatusWeight"] = o.OrderStatusWeight
+	if o.OrderStatusWeight.IsSet() {
+		toSerialize["orderStatusWeight"] = o.OrderStatusWeight.Get()
 	}
-	if o.DeliveryWeight != nil {
-		toSerialize["deliveryWeight"] = o.DeliveryWeight
+	if o.DeliveryWeight.IsSet() {
+		toSerialize["deliveryWeight"] = o.DeliveryWeight.Get()
 	}
-	if o.StockLevelWeight != nil {
-		toSerialize["stockLevelWeight"] = o.StockLevelWeight
+	if o.StockLevelWeight.IsSet() {
+		toSerialize["stockLevelWeight"] = o.StockLevelWeight.Get()
 	}
 	if o.ExtraArgs != nil {
 		toSerialize["extraArgs"] = o.ExtraArgs
@@ -733,27 +821,27 @@ func (o Tpcc) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Tpcc) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step              *TpccStep `json:"step,omitempty"`
-		LimitCpu          *string   `json:"limitCpu,omitempty"`
-		LimitMemory       *string   `json:"limitMemory,omitempty"`
-		RequestCpu        *string   `json:"requestCpu,omitempty"`
-		RequestMemory     *string   `json:"requestMemory,omitempty"`
-		Name              *string   `json:"name,omitempty"`
-		Cluster           *string   `json:"cluster"`
-		Database          *string   `json:"database"`
-		Username          *string   `json:"username"`
-		Password          *string   `json:"password"`
-		Address           *string   `json:"address"`
-		Threads           *int32    `json:"threads,omitempty"`
-		Warehouses        *int32    `json:"warehouses,omitempty"`
-		Duration          *int32    `json:"duration,omitempty"`
-		LimitTxPerMin     *int32    `json:"limitTxPerMin,omitempty"`
-		NewOrderWeight    *int32    `json:"newOrderWeight,omitempty"`
-		PaymentWeight     *int32    `json:"paymentWeight,omitempty"`
-		OrderStatusWeight *int32    `json:"orderStatusWeight,omitempty"`
-		DeliveryWeight    *int32    `json:"deliveryWeight,omitempty"`
-		StockLevelWeight  *int32    `json:"stockLevelWeight,omitempty"`
-		ExtraArgs         *string   `json:"extraArgs,omitempty"`
+		Step              *TpccStep            `json:"step,omitempty"`
+		LimitCpu          *string              `json:"limitCpu,omitempty"`
+		LimitMemory       *string              `json:"limitMemory,omitempty"`
+		RequestCpu        *string              `json:"requestCpu,omitempty"`
+		RequestMemory     *string              `json:"requestMemory,omitempty"`
+		Name              *string              `json:"name,omitempty"`
+		Cluster           *string              `json:"cluster"`
+		Database          *string              `json:"database"`
+		Username          *string              `json:"username"`
+		Password          *string              `json:"password"`
+		Address           *string              `json:"address"`
+		Threads           common.NullableInt32 `json:"threads,omitempty"`
+		Warehouses        common.NullableInt32 `json:"warehouses,omitempty"`
+		Duration          common.NullableInt32 `json:"duration,omitempty"`
+		LimitTxPerMin     *int32               `json:"limitTxPerMin,omitempty"`
+		NewOrderWeight    common.NullableInt32 `json:"newOrderWeight,omitempty"`
+		PaymentWeight     common.NullableInt32 `json:"paymentWeight,omitempty"`
+		OrderStatusWeight common.NullableInt32 `json:"orderStatusWeight,omitempty"`
+		DeliveryWeight    common.NullableInt32 `json:"deliveryWeight,omitempty"`
+		StockLevelWeight  common.NullableInt32 `json:"stockLevelWeight,omitempty"`
+		ExtraArgs         *string              `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

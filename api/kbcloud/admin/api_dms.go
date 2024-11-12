@@ -188,11 +188,11 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 }
 
 // GetObjectInfo get the detail object info.
-func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string, objectName string) (ObjectResponse, *_nethttp.Response, error) {
+func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string, objectName string) (DmsObjectResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ObjectResponse
+		localVarReturnValue DmsObjectResponse
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetObjectInfo")
@@ -446,11 +446,11 @@ func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clu
 }
 
 // ListObjectTypesInSchema list the type and number of database objects in the specified database or schema.
-func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, clusterName string, id string, schema string) ([]Object, *_nethttp.Response, error) {
+func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, clusterName string, id string, schema string) ([]DmsObject, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []Object
+		localVarReturnValue []DmsObject
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListObjectTypesInSchema")
@@ -1042,11 +1042,11 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterN
 }
 
 // ListParameters list cluster parameters.
-func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterName string, tenantId string, mode string) ([]ObParameter, *_nethttp.Response, error) {
+func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterName string, tenantId string, mode string) ([]DmsObParameter, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []ObParameter
+		localVarReturnValue []DmsObParameter
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListParameters")
@@ -1114,11 +1114,11 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 }
 
 // ListQueryHistory list the query History.
-func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) (QueryHistory, *_nethttp.Response, error) {
+func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) (DmsQueryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue QueryHistory
+		localVarReturnValue DmsQueryHistory
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListQueryHistory")
@@ -1186,11 +1186,11 @@ func (r *ListSessionsOptionalParameters) WithAll(all string) *ListSessionsOption
 }
 
 // ListSessions list all session for the cluster.
-func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]ObSession, *_nethttp.Response, error) {
+func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]DmsObSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []ObSession
+		localVarReturnValue []DmsObSession
 		optionalParams      ListSessionsOptionalParameters
 	)
 
@@ -1267,11 +1267,11 @@ func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName 
 }
 
 // Query create a SQL query.
-func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (QueryResponse, *_nethttp.Response, error) {
+func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (DmsQueryResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue QueryResponse
+		localVarReturnValue DmsQueryResponse
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.Query")
@@ -1325,11 +1325,11 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 }
 
 // ShowData read data of table or view.
-func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (Result, *_nethttp.Response, error) {
+func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (DmsResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue Result
+		localVarReturnValue DmsResult
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ShowData")
@@ -1383,11 +1383,11 @@ func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName stri
 }
 
 // SqlExplain explain a SQL.
-func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (QueryResponse, *_nethttp.Response, error) {
+func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (DmsQueryResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue QueryResponse
+		localVarReturnValue DmsQueryResponse
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.SqlExplain")

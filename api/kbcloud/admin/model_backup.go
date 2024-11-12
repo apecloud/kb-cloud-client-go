@@ -42,9 +42,9 @@ type Backup struct {
 	// The current status. Valid values are New, InProgress, Completed, Failed.
 	Status BackupStatus `json:"status"`
 	// timeRangeEnd records the end time of the backup.
-	TimeRangeEnd *time.Time `json:"timeRangeEnd,omitempty"`
+	TimeRangeEnd time.Time `json:"timeRangeEnd"`
 	// timeRangeStart records the start time of the backup.
-	TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
+	TimeRangeStart time.Time `json:"timeRangeStart"`
 	// Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
 	TotalSize     string  `json:"totalSize"`
 	FailureReason *string `json:"failureReason,omitempty"`
@@ -54,21 +54,21 @@ type Backup struct {
 	// the path of backup files
 	Path *string `json:"path,omitempty"`
 	// determines a duration up to which the backup should be kept
-	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
+	RetentionPeriod string `json:"retentionPeriod"`
 	// indicates when this backup becomes eligible for garbage collection
-	Expiration *time.Time `json:"expiration,omitempty"`
+	Expiration time.Time `json:"expiration"`
 	// the backup id
 	Id *string `json:"id,omitempty"`
 	// the id of cluster that backup belong to
 	ClusterId *string `json:"clusterId,omitempty"`
 	// the cloud provider
-	CloudProvider *string `json:"cloudProvider,omitempty"`
+	CloudProvider string `json:"cloudProvider"`
 	// the cloud region
-	CloudRegion *string `json:"cloudRegion,omitempty"`
+	CloudRegion string `json:"cloudRegion"`
 	// the environment name
-	EnvironmentName *string `json:"environmentName,omitempty"`
+	EnvironmentName string `json:"environmentName"`
 	// the cluster engine
-	Engine *string `json:"engine,omitempty"`
+	Engine string `json:"engine"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -78,7 +78,7 @@ type Backup struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, completionTimestamp time.Time, creationTimestamp time.Time, duration string, name string, orgName string, snapshotVolumes bool, sourceCluster string, startTimestamp time.Time, status BackupStatus, totalSize string) *Backup {
+func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, completionTimestamp time.Time, creationTimestamp time.Time, duration string, name string, orgName string, snapshotVolumes bool, sourceCluster string, startTimestamp time.Time, status BackupStatus, timeRangeEnd time.Time, timeRangeStart time.Time, totalSize string, retentionPeriod string, expiration time.Time, cloudProvider string, cloudRegion string, environmentName string, engine string) *Backup {
 	this := Backup{}
 	this.AutoBackup = autoBackup
 	this.BackupMethod = backupMethod
@@ -93,7 +93,15 @@ func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, ba
 	this.SourceCluster = sourceCluster
 	this.StartTimestamp = startTimestamp
 	this.Status = status
+	this.TimeRangeEnd = timeRangeEnd
+	this.TimeRangeStart = timeRangeStart
 	this.TotalSize = totalSize
+	this.RetentionPeriod = retentionPeriod
+	this.Expiration = expiration
+	this.CloudProvider = cloudProvider
+	this.CloudRegion = cloudRegion
+	this.EnvironmentName = environmentName
+	this.Engine = engine
 	return &this
 }
 
@@ -432,60 +440,50 @@ func (o *Backup) SetStatus(v BackupStatus) {
 	o.Status = v
 }
 
-// GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise.
+// GetTimeRangeEnd returns the TimeRangeEnd field value.
 func (o *Backup) GetTimeRangeEnd() time.Time {
-	if o == nil || o.TimeRangeEnd == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.TimeRangeEnd
+	return o.TimeRangeEnd
 }
 
-// GetTimeRangeEndOk returns a tuple with the TimeRangeEnd field value if set, nil otherwise
+// GetTimeRangeEndOk returns a tuple with the TimeRangeEnd field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetTimeRangeEndOk() (*time.Time, bool) {
-	if o == nil || o.TimeRangeEnd == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TimeRangeEnd, true
+	return &o.TimeRangeEnd, true
 }
 
-// HasTimeRangeEnd returns a boolean if a field has been set.
-func (o *Backup) HasTimeRangeEnd() bool {
-	return o != nil && o.TimeRangeEnd != nil
-}
-
-// SetTimeRangeEnd gets a reference to the given time.Time and assigns it to the TimeRangeEnd field.
+// SetTimeRangeEnd sets field value.
 func (o *Backup) SetTimeRangeEnd(v time.Time) {
-	o.TimeRangeEnd = &v
+	o.TimeRangeEnd = v
 }
 
-// GetTimeRangeStart returns the TimeRangeStart field value if set, zero value otherwise.
+// GetTimeRangeStart returns the TimeRangeStart field value.
 func (o *Backup) GetTimeRangeStart() time.Time {
-	if o == nil || o.TimeRangeStart == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.TimeRangeStart
+	return o.TimeRangeStart
 }
 
-// GetTimeRangeStartOk returns a tuple with the TimeRangeStart field value if set, nil otherwise
+// GetTimeRangeStartOk returns a tuple with the TimeRangeStart field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetTimeRangeStartOk() (*time.Time, bool) {
-	if o == nil || o.TimeRangeStart == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TimeRangeStart, true
+	return &o.TimeRangeStart, true
 }
 
-// HasTimeRangeStart returns a boolean if a field has been set.
-func (o *Backup) HasTimeRangeStart() bool {
-	return o != nil && o.TimeRangeStart != nil
-}
-
-// SetTimeRangeStart gets a reference to the given time.Time and assigns it to the TimeRangeStart field.
+// SetTimeRangeStart sets field value.
 func (o *Backup) SetTimeRangeStart(v time.Time) {
-	o.TimeRangeStart = &v
+	o.TimeRangeStart = v
 }
 
 // GetTotalSize returns the TotalSize field value.
@@ -623,60 +621,50 @@ func (o *Backup) SetPath(v string) {
 	o.Path = &v
 }
 
-// GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
+// GetRetentionPeriod returns the RetentionPeriod field value.
 func (o *Backup) GetRetentionPeriod() string {
-	if o == nil || o.RetentionPeriod == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.RetentionPeriod
+	return o.RetentionPeriod
 }
 
-// GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value if set, nil otherwise
+// GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetRetentionPeriodOk() (*string, bool) {
-	if o == nil || o.RetentionPeriod == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.RetentionPeriod, true
+	return &o.RetentionPeriod, true
 }
 
-// HasRetentionPeriod returns a boolean if a field has been set.
-func (o *Backup) HasRetentionPeriod() bool {
-	return o != nil && o.RetentionPeriod != nil
-}
-
-// SetRetentionPeriod gets a reference to the given string and assigns it to the RetentionPeriod field.
+// SetRetentionPeriod sets field value.
 func (o *Backup) SetRetentionPeriod(v string) {
-	o.RetentionPeriod = &v
+	o.RetentionPeriod = v
 }
 
-// GetExpiration returns the Expiration field value if set, zero value otherwise.
+// GetExpiration returns the Expiration field value.
 func (o *Backup) GetExpiration() time.Time {
-	if o == nil || o.Expiration == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.Expiration
+	return o.Expiration
 }
 
-// GetExpirationOk returns a tuple with the Expiration field value if set, nil otherwise
+// GetExpirationOk returns a tuple with the Expiration field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetExpirationOk() (*time.Time, bool) {
-	if o == nil || o.Expiration == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Expiration, true
+	return &o.Expiration, true
 }
 
-// HasExpiration returns a boolean if a field has been set.
-func (o *Backup) HasExpiration() bool {
-	return o != nil && o.Expiration != nil
-}
-
-// SetExpiration gets a reference to the given time.Time and assigns it to the Expiration field.
+// SetExpiration sets field value.
 func (o *Backup) SetExpiration(v time.Time) {
-	o.Expiration = &v
+	o.Expiration = v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -735,116 +723,96 @@ func (o *Backup) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
-// GetCloudProvider returns the CloudProvider field value if set, zero value otherwise.
+// GetCloudProvider returns the CloudProvider field value.
 func (o *Backup) GetCloudProvider() string {
-	if o == nil || o.CloudProvider == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.CloudProvider
+	return o.CloudProvider
 }
 
-// GetCloudProviderOk returns a tuple with the CloudProvider field value if set, nil otherwise
+// GetCloudProviderOk returns a tuple with the CloudProvider field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetCloudProviderOk() (*string, bool) {
-	if o == nil || o.CloudProvider == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.CloudProvider, true
+	return &o.CloudProvider, true
 }
 
-// HasCloudProvider returns a boolean if a field has been set.
-func (o *Backup) HasCloudProvider() bool {
-	return o != nil && o.CloudProvider != nil
-}
-
-// SetCloudProvider gets a reference to the given string and assigns it to the CloudProvider field.
+// SetCloudProvider sets field value.
 func (o *Backup) SetCloudProvider(v string) {
-	o.CloudProvider = &v
+	o.CloudProvider = v
 }
 
-// GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
+// GetCloudRegion returns the CloudRegion field value.
 func (o *Backup) GetCloudRegion() string {
-	if o == nil || o.CloudRegion == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.CloudRegion
+	return o.CloudRegion
 }
 
-// GetCloudRegionOk returns a tuple with the CloudRegion field value if set, nil otherwise
+// GetCloudRegionOk returns a tuple with the CloudRegion field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetCloudRegionOk() (*string, bool) {
-	if o == nil || o.CloudRegion == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.CloudRegion, true
+	return &o.CloudRegion, true
 }
 
-// HasCloudRegion returns a boolean if a field has been set.
-func (o *Backup) HasCloudRegion() bool {
-	return o != nil && o.CloudRegion != nil
-}
-
-// SetCloudRegion gets a reference to the given string and assigns it to the CloudRegion field.
+// SetCloudRegion sets field value.
 func (o *Backup) SetCloudRegion(v string) {
-	o.CloudRegion = &v
+	o.CloudRegion = v
 }
 
-// GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
+// GetEnvironmentName returns the EnvironmentName field value.
 func (o *Backup) GetEnvironmentName() string {
-	if o == nil || o.EnvironmentName == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.EnvironmentName
+	return o.EnvironmentName
 }
 
-// GetEnvironmentNameOk returns a tuple with the EnvironmentName field value if set, nil otherwise
+// GetEnvironmentNameOk returns a tuple with the EnvironmentName field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetEnvironmentNameOk() (*string, bool) {
-	if o == nil || o.EnvironmentName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.EnvironmentName, true
+	return &o.EnvironmentName, true
 }
 
-// HasEnvironmentName returns a boolean if a field has been set.
-func (o *Backup) HasEnvironmentName() bool {
-	return o != nil && o.EnvironmentName != nil
-}
-
-// SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
+// SetEnvironmentName sets field value.
 func (o *Backup) SetEnvironmentName(v string) {
-	o.EnvironmentName = &v
+	o.EnvironmentName = v
 }
 
-// GetEngine returns the Engine field value if set, zero value otherwise.
+// GetEngine returns the Engine field value.
 func (o *Backup) GetEngine() string {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Engine
+	return o.Engine
 }
 
-// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// GetEngineOk returns a tuple with the Engine field value
 // and a boolean to check if the value has been set.
 func (o *Backup) GetEngineOk() (*string, bool) {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Engine, true
+	return &o.Engine, true
 }
 
-// HasEngine returns a boolean if a field has been set.
-func (o *Backup) HasEngine() bool {
-	return o != nil && o.Engine != nil
-}
-
-// SetEngine gets a reference to the given string and assigns it to the Engine field.
+// SetEngine sets field value.
 func (o *Backup) SetEngine(v string) {
-	o.Engine = &v
+	o.Engine = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -881,19 +849,15 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	toSerialize["status"] = o.Status
-	if o.TimeRangeEnd != nil {
-		if o.TimeRangeEnd.Nanosecond() == 0 {
-			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.TimeRangeEnd.Nanosecond() == 0 {
+		toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	if o.TimeRangeStart != nil {
-		if o.TimeRangeStart.Nanosecond() == 0 {
-			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.TimeRangeStart.Nanosecond() == 0 {
+		toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	toSerialize["totalSize"] = o.TotalSize
 	if o.FailureReason != nil {
@@ -908,15 +872,11 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.Path != nil {
 		toSerialize["path"] = o.Path
 	}
-	if o.RetentionPeriod != nil {
-		toSerialize["retentionPeriod"] = o.RetentionPeriod
-	}
-	if o.Expiration != nil {
-		if o.Expiration.Nanosecond() == 0 {
-			toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	toSerialize["retentionPeriod"] = o.RetentionPeriod
+	if o.Expiration.Nanosecond() == 0 {
+		toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
@@ -924,18 +884,10 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.ClusterId != nil {
 		toSerialize["clusterId"] = o.ClusterId
 	}
-	if o.CloudProvider != nil {
-		toSerialize["cloudProvider"] = o.CloudProvider
-	}
-	if o.CloudRegion != nil {
-		toSerialize["cloudRegion"] = o.CloudRegion
-	}
-	if o.EnvironmentName != nil {
-		toSerialize["environmentName"] = o.EnvironmentName
-	}
-	if o.Engine != nil {
-		toSerialize["engine"] = o.Engine
-	}
+	toSerialize["cloudProvider"] = o.CloudProvider
+	toSerialize["cloudRegion"] = o.CloudRegion
+	toSerialize["environmentName"] = o.EnvironmentName
+	toSerialize["engine"] = o.Engine
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -960,21 +912,21 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		SourceCluster       *string       `json:"sourceCluster"`
 		StartTimestamp      *time.Time    `json:"startTimestamp"`
 		Status              *BackupStatus `json:"status"`
-		TimeRangeEnd        *time.Time    `json:"timeRangeEnd,omitempty"`
-		TimeRangeStart      *time.Time    `json:"timeRangeStart,omitempty"`
+		TimeRangeEnd        *time.Time    `json:"timeRangeEnd"`
+		TimeRangeStart      *time.Time    `json:"timeRangeStart"`
 		TotalSize           *string       `json:"totalSize"`
 		FailureReason       *string       `json:"failureReason,omitempty"`
 		Extras              *string       `json:"extras,omitempty"`
 		TargetPods          []string      `json:"targetPods,omitempty"`
 		Path                *string       `json:"path,omitempty"`
-		RetentionPeriod     *string       `json:"retentionPeriod,omitempty"`
-		Expiration          *time.Time    `json:"expiration,omitempty"`
+		RetentionPeriod     *string       `json:"retentionPeriod"`
+		Expiration          *time.Time    `json:"expiration"`
 		Id                  *string       `json:"id,omitempty"`
 		ClusterId           *string       `json:"clusterId,omitempty"`
-		CloudProvider       *string       `json:"cloudProvider,omitempty"`
-		CloudRegion         *string       `json:"cloudRegion,omitempty"`
-		EnvironmentName     *string       `json:"environmentName,omitempty"`
-		Engine              *string       `json:"engine,omitempty"`
+		CloudProvider       *string       `json:"cloudProvider"`
+		CloudRegion         *string       `json:"cloudRegion"`
+		EnvironmentName     *string       `json:"environmentName"`
+		Engine              *string       `json:"engine"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1018,8 +970,32 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Status == nil {
 		return fmt.Errorf("required field status missing")
 	}
+	if all.TimeRangeEnd == nil {
+		return fmt.Errorf("required field timeRangeEnd missing")
+	}
+	if all.TimeRangeStart == nil {
+		return fmt.Errorf("required field timeRangeStart missing")
+	}
 	if all.TotalSize == nil {
 		return fmt.Errorf("required field totalSize missing")
+	}
+	if all.RetentionPeriod == nil {
+		return fmt.Errorf("required field retentionPeriod missing")
+	}
+	if all.Expiration == nil {
+		return fmt.Errorf("required field expiration missing")
+	}
+	if all.CloudProvider == nil {
+		return fmt.Errorf("required field cloudProvider missing")
+	}
+	if all.CloudRegion == nil {
+		return fmt.Errorf("required field cloudRegion missing")
+	}
+	if all.EnvironmentName == nil {
+		return fmt.Errorf("required field environmentName missing")
+	}
+	if all.Engine == nil {
+		return fmt.Errorf("required field engine missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -1051,21 +1027,21 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Status = *all.Status
 	}
-	o.TimeRangeEnd = all.TimeRangeEnd
-	o.TimeRangeStart = all.TimeRangeStart
+	o.TimeRangeEnd = *all.TimeRangeEnd
+	o.TimeRangeStart = *all.TimeRangeStart
 	o.TotalSize = *all.TotalSize
 	o.FailureReason = all.FailureReason
 	o.Extras = all.Extras
 	o.TargetPods = all.TargetPods
 	o.Path = all.Path
-	o.RetentionPeriod = all.RetentionPeriod
-	o.Expiration = all.Expiration
+	o.RetentionPeriod = *all.RetentionPeriod
+	o.Expiration = *all.Expiration
 	o.Id = all.Id
 	o.ClusterId = all.ClusterId
-	o.CloudProvider = all.CloudProvider
-	o.CloudRegion = all.CloudRegion
-	o.EnvironmentName = all.EnvironmentName
-	o.Engine = all.Engine
+	o.CloudProvider = *all.CloudProvider
+	o.CloudRegion = *all.CloudRegion
+	o.EnvironmentName = *all.EnvironmentName
+	o.Engine = *all.Engine
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -35,13 +35,13 @@ type Ycsb struct {
 	// Address for database
 	Address string `json:"address"`
 	// Number of records to load into database
-	RecordCount *int32 `json:"recordCount,omitempty"`
+	RecordCount common.NullableInt32 `json:"recordCount,omitempty"`
 	// Number of operations to perform
-	OperationCount *int32 `json:"operationCount,omitempty"`
+	OperationCount common.NullableInt32 `json:"operationCount,omitempty"`
 	// Percentage of read operations
-	ReadProportion *int32 `json:"readProportion,omitempty"`
+	ReadProportion common.NullableInt32 `json:"readProportion,omitempty"`
 	// Percentage of update operations
-	UpdateProportion *int32 `json:"updateProportion,omitempty"`
+	UpdateProportion common.NullableInt32 `json:"updateProportion,omitempty"`
 	// Percentage of insert operations
 	InsertProportion *int32 `json:"insertProportion,omitempty"`
 	// Percentage of read-modify-write operations
@@ -49,7 +49,7 @@ type Ycsb struct {
 	// Percentage of scan operations
 	ScanProportion *int32 `json:"scanProportion,omitempty"`
 	// Number of client threads to run
-	Threads *int32 `json:"threads,omitempty"`
+	Threads common.NullableInt32 `json:"threads,omitempty"`
 	// Extra arguments for ycsb
 	ExtraArgs *string `json:"extraArgs,omitempty"`
 	// Redis mode
@@ -398,116 +398,160 @@ func (o *Ycsb) SetAddress(v string) {
 	o.Address = v
 }
 
-// GetRecordCount returns the RecordCount field value if set, zero value otherwise.
+// GetRecordCount returns the RecordCount field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Ycsb) GetRecordCount() int32 {
-	if o == nil || o.RecordCount == nil {
+	if o == nil || o.RecordCount.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.RecordCount
+	return *o.RecordCount.Get()
 }
 
 // GetRecordCountOk returns a tuple with the RecordCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Ycsb) GetRecordCountOk() (*int32, bool) {
-	if o == nil || o.RecordCount == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.RecordCount, true
+	return o.RecordCount.Get(), o.RecordCount.IsSet()
 }
 
 // HasRecordCount returns a boolean if a field has been set.
 func (o *Ycsb) HasRecordCount() bool {
-	return o != nil && o.RecordCount != nil
+	return o != nil && o.RecordCount.IsSet()
 }
 
-// SetRecordCount gets a reference to the given int32 and assigns it to the RecordCount field.
+// SetRecordCount gets a reference to the given common.NullableInt32 and assigns it to the RecordCount field.
 func (o *Ycsb) SetRecordCount(v int32) {
-	o.RecordCount = &v
+	o.RecordCount.Set(&v)
 }
 
-// GetOperationCount returns the OperationCount field value if set, zero value otherwise.
+// SetRecordCountNil sets the value for RecordCount to be an explicit nil.
+func (o *Ycsb) SetRecordCountNil() {
+	o.RecordCount.Set(nil)
+}
+
+// UnsetRecordCount ensures that no value is present for RecordCount, not even an explicit nil.
+func (o *Ycsb) UnsetRecordCount() {
+	o.RecordCount.Unset()
+}
+
+// GetOperationCount returns the OperationCount field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Ycsb) GetOperationCount() int32 {
-	if o == nil || o.OperationCount == nil {
+	if o == nil || o.OperationCount.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.OperationCount
+	return *o.OperationCount.Get()
 }
 
 // GetOperationCountOk returns a tuple with the OperationCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Ycsb) GetOperationCountOk() (*int32, bool) {
-	if o == nil || o.OperationCount == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.OperationCount, true
+	return o.OperationCount.Get(), o.OperationCount.IsSet()
 }
 
 // HasOperationCount returns a boolean if a field has been set.
 func (o *Ycsb) HasOperationCount() bool {
-	return o != nil && o.OperationCount != nil
+	return o != nil && o.OperationCount.IsSet()
 }
 
-// SetOperationCount gets a reference to the given int32 and assigns it to the OperationCount field.
+// SetOperationCount gets a reference to the given common.NullableInt32 and assigns it to the OperationCount field.
 func (o *Ycsb) SetOperationCount(v int32) {
-	o.OperationCount = &v
+	o.OperationCount.Set(&v)
 }
 
-// GetReadProportion returns the ReadProportion field value if set, zero value otherwise.
+// SetOperationCountNil sets the value for OperationCount to be an explicit nil.
+func (o *Ycsb) SetOperationCountNil() {
+	o.OperationCount.Set(nil)
+}
+
+// UnsetOperationCount ensures that no value is present for OperationCount, not even an explicit nil.
+func (o *Ycsb) UnsetOperationCount() {
+	o.OperationCount.Unset()
+}
+
+// GetReadProportion returns the ReadProportion field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Ycsb) GetReadProportion() int32 {
-	if o == nil || o.ReadProportion == nil {
+	if o == nil || o.ReadProportion.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.ReadProportion
+	return *o.ReadProportion.Get()
 }
 
 // GetReadProportionOk returns a tuple with the ReadProportion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Ycsb) GetReadProportionOk() (*int32, bool) {
-	if o == nil || o.ReadProportion == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ReadProportion, true
+	return o.ReadProportion.Get(), o.ReadProportion.IsSet()
 }
 
 // HasReadProportion returns a boolean if a field has been set.
 func (o *Ycsb) HasReadProportion() bool {
-	return o != nil && o.ReadProportion != nil
+	return o != nil && o.ReadProportion.IsSet()
 }
 
-// SetReadProportion gets a reference to the given int32 and assigns it to the ReadProportion field.
+// SetReadProportion gets a reference to the given common.NullableInt32 and assigns it to the ReadProportion field.
 func (o *Ycsb) SetReadProportion(v int32) {
-	o.ReadProportion = &v
+	o.ReadProportion.Set(&v)
 }
 
-// GetUpdateProportion returns the UpdateProportion field value if set, zero value otherwise.
+// SetReadProportionNil sets the value for ReadProportion to be an explicit nil.
+func (o *Ycsb) SetReadProportionNil() {
+	o.ReadProportion.Set(nil)
+}
+
+// UnsetReadProportion ensures that no value is present for ReadProportion, not even an explicit nil.
+func (o *Ycsb) UnsetReadProportion() {
+	o.ReadProportion.Unset()
+}
+
+// GetUpdateProportion returns the UpdateProportion field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Ycsb) GetUpdateProportion() int32 {
-	if o == nil || o.UpdateProportion == nil {
+	if o == nil || o.UpdateProportion.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.UpdateProportion
+	return *o.UpdateProportion.Get()
 }
 
 // GetUpdateProportionOk returns a tuple with the UpdateProportion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Ycsb) GetUpdateProportionOk() (*int32, bool) {
-	if o == nil || o.UpdateProportion == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.UpdateProportion, true
+	return o.UpdateProportion.Get(), o.UpdateProportion.IsSet()
 }
 
 // HasUpdateProportion returns a boolean if a field has been set.
 func (o *Ycsb) HasUpdateProportion() bool {
-	return o != nil && o.UpdateProportion != nil
+	return o != nil && o.UpdateProportion.IsSet()
 }
 
-// SetUpdateProportion gets a reference to the given int32 and assigns it to the UpdateProportion field.
+// SetUpdateProportion gets a reference to the given common.NullableInt32 and assigns it to the UpdateProportion field.
 func (o *Ycsb) SetUpdateProportion(v int32) {
-	o.UpdateProportion = &v
+	o.UpdateProportion.Set(&v)
+}
+
+// SetUpdateProportionNil sets the value for UpdateProportion to be an explicit nil.
+func (o *Ycsb) SetUpdateProportionNil() {
+	o.UpdateProportion.Set(nil)
+}
+
+// UnsetUpdateProportion ensures that no value is present for UpdateProportion, not even an explicit nil.
+func (o *Ycsb) UnsetUpdateProportion() {
+	o.UpdateProportion.Unset()
 }
 
 // GetInsertProportion returns the InsertProportion field value if set, zero value otherwise.
@@ -594,32 +638,43 @@ func (o *Ycsb) SetScanProportion(v int32) {
 	o.ScanProportion = &v
 }
 
-// GetThreads returns the Threads field value if set, zero value otherwise.
+// GetThreads returns the Threads field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Ycsb) GetThreads() int32 {
-	if o == nil || o.Threads == nil {
+	if o == nil || o.Threads.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Threads
+	return *o.Threads.Get()
 }
 
 // GetThreadsOk returns a tuple with the Threads field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Ycsb) GetThreadsOk() (*int32, bool) {
-	if o == nil || o.Threads == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Threads, true
+	return o.Threads.Get(), o.Threads.IsSet()
 }
 
 // HasThreads returns a boolean if a field has been set.
 func (o *Ycsb) HasThreads() bool {
-	return o != nil && o.Threads != nil
+	return o != nil && o.Threads.IsSet()
 }
 
-// SetThreads gets a reference to the given int32 and assigns it to the Threads field.
+// SetThreads gets a reference to the given common.NullableInt32 and assigns it to the Threads field.
 func (o *Ycsb) SetThreads(v int32) {
-	o.Threads = &v
+	o.Threads.Set(&v)
+}
+
+// SetThreadsNil sets the value for Threads to be an explicit nil.
+func (o *Ycsb) SetThreadsNil() {
+	o.Threads.Set(nil)
+}
+
+// UnsetThreads ensures that no value is present for Threads, not even an explicit nil.
+func (o *Ycsb) UnsetThreads() {
+	o.Threads.Unset()
 }
 
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
@@ -793,17 +848,17 @@ func (o Ycsb) MarshalJSON() ([]byte, error) {
 	toSerialize["username"] = o.Username
 	toSerialize["password"] = o.Password
 	toSerialize["address"] = o.Address
-	if o.RecordCount != nil {
-		toSerialize["recordCount"] = o.RecordCount
+	if o.RecordCount.IsSet() {
+		toSerialize["recordCount"] = o.RecordCount.Get()
 	}
-	if o.OperationCount != nil {
-		toSerialize["operationCount"] = o.OperationCount
+	if o.OperationCount.IsSet() {
+		toSerialize["operationCount"] = o.OperationCount.Get()
 	}
-	if o.ReadProportion != nil {
-		toSerialize["readProportion"] = o.ReadProportion
+	if o.ReadProportion.IsSet() {
+		toSerialize["readProportion"] = o.ReadProportion.Get()
 	}
-	if o.UpdateProportion != nil {
-		toSerialize["updateProportion"] = o.UpdateProportion
+	if o.UpdateProportion.IsSet() {
+		toSerialize["updateProportion"] = o.UpdateProportion.Get()
 	}
 	if o.InsertProportion != nil {
 		toSerialize["insertProportion"] = o.InsertProportion
@@ -814,8 +869,8 @@ func (o Ycsb) MarshalJSON() ([]byte, error) {
 	if o.ScanProportion != nil {
 		toSerialize["scanProportion"] = o.ScanProportion
 	}
-	if o.Threads != nil {
-		toSerialize["threads"] = o.Threads
+	if o.Threads.IsSet() {
+		toSerialize["threads"] = o.Threads.Get()
 	}
 	if o.ExtraArgs != nil {
 		toSerialize["extraArgs"] = o.ExtraArgs
@@ -842,30 +897,30 @@ func (o Ycsb) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Ycsb) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step                      *YcsbStep      `json:"step,omitempty"`
-		LimitCpu                  *string        `json:"limitCpu,omitempty"`
-		LimitMemory               *string        `json:"limitMemory,omitempty"`
-		RequestCpu                *string        `json:"requestCpu,omitempty"`
-		RequestMemory             *string        `json:"requestMemory,omitempty"`
-		Name                      *string        `json:"name,omitempty"`
-		Database                  *string        `json:"database,omitempty"`
-		Cluster                   *string        `json:"cluster"`
-		Username                  *string        `json:"username"`
-		Password                  *string        `json:"password"`
-		Address                   *string        `json:"address"`
-		RecordCount               *int32         `json:"recordCount,omitempty"`
-		OperationCount            *int32         `json:"operationCount,omitempty"`
-		ReadProportion            *int32         `json:"readProportion,omitempty"`
-		UpdateProportion          *int32         `json:"updateProportion,omitempty"`
-		InsertProportion          *int32         `json:"insertProportion,omitempty"`
-		ReadModifyWriteProportion *int32         `json:"readModifyWriteProportion,omitempty"`
-		ScanProportion            *int32         `json:"scanProportion,omitempty"`
-		Threads                   *int32         `json:"threads,omitempty"`
-		ExtraArgs                 *string        `json:"extraArgs,omitempty"`
-		RedisMode                 *YcsbRedisMode `json:"redisMode,omitempty"`
-		RedisSentinelMaster       *string        `json:"redisSentinelMaster,omitempty"`
-		RedisSentinelUsername     *string        `json:"redisSentinelUsername,omitempty"`
-		RedisSentinelPassword     *string        `json:"redisSentinelPassword,omitempty"`
+		Step                      *YcsbStep            `json:"step,omitempty"`
+		LimitCpu                  *string              `json:"limitCpu,omitempty"`
+		LimitMemory               *string              `json:"limitMemory,omitempty"`
+		RequestCpu                *string              `json:"requestCpu,omitempty"`
+		RequestMemory             *string              `json:"requestMemory,omitempty"`
+		Name                      *string              `json:"name,omitempty"`
+		Database                  *string              `json:"database,omitempty"`
+		Cluster                   *string              `json:"cluster"`
+		Username                  *string              `json:"username"`
+		Password                  *string              `json:"password"`
+		Address                   *string              `json:"address"`
+		RecordCount               common.NullableInt32 `json:"recordCount,omitempty"`
+		OperationCount            common.NullableInt32 `json:"operationCount,omitempty"`
+		ReadProportion            common.NullableInt32 `json:"readProportion,omitempty"`
+		UpdateProportion          common.NullableInt32 `json:"updateProportion,omitempty"`
+		InsertProportion          *int32               `json:"insertProportion,omitempty"`
+		ReadModifyWriteProportion *int32               `json:"readModifyWriteProportion,omitempty"`
+		ScanProportion            *int32               `json:"scanProportion,omitempty"`
+		Threads                   common.NullableInt32 `json:"threads,omitempty"`
+		ExtraArgs                 *string              `json:"extraArgs,omitempty"`
+		RedisMode                 *YcsbRedisMode       `json:"redisMode,omitempty"`
+		RedisSentinelMaster       *string              `json:"redisSentinelMaster,omitempty"`
+		RedisSentinelUsername     *string              `json:"redisSentinelUsername,omitempty"`
+		RedisSentinelPassword     *string              `json:"redisSentinelPassword,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

@@ -25,7 +25,7 @@ type Storage struct {
 	// User who created the storage
 	CreatedBy *time.Time `json:"createdBy,omitempty"`
 	// the id of cluster that storage used
-	ClusterId *string `json:"clusterID,omitempty"`
+	ClusterId common.NullableString `json:"clusterID,omitempty"`
 	// User who updated the storage
 	UpdatedBy *time.Time `json:"updatedBy,omitempty"`
 	// the tags for the storage
@@ -220,32 +220,43 @@ func (o *Storage) SetCreatedBy(v time.Time) {
 	o.CreatedBy = &v
 }
 
-// GetClusterId returns the ClusterId field value if set, zero value otherwise.
+// GetClusterId returns the ClusterId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Storage) GetClusterId() string {
-	if o == nil || o.ClusterId == nil {
+	if o == nil || o.ClusterId.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClusterId
+	return *o.ClusterId.Get()
 }
 
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Storage) GetClusterIdOk() (*string, bool) {
-	if o == nil || o.ClusterId == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ClusterId, true
+	return o.ClusterId.Get(), o.ClusterId.IsSet()
 }
 
 // HasClusterId returns a boolean if a field has been set.
 func (o *Storage) HasClusterId() bool {
-	return o != nil && o.ClusterId != nil
+	return o != nil && o.ClusterId.IsSet()
 }
 
-// SetClusterId gets a reference to the given string and assigns it to the ClusterId field.
+// SetClusterId gets a reference to the given common.NullableString and assigns it to the ClusterId field.
 func (o *Storage) SetClusterId(v string) {
-	o.ClusterId = &v
+	o.ClusterId.Set(&v)
+}
+
+// SetClusterIdNil sets the value for ClusterId to be an explicit nil.
+func (o *Storage) SetClusterIdNil() {
+	o.ClusterId.Set(nil)
+}
+
+// UnsetClusterId ensures that no value is present for ClusterId, not even an explicit nil.
+func (o *Storage) UnsetClusterId() {
+	o.ClusterId.Unset()
 }
 
 // GetUpdatedBy returns the UpdatedBy field value if set, zero value otherwise.
@@ -332,8 +343,8 @@ func (o Storage) MarshalJSON() ([]byte, error) {
 			toSerialize["createdBy"] = o.CreatedBy.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.ClusterId != nil {
-		toSerialize["clusterID"] = o.ClusterId
+	if o.ClusterId.IsSet() {
+		toSerialize["clusterID"] = o.ClusterId.Get()
 	}
 	if o.UpdatedBy != nil {
 		if o.UpdatedBy.Nanosecond() == 0 {
@@ -355,15 +366,15 @@ func (o Storage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Storage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id              *string           `json:"id,omitempty"`
-		Name            *string           `json:"name,omitempty"`
-		StorageProvider *string           `json:"storageProvider,omitempty"`
-		Params          map[string]string `json:"params,omitempty"`
-		EnvName         *string           `json:"envName,omitempty"`
-		CreatedBy       *time.Time        `json:"createdBy,omitempty"`
-		ClusterId       *string           `json:"clusterID,omitempty"`
-		UpdatedBy       *time.Time        `json:"updatedBy,omitempty"`
-		Tags            map[string]string `json:"tags,omitempty"`
+		Id              *string               `json:"id,omitempty"`
+		Name            *string               `json:"name,omitempty"`
+		StorageProvider *string               `json:"storageProvider,omitempty"`
+		Params          map[string]string     `json:"params,omitempty"`
+		EnvName         *string               `json:"envName,omitempty"`
+		CreatedBy       *time.Time            `json:"createdBy,omitempty"`
+		ClusterId       common.NullableString `json:"clusterID,omitempty"`
+		UpdatedBy       *time.Time            `json:"updatedBy,omitempty"`
+		Tags            map[string]string     `json:"tags,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
