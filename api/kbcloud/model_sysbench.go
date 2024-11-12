@@ -29,19 +29,19 @@ type Sysbench struct {
 	// the database name
 	Database string `json:"database"`
 	// Number of threads to use
-	Threads *int32 `json:"threads,omitempty"`
+	Threads common.NullableInt32 `json:"threads,omitempty"`
 	// the seconds of test duration
-	Duration *int32 `json:"duration,omitempty"`
+	Duration common.NullableInt32 `json:"duration,omitempty"`
 	// Number of rows per table
-	TableSize *int32 `json:"tableSize,omitempty"`
+	TableSize common.NullableInt32 `json:"tableSize,omitempty"`
 	// Number of tables
-	TableNum *int32 `json:"tableNum,omitempty"`
+	TableNum common.NullableInt32 `json:"tableNum,omitempty"`
 	// Test type for sysbench
 	TestType *SysbenchTestType `json:"testType,omitempty"`
 	// Percentage of reads, only used for oltp_read_write_pct
-	ReadPercent *int32 `json:"readPercent,omitempty"`
+	ReadPercent common.NullableInt32 `json:"readPercent,omitempty"`
 	// Percentage of writes, only used for oltp_read_write_pct
-	WritePercent *int32 `json:"writePercent,omitempty"`
+	WritePercent common.NullableInt32 `json:"writePercent,omitempty"`
 	// Username for database
 	Username string `json:"username"`
 	// Password for database
@@ -315,116 +315,160 @@ func (o *Sysbench) SetDatabase(v string) {
 	o.Database = v
 }
 
-// GetThreads returns the Threads field value if set, zero value otherwise.
+// GetThreads returns the Threads field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Sysbench) GetThreads() int32 {
-	if o == nil || o.Threads == nil {
+	if o == nil || o.Threads.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Threads
+	return *o.Threads.Get()
 }
 
 // GetThreadsOk returns a tuple with the Threads field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Sysbench) GetThreadsOk() (*int32, bool) {
-	if o == nil || o.Threads == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Threads, true
+	return o.Threads.Get(), o.Threads.IsSet()
 }
 
 // HasThreads returns a boolean if a field has been set.
 func (o *Sysbench) HasThreads() bool {
-	return o != nil && o.Threads != nil
+	return o != nil && o.Threads.IsSet()
 }
 
-// SetThreads gets a reference to the given int32 and assigns it to the Threads field.
+// SetThreads gets a reference to the given common.NullableInt32 and assigns it to the Threads field.
 func (o *Sysbench) SetThreads(v int32) {
-	o.Threads = &v
+	o.Threads.Set(&v)
 }
 
-// GetDuration returns the Duration field value if set, zero value otherwise.
+// SetThreadsNil sets the value for Threads to be an explicit nil.
+func (o *Sysbench) SetThreadsNil() {
+	o.Threads.Set(nil)
+}
+
+// UnsetThreads ensures that no value is present for Threads, not even an explicit nil.
+func (o *Sysbench) UnsetThreads() {
+	o.Threads.Unset()
+}
+
+// GetDuration returns the Duration field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Sysbench) GetDuration() int32 {
-	if o == nil || o.Duration == nil {
+	if o == nil || o.Duration.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Duration
+	return *o.Duration.Get()
 }
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Sysbench) GetDurationOk() (*int32, bool) {
-	if o == nil || o.Duration == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Duration, true
+	return o.Duration.Get(), o.Duration.IsSet()
 }
 
 // HasDuration returns a boolean if a field has been set.
 func (o *Sysbench) HasDuration() bool {
-	return o != nil && o.Duration != nil
+	return o != nil && o.Duration.IsSet()
 }
 
-// SetDuration gets a reference to the given int32 and assigns it to the Duration field.
+// SetDuration gets a reference to the given common.NullableInt32 and assigns it to the Duration field.
 func (o *Sysbench) SetDuration(v int32) {
-	o.Duration = &v
+	o.Duration.Set(&v)
 }
 
-// GetTableSize returns the TableSize field value if set, zero value otherwise.
+// SetDurationNil sets the value for Duration to be an explicit nil.
+func (o *Sysbench) SetDurationNil() {
+	o.Duration.Set(nil)
+}
+
+// UnsetDuration ensures that no value is present for Duration, not even an explicit nil.
+func (o *Sysbench) UnsetDuration() {
+	o.Duration.Unset()
+}
+
+// GetTableSize returns the TableSize field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Sysbench) GetTableSize() int32 {
-	if o == nil || o.TableSize == nil {
+	if o == nil || o.TableSize.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.TableSize
+	return *o.TableSize.Get()
 }
 
 // GetTableSizeOk returns a tuple with the TableSize field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Sysbench) GetTableSizeOk() (*int32, bool) {
-	if o == nil || o.TableSize == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TableSize, true
+	return o.TableSize.Get(), o.TableSize.IsSet()
 }
 
 // HasTableSize returns a boolean if a field has been set.
 func (o *Sysbench) HasTableSize() bool {
-	return o != nil && o.TableSize != nil
+	return o != nil && o.TableSize.IsSet()
 }
 
-// SetTableSize gets a reference to the given int32 and assigns it to the TableSize field.
+// SetTableSize gets a reference to the given common.NullableInt32 and assigns it to the TableSize field.
 func (o *Sysbench) SetTableSize(v int32) {
-	o.TableSize = &v
+	o.TableSize.Set(&v)
 }
 
-// GetTableNum returns the TableNum field value if set, zero value otherwise.
+// SetTableSizeNil sets the value for TableSize to be an explicit nil.
+func (o *Sysbench) SetTableSizeNil() {
+	o.TableSize.Set(nil)
+}
+
+// UnsetTableSize ensures that no value is present for TableSize, not even an explicit nil.
+func (o *Sysbench) UnsetTableSize() {
+	o.TableSize.Unset()
+}
+
+// GetTableNum returns the TableNum field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Sysbench) GetTableNum() int32 {
-	if o == nil || o.TableNum == nil {
+	if o == nil || o.TableNum.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.TableNum
+	return *o.TableNum.Get()
 }
 
 // GetTableNumOk returns a tuple with the TableNum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Sysbench) GetTableNumOk() (*int32, bool) {
-	if o == nil || o.TableNum == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TableNum, true
+	return o.TableNum.Get(), o.TableNum.IsSet()
 }
 
 // HasTableNum returns a boolean if a field has been set.
 func (o *Sysbench) HasTableNum() bool {
-	return o != nil && o.TableNum != nil
+	return o != nil && o.TableNum.IsSet()
 }
 
-// SetTableNum gets a reference to the given int32 and assigns it to the TableNum field.
+// SetTableNum gets a reference to the given common.NullableInt32 and assigns it to the TableNum field.
 func (o *Sysbench) SetTableNum(v int32) {
-	o.TableNum = &v
+	o.TableNum.Set(&v)
+}
+
+// SetTableNumNil sets the value for TableNum to be an explicit nil.
+func (o *Sysbench) SetTableNumNil() {
+	o.TableNum.Set(nil)
+}
+
+// UnsetTableNum ensures that no value is present for TableNum, not even an explicit nil.
+func (o *Sysbench) UnsetTableNum() {
+	o.TableNum.Unset()
 }
 
 // GetTestType returns the TestType field value if set, zero value otherwise.
@@ -455,60 +499,82 @@ func (o *Sysbench) SetTestType(v SysbenchTestType) {
 	o.TestType = &v
 }
 
-// GetReadPercent returns the ReadPercent field value if set, zero value otherwise.
+// GetReadPercent returns the ReadPercent field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Sysbench) GetReadPercent() int32 {
-	if o == nil || o.ReadPercent == nil {
+	if o == nil || o.ReadPercent.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.ReadPercent
+	return *o.ReadPercent.Get()
 }
 
 // GetReadPercentOk returns a tuple with the ReadPercent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Sysbench) GetReadPercentOk() (*int32, bool) {
-	if o == nil || o.ReadPercent == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ReadPercent, true
+	return o.ReadPercent.Get(), o.ReadPercent.IsSet()
 }
 
 // HasReadPercent returns a boolean if a field has been set.
 func (o *Sysbench) HasReadPercent() bool {
-	return o != nil && o.ReadPercent != nil
+	return o != nil && o.ReadPercent.IsSet()
 }
 
-// SetReadPercent gets a reference to the given int32 and assigns it to the ReadPercent field.
+// SetReadPercent gets a reference to the given common.NullableInt32 and assigns it to the ReadPercent field.
 func (o *Sysbench) SetReadPercent(v int32) {
-	o.ReadPercent = &v
+	o.ReadPercent.Set(&v)
 }
 
-// GetWritePercent returns the WritePercent field value if set, zero value otherwise.
+// SetReadPercentNil sets the value for ReadPercent to be an explicit nil.
+func (o *Sysbench) SetReadPercentNil() {
+	o.ReadPercent.Set(nil)
+}
+
+// UnsetReadPercent ensures that no value is present for ReadPercent, not even an explicit nil.
+func (o *Sysbench) UnsetReadPercent() {
+	o.ReadPercent.Unset()
+}
+
+// GetWritePercent returns the WritePercent field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Sysbench) GetWritePercent() int32 {
-	if o == nil || o.WritePercent == nil {
+	if o == nil || o.WritePercent.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.WritePercent
+	return *o.WritePercent.Get()
 }
 
 // GetWritePercentOk returns a tuple with the WritePercent field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Sysbench) GetWritePercentOk() (*int32, bool) {
-	if o == nil || o.WritePercent == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.WritePercent, true
+	return o.WritePercent.Get(), o.WritePercent.IsSet()
 }
 
 // HasWritePercent returns a boolean if a field has been set.
 func (o *Sysbench) HasWritePercent() bool {
-	return o != nil && o.WritePercent != nil
+	return o != nil && o.WritePercent.IsSet()
 }
 
-// SetWritePercent gets a reference to the given int32 and assigns it to the WritePercent field.
+// SetWritePercent gets a reference to the given common.NullableInt32 and assigns it to the WritePercent field.
 func (o *Sysbench) SetWritePercent(v int32) {
-	o.WritePercent = &v
+	o.WritePercent.Set(&v)
+}
+
+// SetWritePercentNil sets the value for WritePercent to be an explicit nil.
+func (o *Sysbench) SetWritePercentNil() {
+	o.WritePercent.Set(nil)
+}
+
+// UnsetWritePercent ensures that no value is present for WritePercent, not even an explicit nil.
+func (o *Sysbench) UnsetWritePercent() {
+	o.WritePercent.Unset()
 }
 
 // GetUsername returns the Username field value.
@@ -634,26 +700,26 @@ func (o Sysbench) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["cluster"] = o.Cluster
 	toSerialize["database"] = o.Database
-	if o.Threads != nil {
-		toSerialize["threads"] = o.Threads
+	if o.Threads.IsSet() {
+		toSerialize["threads"] = o.Threads.Get()
 	}
-	if o.Duration != nil {
-		toSerialize["duration"] = o.Duration
+	if o.Duration.IsSet() {
+		toSerialize["duration"] = o.Duration.Get()
 	}
-	if o.TableSize != nil {
-		toSerialize["tableSize"] = o.TableSize
+	if o.TableSize.IsSet() {
+		toSerialize["tableSize"] = o.TableSize.Get()
 	}
-	if o.TableNum != nil {
-		toSerialize["tableNum"] = o.TableNum
+	if o.TableNum.IsSet() {
+		toSerialize["tableNum"] = o.TableNum.Get()
 	}
 	if o.TestType != nil {
 		toSerialize["testType"] = o.TestType
 	}
-	if o.ReadPercent != nil {
-		toSerialize["readPercent"] = o.ReadPercent
+	if o.ReadPercent.IsSet() {
+		toSerialize["readPercent"] = o.ReadPercent.Get()
 	}
-	if o.WritePercent != nil {
-		toSerialize["writePercent"] = o.WritePercent
+	if o.WritePercent.IsSet() {
+		toSerialize["writePercent"] = o.WritePercent.Get()
 	}
 	toSerialize["username"] = o.Username
 	toSerialize["password"] = o.Password
@@ -671,25 +737,25 @@ func (o Sysbench) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Sysbench) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step          *SysbenchStep     `json:"step,omitempty"`
-		LimitCpu      *string           `json:"limitCpu,omitempty"`
-		LimitMemory   *string           `json:"limitMemory,omitempty"`
-		RequestCpu    *string           `json:"requestCpu,omitempty"`
-		RequestMemory *string           `json:"requestMemory,omitempty"`
-		Name          *string           `json:"name,omitempty"`
-		Cluster       *string           `json:"cluster"`
-		Database      *string           `json:"database"`
-		Threads       *int32            `json:"threads,omitempty"`
-		Duration      *int32            `json:"duration,omitempty"`
-		TableSize     *int32            `json:"tableSize,omitempty"`
-		TableNum      *int32            `json:"tableNum,omitempty"`
-		TestType      *SysbenchTestType `json:"testType,omitempty"`
-		ReadPercent   *int32            `json:"readPercent,omitempty"`
-		WritePercent  *int32            `json:"writePercent,omitempty"`
-		Username      *string           `json:"username"`
-		Password      *string           `json:"password"`
-		Address       *string           `json:"address"`
-		ExtraArgs     *string           `json:"extraArgs,omitempty"`
+		Step          *SysbenchStep        `json:"step,omitempty"`
+		LimitCpu      *string              `json:"limitCpu,omitempty"`
+		LimitMemory   *string              `json:"limitMemory,omitempty"`
+		RequestCpu    *string              `json:"requestCpu,omitempty"`
+		RequestMemory *string              `json:"requestMemory,omitempty"`
+		Name          *string              `json:"name,omitempty"`
+		Cluster       *string              `json:"cluster"`
+		Database      *string              `json:"database"`
+		Threads       common.NullableInt32 `json:"threads,omitempty"`
+		Duration      common.NullableInt32 `json:"duration,omitempty"`
+		TableSize     common.NullableInt32 `json:"tableSize,omitempty"`
+		TableNum      common.NullableInt32 `json:"tableNum,omitempty"`
+		TestType      *SysbenchTestType    `json:"testType,omitempty"`
+		ReadPercent   common.NullableInt32 `json:"readPercent,omitempty"`
+		WritePercent  common.NullableInt32 `json:"writePercent,omitempty"`
+		Username      *string              `json:"username"`
+		Password      *string              `json:"password"`
+		Address       *string              `json:"address"`
+		ExtraArgs     *string              `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

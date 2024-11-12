@@ -16,6 +16,8 @@ type TagUpdate struct {
 	Key string `json:"key"`
 	// the value corresponding th the key
 	Value string `json:"value"`
+	// the id of the tag
+	Id int64 `json:"id"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,10 +27,11 @@ type TagUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTagUpdate(key string, value string) *TagUpdate {
+func NewTagUpdate(key string, value string, id int64) *TagUpdate {
 	this := TagUpdate{}
 	this.Key = key
 	this.Value = value
+	this.Id = id
 	return &this
 }
 
@@ -86,6 +89,29 @@ func (o *TagUpdate) SetValue(v string) {
 	o.Value = v
 }
 
+// GetId returns the Id field value.
+func (o *TagUpdate) GetId() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+	return o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value
+// and a boolean to check if the value has been set.
+func (o *TagUpdate) GetIdOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Id, true
+}
+
+// SetId sets field value.
+func (o *TagUpdate) SetId(v int64) {
+	o.Id = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o TagUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -94,6 +120,7 @@ func (o TagUpdate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["key"] = o.Key
 	toSerialize["value"] = o.Value
+	toSerialize["id"] = o.Id
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -106,6 +133,7 @@ func (o *TagUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Key   *string `json:"key"`
 		Value *string `json:"value"`
+		Id    *int64  `json:"id"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -116,14 +144,18 @@ func (o *TagUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Value == nil {
 		return fmt.Errorf("required field value missing")
 	}
+	if all.Id == nil {
+		return fmt.Errorf("required field id missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"key", "value"})
+		common.DeleteKeys(additionalProperties, &[]string{"key", "value", "id"})
 	} else {
 		return err
 	}
 	o.Key = *all.Key
 	o.Value = *all.Value
+	o.Id = *all.Id
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

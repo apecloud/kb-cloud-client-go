@@ -4,18 +4,22 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // RestoreStatus restore status
 type RestoreStatus struct {
 	Actions []RestoreStatusActionsItem `json:"actions,omitempty"`
 	// completion time
-	CompletionTimestamp *string                       `json:"completionTimestamp,omitempty"`
+	CompletionTimestamp *time.Time                    `json:"completionTimestamp,omitempty"`
 	Conditions          []RestoreStatusConditionsItem `json:"conditions,omitempty"`
 	// restore phase
 	Phase *string `json:"phase,omitempty"`
 	// start time
-	StartTimestamp *string `json:"startTimestamp,omitempty"`
+	StartTimestamp *time.Time `json:"startTimestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -67,9 +71,9 @@ func (o *RestoreStatus) SetActions(v []RestoreStatusActionsItem) {
 }
 
 // GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
-func (o *RestoreStatus) GetCompletionTimestamp() string {
+func (o *RestoreStatus) GetCompletionTimestamp() time.Time {
 	if o == nil || o.CompletionTimestamp == nil {
-		var ret string
+		var ret time.Time
 		return ret
 	}
 	return *o.CompletionTimestamp
@@ -77,7 +81,7 @@ func (o *RestoreStatus) GetCompletionTimestamp() string {
 
 // GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RestoreStatus) GetCompletionTimestampOk() (*string, bool) {
+func (o *RestoreStatus) GetCompletionTimestampOk() (*time.Time, bool) {
 	if o == nil || o.CompletionTimestamp == nil {
 		return nil, false
 	}
@@ -89,8 +93,8 @@ func (o *RestoreStatus) HasCompletionTimestamp() bool {
 	return o != nil && o.CompletionTimestamp != nil
 }
 
-// SetCompletionTimestamp gets a reference to the given string and assigns it to the CompletionTimestamp field.
-func (o *RestoreStatus) SetCompletionTimestamp(v string) {
+// SetCompletionTimestamp gets a reference to the given time.Time and assigns it to the CompletionTimestamp field.
+func (o *RestoreStatus) SetCompletionTimestamp(v time.Time) {
 	o.CompletionTimestamp = &v
 }
 
@@ -151,9 +155,9 @@ func (o *RestoreStatus) SetPhase(v string) {
 }
 
 // GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
-func (o *RestoreStatus) GetStartTimestamp() string {
+func (o *RestoreStatus) GetStartTimestamp() time.Time {
 	if o == nil || o.StartTimestamp == nil {
-		var ret string
+		var ret time.Time
 		return ret
 	}
 	return *o.StartTimestamp
@@ -161,7 +165,7 @@ func (o *RestoreStatus) GetStartTimestamp() string {
 
 // GetStartTimestampOk returns a tuple with the StartTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RestoreStatus) GetStartTimestampOk() (*string, bool) {
+func (o *RestoreStatus) GetStartTimestampOk() (*time.Time, bool) {
 	if o == nil || o.StartTimestamp == nil {
 		return nil, false
 	}
@@ -173,8 +177,8 @@ func (o *RestoreStatus) HasStartTimestamp() bool {
 	return o != nil && o.StartTimestamp != nil
 }
 
-// SetStartTimestamp gets a reference to the given string and assigns it to the StartTimestamp field.
-func (o *RestoreStatus) SetStartTimestamp(v string) {
+// SetStartTimestamp gets a reference to the given time.Time and assigns it to the StartTimestamp field.
+func (o *RestoreStatus) SetStartTimestamp(v time.Time) {
 	o.StartTimestamp = &v
 }
 
@@ -188,7 +192,11 @@ func (o RestoreStatus) MarshalJSON() ([]byte, error) {
 		toSerialize["actions"] = o.Actions
 	}
 	if o.CompletionTimestamp != nil {
-		toSerialize["completionTimestamp"] = o.CompletionTimestamp
+		if o.CompletionTimestamp.Nanosecond() == 0 {
+			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
+		}
 	}
 	if o.Conditions != nil {
 		toSerialize["conditions"] = o.Conditions
@@ -197,7 +205,11 @@ func (o RestoreStatus) MarshalJSON() ([]byte, error) {
 		toSerialize["phase"] = o.Phase
 	}
 	if o.StartTimestamp != nil {
-		toSerialize["startTimestamp"] = o.StartTimestamp
+		if o.StartTimestamp.Nanosecond() == 0 {
+			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
+		}
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -210,10 +222,10 @@ func (o RestoreStatus) MarshalJSON() ([]byte, error) {
 func (o *RestoreStatus) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Actions             []RestoreStatusActionsItem    `json:"actions,omitempty"`
-		CompletionTimestamp *string                       `json:"completionTimestamp,omitempty"`
+		CompletionTimestamp *time.Time                    `json:"completionTimestamp,omitempty"`
 		Conditions          []RestoreStatusConditionsItem `json:"conditions,omitempty"`
 		Phase               *string                       `json:"phase,omitempty"`
-		StartTimestamp      *string                       `json:"startTimestamp,omitempty"`
+		StartTimestamp      *time.Time                    `json:"startTimestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

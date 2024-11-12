@@ -4,13 +4,20 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type RestoreStatusConditionsItem struct {
 	Message *string `json:"message,omitempty"`
 	Reason  *string `json:"reason,omitempty"`
 	// conditionType
-	Type *string `json:"type,omitempty"`
+	Type               *string    `json:"type,omitempty"`
+	ObservedGeneration *int64     `json:"observedGeneration,omitempty"`
+	LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
+	Status             *string    `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -117,6 +124,90 @@ func (o *RestoreStatusConditionsItem) SetType(v string) {
 	o.Type = &v
 }
 
+// GetObservedGeneration returns the ObservedGeneration field value if set, zero value otherwise.
+func (o *RestoreStatusConditionsItem) GetObservedGeneration() int64 {
+	if o == nil || o.ObservedGeneration == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ObservedGeneration
+}
+
+// GetObservedGenerationOk returns a tuple with the ObservedGeneration field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RestoreStatusConditionsItem) GetObservedGenerationOk() (*int64, bool) {
+	if o == nil || o.ObservedGeneration == nil {
+		return nil, false
+	}
+	return o.ObservedGeneration, true
+}
+
+// HasObservedGeneration returns a boolean if a field has been set.
+func (o *RestoreStatusConditionsItem) HasObservedGeneration() bool {
+	return o != nil && o.ObservedGeneration != nil
+}
+
+// SetObservedGeneration gets a reference to the given int64 and assigns it to the ObservedGeneration field.
+func (o *RestoreStatusConditionsItem) SetObservedGeneration(v int64) {
+	o.ObservedGeneration = &v
+}
+
+// GetLastTransitionTime returns the LastTransitionTime field value if set, zero value otherwise.
+func (o *RestoreStatusConditionsItem) GetLastTransitionTime() time.Time {
+	if o == nil || o.LastTransitionTime == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.LastTransitionTime
+}
+
+// GetLastTransitionTimeOk returns a tuple with the LastTransitionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RestoreStatusConditionsItem) GetLastTransitionTimeOk() (*time.Time, bool) {
+	if o == nil || o.LastTransitionTime == nil {
+		return nil, false
+	}
+	return o.LastTransitionTime, true
+}
+
+// HasLastTransitionTime returns a boolean if a field has been set.
+func (o *RestoreStatusConditionsItem) HasLastTransitionTime() bool {
+	return o != nil && o.LastTransitionTime != nil
+}
+
+// SetLastTransitionTime gets a reference to the given time.Time and assigns it to the LastTransitionTime field.
+func (o *RestoreStatusConditionsItem) SetLastTransitionTime(v time.Time) {
+	o.LastTransitionTime = &v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *RestoreStatusConditionsItem) GetStatus() string {
+	if o == nil || o.Status == nil {
+		var ret string
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RestoreStatusConditionsItem) GetStatusOk() (*string, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *RestoreStatusConditionsItem) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *RestoreStatusConditionsItem) SetStatus(v string) {
+	o.Status = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RestoreStatusConditionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -132,6 +223,19 @@ func (o RestoreStatusConditionsItem) MarshalJSON() ([]byte, error) {
 	if o.Type != nil {
 		toSerialize["type"] = o.Type
 	}
+	if o.ObservedGeneration != nil {
+		toSerialize["observedGeneration"] = o.ObservedGeneration
+	}
+	if o.LastTransitionTime != nil {
+		if o.LastTransitionTime.Nanosecond() == 0 {
+			toSerialize["lastTransitionTime"] = o.LastTransitionTime.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["lastTransitionTime"] = o.LastTransitionTime.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -142,22 +246,28 @@ func (o RestoreStatusConditionsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RestoreStatusConditionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Message *string `json:"message,omitempty"`
-		Reason  *string `json:"reason,omitempty"`
-		Type    *string `json:"type,omitempty"`
+		Message            *string    `json:"message,omitempty"`
+		Reason             *string    `json:"reason,omitempty"`
+		Type               *string    `json:"type,omitempty"`
+		ObservedGeneration *int64     `json:"observedGeneration,omitempty"`
+		LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
+		Status             *string    `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"message", "reason", "type"})
+		common.DeleteKeys(additionalProperties, &[]string{"message", "reason", "type", "observedGeneration", "lastTransitionTime", "status"})
 	} else {
 		return err
 	}
 	o.Message = all.Message
 	o.Reason = all.Reason
 	o.Type = all.Type
+	o.ObservedGeneration = all.ObservedGeneration
+	o.LastTransitionTime = all.LastTransitionTime
+	o.Status = all.Status
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
