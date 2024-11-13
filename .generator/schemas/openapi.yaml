@@ -11791,8 +11791,6 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
-      required:
-        - nextBackupTime
       type: object
     backupList:
       description: BackupList is a list of backups

@@ -5,7 +5,6 @@
 package kbcloud
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -28,7 +27,7 @@ type BackupPolicy struct {
 	// backup retention policy when cluster is deleted
 	RetentionPolicy *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
 	// the time to do next backup
-	NextBackupTime time.Time `json:"nextBackupTime"`
+	NextBackupTime *time.Time `json:"nextBackupTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -38,13 +37,12 @@ type BackupPolicy struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupPolicy(nextBackupTime time.Time) *BackupPolicy {
+func NewBackupPolicy() *BackupPolicy {
 	this := BackupPolicy{}
 	var autoBackup bool = false
 	this.AutoBackup = &autoBackup
 	var pitrEnabled bool = false
 	this.PitrEnabled = &pitrEnabled
-	this.NextBackupTime = nextBackupTime
 	return &this
 }
 
@@ -256,27 +254,32 @@ func (o *BackupPolicy) SetRetentionPolicy(v BackupRetentionPolicy) {
 	o.RetentionPolicy = &v
 }
 
-// GetNextBackupTime returns the NextBackupTime field value.
+// GetNextBackupTime returns the NextBackupTime field value if set, zero value otherwise.
 func (o *BackupPolicy) GetNextBackupTime() time.Time {
-	if o == nil {
+	if o == nil || o.NextBackupTime == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.NextBackupTime
+	return *o.NextBackupTime
 }
 
-// GetNextBackupTimeOk returns a tuple with the NextBackupTime field value
+// GetNextBackupTimeOk returns a tuple with the NextBackupTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupPolicy) GetNextBackupTimeOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || o.NextBackupTime == nil {
 		return nil, false
 	}
-	return &o.NextBackupTime, true
+	return o.NextBackupTime, true
 }
 
-// SetNextBackupTime sets field value.
+// HasNextBackupTime returns a boolean if a field has been set.
+func (o *BackupPolicy) HasNextBackupTime() bool {
+	return o != nil && o.NextBackupTime != nil
+}
+
+// SetNextBackupTime gets a reference to the given time.Time and assigns it to the NextBackupTime field.
 func (o *BackupPolicy) SetNextBackupTime(v time.Time) {
-	o.NextBackupTime = v
+	o.NextBackupTime = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -306,10 +309,12 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	if o.RetentionPolicy != nil {
 		toSerialize["retentionPolicy"] = o.RetentionPolicy
 	}
-	if o.NextBackupTime.Nanosecond() == 0 {
-		toSerialize["nextBackupTime"] = o.NextBackupTime.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["nextBackupTime"] = o.NextBackupTime.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.NextBackupTime != nil {
+		if o.NextBackupTime.Nanosecond() == 0 {
+			toSerialize["nextBackupTime"] = o.NextBackupTime.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["nextBackupTime"] = o.NextBackupTime.Format("2006-01-02T15:04:05.000Z07:00")
+		}
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -328,13 +333,10 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		RetentionPeriod  *string                `json:"retentionPeriod,omitempty"`
 		BackupRepo       *string                `json:"backupRepo,omitempty"`
 		RetentionPolicy  *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
-		NextBackupTime   *time.Time             `json:"nextBackupTime"`
+		NextBackupTime   *time.Time             `json:"nextBackupTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.NextBackupTime == nil {
-		return fmt.Errorf("required field nextBackupTime missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -355,7 +357,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.RetentionPolicy = all.RetentionPolicy
 	}
-	o.NextBackupTime = *all.NextBackupTime
+	o.NextBackupTime = all.NextBackupTime
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
