@@ -196,6 +196,7 @@
 //   - [parameterApi.listConfigurations]
 //   - [parameterApi.listParameterSpecs]
 //   - [parameterApi.listParametersHistory]
+//   - [projectApi.listProjects]
 //   - [providerApi.getCloudProvider]
 //   - [providerApi.listCloudProviders]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]

@@ -12509,6 +12509,12 @@ components:
           type: string
           default: kubeblocks-cloud-ns
           description: Environment Namespace
+          deprecated: true
+        project:
+          title: Project
+          type: string
+          default: kubeblocks-cloud-ns
+          description: Name of project
         name:
           title: Name
           type: string
@@ -16773,8 +16779,6 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
-      required:
-        - nextBackupTime
       type: object
     backupList:
       description: BackupList is a list of backups
