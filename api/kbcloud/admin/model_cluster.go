@@ -28,7 +28,10 @@ type Cluster struct {
 	// Cloud Region
 	CloudRegion *string `json:"cloudRegion,omitempty"`
 	// Environment Namespace
+	// Deprecated
 	Namespace *string `json:"namespace,omitempty"`
+	// Name of project
+	Project *string `json:"project,omitempty"`
 	// Name of cluster. Name must be unique within an Org
 	Name string `json:"name"`
 	// Hash of cluster. Name must be unique within an Org
@@ -114,6 +117,8 @@ func NewCluster(environmentName string, name string, engine string) *Cluster {
 	this.EnvironmentName = environmentName
 	var namespace string = "kubeblocks-cloud-ns"
 	this.Namespace = &namespace
+	var project string = "kubeblocks-cloud-ns"
+	this.Project = &project
 	this.Name = name
 	this.Engine = engine
 	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
@@ -144,6 +149,8 @@ func NewClusterWithDefaults() *Cluster {
 	this := Cluster{}
 	var namespace string = "kubeblocks-cloud-ns"
 	this.Namespace = &namespace
+	var project string = "kubeblocks-cloud-ns"
+	this.Project = &project
 	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
 	var monitorEnabled bool = false
@@ -357,6 +364,7 @@ func (o *Cluster) SetCloudRegion(v string) {
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
+// Deprecated
 func (o *Cluster) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
 		var ret string
@@ -367,6 +375,7 @@ func (o *Cluster) GetNamespace() string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// Deprecated
 func (o *Cluster) GetNamespaceOk() (*string, bool) {
 	if o == nil || o.Namespace == nil {
 		return nil, false
@@ -380,8 +389,37 @@ func (o *Cluster) HasNamespace() bool {
 }
 
 // SetNamespace gets a reference to the given string and assigns it to the Namespace field.
+// Deprecated
 func (o *Cluster) SetNamespace(v string) {
 	o.Namespace = &v
+}
+
+// GetProject returns the Project field value if set, zero value otherwise.
+func (o *Cluster) GetProject() string {
+	if o == nil || o.Project == nil {
+		var ret string
+		return ret
+	}
+	return *o.Project
+}
+
+// GetProjectOk returns a tuple with the Project field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetProjectOk() (*string, bool) {
+	if o == nil || o.Project == nil {
+		return nil, false
+	}
+	return o.Project, true
+}
+
+// HasProject returns a boolean if a field has been set.
+func (o *Cluster) HasProject() bool {
+	return o != nil && o.Project != nil
+}
+
+// SetProject gets a reference to the given string and assigns it to the Project field.
+func (o *Cluster) SetProject(v string) {
+	o.Project = &v
 }
 
 // GetName returns the Name field value.
@@ -1421,6 +1459,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.Namespace != nil {
 		toSerialize["namespace"] = o.Namespace
 	}
+	if o.Project != nil {
+		toSerialize["project"] = o.Project
+	}
 	toSerialize["name"] = o.Name
 	if o.Hash != nil {
 		toSerialize["hash"] = o.Hash
@@ -1551,6 +1592,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		EnvironmentType         *string                   `json:"environmentType,omitempty"`
 		CloudRegion             *string                   `json:"cloudRegion,omitempty"`
 		Namespace               *string                   `json:"namespace,omitempty"`
+		Project                 *string                   `json:"project,omitempty"`
 		Name                    *string                   `json:"name"`
 		Hash                    *string                   `json:"hash,omitempty"`
 		Engine                  *string                   `json:"engine"`
@@ -1602,7 +1644,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
 	} else {
 		return err
 	}
@@ -1616,6 +1658,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentType = all.EnvironmentType
 	o.CloudRegion = all.CloudRegion
 	o.Namespace = all.Namespace
+	o.Project = all.Project
 	o.Name = *all.Name
 	o.Hash = all.Hash
 	o.Engine = *all.Engine

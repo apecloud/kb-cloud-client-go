@@ -111,6 +111,8 @@ tags:
     description: Feature APIs
   - name: recycleBinCluster
     description: Cluster In Recycle Bin APIs
+  - name: project
+    description: Project APIs
 paths:
   /api/v1/user:
     get:
@@ -8773,6 +8775,34 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/environments/{environmentName}/projects:
+    get:
+      tags:
+        - project
+      operationId: listProjects
+      summary: List projects in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          description: environment name
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/projectList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -10395,6 +10425,12 @@ components:
           type: string
           default: kubeblocks-cloud-ns
           description: Environment Namespace
+          deprecated: true
+        project:
+          title: Project
+          type: string
+          default: kubeblocks-cloud-ns
+          description: Name of project
         name:
           title: Name
           type: string
@@ -11791,8 +11827,6 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
-      required:
-        - nextBackupTime
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -15089,6 +15123,33 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
+    projectItem:
+      description: Project item.
+      type: object
+      required:
+        - name
+        - createdAt
+        - clusterTotal
+      properties:
+        name:
+          type: string
+          description: The namee of the project.
+        clusterTotal:
+          type: integer
+          description: The total number of clusters in the project.
+        createdAt:
+          type: string
+          format: date-time
+          description: The time the project was created.
+    projectList:
+      description: Project list.
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/projectItem'
+          description: The list of projects.
   responses:
     '400':
       content:
@@ -15153,6 +15214,9 @@ x-tagGroups:
       - invitation
       - member
       - role
+  - name: Project
+    tags:
+      - project
   - name: Environment
     tags:
       - environment
