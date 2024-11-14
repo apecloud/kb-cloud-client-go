@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type QueryHistory struct {
+type DmsQueryHistory struct {
 	// executed sql statements
 	Sql *string `json:"sql,omitempty"`
 	// sql executed massage
@@ -24,25 +24,25 @@ type QueryHistory struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewQueryHistory instantiates a new QueryHistory object.
+// NewDmsQueryHistory instantiates a new DmsQueryHistory object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewQueryHistory() *QueryHistory {
-	this := QueryHistory{}
+func NewDmsQueryHistory() *DmsQueryHistory {
+	this := DmsQueryHistory{}
 	return &this
 }
 
-// NewQueryHistoryWithDefaults instantiates a new QueryHistory object.
+// NewDmsQueryHistoryWithDefaults instantiates a new DmsQueryHistory object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewQueryHistoryWithDefaults() *QueryHistory {
-	this := QueryHistory{}
+func NewDmsQueryHistoryWithDefaults() *DmsQueryHistory {
+	this := DmsQueryHistory{}
 	return &this
 }
 
 // GetSql returns the Sql field value if set, zero value otherwise.
-func (o *QueryHistory) GetSql() string {
+func (o *DmsQueryHistory) GetSql() string {
 	if o == nil || o.Sql == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *QueryHistory) GetSql() string {
 
 // GetSqlOk returns a tuple with the Sql field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *QueryHistory) GetSqlOk() (*string, bool) {
+func (o *DmsQueryHistory) GetSqlOk() (*string, bool) {
 	if o == nil || o.Sql == nil {
 		return nil, false
 	}
@@ -60,17 +60,17 @@ func (o *QueryHistory) GetSqlOk() (*string, bool) {
 }
 
 // HasSql returns a boolean if a field has been set.
-func (o *QueryHistory) HasSql() bool {
+func (o *DmsQueryHistory) HasSql() bool {
 	return o != nil && o.Sql != nil
 }
 
 // SetSql gets a reference to the given string and assigns it to the Sql field.
-func (o *QueryHistory) SetSql(v string) {
+func (o *DmsQueryHistory) SetSql(v string) {
 	o.Sql = &v
 }
 
 // GetErrMassage returns the ErrMassage field value if set, zero value otherwise.
-func (o *QueryHistory) GetErrMassage() string {
+func (o *DmsQueryHistory) GetErrMassage() string {
 	if o == nil || o.ErrMassage == nil {
 		var ret string
 		return ret
@@ -80,7 +80,7 @@ func (o *QueryHistory) GetErrMassage() string {
 
 // GetErrMassageOk returns a tuple with the ErrMassage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *QueryHistory) GetErrMassageOk() (*string, bool) {
+func (o *DmsQueryHistory) GetErrMassageOk() (*string, bool) {
 	if o == nil || o.ErrMassage == nil {
 		return nil, false
 	}
@@ -88,17 +88,17 @@ func (o *QueryHistory) GetErrMassageOk() (*string, bool) {
 }
 
 // HasErrMassage returns a boolean if a field has been set.
-func (o *QueryHistory) HasErrMassage() bool {
+func (o *DmsQueryHistory) HasErrMassage() bool {
 	return o != nil && o.ErrMassage != nil
 }
 
 // SetErrMassage gets a reference to the given string and assigns it to the ErrMassage field.
-func (o *QueryHistory) SetErrMassage(v string) {
+func (o *DmsQueryHistory) SetErrMassage(v string) {
 	o.ErrMassage = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *QueryHistory) GetCreatedAt() time.Time {
+func (o *DmsQueryHistory) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
 		var ret time.Time
 		return ret
@@ -108,7 +108,7 @@ func (o *QueryHistory) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *QueryHistory) GetCreatedAtOk() (*time.Time, bool) {
+func (o *DmsQueryHistory) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || o.CreatedAt == nil {
 		return nil, false
 	}
@@ -116,17 +116,17 @@ func (o *QueryHistory) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *QueryHistory) HasCreatedAt() bool {
+func (o *DmsQueryHistory) HasCreatedAt() bool {
 	return o != nil && o.CreatedAt != nil
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *QueryHistory) SetCreatedAt(v time.Time) {
+func (o *DmsQueryHistory) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
-func (o *QueryHistory) GetDuration() int32 {
+func (o *DmsQueryHistory) GetDuration() int32 {
 	if o == nil || o.Duration == nil {
 		var ret int32
 		return ret
@@ -136,7 +136,7 @@ func (o *QueryHistory) GetDuration() int32 {
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *QueryHistory) GetDurationOk() (*int32, bool) {
+func (o *DmsQueryHistory) GetDurationOk() (*int32, bool) {
 	if o == nil || o.Duration == nil {
 		return nil, false
 	}
@@ -144,17 +144,17 @@ func (o *QueryHistory) GetDurationOk() (*int32, bool) {
 }
 
 // HasDuration returns a boolean if a field has been set.
-func (o *QueryHistory) HasDuration() bool {
+func (o *DmsQueryHistory) HasDuration() bool {
 	return o != nil && o.Duration != nil
 }
 
 // SetDuration gets a reference to the given int32 and assigns it to the Duration field.
-func (o *QueryHistory) SetDuration(v int32) {
+func (o *DmsQueryHistory) SetDuration(v int32) {
 	o.Duration = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o QueryHistory) MarshalJSON() ([]byte, error) {
+func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -183,7 +183,7 @@ func (o QueryHistory) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *QueryHistory) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsQueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Sql        *string    `json:"sql,omitempty"`
 		ErrMassage *string    `json:"errMassage,omitempty"`

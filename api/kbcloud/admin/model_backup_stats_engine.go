@@ -9,11 +9,11 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // BackupStatsEngine Totalsize and number of backups for the engine
 type BackupStatsEngine struct {
 	// Engine name
-	EngineName *string `json:"engineName,omitempty"`
+	Engine *string `json:"engine,omitempty"`
 	// totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-	BackupSize *string `json:"backupSize,omitempty"`
+	Size *string `json:"size,omitempty"`
 	// The number of backups for each engine
-	BackupNum *int64 `json:"backupNum,omitempty"`
+	Num *int64 `json:"num,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -36,88 +36,88 @@ func NewBackupStatsEngineWithDefaults() *BackupStatsEngine {
 	return &this
 }
 
-// GetEngineName returns the EngineName field value if set, zero value otherwise.
-func (o *BackupStatsEngine) GetEngineName() string {
-	if o == nil || o.EngineName == nil {
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *BackupStatsEngine) GetEngine() string {
+	if o == nil || o.Engine == nil {
 		var ret string
 		return ret
 	}
-	return *o.EngineName
+	return *o.Engine
 }
 
-// GetEngineNameOk returns a tuple with the EngineName field value if set, nil otherwise
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsEngine) GetEngineNameOk() (*string, bool) {
-	if o == nil || o.EngineName == nil {
+func (o *BackupStatsEngine) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
 		return nil, false
 	}
-	return o.EngineName, true
+	return o.Engine, true
 }
 
-// HasEngineName returns a boolean if a field has been set.
-func (o *BackupStatsEngine) HasEngineName() bool {
-	return o != nil && o.EngineName != nil
+// HasEngine returns a boolean if a field has been set.
+func (o *BackupStatsEngine) HasEngine() bool {
+	return o != nil && o.Engine != nil
 }
 
-// SetEngineName gets a reference to the given string and assigns it to the EngineName field.
-func (o *BackupStatsEngine) SetEngineName(v string) {
-	o.EngineName = &v
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *BackupStatsEngine) SetEngine(v string) {
+	o.Engine = &v
 }
 
-// GetBackupSize returns the BackupSize field value if set, zero value otherwise.
-func (o *BackupStatsEngine) GetBackupSize() string {
-	if o == nil || o.BackupSize == nil {
+// GetSize returns the Size field value if set, zero value otherwise.
+func (o *BackupStatsEngine) GetSize() string {
+	if o == nil || o.Size == nil {
 		var ret string
 		return ret
 	}
-	return *o.BackupSize
+	return *o.Size
 }
 
-// GetBackupSizeOk returns a tuple with the BackupSize field value if set, nil otherwise
+// GetSizeOk returns a tuple with the Size field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsEngine) GetBackupSizeOk() (*string, bool) {
-	if o == nil || o.BackupSize == nil {
+func (o *BackupStatsEngine) GetSizeOk() (*string, bool) {
+	if o == nil || o.Size == nil {
 		return nil, false
 	}
-	return o.BackupSize, true
+	return o.Size, true
 }
 
-// HasBackupSize returns a boolean if a field has been set.
-func (o *BackupStatsEngine) HasBackupSize() bool {
-	return o != nil && o.BackupSize != nil
+// HasSize returns a boolean if a field has been set.
+func (o *BackupStatsEngine) HasSize() bool {
+	return o != nil && o.Size != nil
 }
 
-// SetBackupSize gets a reference to the given string and assigns it to the BackupSize field.
-func (o *BackupStatsEngine) SetBackupSize(v string) {
-	o.BackupSize = &v
+// SetSize gets a reference to the given string and assigns it to the Size field.
+func (o *BackupStatsEngine) SetSize(v string) {
+	o.Size = &v
 }
 
-// GetBackupNum returns the BackupNum field value if set, zero value otherwise.
-func (o *BackupStatsEngine) GetBackupNum() int64 {
-	if o == nil || o.BackupNum == nil {
+// GetNum returns the Num field value if set, zero value otherwise.
+func (o *BackupStatsEngine) GetNum() int64 {
+	if o == nil || o.Num == nil {
 		var ret int64
 		return ret
 	}
-	return *o.BackupNum
+	return *o.Num
 }
 
-// GetBackupNumOk returns a tuple with the BackupNum field value if set, nil otherwise
+// GetNumOk returns a tuple with the Num field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsEngine) GetBackupNumOk() (*int64, bool) {
-	if o == nil || o.BackupNum == nil {
+func (o *BackupStatsEngine) GetNumOk() (*int64, bool) {
+	if o == nil || o.Num == nil {
 		return nil, false
 	}
-	return o.BackupNum, true
+	return o.Num, true
 }
 
-// HasBackupNum returns a boolean if a field has been set.
-func (o *BackupStatsEngine) HasBackupNum() bool {
-	return o != nil && o.BackupNum != nil
+// HasNum returns a boolean if a field has been set.
+func (o *BackupStatsEngine) HasNum() bool {
+	return o != nil && o.Num != nil
 }
 
-// SetBackupNum gets a reference to the given int64 and assigns it to the BackupNum field.
-func (o *BackupStatsEngine) SetBackupNum(v int64) {
-	o.BackupNum = &v
+// SetNum gets a reference to the given int64 and assigns it to the Num field.
+func (o *BackupStatsEngine) SetNum(v int64) {
+	o.Num = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -126,14 +126,14 @@ func (o BackupStatsEngine) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.EngineName != nil {
-		toSerialize["engineName"] = o.EngineName
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
 	}
-	if o.BackupSize != nil {
-		toSerialize["backupSize"] = o.BackupSize
+	if o.Size != nil {
+		toSerialize["size"] = o.Size
 	}
-	if o.BackupNum != nil {
-		toSerialize["backupNum"] = o.BackupNum
+	if o.Num != nil {
+		toSerialize["num"] = o.Num
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -145,22 +145,22 @@ func (o BackupStatsEngine) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupStatsEngine) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName *string `json:"engineName,omitempty"`
-		BackupSize *string `json:"backupSize,omitempty"`
-		BackupNum  *int64  `json:"backupNum,omitempty"`
+		Engine *string `json:"engine,omitempty"`
+		Size   *string `json:"size,omitempty"`
+		Num    *int64  `json:"num,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "backupSize", "backupNum"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "size", "num"})
 	} else {
 		return err
 	}
-	o.EngineName = all.EngineName
-	o.BackupSize = all.BackupSize
-	o.BackupNum = all.BackupNum
+	o.Engine = all.Engine
+	o.Size = all.Size
+	o.Num = all.Num
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

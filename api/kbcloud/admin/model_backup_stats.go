@@ -12,10 +12,12 @@ import (
 
 // BackupStats Backup statistic info
 type BackupStats struct {
-	// Number of backups for each defferent status
+	// Number of backups for each different status
 	BackupStatsStatus []BackupStatsStatus `json:"backupStatsStatus,omitempty"`
-	// Totalsize and number of backups for each engine
+	// TotalSize and number of backups for each engine
 	BackupStatsEngine []BackupStatsEngine `json:"backupStatsEngine,omitempty"`
+	// TotalSize and number of backups for each type
+	BackupStatsType []BackupStatsType `json:"backupStatsType,omitempty"`
 	// create time of the latest backup
 	LatestBackupTime common.NullableTime `json:"latestBackupTime,omitempty"`
 	// backup status of the latest backup
@@ -96,6 +98,34 @@ func (o *BackupStats) HasBackupStatsEngine() bool {
 // SetBackupStatsEngine gets a reference to the given []BackupStatsEngine and assigns it to the BackupStatsEngine field.
 func (o *BackupStats) SetBackupStatsEngine(v []BackupStatsEngine) {
 	o.BackupStatsEngine = v
+}
+
+// GetBackupStatsType returns the BackupStatsType field value if set, zero value otherwise.
+func (o *BackupStats) GetBackupStatsType() []BackupStatsType {
+	if o == nil || o.BackupStatsType == nil {
+		var ret []BackupStatsType
+		return ret
+	}
+	return o.BackupStatsType
+}
+
+// GetBackupStatsTypeOk returns a tuple with the BackupStatsType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupStats) GetBackupStatsTypeOk() (*[]BackupStatsType, bool) {
+	if o == nil || o.BackupStatsType == nil {
+		return nil, false
+	}
+	return &o.BackupStatsType, true
+}
+
+// HasBackupStatsType returns a boolean if a field has been set.
+func (o *BackupStats) HasBackupStatsType() bool {
+	return o != nil && o.BackupStatsType != nil
+}
+
+// SetBackupStatsType gets a reference to the given []BackupStatsType and assigns it to the BackupStatsType field.
+func (o *BackupStats) SetBackupStatsType(v []BackupStatsType) {
+	o.BackupStatsType = v
 }
 
 // GetLatestBackupTime returns the LatestBackupTime field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -188,6 +218,9 @@ func (o BackupStats) MarshalJSON() ([]byte, error) {
 	if o.BackupStatsEngine != nil {
 		toSerialize["backupStatsEngine"] = o.BackupStatsEngine
 	}
+	if o.BackupStatsType != nil {
+		toSerialize["backupStatsType"] = o.BackupStatsType
+	}
 	if o.LatestBackupTime.IsSet() {
 		toSerialize["latestBackupTime"] = o.LatestBackupTime.Get()
 	}
@@ -206,6 +239,7 @@ func (o *BackupStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		BackupStatsStatus  []BackupStatsStatus   `json:"backupStatsStatus,omitempty"`
 		BackupStatsEngine  []BackupStatsEngine   `json:"backupStatsEngine,omitempty"`
+		BackupStatsType    []BackupStatsType     `json:"backupStatsType,omitempty"`
 		LatestBackupTime   common.NullableTime   `json:"latestBackupTime,omitempty"`
 		LatestBackupStatus common.NullableString `json:"latestBackupStatus,omitempty"`
 	}{}
@@ -214,12 +248,13 @@ func (o *BackupStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"backupStatsStatus", "backupStatsEngine", "latestBackupTime", "latestBackupStatus"})
+		common.DeleteKeys(additionalProperties, &[]string{"backupStatsStatus", "backupStatsEngine", "backupStatsType", "latestBackupTime", "latestBackupStatus"})
 	} else {
 		return err
 	}
 	o.BackupStatsStatus = all.BackupStatsStatus
 	o.BackupStatsEngine = all.BackupStatsEngine
+	o.BackupStatsType = all.BackupStatsType
 	o.LatestBackupTime = all.LatestBackupTime
 	o.LatestBackupStatus = all.LatestBackupStatus
 

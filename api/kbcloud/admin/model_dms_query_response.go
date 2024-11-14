@@ -2,13 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type QueryResponse struct {
+type DmsQueryResponse struct {
 	// result set of query
-	Data []Result `json:"data,omitempty"`
+	Data []DmsResult `json:"data,omitempty"`
 	// error message set of query
 	ErrMessage common.NullableList[string] `json:"errMessage,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -16,27 +16,27 @@ type QueryResponse struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewQueryResponse instantiates a new QueryResponse object.
+// NewDmsQueryResponse instantiates a new DmsQueryResponse object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewQueryResponse() *QueryResponse {
-	this := QueryResponse{}
+func NewDmsQueryResponse() *DmsQueryResponse {
+	this := DmsQueryResponse{}
 	return &this
 }
 
-// NewQueryResponseWithDefaults instantiates a new QueryResponse object.
+// NewDmsQueryResponseWithDefaults instantiates a new DmsQueryResponse object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewQueryResponseWithDefaults() *QueryResponse {
-	this := QueryResponse{}
+func NewDmsQueryResponseWithDefaults() *DmsQueryResponse {
+	this := DmsQueryResponse{}
 	return &this
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *QueryResponse) GetData() []Result {
+func (o *DmsQueryResponse) GetData() []DmsResult {
 	if o == nil || o.Data == nil {
-		var ret []Result
+		var ret []DmsResult
 		return ret
 	}
 	return o.Data
@@ -44,7 +44,7 @@ func (o *QueryResponse) GetData() []Result {
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *QueryResponse) GetDataOk() (*[]Result, bool) {
+func (o *DmsQueryResponse) GetDataOk() (*[]DmsResult, bool) {
 	if o == nil || o.Data == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *QueryResponse) GetDataOk() (*[]Result, bool) {
 }
 
 // HasData returns a boolean if a field has been set.
-func (o *QueryResponse) HasData() bool {
+func (o *DmsQueryResponse) HasData() bool {
 	return o != nil && o.Data != nil
 }
 
-// SetData gets a reference to the given []Result and assigns it to the Data field.
-func (o *QueryResponse) SetData(v []Result) {
+// SetData gets a reference to the given []DmsResult and assigns it to the Data field.
+func (o *DmsQueryResponse) SetData(v []DmsResult) {
 	o.Data = v
 }
 
 // GetErrMessage returns the ErrMessage field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *QueryResponse) GetErrMessage() []string {
+func (o *DmsQueryResponse) GetErrMessage() []string {
 	if o == nil || o.ErrMessage.Get() == nil {
 		var ret []string
 		return ret
@@ -73,7 +73,7 @@ func (o *QueryResponse) GetErrMessage() []string {
 // GetErrMessageOk returns a tuple with the ErrMessage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *QueryResponse) GetErrMessageOk() (*[]string, bool) {
+func (o *DmsQueryResponse) GetErrMessageOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -81,27 +81,27 @@ func (o *QueryResponse) GetErrMessageOk() (*[]string, bool) {
 }
 
 // HasErrMessage returns a boolean if a field has been set.
-func (o *QueryResponse) HasErrMessage() bool {
+func (o *DmsQueryResponse) HasErrMessage() bool {
 	return o != nil && o.ErrMessage.IsSet()
 }
 
 // SetErrMessage gets a reference to the given common.NullableList[string] and assigns it to the ErrMessage field.
-func (o *QueryResponse) SetErrMessage(v []string) {
+func (o *DmsQueryResponse) SetErrMessage(v []string) {
 	o.ErrMessage.Set(&v)
 }
 
 // SetErrMessageNil sets the value for ErrMessage to be an explicit nil.
-func (o *QueryResponse) SetErrMessageNil() {
+func (o *DmsQueryResponse) SetErrMessageNil() {
 	o.ErrMessage.Set(nil)
 }
 
 // UnsetErrMessage ensures that no value is present for ErrMessage, not even an explicit nil.
-func (o *QueryResponse) UnsetErrMessage() {
+func (o *DmsQueryResponse) UnsetErrMessage() {
 	o.ErrMessage.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o QueryResponse) MarshalJSON() ([]byte, error) {
+func (o DmsQueryResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -120,9 +120,9 @@ func (o QueryResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *QueryResponse) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsQueryResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Data       []Result                    `json:"data,omitempty"`
+		Data       []DmsResult                 `json:"data,omitempty"`
 		ErrMessage common.NullableList[string] `json:"errMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {

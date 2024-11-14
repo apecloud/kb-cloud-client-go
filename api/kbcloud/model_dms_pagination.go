@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type Pagination struct {
+type DmsPagination struct {
 	RowsCount  *int32 `json:"rows_count,omitempty"`
 	Page       *int32 `json:"page,omitempty"`
 	PagesCount *int32 `json:"pages_count,omitempty"`
@@ -16,25 +16,25 @@ type Pagination struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPagination instantiates a new Pagination object.
+// NewDmsPagination instantiates a new DmsPagination object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPagination() *Pagination {
-	this := Pagination{}
+func NewDmsPagination() *DmsPagination {
+	this := DmsPagination{}
 	return &this
 }
 
-// NewPaginationWithDefaults instantiates a new Pagination object.
+// NewDmsPaginationWithDefaults instantiates a new DmsPagination object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPaginationWithDefaults() *Pagination {
-	this := Pagination{}
+func NewDmsPaginationWithDefaults() *DmsPagination {
+	this := DmsPagination{}
 	return &this
 }
 
 // GetRowsCount returns the RowsCount field value if set, zero value otherwise.
-func (o *Pagination) GetRowsCount() int32 {
+func (o *DmsPagination) GetRowsCount() int32 {
 	if o == nil || o.RowsCount == nil {
 		var ret int32
 		return ret
@@ -44,7 +44,7 @@ func (o *Pagination) GetRowsCount() int32 {
 
 // GetRowsCountOk returns a tuple with the RowsCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pagination) GetRowsCountOk() (*int32, bool) {
+func (o *DmsPagination) GetRowsCountOk() (*int32, bool) {
 	if o == nil || o.RowsCount == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *Pagination) GetRowsCountOk() (*int32, bool) {
 }
 
 // HasRowsCount returns a boolean if a field has been set.
-func (o *Pagination) HasRowsCount() bool {
+func (o *DmsPagination) HasRowsCount() bool {
 	return o != nil && o.RowsCount != nil
 }
 
 // SetRowsCount gets a reference to the given int32 and assigns it to the RowsCount field.
-func (o *Pagination) SetRowsCount(v int32) {
+func (o *DmsPagination) SetRowsCount(v int32) {
 	o.RowsCount = &v
 }
 
 // GetPage returns the Page field value if set, zero value otherwise.
-func (o *Pagination) GetPage() int32 {
+func (o *DmsPagination) GetPage() int32 {
 	if o == nil || o.Page == nil {
 		var ret int32
 		return ret
@@ -72,7 +72,7 @@ func (o *Pagination) GetPage() int32 {
 
 // GetPageOk returns a tuple with the Page field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pagination) GetPageOk() (*int32, bool) {
+func (o *DmsPagination) GetPageOk() (*int32, bool) {
 	if o == nil || o.Page == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *Pagination) GetPageOk() (*int32, bool) {
 }
 
 // HasPage returns a boolean if a field has been set.
-func (o *Pagination) HasPage() bool {
+func (o *DmsPagination) HasPage() bool {
 	return o != nil && o.Page != nil
 }
 
 // SetPage gets a reference to the given int32 and assigns it to the Page field.
-func (o *Pagination) SetPage(v int32) {
+func (o *DmsPagination) SetPage(v int32) {
 	o.Page = &v
 }
 
 // GetPagesCount returns the PagesCount field value if set, zero value otherwise.
-func (o *Pagination) GetPagesCount() int32 {
+func (o *DmsPagination) GetPagesCount() int32 {
 	if o == nil || o.PagesCount == nil {
 		var ret int32
 		return ret
@@ -100,7 +100,7 @@ func (o *Pagination) GetPagesCount() int32 {
 
 // GetPagesCountOk returns a tuple with the PagesCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pagination) GetPagesCountOk() (*int32, bool) {
+func (o *DmsPagination) GetPagesCountOk() (*int32, bool) {
 	if o == nil || o.PagesCount == nil {
 		return nil, false
 	}
@@ -108,17 +108,17 @@ func (o *Pagination) GetPagesCountOk() (*int32, bool) {
 }
 
 // HasPagesCount returns a boolean if a field has been set.
-func (o *Pagination) HasPagesCount() bool {
+func (o *DmsPagination) HasPagesCount() bool {
 	return o != nil && o.PagesCount != nil
 }
 
 // SetPagesCount gets a reference to the given int32 and assigns it to the PagesCount field.
-func (o *Pagination) SetPagesCount(v int32) {
+func (o *DmsPagination) SetPagesCount(v int32) {
 	o.PagesCount = &v
 }
 
 // GetPerPage returns the PerPage field value if set, zero value otherwise.
-func (o *Pagination) GetPerPage() int32 {
+func (o *DmsPagination) GetPerPage() int32 {
 	if o == nil || o.PerPage == nil {
 		var ret int32
 		return ret
@@ -128,7 +128,7 @@ func (o *Pagination) GetPerPage() int32 {
 
 // GetPerPageOk returns a tuple with the PerPage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Pagination) GetPerPageOk() (*int32, bool) {
+func (o *DmsPagination) GetPerPageOk() (*int32, bool) {
 	if o == nil || o.PerPage == nil {
 		return nil, false
 	}
@@ -136,17 +136,17 @@ func (o *Pagination) GetPerPageOk() (*int32, bool) {
 }
 
 // HasPerPage returns a boolean if a field has been set.
-func (o *Pagination) HasPerPage() bool {
+func (o *DmsPagination) HasPerPage() bool {
 	return o != nil && o.PerPage != nil
 }
 
 // SetPerPage gets a reference to the given int32 and assigns it to the PerPage field.
-func (o *Pagination) SetPerPage(v int32) {
+func (o *DmsPagination) SetPerPage(v int32) {
 	o.PerPage = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Pagination) MarshalJSON() ([]byte, error) {
+func (o DmsPagination) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -171,7 +171,7 @@ func (o Pagination) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Pagination) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsPagination) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		RowsCount  *int32 `json:"rows_count,omitempty"`
 		Page       *int32 `json:"page,omitempty"`

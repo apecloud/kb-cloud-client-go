@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type Object struct {
+type DmsObject struct {
 	// Type is the type of db object, like 'Table', 'Views', 'Functions'
 	Type *string `json:"type,omitempty"`
 	// Count is the number of each object
@@ -16,25 +16,25 @@ type Object struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewObject instantiates a new Object object.
+// NewDmsObject instantiates a new DmsObject object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewObject() *Object {
-	this := Object{}
+func NewDmsObject() *DmsObject {
+	this := DmsObject{}
 	return &this
 }
 
-// NewObjectWithDefaults instantiates a new Object object.
+// NewDmsObjectWithDefaults instantiates a new DmsObject object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewObjectWithDefaults() *Object {
-	this := Object{}
+func NewDmsObjectWithDefaults() *DmsObject {
+	this := DmsObject{}
 	return &this
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Object) GetType() string {
+func (o *DmsObject) GetType() string {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret
@@ -44,7 +44,7 @@ func (o *Object) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Object) GetTypeOk() (*string, bool) {
+func (o *DmsObject) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *Object) GetTypeOk() (*string, bool) {
 }
 
 // HasType returns a boolean if a field has been set.
-func (o *Object) HasType() bool {
+func (o *DmsObject) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *Object) SetType(v string) {
+func (o *DmsObject) SetType(v string) {
 	o.Type = &v
 }
 
 // GetCount returns the Count field value if set, zero value otherwise.
-func (o *Object) GetCount() int64 {
+func (o *DmsObject) GetCount() int64 {
 	if o == nil || o.Count == nil {
 		var ret int64
 		return ret
@@ -72,7 +72,7 @@ func (o *Object) GetCount() int64 {
 
 // GetCountOk returns a tuple with the Count field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Object) GetCountOk() (*int64, bool) {
+func (o *DmsObject) GetCountOk() (*int64, bool) {
 	if o == nil || o.Count == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *Object) GetCountOk() (*int64, bool) {
 }
 
 // HasCount returns a boolean if a field has been set.
-func (o *Object) HasCount() bool {
+func (o *DmsObject) HasCount() bool {
 	return o != nil && o.Count != nil
 }
 
 // SetCount gets a reference to the given int64 and assigns it to the Count field.
-func (o *Object) SetCount(v int64) {
+func (o *DmsObject) SetCount(v int64) {
 	o.Count = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Object) MarshalJSON() ([]byte, error) {
+func (o DmsObject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -109,7 +109,7 @@ func (o Object) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Object) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsObject) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Type  *string `json:"type,omitempty"`
 		Count *int64  `json:"count,omitempty"`

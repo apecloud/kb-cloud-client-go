@@ -6,10 +6,10 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// BackupStatsEngine Totalsize and number of backups for the engine
-type BackupStatsEngine struct {
-	// Engine name
-	Engine *string `json:"engine,omitempty"`
+// BackupStatsType Totalsize and number of backups for the backup type
+type BackupStatsType struct {
+	// backup type
+	Type *string `json:"type,omitempty"`
 	// totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
 	Size *string `json:"size,omitempty"`
 	// The number of backups for each engine
@@ -19,53 +19,53 @@ type BackupStatsEngine struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewBackupStatsEngine instantiates a new BackupStatsEngine object.
+// NewBackupStatsType instantiates a new BackupStatsType object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupStatsEngine() *BackupStatsEngine {
-	this := BackupStatsEngine{}
+func NewBackupStatsType() *BackupStatsType {
+	this := BackupStatsType{}
 	return &this
 }
 
-// NewBackupStatsEngineWithDefaults instantiates a new BackupStatsEngine object.
+// NewBackupStatsTypeWithDefaults instantiates a new BackupStatsType object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewBackupStatsEngineWithDefaults() *BackupStatsEngine {
-	this := BackupStatsEngine{}
+func NewBackupStatsTypeWithDefaults() *BackupStatsType {
+	this := BackupStatsType{}
 	return &this
 }
 
-// GetEngine returns the Engine field value if set, zero value otherwise.
-func (o *BackupStatsEngine) GetEngine() string {
-	if o == nil || o.Engine == nil {
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *BackupStatsType) GetType() string {
+	if o == nil || o.Type == nil {
 		var ret string
 		return ret
 	}
-	return *o.Engine
+	return *o.Type
 }
 
-// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsEngine) GetEngineOk() (*string, bool) {
-	if o == nil || o.Engine == nil {
+func (o *BackupStatsType) GetTypeOk() (*string, bool) {
+	if o == nil || o.Type == nil {
 		return nil, false
 	}
-	return o.Engine, true
+	return o.Type, true
 }
 
-// HasEngine returns a boolean if a field has been set.
-func (o *BackupStatsEngine) HasEngine() bool {
-	return o != nil && o.Engine != nil
+// HasType returns a boolean if a field has been set.
+func (o *BackupStatsType) HasType() bool {
+	return o != nil && o.Type != nil
 }
 
-// SetEngine gets a reference to the given string and assigns it to the Engine field.
-func (o *BackupStatsEngine) SetEngine(v string) {
-	o.Engine = &v
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *BackupStatsType) SetType(v string) {
+	o.Type = &v
 }
 
 // GetSize returns the Size field value if set, zero value otherwise.
-func (o *BackupStatsEngine) GetSize() string {
+func (o *BackupStatsType) GetSize() string {
 	if o == nil || o.Size == nil {
 		var ret string
 		return ret
@@ -75,7 +75,7 @@ func (o *BackupStatsEngine) GetSize() string {
 
 // GetSizeOk returns a tuple with the Size field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsEngine) GetSizeOk() (*string, bool) {
+func (o *BackupStatsType) GetSizeOk() (*string, bool) {
 	if o == nil || o.Size == nil {
 		return nil, false
 	}
@@ -83,17 +83,17 @@ func (o *BackupStatsEngine) GetSizeOk() (*string, bool) {
 }
 
 // HasSize returns a boolean if a field has been set.
-func (o *BackupStatsEngine) HasSize() bool {
+func (o *BackupStatsType) HasSize() bool {
 	return o != nil && o.Size != nil
 }
 
 // SetSize gets a reference to the given string and assigns it to the Size field.
-func (o *BackupStatsEngine) SetSize(v string) {
+func (o *BackupStatsType) SetSize(v string) {
 	o.Size = &v
 }
 
 // GetNum returns the Num field value if set, zero value otherwise.
-func (o *BackupStatsEngine) GetNum() int64 {
+func (o *BackupStatsType) GetNum() int64 {
 	if o == nil || o.Num == nil {
 		var ret int64
 		return ret
@@ -103,7 +103,7 @@ func (o *BackupStatsEngine) GetNum() int64 {
 
 // GetNumOk returns a tuple with the Num field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsEngine) GetNumOk() (*int64, bool) {
+func (o *BackupStatsType) GetNumOk() (*int64, bool) {
 	if o == nil || o.Num == nil {
 		return nil, false
 	}
@@ -111,23 +111,23 @@ func (o *BackupStatsEngine) GetNumOk() (*int64, bool) {
 }
 
 // HasNum returns a boolean if a field has been set.
-func (o *BackupStatsEngine) HasNum() bool {
+func (o *BackupStatsType) HasNum() bool {
 	return o != nil && o.Num != nil
 }
 
 // SetNum gets a reference to the given int64 and assigns it to the Num field.
-func (o *BackupStatsEngine) SetNum(v int64) {
+func (o *BackupStatsType) SetNum(v int64) {
 	o.Num = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o BackupStatsEngine) MarshalJSON() ([]byte, error) {
+func (o BackupStatsType) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Engine != nil {
-		toSerialize["engine"] = o.Engine
+	if o.Type != nil {
+		toSerialize["type"] = o.Type
 	}
 	if o.Size != nil {
 		toSerialize["size"] = o.Size
@@ -143,22 +143,22 @@ func (o BackupStatsEngine) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *BackupStatsEngine) UnmarshalJSON(bytes []byte) (err error) {
+func (o *BackupStatsType) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Engine *string `json:"engine,omitempty"`
-		Size   *string `json:"size,omitempty"`
-		Num    *int64  `json:"num,omitempty"`
+		Type *string `json:"type,omitempty"`
+		Size *string `json:"size,omitempty"`
+		Num  *int64  `json:"num,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engine", "size", "num"})
+		common.DeleteKeys(additionalProperties, &[]string{"type", "size", "num"})
 	} else {
 		return err
 	}
-	o.Engine = all.Engine
+	o.Type = all.Type
 	o.Size = all.Size
 	o.Num = all.Num
 

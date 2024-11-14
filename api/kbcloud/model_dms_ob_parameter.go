@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type ObParameter struct {
+type DmsObParameter struct {
 	// The name of the parameter
 	Name string `json:"name"`
 	// The value of the parameter
@@ -38,12 +38,12 @@ type ObParameter struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewObParameter instantiates a new ObParameter object.
+// NewDmsObParameter instantiates a new DmsObParameter object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewObParameter(name string, value string, dataType string, description string, enum []map[string]interface{}, maximum float64, minimum float64, readOnly bool) *ObParameter {
-	this := ObParameter{}
+func NewDmsObParameter(name string, value string, dataType string, description string, enum []map[string]interface{}, maximum float64, minimum float64, readOnly bool) *DmsObParameter {
+	this := DmsObParameter{}
 	this.Name = name
 	this.Value = value
 	this.DataType = dataType
@@ -55,16 +55,16 @@ func NewObParameter(name string, value string, dataType string, description stri
 	return &this
 }
 
-// NewObParameterWithDefaults instantiates a new ObParameter object.
+// NewDmsObParameterWithDefaults instantiates a new DmsObParameter object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewObParameterWithDefaults() *ObParameter {
-	this := ObParameter{}
+func NewDmsObParameterWithDefaults() *DmsObParameter {
+	this := DmsObParameter{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *ObParameter) GetName() string {
+func (o *DmsObParameter) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -74,7 +74,7 @@ func (o *ObParameter) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetNameOk() (*string, bool) {
+func (o *DmsObParameter) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -82,12 +82,12 @@ func (o *ObParameter) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *ObParameter) SetName(v string) {
+func (o *DmsObParameter) SetName(v string) {
 	o.Name = v
 }
 
 // GetValue returns the Value field value.
-func (o *ObParameter) GetValue() string {
+func (o *DmsObParameter) GetValue() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -97,7 +97,7 @@ func (o *ObParameter) GetValue() string {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetValueOk() (*string, bool) {
+func (o *DmsObParameter) GetValueOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -105,12 +105,12 @@ func (o *ObParameter) GetValueOk() (*string, bool) {
 }
 
 // SetValue sets field value.
-func (o *ObParameter) SetValue(v string) {
+func (o *DmsObParameter) SetValue(v string) {
 	o.Value = v
 }
 
 // GetDataType returns the DataType field value.
-func (o *ObParameter) GetDataType() string {
+func (o *DmsObParameter) GetDataType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -120,7 +120,7 @@ func (o *ObParameter) GetDataType() string {
 
 // GetDataTypeOk returns a tuple with the DataType field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetDataTypeOk() (*string, bool) {
+func (o *DmsObParameter) GetDataTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -128,12 +128,12 @@ func (o *ObParameter) GetDataTypeOk() (*string, bool) {
 }
 
 // SetDataType sets field value.
-func (o *ObParameter) SetDataType(v string) {
+func (o *DmsObParameter) SetDataType(v string) {
 	o.DataType = v
 }
 
 // GetDescription returns the Description field value.
-func (o *ObParameter) GetDescription() string {
+func (o *DmsObParameter) GetDescription() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -143,7 +143,7 @@ func (o *ObParameter) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetDescriptionOk() (*string, bool) {
+func (o *DmsObParameter) GetDescriptionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -151,12 +151,12 @@ func (o *ObParameter) GetDescriptionOk() (*string, bool) {
 }
 
 // SetDescription sets field value.
-func (o *ObParameter) SetDescription(v string) {
+func (o *DmsObParameter) SetDescription(v string) {
 	o.Description = v
 }
 
 // GetEnum returns the Enum field value.
-func (o *ObParameter) GetEnum() []map[string]interface{} {
+func (o *DmsObParameter) GetEnum() []map[string]interface{} {
 	if o == nil {
 		var ret []map[string]interface{}
 		return ret
@@ -166,7 +166,7 @@ func (o *ObParameter) GetEnum() []map[string]interface{} {
 
 // GetEnumOk returns a tuple with the Enum field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetEnumOk() (*[]map[string]interface{}, bool) {
+func (o *DmsObParameter) GetEnumOk() (*[]map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -174,12 +174,12 @@ func (o *ObParameter) GetEnumOk() (*[]map[string]interface{}, bool) {
 }
 
 // SetEnum sets field value.
-func (o *ObParameter) SetEnum(v []map[string]interface{}) {
+func (o *DmsObParameter) SetEnum(v []map[string]interface{}) {
 	o.Enum = v
 }
 
 // GetMaximum returns the Maximum field value.
-func (o *ObParameter) GetMaximum() float64 {
+func (o *DmsObParameter) GetMaximum() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -189,7 +189,7 @@ func (o *ObParameter) GetMaximum() float64 {
 
 // GetMaximumOk returns a tuple with the Maximum field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetMaximumOk() (*float64, bool) {
+func (o *DmsObParameter) GetMaximumOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -197,12 +197,12 @@ func (o *ObParameter) GetMaximumOk() (*float64, bool) {
 }
 
 // SetMaximum sets field value.
-func (o *ObParameter) SetMaximum(v float64) {
+func (o *DmsObParameter) SetMaximum(v float64) {
 	o.Maximum = v
 }
 
 // GetMinimum returns the Minimum field value.
-func (o *ObParameter) GetMinimum() float64 {
+func (o *DmsObParameter) GetMinimum() float64 {
 	if o == nil {
 		var ret float64
 		return ret
@@ -212,7 +212,7 @@ func (o *ObParameter) GetMinimum() float64 {
 
 // GetMinimumOk returns a tuple with the Minimum field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetMinimumOk() (*float64, bool) {
+func (o *DmsObParameter) GetMinimumOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -220,12 +220,12 @@ func (o *ObParameter) GetMinimumOk() (*float64, bool) {
 }
 
 // SetMinimum sets field value.
-func (o *ObParameter) SetMinimum(v float64) {
+func (o *DmsObParameter) SetMinimum(v float64) {
 	o.Minimum = v
 }
 
 // GetImmutable returns the Immutable field value if set, zero value otherwise.
-func (o *ObParameter) GetImmutable() bool {
+func (o *DmsObParameter) GetImmutable() bool {
 	if o == nil || o.Immutable == nil {
 		var ret bool
 		return ret
@@ -235,7 +235,7 @@ func (o *ObParameter) GetImmutable() bool {
 
 // GetImmutableOk returns a tuple with the Immutable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetImmutableOk() (*bool, bool) {
+func (o *DmsObParameter) GetImmutableOk() (*bool, bool) {
 	if o == nil || o.Immutable == nil {
 		return nil, false
 	}
@@ -243,17 +243,17 @@ func (o *ObParameter) GetImmutableOk() (*bool, bool) {
 }
 
 // HasImmutable returns a boolean if a field has been set.
-func (o *ObParameter) HasImmutable() bool {
+func (o *DmsObParameter) HasImmutable() bool {
 	return o != nil && o.Immutable != nil
 }
 
 // SetImmutable gets a reference to the given bool and assigns it to the Immutable field.
-func (o *ObParameter) SetImmutable(v bool) {
+func (o *DmsObParameter) SetImmutable(v bool) {
 	o.Immutable = &v
 }
 
 // GetIsVariable returns the IsVariable field value if set, zero value otherwise.
-func (o *ObParameter) GetIsVariable() bool {
+func (o *DmsObParameter) GetIsVariable() bool {
 	if o == nil || o.IsVariable == nil {
 		var ret bool
 		return ret
@@ -263,7 +263,7 @@ func (o *ObParameter) GetIsVariable() bool {
 
 // GetIsVariableOk returns a tuple with the IsVariable field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetIsVariableOk() (*bool, bool) {
+func (o *DmsObParameter) GetIsVariableOk() (*bool, bool) {
 	if o == nil || o.IsVariable == nil {
 		return nil, false
 	}
@@ -271,17 +271,17 @@ func (o *ObParameter) GetIsVariableOk() (*bool, bool) {
 }
 
 // HasIsVariable returns a boolean if a field has been set.
-func (o *ObParameter) HasIsVariable() bool {
+func (o *DmsObParameter) HasIsVariable() bool {
 	return o != nil && o.IsVariable != nil
 }
 
 // SetIsVariable gets a reference to the given bool and assigns it to the IsVariable field.
-func (o *ObParameter) SetIsVariable(v bool) {
+func (o *DmsObParameter) SetIsVariable(v bool) {
 	o.IsVariable = &v
 }
 
 // GetEditLevel returns the EditLevel field value if set, zero value otherwise.
-func (o *ObParameter) GetEditLevel() string {
+func (o *DmsObParameter) GetEditLevel() string {
 	if o == nil || o.EditLevel == nil {
 		var ret string
 		return ret
@@ -291,7 +291,7 @@ func (o *ObParameter) GetEditLevel() string {
 
 // GetEditLevelOk returns a tuple with the EditLevel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetEditLevelOk() (*string, bool) {
+func (o *DmsObParameter) GetEditLevelOk() (*string, bool) {
 	if o == nil || o.EditLevel == nil {
 		return nil, false
 	}
@@ -299,17 +299,17 @@ func (o *ObParameter) GetEditLevelOk() (*string, bool) {
 }
 
 // HasEditLevel returns a boolean if a field has been set.
-func (o *ObParameter) HasEditLevel() bool {
+func (o *DmsObParameter) HasEditLevel() bool {
 	return o != nil && o.EditLevel != nil
 }
 
 // SetEditLevel gets a reference to the given string and assigns it to the EditLevel field.
-func (o *ObParameter) SetEditLevel(v string) {
+func (o *DmsObParameter) SetEditLevel(v string) {
 	o.EditLevel = &v
 }
 
 // GetReadOnly returns the ReadOnly field value.
-func (o *ObParameter) GetReadOnly() bool {
+func (o *DmsObParameter) GetReadOnly() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -319,7 +319,7 @@ func (o *ObParameter) GetReadOnly() bool {
 
 // GetReadOnlyOk returns a tuple with the ReadOnly field value
 // and a boolean to check if the value has been set.
-func (o *ObParameter) GetReadOnlyOk() (*bool, bool) {
+func (o *DmsObParameter) GetReadOnlyOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -327,12 +327,12 @@ func (o *ObParameter) GetReadOnlyOk() (*bool, bool) {
 }
 
 // SetReadOnly sets field value.
-func (o *ObParameter) SetReadOnly(v bool) {
+func (o *DmsObParameter) SetReadOnly(v bool) {
 	o.ReadOnly = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ObParameter) MarshalJSON() ([]byte, error) {
+func (o DmsObParameter) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -362,7 +362,7 @@ func (o ObParameter) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ObParameter) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsObParameter) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name        *string                   `json:"name"`
 		Value       *string                   `json:"value"`

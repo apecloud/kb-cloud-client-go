@@ -11,7 +11,7 @@ type BackupStatsStatus struct {
 	// Backup status
 	Status *string `json:"status,omitempty"`
 	// Number of backups for each status
-	BackupNum *int64 `json:"backupNum,omitempty"`
+	Num *int64 `json:"num,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -62,32 +62,32 @@ func (o *BackupStatsStatus) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetBackupNum returns the BackupNum field value if set, zero value otherwise.
-func (o *BackupStatsStatus) GetBackupNum() int64 {
-	if o == nil || o.BackupNum == nil {
+// GetNum returns the Num field value if set, zero value otherwise.
+func (o *BackupStatsStatus) GetNum() int64 {
+	if o == nil || o.Num == nil {
 		var ret int64
 		return ret
 	}
-	return *o.BackupNum
+	return *o.Num
 }
 
-// GetBackupNumOk returns a tuple with the BackupNum field value if set, nil otherwise
+// GetNumOk returns a tuple with the Num field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsStatus) GetBackupNumOk() (*int64, bool) {
-	if o == nil || o.BackupNum == nil {
+func (o *BackupStatsStatus) GetNumOk() (*int64, bool) {
+	if o == nil || o.Num == nil {
 		return nil, false
 	}
-	return o.BackupNum, true
+	return o.Num, true
 }
 
-// HasBackupNum returns a boolean if a field has been set.
-func (o *BackupStatsStatus) HasBackupNum() bool {
-	return o != nil && o.BackupNum != nil
+// HasNum returns a boolean if a field has been set.
+func (o *BackupStatsStatus) HasNum() bool {
+	return o != nil && o.Num != nil
 }
 
-// SetBackupNum gets a reference to the given int64 and assigns it to the BackupNum field.
-func (o *BackupStatsStatus) SetBackupNum(v int64) {
-	o.BackupNum = &v
+// SetNum gets a reference to the given int64 and assigns it to the Num field.
+func (o *BackupStatsStatus) SetNum(v int64) {
+	o.Num = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -99,8 +99,8 @@ func (o BackupStatsStatus) MarshalJSON() ([]byte, error) {
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
-	if o.BackupNum != nil {
-		toSerialize["backupNum"] = o.BackupNum
+	if o.Num != nil {
+		toSerialize["num"] = o.Num
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -112,20 +112,20 @@ func (o BackupStatsStatus) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupStatsStatus) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Status    *string `json:"status,omitempty"`
-		BackupNum *int64  `json:"backupNum,omitempty"`
+		Status *string `json:"status,omitempty"`
+		Num    *int64  `json:"num,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"status", "backupNum"})
+		common.DeleteKeys(additionalProperties, &[]string{"status", "num"})
 	} else {
 		return err
 	}
 	o.Status = all.Status
-	o.BackupNum = all.BackupNum
+	o.Num = all.Num
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

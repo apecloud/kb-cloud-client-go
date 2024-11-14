@@ -9,11 +9,11 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // BackupStatsType Totalsize and number of backups for the backup type
 type BackupStatsType struct {
 	// backup type
-	BackupType *string `json:"backupType,omitempty"`
+	Type *string `json:"type,omitempty"`
 	// totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
-	BackupSize *string `json:"backupSize,omitempty"`
+	Size *string `json:"size,omitempty"`
 	// The number of backups for each engine
-	BackupNum *int64 `json:"backupNum,omitempty"`
+	Num *int64 `json:"num,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -36,88 +36,88 @@ func NewBackupStatsTypeWithDefaults() *BackupStatsType {
 	return &this
 }
 
-// GetBackupType returns the BackupType field value if set, zero value otherwise.
-func (o *BackupStatsType) GetBackupType() string {
-	if o == nil || o.BackupType == nil {
+// GetType returns the Type field value if set, zero value otherwise.
+func (o *BackupStatsType) GetType() string {
+	if o == nil || o.Type == nil {
 		var ret string
 		return ret
 	}
-	return *o.BackupType
+	return *o.Type
 }
 
-// GetBackupTypeOk returns a tuple with the BackupType field value if set, nil otherwise
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsType) GetBackupTypeOk() (*string, bool) {
-	if o == nil || o.BackupType == nil {
+func (o *BackupStatsType) GetTypeOk() (*string, bool) {
+	if o == nil || o.Type == nil {
 		return nil, false
 	}
-	return o.BackupType, true
+	return o.Type, true
 }
 
-// HasBackupType returns a boolean if a field has been set.
-func (o *BackupStatsType) HasBackupType() bool {
-	return o != nil && o.BackupType != nil
+// HasType returns a boolean if a field has been set.
+func (o *BackupStatsType) HasType() bool {
+	return o != nil && o.Type != nil
 }
 
-// SetBackupType gets a reference to the given string and assigns it to the BackupType field.
-func (o *BackupStatsType) SetBackupType(v string) {
-	o.BackupType = &v
+// SetType gets a reference to the given string and assigns it to the Type field.
+func (o *BackupStatsType) SetType(v string) {
+	o.Type = &v
 }
 
-// GetBackupSize returns the BackupSize field value if set, zero value otherwise.
-func (o *BackupStatsType) GetBackupSize() string {
-	if o == nil || o.BackupSize == nil {
+// GetSize returns the Size field value if set, zero value otherwise.
+func (o *BackupStatsType) GetSize() string {
+	if o == nil || o.Size == nil {
 		var ret string
 		return ret
 	}
-	return *o.BackupSize
+	return *o.Size
 }
 
-// GetBackupSizeOk returns a tuple with the BackupSize field value if set, nil otherwise
+// GetSizeOk returns a tuple with the Size field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsType) GetBackupSizeOk() (*string, bool) {
-	if o == nil || o.BackupSize == nil {
+func (o *BackupStatsType) GetSizeOk() (*string, bool) {
+	if o == nil || o.Size == nil {
 		return nil, false
 	}
-	return o.BackupSize, true
+	return o.Size, true
 }
 
-// HasBackupSize returns a boolean if a field has been set.
-func (o *BackupStatsType) HasBackupSize() bool {
-	return o != nil && o.BackupSize != nil
+// HasSize returns a boolean if a field has been set.
+func (o *BackupStatsType) HasSize() bool {
+	return o != nil && o.Size != nil
 }
 
-// SetBackupSize gets a reference to the given string and assigns it to the BackupSize field.
-func (o *BackupStatsType) SetBackupSize(v string) {
-	o.BackupSize = &v
+// SetSize gets a reference to the given string and assigns it to the Size field.
+func (o *BackupStatsType) SetSize(v string) {
+	o.Size = &v
 }
 
-// GetBackupNum returns the BackupNum field value if set, zero value otherwise.
-func (o *BackupStatsType) GetBackupNum() int64 {
-	if o == nil || o.BackupNum == nil {
+// GetNum returns the Num field value if set, zero value otherwise.
+func (o *BackupStatsType) GetNum() int64 {
+	if o == nil || o.Num == nil {
 		var ret int64
 		return ret
 	}
-	return *o.BackupNum
+	return *o.Num
 }
 
-// GetBackupNumOk returns a tuple with the BackupNum field value if set, nil otherwise
+// GetNumOk returns a tuple with the Num field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupStatsType) GetBackupNumOk() (*int64, bool) {
-	if o == nil || o.BackupNum == nil {
+func (o *BackupStatsType) GetNumOk() (*int64, bool) {
+	if o == nil || o.Num == nil {
 		return nil, false
 	}
-	return o.BackupNum, true
+	return o.Num, true
 }
 
-// HasBackupNum returns a boolean if a field has been set.
-func (o *BackupStatsType) HasBackupNum() bool {
-	return o != nil && o.BackupNum != nil
+// HasNum returns a boolean if a field has been set.
+func (o *BackupStatsType) HasNum() bool {
+	return o != nil && o.Num != nil
 }
 
-// SetBackupNum gets a reference to the given int64 and assigns it to the BackupNum field.
-func (o *BackupStatsType) SetBackupNum(v int64) {
-	o.BackupNum = &v
+// SetNum gets a reference to the given int64 and assigns it to the Num field.
+func (o *BackupStatsType) SetNum(v int64) {
+	o.Num = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -126,14 +126,14 @@ func (o BackupStatsType) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.BackupType != nil {
-		toSerialize["backupType"] = o.BackupType
+	if o.Type != nil {
+		toSerialize["type"] = o.Type
 	}
-	if o.BackupSize != nil {
-		toSerialize["backupSize"] = o.BackupSize
+	if o.Size != nil {
+		toSerialize["size"] = o.Size
 	}
-	if o.BackupNum != nil {
-		toSerialize["backupNum"] = o.BackupNum
+	if o.Num != nil {
+		toSerialize["num"] = o.Num
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -145,22 +145,22 @@ func (o BackupStatsType) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupStatsType) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		BackupType *string `json:"backupType,omitempty"`
-		BackupSize *string `json:"backupSize,omitempty"`
-		BackupNum  *int64  `json:"backupNum,omitempty"`
+		Type *string `json:"type,omitempty"`
+		Size *string `json:"size,omitempty"`
+		Num  *int64  `json:"num,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"backupType", "backupSize", "backupNum"})
+		common.DeleteKeys(additionalProperties, &[]string{"type", "size", "num"})
 	} else {
 		return err
 	}
-	o.BackupType = all.BackupType
-	o.BackupSize = all.BackupSize
-	o.BackupNum = all.BackupNum
+	o.Type = all.Type
+	o.Size = all.Size
+	o.Num = all.Num
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

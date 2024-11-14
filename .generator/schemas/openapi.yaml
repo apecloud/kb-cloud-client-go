@@ -11847,7 +11847,7 @@ components:
         status:
           description: Backup status
           type: string
-        backupNum:
+        num:
           description: Number of backups for each status
           format: int64
           type: integer
@@ -11855,13 +11855,27 @@ components:
     backupStatsEngine:
       description: Totalsize and number of backups for the engine
       properties:
-        engineName:
+        engine:
           description: Engine name
           type: string
-        backupSize:
+        size:
           description: totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
-        backupNum:
+        num:
+          description: The number of backups for each engine
+          format: int64
+          type: integer
+      type: object
+    backupStatsType:
+      description: Totalsize and number of backups for the backup type
+      properties:
+        type:
+          description: backup type
+          type: string
+        size:
+          description: totalsize of backups for each engine, A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
+          type: string
+        num:
           description: The number of backups for each engine
           format: int64
           type: integer
@@ -11870,14 +11884,19 @@ components:
       description: Backup statistic info
       properties:
         backupStatsStatus:
-          description: Number of backups for each defferent status
+          description: Number of backups for each different status
           items:
             $ref: '#/components/schemas/backupStatsStatus'
           type: array
         backupStatsEngine:
-          description: Totalsize and number of backups for each engine
+          description: TotalSize and number of backups for each engine
           items:
             $ref: '#/components/schemas/backupStatsEngine'
+          type: array
+        backupStatsType:
+          description: TotalSize and number of backups for each type
+          items:
+            $ref: '#/components/schemas/backupStatsType'
           type: array
         latestBackupTime:
           description: create time of the latest backup

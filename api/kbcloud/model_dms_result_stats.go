@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"time"
@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type ResultStats struct {
+type DmsResultStats struct {
 	ColumnsCount    *int32     `json:"columns_count,omitempty"`
 	RowsCount       *int32     `json:"rows_count,omitempty"`
 	RowsAffected    *int32     `json:"rows_affected,omitempty"`
@@ -21,25 +21,25 @@ type ResultStats struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewResultStats instantiates a new ResultStats object.
+// NewDmsResultStats instantiates a new DmsResultStats object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewResultStats() *ResultStats {
-	this := ResultStats{}
+func NewDmsResultStats() *DmsResultStats {
+	this := DmsResultStats{}
 	return &this
 }
 
-// NewResultStatsWithDefaults instantiates a new ResultStats object.
+// NewDmsResultStatsWithDefaults instantiates a new DmsResultStats object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewResultStatsWithDefaults() *ResultStats {
-	this := ResultStats{}
+func NewDmsResultStatsWithDefaults() *DmsResultStats {
+	this := DmsResultStats{}
 	return &this
 }
 
 // GetColumnsCount returns the ColumnsCount field value if set, zero value otherwise.
-func (o *ResultStats) GetColumnsCount() int32 {
+func (o *DmsResultStats) GetColumnsCount() int32 {
 	if o == nil || o.ColumnsCount == nil {
 		var ret int32
 		return ret
@@ -49,7 +49,7 @@ func (o *ResultStats) GetColumnsCount() int32 {
 
 // GetColumnsCountOk returns a tuple with the ColumnsCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResultStats) GetColumnsCountOk() (*int32, bool) {
+func (o *DmsResultStats) GetColumnsCountOk() (*int32, bool) {
 	if o == nil || o.ColumnsCount == nil {
 		return nil, false
 	}
@@ -57,17 +57,17 @@ func (o *ResultStats) GetColumnsCountOk() (*int32, bool) {
 }
 
 // HasColumnsCount returns a boolean if a field has been set.
-func (o *ResultStats) HasColumnsCount() bool {
+func (o *DmsResultStats) HasColumnsCount() bool {
 	return o != nil && o.ColumnsCount != nil
 }
 
 // SetColumnsCount gets a reference to the given int32 and assigns it to the ColumnsCount field.
-func (o *ResultStats) SetColumnsCount(v int32) {
+func (o *DmsResultStats) SetColumnsCount(v int32) {
 	o.ColumnsCount = &v
 }
 
 // GetRowsCount returns the RowsCount field value if set, zero value otherwise.
-func (o *ResultStats) GetRowsCount() int32 {
+func (o *DmsResultStats) GetRowsCount() int32 {
 	if o == nil || o.RowsCount == nil {
 		var ret int32
 		return ret
@@ -77,7 +77,7 @@ func (o *ResultStats) GetRowsCount() int32 {
 
 // GetRowsCountOk returns a tuple with the RowsCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResultStats) GetRowsCountOk() (*int32, bool) {
+func (o *DmsResultStats) GetRowsCountOk() (*int32, bool) {
 	if o == nil || o.RowsCount == nil {
 		return nil, false
 	}
@@ -85,17 +85,17 @@ func (o *ResultStats) GetRowsCountOk() (*int32, bool) {
 }
 
 // HasRowsCount returns a boolean if a field has been set.
-func (o *ResultStats) HasRowsCount() bool {
+func (o *DmsResultStats) HasRowsCount() bool {
 	return o != nil && o.RowsCount != nil
 }
 
 // SetRowsCount gets a reference to the given int32 and assigns it to the RowsCount field.
-func (o *ResultStats) SetRowsCount(v int32) {
+func (o *DmsResultStats) SetRowsCount(v int32) {
 	o.RowsCount = &v
 }
 
 // GetRowsAffected returns the RowsAffected field value if set, zero value otherwise.
-func (o *ResultStats) GetRowsAffected() int32 {
+func (o *DmsResultStats) GetRowsAffected() int32 {
 	if o == nil || o.RowsAffected == nil {
 		var ret int32
 		return ret
@@ -105,7 +105,7 @@ func (o *ResultStats) GetRowsAffected() int32 {
 
 // GetRowsAffectedOk returns a tuple with the RowsAffected field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResultStats) GetRowsAffectedOk() (*int32, bool) {
+func (o *DmsResultStats) GetRowsAffectedOk() (*int32, bool) {
 	if o == nil || o.RowsAffected == nil {
 		return nil, false
 	}
@@ -113,17 +113,17 @@ func (o *ResultStats) GetRowsAffectedOk() (*int32, bool) {
 }
 
 // HasRowsAffected returns a boolean if a field has been set.
-func (o *ResultStats) HasRowsAffected() bool {
+func (o *DmsResultStats) HasRowsAffected() bool {
 	return o != nil && o.RowsAffected != nil
 }
 
 // SetRowsAffected gets a reference to the given int32 and assigns it to the RowsAffected field.
-func (o *ResultStats) SetRowsAffected(v int32) {
+func (o *DmsResultStats) SetRowsAffected(v int32) {
 	o.RowsAffected = &v
 }
 
 // GetQueryStartTime returns the QueryStartTime field value if set, zero value otherwise.
-func (o *ResultStats) GetQueryStartTime() time.Time {
+func (o *DmsResultStats) GetQueryStartTime() time.Time {
 	if o == nil || o.QueryStartTime == nil {
 		var ret time.Time
 		return ret
@@ -133,7 +133,7 @@ func (o *ResultStats) GetQueryStartTime() time.Time {
 
 // GetQueryStartTimeOk returns a tuple with the QueryStartTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResultStats) GetQueryStartTimeOk() (*time.Time, bool) {
+func (o *DmsResultStats) GetQueryStartTimeOk() (*time.Time, bool) {
 	if o == nil || o.QueryStartTime == nil {
 		return nil, false
 	}
@@ -141,17 +141,17 @@ func (o *ResultStats) GetQueryStartTimeOk() (*time.Time, bool) {
 }
 
 // HasQueryStartTime returns a boolean if a field has been set.
-func (o *ResultStats) HasQueryStartTime() bool {
+func (o *DmsResultStats) HasQueryStartTime() bool {
 	return o != nil && o.QueryStartTime != nil
 }
 
 // SetQueryStartTime gets a reference to the given time.Time and assigns it to the QueryStartTime field.
-func (o *ResultStats) SetQueryStartTime(v time.Time) {
+func (o *DmsResultStats) SetQueryStartTime(v time.Time) {
 	o.QueryStartTime = &v
 }
 
 // GetQueryFinishTime returns the QueryFinishTime field value if set, zero value otherwise.
-func (o *ResultStats) GetQueryFinishTime() time.Time {
+func (o *DmsResultStats) GetQueryFinishTime() time.Time {
 	if o == nil || o.QueryFinishTime == nil {
 		var ret time.Time
 		return ret
@@ -161,7 +161,7 @@ func (o *ResultStats) GetQueryFinishTime() time.Time {
 
 // GetQueryFinishTimeOk returns a tuple with the QueryFinishTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ResultStats) GetQueryFinishTimeOk() (*time.Time, bool) {
+func (o *DmsResultStats) GetQueryFinishTimeOk() (*time.Time, bool) {
 	if o == nil || o.QueryFinishTime == nil {
 		return nil, false
 	}
@@ -169,17 +169,17 @@ func (o *ResultStats) GetQueryFinishTimeOk() (*time.Time, bool) {
 }
 
 // HasQueryFinishTime returns a boolean if a field has been set.
-func (o *ResultStats) HasQueryFinishTime() bool {
+func (o *DmsResultStats) HasQueryFinishTime() bool {
 	return o != nil && o.QueryFinishTime != nil
 }
 
 // SetQueryFinishTime gets a reference to the given time.Time and assigns it to the QueryFinishTime field.
-func (o *ResultStats) SetQueryFinishTime(v time.Time) {
+func (o *DmsResultStats) SetQueryFinishTime(v time.Time) {
 	o.QueryFinishTime = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ResultStats) MarshalJSON() ([]byte, error) {
+func (o DmsResultStats) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -215,7 +215,7 @@ func (o ResultStats) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ResultStats) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsResultStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ColumnsCount    *int32     `json:"columns_count,omitempty"`
 		RowsCount       *int32     `json:"rows_count,omitempty"`

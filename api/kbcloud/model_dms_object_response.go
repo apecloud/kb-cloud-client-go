@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ObjectResponse struct {
+type DmsObjectResponse struct {
 	// The data of the Object
 	Data map[string]interface{} `json:"data,omitempty"`
 	// The type of the Object
@@ -16,25 +16,25 @@ type ObjectResponse struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewObjectResponse instantiates a new ObjectResponse object.
+// NewDmsObjectResponse instantiates a new DmsObjectResponse object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewObjectResponse() *ObjectResponse {
-	this := ObjectResponse{}
+func NewDmsObjectResponse() *DmsObjectResponse {
+	this := DmsObjectResponse{}
 	return &this
 }
 
-// NewObjectResponseWithDefaults instantiates a new ObjectResponse object.
+// NewDmsObjectResponseWithDefaults instantiates a new DmsObjectResponse object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewObjectResponseWithDefaults() *ObjectResponse {
-	this := ObjectResponse{}
+func NewDmsObjectResponseWithDefaults() *DmsObjectResponse {
+	this := DmsObjectResponse{}
 	return &this
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *ObjectResponse) GetData() map[string]interface{} {
+func (o *DmsObjectResponse) GetData() map[string]interface{} {
 	if o == nil || o.Data == nil {
 		var ret map[string]interface{}
 		return ret
@@ -44,7 +44,7 @@ func (o *ObjectResponse) GetData() map[string]interface{} {
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectResponse) GetDataOk() (*map[string]interface{}, bool) {
+func (o *DmsObjectResponse) GetDataOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Data == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *ObjectResponse) GetDataOk() (*map[string]interface{}, bool) {
 }
 
 // HasData returns a boolean if a field has been set.
-func (o *ObjectResponse) HasData() bool {
+func (o *DmsObjectResponse) HasData() bool {
 	return o != nil && o.Data != nil
 }
 
 // SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
-func (o *ObjectResponse) SetData(v map[string]interface{}) {
+func (o *DmsObjectResponse) SetData(v map[string]interface{}) {
 	o.Data = v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ObjectResponse) GetType() string {
+func (o *DmsObjectResponse) GetType() string {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret
@@ -72,7 +72,7 @@ func (o *ObjectResponse) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ObjectResponse) GetTypeOk() (*string, bool) {
+func (o *DmsObjectResponse) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *ObjectResponse) GetTypeOk() (*string, bool) {
 }
 
 // HasType returns a boolean if a field has been set.
-func (o *ObjectResponse) HasType() bool {
+func (o *DmsObjectResponse) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *ObjectResponse) SetType(v string) {
+func (o *DmsObjectResponse) SetType(v string) {
 	o.Type = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ObjectResponse) MarshalJSON() ([]byte, error) {
+func (o DmsObjectResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -109,7 +109,7 @@ func (o ObjectResponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ObjectResponse) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsObjectResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Data map[string]interface{} `json:"data,omitempty"`
 		Type *string                `json:"type,omitempty"`

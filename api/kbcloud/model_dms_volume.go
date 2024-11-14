@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type Volume struct {
+type DmsVolume struct {
 	Name      *string `json:"name,omitempty"`
 	Type      *string `json:"type,omitempty"`
 	IsDefault *string `json:"isDefault,omitempty"`
@@ -18,25 +18,25 @@ type Volume struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewVolume instantiates a new Volume object.
+// NewDmsVolume instantiates a new DmsVolume object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewVolume() *Volume {
-	this := Volume{}
+func NewDmsVolume() *DmsVolume {
+	this := DmsVolume{}
 	return &this
 }
 
-// NewVolumeWithDefaults instantiates a new Volume object.
+// NewDmsVolumeWithDefaults instantiates a new DmsVolume object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewVolumeWithDefaults() *Volume {
-	this := Volume{}
+func NewDmsVolumeWithDefaults() *DmsVolume {
+	this := DmsVolume{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *Volume) GetName() string {
+func (o *DmsVolume) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -46,7 +46,7 @@ func (o *Volume) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Volume) GetNameOk() (*string, bool) {
+func (o *DmsVolume) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -54,17 +54,17 @@ func (o *Volume) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *Volume) HasName() bool {
+func (o *DmsVolume) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *Volume) SetName(v string) {
+func (o *DmsVolume) SetName(v string) {
 	o.Name = &v
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *Volume) GetType() string {
+func (o *DmsVolume) GetType() string {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret
@@ -74,7 +74,7 @@ func (o *Volume) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Volume) GetTypeOk() (*string, bool) {
+func (o *DmsVolume) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -82,17 +82,17 @@ func (o *Volume) GetTypeOk() (*string, bool) {
 }
 
 // HasType returns a boolean if a field has been set.
-func (o *Volume) HasType() bool {
+func (o *DmsVolume) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *Volume) SetType(v string) {
+func (o *DmsVolume) SetType(v string) {
 	o.Type = &v
 }
 
 // GetIsDefault returns the IsDefault field value if set, zero value otherwise.
-func (o *Volume) GetIsDefault() string {
+func (o *DmsVolume) GetIsDefault() string {
 	if o == nil || o.IsDefault == nil {
 		var ret string
 		return ret
@@ -102,7 +102,7 @@ func (o *Volume) GetIsDefault() string {
 
 // GetIsDefaultOk returns a tuple with the IsDefault field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Volume) GetIsDefaultOk() (*string, bool) {
+func (o *DmsVolume) GetIsDefaultOk() (*string, bool) {
 	if o == nil || o.IsDefault == nil {
 		return nil, false
 	}
@@ -110,17 +110,17 @@ func (o *Volume) GetIsDefaultOk() (*string, bool) {
 }
 
 // HasIsDefault returns a boolean if a field has been set.
-func (o *Volume) HasIsDefault() bool {
+func (o *DmsVolume) HasIsDefault() bool {
 	return o != nil && o.IsDefault != nil
 }
 
 // SetIsDefault gets a reference to the given string and assigns it to the IsDefault field.
-func (o *Volume) SetIsDefault(v string) {
+func (o *DmsVolume) SetIsDefault(v string) {
 	o.IsDefault = &v
 }
 
 // GetLocation returns the Location field value if set, zero value otherwise.
-func (o *Volume) GetLocation() string {
+func (o *DmsVolume) GetLocation() string {
 	if o == nil || o.Location == nil {
 		var ret string
 		return ret
@@ -130,7 +130,7 @@ func (o *Volume) GetLocation() string {
 
 // GetLocationOk returns a tuple with the Location field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Volume) GetLocationOk() (*string, bool) {
+func (o *DmsVolume) GetLocationOk() (*string, bool) {
 	if o == nil || o.Location == nil {
 		return nil, false
 	}
@@ -138,17 +138,17 @@ func (o *Volume) GetLocationOk() (*string, bool) {
 }
 
 // HasLocation returns a boolean if a field has been set.
-func (o *Volume) HasLocation() bool {
+func (o *DmsVolume) HasLocation() bool {
 	return o != nil && o.Location != nil
 }
 
 // SetLocation gets a reference to the given string and assigns it to the Location field.
-func (o *Volume) SetLocation(v string) {
+func (o *DmsVolume) SetLocation(v string) {
 	o.Location = &v
 }
 
 // GetParams returns the Params field value if set, zero value otherwise.
-func (o *Volume) GetParams() string {
+func (o *DmsVolume) GetParams() string {
 	if o == nil || o.Params == nil {
 		var ret string
 		return ret
@@ -158,7 +158,7 @@ func (o *Volume) GetParams() string {
 
 // GetParamsOk returns a tuple with the Params field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Volume) GetParamsOk() (*string, bool) {
+func (o *DmsVolume) GetParamsOk() (*string, bool) {
 	if o == nil || o.Params == nil {
 		return nil, false
 	}
@@ -166,17 +166,17 @@ func (o *Volume) GetParamsOk() (*string, bool) {
 }
 
 // HasParams returns a boolean if a field has been set.
-func (o *Volume) HasParams() bool {
+func (o *DmsVolume) HasParams() bool {
 	return o != nil && o.Params != nil
 }
 
 // SetParams gets a reference to the given string and assigns it to the Params field.
-func (o *Volume) SetParams(v string) {
+func (o *DmsVolume) SetParams(v string) {
 	o.Params = &v
 }
 
 // GetComment returns the Comment field value if set, zero value otherwise.
-func (o *Volume) GetComment() string {
+func (o *DmsVolume) GetComment() string {
 	if o == nil || o.Comment == nil {
 		var ret string
 		return ret
@@ -186,7 +186,7 @@ func (o *Volume) GetComment() string {
 
 // GetCommentOk returns a tuple with the Comment field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Volume) GetCommentOk() (*string, bool) {
+func (o *DmsVolume) GetCommentOk() (*string, bool) {
 	if o == nil || o.Comment == nil {
 		return nil, false
 	}
@@ -194,17 +194,17 @@ func (o *Volume) GetCommentOk() (*string, bool) {
 }
 
 // HasComment returns a boolean if a field has been set.
-func (o *Volume) HasComment() bool {
+func (o *DmsVolume) HasComment() bool {
 	return o != nil && o.Comment != nil
 }
 
 // SetComment gets a reference to the given string and assigns it to the Comment field.
-func (o *Volume) SetComment(v string) {
+func (o *DmsVolume) SetComment(v string) {
 	o.Comment = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Volume) MarshalJSON() ([]byte, error) {
+func (o DmsVolume) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -235,7 +235,7 @@ func (o Volume) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Volume) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsVolume) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name      *string `json:"name,omitempty"`
 		Type      *string `json:"type,omitempty"`

@@ -13,7 +13,8 @@ import (
 // BackupRepoStatsList backupRepoStatsList is a list of backup repo stats
 type BackupRepoStatsList struct {
 	// Items is the list of backup repo stats in the list
-	Items []BackupRepoStats `json:"items"`
+	Items   []BackupRepoStats `json:"items"`
+	Current *BackupRepoStats  `json:"current,omitempty"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -62,6 +63,34 @@ func (o *BackupRepoStatsList) SetItems(v []BackupRepoStats) {
 	o.Items = v
 }
 
+// GetCurrent returns the Current field value if set, zero value otherwise.
+func (o *BackupRepoStatsList) GetCurrent() BackupRepoStats {
+	if o == nil || o.Current == nil {
+		var ret BackupRepoStats
+		return ret
+	}
+	return *o.Current
+}
+
+// GetCurrentOk returns a tuple with the Current field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupRepoStatsList) GetCurrentOk() (*BackupRepoStats, bool) {
+	if o == nil || o.Current == nil {
+		return nil, false
+	}
+	return o.Current, true
+}
+
+// HasCurrent returns a boolean if a field has been set.
+func (o *BackupRepoStatsList) HasCurrent() bool {
+	return o != nil && o.Current != nil
+}
+
+// SetCurrent gets a reference to the given BackupRepoStats and assigns it to the Current field.
+func (o *BackupRepoStatsList) SetCurrent(v BackupRepoStats) {
+	o.Current = &v
+}
+
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
 func (o *BackupRepoStatsList) GetPageResult() PageResult {
 	if o == nil || o.PageResult == nil {
@@ -97,6 +126,9 @@ func (o BackupRepoStatsList) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["items"] = o.Items
+	if o.Current != nil {
+		toSerialize["current"] = o.Current
+	}
 	if o.PageResult != nil {
 		toSerialize["pageResult"] = o.PageResult
 	}
@@ -111,6 +143,7 @@ func (o BackupRepoStatsList) MarshalJSON() ([]byte, error) {
 func (o *BackupRepoStatsList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Items      *[]BackupRepoStats `json:"items"`
+		Current    *BackupRepoStats   `json:"current,omitempty"`
 		PageResult *PageResult        `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -121,13 +154,17 @@ func (o *BackupRepoStatsList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "pageResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"items", "current", "pageResult"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Items = *all.Items
+	if all.Current != nil && all.Current.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Current = all.Current
 	if all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

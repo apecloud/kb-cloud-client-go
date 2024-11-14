@@ -2,41 +2,41 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type Result struct {
-	Pagination *Pagination     `json:"pagination,omitempty"`
+type DmsResult struct {
+	Pagination *DmsPagination  `json:"pagination,omitempty"`
 	Columns    []string        `json:"columns,omitempty"`
 	Rows       [][]interface{} `json:"rows,omitempty"`
-	Stats      *ResultStats    `json:"stats,omitempty"`
+	Stats      *DmsResultStats `json:"stats,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewResult instantiates a new Result object.
+// NewDmsResult instantiates a new DmsResult object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewResult() *Result {
-	this := Result{}
+func NewDmsResult() *DmsResult {
+	this := DmsResult{}
 	return &this
 }
 
-// NewResultWithDefaults instantiates a new Result object.
+// NewDmsResultWithDefaults instantiates a new DmsResult object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewResultWithDefaults() *Result {
-	this := Result{}
+func NewDmsResultWithDefaults() *DmsResult {
+	this := DmsResult{}
 	return &this
 }
 
 // GetPagination returns the Pagination field value if set, zero value otherwise.
-func (o *Result) GetPagination() Pagination {
+func (o *DmsResult) GetPagination() DmsPagination {
 	if o == nil || o.Pagination == nil {
-		var ret Pagination
+		var ret DmsPagination
 		return ret
 	}
 	return *o.Pagination
@@ -44,7 +44,7 @@ func (o *Result) GetPagination() Pagination {
 
 // GetPaginationOk returns a tuple with the Pagination field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Result) GetPaginationOk() (*Pagination, bool) {
+func (o *DmsResult) GetPaginationOk() (*DmsPagination, bool) {
 	if o == nil || o.Pagination == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *Result) GetPaginationOk() (*Pagination, bool) {
 }
 
 // HasPagination returns a boolean if a field has been set.
-func (o *Result) HasPagination() bool {
+func (o *DmsResult) HasPagination() bool {
 	return o != nil && o.Pagination != nil
 }
 
-// SetPagination gets a reference to the given Pagination and assigns it to the Pagination field.
-func (o *Result) SetPagination(v Pagination) {
+// SetPagination gets a reference to the given DmsPagination and assigns it to the Pagination field.
+func (o *DmsResult) SetPagination(v DmsPagination) {
 	o.Pagination = &v
 }
 
 // GetColumns returns the Columns field value if set, zero value otherwise.
-func (o *Result) GetColumns() []string {
+func (o *DmsResult) GetColumns() []string {
 	if o == nil || o.Columns == nil {
 		var ret []string
 		return ret
@@ -72,7 +72,7 @@ func (o *Result) GetColumns() []string {
 
 // GetColumnsOk returns a tuple with the Columns field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Result) GetColumnsOk() (*[]string, bool) {
+func (o *DmsResult) GetColumnsOk() (*[]string, bool) {
 	if o == nil || o.Columns == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *Result) GetColumnsOk() (*[]string, bool) {
 }
 
 // HasColumns returns a boolean if a field has been set.
-func (o *Result) HasColumns() bool {
+func (o *DmsResult) HasColumns() bool {
 	return o != nil && o.Columns != nil
 }
 
 // SetColumns gets a reference to the given []string and assigns it to the Columns field.
-func (o *Result) SetColumns(v []string) {
+func (o *DmsResult) SetColumns(v []string) {
 	o.Columns = v
 }
 
 // GetRows returns the Rows field value if set, zero value otherwise.
-func (o *Result) GetRows() [][]interface{} {
+func (o *DmsResult) GetRows() [][]interface{} {
 	if o == nil || o.Rows == nil {
 		var ret [][]interface{}
 		return ret
@@ -100,7 +100,7 @@ func (o *Result) GetRows() [][]interface{} {
 
 // GetRowsOk returns a tuple with the Rows field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Result) GetRowsOk() (*[][]interface{}, bool) {
+func (o *DmsResult) GetRowsOk() (*[][]interface{}, bool) {
 	if o == nil || o.Rows == nil {
 		return nil, false
 	}
@@ -108,19 +108,19 @@ func (o *Result) GetRowsOk() (*[][]interface{}, bool) {
 }
 
 // HasRows returns a boolean if a field has been set.
-func (o *Result) HasRows() bool {
+func (o *DmsResult) HasRows() bool {
 	return o != nil && o.Rows != nil
 }
 
 // SetRows gets a reference to the given [][]interface{} and assigns it to the Rows field.
-func (o *Result) SetRows(v [][]interface{}) {
+func (o *DmsResult) SetRows(v [][]interface{}) {
 	o.Rows = v
 }
 
 // GetStats returns the Stats field value if set, zero value otherwise.
-func (o *Result) GetStats() ResultStats {
+func (o *DmsResult) GetStats() DmsResultStats {
 	if o == nil || o.Stats == nil {
-		var ret ResultStats
+		var ret DmsResultStats
 		return ret
 	}
 	return *o.Stats
@@ -128,7 +128,7 @@ func (o *Result) GetStats() ResultStats {
 
 // GetStatsOk returns a tuple with the Stats field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Result) GetStatsOk() (*ResultStats, bool) {
+func (o *DmsResult) GetStatsOk() (*DmsResultStats, bool) {
 	if o == nil || o.Stats == nil {
 		return nil, false
 	}
@@ -136,17 +136,17 @@ func (o *Result) GetStatsOk() (*ResultStats, bool) {
 }
 
 // HasStats returns a boolean if a field has been set.
-func (o *Result) HasStats() bool {
+func (o *DmsResult) HasStats() bool {
 	return o != nil && o.Stats != nil
 }
 
-// SetStats gets a reference to the given ResultStats and assigns it to the Stats field.
-func (o *Result) SetStats(v ResultStats) {
+// SetStats gets a reference to the given DmsResultStats and assigns it to the Stats field.
+func (o *DmsResult) SetStats(v DmsResultStats) {
 	o.Stats = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Result) MarshalJSON() ([]byte, error) {
+func (o DmsResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -171,12 +171,12 @@ func (o Result) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Result) UnmarshalJSON(bytes []byte) (err error) {
+func (o *DmsResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Pagination *Pagination     `json:"pagination,omitempty"`
+		Pagination *DmsPagination  `json:"pagination,omitempty"`
 		Columns    []string        `json:"columns,omitempty"`
 		Rows       [][]interface{} `json:"rows,omitempty"`
-		Stats      *ResultStats    `json:"stats,omitempty"`
+		Stats      *DmsResultStats `json:"stats,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
