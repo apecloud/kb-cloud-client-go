@@ -19,9 +19,9 @@ type PodChaos struct {
 	// specify the action to be performed
 	Action PodChaosAction `json:"action"`
 	// specify the duration of the chaos action
-	Duration *string `json:"duration,omitempty"`
+	Duration common.NullableString `json:"duration,omitempty"`
 	// when action is pod-kill, specify the duration to wait before killing the pod
-	GracePeriod *int32 `json:"gracePeriod,omitempty"`
+	GracePeriod common.NullableInt32 `json:"gracePeriod,omitempty"`
 	// the name of the pod to perform the chaos
 	Name *string `json:"name,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -146,60 +146,82 @@ func (o *PodChaos) SetAction(v PodChaosAction) {
 	o.Action = v
 }
 
-// GetDuration returns the Duration field value if set, zero value otherwise.
+// GetDuration returns the Duration field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PodChaos) GetDuration() string {
-	if o == nil || o.Duration == nil {
+	if o == nil || o.Duration.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Duration
+	return *o.Duration.Get()
 }
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PodChaos) GetDurationOk() (*string, bool) {
-	if o == nil || o.Duration == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Duration, true
+	return o.Duration.Get(), o.Duration.IsSet()
 }
 
 // HasDuration returns a boolean if a field has been set.
 func (o *PodChaos) HasDuration() bool {
-	return o != nil && o.Duration != nil
+	return o != nil && o.Duration.IsSet()
 }
 
-// SetDuration gets a reference to the given string and assigns it to the Duration field.
+// SetDuration gets a reference to the given common.NullableString and assigns it to the Duration field.
 func (o *PodChaos) SetDuration(v string) {
-	o.Duration = &v
+	o.Duration.Set(&v)
 }
 
-// GetGracePeriod returns the GracePeriod field value if set, zero value otherwise.
+// SetDurationNil sets the value for Duration to be an explicit nil.
+func (o *PodChaos) SetDurationNil() {
+	o.Duration.Set(nil)
+}
+
+// UnsetDuration ensures that no value is present for Duration, not even an explicit nil.
+func (o *PodChaos) UnsetDuration() {
+	o.Duration.Unset()
+}
+
+// GetGracePeriod returns the GracePeriod field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PodChaos) GetGracePeriod() int32 {
-	if o == nil || o.GracePeriod == nil {
+	if o == nil || o.GracePeriod.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.GracePeriod
+	return *o.GracePeriod.Get()
 }
 
 // GetGracePeriodOk returns a tuple with the GracePeriod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PodChaos) GetGracePeriodOk() (*int32, bool) {
-	if o == nil || o.GracePeriod == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.GracePeriod, true
+	return o.GracePeriod.Get(), o.GracePeriod.IsSet()
 }
 
 // HasGracePeriod returns a boolean if a field has been set.
 func (o *PodChaos) HasGracePeriod() bool {
-	return o != nil && o.GracePeriod != nil
+	return o != nil && o.GracePeriod.IsSet()
 }
 
-// SetGracePeriod gets a reference to the given int32 and assigns it to the GracePeriod field.
+// SetGracePeriod gets a reference to the given common.NullableInt32 and assigns it to the GracePeriod field.
 func (o *PodChaos) SetGracePeriod(v int32) {
-	o.GracePeriod = &v
+	o.GracePeriod.Set(&v)
+}
+
+// SetGracePeriodNil sets the value for GracePeriod to be an explicit nil.
+func (o *PodChaos) SetGracePeriodNil() {
+	o.GracePeriod.Set(nil)
+}
+
+// UnsetGracePeriod ensures that no value is present for GracePeriod, not even an explicit nil.
+func (o *PodChaos) UnsetGracePeriod() {
+	o.GracePeriod.Unset()
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -242,11 +264,11 @@ func (o PodChaos) MarshalJSON() ([]byte, error) {
 		toSerialize["value"] = o.Value
 	}
 	toSerialize["action"] = o.Action
-	if o.Duration != nil {
-		toSerialize["duration"] = o.Duration
+	if o.Duration.IsSet() {
+		toSerialize["duration"] = o.Duration.Get()
 	}
-	if o.GracePeriod != nil {
-		toSerialize["gracePeriod"] = o.GracePeriod
+	if o.GracePeriod.IsSet() {
+		toSerialize["gracePeriod"] = o.GracePeriod.Get()
 	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
@@ -261,13 +283,13 @@ func (o PodChaos) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PodChaos) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode        *PodChaosMode   `json:"mode"`
-		ClusterId   *string         `json:"clusterID"`
-		Value       *string         `json:"value,omitempty"`
-		Action      *PodChaosAction `json:"action"`
-		Duration    *string         `json:"duration,omitempty"`
-		GracePeriod *int32          `json:"gracePeriod,omitempty"`
-		Name        *string         `json:"name,omitempty"`
+		Mode        *PodChaosMode         `json:"mode"`
+		ClusterId   *string               `json:"clusterID"`
+		Value       *string               `json:"value,omitempty"`
+		Action      *PodChaosAction       `json:"action"`
+		Duration    common.NullableString `json:"duration,omitempty"`
+		GracePeriod common.NullableInt32  `json:"gracePeriod,omitempty"`
+		Name        *string               `json:"name,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
