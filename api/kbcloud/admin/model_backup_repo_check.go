@@ -10,7 +10,7 @@ type BackupRepoCheck struct {
 	// whether backup repo pass the check
 	Success *bool `json:"success,omitempty"`
 	// the info when failed to pass the check
-	Message interface{} `json:"message,omitempty"`
+	Message *string `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -62,21 +62,21 @@ func (o *BackupRepoCheck) SetSuccess(v bool) {
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *BackupRepoCheck) GetMessage() interface{} {
+func (o *BackupRepoCheck) GetMessage() string {
 	if o == nil || o.Message == nil {
-		var ret interface{}
+		var ret string
 		return ret
 	}
-	return o.Message
+	return *o.Message
 }
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupRepoCheck) GetMessageOk() (*interface{}, bool) {
+func (o *BackupRepoCheck) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
-	return &o.Message, true
+	return o.Message, true
 }
 
 // HasMessage returns a boolean if a field has been set.
@@ -84,9 +84,9 @@ func (o *BackupRepoCheck) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
-// SetMessage gets a reference to the given interface{} and assigns it to the Message field.
-func (o *BackupRepoCheck) SetMessage(v interface{}) {
-	o.Message = v
+// SetMessage gets a reference to the given string and assigns it to the Message field.
+func (o *BackupRepoCheck) SetMessage(v string) {
+	o.Message = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -111,8 +111,8 @@ func (o BackupRepoCheck) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepoCheck) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Success *bool       `json:"success,omitempty"`
-		Message interface{} `json:"message,omitempty"`
+		Success *bool   `json:"success,omitempty"`
+		Message *string `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

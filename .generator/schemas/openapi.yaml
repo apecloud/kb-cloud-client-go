@@ -8889,7 +8889,6 @@ components:
           format: date-time
       required:
         - description
-        - expiredAt
       type: object
     apikey:
       description: APIKey is the key for API access
