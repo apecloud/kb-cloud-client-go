@@ -14520,7 +14520,6 @@ components:
           type: string
       required:
         - opsRequestName
-        - dependentOpsName
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
