@@ -12,7 +12,7 @@ import (
 
 type BackupRepoStats struct {
 	// the total backup in backup repo
-	TotalBackup *int32 `json:"totalBackup,omitempty"`
+	TotalBackup *int64 `json:"totalBackup,omitempty"`
 	// the total backup size in backup repo
 	TotalSize *string `json:"totalSize,omitempty"`
 	// Number of backups for each defferent status
@@ -46,9 +46,9 @@ func NewBackupRepoStatsWithDefaults() *BackupRepoStats {
 }
 
 // GetTotalBackup returns the TotalBackup field value if set, zero value otherwise.
-func (o *BackupRepoStats) GetTotalBackup() int32 {
+func (o *BackupRepoStats) GetTotalBackup() int64 {
 	if o == nil || o.TotalBackup == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 	return *o.TotalBackup
@@ -56,7 +56,7 @@ func (o *BackupRepoStats) GetTotalBackup() int32 {
 
 // GetTotalBackupOk returns a tuple with the TotalBackup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupRepoStats) GetTotalBackupOk() (*int32, bool) {
+func (o *BackupRepoStats) GetTotalBackupOk() (*int64, bool) {
 	if o == nil || o.TotalBackup == nil {
 		return nil, false
 	}
@@ -68,8 +68,8 @@ func (o *BackupRepoStats) HasTotalBackup() bool {
 	return o != nil && o.TotalBackup != nil
 }
 
-// SetTotalBackup gets a reference to the given int32 and assigns it to the TotalBackup field.
-func (o *BackupRepoStats) SetTotalBackup(v int32) {
+// SetTotalBackup gets a reference to the given int64 and assigns it to the TotalBackup field.
+func (o *BackupRepoStats) SetTotalBackup(v int64) {
 	o.TotalBackup = &v
 }
 
@@ -251,7 +251,7 @@ func (o BackupRepoStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepoStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TotalBackup       *int32              `json:"totalBackup,omitempty"`
+		TotalBackup       *int64              `json:"totalBackup,omitempty"`
 		TotalSize         *string             `json:"totalSize,omitempty"`
 		BackupStatsStatus []BackupStatsStatus `json:"backupStatsStatus,omitempty"`
 		BackupStatsEngine []BackupStatsEngine `json:"backupStatsEngine,omitempty"`

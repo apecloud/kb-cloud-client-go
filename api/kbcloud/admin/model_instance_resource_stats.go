@@ -21,7 +21,7 @@ type InstanceResourceStats struct {
 	// Name of the instance.
 	Name string `json:"name"`
 	// Type of the instance, choose cluster or system
-	Type *ResourceStatsInstanceType `json:"type,omitempty"`
+	Type *InstanceResourceStatsType `json:"type,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -145,9 +145,9 @@ func (o *InstanceResourceStats) SetName(v string) {
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *InstanceResourceStats) GetType() ResourceStatsInstanceType {
+func (o *InstanceResourceStats) GetType() InstanceResourceStatsType {
 	if o == nil || o.Type == nil {
-		var ret ResourceStatsInstanceType
+		var ret InstanceResourceStatsType
 		return ret
 	}
 	return *o.Type
@@ -155,7 +155,7 @@ func (o *InstanceResourceStats) GetType() ResourceStatsInstanceType {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InstanceResourceStats) GetTypeOk() (*ResourceStatsInstanceType, bool) {
+func (o *InstanceResourceStats) GetTypeOk() (*InstanceResourceStatsType, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -167,8 +167,8 @@ func (o *InstanceResourceStats) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
-// SetType gets a reference to the given ResourceStatsInstanceType and assigns it to the Type field.
-func (o *InstanceResourceStats) SetType(v ResourceStatsInstanceType) {
+// SetType gets a reference to the given InstanceResourceStatsType and assigns it to the Type field.
+func (o *InstanceResourceStats) SetType(v InstanceResourceStatsType) {
 	o.Type = &v
 }
 
@@ -201,7 +201,7 @@ func (o *InstanceResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		MemoryStats           *ResourceStats             `json:"memoryStats"`
 		EphemeralStorageStats *ResourceStats             `json:"ephemeralStorageStats,omitempty"`
 		Name                  *string                    `json:"name"`
-		Type                  *ResourceStatsInstanceType `json:"type,omitempty"`
+		Type                  *InstanceResourceStatsType `json:"type,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

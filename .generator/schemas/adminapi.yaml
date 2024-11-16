@@ -15619,7 +15619,7 @@ components:
       properties: {}
       additionalProperties: true
       type: object
-    resourceStatsInstanceType:
+    instanceResourceStatsType:
       description: Type of the instance, choose cluster or system
       enum:
         - cluster
@@ -15638,7 +15638,7 @@ components:
           description: Name of the instance.
           type: string
         type:
-          $ref: '#/components/schemas/resourceStatsInstanceType'
+          $ref: '#/components/schemas/instanceResourceStatsType'
       required:
         - cpuStats
         - memoryStats
@@ -16445,6 +16445,7 @@ components:
           type: boolean
         message:
           description: the info when failed to pass the check
+          type: string
     backupRepoView:
       properties:
         filepath:
@@ -16523,6 +16524,7 @@ components:
         totalBackup:
           description: the total backup in backup repo
           type: integer
+          format: int64
         totalSize:
           description: the total backup size in backup repo
           type: string
@@ -19592,9 +19594,11 @@ components:
         duration:
           type: string
           description: specify the duration of the chaos action
+          nullable: true
         gracePeriod:
           type: integer
           description: when action is pod-kill, specify the duration to wait before killing the pod
+          nullable: true
         name:
           type: string
           description: the name of the pod to perform the chaos
