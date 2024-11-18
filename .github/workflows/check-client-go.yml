@@ -4,6 +4,12 @@ on:
   push:
     paths:
       - '.generator/**'
+  pull_request:
+    branches:
+      - main
+      - releases/**
+    paths:
+      - '.generator/**'
 
 
 env:
