@@ -12,8 +12,8 @@ import (
 
 // OpsRequestName OpsRequestName is the name of a KubeBlocks OpsRequest
 type OpsRequestName struct {
-	OpsRequestName   string `json:"opsRequestName"`
-	DependentOpsName string `json:"dependentOpsName"`
+	OpsRequestName   string  `json:"opsRequestName"`
+	DependentOpsName *string `json:"dependentOpsName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,10 +23,9 @@ type OpsRequestName struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsRequestName(opsRequestName string, dependentOpsName string) *OpsRequestName {
+func NewOpsRequestName(opsRequestName string) *OpsRequestName {
 	this := OpsRequestName{}
 	this.OpsRequestName = opsRequestName
-	this.DependentOpsName = dependentOpsName
 	return &this
 }
 
@@ -61,27 +60,32 @@ func (o *OpsRequestName) SetOpsRequestName(v string) {
 	o.OpsRequestName = v
 }
 
-// GetDependentOpsName returns the DependentOpsName field value.
+// GetDependentOpsName returns the DependentOpsName field value if set, zero value otherwise.
 func (o *OpsRequestName) GetDependentOpsName() string {
-	if o == nil {
+	if o == nil || o.DependentOpsName == nil {
 		var ret string
 		return ret
 	}
-	return o.DependentOpsName
+	return *o.DependentOpsName
 }
 
-// GetDependentOpsNameOk returns a tuple with the DependentOpsName field value
+// GetDependentOpsNameOk returns a tuple with the DependentOpsName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsRequestName) GetDependentOpsNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.DependentOpsName == nil {
 		return nil, false
 	}
-	return &o.DependentOpsName, true
+	return o.DependentOpsName, true
 }
 
-// SetDependentOpsName sets field value.
+// HasDependentOpsName returns a boolean if a field has been set.
+func (o *OpsRequestName) HasDependentOpsName() bool {
+	return o != nil && o.DependentOpsName != nil
+}
+
+// SetDependentOpsName gets a reference to the given string and assigns it to the DependentOpsName field.
 func (o *OpsRequestName) SetDependentOpsName(v string) {
-	o.DependentOpsName = v
+	o.DependentOpsName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -91,7 +95,9 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["opsRequestName"] = o.OpsRequestName
-	toSerialize["dependentOpsName"] = o.DependentOpsName
+	if o.DependentOpsName != nil {
+		toSerialize["dependentOpsName"] = o.DependentOpsName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -103,16 +109,13 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		OpsRequestName   *string `json:"opsRequestName"`
-		DependentOpsName *string `json:"dependentOpsName"`
+		DependentOpsName *string `json:"dependentOpsName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	if all.OpsRequestName == nil {
 		return fmt.Errorf("required field opsRequestName missing")
-	}
-	if all.DependentOpsName == nil {
-		return fmt.Errorf("required field dependentOpsName missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -121,7 +124,7 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.OpsRequestName = *all.OpsRequestName
-	o.DependentOpsName = *all.DependentOpsName
+	o.DependentOpsName = all.DependentOpsName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
