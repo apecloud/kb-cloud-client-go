@@ -15,6 +15,11 @@ import (
 type Cluster struct {
 	// Cluster ID
 	Id interface{} `json:"id,omitempty"`
+	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+	ParentId common.NullableInt64 `json:"parentId,omitempty"`
+	// Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+	ClusterType NullableClusterType    `json:"clusterType,omitempty"`
+	Delay       common.NullableFloat64 `json:"delay,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
 	// Cloud Provider
@@ -114,6 +119,8 @@ type Cluster struct {
 // will change when the set of required properties is changed.
 func NewCluster(environmentName string, name string, engine string) *Cluster {
 	this := Cluster{}
+	var clusterType ClusterType = ClusterTypeNormal
+	this.ClusterType = *NewNullableClusterType(&clusterType)
 	this.EnvironmentName = environmentName
 	var namespace string = "kubeblocks-cloud-ns"
 	this.Namespace = &namespace
@@ -147,6 +154,8 @@ func NewCluster(environmentName string, name string, engine string) *Cluster {
 // but it doesn't guarantee that properties required by API are set.
 func NewClusterWithDefaults() *Cluster {
 	this := Cluster{}
+	var clusterType ClusterType = ClusterTypeNormal
+	this.ClusterType = *NewNullableClusterType(&clusterType)
 	var namespace string = "kubeblocks-cloud-ns"
 	this.Namespace = &namespace
 	var project string = "kubeblocks-cloud-ns"
@@ -198,6 +207,123 @@ func (o *Cluster) HasId() bool {
 // SetId gets a reference to the given interface{} and assigns it to the Id field.
 func (o *Cluster) SetId(v interface{}) {
 	o.Id = v
+}
+
+// GetParentId returns the ParentId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Cluster) GetParentId() int64 {
+	if o == nil || o.ParentId.Get() == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ParentId.Get()
+}
+
+// GetParentIdOk returns a tuple with the ParentId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Cluster) GetParentIdOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentId.Get(), o.ParentId.IsSet()
+}
+
+// HasParentId returns a boolean if a field has been set.
+func (o *Cluster) HasParentId() bool {
+	return o != nil && o.ParentId.IsSet()
+}
+
+// SetParentId gets a reference to the given common.NullableInt64 and assigns it to the ParentId field.
+func (o *Cluster) SetParentId(v int64) {
+	o.ParentId.Set(&v)
+}
+
+// SetParentIdNil sets the value for ParentId to be an explicit nil.
+func (o *Cluster) SetParentIdNil() {
+	o.ParentId.Set(nil)
+}
+
+// UnsetParentId ensures that no value is present for ParentId, not even an explicit nil.
+func (o *Cluster) UnsetParentId() {
+	o.ParentId.Unset()
+}
+
+// GetClusterType returns the ClusterType field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Cluster) GetClusterType() ClusterType {
+	if o == nil || o.ClusterType.Get() == nil {
+		var ret ClusterType
+		return ret
+	}
+	return *o.ClusterType.Get()
+}
+
+// GetClusterTypeOk returns a tuple with the ClusterType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Cluster) GetClusterTypeOk() (*ClusterType, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ClusterType.Get(), o.ClusterType.IsSet()
+}
+
+// HasClusterType returns a boolean if a field has been set.
+func (o *Cluster) HasClusterType() bool {
+	return o != nil && o.ClusterType.IsSet()
+}
+
+// SetClusterType gets a reference to the given NullableClusterType and assigns it to the ClusterType field.
+func (o *Cluster) SetClusterType(v ClusterType) {
+	o.ClusterType.Set(&v)
+}
+
+// SetClusterTypeNil sets the value for ClusterType to be an explicit nil.
+func (o *Cluster) SetClusterTypeNil() {
+	o.ClusterType.Set(nil)
+}
+
+// UnsetClusterType ensures that no value is present for ClusterType, not even an explicit nil.
+func (o *Cluster) UnsetClusterType() {
+	o.ClusterType.Unset()
+}
+
+// GetDelay returns the Delay field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Cluster) GetDelay() float64 {
+	if o == nil || o.Delay.Get() == nil {
+		var ret float64
+		return ret
+	}
+	return *o.Delay.Get()
+}
+
+// GetDelayOk returns a tuple with the Delay field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Cluster) GetDelayOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Delay.Get(), o.Delay.IsSet()
+}
+
+// HasDelay returns a boolean if a field has been set.
+func (o *Cluster) HasDelay() bool {
+	return o != nil && o.Delay.IsSet()
+}
+
+// SetDelay gets a reference to the given common.NullableFloat64 and assigns it to the Delay field.
+func (o *Cluster) SetDelay(v float64) {
+	o.Delay.Set(&v)
+}
+
+// SetDelayNil sets the value for Delay to be an explicit nil.
+func (o *Cluster) SetDelayNil() {
+	o.Delay.Set(nil)
+}
+
+// UnsetDelay ensures that no value is present for Delay, not even an explicit nil.
+func (o *Cluster) UnsetDelay() {
+	o.Delay.Unset()
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
@@ -1440,6 +1566,15 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
 	}
+	if o.ParentId.IsSet() {
+		toSerialize["parentId"] = o.ParentId.Get()
+	}
+	if o.ClusterType.IsSet() {
+		toSerialize["clusterType"] = o.ClusterType.Get()
+	}
+	if o.Delay.IsSet() {
+		toSerialize["delay"] = o.Delay.Get()
+	}
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
@@ -1585,6 +1720,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id                      interface{}               `json:"id,omitempty"`
+		ParentId                common.NullableInt64      `json:"parentId,omitempty"`
+		ClusterType             NullableClusterType       `json:"clusterType,omitempty"`
+		Delay                   common.NullableFloat64    `json:"delay,omitempty"`
 		OrgName                 *string                   `json:"orgName,omitempty"`
 		CloudProvider           *string                   `json:"cloudProvider,omitempty"`
 		EnvironmentId           *string                   `json:"environmentId,omitempty"`
@@ -1644,13 +1782,20 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Id = all.Id
+	o.ParentId = all.ParentId
+	if all.ClusterType.Get() != nil && !all.ClusterType.Get().IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterType = all.ClusterType
+	}
+	o.Delay = all.Delay
 	o.OrgName = all.OrgName
 	o.CloudProvider = all.CloudProvider
 	o.EnvironmentId = all.EnvironmentId

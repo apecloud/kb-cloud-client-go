@@ -33,6 +33,11 @@ type ClusterListItem struct {
 	Id string `json:"id"`
 	// Name of cluster. Name must be unique within an Org
 	Name string `json:"name"`
+	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+	ParentId common.NullableInt64 `json:"parentId,omitempty"`
+	// Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+	ClusterType NullableClusterType    `json:"clusterType,omitempty"`
+	Delay       common.NullableFloat64 `json:"delay,omitempty"`
 	// Cluster Status
 	Status string `json:"status"`
 	// Cluster termination policy
@@ -66,6 +71,8 @@ func NewClusterListItem(cloudProvider string, createdAt time.Time, engine string
 	this.EnvironmentName = environmentName
 	this.Id = id
 	this.Name = name
+	var clusterType ClusterType = ClusterTypeNormal
+	this.ClusterType = *NewNullableClusterType(&clusterType)
 	this.Status = status
 	this.TerminationPolicy = terminationPolicy
 	this.UpdatedAt = updatedAt
@@ -78,6 +85,8 @@ func NewClusterListItem(cloudProvider string, createdAt time.Time, engine string
 // but it doesn't guarantee that properties required by API are set.
 func NewClusterListItemWithDefaults() *ClusterListItem {
 	this := ClusterListItem{}
+	var clusterType ClusterType = ClusterTypeNormal
+	this.ClusterType = *NewNullableClusterType(&clusterType)
 	return &this
 }
 
@@ -331,6 +340,123 @@ func (o *ClusterListItem) SetName(v string) {
 	o.Name = v
 }
 
+// GetParentId returns the ParentId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterListItem) GetParentId() int64 {
+	if o == nil || o.ParentId.Get() == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ParentId.Get()
+}
+
+// GetParentIdOk returns a tuple with the ParentId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterListItem) GetParentIdOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentId.Get(), o.ParentId.IsSet()
+}
+
+// HasParentId returns a boolean if a field has been set.
+func (o *ClusterListItem) HasParentId() bool {
+	return o != nil && o.ParentId.IsSet()
+}
+
+// SetParentId gets a reference to the given common.NullableInt64 and assigns it to the ParentId field.
+func (o *ClusterListItem) SetParentId(v int64) {
+	o.ParentId.Set(&v)
+}
+
+// SetParentIdNil sets the value for ParentId to be an explicit nil.
+func (o *ClusterListItem) SetParentIdNil() {
+	o.ParentId.Set(nil)
+}
+
+// UnsetParentId ensures that no value is present for ParentId, not even an explicit nil.
+func (o *ClusterListItem) UnsetParentId() {
+	o.ParentId.Unset()
+}
+
+// GetClusterType returns the ClusterType field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterListItem) GetClusterType() ClusterType {
+	if o == nil || o.ClusterType.Get() == nil {
+		var ret ClusterType
+		return ret
+	}
+	return *o.ClusterType.Get()
+}
+
+// GetClusterTypeOk returns a tuple with the ClusterType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterListItem) GetClusterTypeOk() (*ClusterType, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ClusterType.Get(), o.ClusterType.IsSet()
+}
+
+// HasClusterType returns a boolean if a field has been set.
+func (o *ClusterListItem) HasClusterType() bool {
+	return o != nil && o.ClusterType.IsSet()
+}
+
+// SetClusterType gets a reference to the given NullableClusterType and assigns it to the ClusterType field.
+func (o *ClusterListItem) SetClusterType(v ClusterType) {
+	o.ClusterType.Set(&v)
+}
+
+// SetClusterTypeNil sets the value for ClusterType to be an explicit nil.
+func (o *ClusterListItem) SetClusterTypeNil() {
+	o.ClusterType.Set(nil)
+}
+
+// UnsetClusterType ensures that no value is present for ClusterType, not even an explicit nil.
+func (o *ClusterListItem) UnsetClusterType() {
+	o.ClusterType.Unset()
+}
+
+// GetDelay returns the Delay field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterListItem) GetDelay() float64 {
+	if o == nil || o.Delay.Get() == nil {
+		var ret float64
+		return ret
+	}
+	return *o.Delay.Get()
+}
+
+// GetDelayOk returns a tuple with the Delay field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterListItem) GetDelayOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Delay.Get(), o.Delay.IsSet()
+}
+
+// HasDelay returns a boolean if a field has been set.
+func (o *ClusterListItem) HasDelay() bool {
+	return o != nil && o.Delay.IsSet()
+}
+
+// SetDelay gets a reference to the given common.NullableFloat64 and assigns it to the Delay field.
+func (o *ClusterListItem) SetDelay(v float64) {
+	o.Delay.Set(&v)
+}
+
+// SetDelayNil sets the value for Delay to be an explicit nil.
+func (o *ClusterListItem) SetDelayNil() {
+	o.Delay.Set(nil)
+}
+
+// UnsetDelay ensures that no value is present for Delay, not even an explicit nil.
+func (o *ClusterListItem) UnsetDelay() {
+	o.Delay.Unset()
+}
+
 // GetStatus returns the Status field value.
 func (o *ClusterListItem) GetStatus() string {
 	if o == nil {
@@ -563,6 +689,15 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize["environmentName"] = o.EnvironmentName
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
+	if o.ParentId.IsSet() {
+		toSerialize["parentId"] = o.ParentId.Get()
+	}
+	if o.ClusterType.IsSet() {
+		toSerialize["clusterType"] = o.ClusterType.Get()
+	}
+	if o.Delay.IsSet() {
+		toSerialize["delay"] = o.Delay.Get()
+	}
 	toSerialize["status"] = o.Status
 	toSerialize["terminationPolicy"] = o.TerminationPolicy
 	if o.UpdatedAt.Nanosecond() == 0 {
@@ -593,24 +728,27 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CloudProvider     *string    `json:"cloudProvider"`
-		CloudRegion       *string    `json:"cloudRegion,omitempty"`
-		AvailabilityZones []string   `json:"availabilityZones,omitempty"`
-		CreatedAt         *time.Time `json:"createdAt"`
-		DisplayName       *string    `json:"displayName,omitempty"`
-		Engine            *string    `json:"engine"`
-		Mode              *string    `json:"mode,omitempty"`
-		EnvironmentName   *string    `json:"environmentName"`
-		Id                *string    `json:"id"`
-		Name              *string    `json:"name"`
-		Status            *string    `json:"status"`
-		TerminationPolicy *string    `json:"terminationPolicy"`
-		UpdatedAt         *time.Time `json:"updatedAt"`
-		Version           *string    `json:"version"`
-		ClassCode         *string    `json:"classCode,omitempty"`
-		Storage           *string    `json:"storage,omitempty"`
-		CodeShort         *string    `json:"codeShort,omitempty"`
-		OrgName           *string    `json:"orgName,omitempty"`
+		CloudProvider     *string                `json:"cloudProvider"`
+		CloudRegion       *string                `json:"cloudRegion,omitempty"`
+		AvailabilityZones []string               `json:"availabilityZones,omitempty"`
+		CreatedAt         *time.Time             `json:"createdAt"`
+		DisplayName       *string                `json:"displayName,omitempty"`
+		Engine            *string                `json:"engine"`
+		Mode              *string                `json:"mode,omitempty"`
+		EnvironmentName   *string                `json:"environmentName"`
+		Id                *string                `json:"id"`
+		Name              *string                `json:"name"`
+		ParentId          common.NullableInt64   `json:"parentId,omitempty"`
+		ClusterType       NullableClusterType    `json:"clusterType,omitempty"`
+		Delay             common.NullableFloat64 `json:"delay,omitempty"`
+		Status            *string                `json:"status"`
+		TerminationPolicy *string                `json:"terminationPolicy"`
+		UpdatedAt         *time.Time             `json:"updatedAt"`
+		Version           *string                `json:"version"`
+		ClassCode         *string                `json:"classCode,omitempty"`
+		Storage           *string                `json:"storage,omitempty"`
+		CodeShort         *string                `json:"codeShort,omitempty"`
+		OrgName           *string                `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -647,10 +785,12 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "parentId", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.CloudProvider = *all.CloudProvider
 	o.CloudRegion = all.CloudRegion
 	o.AvailabilityZones = all.AvailabilityZones
@@ -661,6 +801,13 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentName = *all.EnvironmentName
 	o.Id = *all.Id
 	o.Name = *all.Name
+	o.ParentId = all.ParentId
+	if all.ClusterType.Get() != nil && !all.ClusterType.Get().IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterType = all.ClusterType
+	}
+	o.Delay = all.Delay
 	o.Status = *all.Status
 	o.TerminationPolicy = *all.TerminationPolicy
 	o.UpdatedAt = *all.UpdatedAt
@@ -672,6 +819,10 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

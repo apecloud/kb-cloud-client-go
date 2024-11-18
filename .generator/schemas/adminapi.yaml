@@ -12197,6 +12197,15 @@ components:
       required:
         - items
       type: object
+    clusterType:
+      title: ClusterType
+      type: string
+      nullable: true
+      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      default: Normal
+      enum:
+        - Normal
+        - DisasterRecovery
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -12234,6 +12243,19 @@ components:
         name:
           description: Name of cluster. Name must be unique within an Org
           type: string
+        parentId:
+          title: ParentId
+          type: integer
+          format: int64
+          nullable: true
+          description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
         status:
           description: Cluster Status
           type: string
@@ -12479,6 +12501,19 @@ components:
           title: ID
           type: object
           description: Cluster ID
+        parentId:
+          title: ParentId
+          type: integer
+          format: int64
+          nullable: true
+          description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
         orgName:
           title: Org Name
           type: string
@@ -14520,6 +14555,7 @@ components:
           type: string
       required:
         - opsRequestName
+        - dependentOpsName
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -18127,6 +18163,15 @@ components:
         disableHA:
           type: boolean
           default: false
+    disasterRecoveryOption:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        instanceLimit:
+          type: integer
+          default: 8
     engineOption:
       type: object
       required:
@@ -18274,6 +18319,9 @@ components:
           x-nullable: false
           items:
             $ref: '#/components/schemas/parameterOption'
+        disasterRecovery:
+          x-nullable: false
+          $ref: '#/components/schemas/disasterRecoveryOption'
     engineOptionList:
       required:
         - items

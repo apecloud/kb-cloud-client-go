@@ -113,6 +113,8 @@ tags:
     description: Cluster In Recycle Bin APIs
   - name: project
     description: Project APIs
+  - name: disasterRecovery
+    description: Cluster Disaster Recovery APIs
 paths:
   /api/v1/user:
     get:
@@ -8803,6 +8805,184 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}:
+    delete:
+      operationId: deleteDisasterRecovery
+      summary: Delete a disaster recovery instance
+      description: Delete a specific disaster recovery instance
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: integer
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+  /api/v1/organizations/{orgName}/parent/{parentClusterID}/disaster-recovery:
+    get:
+      operationId: listDisasterRecovery
+      summary: List Disaster Recovery instances under the main cluster
+      description: Retrieve a list of disaster recovery instances for a specific database cluster.
+      parameters:
+        - description: The ID of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: integer
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+          description: A list of disaster recovery instances.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+    post:
+      operationId: createDisasterRecovery
+      summary: Create a new disaster recovery instance
+      description: Create a new disaster recovery instance for a database cluster.
+      parameters:
+        - description: The ID of the parent database cluster
+          in: path
+          name: parentClusterID
+          required: true
+          schema:
+            type: integer
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/disasterRecoveryCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/promote:
+    post:
+      operationId: promoteDisasterRecovery
+      summary: Promote a disaster recovery instance to the main instance
+      description: Promote the disaster recovery instance to the primary database instance.
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: integer
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/disasterRecoveryPromote'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryTask'
+          description: Disaster recovery instance async job task information.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/switch-history:
+    get:
+      operationId: getDisasterRecoveryHistory
+      summary: Get switch history of a disaster recovery instance
+      description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+      parameters:
+        - description: The ID of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: integer
+        - description: name of the org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryHistory'
+          description: Switch history retrieved successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
 components:
   securitySchemes:
     BearerToken:
@@ -10119,6 +10299,15 @@ components:
         - orgName
         - roleName
       type: object
+    clusterType:
+      title: ClusterType
+      type: string
+      nullable: true
+      description: Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
+      default: Normal
+      enum:
+        - Normal
+        - DisasterRecovery
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -10156,6 +10345,19 @@ components:
         name:
           description: Name of cluster. Name must be unique within an Org
           type: string
+        parentId:
+          title: ParentId
+          type: integer
+          format: int64
+          nullable: true
+          description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
         status:
           description: Cluster Status
           type: string
@@ -10395,6 +10597,19 @@ components:
           title: ID
           type: object
           description: Cluster ID
+        parentId:
+          title: ParentId
+          type: integer
+          format: int64
+          nullable: true
+          description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
         orgName:
           title: Org Name
           type: string
@@ -11031,6 +11246,7 @@ components:
           type: string
       required:
         - opsRequestName
+        - dependentOpsName
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -13627,6 +13843,15 @@ components:
         disableHA:
           type: boolean
           default: false
+    disasterRecoveryOption:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: false
+        instanceLimit:
+          type: integer
+          default: 8
     engineOption:
       type: object
       required:
@@ -13774,6 +13999,9 @@ components:
           x-nullable: false
           items:
             $ref: '#/components/schemas/parameterOption'
+        disasterRecovery:
+          x-nullable: false
+          $ref: '#/components/schemas/disasterRecoveryOption'
     engineOptionList:
       required:
         - items
@@ -15167,6 +15395,101 @@ components:
           items:
             $ref: '#/components/schemas/projectItem'
           description: The list of projects.
+    disasterRecoveryTask:
+      description: Task information of disasterRecovery job
+      properties:
+        taskId:
+          description: Task ID
+          type: integer
+          nullable: true
+      required:
+        - taskId
+      type: object
+    disasterRecoveryCreate:
+      description: DisasterRecoveryCreate is the description to create a DisasterRecovery cluster
+      properties:
+        cluster:
+          $ref: '#/components/schemas/cluster'
+      required:
+        - cluster
+      type: object
+    disasterRecoveryPromote:
+      description: the Promote object for disasterRecovery instance
+      properties:
+        reason:
+          description: the reason for promoting
+          type: string
+      type: object
+    disasterRecoveryStatus:
+      default: Unknown
+      description: 'the status of promote event, support values: [Succeed, Failed, Running, Unknown]'
+      enum:
+        - Succeed
+        - Failed
+        - Running
+        - Unknown
+      type: string
+      nullable: true
+    disasterRecoveryHistoryItem:
+      description: DisasterRecovery history detail for Cluster
+      properties:
+        taskID:
+          description: the ID of disaster recovery task in TaskFlow
+          type: integer
+          nullable: true
+        parentClusterID:
+          description: the ID of parent cluster
+          type: integer
+          nullable: true
+        parentClusterName:
+          description: the Name of parent cluster
+          type: string
+          nullable: true
+        parentEnvName:
+          description: parent env name
+          type: string
+          nullable: true
+        clusterID:
+          description: the ID of promote cluster
+          type: integer
+          nullable: true
+        clusterName:
+          description: the Name of promote cluster
+          type: string
+          nullable: true
+        envName:
+          description: env name
+          type: string
+          nullable: true
+        reason:
+          description: the reason of promote
+          type: string
+          nullable: true
+        operator:
+          description: the operator
+          type: string
+        createdAt:
+          description: the create time of promote event
+          type: string
+          format: date-time
+        updateAt:
+          description: the update time of promote event
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/disasterRecoveryStatus'
+      type: object
+    disasterRecoveryHistory:
+      description: DisasterRecovery history for Cluster
+      properties:
+        items:
+          description: Items is the list of DisasterRecovery logs
+          items:
+            $ref: '#/components/schemas/disasterRecoveryHistoryItem'
+          type: array
+      required:
+        - items
+      type: object
   responses:
     '400':
       content:
@@ -15299,4 +15622,7 @@ x-tagGroups:
   - name: fault
     tags:
       - fault
+  - name: disasterRecovery
+    tags:
+      - disasterRecovery
 x-original-swagger-version: '2.0'

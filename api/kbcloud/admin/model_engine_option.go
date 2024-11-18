@@ -11,31 +11,32 @@ import (
 )
 
 type EngineOption struct {
-	EngineName       string               `json:"engineName"`
-	Title            string               `json:"title"`
-	Description      LocalizedDescription `json:"description"`
-	Versions         []string             `json:"versions"`
-	Components       []ComponentOption    `json:"components"`
-	Modes            []ModeOption         `json:"modes"`
-	Account          AccountOption        `json:"account"`
-	Database         *DatabaseOption      `json:"database,omitempty"`
-	Dms              DmsOption            `json:"dms"`
-	Backup           BackupOption         `json:"backup"`
-	Bench            BenchOption          `json:"bench"`
-	Endpoints        []EndpointOption     `json:"endpoints"`
-	Promote          []ComponentOpsOption `json:"promote"`
-	Stop             []ComponentOpsOption `json:"stop"`
-	Start            []ComponentOpsOption `json:"start"`
-	Restart          []ComponentOpsOption `json:"restart"`
-	Hscale           []ComponentOpsOption `json:"hscale"`
-	Vscale           []ComponentOpsOption `json:"vscale"`
-	License          *EngineOptionLicense `json:"license,omitempty"`
-	StorageExpansion []ComponentOpsOption `json:"storageExpansion"`
-	RebuildInstance  []ComponentOpsOption `json:"rebuildInstance,omitempty"`
-	Metrics          MetricsOption        `json:"metrics"`
-	Dashboards       []DashboardOption    `json:"dashboards"`
-	Logs             []LogOption          `json:"logs"`
-	Parameters       []ParameterOption    `json:"parameters"`
+	EngineName       string                  `json:"engineName"`
+	Title            string                  `json:"title"`
+	Description      LocalizedDescription    `json:"description"`
+	Versions         []string                `json:"versions"`
+	Components       []ComponentOption       `json:"components"`
+	Modes            []ModeOption            `json:"modes"`
+	Account          AccountOption           `json:"account"`
+	Database         *DatabaseOption         `json:"database,omitempty"`
+	Dms              DmsOption               `json:"dms"`
+	Backup           BackupOption            `json:"backup"`
+	Bench            BenchOption             `json:"bench"`
+	Endpoints        []EndpointOption        `json:"endpoints"`
+	Promote          []ComponentOpsOption    `json:"promote"`
+	Stop             []ComponentOpsOption    `json:"stop"`
+	Start            []ComponentOpsOption    `json:"start"`
+	Restart          []ComponentOpsOption    `json:"restart"`
+	Hscale           []ComponentOpsOption    `json:"hscale"`
+	Vscale           []ComponentOpsOption    `json:"vscale"`
+	License          *EngineOptionLicense    `json:"license,omitempty"`
+	StorageExpansion []ComponentOpsOption    `json:"storageExpansion"`
+	RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
+	Metrics          MetricsOption           `json:"metrics"`
+	Dashboards       []DashboardOption       `json:"dashboards"`
+	Logs             []LogOption             `json:"logs"`
+	Parameters       []ParameterOption       `json:"parameters"`
+	DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -670,6 +671,34 @@ func (o *EngineOption) SetParameters(v []ParameterOption) {
 	o.Parameters = v
 }
 
+// GetDisasterRecovery returns the DisasterRecovery field value if set, zero value otherwise.
+func (o *EngineOption) GetDisasterRecovery() DisasterRecoveryOption {
+	if o == nil || o.DisasterRecovery == nil {
+		var ret DisasterRecoveryOption
+		return ret
+	}
+	return *o.DisasterRecovery
+}
+
+// GetDisasterRecoveryOk returns a tuple with the DisasterRecovery field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetDisasterRecoveryOk() (*DisasterRecoveryOption, bool) {
+	if o == nil || o.DisasterRecovery == nil {
+		return nil, false
+	}
+	return o.DisasterRecovery, true
+}
+
+// HasDisasterRecovery returns a boolean if a field has been set.
+func (o *EngineOption) HasDisasterRecovery() bool {
+	return o != nil && o.DisasterRecovery != nil
+}
+
+// SetDisasterRecovery gets a reference to the given DisasterRecoveryOption and assigns it to the DisasterRecovery field.
+func (o *EngineOption) SetDisasterRecovery(v DisasterRecoveryOption) {
+	o.DisasterRecovery = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -707,6 +736,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize["dashboards"] = o.Dashboards
 	toSerialize["logs"] = o.Logs
 	toSerialize["parameters"] = o.Parameters
+	if o.DisasterRecovery != nil {
+		toSerialize["disasterRecovery"] = o.DisasterRecovery
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -717,31 +749,32 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName       *string               `json:"engineName"`
-		Title            *string               `json:"title"`
-		Description      *LocalizedDescription `json:"description"`
-		Versions         *[]string             `json:"versions"`
-		Components       *[]ComponentOption    `json:"components"`
-		Modes            *[]ModeOption         `json:"modes"`
-		Account          *AccountOption        `json:"account"`
-		Database         *DatabaseOption       `json:"database,omitempty"`
-		Dms              *DmsOption            `json:"dms"`
-		Backup           *BackupOption         `json:"backup"`
-		Bench            *BenchOption          `json:"bench"`
-		Endpoints        *[]EndpointOption     `json:"endpoints"`
-		Promote          *[]ComponentOpsOption `json:"promote"`
-		Stop             *[]ComponentOpsOption `json:"stop"`
-		Start            *[]ComponentOpsOption `json:"start"`
-		Restart          *[]ComponentOpsOption `json:"restart"`
-		Hscale           *[]ComponentOpsOption `json:"hscale"`
-		Vscale           *[]ComponentOpsOption `json:"vscale"`
-		License          *EngineOptionLicense  `json:"license,omitempty"`
-		StorageExpansion *[]ComponentOpsOption `json:"storageExpansion"`
-		RebuildInstance  []ComponentOpsOption  `json:"rebuildInstance,omitempty"`
-		Metrics          *MetricsOption        `json:"metrics"`
-		Dashboards       *[]DashboardOption    `json:"dashboards"`
-		Logs             *[]LogOption          `json:"logs"`
-		Parameters       *[]ParameterOption    `json:"parameters"`
+		EngineName       *string                 `json:"engineName"`
+		Title            *string                 `json:"title"`
+		Description      *LocalizedDescription   `json:"description"`
+		Versions         *[]string               `json:"versions"`
+		Components       *[]ComponentOption      `json:"components"`
+		Modes            *[]ModeOption           `json:"modes"`
+		Account          *AccountOption          `json:"account"`
+		Database         *DatabaseOption         `json:"database,omitempty"`
+		Dms              *DmsOption              `json:"dms"`
+		Backup           *BackupOption           `json:"backup"`
+		Bench            *BenchOption            `json:"bench"`
+		Endpoints        *[]EndpointOption       `json:"endpoints"`
+		Promote          *[]ComponentOpsOption   `json:"promote"`
+		Stop             *[]ComponentOpsOption   `json:"stop"`
+		Start            *[]ComponentOpsOption   `json:"start"`
+		Restart          *[]ComponentOpsOption   `json:"restart"`
+		Hscale           *[]ComponentOpsOption   `json:"hscale"`
+		Vscale           *[]ComponentOpsOption   `json:"vscale"`
+		License          *EngineOptionLicense    `json:"license,omitempty"`
+		StorageExpansion *[]ComponentOpsOption   `json:"storageExpansion"`
+		RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
+		Metrics          *MetricsOption          `json:"metrics"`
+		Dashboards       *[]DashboardOption      `json:"dashboards"`
+		Logs             *[]LogOption            `json:"logs"`
+		Parameters       *[]ParameterOption      `json:"parameters"`
+		DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -814,7 +847,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
 	} else {
 		return err
 	}
@@ -869,6 +902,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Dashboards = *all.Dashboards
 	o.Logs = *all.Logs
 	o.Parameters = *all.Parameters
+	if all.DisasterRecovery != nil && all.DisasterRecovery.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DisasterRecovery = all.DisasterRecovery
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
