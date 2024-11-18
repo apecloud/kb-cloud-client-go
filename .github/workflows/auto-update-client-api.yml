@@ -57,14 +57,7 @@ jobs:
           FILE_CHANGES=`git diff --name-only ${COMMIT_SHA}`
           if [[ ! -z "$FILE_CHANGES" ]]; then
               echo $FILE_CHANGES
-          
-              cd .generator
-              poetry install
-              poetry run python -m generator ./schemas/* -o ../api
-  
-              cd ../api
-              goimports -w .
-          
+              bash ./generate.sh
               git config --local user.name "$GITHUB_ACTOR"
               git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
               git commit -a -m "chore: auto update clinent api"
