@@ -14,7 +14,7 @@ type ParameterOption struct {
 	Component string            `json:"component"`
 	Configs   []ParameterConfig `json:"configs"`
 	// deprecated
-	Versions  []string `json:"versions"`
+	Versions  []string `json:"versions,omitempty"`
 	ExportTpl bool     `json:"exportTpl"`
 	// a alias with major version.
 	Family string `json:"family"`
@@ -32,11 +32,10 @@ type ParameterOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterOption(component string, configs []ParameterConfig, versions []string, exportTpl bool, family string, defaultTplName string, defaultTplDescription LocalizedDescription) *ParameterOption {
+func NewParameterOption(component string, configs []ParameterConfig, exportTpl bool, family string, defaultTplName string, defaultTplDescription LocalizedDescription) *ParameterOption {
 	this := ParameterOption{}
 	this.Component = component
 	this.Configs = configs
-	this.Versions = versions
 	this.ExportTpl = exportTpl
 	this.Family = family
 	this.DefaultTplName = defaultTplName
@@ -102,25 +101,30 @@ func (o *ParameterOption) SetConfigs(v []ParameterConfig) {
 	o.Configs = v
 }
 
-// GetVersions returns the Versions field value.
+// GetVersions returns the Versions field value if set, zero value otherwise.
 func (o *ParameterOption) GetVersions() []string {
-	if o == nil {
+	if o == nil || o.Versions == nil {
 		var ret []string
 		return ret
 	}
 	return o.Versions
 }
 
-// GetVersionsOk returns a tuple with the Versions field value
+// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ParameterOption) GetVersionsOk() (*[]string, bool) {
-	if o == nil {
+	if o == nil || o.Versions == nil {
 		return nil, false
 	}
 	return &o.Versions, true
 }
 
-// SetVersions sets field value.
+// HasVersions returns a boolean if a field has been set.
+func (o *ParameterOption) HasVersions() bool {
+	return o != nil && o.Versions != nil
+}
+
+// SetVersions gets a reference to the given []string and assigns it to the Versions field.
 func (o *ParameterOption) SetVersions(v []string) {
 	o.Versions = v
 }
@@ -281,7 +285,9 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["component"] = o.Component
 	toSerialize["configs"] = o.Configs
-	toSerialize["versions"] = o.Versions
+	if o.Versions != nil {
+		toSerialize["versions"] = o.Versions
+	}
 	toSerialize["exportTpl"] = o.ExportTpl
 	toSerialize["family"] = o.Family
 	if o.MajorVersion != nil {
@@ -304,7 +310,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component             *string               `json:"component"`
 		Configs               *[]ParameterConfig    `json:"configs"`
-		Versions              *[]string             `json:"versions"`
+		Versions              []string              `json:"versions,omitempty"`
 		ExportTpl             *bool                 `json:"exportTpl"`
 		Family                *string               `json:"family"`
 		MajorVersion          *string               `json:"majorVersion,omitempty"`
@@ -320,9 +326,6 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Configs == nil {
 		return fmt.Errorf("required field configs missing")
-	}
-	if all.Versions == nil {
-		return fmt.Errorf("required field versions missing")
 	}
 	if all.ExportTpl == nil {
 		return fmt.Errorf("required field exportTpl missing")
@@ -346,7 +349,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Component = *all.Component
 	o.Configs = *all.Configs
-	o.Versions = *all.Versions
+	o.Versions = all.Versions
 	o.ExportTpl = *all.ExportTpl
 	o.Family = *all.Family
 	o.MajorVersion = all.MajorVersion

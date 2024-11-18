@@ -12,7 +12,7 @@ import (
 
 type AccountOption struct {
 	Enabled            bool     `json:"enabled"`
-	Privileges         []string `json:"privileges"`
+	Privileges         []string `json:"privileges,omitempty"`
 	AccountNamePattern string   `json:"accountNamePattern"`
 	Create             bool     `json:"create"`
 	ResetPassword      bool     `json:"resetPassword"`
@@ -26,10 +26,9 @@ type AccountOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAccountOption(enabled bool, privileges []string, accountNamePattern string, create bool, resetPassword bool, delete bool) *AccountOption {
+func NewAccountOption(enabled bool, accountNamePattern string, create bool, resetPassword bool, delete bool) *AccountOption {
 	this := AccountOption{}
 	this.Enabled = enabled
-	this.Privileges = privileges
 	this.AccountNamePattern = accountNamePattern
 	this.Create = create
 	this.ResetPassword = resetPassword
@@ -68,25 +67,30 @@ func (o *AccountOption) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
-// GetPrivileges returns the Privileges field value.
+// GetPrivileges returns the Privileges field value if set, zero value otherwise.
 func (o *AccountOption) GetPrivileges() []string {
-	if o == nil {
+	if o == nil || o.Privileges == nil {
 		var ret []string
 		return ret
 	}
 	return o.Privileges
 }
 
-// GetPrivilegesOk returns a tuple with the Privileges field value
+// GetPrivilegesOk returns a tuple with the Privileges field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AccountOption) GetPrivilegesOk() (*[]string, bool) {
-	if o == nil {
+	if o == nil || o.Privileges == nil {
 		return nil, false
 	}
 	return &o.Privileges, true
 }
 
-// SetPrivileges sets field value.
+// HasPrivileges returns a boolean if a field has been set.
+func (o *AccountOption) HasPrivileges() bool {
+	return o != nil && o.Privileges != nil
+}
+
+// SetPrivileges gets a reference to the given []string and assigns it to the Privileges field.
 func (o *AccountOption) SetPrivileges(v []string) {
 	o.Privileges = v
 }
@@ -190,7 +194,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["enabled"] = o.Enabled
-	toSerialize["privileges"] = o.Privileges
+	if o.Privileges != nil {
+		toSerialize["privileges"] = o.Privileges
+	}
 	toSerialize["accountNamePattern"] = o.AccountNamePattern
 	toSerialize["create"] = o.Create
 	toSerialize["resetPassword"] = o.ResetPassword
@@ -205,21 +211,18 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled            *bool     `json:"enabled"`
-		Privileges         *[]string `json:"privileges"`
-		AccountNamePattern *string   `json:"accountNamePattern"`
-		Create             *bool     `json:"create"`
-		ResetPassword      *bool     `json:"resetPassword"`
-		Delete             *bool     `json:"delete"`
+		Enabled            *bool    `json:"enabled"`
+		Privileges         []string `json:"privileges,omitempty"`
+		AccountNamePattern *string  `json:"accountNamePattern"`
+		Create             *bool    `json:"create"`
+		ResetPassword      *bool    `json:"resetPassword"`
+		Delete             *bool    `json:"delete"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	if all.Enabled == nil {
 		return fmt.Errorf("required field enabled missing")
-	}
-	if all.Privileges == nil {
-		return fmt.Errorf("required field privileges missing")
 	}
 	if all.AccountNamePattern == nil {
 		return fmt.Errorf("required field accountNamePattern missing")
@@ -240,7 +243,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.Enabled = *all.Enabled
-	o.Privileges = *all.Privileges
+	o.Privileges = all.Privileges
 	o.AccountNamePattern = *all.AccountNamePattern
 	o.Create = *all.Create
 	o.ResetPassword = *all.ResetPassword

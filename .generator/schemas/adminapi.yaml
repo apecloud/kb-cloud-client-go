@@ -14555,7 +14555,6 @@ components:
           type: string
       required:
         - opsRequestName
-        - dependentOpsName
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -17539,7 +17538,6 @@ components:
         - name
         - title
         - order
-        - roleOrder
       properties:
         name:
           type: string
@@ -17752,7 +17750,6 @@ components:
       type: object
       required:
         - enabled
-        - privileges
         - accountNamePattern
         - create
         - resetPassword
@@ -18008,7 +18005,6 @@ components:
         - component
         - dashboardUid
         - variables
-        - instancePanels
       properties:
         component:
           type: string
@@ -18126,7 +18122,6 @@ components:
       required:
         - component
         - configs
-        - versions
         - exportTpl
         - family
         - defaultTplName
@@ -18192,7 +18187,6 @@ components:
         - hscale
         - vscale
         - storageExpansion
-        - metrics
         - dashboards
         - logs
         - parameters
