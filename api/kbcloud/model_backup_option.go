@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type BackupOption struct {
 	DefaultMethod    *string              `json:"defaultMethod,omitempty"`
 	FullMethod       []BackupMethodOption `json:"fullMethod,omitempty"`
