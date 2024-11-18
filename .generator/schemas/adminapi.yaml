@@ -9361,122 +9361,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instanceTypes:
-    get:
-      tags:
-        - instanceTypes
-      operationId: getInstanceTypes
-      summary: Get all instance types
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - instanceTypes
-      operationId: createInstanceType
-      summary: Create a new instance type
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/instanceTypes'
-      responses:
-        '201':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-  /admin/v1/productTypes/{id}:
-    get:
-      tags:
-        - instanceTypes
-      operationId: getInstanceTypeById
-      summary: Get an instance type by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - instanceTypes
-      operationId: updateInstanceType
-      summary: Update an instance type by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/instanceTypes'
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - instanceTypes
-      operationId: deleteInstanceType
-      summary: Delete an instance type by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/providers:
     get:
       tags:
@@ -12579,7 +12463,7 @@ components:
     clusterBackup:
       description: clusterBackup is the payload for cluster backup
       properties:
-        PITREnabled:
+        pitrEnabled:
           default: false
           description: PITREnabled or not
           type: boolean
@@ -18666,6 +18550,11 @@ components:
         key:
           type: string
           description: License key
+    classSeries:
+      type: string
+      enum:
+        - general
+        - exclusive
     class:
       type: object
       properties:
@@ -18704,7 +18593,7 @@ components:
         component:
           type: string
         series:
-          type: string
+          $ref: '#/components/schemas/classSeries'
     classBatch:
       type: object
       properties:
@@ -18715,7 +18604,7 @@ components:
         component:
           type: string
         series:
-          type: string
+          $ref: '#/components/schemas/classSeries'
         cpuOverCommit:
           type: number
           multipleOf: 0.1
@@ -18724,43 +18613,6 @@ components:
           type: number
           multipleOf: 0.1
           format: double
-    OccupationType:
-      type: string
-      enum:
-        - general
-        - exclusive
-    serverConfiguration:
-      type: object
-      properties:
-        architectureType:
-          type: string
-          description: Server architecture type, can be empty.
-    instanceTypes:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique identifier for the instance type.
-        createdAt:
-          type: string
-          format: date-time
-          description: Creation time.
-        description:
-          type: string
-          maxLength: 255
-          description: Any characters, no more than 255 characters long.
-        displayName:
-          type: string
-          maxLength: 63
-          description: Any characters, no more than 63 characters long.
-        occupationType:
-          $ref: '#/components/schemas/OccupationType'
-        name:
-          type: string
-          pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
-        serverConfiguration:
-          $ref: '#/components/schemas/serverConfiguration'
     provider:
       description: The cloud provider that the environment is running on.
       type: object

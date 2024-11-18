@@ -5,18 +5,18 @@
 package admin
 
 type Class struct {
-	Engine        *string  `json:"engine,omitempty"`
-	Code          *string  `json:"code,omitempty"`
-	CodeShort     *string  `json:"codeShort,omitempty"`
-	Mode          *string  `json:"mode,omitempty"`
-	Cpu           *float64 `json:"cpu,omitempty"`
-	CpuRequest    *float64 `json:"cpuRequest,omitempty"`
-	CpuLimit      *float64 `json:"cpuLimit,omitempty"`
-	Memory        *float64 `json:"memory,omitempty"`
-	MemoryRequest *float64 `json:"memoryRequest,omitempty"`
-	MemoryLimit   *float64 `json:"memoryLimit,omitempty"`
-	Component     *string  `json:"component,omitempty"`
-	Series        *string  `json:"series,omitempty"`
+	Engine        *string      `json:"engine,omitempty"`
+	Code          *string      `json:"code,omitempty"`
+	CodeShort     *string      `json:"codeShort,omitempty"`
+	Mode          *string      `json:"mode,omitempty"`
+	Cpu           *float64     `json:"cpu,omitempty"`
+	CpuRequest    *float64     `json:"cpuRequest,omitempty"`
+	CpuLimit      *float64     `json:"cpuLimit,omitempty"`
+	Memory        *float64     `json:"memory,omitempty"`
+	MemoryRequest *float64     `json:"memoryRequest,omitempty"`
+	MemoryLimit   *float64     `json:"memoryLimit,omitempty"`
+	Component     *string      `json:"component,omitempty"`
+	Series        *ClassSeries `json:"series,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -348,9 +348,9 @@ func (o *Class) SetComponent(v string) {
 }
 
 // GetSeries returns the Series field value if set, zero value otherwise.
-func (o *Class) GetSeries() string {
+func (o *Class) GetSeries() ClassSeries {
 	if o == nil || o.Series == nil {
-		var ret string
+		var ret ClassSeries
 		return ret
 	}
 	return *o.Series
@@ -358,7 +358,7 @@ func (o *Class) GetSeries() string {
 
 // GetSeriesOk returns a tuple with the Series field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Class) GetSeriesOk() (*string, bool) {
+func (o *Class) GetSeriesOk() (*ClassSeries, bool) {
 	if o == nil || o.Series == nil {
 		return nil, false
 	}
@@ -370,8 +370,8 @@ func (o *Class) HasSeries() bool {
 	return o != nil && o.Series != nil
 }
 
-// SetSeries gets a reference to the given string and assigns it to the Series field.
-func (o *Class) SetSeries(v string) {
+// SetSeries gets a reference to the given ClassSeries and assigns it to the Series field.
+func (o *Class) SetSeries(v ClassSeries) {
 	o.Series = &v
 }
 
@@ -427,18 +427,18 @@ func (o Class) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Engine        *string  `json:"engine,omitempty"`
-		Code          *string  `json:"code,omitempty"`
-		CodeShort     *string  `json:"codeShort,omitempty"`
-		Mode          *string  `json:"mode,omitempty"`
-		Cpu           *float64 `json:"cpu,omitempty"`
-		CpuRequest    *float64 `json:"cpuRequest,omitempty"`
-		CpuLimit      *float64 `json:"cpuLimit,omitempty"`
-		Memory        *float64 `json:"memory,omitempty"`
-		MemoryRequest *float64 `json:"memoryRequest,omitempty"`
-		MemoryLimit   *float64 `json:"memoryLimit,omitempty"`
-		Component     *string  `json:"component,omitempty"`
-		Series        *string  `json:"series,omitempty"`
+		Engine        *string      `json:"engine,omitempty"`
+		Code          *string      `json:"code,omitempty"`
+		CodeShort     *string      `json:"codeShort,omitempty"`
+		Mode          *string      `json:"mode,omitempty"`
+		Cpu           *float64     `json:"cpu,omitempty"`
+		CpuRequest    *float64     `json:"cpuRequest,omitempty"`
+		CpuLimit      *float64     `json:"cpuLimit,omitempty"`
+		Memory        *float64     `json:"memory,omitempty"`
+		MemoryRequest *float64     `json:"memoryRequest,omitempty"`
+		MemoryLimit   *float64     `json:"memoryLimit,omitempty"`
+		Component     *string      `json:"component,omitempty"`
+		Series        *ClassSeries `json:"series,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -449,6 +449,8 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Engine = all.Engine
 	o.Code = all.Code
 	o.CodeShort = all.CodeShort
@@ -460,10 +462,18 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	o.MemoryRequest = all.MemoryRequest
 	o.MemoryLimit = all.MemoryLimit
 	o.Component = all.Component
-	o.Series = all.Series
+	if all.Series != nil && !all.Series.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Series = all.Series
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

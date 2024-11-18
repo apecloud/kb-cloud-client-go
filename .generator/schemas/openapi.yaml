@@ -10559,7 +10559,7 @@ components:
     clusterBackup:
       description: clusterBackup is the payload for cluster backup
       properties:
-        PITREnabled:
+        pitrEnabled:
           default: false
           description: PITREnabled or not
           type: boolean
@@ -14704,6 +14704,11 @@ components:
         description:
           description: The description of the role
           type: string
+    classSeries:
+      type: string
+      enum:
+        - general
+        - exclusive
     class:
       type: object
       properties:
@@ -14742,7 +14747,7 @@ components:
         component:
           type: string
         series:
-          type: string
+          $ref: '#/components/schemas/classSeries'
     provider:
       description: The cloud provider that the environment is running on.
       type: object

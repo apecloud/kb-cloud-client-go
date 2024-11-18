@@ -7,7 +7,7 @@ package kbcloud
 // ClusterBackup clusterBackup is the payload for cluster backup
 type ClusterBackup struct {
 	// PITREnabled or not
-	PitrEnabled *bool `json:"PITREnabled,omitempty"`
+	PitrEnabled *bool `json:"pitrEnabled,omitempty"`
 	// autoBackup or not
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// name of the backup method
@@ -294,7 +294,7 @@ func (o ClusterBackup) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	if o.PitrEnabled != nil {
-		toSerialize["PITREnabled"] = o.PitrEnabled
+		toSerialize["pitrEnabled"] = o.PitrEnabled
 	}
 	if o.AutoBackup != nil {
 		toSerialize["autoBackup"] = o.AutoBackup
@@ -327,7 +327,7 @@ func (o ClusterBackup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterBackup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PitrEnabled      *bool                  `json:"PITREnabled,omitempty"`
+		PitrEnabled      *bool                  `json:"pitrEnabled,omitempty"`
 		AutoBackup       *bool                  `json:"autoBackup,omitempty"`
 		AutoBackupMethod *string                `json:"autoBackupMethod,omitempty"`
 		BackupRepo       *string                `json:"backupRepo,omitempty"`
@@ -341,7 +341,7 @@ func (o *ClusterBackup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"PITREnabled", "autoBackup", "autoBackupMethod", "backupRepo", "cronExpression", "retentionPeriod", "retentionPolicy", "snapshotVolumes"})
+		common.DeleteKeys(additionalProperties, &[]string{"pitrEnabled", "autoBackup", "autoBackupMethod", "backupRepo", "cronExpression", "retentionPeriod", "retentionPolicy", "snapshotVolumes"})
 	} else {
 		return err
 	}
