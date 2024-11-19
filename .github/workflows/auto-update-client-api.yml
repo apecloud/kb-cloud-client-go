@@ -8,6 +8,7 @@ env:
   POETRY_VERSION: "1.7.1"
   PYTHON_VERSION: "3.11"
   GO_VERSION: "1.22"
+  APECLOUD_COMMIT_URL: "https://github.com/apecloud/apecloud/commit"
 
 jobs:
   check-swagger:
@@ -74,7 +75,7 @@ jobs:
           
               git config --local user.name "$GITHUB_ACTOR"
               git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-              git commit -a -m "chore: auto update clinent api ${APECLOUD_COMMIT_SHA}"
+              git commit -a -m "chore: auto update client api [${APECLOUD_COMMIT_SHA}](${APECLOUD_COMMIT_URL}/${APECLOUD_COMMIT_SHA})"
           fi
           echo file_changes=$FILE_CHANGES >> $GITHUB_OUTPUT
 
@@ -83,4 +84,3 @@ jobs:
         if: ${{ steps.update_client_api.outputs.file_changes }}
         with:
           github_token: ${{ env.GITHUB_TOKEN }}
-          branch: ${{ github.ref_name }}
