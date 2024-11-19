@@ -2902,18 +2902,12 @@ paths:
       operationId: listDataSourceV2
       summary: list the datasource of a cluster
       parameters:
-        - name: orgName
+        - name: clusterID
           in: path
-          description: name of the Org
+          description: ID of the cluster
           required: true
           schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
+            type: integer
       responses:
         '200':
           description: A successful response.
@@ -2960,18 +2954,12 @@ paths:
       operationId: createDataSourceV2
       summary: create the datasource
       parameters:
-        - name: orgName
+        - name: clusterID
           in: path
-          description: name of the Org
+          description: ID of the cluster
           required: true
           schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
+            type: integer
       requestBody:
         content:
           application/json:
@@ -2992,18 +2980,12 @@ paths:
       operationId: updateDataSourceV2
       summary: update the datasource
       parameters:
-        - name: orgName
+        - name: clusterID
           in: path
-          description: name of the Org
+          description: ID of the cluster
           required: true
           schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
+            type: integer
       requestBody:
         content:
           application/json:

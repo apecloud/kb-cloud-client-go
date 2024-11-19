@@ -675,7 +675,7 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 }
 
 // CreateDataSourceV2 create the datasource.
-func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, clusterId int32, body Datasource) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -688,8 +688,7 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 	}
 
 	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/createDS"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -988,7 +987,7 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 }
 
 // ListDataSourceV2 list the datasource of a cluster.
-func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterName string) ([]Datasource, *_nethttp.Response, error) {
+func (a *DmsApi) ListDataSourceV2(ctx _context.Context, clusterId int32) ([]Datasource, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1001,8 +1000,7 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterN
 	}
 
 	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1597,7 +1595,7 @@ func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterN
 }
 
 // UpdateDataSourceV2 update the datasource.
-func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, clusterId int32, body Datasource) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1610,8 +1608,7 @@ func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, cluste
 	}
 
 	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/updateDS"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
