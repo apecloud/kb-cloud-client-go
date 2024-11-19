@@ -15533,8 +15533,7 @@ components:
       type: object
       required:
         - backup
-        - minio
-        - victoriaMetrics
+        - log
       properties:
         cleanCloudResources:
           type: boolean
@@ -15542,11 +15541,8 @@ components:
         backup:
           description: reserve backup when delete environment
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
-        minio:
+        log:
           description: reserve minio cluster when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
-        victoriaMetrics:
-          description: reserve vm cluster when delete environment
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
     environmentUpdate:
       type: object
