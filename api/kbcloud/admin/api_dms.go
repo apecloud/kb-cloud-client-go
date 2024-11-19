@@ -687,7 +687,7 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, clusterId int32, body 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/createDS"
+	localVarPath := localBasePath + "/api/v1/clusters/{clusterID}/createDS"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -999,7 +999,7 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, clusterId int32) ([]Data
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource"
+	localVarPath := localBasePath + "/api/v1/clusters/{clusterID}/datasource"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1607,7 +1607,7 @@ func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, clusterId int32, body 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/updateDS"
+	localVarPath := localBasePath + "/api/v1/clusters/{clusterID}/updateDS"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
