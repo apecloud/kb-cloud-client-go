@@ -17528,10 +17528,8 @@ components:
       properties:
         zh-CN:
           type: string
-          x-nullable: false
         en-US:
           type: string
-          x-nullable: false
     componentOption:
       type: object
       required:
@@ -17542,7 +17540,6 @@ components:
         name:
           type: string
           description: component type
-          x-nullable: false
         matchRegex:
           type: string
           description: |
@@ -17550,13 +17547,10 @@ components:
             if not set, componentDef must be equal to component type.
         title:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         order:
           type: integer
-          x-nullable: false
         roleOrder:
           type: array
-          x-nullable: false
           items:
             type: string
         version:
@@ -17618,16 +17612,12 @@ components:
       properties:
         min:
           type: integer
-          x-nullable: false
         max:
           type: integer
-          x-nullable: false
         default:
           type: integer
-          x-nullable: false
         step:
           type: integer
-          x-nullable: false
     floatOption:
       type: object
       required:
@@ -17638,19 +17628,15 @@ components:
       properties:
         min:
           type: number
-          x-nullable: false
           format: double
         max:
           type: number
-          x-nullable: false
           format: double
         default:
           type: number
-          x-nullable: false
           format: double
         step:
           type: number
-          x-nullable: false
           format: double
     storageOption:
       type: object
@@ -17664,22 +17650,16 @@ components:
       properties:
         title:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         name:
           type: string
-          x-nullable: false
         min:
           type: integer
-          x-nullable: false
         max:
           type: integer
-          x-nullable: false
         default:
           type: integer
-          x-nullable: false
         step:
           type: integer
-          x-nullable: false
     modeComponent:
       type: object
       required:
@@ -17693,27 +17673,20 @@ components:
       properties:
         component:
           type: string
-          x-nullable: false
         shards:
           $ref: '#/components/schemas/integerOption'
         replicas:
           $ref: '#/components/schemas/integerOption'
-          x-nullable: false
         cpu:
           $ref: '#/components/schemas/floatOption'
-          x-nullable: false
         memory:
           $ref: '#/components/schemas/floatOption'
-          x-nullable: false
         hideEnpoints:
           type: boolean
-          x-nullable: false
         hideOnCreate:
           type: boolean
-          x-nullable: false
         storages:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/storageOption'
     modeOption:
@@ -17726,19 +17699,17 @@ components:
       properties:
         name:
           type: string
-          x-nullable: false
         title:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         description:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         components:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/modeComponent'
         proxy:
+          required:
+            - enabled
           type: object
           properties:
             enabled:
@@ -17757,24 +17728,18 @@ components:
       properties:
         enabled:
           type: boolean
-          x-nullable: false
         privileges:
           type: array
-          x-nullable: false
           items:
             type: string
         accountNamePattern:
           type: string
-          x-nullable: false
         create:
           type: boolean
-          x-nullable: false
         resetPassword:
           type: boolean
-          x-nullable: false
         delete:
           type: boolean
-          x-nullable: false
     databaseOption:
       type: object
       required:
@@ -17782,7 +17747,6 @@ components:
       properties:
         enabled:
           type: boolean
-          x-nullable: false
     dmsOption:
       type: object
       required:
@@ -17791,10 +17755,8 @@ components:
       properties:
         enabled:
           type: boolean
-          x-nullable: false
         protocol:
           type: string
-          x-nullable: false
         feature:
           type: object
           additionalProperties: {}
@@ -17811,21 +17773,21 @@ components:
           type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
     backupOption:
+      description: If present, it must be set defaultMethod and fullMethod
       type: object
+      required:
+        - defaultMethod
+        - fullMethod
       properties:
         defaultMethod:
           type: string
-          x-nullable: false
         fullMethod:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/backupMethodOption'
         continuousMethod:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/backupMethodOption'
     benchOption:
@@ -17838,16 +17800,12 @@ components:
       properties:
         pgbench:
           type: boolean
-          x-nullable: false
         sysbench:
           type: boolean
-          x-nullable: false
         tpcc:
           type: boolean
-          x-nullable: false
         ycsb:
           type: boolean
-          x-nullable: false
     engineOptionsServicePattern:
       type: string
       description: service name pattern, e.g. ClusterName-ComponentName or .ClusterName`
@@ -17867,21 +17825,16 @@ components:
       properties:
         title:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         component:
           type: string
-          x-nullable: false
         portName:
           type: string
-          x-nullable: false
         type:
           type: array
-          x-nullable: false
           items:
             type: string
         port:
           type: integer
-          x-nullable: false
           format: int32
         supportsSystemUse:
           type: boolean
@@ -17906,7 +17859,6 @@ components:
       properties:
         component:
           type: string
-          x-nullable: false
         disableHA:
           type: boolean
           default: false
@@ -17976,12 +17928,10 @@ components:
       properties:
         component:
           type: string
-          x-nullable: false
         opsDefName:
           type: string
     engineOptionsMetricsQueryType:
       type: string
-      x-nullable: false
       description: |
         Specifies the type of metrics query to be performed.
         'instant' for a single point in time, 'range' for a time range.
@@ -18008,10 +17958,8 @@ components:
       properties:
         component:
           type: string
-          x-nullable: false
         dashboardUid:
           type: string
-          x-nullable: false
         variables:
           type: object
           additionalProperties:
@@ -18023,7 +17971,6 @@ components:
             properties:
               role:
                 type: string
-                x-nullable: false
               panels:
                 type: array
                 items:
@@ -18031,10 +17978,8 @@ components:
                   properties:
                     description:
                       type: string
-                      x-nullable: false
                     id:
                       type: string
-                      x-nullable: false
     logOption:
       type: object
       required:
@@ -18046,19 +17991,14 @@ components:
       properties:
         component:
           type: string
-          x-nullable: false
         error:
           type: boolean
-          x-nullable: false
         slow:
           type: boolean
-          x-nullable: false
         audit:
           type: boolean
-          x-nullable: false
         running:
           type: boolean
-          x-nullable: false
     parameterConfig:
       required:
         - configName
@@ -18070,19 +18010,14 @@ components:
       properties:
         configName:
           type: string
-          x-nullable: false
         specName:
           type: string
-          x-nullable: false
         constraint:
           type: string
-          x-nullable: false
         regex:
           type: string
-          x-nullable: false
         configTplName:
           type: string
-          x-nullable: false
         initOptions:
           type: object
           additionalProperties:
@@ -18129,10 +18064,8 @@ components:
       properties:
         component:
           type: string
-          x-nullable: false
         configs:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/parameterConfig'
         versions:
@@ -18142,7 +18075,6 @@ components:
             type: string
         exportTpl:
           type: boolean
-          x-nullable: false
         family:
           type: string
           description: a alias with major version.
@@ -18151,15 +18083,15 @@ components:
           description: match the major version
         defaultTplName:
           type: string
-          x-nullable: false
         defaultTplDescription:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         disableHA:
           type: boolean
           default: false
     disasterRecoveryOption:
       type: object
+      required:
+        - enabled
       properties:
         enabled:
           type: boolean
@@ -18176,9 +18108,7 @@ components:
         - versions
         - components
         - modes
-        - account
         - dms
-        - backup
         - endpoints
         - promote
         - stop
@@ -18190,80 +18120,62 @@ components:
         - dashboards
         - logs
         - parameters
-        - bench
       properties:
         engineName:
           type: string
-          x-nullable: false
         title:
           type: string
-          x-nullable: false
         description:
           $ref: '#/components/schemas/localizedDescription'
-          x-nullable: false
         versions:
           type: array
-          x-nullable: false
           items:
             type: string
         components:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOption'
         modes:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/modeOption'
         account:
-          x-nullable: false
           $ref: '#/components/schemas/accountOption'
         database:
-          x-nullable: false
           $ref: '#/components/schemas/databaseOption'
         dms:
-          x-nullable: false
           $ref: '#/components/schemas/dmsOption'
         backup:
-          x-nullable: false
+          description: If this field is null, backup is not supported.
           $ref: '#/components/schemas/backupOption'
         bench:
-          x-nullable: false
           $ref: '#/components/schemas/benchOption'
         endpoints:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/endpointOption'
         promote:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         stop:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         start:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         restart:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         hscale:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         vscale:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         license:
@@ -18287,34 +18199,27 @@ components:
                 $ref: '#/components/schemas/licenseOption'
         storageExpansion:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         rebuildInstance:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/componentOpsOption'
         metrics:
-          x-nullable: false
           $ref: '#/components/schemas/metricsOption'
         dashboards:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/dashboardOption'
         logs:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/logOption'
         parameters:
           type: array
-          x-nullable: false
           items:
             $ref: '#/components/schemas/parameterOption'
         disasterRecovery:
-          x-nullable: false
           $ref: '#/components/schemas/disasterRecoveryOption'
     engineOptionList:
       required:
@@ -18323,7 +18228,6 @@ components:
       properties:
         items:
           type: array
-          x-nullable: false
           description: Items is the list of engineOption objects in the list
           items:
             $ref: '#/components/schemas/engineOption'
@@ -18336,17 +18240,13 @@ components:
       type: object
       properties:
         modifierId:
-          x-nullable: false
           type: string
         modifierEmail:
-          x-nullable: false
           type: string
         option:
           $ref: '#/components/schemas/engineOption'
-          x-nullable: false
         createdAt:
           type: string
-          x-nullable: false
           format: date-time
     engineOptionHistoryList:
       required:
@@ -18355,7 +18255,6 @@ components:
       properties:
         items:
           type: array
-          x-nullable: false
           description: Items is the list of engineOptionHistory objects in the list
           items:
             $ref: '#/components/schemas/engineOptionHistory'
@@ -18367,10 +18266,8 @@ components:
       properties:
         engineName:
           type: string
-          x-nullable: false
         name:
           type: string
-          x-nullable: false
         key:
           type: string
           x-nullable: false
@@ -18394,7 +18291,6 @@ components:
       properties:
         items:
           type: array
-          x-nullable: false
           description: Items is the list of engineLicense objects in the list
           items:
             $ref: '#/components/schemas/engineLicense'

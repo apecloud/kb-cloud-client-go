@@ -4,10 +4,12 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+)
 
 type ModeOptionProxy struct {
-	Enabled *bool `json:"enabled,omitempty"`
+	Enabled bool `json:"enabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -17,8 +19,9 @@ type ModeOptionProxy struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeOptionProxy() *ModeOptionProxy {
+func NewModeOptionProxy(enabled bool) *ModeOptionProxy {
 	this := ModeOptionProxy{}
+	this.Enabled = enabled
 	return &this
 }
 
@@ -30,32 +33,27 @@ func NewModeOptionProxyWithDefaults() *ModeOptionProxy {
 	return &this
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise.
+// GetEnabled returns the Enabled field value.
 func (o *ModeOptionProxy) GetEnabled() bool {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Enabled
+	return o.Enabled
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// GetEnabledOk returns a tuple with the Enabled field value
 // and a boolean to check if the value has been set.
 func (o *ModeOptionProxy) GetEnabledOk() (*bool, bool) {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Enabled, true
+	return &o.Enabled, true
 }
 
-// HasEnabled returns a boolean if a field has been set.
-func (o *ModeOptionProxy) HasEnabled() bool {
-	return o != nil && o.Enabled != nil
-}
-
-// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
+// SetEnabled sets field value.
 func (o *ModeOptionProxy) SetEnabled(v bool) {
-	o.Enabled = &v
+	o.Enabled = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -64,9 +62,7 @@ func (o ModeOptionProxy) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Enabled != nil {
-		toSerialize["enabled"] = o.Enabled
-	}
+	toSerialize["enabled"] = o.Enabled
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,10 +73,13 @@ func (o ModeOptionProxy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOptionProxy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled *bool `json:"enabled,omitempty"`
+		Enabled *bool `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
+	}
+	if all.Enabled == nil {
+		return fmt.Errorf("required field enabled missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -88,7 +87,7 @@ func (o *ModeOptionProxy) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Enabled = all.Enabled
+	o.Enabled = *all.Enabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

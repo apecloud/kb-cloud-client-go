@@ -6,22 +6,21 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type EngineOption struct {
-	EngineName       string                  `json:"engineName"`
-	Title            string                  `json:"title"`
-	Description      LocalizedDescription    `json:"description"`
-	Versions         []string                `json:"versions"`
-	Components       []ComponentOption       `json:"components"`
-	Modes            []ModeOption            `json:"modes"`
-	Account          AccountOption           `json:"account"`
-	Database         *DatabaseOption         `json:"database,omitempty"`
-	Dms              DmsOption               `json:"dms"`
-	Backup           BackupOption            `json:"backup"`
-	Bench            BenchOption             `json:"bench"`
+	EngineName  string               `json:"engineName"`
+	Title       string               `json:"title"`
+	Description LocalizedDescription `json:"description"`
+	Versions    []string             `json:"versions"`
+	Components  []ComponentOption    `json:"components"`
+	Modes       []ModeOption         `json:"modes"`
+	Account     *AccountOption       `json:"account,omitempty"`
+	Database    *DatabaseOption      `json:"database,omitempty"`
+	Dms         DmsOption            `json:"dms"`
+	// If present, it must be set defaultMethod and fullMethod
+	Backup           *BackupOption           `json:"backup,omitempty"`
+	Bench            *BenchOption            `json:"bench,omitempty"`
 	Endpoints        []EndpointOption        `json:"endpoints"`
 	Promote          []ComponentOpsOption    `json:"promote"`
 	Stop             []ComponentOpsOption    `json:"stop"`
@@ -46,7 +45,7 @@ type EngineOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, account AccountOption, dms DmsOption, backup BackupOption, bench BenchOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
+func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
@@ -54,10 +53,7 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 	this.Versions = versions
 	this.Components = components
 	this.Modes = modes
-	this.Account = account
 	this.Dms = dms
-	this.Backup = backup
-	this.Bench = bench
 	this.Endpoints = endpoints
 	this.Promote = promote
 	this.Stop = stop
@@ -218,27 +214,32 @@ func (o *EngineOption) SetModes(v []ModeOption) {
 	o.Modes = v
 }
 
-// GetAccount returns the Account field value.
+// GetAccount returns the Account field value if set, zero value otherwise.
 func (o *EngineOption) GetAccount() AccountOption {
-	if o == nil {
+	if o == nil || o.Account == nil {
 		var ret AccountOption
 		return ret
 	}
-	return o.Account
+	return *o.Account
 }
 
-// GetAccountOk returns a tuple with the Account field value
+// GetAccountOk returns a tuple with the Account field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetAccountOk() (*AccountOption, bool) {
-	if o == nil {
+	if o == nil || o.Account == nil {
 		return nil, false
 	}
-	return &o.Account, true
+	return o.Account, true
 }
 
-// SetAccount sets field value.
+// HasAccount returns a boolean if a field has been set.
+func (o *EngineOption) HasAccount() bool {
+	return o != nil && o.Account != nil
+}
+
+// SetAccount gets a reference to the given AccountOption and assigns it to the Account field.
 func (o *EngineOption) SetAccount(v AccountOption) {
-	o.Account = v
+	o.Account = &v
 }
 
 // GetDatabase returns the Database field value if set, zero value otherwise.
@@ -292,50 +293,60 @@ func (o *EngineOption) SetDms(v DmsOption) {
 	o.Dms = v
 }
 
-// GetBackup returns the Backup field value.
+// GetBackup returns the Backup field value if set, zero value otherwise.
 func (o *EngineOption) GetBackup() BackupOption {
-	if o == nil {
+	if o == nil || o.Backup == nil {
 		var ret BackupOption
 		return ret
 	}
-	return o.Backup
+	return *o.Backup
 }
 
-// GetBackupOk returns a tuple with the Backup field value
+// GetBackupOk returns a tuple with the Backup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetBackupOk() (*BackupOption, bool) {
-	if o == nil {
+	if o == nil || o.Backup == nil {
 		return nil, false
 	}
-	return &o.Backup, true
+	return o.Backup, true
 }
 
-// SetBackup sets field value.
+// HasBackup returns a boolean if a field has been set.
+func (o *EngineOption) HasBackup() bool {
+	return o != nil && o.Backup != nil
+}
+
+// SetBackup gets a reference to the given BackupOption and assigns it to the Backup field.
 func (o *EngineOption) SetBackup(v BackupOption) {
-	o.Backup = v
+	o.Backup = &v
 }
 
-// GetBench returns the Bench field value.
+// GetBench returns the Bench field value if set, zero value otherwise.
 func (o *EngineOption) GetBench() BenchOption {
-	if o == nil {
+	if o == nil || o.Bench == nil {
 		var ret BenchOption
 		return ret
 	}
-	return o.Bench
+	return *o.Bench
 }
 
-// GetBenchOk returns a tuple with the Bench field value
+// GetBenchOk returns a tuple with the Bench field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetBenchOk() (*BenchOption, bool) {
-	if o == nil {
+	if o == nil || o.Bench == nil {
 		return nil, false
 	}
-	return &o.Bench, true
+	return o.Bench, true
 }
 
-// SetBench sets field value.
+// HasBench returns a boolean if a field has been set.
+func (o *EngineOption) HasBench() bool {
+	return o != nil && o.Bench != nil
+}
+
+// SetBench gets a reference to the given BenchOption and assigns it to the Bench field.
 func (o *EngineOption) SetBench(v BenchOption) {
-	o.Bench = v
+	o.Bench = &v
 }
 
 // GetEndpoints returns the Endpoints field value.
@@ -715,13 +726,19 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize["versions"] = o.Versions
 	toSerialize["components"] = o.Components
 	toSerialize["modes"] = o.Modes
-	toSerialize["account"] = o.Account
+	if o.Account != nil {
+		toSerialize["account"] = o.Account
+	}
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
 	toSerialize["dms"] = o.Dms
-	toSerialize["backup"] = o.Backup
-	toSerialize["bench"] = o.Bench
+	if o.Backup != nil {
+		toSerialize["backup"] = o.Backup
+	}
+	if o.Bench != nil {
+		toSerialize["bench"] = o.Bench
+	}
 	toSerialize["endpoints"] = o.Endpoints
 	toSerialize["promote"] = o.Promote
 	toSerialize["stop"] = o.Stop
@@ -761,11 +778,11 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Versions         *[]string               `json:"versions"`
 		Components       *[]ComponentOption      `json:"components"`
 		Modes            *[]ModeOption           `json:"modes"`
-		Account          *AccountOption          `json:"account"`
+		Account          *AccountOption          `json:"account,omitempty"`
 		Database         *DatabaseOption         `json:"database,omitempty"`
 		Dms              *DmsOption              `json:"dms"`
-		Backup           *BackupOption           `json:"backup"`
-		Bench            *BenchOption            `json:"bench"`
+		Backup           *BackupOption           `json:"backup,omitempty"`
+		Bench            *BenchOption            `json:"bench,omitempty"`
 		Endpoints        *[]EndpointOption       `json:"endpoints"`
 		Promote          *[]ComponentOpsOption   `json:"promote"`
 		Stop             *[]ComponentOpsOption   `json:"stop"`
@@ -803,17 +820,8 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Modes == nil {
 		return fmt.Errorf("required field modes missing")
 	}
-	if all.Account == nil {
-		return fmt.Errorf("required field account missing")
-	}
 	if all.Dms == nil {
 		return fmt.Errorf("required field dms missing")
-	}
-	if all.Backup == nil {
-		return fmt.Errorf("required field backup missing")
-	}
-	if all.Bench == nil {
-		return fmt.Errorf("required field bench missing")
 	}
 	if all.Endpoints == nil {
 		return fmt.Errorf("required field endpoints missing")
@@ -865,10 +873,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Versions = *all.Versions
 	o.Components = *all.Components
 	o.Modes = *all.Modes
-	if all.Account.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Account != nil && all.Account.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Account = *all.Account
+	o.Account = all.Account
 	if all.Database != nil && all.Database.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
@@ -877,14 +885,14 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Dms = *all.Dms
-	if all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Backup != nil && all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Backup = *all.Backup
-	if all.Bench.UnparsedObject != nil && o.UnparsedObject == nil {
+	o.Backup = all.Backup
+	if all.Bench != nil && all.Bench.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Bench = *all.Bench
+	o.Bench = all.Bench
 	o.Endpoints = *all.Endpoints
 	o.Promote = *all.Promote
 	o.Stop = *all.Stop

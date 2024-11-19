@@ -4,10 +4,12 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+)
 
 type DisasterRecoveryOption struct {
-	Enabled       *bool  `json:"enabled,omitempty"`
+	Enabled       bool   `json:"enabled"`
 	InstanceLimit *int32 `json:"instanceLimit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -18,10 +20,9 @@ type DisasterRecoveryOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDisasterRecoveryOption() *DisasterRecoveryOption {
+func NewDisasterRecoveryOption(enabled bool) *DisasterRecoveryOption {
 	this := DisasterRecoveryOption{}
-	var enabled bool = false
-	this.Enabled = &enabled
+	this.Enabled = enabled
 	var instanceLimit int32 = 8
 	this.InstanceLimit = &instanceLimit
 	return &this
@@ -33,38 +34,33 @@ func NewDisasterRecoveryOption() *DisasterRecoveryOption {
 func NewDisasterRecoveryOptionWithDefaults() *DisasterRecoveryOption {
 	this := DisasterRecoveryOption{}
 	var enabled bool = false
-	this.Enabled = &enabled
+	this.Enabled = enabled
 	var instanceLimit int32 = 8
 	this.InstanceLimit = &instanceLimit
 	return &this
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise.
+// GetEnabled returns the Enabled field value.
 func (o *DisasterRecoveryOption) GetEnabled() bool {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Enabled
+	return o.Enabled
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// GetEnabledOk returns a tuple with the Enabled field value
 // and a boolean to check if the value has been set.
 func (o *DisasterRecoveryOption) GetEnabledOk() (*bool, bool) {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Enabled, true
+	return &o.Enabled, true
 }
 
-// HasEnabled returns a boolean if a field has been set.
-func (o *DisasterRecoveryOption) HasEnabled() bool {
-	return o != nil && o.Enabled != nil
-}
-
-// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
+// SetEnabled sets field value.
 func (o *DisasterRecoveryOption) SetEnabled(v bool) {
-	o.Enabled = &v
+	o.Enabled = v
 }
 
 // GetInstanceLimit returns the InstanceLimit field value if set, zero value otherwise.
@@ -101,9 +97,7 @@ func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Enabled != nil {
-		toSerialize["enabled"] = o.Enabled
-	}
+	toSerialize["enabled"] = o.Enabled
 	if o.InstanceLimit != nil {
 		toSerialize["instanceLimit"] = o.InstanceLimit
 	}
@@ -117,11 +111,14 @@ func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled       *bool  `json:"enabled,omitempty"`
+		Enabled       *bool  `json:"enabled"`
 		InstanceLimit *int32 `json:"instanceLimit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
+	}
+	if all.Enabled == nil {
+		return fmt.Errorf("required field enabled missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -129,7 +126,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Enabled = all.Enabled
+	o.Enabled = *all.Enabled
 	o.InstanceLimit = all.InstanceLimit
 
 	if len(additionalProperties) > 0 {
