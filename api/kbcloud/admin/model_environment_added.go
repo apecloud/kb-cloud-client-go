@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type EnvironmentAdded struct {
 	// whether the environment has ever been added
 	AddedBefore *bool `json:"addedBefore,omitempty"`

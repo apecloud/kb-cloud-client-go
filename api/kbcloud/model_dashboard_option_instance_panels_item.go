@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DashboardOptionInstancePanelsItem struct {
 	Role   *string                                       `json:"role,omitempty"`
 	Panels []DashboardOptionInstancePanelsItemPanelsItem `json:"panels,omitempty"`

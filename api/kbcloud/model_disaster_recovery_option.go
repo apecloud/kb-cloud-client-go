@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DisasterRecoveryOption struct {
 	Enabled       *bool  `json:"enabled,omitempty"`
 	InstanceLimit *int32 `json:"instanceLimit,omitempty"`

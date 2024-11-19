@@ -4,14 +4,11 @@
 
 package admin
 
-import (
-	"fmt"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// BackupOption If present, it must be set defaultMethod and fullMethod
 type BackupOption struct {
-	DefaultMethod    string               `json:"defaultMethod"`
-	FullMethod       []BackupMethodOption `json:"fullMethod"`
+	DefaultMethod    *string              `json:"defaultMethod,omitempty"`
+	FullMethod       []BackupMethodOption `json:"fullMethod,omitempty"`
 	ContinuousMethod []BackupMethodOption `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -22,10 +19,8 @@ type BackupOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupOption(defaultMethod string, fullMethod []BackupMethodOption) *BackupOption {
+func NewBackupOption() *BackupOption {
 	this := BackupOption{}
-	this.DefaultMethod = defaultMethod
-	this.FullMethod = fullMethod
 	return &this
 }
 
@@ -37,48 +32,58 @@ func NewBackupOptionWithDefaults() *BackupOption {
 	return &this
 }
 
-// GetDefaultMethod returns the DefaultMethod field value.
+// GetDefaultMethod returns the DefaultMethod field value if set, zero value otherwise.
 func (o *BackupOption) GetDefaultMethod() string {
-	if o == nil {
+	if o == nil || o.DefaultMethod == nil {
 		var ret string
 		return ret
 	}
-	return o.DefaultMethod
+	return *o.DefaultMethod
 }
 
-// GetDefaultMethodOk returns a tuple with the DefaultMethod field value
+// GetDefaultMethodOk returns a tuple with the DefaultMethod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupOption) GetDefaultMethodOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.DefaultMethod == nil {
 		return nil, false
 	}
-	return &o.DefaultMethod, true
+	return o.DefaultMethod, true
 }
 
-// SetDefaultMethod sets field value.
+// HasDefaultMethod returns a boolean if a field has been set.
+func (o *BackupOption) HasDefaultMethod() bool {
+	return o != nil && o.DefaultMethod != nil
+}
+
+// SetDefaultMethod gets a reference to the given string and assigns it to the DefaultMethod field.
 func (o *BackupOption) SetDefaultMethod(v string) {
-	o.DefaultMethod = v
+	o.DefaultMethod = &v
 }
 
-// GetFullMethod returns the FullMethod field value.
+// GetFullMethod returns the FullMethod field value if set, zero value otherwise.
 func (o *BackupOption) GetFullMethod() []BackupMethodOption {
-	if o == nil {
+	if o == nil || o.FullMethod == nil {
 		var ret []BackupMethodOption
 		return ret
 	}
 	return o.FullMethod
 }
 
-// GetFullMethodOk returns a tuple with the FullMethod field value
+// GetFullMethodOk returns a tuple with the FullMethod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupOption) GetFullMethodOk() (*[]BackupMethodOption, bool) {
-	if o == nil {
+	if o == nil || o.FullMethod == nil {
 		return nil, false
 	}
 	return &o.FullMethod, true
 }
 
-// SetFullMethod sets field value.
+// HasFullMethod returns a boolean if a field has been set.
+func (o *BackupOption) HasFullMethod() bool {
+	return o != nil && o.FullMethod != nil
+}
+
+// SetFullMethod gets a reference to the given []BackupMethodOption and assigns it to the FullMethod field.
 func (o *BackupOption) SetFullMethod(v []BackupMethodOption) {
 	o.FullMethod = v
 }
@@ -117,8 +122,12 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["defaultMethod"] = o.DefaultMethod
-	toSerialize["fullMethod"] = o.FullMethod
+	if o.DefaultMethod != nil {
+		toSerialize["defaultMethod"] = o.DefaultMethod
+	}
+	if o.FullMethod != nil {
+		toSerialize["fullMethod"] = o.FullMethod
+	}
 	if o.ContinuousMethod != nil {
 		toSerialize["continuousMethod"] = o.ContinuousMethod
 	}
@@ -132,18 +141,12 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultMethod    *string               `json:"defaultMethod"`
-		FullMethod       *[]BackupMethodOption `json:"fullMethod"`
-		ContinuousMethod []BackupMethodOption  `json:"continuousMethod,omitempty"`
+		DefaultMethod    *string              `json:"defaultMethod,omitempty"`
+		FullMethod       []BackupMethodOption `json:"fullMethod,omitempty"`
+		ContinuousMethod []BackupMethodOption `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.DefaultMethod == nil {
-		return fmt.Errorf("required field defaultMethod missing")
-	}
-	if all.FullMethod == nil {
-		return fmt.Errorf("required field fullMethod missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -151,8 +154,8 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.DefaultMethod = *all.DefaultMethod
-	o.FullMethod = *all.FullMethod
+	o.DefaultMethod = all.DefaultMethod
+	o.FullMethod = all.FullMethod
 	o.ContinuousMethod = all.ContinuousMethod
 
 	if len(additionalProperties) > 0 {

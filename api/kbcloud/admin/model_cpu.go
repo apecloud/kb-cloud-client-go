@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type CPU struct {
 	CpuCapacity    *string `json:"cpu_capacity,omitempty"`
 	CpuCapacityMax *string `json:"cpu_capacity_max,omitempty"`
