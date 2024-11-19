@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type ModeOption struct {
@@ -16,6 +14,7 @@ type ModeOption struct {
 	Description LocalizedDescription   `json:"description"`
 	Components  []ModeComponent        `json:"components"`
 	Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
+	Versions    []string               `json:"versions,omitempty"`
 	Extra       map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -163,6 +162,34 @@ func (o *ModeOption) SetProxy(v ModeOptionProxy) {
 	o.Proxy = &v
 }
 
+// GetVersions returns the Versions field value if set, zero value otherwise.
+func (o *ModeOption) GetVersions() []string {
+	if o == nil || o.Versions == nil {
+		var ret []string
+		return ret
+	}
+	return o.Versions
+}
+
+// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetVersionsOk() (*[]string, bool) {
+	if o == nil || o.Versions == nil {
+		return nil, false
+	}
+	return &o.Versions, true
+}
+
+// HasVersions returns a boolean if a field has been set.
+func (o *ModeOption) HasVersions() bool {
+	return o != nil && o.Versions != nil
+}
+
+// SetVersions gets a reference to the given []string and assigns it to the Versions field.
+func (o *ModeOption) SetVersions(v []string) {
+	o.Versions = v
+}
+
 // GetExtra returns the Extra field value if set, zero value otherwise.
 func (o *ModeOption) GetExtra() map[string]interface{} {
 	if o == nil || o.Extra == nil {
@@ -204,6 +231,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.Proxy != nil {
 		toSerialize["proxy"] = o.Proxy
 	}
+	if o.Versions != nil {
+		toSerialize["versions"] = o.Versions
+	}
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra
 	}
@@ -222,6 +252,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		Description *LocalizedDescription  `json:"description"`
 		Components  *[]ModeComponent       `json:"components"`
 		Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
+		Versions    []string               `json:"versions,omitempty"`
 		Extra       map[string]interface{} `json:"extra,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -241,7 +272,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "components", "proxy", "extra"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "components", "proxy", "versions", "extra"})
 	} else {
 		return err
 	}
@@ -261,6 +292,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Proxy = all.Proxy
+	o.Versions = all.Versions
 	o.Extra = all.Extra
 
 	if len(additionalProperties) > 0 {
