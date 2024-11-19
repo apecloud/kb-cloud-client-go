@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ParameterConfigCalculationParamsItem struct {
 	// name of the parameter
 	Name *string `json:"name,omitempty"`
