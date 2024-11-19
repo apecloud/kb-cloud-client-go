@@ -159,6 +159,7 @@
 //   - [environmentApi.getEnvironment]
 //   - [environmentApi.getEnvironmentBackupRepo]
 //   - [environmentApi.getEnvironmentBootstrapManifests]
+//   - [environmentApi.getEnvironmentDataStats]
 //   - [environmentApi.getEnvironmentKubeconfig]
 //   - [environmentApi.getEnvironmentMetricsMonitorStats]
 //   - [environmentApi.getEnvironmentProvisioningProgress]

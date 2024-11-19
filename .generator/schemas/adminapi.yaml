@@ -5167,6 +5167,33 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - resourceStats
+  /admin/v1/environments/{environmentName}/dataStats:
+    get:
+      description: Provide a summary of data statistics
+      operationId: getEnvironmentDataStats
+      summary: Get data stats of a environment
+      parameters:
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentDataStats'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/nodes/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -15612,6 +15639,32 @@ components:
         - memoryStats
         - name
         - storageStats
+      type: object
+    dataStats:
+      description: Resource statistics for different type of data (backup, logs, etc.)
+      required:
+        - size
+      properties:
+        size:
+          format: string
+          description: Data size in bytes
+        address:
+          description: Access URL or path to the data
+          type: string
+          format: uri
+      type: object
+    environmentDataStats:
+      description: Consolidated data statistics for an environment
+      required:
+        - backup
+        - log
+      properties:
+        backup:
+          description: Statistics for backup data
+          $ref: '#/components/schemas/dataStats'
+        log:
+          description: Statistics for log data
+          $ref: '#/components/schemas/dataStats'
       type: object
     nodeResourceStats:
       description: ResourceStats holds the requests, limits, and available stats for a resource.

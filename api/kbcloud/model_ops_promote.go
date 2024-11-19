@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
 type OpsPromote struct {
 	ComponentName *string `json:"componentName,omitempty"`

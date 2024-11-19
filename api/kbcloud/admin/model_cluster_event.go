@@ -4,11 +4,7 @@
 
 package admin
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // Cluster_event event is the information of operation event
 type Cluster_event struct {
