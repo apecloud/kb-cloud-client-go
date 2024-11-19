@@ -9,16 +9,17 @@ import (
 )
 
 type EngineOption struct {
-	EngineName       string                  `json:"engineName"`
-	Title            string                  `json:"title"`
-	Description      LocalizedDescription    `json:"description"`
-	Versions         []string                `json:"versions"`
-	Components       []ComponentOption       `json:"components"`
-	Modes            []ModeOption            `json:"modes"`
-	Account          AccountOption           `json:"account"`
-	Database         *DatabaseOption         `json:"database,omitempty"`
-	Dms              DmsOption               `json:"dms"`
-	Backup           BackupOption            `json:"backup"`
+	EngineName  string               `json:"engineName"`
+	Title       string               `json:"title"`
+	Description LocalizedDescription `json:"description"`
+	Versions    []string             `json:"versions"`
+	Components  []ComponentOption    `json:"components"`
+	Modes       []ModeOption         `json:"modes"`
+	Account     AccountOption        `json:"account"`
+	Database    *DatabaseOption      `json:"database,omitempty"`
+	Dms         DmsOption            `json:"dms"`
+	// If present, it must be set defaultMethod and fullMethod
+	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            BenchOption             `json:"bench"`
 	Endpoints        []EndpointOption        `json:"endpoints"`
 	Promote          []ComponentOpsOption    `json:"promote"`
@@ -44,7 +45,7 @@ type EngineOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, account AccountOption, dms DmsOption, backup BackupOption, bench BenchOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
+func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, account AccountOption, dms DmsOption, bench BenchOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
@@ -54,7 +55,6 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 	this.Modes = modes
 	this.Account = account
 	this.Dms = dms
-	this.Backup = backup
 	this.Bench = bench
 	this.Endpoints = endpoints
 	this.Promote = promote
@@ -290,27 +290,32 @@ func (o *EngineOption) SetDms(v DmsOption) {
 	o.Dms = v
 }
 
-// GetBackup returns the Backup field value.
+// GetBackup returns the Backup field value if set, zero value otherwise.
 func (o *EngineOption) GetBackup() BackupOption {
-	if o == nil {
+	if o == nil || o.Backup == nil {
 		var ret BackupOption
 		return ret
 	}
-	return o.Backup
+	return *o.Backup
 }
 
-// GetBackupOk returns a tuple with the Backup field value
+// GetBackupOk returns a tuple with the Backup field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetBackupOk() (*BackupOption, bool) {
-	if o == nil {
+	if o == nil || o.Backup == nil {
 		return nil, false
 	}
-	return &o.Backup, true
+	return o.Backup, true
 }
 
-// SetBackup sets field value.
+// HasBackup returns a boolean if a field has been set.
+func (o *EngineOption) HasBackup() bool {
+	return o != nil && o.Backup != nil
+}
+
+// SetBackup gets a reference to the given BackupOption and assigns it to the Backup field.
 func (o *EngineOption) SetBackup(v BackupOption) {
-	o.Backup = v
+	o.Backup = &v
 }
 
 // GetBench returns the Bench field value.
@@ -718,7 +723,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["database"] = o.Database
 	}
 	toSerialize["dms"] = o.Dms
-	toSerialize["backup"] = o.Backup
+	if o.Backup != nil {
+		toSerialize["backup"] = o.Backup
+	}
 	toSerialize["bench"] = o.Bench
 	toSerialize["endpoints"] = o.Endpoints
 	toSerialize["promote"] = o.Promote
@@ -762,7 +769,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Account          *AccountOption          `json:"account"`
 		Database         *DatabaseOption         `json:"database,omitempty"`
 		Dms              *DmsOption              `json:"dms"`
-		Backup           *BackupOption           `json:"backup"`
+		Backup           *BackupOption           `json:"backup,omitempty"`
 		Bench            *BenchOption            `json:"bench"`
 		Endpoints        *[]EndpointOption       `json:"endpoints"`
 		Promote          *[]ComponentOpsOption   `json:"promote"`
@@ -806,9 +813,6 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Dms == nil {
 		return fmt.Errorf("required field dms missing")
-	}
-	if all.Backup == nil {
-		return fmt.Errorf("required field backup missing")
 	}
 	if all.Bench == nil {
 		return fmt.Errorf("required field bench missing")
@@ -875,10 +879,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Dms = *all.Dms
-	if all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Backup != nil && all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Backup = *all.Backup
+	o.Backup = all.Backup
 	if all.Bench.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

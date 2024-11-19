@@ -13452,7 +13452,11 @@ components:
         description:
           $ref: '#/components/schemas/localizedDescription'
     backupOption:
+      description: If present, it must be set defaultMethod and fullMethod
       type: object
+      required:
+        - defaultMethod
+        - fullMethod
       properties:
         defaultMethod:
           type: string
@@ -13782,7 +13786,6 @@ components:
         - modes
         - account
         - dms
-        - backup
         - endpoints
         - promote
         - stop
@@ -13821,6 +13824,7 @@ components:
         dms:
           $ref: '#/components/schemas/dmsOption'
         backup:
+          description: If this field is null, backup is not supported.
           $ref: '#/components/schemas/backupOption'
         bench:
           $ref: '#/components/schemas/benchOption'
