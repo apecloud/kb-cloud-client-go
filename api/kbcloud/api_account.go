@@ -16,13 +16,38 @@ import (
 // AccountApi service type
 type AccountApi common.Service
 
+// CreateAccountOptionalParameters holds optional parameters for CreateAccount.
+type CreateAccountOptionalParameters struct {
+	IsSentinel *bool
+}
+
+// NewCreateAccountOptionalParameters creates an empty struct for parameters.
+func NewCreateAccountOptionalParameters() *CreateAccountOptionalParameters {
+	this := CreateAccountOptionalParameters{}
+	return &this
+}
+
+// WithIsSentinel sets the corresponding parameter name and returns the struct.
+func (r *CreateAccountOptionalParameters) WithIsSentinel(isSentinel bool) *CreateAccountOptionalParameters {
+	r.IsSentinel = &isSentinel
+	return r
+}
+
 // CreateAccount Create cluster account.
 // create an account in cluster
-func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
+func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, clusterName string, mode string, body Account, o ...CreateAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
+		optionalParams     CreateAccountOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type CreateAccountOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateAccount")
 	if err != nil {
@@ -36,6 +61,10 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
+	if optionalParams.IsSentinel != nil {
+		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -80,13 +109,38 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 	return localVarHTTPResponse, nil
 }
 
+// DeleteAccountOptionalParameters holds optional parameters for DeleteAccount.
+type DeleteAccountOptionalParameters struct {
+	IsSentinel *bool
+}
+
+// NewDeleteAccountOptionalParameters creates an empty struct for parameters.
+func NewDeleteAccountOptionalParameters() *DeleteAccountOptionalParameters {
+	this := DeleteAccountOptionalParameters{}
+	return &this
+}
+
+// WithIsSentinel sets the corresponding parameter name and returns the struct.
+func (r *DeleteAccountOptionalParameters) WithIsSentinel(isSentinel bool) *DeleteAccountOptionalParameters {
+	r.IsSentinel = &isSentinel
+	return r
+}
+
 // DeleteAccount Delete cluster account.
 // delete an account in cluster
-func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, clusterName string, accountName string) (*_nethttp.Response, error) {
+func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, clusterName string, accountName string, mode string, o ...DeleteAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
+		optionalParams     DeleteAccountOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type DeleteAccountOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.DeleteAccount")
 	if err != nil {
@@ -101,6 +155,10 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
+	if optionalParams.IsSentinel != nil {
+		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -217,6 +275,7 @@ func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName st
 // ListAccountsOptionalParameters holds optional parameters for ListAccounts.
 type ListAccountsOptionalParameters struct {
 	IncludeRoot *bool
+	IsSentinel  *bool
 }
 
 // NewListAccountsOptionalParameters creates an empty struct for parameters.
@@ -231,13 +290,19 @@ func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *List
 	return r
 }
 
+// WithIsSentinel sets the corresponding parameter name and returns the struct.
+func (r *ListAccountsOptionalParameters) WithIsSentinel(isSentinel bool) *ListAccountsOptionalParameters {
+	r.IsSentinel = &isSentinel
+	return r
+}
+
 // ListAccounts List cluster accounts.
 // list accounts in cluster
-func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
+func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterName string, mode string, o ...ListAccountsOptionalParameters) (AccountList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []AccountListItem
+		localVarReturnValue AccountList
 		optionalParams      ListAccountsOptionalParameters
 	)
 
@@ -260,8 +325,12 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
 	if optionalParams.IncludeRoot != nil {
 		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
+	}
+	if optionalParams.IsSentinel != nil {
+		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -313,13 +382,38 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// UpdateAccountOptionalParameters holds optional parameters for UpdateAccount.
+type UpdateAccountOptionalParameters struct {
+	IsSentinel *bool
+}
+
+// NewUpdateAccountOptionalParameters creates an empty struct for parameters.
+func NewUpdateAccountOptionalParameters() *UpdateAccountOptionalParameters {
+	this := UpdateAccountOptionalParameters{}
+	return &this
+}
+
+// WithIsSentinel sets the corresponding parameter name and returns the struct.
+func (r *UpdateAccountOptionalParameters) WithIsSentinel(isSentinel bool) *UpdateAccountOptionalParameters {
+	r.IsSentinel = &isSentinel
+	return r
+}
+
 // UpdateAccount update cluster account.
 // update an account in cluster
-func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body Account) (*_nethttp.Response, error) {
+func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, clusterName string, accountName string, mode string, body Account, o ...UpdateAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
+		optionalParams     UpdateAccountOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type UpdateAccountOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccount")
 	if err != nil {
@@ -334,6 +428,10 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
+	if optionalParams.IsSentinel != nil {
+		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 

@@ -1633,6 +1633,18 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - name: mode
+          in: query
+          required: true
+          schema:
+            type: string
+          description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
+        - name: isSentinel
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: in sentinel mode, this parameter is required to specify list master account or sentinel account
       responses:
         '200':
           content:
@@ -1669,6 +1681,18 @@ paths:
           required: true
           schema:
             type: string
+        - name: mode
+          in: query
+          required: true
+          schema:
+            type: string
+          description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
+        - name: isSentinel
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: in sentinel mode, this parameter is required to specify list master account or sentinel account
       requestBody:
         content:
           application/json:
@@ -1706,12 +1730,24 @@ paths:
           required: true
           schema:
             type: string
-        - description: name of the Cluster
+        - description: name of the account
           in: path
           name: accountName
           required: true
           schema:
             type: string
+        - name: mode
+          in: query
+          required: true
+          schema:
+            type: string
+          description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
+        - name: isSentinel
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: in sentinel mode, this parameter is required to specify list master account or sentinel account
       responses:
         '204':
           content: {}
@@ -1747,6 +1783,18 @@ paths:
           required: true
           schema:
             type: string
+        - name: mode
+          in: query
+          required: true
+          schema:
+            type: string
+          description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
+        - name: isSentinel
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: in sentinel mode, this parameter is required to specify list master account or sentinel account
       requestBody:
         content:
           application/json:
@@ -13206,6 +13254,107 @@ components:
           items:
             $ref: '#/components/schemas/treeNode'
           description: An array of child nodes.
+    ACLUser:
+      x-go-name: RedisACLUser
+      type: object
+      properties:
+        cluster:
+          type: string
+          description: Redis cluster name
+        role:
+          type: string
+          description: User role
+        name:
+          type: string
+          description: ACL user name
+        flags:
+          type: array
+          items:
+            type: string
+          description: User flags (e.g., allkeys, allchannels, allcommands)
+        enabled:
+          type: boolean
+          description: Whether the user is enabled
+        nopass:
+          type: boolean
+          description: Whether the user requires no password
+        passwords:
+          type: array
+          items:
+            type: string
+          description: List of plain text passwords
+        password_hashes:
+          type: array
+          items:
+            type: string
+          description: List of hashed passwords
+        passwords_to_remove:
+          type: array
+          items:
+            type: string
+          description: List of passwords to be removed
+        password_hashes_to_remove:
+          type: array
+          items:
+            type: string
+          description: List of password hashes to be removed
+        commands:
+          type: string
+          description: Commands in form of "+@all -keys"
+        keys:
+          type: array
+          items:
+            type: string
+          description: List of key patterns that user can access
+        channels:
+          type: array
+          items:
+            type: string
+          description: List of pub/sub channels that user can access
+        allowed_commands:
+          type: array
+          items:
+            type: string
+          description: List of explicitly allowed commands
+        allowed_categories:
+          type: array
+          items:
+            type: string
+          description: List of allowed command categories
+        disallowed_commands:
+          type: array
+          items:
+            type: string
+          description: List of explicitly disallowed commands
+        disallowed_categories:
+          type: array
+          items:
+            type: string
+          description: List of disallowed command categories
+      required:
+        - name
+    ACLUserResponse:
+      x-go-name: RedisACLUserResponse
+      type: object
+      properties:
+        mode:
+          type: string
+        isSentinel:
+          type: boolean
+        master:
+          x-omitempty: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ACLUser'
+            nullable: true
+        sentinel:
+          x-omitempty: true
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/ACLUser'
+              x-nullable: true
     accountListRoleType:
       description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
       enum:
@@ -13254,9 +13403,17 @@ components:
         - name
       type: object
     accountList:
-      items:
-        $ref: '#/components/schemas/accountListItem'
-      type: array
+      x-go-name: AccountList
+      type: object
+      properties:
+        redisAccounts:
+          description: redis acl list response
+          $ref: '#/components/schemas/ACLUserResponse'
+        rdbmsAccounts:
+          description: rdbms account list
+          items:
+            $ref: '#/components/schemas/accountListItem'
+          type: array
     accountRoleType:
       default: SUPERUSER
       description: Role name should be one of [SUPERUSER, BASICUSER].
@@ -13290,6 +13447,8 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/accountRoleType'
+        redisACL:
+          $ref: '#/components/schemas/ACLUser'
       required:
         - name
         - role
