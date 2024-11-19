@@ -33,8 +33,6 @@ func NewDisasterRecoveryOption(enabled bool) *DisasterRecoveryOption {
 // but it doesn't guarantee that properties required by API are set.
 func NewDisasterRecoveryOptionWithDefaults() *DisasterRecoveryOption {
 	this := DisasterRecoveryOption{}
-	var enabled bool = false
-	this.Enabled = enabled
 	var instanceLimit int32 = 8
 	this.InstanceLimit = &instanceLimit
 	return &this
