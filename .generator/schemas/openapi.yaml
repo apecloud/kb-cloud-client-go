@@ -13775,7 +13775,6 @@ components:
       properties:
         enabled:
           type: boolean
-          default: false
         instanceLimit:
           type: integer
           default: 8

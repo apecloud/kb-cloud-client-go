@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type BackupConfig struct {
 	Schedule        *string `json:"schedule,omitempty"`
 	AccessKeyId     *string `json:"accessKeyId,omitempty"`
