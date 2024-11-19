@@ -81,7 +81,7 @@ jobs:
           
               git config --local user.name "$GITHUB_ACTOR"
               git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
-              git commit -a -m "chore: auto update client api [${APECLOUD_COMMIT_SHA}](${APECLOUD_COMMIT_URL}/${APECLOUD_COMMIT_SHA})"
+              git commit -a -m "chore: auto update client api ${APECLOUD_COMMIT_URL}/${APECLOUD_COMMIT_SHA}"
           fi
           echo file_changes=$FILE_CHANGES >> $GITHUB_OUTPUT
 
