@@ -14,7 +14,13 @@ jobs:
   check-swagger:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout kb-cloud-client-go Code
+        uses: actions/checkout@v4
+        with:
+          repository: apecloud/kb-cloud-client-go
+          path: ./
+          token: ${{ env.GITHUB_TOKEN }}
+          ref: ${{ github.ref_name }}
 
       - name: Setup Poetry
         uses: Gr1N/setup-poetry@v8
@@ -83,4 +89,7 @@ jobs:
         uses: ad-m/github-push-action@master
         if: ${{ steps.update_client_api.outputs.file_changes }}
         with:
+          repository: apecloud/kb-cloud-client-go
+          directory: ./
           github_token: ${{ env.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
