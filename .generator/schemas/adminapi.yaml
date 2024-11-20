@@ -2895,7 +2895,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/clusters/{clusterID}/datasource:
+  /admin/v1/clusters/{clusterID}/datasource:
     get:
       tags:
         - dms
@@ -2947,7 +2947,7 @@ paths:
             application/json:
               schema:
                 type: boolean
-  /api/v1/clusters/{clusterID}/createDS:
+  /admin/v1/clusters/{clusterID}/createDS:
     post:
       tags:
         - dms
@@ -2973,7 +2973,7 @@ paths:
             application/json:
               schema:
                 type: boolean
-  /api/v1/clusters/{clusterID}/updateDS:
+  /admin/v1/clusters/{clusterID}/updateDS:
     post:
       tags:
         - dms
