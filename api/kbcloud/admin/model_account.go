@@ -22,7 +22,7 @@ type Account struct {
 	Password *string `json:"password,omitempty"`
 	// Role name should be one of [SUPERUSER, BASICUSER].
 	Role     AccountRoleType `json:"role"`
-	RedisAcl *ACLUser        `json:"redisACL,omitempty"`
+	RedisAcl ACLUser         `json:"redisACL,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -213,7 +213,7 @@ func (o *Account) GetRedisAcl() ACLUser {
 		var ret ACLUser
 		return ret
 	}
-	return *o.RedisAcl
+	return o.RedisAcl
 }
 
 // GetRedisAclOk returns a tuple with the RedisAcl field value if set, nil otherwise
@@ -222,7 +222,7 @@ func (o *Account) GetRedisAclOk() (*ACLUser, bool) {
 	if o == nil || o.RedisAcl == nil {
 		return nil, false
 	}
-	return o.RedisAcl, true
+	return &o.RedisAcl, true
 }
 
 // HasRedisAcl returns a boolean if a field has been set.
@@ -232,7 +232,7 @@ func (o *Account) HasRedisAcl() bool {
 
 // SetRedisAcl gets a reference to the given ACLUser and assigns it to the RedisAcl field.
 func (o *Account) SetRedisAcl(v ACLUser) {
-	o.RedisAcl = &v
+	o.RedisAcl = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -274,7 +274,7 @@ func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 		Name           *string             `json:"name"`
 		Password       *string             `json:"password,omitempty"`
 		Role           *AccountRoleType    `json:"role"`
-		RedisAcl       *ACLUser            `json:"redisACL,omitempty"`
+		RedisAcl       ACLUser             `json:"redisACL,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -302,9 +302,6 @@ func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.Role = *all.Role
-	}
-	if all.RedisAcl != nil && all.RedisAcl.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
 	}
 	o.RedisAcl = all.RedisAcl
 

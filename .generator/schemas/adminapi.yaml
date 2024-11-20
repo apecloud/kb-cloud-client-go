@@ -13254,107 +13254,13 @@ components:
           items:
             $ref: '#/components/schemas/treeNode'
           description: An array of child nodes.
-    ACLUser:
-      x-go-name: RedisACLUser
-      type: object
-      properties:
-        cluster:
-          type: string
-          description: Redis cluster name
-        role:
-          type: string
-          description: User role
-        name:
-          type: string
-          description: ACL user name
-        flags:
-          type: array
-          items:
-            type: string
-          description: User flags (e.g., allkeys, allchannels, allcommands)
-        enabled:
-          type: boolean
-          description: Whether the user is enabled
-        nopass:
-          type: boolean
-          description: Whether the user requires no password
-        passwords:
-          type: array
-          items:
-            type: string
-          description: List of plain text passwords
-        password_hashes:
-          type: array
-          items:
-            type: string
-          description: List of hashed passwords
-        passwords_to_remove:
-          type: array
-          items:
-            type: string
-          description: List of passwords to be removed
-        password_hashes_to_remove:
-          type: array
-          items:
-            type: string
-          description: List of password hashes to be removed
-        commands:
-          type: string
-          description: Commands in form of "+@all -keys"
-        keys:
-          type: array
-          items:
-            type: string
-          description: List of key patterns that user can access
-        channels:
-          type: array
-          items:
-            type: string
-          description: List of pub/sub channels that user can access
-        allowed_commands:
-          type: array
-          items:
-            type: string
-          description: List of explicitly allowed commands
-        allowed_categories:
-          type: array
-          items:
-            type: string
-          description: List of allowed command categories
-        disallowed_commands:
-          type: array
-          items:
-            type: string
-          description: List of explicitly disallowed commands
-        disallowed_categories:
-          type: array
-          items:
-            type: string
-          description: List of disallowed command categories
-      required:
-        - name
     ACLUserResponse:
-      x-go-name: RedisACLUserResponse
       type: object
-      properties:
-        mode:
-          type: string
-        isSentinel:
-          type: boolean
-        master:
-          x-omitempty: true
-          type: array
-          items:
-            $ref: '#/components/schemas/ACLUser'
-            nullable: true
-        sentinel:
-          x-omitempty: true
-          type: object
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/ACLUser'
-              x-nullable: true
+      x-go-type:
+        type: RedisACLUserResponse
+        import:
+          package: github.com/apecloud/dms/pkg/models
+      x-nullable: true
     accountListRoleType:
       description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
       enum:
@@ -13409,11 +13315,15 @@ components:
         redisAccounts:
           description: redis acl list response
           $ref: '#/components/schemas/ACLUserResponse'
+          x-omitempty: true
+          nullable: true
         rdbmsAccounts:
           description: rdbms account list
           items:
             $ref: '#/components/schemas/accountListItem'
           type: array
+          nullable: true
+          x-omitempty: true
     accountRoleType:
       default: SUPERUSER
       description: Role name should be one of [SUPERUSER, BASICUSER].
@@ -13422,6 +13332,13 @@ components:
         - BASICUSER
       title: role
       type: string
+    ACLUser:
+      type: object
+      x-go-type:
+        type: RedisACLUser
+        import:
+          package: github.com/apecloud/dms/pkg/models
+      x-nullable: true
     account:
       description: Cluster account information
       properties:
@@ -13449,6 +13366,7 @@ components:
           $ref: '#/components/schemas/accountRoleType'
         redisACL:
           $ref: '#/components/schemas/ACLUser'
+          x-omitempty: true
       required:
         - name
         - role
