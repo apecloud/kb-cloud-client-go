@@ -17714,6 +17714,10 @@ components:
           properties:
             enabled:
               type: boolean
+        versions:
+          type: array
+          items:
+            type: string
         extra:
           type: object
           additionalProperties: true
