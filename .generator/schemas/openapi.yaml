@@ -2310,7 +2310,7 @@ paths:
             type: boolean
         - name: mode
           in: query
-          required: true
+          required: false
           schema:
             type: string
           description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
@@ -2358,7 +2358,7 @@ paths:
             type: string
         - name: mode
           in: query
-          required: true
+          required: false
           schema:
             type: string
           description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
@@ -2413,7 +2413,7 @@ paths:
             type: string
         - name: mode
           in: query
-          required: true
+          required: false
           schema:
             type: string
           description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
@@ -2460,7 +2460,7 @@ paths:
             type: string
         - name: mode
           in: query
-          required: true
+          required: false
           schema:
             type: string
           description: the mode of the redis cluster, cloud be standalone,sentinel or cluster
@@ -13471,6 +13471,10 @@ components:
           properties:
             enabled:
               type: boolean
+        versions:
+          type: array
+          items:
+            type: string
         extra:
           type: object
           additionalProperties: true

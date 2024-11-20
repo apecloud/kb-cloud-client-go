@@ -18,6 +18,7 @@ type AccountApi common.Service
 
 // CreateAccountOptionalParameters holds optional parameters for CreateAccount.
 type CreateAccountOptionalParameters struct {
+	Mode       *string
 	IsSentinel *bool
 }
 
@@ -25,6 +26,12 @@ type CreateAccountOptionalParameters struct {
 func NewCreateAccountOptionalParameters() *CreateAccountOptionalParameters {
 	this := CreateAccountOptionalParameters{}
 	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *CreateAccountOptionalParameters) WithMode(mode string) *CreateAccountOptionalParameters {
+	r.Mode = &mode
+	return r
 }
 
 // WithIsSentinel sets the corresponding parameter name and returns the struct.
@@ -35,7 +42,7 @@ func (r *CreateAccountOptionalParameters) WithIsSentinel(isSentinel bool) *Creat
 
 // CreateAccount Create cluster account.
 // create an account in cluster
-func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, clusterName string, mode string, body Account, o ...CreateAccountOptionalParameters) (*_nethttp.Response, error) {
+func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, clusterName string, body Account, o ...CreateAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -61,7 +68,9 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.IsSentinel != nil {
 		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
 	}
@@ -111,6 +120,7 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 
 // DeleteAccountOptionalParameters holds optional parameters for DeleteAccount.
 type DeleteAccountOptionalParameters struct {
+	Mode       *string
 	IsSentinel *bool
 }
 
@@ -118,6 +128,12 @@ type DeleteAccountOptionalParameters struct {
 func NewDeleteAccountOptionalParameters() *DeleteAccountOptionalParameters {
 	this := DeleteAccountOptionalParameters{}
 	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *DeleteAccountOptionalParameters) WithMode(mode string) *DeleteAccountOptionalParameters {
+	r.Mode = &mode
+	return r
 }
 
 // WithIsSentinel sets the corresponding parameter name and returns the struct.
@@ -128,7 +144,7 @@ func (r *DeleteAccountOptionalParameters) WithIsSentinel(isSentinel bool) *Delet
 
 // DeleteAccount Delete cluster account.
 // delete an account in cluster
-func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, clusterName string, accountName string, mode string, o ...DeleteAccountOptionalParameters) (*_nethttp.Response, error) {
+func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, clusterName string, accountName string, o ...DeleteAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -155,7 +171,9 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.IsSentinel != nil {
 		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
 	}
@@ -203,6 +221,7 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 // ListAccountsOptionalParameters holds optional parameters for ListAccounts.
 type ListAccountsOptionalParameters struct {
 	IncludeRoot *bool
+	Mode        *string
 	IsSentinel  *bool
 }
 
@@ -218,6 +237,12 @@ func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *List
 	return r
 }
 
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *ListAccountsOptionalParameters) WithMode(mode string) *ListAccountsOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // WithIsSentinel sets the corresponding parameter name and returns the struct.
 func (r *ListAccountsOptionalParameters) WithIsSentinel(isSentinel bool) *ListAccountsOptionalParameters {
 	r.IsSentinel = &isSentinel
@@ -226,7 +251,7 @@ func (r *ListAccountsOptionalParameters) WithIsSentinel(isSentinel bool) *ListAc
 
 // ListAccounts List cluster accounts.
 // list accounts in cluster
-func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterName string, mode string, o ...ListAccountsOptionalParameters) (AccountList, *_nethttp.Response, error) {
+func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListAccountsOptionalParameters) (AccountList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -253,9 +278,11 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
 	if optionalParams.IncludeRoot != nil {
 		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
+	}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
 	}
 	if optionalParams.IsSentinel != nil {
 		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
@@ -312,6 +339,7 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 
 // UpdateAccountOptionalParameters holds optional parameters for UpdateAccount.
 type UpdateAccountOptionalParameters struct {
+	Mode       *string
 	IsSentinel *bool
 }
 
@@ -319,6 +347,12 @@ type UpdateAccountOptionalParameters struct {
 func NewUpdateAccountOptionalParameters() *UpdateAccountOptionalParameters {
 	this := UpdateAccountOptionalParameters{}
 	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *UpdateAccountOptionalParameters) WithMode(mode string) *UpdateAccountOptionalParameters {
+	r.Mode = &mode
+	return r
 }
 
 // WithIsSentinel sets the corresponding parameter name and returns the struct.
@@ -329,7 +363,7 @@ func (r *UpdateAccountOptionalParameters) WithIsSentinel(isSentinel bool) *Updat
 
 // UpdateAccount update cluster account.
 // update an account in cluster
-func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, clusterName string, accountName string, mode string, body Account, o ...UpdateAccountOptionalParameters) (*_nethttp.Response, error) {
+func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body Account, o ...UpdateAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
@@ -356,7 +390,9 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("mode", common.ParameterToString(mode, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.IsSentinel != nil {
 		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
 	}
