@@ -11631,6 +11631,185 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alertAdmin/rules:
+    get:
+      tags:
+        - alertAdminRule
+      operationId: getAlertAdminRuleList
+      parameters:
+        - name: groupName
+          in: query
+          description: name of the group
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/alertAdmin_alertRuleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - alertAdminRule
+      operationId: createAlertAdminRule
+      summary: Create alert admin rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertAdmin_alertRule'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAdmin_alertRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - alertAdminRule
+      operationId: deleteAlertAdminRule
+      summary: Delete alert admin rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertAdmin_alertRule'
+        required: true
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - alertAdminRule
+      operationId: updateAlertAdminRule
+      summary: Update alert admin rule
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertAdmin_alertRule'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAdmin_alertRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+  /admin/v1/alertAdmin/objects:
+    get:
+      tags:
+        - alertAdminObjects
+      operationId: listAlertAdminObjects
+      summary: List alert admin objects
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAdmin_alertObjectList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/alertAdmin/alertStatus/{alertId}:
+    patch:
+      tags:
+        - alertAdminObjects
+      operationId: setAlertAdminStatus
+      summary: Set alert admin status
+      parameters:
+        - name: alertId
+          in: path
+          description: alert id
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAdmin_alertObject'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/alertAdmin/alertsStatus:
+    patch:
+      tags:
+        - alertAdminObjects
+      operationId: setAlertsAdminStatus
+      summary: Set alerts admin status
+      parameters:
+        - name: status
+          in: query
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            required: true
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/alertAdmin_alertObject'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertAdmin_alertObjectList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -20277,6 +20456,104 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
+    alertAdmin_alertRule:
+      type: object
+      properties:
+        description:
+          type: string
+        summary:
+          type: string
+        groupName:
+          type: string
+        alertName:
+          type: string
+        expr:
+          type: string
+        for:
+          type: string
+        disabled:
+          type: boolean
+          default: false
+        severity:
+          $ref: '#/components/schemas/alertSeverity'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        metric:
+          $ref: '#/components/schemas/alertMetric'
+      description: Alert rule information
+    alertAdmin_alertRuleGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/alertAdmin_alertRule'
+    alertAdmin_alertRuleList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert rule objects in the list
+          items:
+            $ref: '#/components/schemas/alertAdmin_alertRuleGroup'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertRuleList is a list of alert rules
+    alertAdmin_alertObject:
+      type: object
+      properties:
+        id:
+          type: integer
+        alertName:
+          type: string
+        groupName:
+          type: string
+        expr:
+          type: string
+        engine:
+          type: string
+        namespace:
+          type: string
+        pod:
+          type: string
+        severity:
+          $ref: '#/components/schemas/alertSeverity'
+        description:
+          type: string
+        fingerprint:
+          type: string
+        startsAt:
+          format: date-time
+          type: string
+        endsAt:
+          format: date-time
+          type: string
+        status:
+          $ref: '#/components/schemas/alertStatus'
+        count:
+          type: integer
+      description: Alert object information
+    alertAdmin_alertObjectList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert admin objects in the list
+          items:
+            $ref: '#/components/schemas/alertAdmin_alertObject'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertObjectList is a list of alert admin object
   responses:
     '204':
       description: No Content
