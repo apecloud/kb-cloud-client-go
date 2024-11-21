@@ -6,16 +6,12 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EnvironmentDelete Environment deletion option
 type EnvironmentDelete struct {
 	// clean up resources in the cloud (only valid if creation is done by role ARN)
 	CleanCloudResources *bool `json:"cleanCloudResources,omitempty"`
-	// The policy to clean cloud resources, either `Delete` or `Retain`
-	Backup CloudResourceCleanPolicy `json:"backup"`
 	// The policy to clean cloud resources, either `Delete` or `Retain`
 	Minio CloudResourceCleanPolicy `json:"minio"`
 	// The policy to clean cloud resources, either `Delete` or `Retain`
@@ -29,9 +25,8 @@ type EnvironmentDelete struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentDelete(backup CloudResourceCleanPolicy, minio CloudResourceCleanPolicy, victoriaMetrics CloudResourceCleanPolicy) *EnvironmentDelete {
+func NewEnvironmentDelete(minio CloudResourceCleanPolicy, victoriaMetrics CloudResourceCleanPolicy) *EnvironmentDelete {
 	this := EnvironmentDelete{}
-	this.Backup = backup
 	this.Minio = minio
 	this.VictoriaMetrics = victoriaMetrics
 	return &this
@@ -42,8 +37,6 @@ func NewEnvironmentDelete(backup CloudResourceCleanPolicy, minio CloudResourceCl
 // but it doesn't guarantee that properties required by API are set.
 func NewEnvironmentDeleteWithDefaults() *EnvironmentDelete {
 	this := EnvironmentDelete{}
-	var backup CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
-	this.Backup = backup
 	var minio CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.Minio = minio
 	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
@@ -77,29 +70,6 @@ func (o *EnvironmentDelete) HasCleanCloudResources() bool {
 // SetCleanCloudResources gets a reference to the given bool and assigns it to the CleanCloudResources field.
 func (o *EnvironmentDelete) SetCleanCloudResources(v bool) {
 	o.CleanCloudResources = &v
-}
-
-// GetBackup returns the Backup field value.
-func (o *EnvironmentDelete) GetBackup() CloudResourceCleanPolicy {
-	if o == nil {
-		var ret CloudResourceCleanPolicy
-		return ret
-	}
-	return o.Backup
-}
-
-// GetBackupOk returns a tuple with the Backup field value
-// and a boolean to check if the value has been set.
-func (o *EnvironmentDelete) GetBackupOk() (*CloudResourceCleanPolicy, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Backup, true
-}
-
-// SetBackup sets field value.
-func (o *EnvironmentDelete) SetBackup(v CloudResourceCleanPolicy) {
-	o.Backup = v
 }
 
 // GetMinio returns the Minio field value.
@@ -157,7 +127,6 @@ func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	if o.CleanCloudResources != nil {
 		toSerialize["cleanCloudResources"] = o.CleanCloudResources
 	}
-	toSerialize["backup"] = o.Backup
 	toSerialize["minio"] = o.Minio
 	toSerialize["victoriaMetrics"] = o.VictoriaMetrics
 
@@ -171,15 +140,11 @@ func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		CleanCloudResources *bool                     `json:"cleanCloudResources,omitempty"`
-		Backup              *CloudResourceCleanPolicy `json:"backup"`
 		Minio               *CloudResourceCleanPolicy `json:"minio"`
 		VictoriaMetrics     *CloudResourceCleanPolicy `json:"victoriaMetrics"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.Backup == nil {
-		return fmt.Errorf("required field backup missing")
 	}
 	if all.Minio == nil {
 		return fmt.Errorf("required field minio missing")
@@ -189,18 +154,13 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources", "backup", "minio", "victoriaMetrics"})
+		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources", "minio", "victoriaMetrics"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.CleanCloudResources = all.CleanCloudResources
-	if !all.Backup.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Backup = *all.Backup
-	}
 	if !all.Minio.IsValid() {
 		hasInvalidField = true
 	} else {
