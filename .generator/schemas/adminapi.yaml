@@ -12385,6 +12385,16 @@ components:
           format: int64
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        parentName:
+          title: ParentName
+          type: string
+          nullable: true
+          description: the name of parent cluster
+        parentDisplayName:
+          title: ParentDisplayName
+          type: string
+          nullable: true
+          description: the display name of parent cluster
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -12643,6 +12653,16 @@ components:
           format: int64
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        parentName:
+          title: ParentName
+          type: string
+          nullable: true
+          description: the name of parent cluster
+        parentDisplayName:
+          title: ParentDisplayName
+          type: string
+          nullable: true
+          description: the display name of parent cluster
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -14698,6 +14718,10 @@ components:
         component:
           description: component type
           type: string
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -14812,6 +14836,10 @@ components:
         replicas:
           description: number of replicas
           type: integer
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster

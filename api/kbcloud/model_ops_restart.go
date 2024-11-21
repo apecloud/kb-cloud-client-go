@@ -4,12 +4,12 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // OpsRestart OpsRestart is the payload to restart a KubeBlocks cluster
 type OpsRestart struct {
 	// component type
 	Component *string `json:"component,omitempty"`
+	// Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+	PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +60,45 @@ func (o *OpsRestart) SetComponent(v string) {
 	o.Component = &v
 }
 
+// GetPreConditionDeadlineSeconds returns the PreConditionDeadlineSeconds field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OpsRestart) GetPreConditionDeadlineSeconds() int32 {
+	if o == nil || o.PreConditionDeadlineSeconds.Get() == nil {
+		var ret int32
+		return ret
+	}
+	return *o.PreConditionDeadlineSeconds.Get()
+}
+
+// GetPreConditionDeadlineSecondsOk returns a tuple with the PreConditionDeadlineSeconds field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *OpsRestart) GetPreConditionDeadlineSecondsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PreConditionDeadlineSeconds.Get(), o.PreConditionDeadlineSeconds.IsSet()
+}
+
+// HasPreConditionDeadlineSeconds returns a boolean if a field has been set.
+func (o *OpsRestart) HasPreConditionDeadlineSeconds() bool {
+	return o != nil && o.PreConditionDeadlineSeconds.IsSet()
+}
+
+// SetPreConditionDeadlineSeconds gets a reference to the given common.NullableInt32 and assigns it to the PreConditionDeadlineSeconds field.
+func (o *OpsRestart) SetPreConditionDeadlineSeconds(v int32) {
+	o.PreConditionDeadlineSeconds.Set(&v)
+}
+
+// SetPreConditionDeadlineSecondsNil sets the value for PreConditionDeadlineSeconds to be an explicit nil.
+func (o *OpsRestart) SetPreConditionDeadlineSecondsNil() {
+	o.PreConditionDeadlineSeconds.Set(nil)
+}
+
+// UnsetPreConditionDeadlineSeconds ensures that no value is present for PreConditionDeadlineSeconds, not even an explicit nil.
+func (o *OpsRestart) UnsetPreConditionDeadlineSeconds() {
+	o.PreConditionDeadlineSeconds.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsRestart) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -68,6 +107,9 @@ func (o OpsRestart) MarshalJSON() ([]byte, error) {
 	}
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
+	}
+	if o.PreConditionDeadlineSeconds.IsSet() {
+		toSerialize["preConditionDeadlineSeconds"] = o.PreConditionDeadlineSeconds.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -79,18 +121,20 @@ func (o OpsRestart) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRestart) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component,omitempty"`
+		Component                   *string              `json:"component,omitempty"`
+		PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "preConditionDeadlineSeconds"})
 	} else {
 		return err
 	}
 	o.Component = all.Component
+	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

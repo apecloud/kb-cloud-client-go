@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ClassBatch struct {
 	Engine           *string      `json:"engine,omitempty"`
 	Mode             *string      `json:"mode,omitempty"`
