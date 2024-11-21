@@ -15505,16 +15505,12 @@ components:
       description: Environment deletion option
       type: object
       required:
-        - backup
         - minio
         - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
           description: clean up resources in the cloud (only valid if creation is done by role ARN)
-        backup:
-          description: reserve backup when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
         minio:
           description: reserve minio cluster when delete environment
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
