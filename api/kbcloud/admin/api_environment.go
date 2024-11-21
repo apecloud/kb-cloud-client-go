@@ -2665,11 +2665,11 @@ func (a *EnvironmentApi) RestoreEnvironment(ctx _context.Context, o ...RestoreEn
 
 // ScaleDownEnvironmentNodes Scale in environment nodes.
 // Scale in environment by removing nodes using sealos
-func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environmentName string, body NodeScaleInRequest) (TaskReference, *_nethttp.Response, error) {
+func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environmentName string, body NodeScaleInRequest) (Task, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue TaskReference
+		localVarReturnValue Task
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ScaleDownEnvironmentNodes")
@@ -2738,11 +2738,11 @@ func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environ
 
 // ScaleOutEnvironmentNodes Scale out environment nodes.
 // Scale out environment by adding new nodes using sealos
-func (a *EnvironmentApi) ScaleOutEnvironmentNodes(ctx _context.Context, environmentName string, body NodeScaleRequest) (TaskReference, *_nethttp.Response, error) {
+func (a *EnvironmentApi) ScaleOutEnvironmentNodes(ctx _context.Context, environmentName string, body NodeScaleRequest) (Task, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue TaskReference
+		localVarReturnValue Task
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ScaleOutEnvironmentNodes")

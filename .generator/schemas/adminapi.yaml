@@ -5382,7 +5382,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/taskReference'
+                $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -5413,7 +5413,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/taskReference'
+                $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -11739,7 +11739,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/taskReferenceList'
+                $ref: '#/components/schemas/taskList'
         '403':
           $ref: '#/components/responses/403'
   /admin/v1/tasks/{taskId}:
@@ -11760,7 +11760,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/taskReference'
+                $ref: '#/components/schemas/task'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -15947,7 +15947,7 @@ components:
         - Completed
         - Failed
       description: Current status of the task
-    taskReference:
+    task:
       type: object
       required:
         - taskId
@@ -20656,7 +20656,7 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
-    taskReferenceList:
+    taskList:
       type: object
       required:
         - items
@@ -20664,7 +20664,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/taskReference'
+            $ref: '#/components/schemas/task'
   responses:
     '204':
       description: No Content
