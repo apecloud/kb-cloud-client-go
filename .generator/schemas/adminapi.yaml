@@ -53,6 +53,8 @@ tags:
     description: Recycle Bin Cluster APIs
   - name: project
     description: Project APIs
+  - name: task
+    description: Task APIs
 paths:
   /admin/v1/user:
     post:
@@ -5323,6 +5325,99 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
+  /admin/v1/environments/{environmentName}/checkNodesSSHConfig:
+    post:
+      tags:
+        - environment
+      summary: Check nodes ssh config
+      description: Check ssh config of provided IP addresses
+      operationId: checkNodesSSHConfig
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sshConfigCheckRequest'
+        required: true
+      responses:
+        '200':
+          description: IP connectivity check results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sshConfigCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/environments/{environmentName}/scaleOut:
+    post:
+      tags:
+        - environment
+      summary: Scale out environment nodes
+      description: Scale out environment by adding new nodes using sealos
+      operationId: scaleOutEnvironmentNodes
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nodeScaleRequest'
+        required: true
+      responses:
+        '202':
+          description: Node scaling task accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskReference'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/environments/{environmentName}/scaleIn:
+    post:
+      tags:
+        - environment
+      summary: Scale in environment nodes
+      description: Scale in environment by removing nodes using sealos
+      operationId: scaleDownEnvironmentNodes
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nodeScaleInRequest'
+        required: true
+      responses:
+        '202':
+          description: Node scale in task accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskReference'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
   /admin/v1/environments/{environmentName}/node/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
@@ -11631,6 +11726,47 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/tasks:
+    get:
+      tags:
+        - task
+      summary: List task
+      description: List tasks
+      operationId: listTask
+      responses:
+        '200':
+          description: Current task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskReferenceList'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/tasks/{taskId}:
+    get:
+      summary: Get task detail
+      description: Get task
+      operationId: getTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskReference'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
 components:
   securitySchemes:
     BearerToken:
@@ -15684,6 +15820,253 @@ components:
       required:
         - items
       type: object
+    sshConfig:
+      type: object
+      properties:
+        username:
+          type: string
+          description: SSH username for connecting to the node
+          minLength: 1
+          maxLength: 32
+          pattern: ^[a-z_][a-z0-9_-]*$
+        password:
+          type: string
+          description: SSH password for connecting to the node
+          format: password
+          minLength: 1
+          writeOnly: true
+        port:
+          type: integer
+          description: SSH port number
+          default: 22
+          minimum: 1
+          maximum: 65535
+    sshConfigCheckSpec:
+      type: object
+      required:
+        - ip
+      properties:
+        ip:
+          type: string
+          format: ipv4
+          description: IP address of the node
+        ssh:
+          $ref: '#/components/schemas/sshConfig'
+          description: SSH configuration for this specific node
+          x-nullable: true
+    sshConfigCheckRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshConfigCheckSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of nodes to perform preflight checks
+        defaultSSH:
+          $ref: '#/components/schemas/sshConfig'
+          description: Default SSH configuration for all nodes. Individual node SSH config will override this.
+    sshConfigCheckResult:
+      type: object
+      required:
+        - ip
+        - reachable
+      properties:
+        ip:
+          type: string
+          format: ipv4
+        reachable:
+          type: boolean
+        message:
+          type: string
+    sshConfigCheckResponse:
+      type: object
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshConfigCheckResult'
+    nodeScaleSpec:
+      type: object
+      required:
+        - ip
+        - availabilityZone
+        - markControlPlane
+        - markDataPlane
+      properties:
+        ip:
+          type: string
+          description: IP address of the node to be added
+          format: ipv4
+        availabilityZone:
+          type: string
+        markControlPlane:
+          type: boolean
+          description: Whether mark the node serves as control plane
+          default: false
+        markDataPlane:
+          description: Whether mark the node serves as data plane
+          type: boolean
+          default: true
+        ssh:
+          description: SSH connection details for the node. If not provided, environment default will be used
+          $ref: '#/components/schemas/sshConfig'
+          x-nullable: true
+    nodeScaleRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/nodeScaleSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of nodes to be added, support 1-20 nodes per request
+        defaultSSH:
+          description: Default SSH configuration for all nodes. Individual node SSH config will override this
+          $ref: '#/components/schemas/sshConfig'
+          x-nullable: true
+    taskOperation:
+      type: string
+      enum:
+        - ScaleOut
+        - ScaleIn
+      description: Type of scaling operation
+    taskStatus:
+      type: string
+      enum:
+        - Pending
+        - InProgress
+        - Completed
+        - Failed
+      description: Current status of the task
+    taskReference:
+      type: object
+      required:
+        - taskId
+        - status
+        - operation
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        operation:
+          $ref: '#/components/schemas/taskOperation'
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        progress:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: Progress percentage of the task
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+    scaleInType:
+      type: string
+      enum:
+        - Parallel
+        - Serial
+      default: Serial
+      description: Type of scale in strategy
+    scaleInHealthCheck:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+          description: Whether to perform health checks during scale in
+        healthyThreshold:
+          type: integer
+          minimum: 1
+          default: 3
+          description: Number of consecutive successful health checks required
+        unhealthyThreshold:
+          type: integer
+          minimum: 1
+          default: 3
+          description: Number of consecutive failed health checks before marking unhealthy
+        interval:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 10s
+          description: Interval between health checks
+        timeout:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 5s
+          description: Timeout for each health check
+    scaleInStrategy:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/scaleInType'
+        maxUnavailable:
+          type: string
+          pattern: ^([0-9]+|[0-9]+%|)$
+          default: 25%
+          description: Maximum number of nodes that can be unavailable during scale in. Can be an absolute number or a percentage.
+        maxSurge:
+          type: string
+          pattern: ^([0-9]+|[0-9]+%|)$
+          default: 0%
+          description: Maximum number of nodes that can be scheduled above the desired number. Can be an absolute number or a percentage.
+        drainTimeout:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 5m
+          description: How long to wait for pod eviction when draining a node
+        podEvictionWaitTime:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 30s
+          description: Time to wait between pod evictions
+        minReadySeconds:
+          type: integer
+          minimum: 0
+          default: 30
+          description: Minimum time a replacement node should be ready before proceeding
+        healthCheck:
+          $ref: '#/components/schemas/scaleInHealthCheck'
+          description: Health check configuration for the scale in process
+    nodeScaleInRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        nodes:
+          type: array
+          items:
+            type: string
+          description: List of node names to be removed
+        drain:
+          type: boolean
+          description: Whether to drain nodes before removal
+          default: true
+        strategy:
+          $ref: '#/components/schemas/scaleInStrategy'
+          description: Strategy to control the scale in process
+        force:
+          type: boolean
+          description: Force remove nodes even if they have pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet
+          default: false
     listBody:
       description: Represents a list of JSON bodies.
       items:
@@ -20273,6 +20656,15 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
+    taskReferenceList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskReference'
   responses:
     '204':
       description: No Content
@@ -20377,3 +20769,6 @@ x-tagGroup:
   - name: PlatformParameter
     tags:
       - platformParameter
+  - name: task
+    tags:
+      - task
