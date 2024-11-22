@@ -18736,7 +18736,7 @@ components:
           type: string
           format: date-time
         id:
-          type: integer
+          type: string
           x-nullable: false
         idString:
           type: string
