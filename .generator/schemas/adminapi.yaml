@@ -4968,42 +4968,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/statusHistory:
-    get:
-      operationId: getEnvironmentStatusHistory
-      summary: Get environment status history
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: start time of the query range (nano seconds)
-          in: query
-          name: startTime
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - description: end time of the query range(nano seconds)
-          in: query
-          name: endTime
-          required: false
-          schema:
-            type: string
-            format: date-time
-      tags:
-        - environment
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/environmentStatusHistory'
   /admin/v1/environments/preflight:
     post:
       operationId: preflightEnvironment
@@ -5062,6 +5026,30 @@ paths:
                 $ref: '#/components/schemas/environmentAdded'
       tags:
         - environment
+  /admin/v1/environments/checkNodesSSHConfig:
+    post:
+      tags:
+        - environment
+      summary: Check nodes ssh config
+      description: Check ssh config of provided IP addresses
+      operationId: checkNodesSSHConfig
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sshConfigCheckRequest'
+        required: true
+      responses:
+        '200':
+          description: IP connectivity check results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sshConfigCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -5142,6 +5130,42 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/statusHistory:
+    get:
+      operationId: getEnvironmentStatusHistory
+      summary: Get environment status history
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: start time of the query range (nano seconds)
+          in: query
+          name: startTime
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - description: end time of the query range(nano seconds)
+          in: query
+          name: endTime
+          required: false
+          schema:
+            type: string
+            format: date-time
+      tags:
+        - environment
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/environmentStatusHistory'
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -5325,37 +5349,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/checkNodesSSHConfig:
-    post:
-      tags:
-        - environment
-      summary: Check nodes ssh config
-      description: Check ssh config of provided IP addresses
-      operationId: checkNodesSSHConfig
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/sshConfigCheckRequest'
-        required: true
-      responses:
-        '200':
-          description: IP connectivity check results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/sshConfigCheckResponse'
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
   /admin/v1/environments/{environmentName}/scaleOut:
     post:
       tags:
@@ -9300,6 +9293,52 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: actionInfo
+  /admin/v1/engines:
+    get:
+      operationId: listAllEngines
+      summary: List all engines
+      parameters:
+        - description: engine name
+          in: query
+          name: name
+          schema:
+            type: string
+        - description: engine Type
+          in: query
+          name: type
+          schema:
+            $ref: '#/components/schemas/engineType'
+        - description: engine version
+          in: query
+          name: version
+          schema:
+            type: string
+        - name: provider
+          in: query
+          description: engine provider
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: list all engines include uninstall engines
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /admin/v1/license:
     get:
       tags:
@@ -12385,6 +12424,16 @@ components:
           format: int64
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        parentName:
+          title: ParentName
+          type: string
+          nullable: true
+          description: the name of parent cluster
+        parentDisplayName:
+          title: ParentDisplayName
+          type: string
+          nullable: true
+          description: the display name of parent cluster
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -12643,6 +12692,16 @@ components:
           format: int64
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        parentName:
+          title: ParentName
+          type: string
+          nullable: true
+          description: the name of parent cluster
+        parentDisplayName:
+          title: ParentDisplayName
+          type: string
+          nullable: true
+          description: the display name of parent cluster
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -14698,6 +14757,10 @@ components:
         component:
           description: component type
           type: string
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -14812,6 +14875,10 @@ components:
         replicas:
           description: number of replicas
           type: integer
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
@@ -15562,28 +15629,6 @@ components:
           type: boolean
           description: overwrite a environment if it has been added before
           default: false
-    environmentStatusHistory:
-      description: EventEnvironmentState contains details for the current and previous state of the environment.
-      type: object
-      properties:
-        CurrentState:
-          description: The current state of the environment.
-          type: string
-        PrevState:
-          description: The previous state of the environment.
-          type: string
-        Reason:
-          description: The reason for the state transition.
-          type: string
-        Timestamp:
-          description: The timestamp of the state transition.
-          type: string
-          format: date-time
-      required:
-        - CurrentState
-        - PrevState
-        - Reason
-        - Timestamp
     preflight:
       title: Preflight results
       description: The result of preflight check
@@ -15630,6 +15675,77 @@ components:
         victoriaMetrics:
           type: boolean
           description: whether victoria metrics is exist
+    sshConfig:
+      type: object
+      properties:
+        username:
+          type: string
+          description: SSH username for connecting to the node
+          minLength: 1
+          maxLength: 32
+          pattern: ^[a-z_][a-z0-9_-]*$
+        password:
+          type: string
+          description: SSH password for connecting to the node
+          format: password
+          minLength: 1
+          writeOnly: true
+        port:
+          type: integer
+          description: SSH port number
+          default: 22
+          minimum: 1
+          maximum: 65535
+    sshConfigCheckSpec:
+      type: object
+      required:
+        - ip
+      properties:
+        ip:
+          type: string
+          format: ipv4
+          description: IP address of the node
+        ssh:
+          $ref: '#/components/schemas/sshConfig'
+          description: SSH configuration for this specific node
+          x-nullable: true
+    sshConfigCheckRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshConfigCheckSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of nodes to perform preflight checks
+        defaultSSH:
+          $ref: '#/components/schemas/sshConfig'
+          description: Default SSH configuration for all nodes. Individual node SSH config will override this.
+    sshConfigCheckResult:
+      type: object
+      required:
+        - ip
+        - reachable
+      properties:
+        ip:
+          type: string
+          format: ipv4
+        reachable:
+          type: boolean
+        message:
+          type: string
+    sshConfigCheckResponse:
+      type: object
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshConfigCheckResult'
     cloudResourceCleanPolicy:
       type: string
       description: The policy to clean cloud resources, either `Delete` or `Retain`
@@ -15717,6 +15833,28 @@ components:
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
           nullable: true
+    environmentStatusHistory:
+      description: EventEnvironmentState contains details for the current and previous state of the environment.
+      type: object
+      properties:
+        CurrentState:
+          description: The current state of the environment.
+          type: string
+        PrevState:
+          description: The previous state of the environment.
+          type: string
+        Reason:
+          description: The reason for the state transition.
+          type: string
+        Timestamp:
+          description: The timestamp of the state transition.
+          type: string
+          format: date-time
+      required:
+        - CurrentState
+        - PrevState
+        - Reason
+        - Timestamp
     storageStats:
       description: StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
       properties:
@@ -15820,77 +15958,6 @@ components:
       required:
         - items
       type: object
-    sshConfig:
-      type: object
-      properties:
-        username:
-          type: string
-          description: SSH username for connecting to the node
-          minLength: 1
-          maxLength: 32
-          pattern: ^[a-z_][a-z0-9_-]*$
-        password:
-          type: string
-          description: SSH password for connecting to the node
-          format: password
-          minLength: 1
-          writeOnly: true
-        port:
-          type: integer
-          description: SSH port number
-          default: 22
-          minimum: 1
-          maximum: 65535
-    sshConfigCheckSpec:
-      type: object
-      required:
-        - ip
-      properties:
-        ip:
-          type: string
-          format: ipv4
-          description: IP address of the node
-        ssh:
-          $ref: '#/components/schemas/sshConfig'
-          description: SSH configuration for this specific node
-          x-nullable: true
-    sshConfigCheckRequest:
-      type: object
-      required:
-        - nodes
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshConfigCheckSpec'
-          minItems: 1
-          maxItems: 20
-          description: List of nodes to perform preflight checks
-        defaultSSH:
-          $ref: '#/components/schemas/sshConfig'
-          description: Default SSH configuration for all nodes. Individual node SSH config will override this.
-    sshConfigCheckResult:
-      type: object
-      required:
-        - ip
-        - reachable
-      properties:
-        ip:
-          type: string
-          format: ipv4
-        reachable:
-          type: boolean
-        message:
-          type: string
-    sshConfigCheckResponse:
-      type: object
-      required:
-        - results
-      properties:
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/sshConfigCheckResult'
     nodeScaleSpec:
       type: object
       required:

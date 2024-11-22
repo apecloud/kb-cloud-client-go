@@ -33,6 +33,10 @@ type ClusterListItem struct {
 	Name string `json:"name"`
 	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
 	ParentId common.NullableInt64 `json:"parentId,omitempty"`
+	// the name of parent cluster
+	ParentName common.NullableString `json:"parentName,omitempty"`
+	// the display name of parent cluster
+	ParentDisplayName common.NullableString `json:"parentDisplayName,omitempty"`
 	// Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
 	ClusterType NullableClusterType    `json:"clusterType,omitempty"`
 	Delay       common.NullableFloat64 `json:"delay,omitempty"`
@@ -377,6 +381,84 @@ func (o *ClusterListItem) UnsetParentId() {
 	o.ParentId.Unset()
 }
 
+// GetParentName returns the ParentName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterListItem) GetParentName() string {
+	if o == nil || o.ParentName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.ParentName.Get()
+}
+
+// GetParentNameOk returns a tuple with the ParentName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterListItem) GetParentNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentName.Get(), o.ParentName.IsSet()
+}
+
+// HasParentName returns a boolean if a field has been set.
+func (o *ClusterListItem) HasParentName() bool {
+	return o != nil && o.ParentName.IsSet()
+}
+
+// SetParentName gets a reference to the given common.NullableString and assigns it to the ParentName field.
+func (o *ClusterListItem) SetParentName(v string) {
+	o.ParentName.Set(&v)
+}
+
+// SetParentNameNil sets the value for ParentName to be an explicit nil.
+func (o *ClusterListItem) SetParentNameNil() {
+	o.ParentName.Set(nil)
+}
+
+// UnsetParentName ensures that no value is present for ParentName, not even an explicit nil.
+func (o *ClusterListItem) UnsetParentName() {
+	o.ParentName.Unset()
+}
+
+// GetParentDisplayName returns the ParentDisplayName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterListItem) GetParentDisplayName() string {
+	if o == nil || o.ParentDisplayName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.ParentDisplayName.Get()
+}
+
+// GetParentDisplayNameOk returns a tuple with the ParentDisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterListItem) GetParentDisplayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ParentDisplayName.Get(), o.ParentDisplayName.IsSet()
+}
+
+// HasParentDisplayName returns a boolean if a field has been set.
+func (o *ClusterListItem) HasParentDisplayName() bool {
+	return o != nil && o.ParentDisplayName.IsSet()
+}
+
+// SetParentDisplayName gets a reference to the given common.NullableString and assigns it to the ParentDisplayName field.
+func (o *ClusterListItem) SetParentDisplayName(v string) {
+	o.ParentDisplayName.Set(&v)
+}
+
+// SetParentDisplayNameNil sets the value for ParentDisplayName to be an explicit nil.
+func (o *ClusterListItem) SetParentDisplayNameNil() {
+	o.ParentDisplayName.Set(nil)
+}
+
+// UnsetParentDisplayName ensures that no value is present for ParentDisplayName, not even an explicit nil.
+func (o *ClusterListItem) UnsetParentDisplayName() {
+	o.ParentDisplayName.Unset()
+}
+
 // GetClusterType returns the ClusterType field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterListItem) GetClusterType() ClusterType {
 	if o == nil || o.ClusterType.Get() == nil {
@@ -690,6 +772,12 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.ParentId.IsSet() {
 		toSerialize["parentId"] = o.ParentId.Get()
 	}
+	if o.ParentName.IsSet() {
+		toSerialize["parentName"] = o.ParentName.Get()
+	}
+	if o.ParentDisplayName.IsSet() {
+		toSerialize["parentDisplayName"] = o.ParentDisplayName.Get()
+	}
 	if o.ClusterType.IsSet() {
 		toSerialize["clusterType"] = o.ClusterType.Get()
 	}
@@ -737,6 +825,8 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Id                *string                `json:"id"`
 		Name              *string                `json:"name"`
 		ParentId          common.NullableInt64   `json:"parentId,omitempty"`
+		ParentName        common.NullableString  `json:"parentName,omitempty"`
+		ParentDisplayName common.NullableString  `json:"parentDisplayName,omitempty"`
 		ClusterType       NullableClusterType    `json:"clusterType,omitempty"`
 		Delay             common.NullableFloat64 `json:"delay,omitempty"`
 		Status            *string                `json:"status"`
@@ -783,7 +873,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "parentId", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
 	} else {
 		return err
 	}
@@ -800,6 +890,8 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Id = *all.Id
 	o.Name = *all.Name
 	o.ParentId = all.ParentId
+	o.ParentName = all.ParentName
+	o.ParentDisplayName = all.ParentDisplayName
 	if all.ClusterType.Get() != nil && !all.ClusterType.Get().IsValid() {
 		hasInvalidField = true
 	} else {
