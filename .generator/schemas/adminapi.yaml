@@ -15459,18 +15459,24 @@ components:
       type: object
       description: cluster instance autohealing process config
       required:
-        - pauseAutoHealingOnNodeUnavailable
-        - rebuildStartDelaySeconds
+        - enableAutoHealing
+        - rebuildStartDelaySecondsWhenNodeFail
+        - rebuildStartDelaySecondsWhenInMaintenance
         - minClusterRebuildIntervalSeconds
         - rebuildConcurrencyPerNode
+        - rebuildConcurrencyGlobally
       properties:
-        pauseAutoHealingOnNodeUnavailable:
+        enableAutoHealing:
           type: boolean
-          description: Set to true to pause the auto-healing process, preventing automatic rebuilding of instances when a node fails or is in maintenance mode.
-        rebuildStartDelaySeconds:
+          description: Set to true to enable the auto-healing process, which automatically rebuilds instances when a node fails or is in maintenance mode.
+        rebuildStartDelaySecondsWhenNodeFail:
           type: integer
           format: int32
           description: The number of seconds to wait before starting a rebuild when a node fails.
+        rebuildStartDelaySecondsWhenInMaintenance:
+          type: integer
+          format: int32
+          description: The number of seconds to wait before starting a rebuild when a node is in maintenance mode.
         minClusterRebuildIntervalSeconds:
           type: integer
           format: int32
@@ -15479,6 +15485,10 @@ components:
           type: integer
           format: int32
           description: The maximum number of rebuild jobs that can run simultaneously for a single node.
+        rebuildConcurrencyGlobally:
+          type: integer
+          format: int32
+          description: The maximum number of rebuild jobs that can run simultaneously for the whole k8s cluster.
     environmentDeletePolicy:
       type: string
       description: Environment delete policy to protect environment from false delete
