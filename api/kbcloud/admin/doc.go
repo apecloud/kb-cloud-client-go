@@ -128,6 +128,7 @@
 //   - [dmsApi.sqlExplain]
 //   - [dmsApi.tenantParameterHistory]
 //   - [dmsApi.testDataSourceV2]
+//   - [dmsApi.textToSQL]
 //   - [dmsApi.updateDataSourceV2]
 //   - [engineApi.engineAction]
 //   - [engineApi.engineActionInOrg]
