@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type InitOptionsItem struct {
 	// component type, refer to componentDef and support NamePrefix'
 	Component *string `json:"component,omitempty"`

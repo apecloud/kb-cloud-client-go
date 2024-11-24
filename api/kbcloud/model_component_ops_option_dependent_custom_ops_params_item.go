@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ComponentOpsOptionDependentCustomOpsParamsItem struct {
 	// parameter name.
 	Name *string `json:"name,omitempty"`

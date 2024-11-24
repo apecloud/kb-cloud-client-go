@@ -3195,6 +3195,10 @@ paths:
                 database:
                   type: string
                   description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
+                skipNull:
+                  type: boolean
+                  description: whether skip the row which has null value when import data
+                  default: true
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DmsImportFormData'
