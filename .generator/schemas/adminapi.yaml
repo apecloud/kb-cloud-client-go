@@ -317,74 +317,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/organizations/{orgName}/members:
-    get:
-      description: list members of the specified Org
-      summary: List members
-      operationId: listOrgMember
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMemberList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - member
-    post:
-      description: Add organization with specific role
-      summary: Add member
-      operationId: addOrgMember
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/orgMemberAdd'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMember'
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - member
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -410,52 +342,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-    patch:
-      description: partially update the specified Org
-      summary: Update organization
-      operationId: patchOrg
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/org'
-          description: OK
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/org'
-          description: Created
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organization
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/enable:
     post:
       description: enable the organization
@@ -500,11 +386,11 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-  /admin/v1/organizations/{orgName}/members/{memberId}:
-    delete:
-      description: delete a Org Member
-      summary: Delete member
-      operationId: deleteOrgMember
+  /admin/v1/organizations/{orgName}/members:
+    get:
+      description: list members of the specified Org
+      summary: List members
+      operationId: listOrgMember
       parameters:
         - description: Name of the Org
           in: path
@@ -512,24 +398,30 @@ paths:
           required: true
           schema:
             type: string
-        - description: ID of the member
-          in: path
-          name: memberId
-          required: true
+        - description: The pagination token in the List request
+          in: query
+          name: pageToken
+          schema:
+            type: string
+        - description: The pagination size in the List request.
+          in: query
+          name: pageSize
           schema:
             type: string
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMemberList'
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
       tags:
-        - member
+        - organization
+  /admin/v1/organizations/{orgName}/members/{memberId}:
     get:
       description: read the specified OrgMember
       summary: Get member
@@ -561,55 +453,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - member
-    patch:
-      description: Only authenticated organization admins can update the member's role
-      summary: Update member role
-      operationId: patchOrgMember
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: ID of the member
-          in: path
-          name: memberId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMember'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - member
-      x-codegen-request-body-name: body
+        - organization
   /admin/v1/permissions:
     get:
       tags:
@@ -12229,6 +12073,44 @@ components:
           items:
             $ref: '#/components/schemas/organizationItem'
           description: The list of organizations.
+    org:
+      description: Org info
+      properties:
+        createdAt:
+          description: |-
+            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        id:
+          type: string
+          description: The ID of the organization
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        updatedAt:
+          description: |-
+            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+        enabled:
+          description: return true if the organization is enabled
+          type: boolean
+      required:
+        - createdAt
+        - name
+        - updatedAt
+        - enabled
+      type: object
     orgMemberRole:
       description: The role of the User in the Org. Required
       enum:
@@ -12270,76 +12152,6 @@ components:
           $ref: '#/components/schemas/pageResult'
       required:
         - items
-      type: object
-    orgMemberAdd:
-      description: MemberAdd is the payload for adding organization member
-      properties:
-        role:
-          description: The name of the role in the organization
-          type: string
-        userId:
-          description: The ID of the user
-          type: string
-      required:
-        - role
-        - userId
-      type: object
-    org:
-      description: Org info
-      properties:
-        createdAt:
-          description: |-
-            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
-          format: date-time
-          type: string
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-        id:
-          type: string
-          description: The ID of the organization
-        name:
-          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
-          type: string
-        updatedAt:
-          description: |-
-            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
-          format: date-time
-          type: string
-        enabled:
-          description: return true if the organization is enabled
-          type: boolean
-      required:
-        - createdAt
-        - name
-        - updatedAt
-        - enabled
-      type: object
-    orgUpdate:
-      description: Organization update
-      properties:
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-      type: object
-    orgMemberUpdate:
-      description: Org Member update
-      properties:
-        role:
-          description: The role of the User in the Org. Required
-          type: string
-      required:
-        - role
       type: object
     permission:
       description: Permission information
