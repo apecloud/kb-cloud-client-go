@@ -16990,6 +16990,7 @@ components:
       properties:
         name:
           type: string
+          x-nullable: false
           description: The name of the image registry.
         url:
           type: string
