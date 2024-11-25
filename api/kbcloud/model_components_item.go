@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ComponentsItem struct {
 	// component name
 	Name *string `json:"name,omitempty"`
@@ -25,8 +23,6 @@ type ComponentsItem struct {
 	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
 	Memory *float64 `json:"memory,omitempty"`
-	// Storage
-	Storage *string `json:"storage,omitempty"`
 	// StorageClass name
 	StorageClass *string                     `json:"storageClass,omitempty"`
 	Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
@@ -334,34 +330,6 @@ func (o *ComponentsItem) SetMemory(v float64) {
 	o.Memory = &v
 }
 
-// GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *ComponentsItem) GetStorage() string {
-	if o == nil || o.Storage == nil {
-		var ret string
-		return ret
-	}
-	return *o.Storage
-}
-
-// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetStorageOk() (*string, bool) {
-	if o == nil || o.Storage == nil {
-		return nil, false
-	}
-	return o.Storage, true
-}
-
-// HasStorage returns a boolean if a field has been set.
-func (o *ComponentsItem) HasStorage() bool {
-	return o != nil && o.Storage != nil
-}
-
-// SetStorage gets a reference to the given string and assigns it to the Storage field.
-func (o *ComponentsItem) SetStorage(v string) {
-	o.Storage = &v
-}
-
 // GetStorageClass returns the StorageClass field value if set, zero value otherwise.
 func (o *ComponentsItem) GetStorageClass() string {
 	if o == nil || o.StorageClass == nil {
@@ -482,9 +450,6 @@ func (o ComponentsItem) MarshalJSON() ([]byte, error) {
 	if o.Memory != nil {
 		toSerialize["memory"] = o.Memory
 	}
-	if o.Storage != nil {
-		toSerialize["storage"] = o.Storage
-	}
 	if o.StorageClass != nil {
 		toSerialize["storageClass"] = o.StorageClass
 	}
@@ -514,7 +479,6 @@ func (o *ComponentsItem) UnmarshalJSON(bytes []byte) (err error) {
 		ClassSeries  *string                     `json:"classSeries,omitempty"`
 		Cpu          *float64                    `json:"cpu,omitempty"`
 		Memory       *float64                    `json:"memory,omitempty"`
-		Storage      *string                     `json:"storage,omitempty"`
 		StorageClass *string                     `json:"storageClass,omitempty"`
 		Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
 		CodeShort    *string                     `json:"codeShort,omitempty"`
@@ -524,7 +488,7 @@ func (o *ComponentsItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "componentDef", "compNum", "monitor", "replicas", "classCode", "classSeries", "cpu", "memory", "storage", "storageClass", "volumes", "codeShort"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "componentDef", "compNum", "monitor", "replicas", "classCode", "classSeries", "cpu", "memory", "storageClass", "volumes", "codeShort"})
 	} else {
 		return err
 	}
@@ -538,7 +502,6 @@ func (o *ComponentsItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ClassSeries = all.ClassSeries
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
-	o.Storage = all.Storage
 	o.StorageClass = all.StorageClass
 	o.Volumes = all.Volumes
 	o.CodeShort = all.CodeShort

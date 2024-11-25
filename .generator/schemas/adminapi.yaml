@@ -12525,10 +12525,6 @@ components:
             type: number
             description: Memory, the unit is Gi.
             format: double
-          storage:
-            title: Storage
-            type: string
-            description: Storage
           storageClass:
             title: StorageClass
             type: string
@@ -12700,34 +12696,6 @@ components:
           title: Version
           type: string
           description: Cluster Application Version
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
         monitorEnabled:
@@ -12841,54 +12809,8 @@ components:
     clusterUpdate:
       type: object
       properties:
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-        paramTpls:
-          $ref: '#/components/schemas/paramTpls'
-        tolerations:
-          title: Tolerations
-          type: string
-          description: Tolerations of cluster
         displayName:
           description: Display name of cluster.
           type: string

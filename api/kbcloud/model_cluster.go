@@ -7,8 +7,6 @@ package kbcloud
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Cluster KubeBlocks cluster information
@@ -54,14 +52,6 @@ type Cluster struct {
 	Values map[string]interface{} `json:"Values,omitempty"`
 	// Cluster Application Version
 	Version *string `json:"version,omitempty"`
-	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-	Replicas *int32 `json:"replicas,omitempty"`
-	// CPU cores.
-	Cpu *float64 `json:"cpu,omitempty"`
-	// Memory, the unit is Gi.
-	Memory *float64 `json:"memory,omitempty"`
-	// Storage size, the unit is Gi.
-	Storage *float64 `json:"storage,omitempty"`
 	// The termination policy of cluster.
 	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 	// Specify whether the cluster enable monitoring.
@@ -814,118 +804,6 @@ func (o *Cluster) HasVersion() bool {
 // SetVersion gets a reference to the given string and assigns it to the Version field.
 func (o *Cluster) SetVersion(v string) {
 	o.Version = &v
-}
-
-// GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *Cluster) GetReplicas() int32 {
-	if o == nil || o.Replicas == nil {
-		var ret int32
-		return ret
-	}
-	return *o.Replicas
-}
-
-// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetReplicasOk() (*int32, bool) {
-	if o == nil || o.Replicas == nil {
-		return nil, false
-	}
-	return o.Replicas, true
-}
-
-// HasReplicas returns a boolean if a field has been set.
-func (o *Cluster) HasReplicas() bool {
-	return o != nil && o.Replicas != nil
-}
-
-// SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
-func (o *Cluster) SetReplicas(v int32) {
-	o.Replicas = &v
-}
-
-// GetCpu returns the Cpu field value if set, zero value otherwise.
-func (o *Cluster) GetCpu() float64 {
-	if o == nil || o.Cpu == nil {
-		var ret float64
-		return ret
-	}
-	return *o.Cpu
-}
-
-// GetCpuOk returns a tuple with the Cpu field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetCpuOk() (*float64, bool) {
-	if o == nil || o.Cpu == nil {
-		return nil, false
-	}
-	return o.Cpu, true
-}
-
-// HasCpu returns a boolean if a field has been set.
-func (o *Cluster) HasCpu() bool {
-	return o != nil && o.Cpu != nil
-}
-
-// SetCpu gets a reference to the given float64 and assigns it to the Cpu field.
-func (o *Cluster) SetCpu(v float64) {
-	o.Cpu = &v
-}
-
-// GetMemory returns the Memory field value if set, zero value otherwise.
-func (o *Cluster) GetMemory() float64 {
-	if o == nil || o.Memory == nil {
-		var ret float64
-		return ret
-	}
-	return *o.Memory
-}
-
-// GetMemoryOk returns a tuple with the Memory field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetMemoryOk() (*float64, bool) {
-	if o == nil || o.Memory == nil {
-		return nil, false
-	}
-	return o.Memory, true
-}
-
-// HasMemory returns a boolean if a field has been set.
-func (o *Cluster) HasMemory() bool {
-	return o != nil && o.Memory != nil
-}
-
-// SetMemory gets a reference to the given float64 and assigns it to the Memory field.
-func (o *Cluster) SetMemory(v float64) {
-	o.Memory = &v
-}
-
-// GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *Cluster) GetStorage() float64 {
-	if o == nil || o.Storage == nil {
-		var ret float64
-		return ret
-	}
-	return *o.Storage
-}
-
-// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetStorageOk() (*float64, bool) {
-	if o == nil || o.Storage == nil {
-		return nil, false
-	}
-	return o.Storage, true
-}
-
-// HasStorage returns a boolean if a field has been set.
-func (o *Cluster) HasStorage() bool {
-	return o != nil && o.Storage != nil
-}
-
-// SetStorage gets a reference to the given float64 and assigns it to the Storage field.
-func (o *Cluster) SetStorage(v float64) {
-	o.Storage = &v
 }
 
 // GetTerminationPolicy returns the TerminationPolicy field value if set, zero value otherwise.
@@ -1702,18 +1580,6 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
 	}
-	if o.Replicas != nil {
-		toSerialize["replicas"] = o.Replicas
-	}
-	if o.Cpu != nil {
-		toSerialize["cpu"] = o.Cpu
-	}
-	if o.Memory != nil {
-		toSerialize["memory"] = o.Memory
-	}
-	if o.Storage != nil {
-		toSerialize["storage"] = o.Storage
-	}
 	if o.TerminationPolicy != nil {
 		toSerialize["terminationPolicy"] = o.TerminationPolicy
 	}
@@ -1828,10 +1694,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		ParamTpls               []ParamTplsItem           `json:"paramTpls,omitempty"`
 		Values                  map[string]interface{}    `json:"Values,omitempty"`
 		Version                 *string                   `json:"version,omitempty"`
-		Replicas                *int32                    `json:"replicas,omitempty"`
-		Cpu                     *float64                  `json:"cpu,omitempty"`
-		Memory                  *float64                  `json:"memory,omitempty"`
-		Storage                 *float64                  `json:"storage,omitempty"`
 		TerminationPolicy       *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 		MonitorEnabled          *bool                     `json:"monitorEnabled,omitempty"`
 		VpcEndpointEnabled      *bool                     `json:"vpcEndpointEnabled,omitempty"`
@@ -1872,7 +1734,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
 	} else {
 		return err
 	}
@@ -1906,10 +1768,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.ParamTpls = all.ParamTpls
 	o.Values = all.Values
 	o.Version = all.Version
-	o.Replicas = all.Replicas
-	o.Cpu = all.Cpu
-	o.Memory = all.Memory
-	o.Storage = all.Storage
 	if all.TerminationPolicy != nil && !all.TerminationPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
