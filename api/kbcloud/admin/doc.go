@@ -194,6 +194,7 @@
 //   - [faultApi.getChaos]
 //   - [faultApi.listFault]
 //   - [featureApi.listFeature]
+//   - [featureApi.listFeatureGroup]
 //   - [featureApi.readFeature]
 //   - [imageRegistryApi.createImageRegistry]
 //   - [imageRegistryApi.deleteImageRegistry]

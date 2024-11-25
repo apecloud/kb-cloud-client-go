@@ -10444,6 +10444,28 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - feature
+  /admin/v1/featureGroups:
+    get:
+      description: Get feature group list
+      summary: Get feature group list
+      operationId: listFeatureGroup
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - feature
   /admin/v1/features/{featureName}:
     get:
       description: Get feature
