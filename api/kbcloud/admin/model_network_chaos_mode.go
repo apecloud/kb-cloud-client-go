@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // NetworkChaosMode Specifies the mode of network chaos to be applied. This determines how the chaos is distributed among the target pods.
