@@ -147,7 +147,7 @@ func (a *EnvironmentApi) CheckEnvironmentAddRecord(ctx _context.Context, body Ku
 
 // CheckNodesSSHConfig Check nodes ssh config.
 // Check ssh config of provided IP addresses
-func (a *EnvironmentApi) CheckNodesSSHConfig(ctx _context.Context, environmentName string, body SshConfigCheckRequest) (SshConfigCheckResponse, *_nethttp.Response, error) {
+func (a *EnvironmentApi) CheckNodesSSHConfig(ctx _context.Context, body SshConfigCheckRequest) (SshConfigCheckResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -159,8 +159,7 @@ func (a *EnvironmentApi) CheckNodesSSHConfig(ctx _context.Context, environmentNa
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/checkNodesSSHConfig"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/environments/checkNodesSSHConfig"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
