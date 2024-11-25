@@ -18,7 +18,7 @@ type EngineLicense struct {
 	Description *string    `json:"description,omitempty"`
 	ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
 	CreatedAt   *time.Time `json:"createdAt,omitempty"`
-	Id          *int32     `json:"id,omitempty"`
+	Id          *string    `json:"id,omitempty"`
 	IdString    *string    `json:"idString,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -203,9 +203,9 @@ func (o *EngineLicense) SetCreatedAt(v time.Time) {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *EngineLicense) GetId() int32 {
+func (o *EngineLicense) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -213,7 +213,7 @@ func (o *EngineLicense) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineLicense) GetIdOk() (*int32, bool) {
+func (o *EngineLicense) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -225,8 +225,8 @@ func (o *EngineLicense) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *EngineLicense) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *EngineLicense) SetId(v string) {
 	o.Id = &v
 }
 
@@ -308,7 +308,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string    `json:"description,omitempty"`
 		ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
 		CreatedAt   *time.Time `json:"createdAt,omitempty"`
-		Id          *int32     `json:"id,omitempty"`
+		Id          *string    `json:"id,omitempty"`
 		IdString    *string    `json:"idString,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
