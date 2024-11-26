@@ -34,10 +34,7 @@ type Cluster struct {
 	EnvironmentType *string `json:"environmentType,omitempty"`
 	// Cloud Region
 	CloudRegion *string `json:"cloudRegion,omitempty"`
-	// Environment Namespace
-	// Deprecated
-	Namespace *string `json:"namespace,omitempty"`
-	// Name of project
+	// Name of project, it is the alias of environment namespace
 	Project *string `json:"project,omitempty"`
 	// Name of cluster. Name must be unique within an Org
 	Name string `json:"name"`
@@ -48,18 +45,10 @@ type Cluster struct {
 	License *ClusterLicense `json:"license,omitempty"`
 	// Items is the list of parameter template in the list
 	ParamTpls []ParamTplsItem `json:"paramTpls,omitempty"`
-	// Values
-	Values map[string]interface{} `json:"Values,omitempty"`
 	// Cluster Application Version
 	Version *string `json:"version,omitempty"`
 	// The termination policy of cluster.
 	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-	// Specify whether the cluster enable monitoring.
-	MonitorEnabled *bool `json:"monitorEnabled,omitempty"`
-	// Specify whether the cluster can be accessed from within the VPC.
-	VpcEndpointEnabled *bool `json:"vpcEndpointEnabled,omitempty"`
-	// Specify whether the cluster can be accessed from the public internet.
-	InternetEndpointEnabled *bool `json:"internetEndpointEnabled,omitempty"`
 	// Enable the cluster to provide TLS connection or not.
 	TlsEnabled *bool `json:"tlsEnabled,omitempty"`
 	// Enable the cluster to provide NodePort service or not.
@@ -76,14 +65,12 @@ type Cluster struct {
 	Mode *string `json:"mode,omitempty"`
 	// Proxy Enabled
 	ProxyEnabled *bool `json:"proxyEnabled,omitempty"`
-	// Items is the list of ComponentSpec in the list
-	Components []ComponentsItem `json:"components,omitempty"`
-	// Values
+	// Components is the list of components
+	Components []ComponentItem `json:"components,omitempty"`
+	// Extra configuration for cluster
 	Extra map[string]interface{} `json:"extra,omitempty"`
-	// Items is the list of init Options in the list
-	InitOptions []InitOptionsItem `json:"initOptions,omitempty"`
-	// ExtraInfo
-	ExtraInfo map[string]interface{} `json:"extraInfo,omitempty"`
+	// InitOptions is the list of init option
+	InitOptions []InitOptionItem `json:"initOptions,omitempty"`
 	// Tolerations of cluster
 	Tolerations *string `json:"tolerations,omitempty"`
 	// Use single availability zones
@@ -116,20 +103,12 @@ func NewCluster(environmentName string, name string, engine string) *Cluster {
 	var clusterType ClusterType = ClusterTypeNormal
 	this.ClusterType = *NewNullableClusterType(&clusterType)
 	this.EnvironmentName = environmentName
-	var namespace string = "kubeblocks-cloud-ns"
-	this.Namespace = &namespace
 	var project string = "kubeblocks-cloud-ns"
 	this.Project = &project
 	this.Name = name
 	this.Engine = engine
 	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
-	var monitorEnabled bool = false
-	this.MonitorEnabled = &monitorEnabled
-	var vpcEndpointEnabled bool = false
-	this.VpcEndpointEnabled = &vpcEndpointEnabled
-	var internetEndpointEnabled bool = false
-	this.InternetEndpointEnabled = &internetEndpointEnabled
 	var tlsEnabled bool = false
 	this.TlsEnabled = &tlsEnabled
 	var nodePortEnabled bool = false
@@ -150,18 +129,10 @@ func NewClusterWithDefaults() *Cluster {
 	this := Cluster{}
 	var clusterType ClusterType = ClusterTypeNormal
 	this.ClusterType = *NewNullableClusterType(&clusterType)
-	var namespace string = "kubeblocks-cloud-ns"
-	this.Namespace = &namespace
 	var project string = "kubeblocks-cloud-ns"
 	this.Project = &project
 	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
 	this.TerminationPolicy = &terminationPolicy
-	var monitorEnabled bool = false
-	this.MonitorEnabled = &monitorEnabled
-	var vpcEndpointEnabled bool = false
-	this.VpcEndpointEnabled = &vpcEndpointEnabled
-	var internetEndpointEnabled bool = false
-	this.InternetEndpointEnabled = &internetEndpointEnabled
 	var tlsEnabled bool = false
 	this.TlsEnabled = &tlsEnabled
 	var nodePortEnabled bool = false
@@ -561,37 +532,6 @@ func (o *Cluster) SetCloudRegion(v string) {
 	o.CloudRegion = &v
 }
 
-// GetNamespace returns the Namespace field value if set, zero value otherwise.
-// Deprecated
-func (o *Cluster) GetNamespace() string {
-	if o == nil || o.Namespace == nil {
-		var ret string
-		return ret
-	}
-	return *o.Namespace
-}
-
-// GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// Deprecated
-func (o *Cluster) GetNamespaceOk() (*string, bool) {
-	if o == nil || o.Namespace == nil {
-		return nil, false
-	}
-	return o.Namespace, true
-}
-
-// HasNamespace returns a boolean if a field has been set.
-func (o *Cluster) HasNamespace() bool {
-	return o != nil && o.Namespace != nil
-}
-
-// SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-// Deprecated
-func (o *Cluster) SetNamespace(v string) {
-	o.Namespace = &v
-}
-
 // GetProject returns the Project field value if set, zero value otherwise.
 func (o *Cluster) GetProject() string {
 	if o == nil || o.Project == nil {
@@ -750,34 +690,6 @@ func (o *Cluster) SetParamTpls(v []ParamTplsItem) {
 	o.ParamTpls = v
 }
 
-// GetValues returns the Values field value if set, zero value otherwise.
-func (o *Cluster) GetValues() map[string]interface{} {
-	if o == nil || o.Values == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.Values
-}
-
-// GetValuesOk returns a tuple with the Values field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetValuesOk() (*map[string]interface{}, bool) {
-	if o == nil || o.Values == nil {
-		return nil, false
-	}
-	return &o.Values, true
-}
-
-// HasValues returns a boolean if a field has been set.
-func (o *Cluster) HasValues() bool {
-	return o != nil && o.Values != nil
-}
-
-// SetValues gets a reference to the given map[string]interface{} and assigns it to the Values field.
-func (o *Cluster) SetValues(v map[string]interface{}) {
-	o.Values = v
-}
-
 // GetVersion returns the Version field value if set, zero value otherwise.
 func (o *Cluster) GetVersion() string {
 	if o == nil || o.Version == nil {
@@ -832,90 +744,6 @@ func (o *Cluster) HasTerminationPolicy() bool {
 // SetTerminationPolicy gets a reference to the given ClusterTerminationPolicy and assigns it to the TerminationPolicy field.
 func (o *Cluster) SetTerminationPolicy(v ClusterTerminationPolicy) {
 	o.TerminationPolicy = &v
-}
-
-// GetMonitorEnabled returns the MonitorEnabled field value if set, zero value otherwise.
-func (o *Cluster) GetMonitorEnabled() bool {
-	if o == nil || o.MonitorEnabled == nil {
-		var ret bool
-		return ret
-	}
-	return *o.MonitorEnabled
-}
-
-// GetMonitorEnabledOk returns a tuple with the MonitorEnabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetMonitorEnabledOk() (*bool, bool) {
-	if o == nil || o.MonitorEnabled == nil {
-		return nil, false
-	}
-	return o.MonitorEnabled, true
-}
-
-// HasMonitorEnabled returns a boolean if a field has been set.
-func (o *Cluster) HasMonitorEnabled() bool {
-	return o != nil && o.MonitorEnabled != nil
-}
-
-// SetMonitorEnabled gets a reference to the given bool and assigns it to the MonitorEnabled field.
-func (o *Cluster) SetMonitorEnabled(v bool) {
-	o.MonitorEnabled = &v
-}
-
-// GetVpcEndpointEnabled returns the VpcEndpointEnabled field value if set, zero value otherwise.
-func (o *Cluster) GetVpcEndpointEnabled() bool {
-	if o == nil || o.VpcEndpointEnabled == nil {
-		var ret bool
-		return ret
-	}
-	return *o.VpcEndpointEnabled
-}
-
-// GetVpcEndpointEnabledOk returns a tuple with the VpcEndpointEnabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetVpcEndpointEnabledOk() (*bool, bool) {
-	if o == nil || o.VpcEndpointEnabled == nil {
-		return nil, false
-	}
-	return o.VpcEndpointEnabled, true
-}
-
-// HasVpcEndpointEnabled returns a boolean if a field has been set.
-func (o *Cluster) HasVpcEndpointEnabled() bool {
-	return o != nil && o.VpcEndpointEnabled != nil
-}
-
-// SetVpcEndpointEnabled gets a reference to the given bool and assigns it to the VpcEndpointEnabled field.
-func (o *Cluster) SetVpcEndpointEnabled(v bool) {
-	o.VpcEndpointEnabled = &v
-}
-
-// GetInternetEndpointEnabled returns the InternetEndpointEnabled field value if set, zero value otherwise.
-func (o *Cluster) GetInternetEndpointEnabled() bool {
-	if o == nil || o.InternetEndpointEnabled == nil {
-		var ret bool
-		return ret
-	}
-	return *o.InternetEndpointEnabled
-}
-
-// GetInternetEndpointEnabledOk returns a tuple with the InternetEndpointEnabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetInternetEndpointEnabledOk() (*bool, bool) {
-	if o == nil || o.InternetEndpointEnabled == nil {
-		return nil, false
-	}
-	return o.InternetEndpointEnabled, true
-}
-
-// HasInternetEndpointEnabled returns a boolean if a field has been set.
-func (o *Cluster) HasInternetEndpointEnabled() bool {
-	return o != nil && o.InternetEndpointEnabled != nil
-}
-
-// SetInternetEndpointEnabled gets a reference to the given bool and assigns it to the InternetEndpointEnabled field.
-func (o *Cluster) SetInternetEndpointEnabled(v bool) {
-	o.InternetEndpointEnabled = &v
 }
 
 // GetTlsEnabled returns the TlsEnabled field value if set, zero value otherwise.
@@ -1143,9 +971,9 @@ func (o *Cluster) SetProxyEnabled(v bool) {
 }
 
 // GetComponents returns the Components field value if set, zero value otherwise.
-func (o *Cluster) GetComponents() []ComponentsItem {
+func (o *Cluster) GetComponents() []ComponentItem {
 	if o == nil || o.Components == nil {
-		var ret []ComponentsItem
+		var ret []ComponentItem
 		return ret
 	}
 	return o.Components
@@ -1153,7 +981,7 @@ func (o *Cluster) GetComponents() []ComponentsItem {
 
 // GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetComponentsOk() (*[]ComponentsItem, bool) {
+func (o *Cluster) GetComponentsOk() (*[]ComponentItem, bool) {
 	if o == nil || o.Components == nil {
 		return nil, false
 	}
@@ -1165,8 +993,8 @@ func (o *Cluster) HasComponents() bool {
 	return o != nil && o.Components != nil
 }
 
-// SetComponents gets a reference to the given []ComponentsItem and assigns it to the Components field.
-func (o *Cluster) SetComponents(v []ComponentsItem) {
+// SetComponents gets a reference to the given []ComponentItem and assigns it to the Components field.
+func (o *Cluster) SetComponents(v []ComponentItem) {
 	o.Components = v
 }
 
@@ -1199,9 +1027,9 @@ func (o *Cluster) SetExtra(v map[string]interface{}) {
 }
 
 // GetInitOptions returns the InitOptions field value if set, zero value otherwise.
-func (o *Cluster) GetInitOptions() []InitOptionsItem {
+func (o *Cluster) GetInitOptions() []InitOptionItem {
 	if o == nil || o.InitOptions == nil {
-		var ret []InitOptionsItem
+		var ret []InitOptionItem
 		return ret
 	}
 	return o.InitOptions
@@ -1209,7 +1037,7 @@ func (o *Cluster) GetInitOptions() []InitOptionsItem {
 
 // GetInitOptionsOk returns a tuple with the InitOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Cluster) GetInitOptionsOk() (*[]InitOptionsItem, bool) {
+func (o *Cluster) GetInitOptionsOk() (*[]InitOptionItem, bool) {
 	if o == nil || o.InitOptions == nil {
 		return nil, false
 	}
@@ -1221,37 +1049,9 @@ func (o *Cluster) HasInitOptions() bool {
 	return o != nil && o.InitOptions != nil
 }
 
-// SetInitOptions gets a reference to the given []InitOptionsItem and assigns it to the InitOptions field.
-func (o *Cluster) SetInitOptions(v []InitOptionsItem) {
+// SetInitOptions gets a reference to the given []InitOptionItem and assigns it to the InitOptions field.
+func (o *Cluster) SetInitOptions(v []InitOptionItem) {
 	o.InitOptions = v
-}
-
-// GetExtraInfo returns the ExtraInfo field value if set, zero value otherwise.
-func (o *Cluster) GetExtraInfo() map[string]interface{} {
-	if o == nil || o.ExtraInfo == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.ExtraInfo
-}
-
-// GetExtraInfoOk returns a tuple with the ExtraInfo field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetExtraInfoOk() (*map[string]interface{}, bool) {
-	if o == nil || o.ExtraInfo == nil {
-		return nil, false
-	}
-	return &o.ExtraInfo, true
-}
-
-// HasExtraInfo returns a boolean if a field has been set.
-func (o *Cluster) HasExtraInfo() bool {
-	return o != nil && o.ExtraInfo != nil
-}
-
-// SetExtraInfo gets a reference to the given map[string]interface{} and assigns it to the ExtraInfo field.
-func (o *Cluster) SetExtraInfo(v map[string]interface{}) {
-	o.ExtraInfo = v
 }
 
 // GetTolerations returns the Tolerations field value if set, zero value otherwise.
@@ -1557,9 +1357,6 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.CloudRegion != nil {
 		toSerialize["cloudRegion"] = o.CloudRegion
 	}
-	if o.Namespace != nil {
-		toSerialize["namespace"] = o.Namespace
-	}
 	if o.Project != nil {
 		toSerialize["project"] = o.Project
 	}
@@ -1574,23 +1371,11 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.ParamTpls != nil {
 		toSerialize["paramTpls"] = o.ParamTpls
 	}
-	if o.Values != nil {
-		toSerialize["Values"] = o.Values
-	}
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
 	}
 	if o.TerminationPolicy != nil {
 		toSerialize["terminationPolicy"] = o.TerminationPolicy
-	}
-	if o.MonitorEnabled != nil {
-		toSerialize["monitorEnabled"] = o.MonitorEnabled
-	}
-	if o.VpcEndpointEnabled != nil {
-		toSerialize["vpcEndpointEnabled"] = o.VpcEndpointEnabled
-	}
-	if o.InternetEndpointEnabled != nil {
-		toSerialize["internetEndpointEnabled"] = o.InternetEndpointEnabled
 	}
 	if o.TlsEnabled != nil {
 		toSerialize["tlsEnabled"] = o.TlsEnabled
@@ -1633,9 +1418,6 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.InitOptions != nil {
 		toSerialize["initOptions"] = o.InitOptions
 	}
-	if o.ExtraInfo != nil {
-		toSerialize["extraInfo"] = o.ExtraInfo
-	}
 	if o.Tolerations != nil {
 		toSerialize["tolerations"] = o.Tolerations
 	}
@@ -1673,52 +1455,46 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                      interface{}               `json:"id,omitempty"`
-		ParentId                common.NullableInt64      `json:"parentId,omitempty"`
-		ParentName              common.NullableString     `json:"parentName,omitempty"`
-		ParentDisplayName       common.NullableString     `json:"parentDisplayName,omitempty"`
-		ClusterType             NullableClusterType       `json:"clusterType,omitempty"`
-		Delay                   common.NullableFloat64    `json:"delay,omitempty"`
-		OrgName                 *string                   `json:"orgName,omitempty"`
-		CloudProvider           *string                   `json:"cloudProvider,omitempty"`
-		EnvironmentId           *string                   `json:"environmentId,omitempty"`
-		EnvironmentName         *string                   `json:"environmentName"`
-		EnvironmentType         *string                   `json:"environmentType,omitempty"`
-		CloudRegion             *string                   `json:"cloudRegion,omitempty"`
-		Namespace               *string                   `json:"namespace,omitempty"`
-		Project                 *string                   `json:"project,omitempty"`
-		Name                    *string                   `json:"name"`
-		Hash                    *string                   `json:"hash,omitempty"`
-		Engine                  *string                   `json:"engine"`
-		License                 *ClusterLicense           `json:"license,omitempty"`
-		ParamTpls               []ParamTplsItem           `json:"paramTpls,omitempty"`
-		Values                  map[string]interface{}    `json:"Values,omitempty"`
-		Version                 *string                   `json:"version,omitempty"`
-		TerminationPolicy       *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		MonitorEnabled          *bool                     `json:"monitorEnabled,omitempty"`
-		VpcEndpointEnabled      *bool                     `json:"vpcEndpointEnabled,omitempty"`
-		InternetEndpointEnabled *bool                     `json:"internetEndpointEnabled,omitempty"`
-		TlsEnabled              *bool                     `json:"tlsEnabled,omitempty"`
-		NodePortEnabled         *bool                     `json:"nodePortEnabled,omitempty"`
-		Status                  *string                   `json:"status,omitempty"`
-		CreatedAt               *time.Time                `json:"createdAt,omitempty"`
-		UpdatedAt               *time.Time                `json:"updatedAt,omitempty"`
-		CreateOnlySet           *bool                     `json:"createOnlySet,omitempty"`
-		Mode                    *string                   `json:"mode,omitempty"`
-		ProxyEnabled            *bool                     `json:"proxyEnabled,omitempty"`
-		Components              []ComponentsItem          `json:"components,omitempty"`
-		Extra                   map[string]interface{}    `json:"extra,omitempty"`
-		InitOptions             []InitOptionsItem         `json:"initOptions,omitempty"`
-		ExtraInfo               map[string]interface{}    `json:"extraInfo,omitempty"`
-		Tolerations             *string                   `json:"tolerations,omitempty"`
-		SingleZone              *bool                     `json:"singleZone,omitempty"`
-		AvailabilityZones       []string                  `json:"availabilityZones,omitempty"`
-		PodAntiAffinityEnabled  *bool                     `json:"podAntiAffinityEnabled,omitempty"`
-		Backup                  *ClusterBackup            `json:"backup,omitempty"`
-		NodeGroup               common.NullableString     `json:"nodeGroup,omitempty"`
-		CodeShort               *string                   `json:"codeShort,omitempty"`
-		DisplayName             *string                   `json:"displayName,omitempty"`
-		Static                  *bool                     `json:"static,omitempty"`
+		Id                     interface{}               `json:"id,omitempty"`
+		ParentId               common.NullableInt64      `json:"parentId,omitempty"`
+		ParentName             common.NullableString     `json:"parentName,omitempty"`
+		ParentDisplayName      common.NullableString     `json:"parentDisplayName,omitempty"`
+		ClusterType            NullableClusterType       `json:"clusterType,omitempty"`
+		Delay                  common.NullableFloat64    `json:"delay,omitempty"`
+		OrgName                *string                   `json:"orgName,omitempty"`
+		CloudProvider          *string                   `json:"cloudProvider,omitempty"`
+		EnvironmentId          *string                   `json:"environmentId,omitempty"`
+		EnvironmentName        *string                   `json:"environmentName"`
+		EnvironmentType        *string                   `json:"environmentType,omitempty"`
+		CloudRegion            *string                   `json:"cloudRegion,omitempty"`
+		Project                *string                   `json:"project,omitempty"`
+		Name                   *string                   `json:"name"`
+		Hash                   *string                   `json:"hash,omitempty"`
+		Engine                 *string                   `json:"engine"`
+		License                *ClusterLicense           `json:"license,omitempty"`
+		ParamTpls              []ParamTplsItem           `json:"paramTpls,omitempty"`
+		Version                *string                   `json:"version,omitempty"`
+		TerminationPolicy      *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
+		TlsEnabled             *bool                     `json:"tlsEnabled,omitempty"`
+		NodePortEnabled        *bool                     `json:"nodePortEnabled,omitempty"`
+		Status                 *string                   `json:"status,omitempty"`
+		CreatedAt              *time.Time                `json:"createdAt,omitempty"`
+		UpdatedAt              *time.Time                `json:"updatedAt,omitempty"`
+		CreateOnlySet          *bool                     `json:"createOnlySet,omitempty"`
+		Mode                   *string                   `json:"mode,omitempty"`
+		ProxyEnabled           *bool                     `json:"proxyEnabled,omitempty"`
+		Components             []ComponentItem           `json:"components,omitempty"`
+		Extra                  map[string]interface{}    `json:"extra,omitempty"`
+		InitOptions            []InitOptionItem          `json:"initOptions,omitempty"`
+		Tolerations            *string                   `json:"tolerations,omitempty"`
+		SingleZone             *bool                     `json:"singleZone,omitempty"`
+		AvailabilityZones      []string                  `json:"availabilityZones,omitempty"`
+		PodAntiAffinityEnabled *bool                     `json:"podAntiAffinityEnabled,omitempty"`
+		Backup                 *ClusterBackup            `json:"backup,omitempty"`
+		NodeGroup              common.NullableString     `json:"nodeGroup,omitempty"`
+		CodeShort              *string                   `json:"codeShort,omitempty"`
+		DisplayName            *string                   `json:"displayName,omitempty"`
+		Static                 *bool                     `json:"static,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1734,7 +1510,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
 	} else {
 		return err
 	}
@@ -1756,7 +1532,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentName = *all.EnvironmentName
 	o.EnvironmentType = all.EnvironmentType
 	o.CloudRegion = all.CloudRegion
-	o.Namespace = all.Namespace
 	o.Project = all.Project
 	o.Name = *all.Name
 	o.Hash = all.Hash
@@ -1766,16 +1541,12 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.License = all.License
 	o.ParamTpls = all.ParamTpls
-	o.Values = all.Values
 	o.Version = all.Version
 	if all.TerminationPolicy != nil && !all.TerminationPolicy.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.TerminationPolicy = all.TerminationPolicy
 	}
-	o.MonitorEnabled = all.MonitorEnabled
-	o.VpcEndpointEnabled = all.VpcEndpointEnabled
-	o.InternetEndpointEnabled = all.InternetEndpointEnabled
 	o.TlsEnabled = all.TlsEnabled
 	o.NodePortEnabled = all.NodePortEnabled
 	o.Status = all.Status
@@ -1787,7 +1558,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.Components = all.Components
 	o.Extra = all.Extra
 	o.InitOptions = all.InitOptions
-	o.ExtraInfo = all.ExtraInfo
 	o.Tolerations = all.Tolerations
 	o.SingleZone = all.SingleZone
 	o.AvailabilityZones = all.AvailabilityZones

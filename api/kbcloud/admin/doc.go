@@ -3,6 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
+//   - [URLCheckerApi.batchCheckURLConnectivity]
 //   - [accountApi.createAccount]
 //   - [accountApi.deleteAccount]
 //   - [accountApi.listAccounts]
@@ -194,6 +195,7 @@
 //   - [faultApi.getChaos]
 //   - [faultApi.listFault]
 //   - [featureApi.listFeature]
+//   - [featureApi.listFeatureGroup]
 //   - [featureApi.readFeature]
 //   - [imageRegistryApi.createImageRegistry]
 //   - [imageRegistryApi.deleteImageRegistry]
