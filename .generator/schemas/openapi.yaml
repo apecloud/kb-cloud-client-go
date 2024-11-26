@@ -8987,6 +8987,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - disasterRecovery
+  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/status:
+    get:
+      operationId: getDisasterRecoveryStatus
+      summary: Retrieve Disaster Recovery Instance Status
+      description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+      parameters:
+        - description: Unique identifier of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: integer
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryStatusResponse'
+          description: Status query successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
 components:
   securitySchemes:
     BearerToken:
@@ -15427,6 +15460,63 @@ components:
           type: array
       required:
         - items
+      type: object
+    disasterRecoveryStatusResponse:
+      description: Status of the Disaster Recovery instance
+      properties:
+        clusterId:
+          title: Cluster ID
+          type: integer
+          description: Unique identifier for the cluster
+        clusterName:
+          title: Cluster Name
+          type: string
+          nullable: true
+          description: Name of the cluster
+        displayName:
+          title: Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the cluster
+        status:
+          title: Status
+          type: string
+          nullable: true
+          description: Current operational status of the cluster
+        parentId:
+          title: Parent Cluster ID
+          type: integer
+          format: int64
+          description: ID of the parent cluster, if applicable; can be empty if there is no parent relationship
+        parentName:
+          title: Parent Cluster Name
+          type: string
+          nullable: true
+          description: Name of the parent cluster
+        parentDisplayName:
+          title: Parent Cluster Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the parent cluster
+        parentStatus:
+          title: Parent Cluster Status
+          type: string
+          nullable: true
+          description: Current operational status of the parent cluster
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
+          description: Delay time in seconds
+        currentReplicationPoint:
+          title: Current Replication Point
+          type: string
+          nullable: true
+          description: Current replication point for the disaster recovery instance
+      required:
+        - clusterId
+        - parentId
       type: object
   responses:
     '400':
