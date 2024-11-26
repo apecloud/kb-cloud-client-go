@@ -7,8 +7,6 @@ package admin
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Cluster KubeBlocks cluster information
@@ -111,7 +109,8 @@ type Cluster struct {
 	// Display name of cluster.
 	DisplayName *string `json:"displayName,omitempty"`
 	// if cluster is static cluster
-	Static *bool `json:"static,omitempty"`
+	Static      *bool        `json:"static,omitempty"`
+	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1639,6 +1638,34 @@ func (o *Cluster) SetStatic(v bool) {
 	o.Static = &v
 }
 
+// GetNetworkMode returns the NetworkMode field value if set, zero value otherwise.
+func (o *Cluster) GetNetworkMode() NetworkMode {
+	if o == nil || o.NetworkMode == nil {
+		var ret NetworkMode
+		return ret
+	}
+	return *o.NetworkMode
+}
+
+// GetNetworkModeOk returns a tuple with the NetworkMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetNetworkModeOk() (*NetworkMode, bool) {
+	if o == nil || o.NetworkMode == nil {
+		return nil, false
+	}
+	return o.NetworkMode, true
+}
+
+// HasNetworkMode returns a boolean if a field has been set.
+func (o *Cluster) HasNetworkMode() bool {
+	return o != nil && o.NetworkMode != nil
+}
+
+// SetNetworkMode gets a reference to the given NetworkMode and assigns it to the NetworkMode field.
+func (o *Cluster) SetNetworkMode(v NetworkMode) {
+	o.NetworkMode = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1797,6 +1824,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.Static != nil {
 		toSerialize["static"] = o.Static
 	}
+	if o.NetworkMode != nil {
+		toSerialize["networkMode"] = o.NetworkMode
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1857,6 +1887,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		CodeShort               *string                   `json:"codeShort,omitempty"`
 		DisplayName             *string                   `json:"displayName,omitempty"`
 		Static                  *bool                     `json:"static,omitempty"`
+		NetworkMode             *NetworkMode              `json:"networkMode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1872,7 +1903,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "namespace", "project", "name", "hash", "engine", "license", "paramTpls", "Values", "version", "replicas", "cpu", "memory", "storage", "terminationPolicy", "monitorEnabled", "vpcEndpointEnabled", "internetEndpointEnabled", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "extraInfo", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode"})
 	} else {
 		return err
 	}
@@ -1942,6 +1973,11 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.CodeShort = all.CodeShort
 	o.DisplayName = all.DisplayName
 	o.Static = all.Static
+	if all.NetworkMode != nil && !all.NetworkMode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.NetworkMode = all.NetworkMode
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

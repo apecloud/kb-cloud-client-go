@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type EngineOption struct {
@@ -24,6 +22,7 @@ type EngineOption struct {
 	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            *BenchOption            `json:"bench,omitempty"`
 	Endpoints        []EndpointOption        `json:"endpoints"`
+	NetworkModes     *NetworkModeOption      `json:"networkModes,omitempty"`
 	Promote          []ComponentOpsOption    `json:"promote"`
 	Stop             []ComponentOpsOption    `json:"stop"`
 	Start            []ComponentOpsOption    `json:"start"`
@@ -372,6 +371,34 @@ func (o *EngineOption) GetEndpointsOk() (*[]EndpointOption, bool) {
 // SetEndpoints sets field value.
 func (o *EngineOption) SetEndpoints(v []EndpointOption) {
 	o.Endpoints = v
+}
+
+// GetNetworkModes returns the NetworkModes field value if set, zero value otherwise.
+func (o *EngineOption) GetNetworkModes() NetworkModeOption {
+	if o == nil || o.NetworkModes == nil {
+		var ret NetworkModeOption
+		return ret
+	}
+	return *o.NetworkModes
+}
+
+// GetNetworkModesOk returns a tuple with the NetworkModes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetNetworkModesOk() (*NetworkModeOption, bool) {
+	if o == nil || o.NetworkModes == nil {
+		return nil, false
+	}
+	return o.NetworkModes, true
+}
+
+// HasNetworkModes returns a boolean if a field has been set.
+func (o *EngineOption) HasNetworkModes() bool {
+	return o != nil && o.NetworkModes != nil
+}
+
+// SetNetworkModes gets a reference to the given NetworkModeOption and assigns it to the NetworkModes field.
+func (o *EngineOption) SetNetworkModes(v NetworkModeOption) {
+	o.NetworkModes = &v
 }
 
 // GetPromote returns the Promote field value.
@@ -742,6 +769,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["bench"] = o.Bench
 	}
 	toSerialize["endpoints"] = o.Endpoints
+	if o.NetworkModes != nil {
+		toSerialize["networkModes"] = o.NetworkModes
+	}
 	toSerialize["promote"] = o.Promote
 	toSerialize["stop"] = o.Stop
 	toSerialize["start"] = o.Start
@@ -786,6 +816,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Backup           *BackupOption           `json:"backup,omitempty"`
 		Bench            *BenchOption            `json:"bench,omitempty"`
 		Endpoints        *[]EndpointOption       `json:"endpoints"`
+		NetworkModes     *NetworkModeOption      `json:"networkModes,omitempty"`
 		Promote          *[]ComponentOpsOption   `json:"promote"`
 		Stop             *[]ComponentOpsOption   `json:"stop"`
 		Start            *[]ComponentOpsOption   `json:"start"`
@@ -860,7 +891,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
 	} else {
 		return err
 	}
@@ -896,6 +927,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Bench = all.Bench
 	o.Endpoints = *all.Endpoints
+	if all.NetworkModes != nil && all.NetworkModes.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.NetworkModes = all.NetworkModes
 	o.Promote = *all.Promote
 	o.Stop = *all.Stop
 	o.Start = *all.Start
