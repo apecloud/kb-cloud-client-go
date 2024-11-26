@@ -317,74 +317,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/organizations/{orgName}/members:
-    get:
-      description: list members of the specified Org
-      summary: List members
-      operationId: listOrgMember
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMemberList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - member
-    post:
-      description: Add organization with specific role
-      summary: Add member
-      operationId: addOrgMember
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/orgMemberAdd'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMember'
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - member
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -410,52 +342,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-    patch:
-      description: partially update the specified Org
-      summary: Update organization
-      operationId: patchOrg
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/org'
-          description: OK
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/org'
-          description: Created
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organization
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/enable:
     post:
       description: enable the organization
@@ -500,11 +386,11 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-  /admin/v1/organizations/{orgName}/members/{memberId}:
-    delete:
-      description: delete a Org Member
-      summary: Delete member
-      operationId: deleteOrgMember
+  /admin/v1/organizations/{orgName}/members:
+    get:
+      description: list members of the specified Org
+      summary: List members
+      operationId: listOrgMember
       parameters:
         - description: Name of the Org
           in: path
@@ -512,24 +398,30 @@ paths:
           required: true
           schema:
             type: string
-        - description: ID of the member
-          in: path
-          name: memberId
-          required: true
+        - description: The pagination token in the List request
+          in: query
+          name: pageToken
+          schema:
+            type: string
+        - description: The pagination size in the List request.
+          in: query
+          name: pageSize
           schema:
             type: string
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMemberList'
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
       tags:
-        - member
+        - organization
+  /admin/v1/organizations/{orgName}/members/{memberId}:
     get:
       description: read the specified OrgMember
       summary: Get member
@@ -561,55 +453,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - member
-    patch:
-      description: Only authenticated organization admins can update the member's role
-      summary: Update member role
-      operationId: patchOrgMember
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: ID of the member
-          in: path
-          name: memberId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMember'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - member
-      x-codegen-request-body-name: body
+        - organization
   /admin/v1/permissions:
     get:
       tags:
@@ -3195,6 +3039,10 @@ paths:
                 database:
                   type: string
                   description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
+                skipNull:
+                  type: boolean
+                  description: whether skip the row which has null value when import data
+                  default: true
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DmsImportFormData'
@@ -7967,6 +7815,32 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alerts/checkURL:
+    post:
+      summary: Batch check URLs connectivity
+      description: Tests multiple URLs for connectivity in parallel
+      operationId: batchCheckURLConnectivity
+      tags:
+        - URL Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLCheck'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/receivers:
     post:
       tags:
@@ -9495,6 +9369,122 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/instanceTypes:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypes
+      summary: Get all instance types
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - instanceTypes
+      operationId: createInstanceType
+      summary: Create a new instance type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/instanceTypes'
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/productTypes/{id}:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypeById
+      summary: Get an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - instanceTypes
+      operationId: updateInstanceType
+      summary: Update an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/instanceTypes'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - instanceTypes
+      operationId: deleteInstanceType
+      summary: Delete an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/providers:
     get:
       tags:
@@ -10471,6 +10461,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/featureList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - feature
+  /admin/v1/featureGroups:
+    get:
+      description: Get feature group list
+      summary: Get feature group list
+      operationId: listFeatureGroup
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -12109,6 +12121,44 @@ components:
           items:
             $ref: '#/components/schemas/organizationItem'
           description: The list of organizations.
+    org:
+      description: Org info
+      properties:
+        createdAt:
+          description: |-
+            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        id:
+          type: string
+          description: The ID of the organization
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        updatedAt:
+          description: |-
+            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+        enabled:
+          description: return true if the organization is enabled
+          type: boolean
+      required:
+        - createdAt
+        - name
+        - updatedAt
+        - enabled
+      type: object
     orgMemberRole:
       description: The role of the User in the Org. Required
       enum:
@@ -12150,76 +12200,6 @@ components:
           $ref: '#/components/schemas/pageResult'
       required:
         - items
-      type: object
-    orgMemberAdd:
-      description: MemberAdd is the payload for adding organization member
-      properties:
-        role:
-          description: The name of the role in the organization
-          type: string
-        userId:
-          description: The ID of the user
-          type: string
-      required:
-        - role
-        - userId
-      type: object
-    org:
-      description: Org info
-      properties:
-        createdAt:
-          description: |-
-            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
-          format: date-time
-          type: string
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-        id:
-          type: string
-          description: The ID of the organization
-        name:
-          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
-          type: string
-        updatedAt:
-          description: |-
-            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
-          format: date-time
-          type: string
-        enabled:
-          description: return true if the organization is enabled
-          type: boolean
-      required:
-        - createdAt
-        - name
-        - updatedAt
-        - enabled
-      type: object
-    orgUpdate:
-      description: Organization update
-      properties:
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-      type: object
-    orgMemberUpdate:
-      description: Org Member update
-      properties:
-        role:
-          description: The role of the User in the Org. Required
-          type: string
-      required:
-        - role
       type: object
     permission:
       description: Permission information
@@ -15452,18 +15432,24 @@ components:
       type: object
       description: cluster instance autohealing process config
       required:
-        - pauseAutoHealingOnNodeUnavailable
-        - rebuildStartDelaySeconds
+        - enableAutoHealing
+        - rebuildStartDelaySecondsWhenNodeFail
+        - rebuildStartDelaySecondsWhenInMaintenance
         - minClusterRebuildIntervalSeconds
         - rebuildConcurrencyPerNode
+        - rebuildConcurrencyGlobally
       properties:
-        pauseAutoHealingOnNodeUnavailable:
+        enableAutoHealing:
           type: boolean
-          description: Set to true to pause the auto-healing process, preventing automatic rebuilding of instances when a node fails or is in maintenance mode.
-        rebuildStartDelaySeconds:
+          description: Set to true to enable the auto-healing process, which automatically rebuilds instances when a node fails or is in maintenance mode.
+        rebuildStartDelaySecondsWhenNodeFail:
           type: integer
           format: int32
           description: The number of seconds to wait before starting a rebuild when a node fails.
+        rebuildStartDelaySecondsWhenInMaintenance:
+          type: integer
+          format: int32
+          description: The number of seconds to wait before starting a rebuild when a node is in maintenance mode.
         minClusterRebuildIntervalSeconds:
           type: integer
           format: int32
@@ -15472,6 +15458,10 @@ components:
           type: integer
           format: int32
           description: The maximum number of rebuild jobs that can run simultaneously for a single node.
+        rebuildConcurrencyGlobally:
+          type: integer
+          format: int32
+          description: The maximum number of rebuild jobs that can run simultaneously for the whole k8s cluster.
     environmentDeletePolicy:
       type: string
       description: Environment delete policy to protect environment from false delete
@@ -16000,43 +15990,115 @@ components:
           description: Default SSH configuration for all nodes. Individual node SSH config will override this
           $ref: '#/components/schemas/sshConfig'
           x-nullable: true
-    taskOperation:
+    taskType:
       type: string
       enum:
         - ScaleOut
         - ScaleIn
-      description: Type of scaling operation
+        - DrDeletion
+        - DrCreation
+        - DrPromotion
+      description: Type of task operation
     taskStatus:
       type: string
       enum:
         - Pending
-        - InProgress
-        - Completed
+        - Running
+        - Stopped
+        - Succeed
         - Failed
       description: Current status of the task
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
     task:
       type: object
       required:
         - taskId
         - status
-        - operation
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
       properties:
         taskId:
           type: string
           description: ID of the scaling task
-        operation:
-          $ref: '#/components/schemas/taskOperation'
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          $ref: '#/components/schemas/taskType'
         status:
           $ref: '#/components/schemas/taskStatus'
-        progress:
-          type: integer
-          minimum: 0
-          maximum: 100
-          description: Progress percentage of the task
-        startTime:
+        createdAt:
           type: string
           format: date-time
-          description: Time when the task started
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
         completionTime:
           type: string
           format: date-time
@@ -16046,6 +16108,26 @@ components:
           type: string
           description: Detailed message about the task status
           x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
     scaleInType:
       type: string
       enum:
@@ -17048,6 +17130,7 @@ components:
       properties:
         name:
           type: string
+          x-nullable: false
           description: The name of the image registry.
         url:
           type: string
@@ -17655,6 +17738,28 @@ components:
       required:
         - items
       type: object
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
     alertSeverity:
       enum:
         - critical
@@ -18729,7 +18834,7 @@ components:
           type: string
           format: date-time
         id:
-          type: integer
+          type: string
           x-nullable: false
         idString:
           type: string
@@ -18891,15 +18996,13 @@ components:
           type: string
           description: The license mode
     licenseRequest:
+      required:
+        - key
       properties:
         key:
+          x-nullable: false
           type: string
           description: License key
-    classSeries:
-      type: string
-      enum:
-        - general
-        - exclusive
     class:
       type: object
       properties:
@@ -18938,7 +19041,7 @@ components:
         component:
           type: string
         series:
-          $ref: '#/components/schemas/classSeries'
+          type: string
     classBatch:
       type: object
       properties:
@@ -18949,7 +19052,7 @@ components:
         component:
           type: string
         series:
-          $ref: '#/components/schemas/classSeries'
+          type: string
         cpuOverCommit:
           type: number
           multipleOf: 0.1
@@ -18958,6 +19061,43 @@ components:
           type: number
           multipleOf: 0.1
           format: double
+    OccupationType:
+      type: string
+      enum:
+        - general
+        - exclusive
+    serverConfiguration:
+      type: object
+      properties:
+        architectureType:
+          type: string
+          description: Server architecture type, can be empty.
+    instanceTypes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the instance type.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time.
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
     provider:
       description: The cloud provider that the environment is running on.
       type: object

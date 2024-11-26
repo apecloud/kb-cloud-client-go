@@ -6653,6 +6653,10 @@ paths:
                 database:
                   type: string
                   description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
+                skipNull:
+                  type: boolean
+                  description: whether skip the row which has null value when import data
+                  default: true
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DmsImportFormData'
@@ -13964,7 +13968,7 @@ components:
           type: string
           format: date-time
         id:
-          type: integer
+          type: string
           x-nullable: false
         idString:
           type: string
@@ -14636,11 +14640,6 @@ components:
         description:
           description: The description of the role
           type: string
-    classSeries:
-      type: string
-      enum:
-        - general
-        - exclusive
     class:
       type: object
       properties:
@@ -14679,7 +14678,7 @@ components:
         component:
           type: string
         series:
-          $ref: '#/components/schemas/classSeries'
+          type: string
     provider:
       description: The cloud provider that the environment is running on.
       type: object
