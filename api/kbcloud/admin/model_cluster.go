@@ -59,8 +59,6 @@ type Cluster struct {
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	// CreateOnlySet
-	CreateOnlySet *bool `json:"createOnlySet,omitempty"`
 	// Cluster topology mode
 	Mode *string `json:"mode,omitempty"`
 	// Proxy Enabled
@@ -886,34 +884,6 @@ func (o *Cluster) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
-// GetCreateOnlySet returns the CreateOnlySet field value if set, zero value otherwise.
-func (o *Cluster) GetCreateOnlySet() bool {
-	if o == nil || o.CreateOnlySet == nil {
-		var ret bool
-		return ret
-	}
-	return *o.CreateOnlySet
-}
-
-// GetCreateOnlySetOk returns a tuple with the CreateOnlySet field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetCreateOnlySetOk() (*bool, bool) {
-	if o == nil || o.CreateOnlySet == nil {
-		return nil, false
-	}
-	return o.CreateOnlySet, true
-}
-
-// HasCreateOnlySet returns a boolean if a field has been set.
-func (o *Cluster) HasCreateOnlySet() bool {
-	return o != nil && o.CreateOnlySet != nil
-}
-
-// SetCreateOnlySet gets a reference to the given bool and assigns it to the CreateOnlySet field.
-func (o *Cluster) SetCreateOnlySet(v bool) {
-	o.CreateOnlySet = &v
-}
-
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *Cluster) GetMode() string {
 	if o == nil || o.Mode == nil {
@@ -1400,9 +1370,6 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.CreateOnlySet != nil {
-		toSerialize["createOnlySet"] = o.CreateOnlySet
-	}
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
@@ -1480,7 +1447,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		Status                 *string                   `json:"status,omitempty"`
 		CreatedAt              *time.Time                `json:"createdAt,omitempty"`
 		UpdatedAt              *time.Time                `json:"updatedAt,omitempty"`
-		CreateOnlySet          *bool                     `json:"createOnlySet,omitempty"`
 		Mode                   *string                   `json:"mode,omitempty"`
 		ProxyEnabled           *bool                     `json:"proxyEnabled,omitempty"`
 		Components             []ComponentItem           `json:"components,omitempty"`
@@ -1510,7 +1476,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "createOnlySet", "mode", "proxyEnabled", "components", "extra", "initOptions", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static"})
 	} else {
 		return err
 	}
@@ -1552,7 +1518,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.Status = all.Status
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
-	o.CreateOnlySet = all.CreateOnlySet
 	o.Mode = all.Mode
 	o.ProxyEnabled = all.ProxyEnabled
 	o.Components = all.Components
