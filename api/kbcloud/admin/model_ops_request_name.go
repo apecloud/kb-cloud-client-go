@@ -12,7 +12,7 @@ import (
 type OpsRequestName struct {
 	OpsRequestName   string  `json:"opsRequestName"`
 	DependentOpsName *string `json:"dependentOpsName,omitempty"`
-	ClusterTaskId    string  `json:"clusterTaskId"`
+	ClusterTaskId    *string `json:"clusterTaskId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -22,10 +22,9 @@ type OpsRequestName struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsRequestName(opsRequestName string, clusterTaskId string) *OpsRequestName {
+func NewOpsRequestName(opsRequestName string) *OpsRequestName {
 	this := OpsRequestName{}
 	this.OpsRequestName = opsRequestName
-	this.ClusterTaskId = clusterTaskId
 	return &this
 }
 
@@ -88,27 +87,32 @@ func (o *OpsRequestName) SetDependentOpsName(v string) {
 	o.DependentOpsName = &v
 }
 
-// GetClusterTaskId returns the ClusterTaskId field value.
+// GetClusterTaskId returns the ClusterTaskId field value if set, zero value otherwise.
 func (o *OpsRequestName) GetClusterTaskId() string {
-	if o == nil {
+	if o == nil || o.ClusterTaskId == nil {
 		var ret string
 		return ret
 	}
-	return o.ClusterTaskId
+	return *o.ClusterTaskId
 }
 
-// GetClusterTaskIdOk returns a tuple with the ClusterTaskId field value
+// GetClusterTaskIdOk returns a tuple with the ClusterTaskId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsRequestName) GetClusterTaskIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ClusterTaskId == nil {
 		return nil, false
 	}
-	return &o.ClusterTaskId, true
+	return o.ClusterTaskId, true
 }
 
-// SetClusterTaskId sets field value.
+// HasClusterTaskId returns a boolean if a field has been set.
+func (o *OpsRequestName) HasClusterTaskId() bool {
+	return o != nil && o.ClusterTaskId != nil
+}
+
+// SetClusterTaskId gets a reference to the given string and assigns it to the ClusterTaskId field.
 func (o *OpsRequestName) SetClusterTaskId(v string) {
-	o.ClusterTaskId = v
+	o.ClusterTaskId = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -121,7 +125,9 @@ func (o OpsRequestName) MarshalJSON() ([]byte, error) {
 	if o.DependentOpsName != nil {
 		toSerialize["dependentOpsName"] = o.DependentOpsName
 	}
-	toSerialize["clusterTaskId"] = o.ClusterTaskId
+	if o.ClusterTaskId != nil {
+		toSerialize["clusterTaskId"] = o.ClusterTaskId
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -134,16 +140,13 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		OpsRequestName   *string `json:"opsRequestName"`
 		DependentOpsName *string `json:"dependentOpsName,omitempty"`
-		ClusterTaskId    *string `json:"clusterTaskId"`
+		ClusterTaskId    *string `json:"clusterTaskId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	if all.OpsRequestName == nil {
 		return fmt.Errorf("required field opsRequestName missing")
-	}
-	if all.ClusterTaskId == nil {
-		return fmt.Errorf("required field clusterTaskId missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -153,7 +156,7 @@ func (o *OpsRequestName) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.OpsRequestName = *all.OpsRequestName
 	o.DependentOpsName = all.DependentOpsName
-	o.ClusterTaskId = *all.ClusterTaskId
+	o.ClusterTaskId = all.ClusterTaskId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

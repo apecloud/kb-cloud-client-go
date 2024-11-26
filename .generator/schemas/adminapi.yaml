@@ -14876,7 +14876,6 @@ components:
           type: string
       required:
         - opsRequestName
-        - clusterTaskId
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
@@ -19051,8 +19050,11 @@ components:
           type: string
           description: The license mode
     licenseRequest:
+      required:
+        - key
       properties:
         key:
+          x-nullable: false
           type: string
           description: License key
     class:
