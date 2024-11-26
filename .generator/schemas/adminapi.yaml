@@ -15990,43 +15990,115 @@ components:
           description: Default SSH configuration for all nodes. Individual node SSH config will override this
           $ref: '#/components/schemas/sshConfig'
           x-nullable: true
-    taskOperation:
+    taskType:
       type: string
       enum:
         - ScaleOut
         - ScaleIn
-      description: Type of scaling operation
+        - DrDeletion
+        - DrCreation
+        - DrPromotion
+      description: Type of task operation
     taskStatus:
       type: string
       enum:
         - Pending
-        - InProgress
-        - Completed
+        - Running
+        - Stopped
+        - Succeed
         - Failed
       description: Current status of the task
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
     task:
       type: object
       required:
         - taskId
         - status
-        - operation
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
       properties:
         taskId:
           type: string
           description: ID of the scaling task
-        operation:
-          $ref: '#/components/schemas/taskOperation'
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          $ref: '#/components/schemas/taskType'
         status:
           $ref: '#/components/schemas/taskStatus'
-        progress:
-          type: integer
-          minimum: 0
-          maximum: 100
-          description: Progress percentage of the task
-        startTime:
+        createdAt:
           type: string
           format: date-time
-          description: Time when the task started
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
         completionTime:
           type: string
           format: date-time
@@ -16036,6 +16108,26 @@ components:
           type: string
           description: Detailed message about the task status
           x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
     scaleInType:
       type: string
       enum:
