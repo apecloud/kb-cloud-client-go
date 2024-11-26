@@ -6,8 +6,6 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // RecycleBinClusterList recycleBinClusterList is a list of KubeBlocks clusters in the recycle bin

@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // TaskStatus Current status of the task
@@ -15,16 +13,18 @@ type TaskStatus string
 
 // List of TaskStatus.
 const (
-	TaskStatusPending    TaskStatus = "Pending"
-	TaskStatusInProgress TaskStatus = "InProgress"
-	TaskStatusCompleted  TaskStatus = "Completed"
-	TaskStatusFailed     TaskStatus = "Failed"
+	TaskStatusPending TaskStatus = "Pending"
+	TaskStatusRunning TaskStatus = "Running"
+	TaskStatusStopped TaskStatus = "Stopped"
+	TaskStatusSucceed TaskStatus = "Succeed"
+	TaskStatusFailed  TaskStatus = "Failed"
 )
 
 var allowedTaskStatusEnumValues = []TaskStatus{
 	TaskStatusPending,
-	TaskStatusInProgress,
-	TaskStatusCompleted,
+	TaskStatusRunning,
+	TaskStatusStopped,
+	TaskStatusSucceed,
 	TaskStatusFailed,
 }
 

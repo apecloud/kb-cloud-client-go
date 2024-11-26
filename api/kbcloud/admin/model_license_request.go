@@ -4,11 +4,13 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+)
 
 type LicenseRequest struct {
 	// License key
-	Key *string `json:"key,omitempty"`
+	Key string `json:"key"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -18,8 +20,9 @@ type LicenseRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLicenseRequest() *LicenseRequest {
+func NewLicenseRequest(key string) *LicenseRequest {
 	this := LicenseRequest{}
+	this.Key = key
 	return &this
 }
 
@@ -31,32 +34,27 @@ func NewLicenseRequestWithDefaults() *LicenseRequest {
 	return &this
 }
 
-// GetKey returns the Key field value if set, zero value otherwise.
+// GetKey returns the Key field value.
 func (o *LicenseRequest) GetKey() string {
-	if o == nil || o.Key == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Key
+	return o.Key
 }
 
-// GetKeyOk returns a tuple with the Key field value if set, nil otherwise
+// GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
 func (o *LicenseRequest) GetKeyOk() (*string, bool) {
-	if o == nil || o.Key == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Key, true
+	return &o.Key, true
 }
 
-// HasKey returns a boolean if a field has been set.
-func (o *LicenseRequest) HasKey() bool {
-	return o != nil && o.Key != nil
-}
-
-// SetKey gets a reference to the given string and assigns it to the Key field.
+// SetKey sets field value.
 func (o *LicenseRequest) SetKey(v string) {
-	o.Key = &v
+	o.Key = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -65,9 +63,7 @@ func (o LicenseRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Key != nil {
-		toSerialize["key"] = o.Key
-	}
+	toSerialize["key"] = o.Key
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -78,10 +74,13 @@ func (o LicenseRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LicenseRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Key *string `json:"key,omitempty"`
+		Key *string `json:"key"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
+	}
+	if all.Key == nil {
+		return fmt.Errorf("required field key missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -89,7 +88,7 @@ func (o *LicenseRequest) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Key = all.Key
+	o.Key = *all.Key
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
