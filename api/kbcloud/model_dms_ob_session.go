@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type DmsObSession struct {
 	// session id
 	Id *string `json:"id,omitempty"`

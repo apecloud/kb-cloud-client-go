@@ -7,8 +7,6 @@ package kbcloud
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // RecycleBinClusterListItem information of kubeblocks cluster in recycle bin
