@@ -345,6 +345,7 @@
 //   - [tagApi.updateTag]
 //   - [taskApi.getTask]
 //   - [taskApi.listTask]
+//   - [taskApi.queryClusterTaskDetail]
 //   - [tlsApi.getTLSCertificate]
 //   - [tlsApi.tlsSwitcher]
 //   - [userApi.createUserApikey]

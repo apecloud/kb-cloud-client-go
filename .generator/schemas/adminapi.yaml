@@ -2203,6 +2203,45 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /admin/v1/organizations/{orgName}/cluster/{clusterName}/clusterTask:
+    get:
+      description: Query task detail of clusters
+      summary: Query operation task detail
+      operationId: queryClusterTaskDetail
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Cluster Name
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Task ID
+          in: query
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories:
     get:
       operationId: listParametersHistory
@@ -13816,6 +13855,111 @@ components:
       required:
         - items
       type: object
+    clusterTaskProgressDetail:
+      description: clusterTaskProgressDetail is the information of the task progress
+      properties:
+        name:
+          description: conponent name
+          type: string
+        group:
+          description: group name
+          type: string
+        objectKey:
+          description: the instance name
+          type: string
+        message:
+          description: message of the task progress
+          type: string
+        status:
+          description: status of the task progress
+          type: string
+        startTime:
+          description: start time of the task progress
+          format: date-time
+          type: string
+        endTime:
+          description: end time of the task progress
+          format: date-time
+          type: string
+      type: object
+    clusterTaskProgressDetails:
+      description: clusterTaskProgressDetails is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskProgressDetail'
+          type: array
+      type: object
+    clusterTaskCondition:
+      type: object
+      description: taskCondition is the information of the task condition
+      properties:
+        reason:
+          description: reason of the task condition
+          type: string
+        type:
+          description: type of the task condition
+          type: string
+        status:
+          description: status of the task condition
+          type: string
+        message:
+          description: message of the task condition
+          type: string
+        lastTransitionTime:
+          description: last transition time of the task condition
+          format: date-time
+          type: string
+    clusterTaskConditions:
+      description: taskConditions is a list of task condition
+      properties:
+        items:
+          description: Items is the list of task condition in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskCondition'
+          type: array
+      type: object
+    clusterTask:
+      type: object
+      description: task is the information of the operation
+      required:
+        - name
+        - namespace
+        - status
+        - taskType
+        - progress
+      properties:
+        id:
+          description: ID of the task
+          type: string
+        name:
+          description: Name of the task
+          type: string
+        namespace:
+          description: Name of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        taskType:
+          description: task type
+          type: string
+        progress:
+          description: progress of the task
+          type: string
+        taskProgressDetails:
+          $ref: '#/components/schemas/clusterTaskProgressDetails'
+        taskConditions:
+          $ref: '#/components/schemas/clusterTaskConditions'
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
     parameterHistory:
       description: The history of a parameter
       type: object
@@ -14728,8 +14872,11 @@ components:
           type: string
         dependentOpsName:
           type: string
+        clusterTaskId:
+          type: string
       required:
         - opsRequestName
+        - clusterTaskId
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
