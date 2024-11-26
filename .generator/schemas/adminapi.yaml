@@ -18904,8 +18904,11 @@ components:
           type: string
           description: The license mode
     licenseRequest:
+      required:
+        - key
       properties:
         key:
+          x-nullable: false
           type: string
           description: License key
     class:

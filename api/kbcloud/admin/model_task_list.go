@@ -10,62 +10,61 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type LicenseRequest struct {
-	// License key
-	Key string `json:"key"`
+type TaskList struct {
+	Items []Task `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewLicenseRequest instantiates a new LicenseRequest object.
+// NewTaskList instantiates a new TaskList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLicenseRequest(key string) *LicenseRequest {
-	this := LicenseRequest{}
-	this.Key = key
+func NewTaskList(items []Task) *TaskList {
+	this := TaskList{}
+	this.Items = items
 	return &this
 }
 
-// NewLicenseRequestWithDefaults instantiates a new LicenseRequest object.
+// NewTaskListWithDefaults instantiates a new TaskList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewLicenseRequestWithDefaults() *LicenseRequest {
-	this := LicenseRequest{}
+func NewTaskListWithDefaults() *TaskList {
+	this := TaskList{}
 	return &this
 }
 
-// GetKey returns the Key field value.
-func (o *LicenseRequest) GetKey() string {
+// GetItems returns the Items field value.
+func (o *TaskList) GetItems() []Task {
 	if o == nil {
-		var ret string
+		var ret []Task
 		return ret
 	}
-	return o.Key
+	return o.Items
 }
 
-// GetKeyOk returns a tuple with the Key field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *LicenseRequest) GetKeyOk() (*string, bool) {
+func (o *TaskList) GetItemsOk() (*[]Task, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Key, true
+	return &o.Items, true
 }
 
-// SetKey sets field value.
-func (o *LicenseRequest) SetKey(v string) {
-	o.Key = v
+// SetItems sets field value.
+func (o *TaskList) SetItems(v []Task) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o LicenseRequest) MarshalJSON() ([]byte, error) {
+func (o TaskList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["key"] = o.Key
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -74,23 +73,23 @@ func (o LicenseRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *LicenseRequest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *TaskList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Key *string `json:"key"`
+		Items *[]Task `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
-	if all.Key == nil {
-		return fmt.Errorf("required field key missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"key"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.Key = *all.Key
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

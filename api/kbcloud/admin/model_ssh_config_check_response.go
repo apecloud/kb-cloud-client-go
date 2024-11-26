@@ -10,62 +10,61 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type LicenseRequest struct {
-	// License key
-	Key string `json:"key"`
+type SshConfigCheckResponse struct {
+	Results []SshConfigCheckResult `json:"results"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewLicenseRequest instantiates a new LicenseRequest object.
+// NewSshConfigCheckResponse instantiates a new SshConfigCheckResponse object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLicenseRequest(key string) *LicenseRequest {
-	this := LicenseRequest{}
-	this.Key = key
+func NewSshConfigCheckResponse(results []SshConfigCheckResult) *SshConfigCheckResponse {
+	this := SshConfigCheckResponse{}
+	this.Results = results
 	return &this
 }
 
-// NewLicenseRequestWithDefaults instantiates a new LicenseRequest object.
+// NewSshConfigCheckResponseWithDefaults instantiates a new SshConfigCheckResponse object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewLicenseRequestWithDefaults() *LicenseRequest {
-	this := LicenseRequest{}
+func NewSshConfigCheckResponseWithDefaults() *SshConfigCheckResponse {
+	this := SshConfigCheckResponse{}
 	return &this
 }
 
-// GetKey returns the Key field value.
-func (o *LicenseRequest) GetKey() string {
+// GetResults returns the Results field value.
+func (o *SshConfigCheckResponse) GetResults() []SshConfigCheckResult {
 	if o == nil {
-		var ret string
+		var ret []SshConfigCheckResult
 		return ret
 	}
-	return o.Key
+	return o.Results
 }
 
-// GetKeyOk returns a tuple with the Key field value
+// GetResultsOk returns a tuple with the Results field value
 // and a boolean to check if the value has been set.
-func (o *LicenseRequest) GetKeyOk() (*string, bool) {
+func (o *SshConfigCheckResponse) GetResultsOk() (*[]SshConfigCheckResult, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Key, true
+	return &o.Results, true
 }
 
-// SetKey sets field value.
-func (o *LicenseRequest) SetKey(v string) {
-	o.Key = v
+// SetResults sets field value.
+func (o *SshConfigCheckResponse) SetResults(v []SshConfigCheckResult) {
+	o.Results = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o LicenseRequest) MarshalJSON() ([]byte, error) {
+func (o SshConfigCheckResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["key"] = o.Key
+	toSerialize["results"] = o.Results
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -74,23 +73,23 @@ func (o LicenseRequest) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *LicenseRequest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *SshConfigCheckResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Key *string `json:"key"`
+		Results *[]SshConfigCheckResult `json:"results"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
-	if all.Key == nil {
-		return fmt.Errorf("required field key missing")
+	if all.Results == nil {
+		return fmt.Errorf("required field results missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"key"})
+		common.DeleteKeys(additionalProperties, &[]string{"results"})
 	} else {
 		return err
 	}
-	o.Key = *all.Key
+	o.Results = *all.Results
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
