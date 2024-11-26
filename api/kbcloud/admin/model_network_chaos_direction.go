@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // NetworkChaosDirection Specifies the direction of network chaos effects. 'to' affects outgoing traffic, 'from' affects incoming traffic, and 'both' affects traffic in both directions.

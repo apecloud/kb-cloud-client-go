@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // BackupStatsStatus Number of backups for the status
 type BackupStatsStatus struct {
 	// Backup status

@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type EngineServiceVersionsVersionsItem struct {
 	Default       *bool    `json:"default,omitempty"`
 	MajorVersion  *string  `json:"majorVersion,omitempty"`
