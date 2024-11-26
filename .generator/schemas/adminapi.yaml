@@ -7815,6 +7815,32 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alerts/checkURL:
+    post:
+      summary: Batch check URLs connectivity
+      description: Tests multiple URLs for connectivity in parallel
+      operationId: batchCheckURLConnectivity
+      tags:
+        - URL Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLCheck'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/receivers:
     post:
       tags:
@@ -17620,6 +17646,28 @@ components:
       required:
         - items
       type: object
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
     alertSeverity:
       enum:
         - critical
