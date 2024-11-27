@@ -11001,6 +11001,36 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /admin/v1/environments/{environmentName}/storages/{storageName}/import:
+    get:
+      operationId: importBackup
+      summary: import backuprecords from storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
   /admin/v1/fault:
     get:
       tags:
