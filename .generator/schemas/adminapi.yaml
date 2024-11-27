@@ -15237,6 +15237,21 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+    environmentCluster:
+      properties:
+        replicas:
+          title: Replicas
+          type: integer
+          description: the number of replicas
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+        classCode:
+          type: string
     environmentStorage:
       type: object
       description: Storage config
@@ -15254,6 +15269,8 @@ components:
           type: string
         config:
           $ref: '#/components/schemas/storageCreate'
+        cluster:
+          $ref: '#/components/schemas/environmentCluster'
     storageConfig:
       type: object
       description: Storage config for environment
