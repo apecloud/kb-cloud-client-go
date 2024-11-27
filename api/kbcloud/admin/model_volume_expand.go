@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type VolumeExpand struct {
 	// the new volume size of cluster
 	Size *string `json:"size,omitempty"`
