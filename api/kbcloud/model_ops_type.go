@@ -24,7 +24,6 @@ const (
 	OpsTypeStop              OpsType = "Stop"
 	OpsTypeStart             OpsType = "Start"
 	OpsTypeExpose            OpsType = "Expose"
-	OpsTypeDataScript        OpsType = "DataScript"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{
@@ -38,7 +37,6 @@ var allowedOpsTypeEnumValues = []OpsType{
 	OpsTypeStop,
 	OpsTypeStart,
 	OpsTypeExpose,
-	OpsTypeDataScript,
 }
 
 // GetAllowedValues returns the list of possible values.

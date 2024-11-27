@@ -10444,9 +10444,6 @@ components:
       description: the item of the parameter template
       type: object
       properties:
-        componentDefRef:
-          type: string
-          description: component type, refer to componentDef and support NamePrefix, Deprecated.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -10471,98 +10468,94 @@ components:
         - Halt
         - Delete
         - WipeOut
+    componentVolumeItem:
+      description: ComponentVolumeItem is the information of a component volume
+      type: object
+      properties:
+        name:
+          type: string
+          description: volume name
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+    componentItem:
+      type: object
+      description: ComponentItem is the information of a component
+      properties:
+        name:
+          type: string
+          description: component name
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix
+        compNum:
+          title: CompNum
+          type: integer
+          description: number of components
+        replicas:
+          title: Replicas
+          maximum: 5
+          minimum: 1
+          type: integer
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        classCode:
+          type: string
+        classSeries:
+          type: string
+        cpu:
+          title: CPU
+          multipleOf: 0.5
+          maximum: 64
+          minimum: 0.5
+          type: number
+          description: CPU cores.
+          format: double
+        memory:
+          title: Memory(Gi)
+          maximum: 1000
+          minimum: 0.5
+          type: number
+          description: Memory, the unit is Gi.
+          format: double
+        storageClass:
+          title: StorageClass
+          type: string
+          description: StorageClass name
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/componentVolumeItem'
+        codeShort:
+          description: Cluster main component codeShort
+          type: string
     components:
       type: array
-      description: Items is the list of ComponentSpec in the list
+      description: Components is the list of components
       items:
-        type: object
-        properties:
-          name:
+        $ref: '#/components/schemas/componentItem'
+    initOptionItem:
+      description: InitOptionItem is the information of init option
+      type: object
+      properties:
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix'
+        initParams:
+          type: object
+          additionalProperties:
             type: string
-            description: component name
-          component:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix
-          componentDef:
-            type: string
-            description: componentDefinition name
-          compNum:
-            title: CompNum
-            type: integer
-            description: number of components
-          monitor:
-            type: boolean
-            description: enable monitor
-          replicas:
-            title: Replicas
-            maximum: 5
-            minimum: 1
-            type: integer
-            description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-          classCode:
-            type: string
-          classSeries:
-            type: string
-          cpu:
-            title: CPU
-            multipleOf: 0.5
-            maximum: 64
-            minimum: 0.5
-            type: number
-            description: CPU cores.
-            format: double
-          memory:
-            title: Memory(Gi)
-            maximum: 1000
-            minimum: 0.5
-            type: number
-            description: Memory, the unit is Gi.
-            format: double
-          storage:
-            title: Storage
-            type: string
-            description: Storage
-          storageClass:
-            title: StorageClass
-            type: string
-            description: StorageClass name
-          volumes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: volume name
-                storage:
-                  title: Storage(Gi)
-                  maximum: 10000
-                  minimum: 1
-                  type: number
-                  description: Storage size, the unit is Gi.
-                  format: double
-          codeShort:
-            description: Cluster main component codeShort
-            type: string
+        specName:
+          type: string
+          description: config spec name
     initOptions:
       type: array
-      description: Items is the list of init Options in the list
+      description: InitOptions is the list of init option
       items:
-        type: object
-        properties:
-          component:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix'
-          componentDefRef:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix, Deprecated
-          initParams:
-            type: object
-            additionalProperties:
-              type: string
-          specName:
-            type: string
-            description: config spec name
+        $ref: '#/components/schemas/initOptionItem'
     backupRetentionPolicy:
       type: string
       description: backup retention policy when cluster is deleted
@@ -10658,17 +10651,11 @@ components:
           title: Cloud Region
           type: string
           description: Cloud Region
-        namespace:
-          title: Environment Namespace
-          type: string
-          default: kubeblocks-cloud-ns
-          description: Environment Namespace
-          deprecated: true
         project:
           title: Project
           type: string
           default: kubeblocks-cloud-ns
-          description: Name of project
+          description: Name of project, it is the alias of environment namespace
         name:
           title: Name
           type: string
@@ -10685,59 +10672,12 @@ components:
           $ref: '#/components/schemas/clusterLicense'
         paramTpls:
           $ref: '#/components/schemas/paramTpls'
-        Values:
-          type: object
-          additionalProperties: true
-          description: Values
         version:
           title: Version
           type: string
           description: Cluster Application Version
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-          default: false
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-          default: false
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-          default: false
         tlsEnabled:
           title: TLS Enabled
           type: boolean
@@ -10762,10 +10702,6 @@ components:
           type: string
           description: UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
           format: date-time
-        createOnlySet:
-          title: CreateOnlySet
-          type: boolean
-          description: CreateOnlySet
         mode:
           title: Mode
           type: string
@@ -10778,21 +10714,14 @@ components:
         components:
           $ref: '#/components/schemas/components'
         extra:
-          title: Values
+          title: Extra
           type: object
           additionalProperties:
             type: object
             properties: {}
-          description: Values
+          description: Extra configuration for cluster
         initOptions:
           $ref: '#/components/schemas/initOptions'
-        extraInfo:
-          title: ExtraInfo
-          type: object
-          additionalProperties:
-            type: object
-            properties: {}
-          description: ExtraInfo
         tolerations:
           title: Tolerations
           type: string
@@ -10834,54 +10763,8 @@ components:
     clusterUpdate:
       type: object
       properties:
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-        paramTpls:
-          $ref: '#/components/schemas/paramTpls'
-        tolerations:
-          title: Tolerations
-          type: string
-          description: Tolerations of cluster
         displayName:
           description: Display name of cluster.
           type: string
@@ -11017,7 +10900,6 @@ components:
         - Stop
         - Start
         - Expose
-        - DataScript
       type: string
     kubernetesManifests:
       description: Items is the list of Kubernetes objects in the list

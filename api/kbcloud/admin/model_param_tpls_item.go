@@ -8,8 +8,6 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParamTplsItem the item of the parameter template
 type ParamTplsItem struct {
-	// component type, refer to componentDef and support NamePrefix, Deprecated.
-	ComponentDefRef *string `json:"componentDefRef,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`
 	// name of assigned parameter template
@@ -35,34 +33,6 @@ func NewParamTplsItem() *ParamTplsItem {
 func NewParamTplsItemWithDefaults() *ParamTplsItem {
 	this := ParamTplsItem{}
 	return &this
-}
-
-// GetComponentDefRef returns the ComponentDefRef field value if set, zero value otherwise.
-func (o *ParamTplsItem) GetComponentDefRef() string {
-	if o == nil || o.ComponentDefRef == nil {
-		var ret string
-		return ret
-	}
-	return *o.ComponentDefRef
-}
-
-// GetComponentDefRefOk returns a tuple with the ComponentDefRef field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParamTplsItem) GetComponentDefRefOk() (*string, bool) {
-	if o == nil || o.ComponentDefRef == nil {
-		return nil, false
-	}
-	return o.ComponentDefRef, true
-}
-
-// HasComponentDefRef returns a boolean if a field has been set.
-func (o *ParamTplsItem) HasComponentDefRef() bool {
-	return o != nil && o.ComponentDefRef != nil
-}
-
-// SetComponentDefRef gets a reference to the given string and assigns it to the ComponentDefRef field.
-func (o *ParamTplsItem) SetComponentDefRef(v string) {
-	o.ComponentDefRef = &v
 }
 
 // GetComponent returns the Component field value if set, zero value otherwise.
@@ -155,9 +125,6 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.ComponentDefRef != nil {
-		toSerialize["componentDefRef"] = o.ComponentDefRef
-	}
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
@@ -177,7 +144,6 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ComponentDefRef   *string            `json:"componentDefRef,omitempty"`
 		Component         *string            `json:"component,omitempty"`
 		ParamTplName      *string            `json:"paramTplName,omitempty"`
 		ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
@@ -187,13 +153,12 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"componentDefRef", "component", "paramTplName", "paramTplPartition"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "paramTplPartition"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	o.ComponentDefRef = all.ComponentDefRef
 	o.Component = all.Component
 	o.ParamTplName = all.ParamTplName
 	if all.ParamTplPartition != nil && !all.ParamTplPartition.IsValid() {

@@ -2,21 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ComponentsItem struct {
+// ComponentItem ComponentItem is the information of a component
+type ComponentItem struct {
 	// component name
 	Name *string `json:"name,omitempty"`
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`
-	// componentDefinition name
-	ComponentDef *string `json:"componentDef,omitempty"`
 	// number of components
 	CompNum *int32 `json:"compNum,omitempty"`
-	// enable monitor
-	Monitor *bool `json:"monitor,omitempty"`
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
 	Replicas    *int32  `json:"replicas,omitempty"`
 	ClassCode   *string `json:"classCode,omitempty"`
@@ -25,11 +22,9 @@ type ComponentsItem struct {
 	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
 	Memory *float64 `json:"memory,omitempty"`
-	// Storage
-	Storage *string `json:"storage,omitempty"`
 	// StorageClass name
-	StorageClass *string                     `json:"storageClass,omitempty"`
-	Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
+	StorageClass *string               `json:"storageClass,omitempty"`
+	Volumes      []ComponentVolumeItem `json:"volumes,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -37,25 +32,25 @@ type ComponentsItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentsItem instantiates a new ComponentsItem object.
+// NewComponentItem instantiates a new ComponentItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentsItem() *ComponentsItem {
-	this := ComponentsItem{}
+func NewComponentItem() *ComponentItem {
+	this := ComponentItem{}
 	return &this
 }
 
-// NewComponentsItemWithDefaults instantiates a new ComponentsItem object.
+// NewComponentItemWithDefaults instantiates a new ComponentItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentsItemWithDefaults() *ComponentsItem {
-	this := ComponentsItem{}
+func NewComponentItemWithDefaults() *ComponentItem {
+	this := ComponentItem{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ComponentsItem) GetName() string {
+func (o *ComponentItem) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -65,7 +60,7 @@ func (o *ComponentsItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetNameOk() (*string, bool) {
+func (o *ComponentItem) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -73,17 +68,17 @@ func (o *ComponentsItem) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ComponentsItem) HasName() bool {
+func (o *ComponentItem) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ComponentsItem) SetName(v string) {
+func (o *ComponentItem) SetName(v string) {
 	o.Name = &v
 }
 
 // GetComponent returns the Component field value if set, zero value otherwise.
-func (o *ComponentsItem) GetComponent() string {
+func (o *ComponentItem) GetComponent() string {
 	if o == nil || o.Component == nil {
 		var ret string
 		return ret
@@ -93,7 +88,7 @@ func (o *ComponentsItem) GetComponent() string {
 
 // GetComponentOk returns a tuple with the Component field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetComponentOk() (*string, bool) {
+func (o *ComponentItem) GetComponentOk() (*string, bool) {
 	if o == nil || o.Component == nil {
 		return nil, false
 	}
@@ -101,45 +96,17 @@ func (o *ComponentsItem) GetComponentOk() (*string, bool) {
 }
 
 // HasComponent returns a boolean if a field has been set.
-func (o *ComponentsItem) HasComponent() bool {
+func (o *ComponentItem) HasComponent() bool {
 	return o != nil && o.Component != nil
 }
 
 // SetComponent gets a reference to the given string and assigns it to the Component field.
-func (o *ComponentsItem) SetComponent(v string) {
+func (o *ComponentItem) SetComponent(v string) {
 	o.Component = &v
 }
 
-// GetComponentDef returns the ComponentDef field value if set, zero value otherwise.
-func (o *ComponentsItem) GetComponentDef() string {
-	if o == nil || o.ComponentDef == nil {
-		var ret string
-		return ret
-	}
-	return *o.ComponentDef
-}
-
-// GetComponentDefOk returns a tuple with the ComponentDef field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetComponentDefOk() (*string, bool) {
-	if o == nil || o.ComponentDef == nil {
-		return nil, false
-	}
-	return o.ComponentDef, true
-}
-
-// HasComponentDef returns a boolean if a field has been set.
-func (o *ComponentsItem) HasComponentDef() bool {
-	return o != nil && o.ComponentDef != nil
-}
-
-// SetComponentDef gets a reference to the given string and assigns it to the ComponentDef field.
-func (o *ComponentsItem) SetComponentDef(v string) {
-	o.ComponentDef = &v
-}
-
 // GetCompNum returns the CompNum field value if set, zero value otherwise.
-func (o *ComponentsItem) GetCompNum() int32 {
+func (o *ComponentItem) GetCompNum() int32 {
 	if o == nil || o.CompNum == nil {
 		var ret int32
 		return ret
@@ -149,7 +116,7 @@ func (o *ComponentsItem) GetCompNum() int32 {
 
 // GetCompNumOk returns a tuple with the CompNum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetCompNumOk() (*int32, bool) {
+func (o *ComponentItem) GetCompNumOk() (*int32, bool) {
 	if o == nil || o.CompNum == nil {
 		return nil, false
 	}
@@ -157,45 +124,17 @@ func (o *ComponentsItem) GetCompNumOk() (*int32, bool) {
 }
 
 // HasCompNum returns a boolean if a field has been set.
-func (o *ComponentsItem) HasCompNum() bool {
+func (o *ComponentItem) HasCompNum() bool {
 	return o != nil && o.CompNum != nil
 }
 
 // SetCompNum gets a reference to the given int32 and assigns it to the CompNum field.
-func (o *ComponentsItem) SetCompNum(v int32) {
+func (o *ComponentItem) SetCompNum(v int32) {
 	o.CompNum = &v
 }
 
-// GetMonitor returns the Monitor field value if set, zero value otherwise.
-func (o *ComponentsItem) GetMonitor() bool {
-	if o == nil || o.Monitor == nil {
-		var ret bool
-		return ret
-	}
-	return *o.Monitor
-}
-
-// GetMonitorOk returns a tuple with the Monitor field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetMonitorOk() (*bool, bool) {
-	if o == nil || o.Monitor == nil {
-		return nil, false
-	}
-	return o.Monitor, true
-}
-
-// HasMonitor returns a boolean if a field has been set.
-func (o *ComponentsItem) HasMonitor() bool {
-	return o != nil && o.Monitor != nil
-}
-
-// SetMonitor gets a reference to the given bool and assigns it to the Monitor field.
-func (o *ComponentsItem) SetMonitor(v bool) {
-	o.Monitor = &v
-}
-
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *ComponentsItem) GetReplicas() int32 {
+func (o *ComponentItem) GetReplicas() int32 {
 	if o == nil || o.Replicas == nil {
 		var ret int32
 		return ret
@@ -205,7 +144,7 @@ func (o *ComponentsItem) GetReplicas() int32 {
 
 // GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetReplicasOk() (*int32, bool) {
+func (o *ComponentItem) GetReplicasOk() (*int32, bool) {
 	if o == nil || o.Replicas == nil {
 		return nil, false
 	}
@@ -213,17 +152,17 @@ func (o *ComponentsItem) GetReplicasOk() (*int32, bool) {
 }
 
 // HasReplicas returns a boolean if a field has been set.
-func (o *ComponentsItem) HasReplicas() bool {
+func (o *ComponentItem) HasReplicas() bool {
 	return o != nil && o.Replicas != nil
 }
 
 // SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
-func (o *ComponentsItem) SetReplicas(v int32) {
+func (o *ComponentItem) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
 // GetClassCode returns the ClassCode field value if set, zero value otherwise.
-func (o *ComponentsItem) GetClassCode() string {
+func (o *ComponentItem) GetClassCode() string {
 	if o == nil || o.ClassCode == nil {
 		var ret string
 		return ret
@@ -233,7 +172,7 @@ func (o *ComponentsItem) GetClassCode() string {
 
 // GetClassCodeOk returns a tuple with the ClassCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetClassCodeOk() (*string, bool) {
+func (o *ComponentItem) GetClassCodeOk() (*string, bool) {
 	if o == nil || o.ClassCode == nil {
 		return nil, false
 	}
@@ -241,17 +180,17 @@ func (o *ComponentsItem) GetClassCodeOk() (*string, bool) {
 }
 
 // HasClassCode returns a boolean if a field has been set.
-func (o *ComponentsItem) HasClassCode() bool {
+func (o *ComponentItem) HasClassCode() bool {
 	return o != nil && o.ClassCode != nil
 }
 
 // SetClassCode gets a reference to the given string and assigns it to the ClassCode field.
-func (o *ComponentsItem) SetClassCode(v string) {
+func (o *ComponentItem) SetClassCode(v string) {
 	o.ClassCode = &v
 }
 
 // GetClassSeries returns the ClassSeries field value if set, zero value otherwise.
-func (o *ComponentsItem) GetClassSeries() string {
+func (o *ComponentItem) GetClassSeries() string {
 	if o == nil || o.ClassSeries == nil {
 		var ret string
 		return ret
@@ -261,7 +200,7 @@ func (o *ComponentsItem) GetClassSeries() string {
 
 // GetClassSeriesOk returns a tuple with the ClassSeries field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetClassSeriesOk() (*string, bool) {
+func (o *ComponentItem) GetClassSeriesOk() (*string, bool) {
 	if o == nil || o.ClassSeries == nil {
 		return nil, false
 	}
@@ -269,17 +208,17 @@ func (o *ComponentsItem) GetClassSeriesOk() (*string, bool) {
 }
 
 // HasClassSeries returns a boolean if a field has been set.
-func (o *ComponentsItem) HasClassSeries() bool {
+func (o *ComponentItem) HasClassSeries() bool {
 	return o != nil && o.ClassSeries != nil
 }
 
 // SetClassSeries gets a reference to the given string and assigns it to the ClassSeries field.
-func (o *ComponentsItem) SetClassSeries(v string) {
+func (o *ComponentItem) SetClassSeries(v string) {
 	o.ClassSeries = &v
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
-func (o *ComponentsItem) GetCpu() float64 {
+func (o *ComponentItem) GetCpu() float64 {
 	if o == nil || o.Cpu == nil {
 		var ret float64
 		return ret
@@ -289,7 +228,7 @@ func (o *ComponentsItem) GetCpu() float64 {
 
 // GetCpuOk returns a tuple with the Cpu field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetCpuOk() (*float64, bool) {
+func (o *ComponentItem) GetCpuOk() (*float64, bool) {
 	if o == nil || o.Cpu == nil {
 		return nil, false
 	}
@@ -297,17 +236,17 @@ func (o *ComponentsItem) GetCpuOk() (*float64, bool) {
 }
 
 // HasCpu returns a boolean if a field has been set.
-func (o *ComponentsItem) HasCpu() bool {
+func (o *ComponentItem) HasCpu() bool {
 	return o != nil && o.Cpu != nil
 }
 
 // SetCpu gets a reference to the given float64 and assigns it to the Cpu field.
-func (o *ComponentsItem) SetCpu(v float64) {
+func (o *ComponentItem) SetCpu(v float64) {
 	o.Cpu = &v
 }
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
-func (o *ComponentsItem) GetMemory() float64 {
+func (o *ComponentItem) GetMemory() float64 {
 	if o == nil || o.Memory == nil {
 		var ret float64
 		return ret
@@ -317,7 +256,7 @@ func (o *ComponentsItem) GetMemory() float64 {
 
 // GetMemoryOk returns a tuple with the Memory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetMemoryOk() (*float64, bool) {
+func (o *ComponentItem) GetMemoryOk() (*float64, bool) {
 	if o == nil || o.Memory == nil {
 		return nil, false
 	}
@@ -325,45 +264,17 @@ func (o *ComponentsItem) GetMemoryOk() (*float64, bool) {
 }
 
 // HasMemory returns a boolean if a field has been set.
-func (o *ComponentsItem) HasMemory() bool {
+func (o *ComponentItem) HasMemory() bool {
 	return o != nil && o.Memory != nil
 }
 
 // SetMemory gets a reference to the given float64 and assigns it to the Memory field.
-func (o *ComponentsItem) SetMemory(v float64) {
+func (o *ComponentItem) SetMemory(v float64) {
 	o.Memory = &v
 }
 
-// GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *ComponentsItem) GetStorage() string {
-	if o == nil || o.Storage == nil {
-		var ret string
-		return ret
-	}
-	return *o.Storage
-}
-
-// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetStorageOk() (*string, bool) {
-	if o == nil || o.Storage == nil {
-		return nil, false
-	}
-	return o.Storage, true
-}
-
-// HasStorage returns a boolean if a field has been set.
-func (o *ComponentsItem) HasStorage() bool {
-	return o != nil && o.Storage != nil
-}
-
-// SetStorage gets a reference to the given string and assigns it to the Storage field.
-func (o *ComponentsItem) SetStorage(v string) {
-	o.Storage = &v
-}
-
 // GetStorageClass returns the StorageClass field value if set, zero value otherwise.
-func (o *ComponentsItem) GetStorageClass() string {
+func (o *ComponentItem) GetStorageClass() string {
 	if o == nil || o.StorageClass == nil {
 		var ret string
 		return ret
@@ -373,7 +284,7 @@ func (o *ComponentsItem) GetStorageClass() string {
 
 // GetStorageClassOk returns a tuple with the StorageClass field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetStorageClassOk() (*string, bool) {
+func (o *ComponentItem) GetStorageClassOk() (*string, bool) {
 	if o == nil || o.StorageClass == nil {
 		return nil, false
 	}
@@ -381,19 +292,19 @@ func (o *ComponentsItem) GetStorageClassOk() (*string, bool) {
 }
 
 // HasStorageClass returns a boolean if a field has been set.
-func (o *ComponentsItem) HasStorageClass() bool {
+func (o *ComponentItem) HasStorageClass() bool {
 	return o != nil && o.StorageClass != nil
 }
 
 // SetStorageClass gets a reference to the given string and assigns it to the StorageClass field.
-func (o *ComponentsItem) SetStorageClass(v string) {
+func (o *ComponentItem) SetStorageClass(v string) {
 	o.StorageClass = &v
 }
 
 // GetVolumes returns the Volumes field value if set, zero value otherwise.
-func (o *ComponentsItem) GetVolumes() []ComponentsItemVolumesItem {
+func (o *ComponentItem) GetVolumes() []ComponentVolumeItem {
 	if o == nil || o.Volumes == nil {
-		var ret []ComponentsItemVolumesItem
+		var ret []ComponentVolumeItem
 		return ret
 	}
 	return o.Volumes
@@ -401,7 +312,7 @@ func (o *ComponentsItem) GetVolumes() []ComponentsItemVolumesItem {
 
 // GetVolumesOk returns a tuple with the Volumes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetVolumesOk() (*[]ComponentsItemVolumesItem, bool) {
+func (o *ComponentItem) GetVolumesOk() (*[]ComponentVolumeItem, bool) {
 	if o == nil || o.Volumes == nil {
 		return nil, false
 	}
@@ -409,17 +320,17 @@ func (o *ComponentsItem) GetVolumesOk() (*[]ComponentsItemVolumesItem, bool) {
 }
 
 // HasVolumes returns a boolean if a field has been set.
-func (o *ComponentsItem) HasVolumes() bool {
+func (o *ComponentItem) HasVolumes() bool {
 	return o != nil && o.Volumes != nil
 }
 
-// SetVolumes gets a reference to the given []ComponentsItemVolumesItem and assigns it to the Volumes field.
-func (o *ComponentsItem) SetVolumes(v []ComponentsItemVolumesItem) {
+// SetVolumes gets a reference to the given []ComponentVolumeItem and assigns it to the Volumes field.
+func (o *ComponentItem) SetVolumes(v []ComponentVolumeItem) {
 	o.Volumes = v
 }
 
 // GetCodeShort returns the CodeShort field value if set, zero value otherwise.
-func (o *ComponentsItem) GetCodeShort() string {
+func (o *ComponentItem) GetCodeShort() string {
 	if o == nil || o.CodeShort == nil {
 		var ret string
 		return ret
@@ -429,7 +340,7 @@ func (o *ComponentsItem) GetCodeShort() string {
 
 // GetCodeShortOk returns a tuple with the CodeShort field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentsItem) GetCodeShortOk() (*string, bool) {
+func (o *ComponentItem) GetCodeShortOk() (*string, bool) {
 	if o == nil || o.CodeShort == nil {
 		return nil, false
 	}
@@ -437,17 +348,17 @@ func (o *ComponentsItem) GetCodeShortOk() (*string, bool) {
 }
 
 // HasCodeShort returns a boolean if a field has been set.
-func (o *ComponentsItem) HasCodeShort() bool {
+func (o *ComponentItem) HasCodeShort() bool {
 	return o != nil && o.CodeShort != nil
 }
 
 // SetCodeShort gets a reference to the given string and assigns it to the CodeShort field.
-func (o *ComponentsItem) SetCodeShort(v string) {
+func (o *ComponentItem) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentsItem) MarshalJSON() ([]byte, error) {
+func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -458,14 +369,8 @@ func (o ComponentsItem) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
-	if o.ComponentDef != nil {
-		toSerialize["componentDef"] = o.ComponentDef
-	}
 	if o.CompNum != nil {
 		toSerialize["compNum"] = o.CompNum
-	}
-	if o.Monitor != nil {
-		toSerialize["monitor"] = o.Monitor
 	}
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
@@ -481,9 +386,6 @@ func (o ComponentsItem) MarshalJSON() ([]byte, error) {
 	}
 	if o.Memory != nil {
 		toSerialize["memory"] = o.Memory
-	}
-	if o.Storage != nil {
-		toSerialize["storage"] = o.Storage
 	}
 	if o.StorageClass != nil {
 		toSerialize["storageClass"] = o.StorageClass
@@ -502,43 +404,37 @@ func (o ComponentsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string                     `json:"name,omitempty"`
-		Component    *string                     `json:"component,omitempty"`
-		ComponentDef *string                     `json:"componentDef,omitempty"`
-		CompNum      *int32                      `json:"compNum,omitempty"`
-		Monitor      *bool                       `json:"monitor,omitempty"`
-		Replicas     *int32                      `json:"replicas,omitempty"`
-		ClassCode    *string                     `json:"classCode,omitempty"`
-		ClassSeries  *string                     `json:"classSeries,omitempty"`
-		Cpu          *float64                    `json:"cpu,omitempty"`
-		Memory       *float64                    `json:"memory,omitempty"`
-		Storage      *string                     `json:"storage,omitempty"`
-		StorageClass *string                     `json:"storageClass,omitempty"`
-		Volumes      []ComponentsItemVolumesItem `json:"volumes,omitempty"`
-		CodeShort    *string                     `json:"codeShort,omitempty"`
+		Name         *string               `json:"name,omitempty"`
+		Component    *string               `json:"component,omitempty"`
+		CompNum      *int32                `json:"compNum,omitempty"`
+		Replicas     *int32                `json:"replicas,omitempty"`
+		ClassCode    *string               `json:"classCode,omitempty"`
+		ClassSeries  *string               `json:"classSeries,omitempty"`
+		Cpu          *float64              `json:"cpu,omitempty"`
+		Memory       *float64              `json:"memory,omitempty"`
+		StorageClass *string               `json:"storageClass,omitempty"`
+		Volumes      []ComponentVolumeItem `json:"volumes,omitempty"`
+		CodeShort    *string               `json:"codeShort,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "componentDef", "compNum", "monitor", "replicas", "classCode", "classSeries", "cpu", "memory", "storage", "storageClass", "volumes", "codeShort"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "classSeries", "cpu", "memory", "storageClass", "volumes", "codeShort"})
 	} else {
 		return err
 	}
 	o.Name = all.Name
 	o.Component = all.Component
-	o.ComponentDef = all.ComponentDef
 	o.CompNum = all.CompNum
-	o.Monitor = all.Monitor
 	o.Replicas = all.Replicas
 	o.ClassCode = all.ClassCode
 	o.ClassSeries = all.ClassSeries
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
-	o.Storage = all.Storage
 	o.StorageClass = all.StorageClass
 	o.Volumes = all.Volumes
 	o.CodeShort = all.CodeShort
