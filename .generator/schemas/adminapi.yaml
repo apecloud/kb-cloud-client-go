@@ -6630,7 +6630,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/importBackup:
+  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/importbackup:
     get:
       operationId: importBackup
       summary: import backuprecords from backupRepo
