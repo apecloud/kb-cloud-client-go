@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // StorageVolumeStatsByNode storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
 type StorageVolumeStatsByNode struct {
 	// the name of the node
