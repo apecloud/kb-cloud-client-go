@@ -91,6 +91,7 @@
 //   - [clusterApi.getClusterByID]
 //   - [clusterApi.getClusterInstanceLog]
 //   - [clusterApi.getClusterManifest]
+//   - [clusterApi.getClusterSecrets]
 //   - [clusterApi.getInstacesMetrics]
 //   - [clusterApi.listCluster]
 //   - [clusterApi.listClusters]

@@ -3720,6 +3720,41 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/secrets:
+    get:
+      description: get secrets in cluster
+      operationId: getClusterSecrets
+      summary: Get cluster secrets
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/secretList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/view:
     get:
       operationId: getViewByCluster
@@ -11598,6 +11633,12 @@ components:
           description: Enable TLS or not
           type: boolean
       type: object
+    secretList:
+      type: object
+      x-go-type:
+        type: SecretList
+        import:
+          package: k8s.io/api/core/v1
     owner:
       type: object
       description: Owner related to the Event

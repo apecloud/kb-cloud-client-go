@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // EnvironmentUpdate Environment info
 type EnvironmentUpdate struct {
 	// The description of the organization
