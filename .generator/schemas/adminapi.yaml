@@ -6948,13 +6948,6 @@ paths:
     get:
       operationId: getBackupStats
       summary: Get backup statistics
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -9333,7 +9326,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instancetypes:
+  /admin/v1/instance-types:
     get:
       tags:
         - instanceTypes
@@ -9375,7 +9368,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/instancetypes/{id}:
+  /admin/v1/instance-types/{id}:
     get:
       tags:
         - instanceTypes
