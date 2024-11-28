@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // EnvironmentStorage Storage config
 type EnvironmentStorage struct {
 	// the storage name
