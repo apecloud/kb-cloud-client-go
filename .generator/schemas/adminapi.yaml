@@ -9375,7 +9375,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/productTypes/{id}:
+  /admin/v1/instanceTypes/{id}:
     get:
       tags:
         - instanceTypes

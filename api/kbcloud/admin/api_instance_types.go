@@ -126,7 +126,7 @@ func (a *InstanceTypesApi) DeleteInstanceType(ctx _context.Context, id string) (
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/productTypes/{id}"
+	localVarPath := localBasePath + "/admin/v1/instanceTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -186,7 +186,7 @@ func (a *InstanceTypesApi) GetInstanceTypeById(ctx _context.Context, id string) 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/productTypes/{id}"
+	localVarPath := localBasePath + "/admin/v1/instanceTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -348,7 +348,7 @@ func (a *InstanceTypesApi) UpdateInstanceType(ctx _context.Context, id string, o
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/productTypes/{id}"
+	localVarPath := localBasePath + "/admin/v1/instanceTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
