@@ -242,7 +242,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
@@ -429,16 +429,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/orgUpdate'
         required: true
@@ -611,16 +602,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/orgMemberUpdate'
         required: true
@@ -1506,16 +1488,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/clusterUpdate'
         required: true
@@ -4996,16 +4969,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/paramTplUpdate'
         required: true
@@ -5338,16 +5302,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertReceiver'
         required: true

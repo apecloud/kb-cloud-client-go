@@ -154,7 +154,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
@@ -875,16 +875,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/clusterUpdate'
         required: true
@@ -2481,16 +2472,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/paramTplUpdate'
         required: true
@@ -7693,16 +7675,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/apply-patch+yaml:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertTemplate'
         required: true
@@ -7959,16 +7932,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertReceiver'
         required: true
@@ -15237,7 +15201,7 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
-    environmentCluster:
+    staticCluster:
       properties:
         replicas:
           title: Replicas
@@ -15270,7 +15234,7 @@ components:
         config:
           $ref: '#/components/schemas/storageCreate'
         cluster:
-          $ref: '#/components/schemas/environmentCluster'
+          $ref: '#/components/schemas/staticCluster'
     storageConfig:
       type: object
       description: Storage config for environment

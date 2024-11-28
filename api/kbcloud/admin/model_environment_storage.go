@@ -15,8 +15,8 @@ type EnvironmentStorage struct {
 	// the existed cluster namespace for creating storage
 	ReusedClusterNamespace *string `json:"reusedClusterNamespace,omitempty"`
 	// storageCreate is the schema for the storage create request
-	Config  *StorageCreate      `json:"config,omitempty"`
-	Cluster *EnvironmentCluster `json:"cluster,omitempty"`
+	Config  *StorageCreate `json:"config,omitempty"`
+	Cluster *StaticCluster `json:"cluster,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -180,9 +180,9 @@ func (o *EnvironmentStorage) SetConfig(v StorageCreate) {
 }
 
 // GetCluster returns the Cluster field value if set, zero value otherwise.
-func (o *EnvironmentStorage) GetCluster() EnvironmentCluster {
+func (o *EnvironmentStorage) GetCluster() StaticCluster {
 	if o == nil || o.Cluster == nil {
-		var ret EnvironmentCluster
+		var ret StaticCluster
 		return ret
 	}
 	return *o.Cluster
@@ -190,7 +190,7 @@ func (o *EnvironmentStorage) GetCluster() EnvironmentCluster {
 
 // GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentStorage) GetClusterOk() (*EnvironmentCluster, bool) {
+func (o *EnvironmentStorage) GetClusterOk() (*StaticCluster, bool) {
 	if o == nil || o.Cluster == nil {
 		return nil, false
 	}
@@ -202,8 +202,8 @@ func (o *EnvironmentStorage) HasCluster() bool {
 	return o != nil && o.Cluster != nil
 }
 
-// SetCluster gets a reference to the given EnvironmentCluster and assigns it to the Cluster field.
-func (o *EnvironmentStorage) SetCluster(v EnvironmentCluster) {
+// SetCluster gets a reference to the given StaticCluster and assigns it to the Cluster field.
+func (o *EnvironmentStorage) SetCluster(v StaticCluster) {
 	o.Cluster = &v
 }
 
@@ -246,7 +246,7 @@ func (o *EnvironmentStorage) UnmarshalJSON(bytes []byte) (err error) {
 		ReusedClusterName      *string                 `json:"reusedClusterName,omitempty"`
 		ReusedClusterNamespace *string                 `json:"reusedClusterNamespace,omitempty"`
 		Config                 *StorageCreate          `json:"config,omitempty"`
-		Cluster                *EnvironmentCluster     `json:"cluster,omitempty"`
+		Cluster                *StaticCluster          `json:"cluster,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
