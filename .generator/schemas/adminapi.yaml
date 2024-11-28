@@ -9333,7 +9333,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instanceTypes:
+  /admin/v1/instancetypes:
     get:
       tags:
         - instanceTypes
@@ -9375,7 +9375,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/instanceTypes/{id}:
+  /admin/v1/instancetypes/{id}:
     get:
       tags:
         - instanceTypes
@@ -14692,8 +14692,6 @@ components:
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
-      required:
-        - replicas
       properties:
         component:
           description: component type
@@ -14701,6 +14699,11 @@ components:
         replicas:
           description: number of replicas
           type: integer
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -15201,6 +15204,21 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+    staticCluster:
+      properties:
+        replicas:
+          title: Replicas
+          type: integer
+          description: the number of replicas
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+        classCode:
+          type: string
     environmentStorage:
       type: object
       description: Storage config
@@ -15218,6 +15236,8 @@ components:
           type: string
         config:
           $ref: '#/components/schemas/storageCreate'
+        cluster:
+          $ref: '#/components/schemas/staticCluster'
     storageConfig:
       type: object
       description: Storage config for environment
