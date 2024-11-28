@@ -6948,13 +6948,6 @@ paths:
     get:
       operationId: getBackupStats
       summary: Get backup statistics
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           content:
