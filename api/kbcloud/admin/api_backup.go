@@ -376,7 +376,7 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 }
 
 // GetBackupStats Get backup statistics.
-func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (BackupStats, *_nethttp.Response, error) {
+func (a *BackupApi) GetBackupStats(ctx _context.Context) (BackupStats, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -393,7 +393,6 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (Backup
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
