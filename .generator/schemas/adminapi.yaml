@@ -154,7 +154,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
@@ -875,16 +875,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/clusterUpdate'
         required: true
@@ -2481,16 +2472,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/paramTplUpdate'
         required: true
@@ -6966,13 +6948,6 @@ paths:
     get:
       operationId: getBackupStats
       summary: Get backup statistics
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -7693,16 +7668,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/apply-patch+yaml:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertTemplate'
         required: true
@@ -7959,16 +7925,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertReceiver'
         required: true
@@ -9369,7 +9326,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instanceTypes:
+  /admin/v1/instance-types:
     get:
       tags:
         - instanceTypes
@@ -9411,7 +9368,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/productTypes/{id}:
+  /admin/v1/instance-types/{id}:
     get:
       tags:
         - instanceTypes
@@ -12499,9 +12456,6 @@ components:
       description: the item of the parameter template
       type: object
       properties:
-        componentDefRef:
-          type: string
-          description: component type, refer to componentDef and support NamePrefix, Deprecated.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -12526,98 +12480,94 @@ components:
         - Halt
         - Delete
         - WipeOut
+    componentVolumeItem:
+      description: ComponentVolumeItem is the information of a component volume
+      type: object
+      properties:
+        name:
+          type: string
+          description: volume name
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+    componentItem:
+      type: object
+      description: ComponentItem is the information of a component
+      properties:
+        name:
+          type: string
+          description: component name
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix
+        compNum:
+          title: CompNum
+          type: integer
+          description: number of components
+        replicas:
+          title: Replicas
+          maximum: 5
+          minimum: 1
+          type: integer
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        classCode:
+          type: string
+        classSeries:
+          type: string
+        cpu:
+          title: CPU
+          multipleOf: 0.5
+          maximum: 64
+          minimum: 0.5
+          type: number
+          description: CPU cores.
+          format: double
+        memory:
+          title: Memory(Gi)
+          maximum: 1000
+          minimum: 0.5
+          type: number
+          description: Memory, the unit is Gi.
+          format: double
+        storageClass:
+          title: StorageClass
+          type: string
+          description: StorageClass name
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/componentVolumeItem'
+        codeShort:
+          description: Cluster main component codeShort
+          type: string
     components:
       type: array
-      description: Items is the list of ComponentSpec in the list
+      description: Components is the list of components
       items:
-        type: object
-        properties:
-          name:
+        $ref: '#/components/schemas/componentItem'
+    initOptionItem:
+      description: InitOptionItem is the information of init option
+      type: object
+      properties:
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix'
+        initParams:
+          type: object
+          additionalProperties:
             type: string
-            description: component name
-          component:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix
-          componentDef:
-            type: string
-            description: componentDefinition name
-          compNum:
-            title: CompNum
-            type: integer
-            description: number of components
-          monitor:
-            type: boolean
-            description: enable monitor
-          replicas:
-            title: Replicas
-            maximum: 5
-            minimum: 1
-            type: integer
-            description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-          classCode:
-            type: string
-          classSeries:
-            type: string
-          cpu:
-            title: CPU
-            multipleOf: 0.5
-            maximum: 64
-            minimum: 0.5
-            type: number
-            description: CPU cores.
-            format: double
-          memory:
-            title: Memory(Gi)
-            maximum: 1000
-            minimum: 0.5
-            type: number
-            description: Memory, the unit is Gi.
-            format: double
-          storage:
-            title: Storage
-            type: string
-            description: Storage
-          storageClass:
-            title: StorageClass
-            type: string
-            description: StorageClass name
-          volumes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: volume name
-                storage:
-                  title: Storage(Gi)
-                  maximum: 10000
-                  minimum: 1
-                  type: number
-                  description: Storage size, the unit is Gi.
-                  format: double
-          codeShort:
-            description: Cluster main component codeShort
-            type: string
+        specName:
+          type: string
+          description: config spec name
     initOptions:
       type: array
-      description: Items is the list of init Options in the list
+      description: InitOptions is the list of init option
       items:
-        type: object
-        properties:
-          component:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix'
-          componentDefRef:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix, Deprecated
-          initParams:
-            type: object
-            additionalProperties:
-              type: string
-          specName:
-            type: string
-            description: config spec name
+        $ref: '#/components/schemas/initOptionItem'
     backupRetentionPolicy:
       type: string
       description: backup retention policy when cluster is deleted
@@ -12713,17 +12663,11 @@ components:
           title: Cloud Region
           type: string
           description: Cloud Region
-        namespace:
-          title: Environment Namespace
-          type: string
-          default: kubeblocks-cloud-ns
-          description: Environment Namespace
-          deprecated: true
         project:
           title: Project
           type: string
           default: kubeblocks-cloud-ns
-          description: Name of project
+          description: Name of project, it is the alias of environment namespace
         name:
           title: Name
           type: string
@@ -12740,59 +12684,12 @@ components:
           $ref: '#/components/schemas/clusterLicense'
         paramTpls:
           $ref: '#/components/schemas/paramTpls'
-        Values:
-          type: object
-          additionalProperties: true
-          description: Values
         version:
           title: Version
           type: string
           description: Cluster Application Version
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-          default: false
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-          default: false
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-          default: false
         tlsEnabled:
           title: TLS Enabled
           type: boolean
@@ -12817,10 +12714,6 @@ components:
           type: string
           description: UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
           format: date-time
-        createOnlySet:
-          title: CreateOnlySet
-          type: boolean
-          description: CreateOnlySet
         mode:
           title: Mode
           type: string
@@ -12833,21 +12726,14 @@ components:
         components:
           $ref: '#/components/schemas/components'
         extra:
-          title: Values
+          title: Extra
           type: object
           additionalProperties:
             type: object
             properties: {}
-          description: Values
+          description: Extra configuration for cluster
         initOptions:
           $ref: '#/components/schemas/initOptions'
-        extraInfo:
-          title: ExtraInfo
-          type: object
-          additionalProperties:
-            type: object
-            properties: {}
-          description: ExtraInfo
         tolerations:
           title: Tolerations
           type: string
@@ -12889,54 +12775,8 @@ components:
     clusterUpdate:
       type: object
       properties:
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-        paramTpls:
-          $ref: '#/components/schemas/paramTpls'
-        tolerations:
-          title: Tolerations
-          type: string
-          description: Tolerations of cluster
         displayName:
           description: Display name of cluster.
           type: string
@@ -13072,7 +12912,6 @@ components:
         - Stop
         - Start
         - Expose
-        - DataScript
       type: string
     kubernetesManifests:
       description: Items is the list of Kubernetes objects in the list
@@ -14846,8 +14685,6 @@ components:
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
-      required:
-        - replicas
       properties:
         component:
           description: component type
@@ -14855,6 +14692,11 @@ components:
         replicas:
           description: number of replicas
           type: integer
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -15104,6 +14946,7 @@ components:
             type: string
           description: the mount options of the storage class
         createdAt:
+          nullable: true
           type: string
           format: date-time
           description: the creation time of the storage class
@@ -15120,6 +14963,7 @@ components:
           type: string
           description: the id of the storage class
         updatedAt:
+          nullable: true
           type: string
           format: date-time
           description: the update time of the storage class
@@ -15138,9 +14982,6 @@ components:
         - name
         - creationTimestamp
         - provisioner
-        - parameters
-        - labels
-        - annotations
         - reclaimPolicy
         - allowVolumeExpansion
         - volumeBindingMode
@@ -15149,14 +14990,10 @@ components:
         - allowSnapshot
         - isDefaultClass
         - type
-        - mountOptions
-        - createdAt
         - description
         - displayName
         - enabled
         - id
-        - updatedAt
-        - statsByNodeList
       type: object
     storageClassList:
       description: StorageClassList stands for stats for storage classes.
@@ -15166,8 +15003,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageClassInfo'
-      required:
-        - items
       type: object
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
@@ -15355,6 +15190,21 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+    staticCluster:
+      properties:
+        replicas:
+          title: Replicas
+          type: integer
+          description: the number of replicas
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+        classCode:
+          type: string
     environmentStorage:
       type: object
       description: Storage config
@@ -15372,6 +15222,8 @@ components:
           type: string
         config:
           $ref: '#/components/schemas/storageCreate'
+        cluster:
+          $ref: '#/components/schemas/staticCluster'
     storageConfig:
       type: object
       description: Storage config for environment
@@ -15990,43 +15842,115 @@ components:
           description: Default SSH configuration for all nodes. Individual node SSH config will override this
           $ref: '#/components/schemas/sshConfig'
           x-nullable: true
-    taskOperation:
+    taskType:
       type: string
       enum:
         - ScaleOut
         - ScaleIn
-      description: Type of scaling operation
+        - DrDeletion
+        - DrCreation
+        - DrPromotion
+      description: Type of task operation
     taskStatus:
       type: string
       enum:
         - Pending
-        - InProgress
-        - Completed
+        - Running
+        - Stopped
+        - Succeed
         - Failed
       description: Current status of the task
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
     task:
       type: object
       required:
         - taskId
         - status
-        - operation
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
       properties:
         taskId:
           type: string
           description: ID of the scaling task
-        operation:
-          $ref: '#/components/schemas/taskOperation'
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          $ref: '#/components/schemas/taskType'
         status:
           $ref: '#/components/schemas/taskStatus'
-        progress:
-          type: integer
-          minimum: 0
-          maximum: 100
-          description: Progress percentage of the task
-        startTime:
+        createdAt:
           type: string
           format: date-time
-          description: Time when the task started
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
         completionTime:
           type: string
           format: date-time
@@ -16036,6 +15960,26 @@ components:
           type: string
           description: Detailed message about the task status
           x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
     scaleInType:
       type: string
       enum:
@@ -16499,15 +16443,14 @@ components:
       description: StorageProvisioner provides detailed information about the provisioner used by storage classes.
       properties:
         provisioner:
+          nullable: true
           type: string
         type:
+          nullable: true
           type: string
         cloudProvider:
+          nullable: true
           type: string
-      required:
-        - provisioner
-        - type
-        - cloudProvider
       type: object
     storageProvisionerList:
       description: StorageProvisionerList stands for stats for provisioners can be used by storage classes.
@@ -16554,24 +16497,24 @@ components:
           type: string
         capacity:
           description: the capacity of the PVC
+          nullable: true
           type: string
         accessMode:
           description: access mode of the PVC
+          nullable: true
           type: string
         volumeName:
           description: the persistentvolume of the PVC
+          nullable: true
           type: string
         node:
           description: the node of the PVC
+          nullable: true
           type: string
       required:
         - nameSpace
         - name
         - phase
-        - capacity
-        - accessMode
-        - volumeName
-        - node
       type: object
     persistentVolumeClaimList:
       description: the List stands for stats for persistentvolumeclaims.
@@ -16582,21 +16525,19 @@ components:
             $ref: '#/components/schemas/persistentVolumeClaim'
         currentPage:
           description: the current page number
+          nullable: true
           format: int64
           type: integer
         totalPage:
           description: the total page number
+          nullable: true
           format: int64
           type: integer
         pageSize:
           description: the page size
+          nullable: true
           format: int64
           type: integer
-      required:
-        - items
-        - currentPage
-        - totalPage
-        - pageSize
       type: object
     nodeGroup:
       required:
@@ -18401,17 +18342,19 @@ components:
       enum:
         - instant
         - range
+    metricsOptionQuery:
+      type: object
+      properties:
+        queryPattern:
+          type: string
+          x-nullable: false
+        queryType:
+          $ref: '#/components/schemas/engineOptionsMetricsQueryType'
     metricsOption:
       type: object
       properties:
         replicationLag:
-          type: object
-          properties:
-            queryPattern:
-              type: string
-              x-nullable: false
-            queryType:
-              $ref: '#/components/schemas/engineOptionsMetricsQueryType'
+          $ref: '#/components/schemas/metricsOptionQuery'
     dashboardOption:
       type: object
       required:
@@ -18551,6 +18494,18 @@ components:
         disableHA:
           type: boolean
           default: false
+    engineOptionsDisasterRecoverySource:
+      type: object
+      properties:
+        metricSource:
+          $ref: '#/components/schemas/metricsOptionQuery'
+    engineOptionsDisasterRecoveryStatus:
+      type: object
+      properties:
+        delay:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
+        replicationPoint:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
     disasterRecoveryOption:
       type: object
       required:
@@ -18561,6 +18516,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        status:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     engineOption:
       type: object
       required:
@@ -18904,8 +18861,11 @@ components:
           type: string
           description: The license mode
     licenseRequest:
+      required:
+        - key
       properties:
         key:
+          x-nullable: false
           type: string
           description: License key
     class:
