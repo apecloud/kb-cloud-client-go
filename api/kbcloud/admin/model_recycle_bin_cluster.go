@@ -53,8 +53,8 @@ type RecycleBinCluster struct {
 	State *string `json:"state,omitempty"`
 	// Cluster topology mode
 	Mode *string `json:"mode,omitempty"`
-	// Items is the list of ComponentSpec in the list
-	Components []ComponentsItem `json:"components,omitempty"`
+	// Components is the list of components
+	Components []ComponentItem `json:"components,omitempty"`
 	// Use single availability zones
 	SingleZone *bool `json:"singleZone,omitempty"`
 	// Availability Zones
@@ -674,9 +674,9 @@ func (o *RecycleBinCluster) SetMode(v string) {
 }
 
 // GetComponents returns the Components field value if set, zero value otherwise.
-func (o *RecycleBinCluster) GetComponents() []ComponentsItem {
+func (o *RecycleBinCluster) GetComponents() []ComponentItem {
 	if o == nil || o.Components == nil {
-		var ret []ComponentsItem
+		var ret []ComponentItem
 		return ret
 	}
 	return o.Components
@@ -684,7 +684,7 @@ func (o *RecycleBinCluster) GetComponents() []ComponentsItem {
 
 // GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RecycleBinCluster) GetComponentsOk() (*[]ComponentsItem, bool) {
+func (o *RecycleBinCluster) GetComponentsOk() (*[]ComponentItem, bool) {
 	if o == nil || o.Components == nil {
 		return nil, false
 	}
@@ -696,8 +696,8 @@ func (o *RecycleBinCluster) HasComponents() bool {
 	return o != nil && o.Components != nil
 }
 
-// SetComponents gets a reference to the given []ComponentsItem and assigns it to the Components field.
-func (o *RecycleBinCluster) SetComponents(v []ComponentsItem) {
+// SetComponents gets a reference to the given []ComponentItem and assigns it to the Components field.
+func (o *RecycleBinCluster) SetComponents(v []ComponentItem) {
 	o.Components = v
 }
 
@@ -996,7 +996,7 @@ func (o *RecycleBinCluster) UnmarshalJSON(bytes []byte) (err error) {
 		Status            *string                `json:"status,omitempty"`
 		State             *string                `json:"state,omitempty"`
 		Mode              *string                `json:"mode,omitempty"`
-		Components        []ComponentsItem       `json:"components,omitempty"`
+		Components        []ComponentItem        `json:"components,omitempty"`
 		SingleZone        *bool                  `json:"singleZone,omitempty"`
 		AvailabilityZones []string               `json:"availabilityZones,omitempty"`
 		Backup            *ClusterBackup         `json:"backup,omitempty"`
