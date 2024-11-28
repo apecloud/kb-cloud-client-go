@@ -7,8 +7,6 @@ package admin
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // StorageClassInfo StorageClassInfo provides detailed information about a specific storage class.
@@ -20,11 +18,11 @@ type StorageClassInfo struct {
 	// the provisioner of the storage class
 	Provisioner string `json:"provisioner"`
 	// the parameters of the storage class
-	Parameters map[string]string `json:"parameters"`
+	Parameters map[string]string `json:"parameters,omitempty"`
 	// the labels of the storage class
-	Labels map[string]string `json:"labels"`
+	Labels map[string]string `json:"labels,omitempty"`
 	// the annotations of the storage class
-	Annotations map[string]string `json:"annotations"`
+	Annotations map[string]string `json:"annotations,omitempty"`
 	// the reclaim policy of the storage class
 	ReclaimPolicy string `json:"reclaimPolicy"`
 	// whether allow volume expansion
@@ -44,9 +42,9 @@ type StorageClassInfo struct {
 	// the host path when using local storage provisioner
 	HostPath *string `json:"hostPath,omitempty"`
 	// the mount options of the storage class
-	MountOptions []string `json:"mountOptions"`
+	MountOptions []string `json:"mountOptions,omitempty"`
 	// the creation time of the storage class
-	CreatedAt time.Time `json:"createdAt"`
+	CreatedAt common.NullableTime `json:"createdAt,omitempty"`
 	// the description of the storage class
 	Description string `json:"description"`
 	// the display name of the storage class
@@ -56,9 +54,9 @@ type StorageClassInfo struct {
 	// the id of the storage class
 	Id string `json:"id"`
 	// the update time of the storage class
-	UpdatedAt time.Time `json:"updatedAt"`
+	UpdatedAt common.NullableTime `json:"updatedAt,omitempty"`
 	// the List stands for stats for the storage volumes of nodes.
-	StatsByNodeList StorageClassInfoStatsByNodeList `json:"statsByNodeList"`
+	StatsByNodeList *StorageClassInfoStatsByNodeList `json:"statsByNodeList,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -68,14 +66,11 @@ type StorageClassInfo struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageClassInfo(name string, creationTimestamp string, provisioner string, parameters map[string]string, labels map[string]string, annotations map[string]string, reclaimPolicy string, allowVolumeExpansion bool, volumeBindingMode string, pvcCount string, allowClone bool, allowSnapshot bool, isDefaultClass bool, typeVar string, mountOptions []string, createdAt time.Time, description string, displayName string, enabled bool, id string, updatedAt time.Time, statsByNodeList StorageClassInfoStatsByNodeList) *StorageClassInfo {
+func NewStorageClassInfo(name string, creationTimestamp string, provisioner string, reclaimPolicy string, allowVolumeExpansion bool, volumeBindingMode string, pvcCount string, allowClone bool, allowSnapshot bool, isDefaultClass bool, typeVar string, description string, displayName string, enabled bool, id string) *StorageClassInfo {
 	this := StorageClassInfo{}
 	this.Name = name
 	this.CreationTimestamp = creationTimestamp
 	this.Provisioner = provisioner
-	this.Parameters = parameters
-	this.Labels = labels
-	this.Annotations = annotations
 	this.ReclaimPolicy = reclaimPolicy
 	this.AllowVolumeExpansion = allowVolumeExpansion
 	this.VolumeBindingMode = volumeBindingMode
@@ -84,14 +79,10 @@ func NewStorageClassInfo(name string, creationTimestamp string, provisioner stri
 	this.AllowSnapshot = allowSnapshot
 	this.IsDefaultClass = isDefaultClass
 	this.Type = typeVar
-	this.MountOptions = mountOptions
-	this.CreatedAt = createdAt
 	this.Description = description
 	this.DisplayName = displayName
 	this.Enabled = enabled
 	this.Id = id
-	this.UpdatedAt = updatedAt
-	this.StatsByNodeList = statsByNodeList
 	return &this
 }
 
@@ -172,71 +163,86 @@ func (o *StorageClassInfo) SetProvisioner(v string) {
 	o.Provisioner = v
 }
 
-// GetParameters returns the Parameters field value.
+// GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *StorageClassInfo) GetParameters() map[string]string {
-	if o == nil {
+	if o == nil || o.Parameters == nil {
 		var ret map[string]string
 		return ret
 	}
 	return o.Parameters
 }
 
-// GetParametersOk returns a tuple with the Parameters field value
+// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageClassInfo) GetParametersOk() (*map[string]string, bool) {
-	if o == nil {
+	if o == nil || o.Parameters == nil {
 		return nil, false
 	}
 	return &o.Parameters, true
 }
 
-// SetParameters sets field value.
+// HasParameters returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasParameters() bool {
+	return o != nil && o.Parameters != nil
+}
+
+// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
 func (o *StorageClassInfo) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
 
-// GetLabels returns the Labels field value.
+// GetLabels returns the Labels field value if set, zero value otherwise.
 func (o *StorageClassInfo) GetLabels() map[string]string {
-	if o == nil {
+	if o == nil || o.Labels == nil {
 		var ret map[string]string
 		return ret
 	}
 	return o.Labels
 }
 
-// GetLabelsOk returns a tuple with the Labels field value
+// GetLabelsOk returns a tuple with the Labels field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageClassInfo) GetLabelsOk() (*map[string]string, bool) {
-	if o == nil {
+	if o == nil || o.Labels == nil {
 		return nil, false
 	}
 	return &o.Labels, true
 }
 
-// SetLabels sets field value.
+// HasLabels returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasLabels() bool {
+	return o != nil && o.Labels != nil
+}
+
+// SetLabels gets a reference to the given map[string]string and assigns it to the Labels field.
 func (o *StorageClassInfo) SetLabels(v map[string]string) {
 	o.Labels = v
 }
 
-// GetAnnotations returns the Annotations field value.
+// GetAnnotations returns the Annotations field value if set, zero value otherwise.
 func (o *StorageClassInfo) GetAnnotations() map[string]string {
-	if o == nil {
+	if o == nil || o.Annotations == nil {
 		var ret map[string]string
 		return ret
 	}
 	return o.Annotations
 }
 
-// GetAnnotationsOk returns a tuple with the Annotations field value
+// GetAnnotationsOk returns a tuple with the Annotations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageClassInfo) GetAnnotationsOk() (*map[string]string, bool) {
-	if o == nil {
+	if o == nil || o.Annotations == nil {
 		return nil, false
 	}
 	return &o.Annotations, true
 }
 
-// SetAnnotations sets field value.
+// HasAnnotations returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasAnnotations() bool {
+	return o != nil && o.Annotations != nil
+}
+
+// SetAnnotations gets a reference to the given map[string]string and assigns it to the Annotations field.
 func (o *StorageClassInfo) SetAnnotations(v map[string]string) {
 	o.Annotations = v
 }
@@ -453,50 +459,71 @@ func (o *StorageClassInfo) SetHostPath(v string) {
 	o.HostPath = &v
 }
 
-// GetMountOptions returns the MountOptions field value.
+// GetMountOptions returns the MountOptions field value if set, zero value otherwise.
 func (o *StorageClassInfo) GetMountOptions() []string {
-	if o == nil {
+	if o == nil || o.MountOptions == nil {
 		var ret []string
 		return ret
 	}
 	return o.MountOptions
 }
 
-// GetMountOptionsOk returns a tuple with the MountOptions field value
+// GetMountOptionsOk returns a tuple with the MountOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageClassInfo) GetMountOptionsOk() (*[]string, bool) {
-	if o == nil {
+	if o == nil || o.MountOptions == nil {
 		return nil, false
 	}
 	return &o.MountOptions, true
 }
 
-// SetMountOptions sets field value.
+// HasMountOptions returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasMountOptions() bool {
+	return o != nil && o.MountOptions != nil
+}
+
+// SetMountOptions gets a reference to the given []string and assigns it to the MountOptions field.
 func (o *StorageClassInfo) SetMountOptions(v []string) {
 	o.MountOptions = v
 }
 
-// GetCreatedAt returns the CreatedAt field value.
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *StorageClassInfo) GetCreatedAt() time.Time {
-	if o == nil {
+	if o == nil || o.CreatedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.CreatedAt
+	return *o.CreatedAt.Get()
 }
 
-// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *StorageClassInfo) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CreatedAt, true
+	return o.CreatedAt.Get(), o.CreatedAt.IsSet()
 }
 
-// SetCreatedAt sets field value.
+// HasCreatedAt returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasCreatedAt() bool {
+	return o != nil && o.CreatedAt.IsSet()
+}
+
+// SetCreatedAt gets a reference to the given common.NullableTime and assigns it to the CreatedAt field.
 func (o *StorageClassInfo) SetCreatedAt(v time.Time) {
-	o.CreatedAt = v
+	o.CreatedAt.Set(&v)
+}
+
+// SetCreatedAtNil sets the value for CreatedAt to be an explicit nil.
+func (o *StorageClassInfo) SetCreatedAtNil() {
+	o.CreatedAt.Set(nil)
+}
+
+// UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil.
+func (o *StorageClassInfo) UnsetCreatedAt() {
+	o.CreatedAt.Unset()
 }
 
 // GetDescription returns the Description field value.
@@ -591,50 +618,71 @@ func (o *StorageClassInfo) SetId(v string) {
 	o.Id = v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value.
+// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *StorageClassInfo) GetUpdatedAt() time.Time {
-	if o == nil {
+	if o == nil || o.UpdatedAt.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.UpdatedAt
+	return *o.UpdatedAt.Get()
 }
 
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *StorageClassInfo) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.UpdatedAt, true
+	return o.UpdatedAt.Get(), o.UpdatedAt.IsSet()
 }
 
-// SetUpdatedAt sets field value.
+// HasUpdatedAt returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasUpdatedAt() bool {
+	return o != nil && o.UpdatedAt.IsSet()
+}
+
+// SetUpdatedAt gets a reference to the given common.NullableTime and assigns it to the UpdatedAt field.
 func (o *StorageClassInfo) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = v
+	o.UpdatedAt.Set(&v)
 }
 
-// GetStatsByNodeList returns the StatsByNodeList field value.
+// SetUpdatedAtNil sets the value for UpdatedAt to be an explicit nil.
+func (o *StorageClassInfo) SetUpdatedAtNil() {
+	o.UpdatedAt.Set(nil)
+}
+
+// UnsetUpdatedAt ensures that no value is present for UpdatedAt, not even an explicit nil.
+func (o *StorageClassInfo) UnsetUpdatedAt() {
+	o.UpdatedAt.Unset()
+}
+
+// GetStatsByNodeList returns the StatsByNodeList field value if set, zero value otherwise.
 func (o *StorageClassInfo) GetStatsByNodeList() StorageClassInfoStatsByNodeList {
-	if o == nil {
+	if o == nil || o.StatsByNodeList == nil {
 		var ret StorageClassInfoStatsByNodeList
 		return ret
 	}
-	return o.StatsByNodeList
+	return *o.StatsByNodeList
 }
 
-// GetStatsByNodeListOk returns a tuple with the StatsByNodeList field value
+// GetStatsByNodeListOk returns a tuple with the StatsByNodeList field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageClassInfo) GetStatsByNodeListOk() (*StorageClassInfoStatsByNodeList, bool) {
-	if o == nil {
+	if o == nil || o.StatsByNodeList == nil {
 		return nil, false
 	}
-	return &o.StatsByNodeList, true
+	return o.StatsByNodeList, true
 }
 
-// SetStatsByNodeList sets field value.
+// HasStatsByNodeList returns a boolean if a field has been set.
+func (o *StorageClassInfo) HasStatsByNodeList() bool {
+	return o != nil && o.StatsByNodeList != nil
+}
+
+// SetStatsByNodeList gets a reference to the given StorageClassInfoStatsByNodeList and assigns it to the StatsByNodeList field.
 func (o *StorageClassInfo) SetStatsByNodeList(v StorageClassInfoStatsByNodeList) {
-	o.StatsByNodeList = v
+	o.StatsByNodeList = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -646,9 +694,15 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["creationTimestamp"] = o.CreationTimestamp
 	toSerialize["provisioner"] = o.Provisioner
-	toSerialize["parameters"] = o.Parameters
-	toSerialize["labels"] = o.Labels
-	toSerialize["annotations"] = o.Annotations
+	if o.Parameters != nil {
+		toSerialize["parameters"] = o.Parameters
+	}
+	if o.Labels != nil {
+		toSerialize["labels"] = o.Labels
+	}
+	if o.Annotations != nil {
+		toSerialize["annotations"] = o.Annotations
+	}
 	toSerialize["reclaimPolicy"] = o.ReclaimPolicy
 	toSerialize["allowVolumeExpansion"] = o.AllowVolumeExpansion
 	toSerialize["volumeBindingMode"] = o.VolumeBindingMode
@@ -660,22 +714,22 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	if o.HostPath != nil {
 		toSerialize["hostPath"] = o.HostPath
 	}
-	toSerialize["mountOptions"] = o.MountOptions
-	if o.CreatedAt.Nanosecond() == 0 {
-		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.MountOptions != nil {
+		toSerialize["mountOptions"] = o.MountOptions
+	}
+	if o.CreatedAt.IsSet() {
+		toSerialize["createdAt"] = o.CreatedAt.Get()
 	}
 	toSerialize["description"] = o.Description
 	toSerialize["displayName"] = o.DisplayName
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["id"] = o.Id
-	if o.UpdatedAt.Nanosecond() == 0 {
-		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.UpdatedAt.IsSet() {
+		toSerialize["updatedAt"] = o.UpdatedAt.Get()
 	}
-	toSerialize["statsByNodeList"] = o.StatsByNodeList
+	if o.StatsByNodeList != nil {
+		toSerialize["statsByNodeList"] = o.StatsByNodeList
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -689,9 +743,9 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 		Name                 *string                          `json:"name"`
 		CreationTimestamp    *string                          `json:"creationTimestamp"`
 		Provisioner          *string                          `json:"provisioner"`
-		Parameters           *map[string]string               `json:"parameters"`
-		Labels               *map[string]string               `json:"labels"`
-		Annotations          *map[string]string               `json:"annotations"`
+		Parameters           map[string]string                `json:"parameters,omitempty"`
+		Labels               map[string]string                `json:"labels,omitempty"`
+		Annotations          map[string]string                `json:"annotations,omitempty"`
 		ReclaimPolicy        *string                          `json:"reclaimPolicy"`
 		AllowVolumeExpansion *bool                            `json:"allowVolumeExpansion"`
 		VolumeBindingMode    *string                          `json:"volumeBindingMode"`
@@ -701,14 +755,14 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 		IsDefaultClass       *bool                            `json:"isDefaultClass"`
 		Type                 *string                          `json:"type"`
 		HostPath             *string                          `json:"hostPath,omitempty"`
-		MountOptions         *[]string                        `json:"mountOptions"`
-		CreatedAt            *time.Time                       `json:"createdAt"`
+		MountOptions         []string                         `json:"mountOptions,omitempty"`
+		CreatedAt            common.NullableTime              `json:"createdAt,omitempty"`
 		Description          *string                          `json:"description"`
 		DisplayName          *string                          `json:"displayName"`
 		Enabled              *bool                            `json:"enabled"`
 		Id                   *string                          `json:"id"`
-		UpdatedAt            *time.Time                       `json:"updatedAt"`
-		StatsByNodeList      *StorageClassInfoStatsByNodeList `json:"statsByNodeList"`
+		UpdatedAt            common.NullableTime              `json:"updatedAt,omitempty"`
+		StatsByNodeList      *StorageClassInfoStatsByNodeList `json:"statsByNodeList,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -721,15 +775,6 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Provisioner == nil {
 		return fmt.Errorf("required field provisioner missing")
-	}
-	if all.Parameters == nil {
-		return fmt.Errorf("required field parameters missing")
-	}
-	if all.Labels == nil {
-		return fmt.Errorf("required field labels missing")
-	}
-	if all.Annotations == nil {
-		return fmt.Errorf("required field annotations missing")
 	}
 	if all.ReclaimPolicy == nil {
 		return fmt.Errorf("required field reclaimPolicy missing")
@@ -755,12 +800,6 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")
 	}
-	if all.MountOptions == nil {
-		return fmt.Errorf("required field mountOptions missing")
-	}
-	if all.CreatedAt == nil {
-		return fmt.Errorf("required field createdAt missing")
-	}
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
@@ -773,12 +812,6 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Id == nil {
 		return fmt.Errorf("required field id missing")
 	}
-	if all.UpdatedAt == nil {
-		return fmt.Errorf("required field updatedAt missing")
-	}
-	if all.StatsByNodeList == nil {
-		return fmt.Errorf("required field statsByNodeList missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "statsByNodeList"})
@@ -790,9 +823,9 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.CreationTimestamp = *all.CreationTimestamp
 	o.Provisioner = *all.Provisioner
-	o.Parameters = *all.Parameters
-	o.Labels = *all.Labels
-	o.Annotations = *all.Annotations
+	o.Parameters = all.Parameters
+	o.Labels = all.Labels
+	o.Annotations = all.Annotations
 	o.ReclaimPolicy = *all.ReclaimPolicy
 	o.AllowVolumeExpansion = *all.AllowVolumeExpansion
 	o.VolumeBindingMode = *all.VolumeBindingMode
@@ -802,17 +835,17 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	o.IsDefaultClass = *all.IsDefaultClass
 	o.Type = *all.Type
 	o.HostPath = all.HostPath
-	o.MountOptions = *all.MountOptions
-	o.CreatedAt = *all.CreatedAt
+	o.MountOptions = all.MountOptions
+	o.CreatedAt = all.CreatedAt
 	o.Description = *all.Description
 	o.DisplayName = *all.DisplayName
 	o.Enabled = *all.Enabled
 	o.Id = *all.Id
-	o.UpdatedAt = *all.UpdatedAt
-	if all.StatsByNodeList.UnparsedObject != nil && o.UnparsedObject == nil {
+	o.UpdatedAt = all.UpdatedAt
+	if all.StatsByNodeList != nil && all.StatsByNodeList.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.StatsByNodeList = *all.StatsByNodeList
+	o.StatsByNodeList = all.StatsByNodeList
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

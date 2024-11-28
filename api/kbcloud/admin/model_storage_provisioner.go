@@ -4,17 +4,11 @@
 
 package admin
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
 // StorageProvisioner StorageProvisioner provides detailed information about the provisioner used by storage classes.
 type StorageProvisioner struct {
-	Provisioner   string `json:"provisioner"`
-	Type          string `json:"type"`
-	CloudProvider string `json:"cloudProvider"`
+	Provisioner   common.NullableString `json:"provisioner,omitempty"`
+	Type          common.NullableString `json:"type,omitempty"`
+	CloudProvider common.NullableString `json:"cloudProvider,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,11 +18,8 @@ type StorageProvisioner struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageProvisioner(provisioner string, typeVar string, cloudProvider string) *StorageProvisioner {
+func NewStorageProvisioner() *StorageProvisioner {
 	this := StorageProvisioner{}
-	this.Provisioner = provisioner
-	this.Type = typeVar
-	this.CloudProvider = cloudProvider
 	return &this
 }
 
@@ -40,73 +31,121 @@ func NewStorageProvisionerWithDefaults() *StorageProvisioner {
 	return &this
 }
 
-// GetProvisioner returns the Provisioner field value.
+// GetProvisioner returns the Provisioner field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *StorageProvisioner) GetProvisioner() string {
-	if o == nil {
+	if o == nil || o.Provisioner.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.Provisioner
+	return *o.Provisioner.Get()
 }
 
-// GetProvisionerOk returns a tuple with the Provisioner field value
+// GetProvisionerOk returns a tuple with the Provisioner field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *StorageProvisioner) GetProvisionerOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Provisioner, true
+	return o.Provisioner.Get(), o.Provisioner.IsSet()
 }
 
-// SetProvisioner sets field value.
+// HasProvisioner returns a boolean if a field has been set.
+func (o *StorageProvisioner) HasProvisioner() bool {
+	return o != nil && o.Provisioner.IsSet()
+}
+
+// SetProvisioner gets a reference to the given common.NullableString and assigns it to the Provisioner field.
 func (o *StorageProvisioner) SetProvisioner(v string) {
-	o.Provisioner = v
+	o.Provisioner.Set(&v)
 }
 
-// GetType returns the Type field value.
+// SetProvisionerNil sets the value for Provisioner to be an explicit nil.
+func (o *StorageProvisioner) SetProvisionerNil() {
+	o.Provisioner.Set(nil)
+}
+
+// UnsetProvisioner ensures that no value is present for Provisioner, not even an explicit nil.
+func (o *StorageProvisioner) UnsetProvisioner() {
+	o.Provisioner.Unset()
+}
+
+// GetType returns the Type field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *StorageProvisioner) GetType() string {
-	if o == nil {
+	if o == nil || o.Type.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.Type
+	return *o.Type.Get()
 }
 
-// GetTypeOk returns a tuple with the Type field value
+// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *StorageProvisioner) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Type, true
+	return o.Type.Get(), o.Type.IsSet()
 }
 
-// SetType sets field value.
+// HasType returns a boolean if a field has been set.
+func (o *StorageProvisioner) HasType() bool {
+	return o != nil && o.Type.IsSet()
+}
+
+// SetType gets a reference to the given common.NullableString and assigns it to the Type field.
 func (o *StorageProvisioner) SetType(v string) {
-	o.Type = v
+	o.Type.Set(&v)
 }
 
-// GetCloudProvider returns the CloudProvider field value.
+// SetTypeNil sets the value for Type to be an explicit nil.
+func (o *StorageProvisioner) SetTypeNil() {
+	o.Type.Set(nil)
+}
+
+// UnsetType ensures that no value is present for Type, not even an explicit nil.
+func (o *StorageProvisioner) UnsetType() {
+	o.Type.Unset()
+}
+
+// GetCloudProvider returns the CloudProvider field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *StorageProvisioner) GetCloudProvider() string {
-	if o == nil {
+	if o == nil || o.CloudProvider.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.CloudProvider
+	return *o.CloudProvider.Get()
 }
 
-// GetCloudProviderOk returns a tuple with the CloudProvider field value
+// GetCloudProviderOk returns a tuple with the CloudProvider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *StorageProvisioner) GetCloudProviderOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CloudProvider, true
+	return o.CloudProvider.Get(), o.CloudProvider.IsSet()
 }
 
-// SetCloudProvider sets field value.
+// HasCloudProvider returns a boolean if a field has been set.
+func (o *StorageProvisioner) HasCloudProvider() bool {
+	return o != nil && o.CloudProvider.IsSet()
+}
+
+// SetCloudProvider gets a reference to the given common.NullableString and assigns it to the CloudProvider field.
 func (o *StorageProvisioner) SetCloudProvider(v string) {
-	o.CloudProvider = v
+	o.CloudProvider.Set(&v)
+}
+
+// SetCloudProviderNil sets the value for CloudProvider to be an explicit nil.
+func (o *StorageProvisioner) SetCloudProviderNil() {
+	o.CloudProvider.Set(nil)
+}
+
+// UnsetCloudProvider ensures that no value is present for CloudProvider, not even an explicit nil.
+func (o *StorageProvisioner) UnsetCloudProvider() {
+	o.CloudProvider.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -115,9 +154,15 @@ func (o StorageProvisioner) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["provisioner"] = o.Provisioner
-	toSerialize["type"] = o.Type
-	toSerialize["cloudProvider"] = o.CloudProvider
+	if o.Provisioner.IsSet() {
+		toSerialize["provisioner"] = o.Provisioner.Get()
+	}
+	if o.Type.IsSet() {
+		toSerialize["type"] = o.Type.Get()
+	}
+	if o.CloudProvider.IsSet() {
+		toSerialize["cloudProvider"] = o.CloudProvider.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -128,21 +173,12 @@ func (o StorageProvisioner) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProvisioner) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provisioner   *string `json:"provisioner"`
-		Type          *string `json:"type"`
-		CloudProvider *string `json:"cloudProvider"`
+		Provisioner   common.NullableString `json:"provisioner,omitempty"`
+		Type          common.NullableString `json:"type,omitempty"`
+		CloudProvider common.NullableString `json:"cloudProvider,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.Provisioner == nil {
-		return fmt.Errorf("required field provisioner missing")
-	}
-	if all.Type == nil {
-		return fmt.Errorf("required field type missing")
-	}
-	if all.CloudProvider == nil {
-		return fmt.Errorf("required field cloudProvider missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -150,9 +186,9 @@ func (o *StorageProvisioner) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Provisioner = *all.Provisioner
-	o.Type = *all.Type
-	o.CloudProvider = *all.CloudProvider
+	o.Provisioner = all.Provisioner
+	o.Type = all.Type
+	o.CloudProvider = all.CloudProvider
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
