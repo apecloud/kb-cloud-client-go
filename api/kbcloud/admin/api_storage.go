@@ -302,7 +302,7 @@ func (a *StorageApi) ImportBackup(ctx _context.Context, environmentName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/storages/{storageName}/import"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/storages/{storageName}/importBackup"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"storageName"+"}", _neturl.PathEscape(common.ParameterToString(storageName, "")), -1)
 

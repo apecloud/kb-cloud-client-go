@@ -476,7 +476,7 @@ func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramT
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
-	localVarHeaderParams["Content-Type"] = "application/apply-patch+yaml"
+	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
