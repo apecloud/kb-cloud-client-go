@@ -9607,6 +9607,7 @@ components:
             type: string
           description: the mount options of the storage class
         createdAt:
+          nullable: true
           type: string
           format: date-time
           description: the creation time of the storage class
@@ -9623,6 +9624,7 @@ components:
           type: string
           description: the id of the storage class
         updatedAt:
+          nullable: true
           type: string
           format: date-time
           description: the update time of the storage class
@@ -9641,9 +9643,6 @@ components:
         - name
         - creationTimestamp
         - provisioner
-        - parameters
-        - labels
-        - annotations
         - reclaimPolicy
         - allowVolumeExpansion
         - volumeBindingMode
@@ -9652,14 +9651,10 @@ components:
         - allowSnapshot
         - isDefaultClass
         - type
-        - mountOptions
-        - createdAt
         - description
         - displayName
         - enabled
         - id
-        - updatedAt
-        - statsByNodeList
       type: object
     storageClassList:
       description: StorageClassList stands for stats for storage classes.
@@ -9669,8 +9664,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageClassInfo'
-      required:
-        - items
       type: object
     loadBalancerAvailableType:
       description: Whether the loadbalancer is available in the environment.
