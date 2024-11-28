@@ -14692,8 +14692,6 @@ components:
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
-      required:
-        - replicas
       properties:
         component:
           description: component type
@@ -14701,6 +14699,11 @@ components:
         replicas:
           description: number of replicas
           type: integer
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
