@@ -8,7 +8,6 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -90,12 +89,12 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ..
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/events"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/events"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
 	if optionalParams.ResourceId != nil {
 		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
 	}
