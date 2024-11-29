@@ -2,11 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type MetricsOptionReplicationLag struct {
+type MetricsOptionQuery struct {
 	QueryPattern *string `json:"queryPattern,omitempty"`
 	// Specifies the type of metrics query to be performed.
 	// 'instant' for a single point in time, 'range' for a time range.
@@ -17,25 +17,25 @@ type MetricsOptionReplicationLag struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewMetricsOptionReplicationLag instantiates a new MetricsOptionReplicationLag object.
+// NewMetricsOptionQuery instantiates a new MetricsOptionQuery object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewMetricsOptionReplicationLag() *MetricsOptionReplicationLag {
-	this := MetricsOptionReplicationLag{}
+func NewMetricsOptionQuery() *MetricsOptionQuery {
+	this := MetricsOptionQuery{}
 	return &this
 }
 
-// NewMetricsOptionReplicationLagWithDefaults instantiates a new MetricsOptionReplicationLag object.
+// NewMetricsOptionQueryWithDefaults instantiates a new MetricsOptionQuery object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewMetricsOptionReplicationLagWithDefaults() *MetricsOptionReplicationLag {
-	this := MetricsOptionReplicationLag{}
+func NewMetricsOptionQueryWithDefaults() *MetricsOptionQuery {
+	this := MetricsOptionQuery{}
 	return &this
 }
 
 // GetQueryPattern returns the QueryPattern field value if set, zero value otherwise.
-func (o *MetricsOptionReplicationLag) GetQueryPattern() string {
+func (o *MetricsOptionQuery) GetQueryPattern() string {
 	if o == nil || o.QueryPattern == nil {
 		var ret string
 		return ret
@@ -45,7 +45,7 @@ func (o *MetricsOptionReplicationLag) GetQueryPattern() string {
 
 // GetQueryPatternOk returns a tuple with the QueryPattern field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetricsOptionReplicationLag) GetQueryPatternOk() (*string, bool) {
+func (o *MetricsOptionQuery) GetQueryPatternOk() (*string, bool) {
 	if o == nil || o.QueryPattern == nil {
 		return nil, false
 	}
@@ -53,17 +53,17 @@ func (o *MetricsOptionReplicationLag) GetQueryPatternOk() (*string, bool) {
 }
 
 // HasQueryPattern returns a boolean if a field has been set.
-func (o *MetricsOptionReplicationLag) HasQueryPattern() bool {
+func (o *MetricsOptionQuery) HasQueryPattern() bool {
 	return o != nil && o.QueryPattern != nil
 }
 
 // SetQueryPattern gets a reference to the given string and assigns it to the QueryPattern field.
-func (o *MetricsOptionReplicationLag) SetQueryPattern(v string) {
+func (o *MetricsOptionQuery) SetQueryPattern(v string) {
 	o.QueryPattern = &v
 }
 
 // GetQueryType returns the QueryType field value if set, zero value otherwise.
-func (o *MetricsOptionReplicationLag) GetQueryType() EngineOptionsMetricsQueryType {
+func (o *MetricsOptionQuery) GetQueryType() EngineOptionsMetricsQueryType {
 	if o == nil || o.QueryType == nil {
 		var ret EngineOptionsMetricsQueryType
 		return ret
@@ -73,7 +73,7 @@ func (o *MetricsOptionReplicationLag) GetQueryType() EngineOptionsMetricsQueryTy
 
 // GetQueryTypeOk returns a tuple with the QueryType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetricsOptionReplicationLag) GetQueryTypeOk() (*EngineOptionsMetricsQueryType, bool) {
+func (o *MetricsOptionQuery) GetQueryTypeOk() (*EngineOptionsMetricsQueryType, bool) {
 	if o == nil || o.QueryType == nil {
 		return nil, false
 	}
@@ -81,17 +81,17 @@ func (o *MetricsOptionReplicationLag) GetQueryTypeOk() (*EngineOptionsMetricsQue
 }
 
 // HasQueryType returns a boolean if a field has been set.
-func (o *MetricsOptionReplicationLag) HasQueryType() bool {
+func (o *MetricsOptionQuery) HasQueryType() bool {
 	return o != nil && o.QueryType != nil
 }
 
 // SetQueryType gets a reference to the given EngineOptionsMetricsQueryType and assigns it to the QueryType field.
-func (o *MetricsOptionReplicationLag) SetQueryType(v EngineOptionsMetricsQueryType) {
+func (o *MetricsOptionQuery) SetQueryType(v EngineOptionsMetricsQueryType) {
 	o.QueryType = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o MetricsOptionReplicationLag) MarshalJSON() ([]byte, error) {
+func (o MetricsOptionQuery) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -110,7 +110,7 @@ func (o MetricsOptionReplicationLag) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *MetricsOptionReplicationLag) UnmarshalJSON(bytes []byte) (err error) {
+func (o *MetricsOptionQuery) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		QueryPattern *string                        `json:"queryPattern,omitempty"`
 		QueryType    *EngineOptionsMetricsQueryType `json:"queryType,omitempty"`
