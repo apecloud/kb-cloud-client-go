@@ -96,6 +96,7 @@
 //   - [disasterRecoveryApi.createDisasterRecovery]
 //   - [disasterRecoveryApi.deleteDisasterRecovery]
 //   - [disasterRecoveryApi.getDisasterRecoveryHistory]
+//   - [disasterRecoveryApi.getDisasterRecoveryStatus]
 //   - [disasterRecoveryApi.listDisasterRecovery]
 //   - [disasterRecoveryApi.promoteDisasterRecovery]
 //   - [dmsApi.AlterVolumes]

@@ -6630,36 +6630,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-  /admin/v1/environments/{environmentName}/backupRepo/{backupRepoName}/importbackup:
-    get:
-      operationId: importBackup
-      summary: import backuprecords from backupRepo
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: name of the backupRepo
-          in: path
-          name: backupRepoName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backupList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - backupRepo
   /admin/v1/imageRegistries:
     get:
       operationId: listImageRegistries
@@ -10981,6 +10951,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/storageCheckResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
+  /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
+    post:
+      operationId: importBackup
+      summary: import backuprecords from storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/importBackup'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupList'
           description: A successful response.
         '401':
           $ref: '#/components/responses/401'
@@ -17003,6 +17009,62 @@ components:
       required:
         - items
       type: object
+    imageRegistry:
+      type: object
+      description: Represents an image registry.
+      properties:
+        name:
+          type: string
+          x-nullable: false
+          description: The name of the image registry.
+        url:
+          type: string
+          description: The url of the image registry.
+        username:
+          type: string
+          nullable: true
+          description: The username used to authenticate with the image registry.
+        password:
+          type: string
+          nullable: true
+          description: The password used to authenticate with the image registry.
+        id:
+          type: string
+          description: The id of the image registry.
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the image registry was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The date and time when the image registry was last updated.
+      required:
+        - name
+        - url
+    imageRegistryList:
+      description: imageRegistryList is a list of imageRegistry
+      properties:
+        items:
+          description: Items is the list of imageRegistry objects in the list
+          items:
+            $ref: '#/components/schemas/imageRegistry'
+          type: array
+      required:
+        - items
+      type: object
+    backupCreate:
+      description: BackupCreate is the payload to create a KubeBlocks cluster backup
+      properties:
+        name:
+          description: name of the backup, if not specified, a name will be generated automatically
+          type: string
+        backupMethod:
+          description: specified the backup method
+          type: string
+      type: object
+      required:
+        - backupMethod
     backupType:
       enum:
         - Full
@@ -17140,75 +17202,6 @@ components:
         - timeRangeEnd
         - totalSize
       type: object
-    backupList:
-      description: BackupList is a list of backups
-      properties:
-        items:
-          description: Items is the list of backup policy objects in the list
-          items:
-            $ref: '#/components/schemas/backup'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    imageRegistry:
-      type: object
-      description: Represents an image registry.
-      properties:
-        name:
-          type: string
-          x-nullable: false
-          description: The name of the image registry.
-        url:
-          type: string
-          description: The url of the image registry.
-        username:
-          type: string
-          nullable: true
-          description: The username used to authenticate with the image registry.
-        password:
-          type: string
-          nullable: true
-          description: The password used to authenticate with the image registry.
-        id:
-          type: string
-          description: The id of the image registry.
-        createdAt:
-          type: string
-          format: date-time
-          description: The date and time when the image registry was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The date and time when the image registry was last updated.
-      required:
-        - name
-        - url
-    imageRegistryList:
-      description: imageRegistryList is a list of imageRegistry
-      properties:
-        items:
-          description: Items is the list of imageRegistry objects in the list
-          items:
-            $ref: '#/components/schemas/imageRegistry'
-          type: array
-      required:
-        - items
-      type: object
-    backupCreate:
-      description: BackupCreate is the payload to create a KubeBlocks cluster backup
-      properties:
-        name:
-          description: name of the backup, if not specified, a name will be generated automatically
-          type: string
-        backupMethod:
-          description: specified the backup method
-          type: string
-      type: object
-      required:
-        - backupMethod
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
       properties:
@@ -17238,6 +17231,19 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
+      type: object
+    backupList:
+      description: BackupList is a list of backups
+      properties:
+        items:
+          description: Items is the list of backup policy objects in the list
+          items:
+            $ref: '#/components/schemas/backup'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
       type: object
     backupStats:
       description: Backup statistic info
@@ -18372,17 +18378,19 @@ components:
       enum:
         - instant
         - range
+    metricsOptionQuery:
+      type: object
+      properties:
+        queryPattern:
+          type: string
+          x-nullable: false
+        queryType:
+          $ref: '#/components/schemas/engineOptionsMetricsQueryType'
     metricsOption:
       type: object
       properties:
         replicationLag:
-          type: object
-          properties:
-            queryPattern:
-              type: string
-              x-nullable: false
-            queryType:
-              $ref: '#/components/schemas/engineOptionsMetricsQueryType'
+          $ref: '#/components/schemas/metricsOptionQuery'
     dashboardOption:
       type: object
       required:
@@ -18522,6 +18530,18 @@ components:
         disableHA:
           type: boolean
           default: false
+    engineOptionsDisasterRecoverySource:
+      type: object
+      properties:
+        metricSource:
+          $ref: '#/components/schemas/metricsOptionQuery'
+    engineOptionsDisasterRecoveryStatus:
+      type: object
+      properties:
+        delay:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
+        replicationPoint:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
     disasterRecoveryOption:
       type: object
       required:
@@ -18532,6 +18552,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        status:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     engineOption:
       type: object
       required:
@@ -19899,6 +19921,16 @@ components:
         error:
           type: string
           description: the error msg
+    importBackup:
+      description: import backuprecords from storage
+      type: object
+      properties:
+        bucket:
+          type: string
+          description: the name of bucket
+        path:
+          type: string
+          description: the path to backup's kubeblocks-backup.json
     faultType:
       type: string
       enum:
