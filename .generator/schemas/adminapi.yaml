@@ -16764,6 +16764,9 @@ components:
         status:
           description: status specifies the status of the backupRepo
           type: string
+        storageName:
+          description: the name of storage used by backup repo
+          type: string
         storageID:
           description: the id of storage used by backup repo
           type: string

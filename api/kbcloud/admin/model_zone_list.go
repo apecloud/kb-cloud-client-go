@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ZoneList The list of zones.
 type ZoneList struct {
 	// The list of zones.
