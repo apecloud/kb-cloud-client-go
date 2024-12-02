@@ -9495,6 +9495,9 @@ components:
           description: Enable pod antiaffinity for cluster
           type: boolean
           default: true
+        defaultStorageClass:
+          type: string
+          description: the default storageClass for the environment
       required:
         - provider
         - region
@@ -9506,6 +9509,7 @@ components:
         - orgName
         - state
         - updatedAt
+        - defaultStorageClass
       type: object
     environmentList:
       description: EnvironmentList is a list of Environments
