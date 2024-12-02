@@ -8737,12 +8737,36 @@ paths:
         '404':
           $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/recycleBin:
-    post:
-      description: Update organization's cluster recycle bin configuration
-      summary: Update cluster recycle bin config
-      operationId: updateOrgClusterRecycleBin
+    get:
+      description: get the config of the organization
+      summary: Get organization config
+      operationId: getOrgConfig
       parameters:
-        - description: Name of the organization
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgConfig'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      description: update the config of the organization
+      summary: Update organization config
+      operationId: updateOrgConfig
+      parameters:
+        - description: name of the Org
           in: path
           name: orgName
           required: true
@@ -8752,47 +8776,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/orgClusterRecycleBin'
+              $ref: '#/components/schemas/orgConfig'
         required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/orgClusterRecycleBin'
-          description: A successful response.
+                $ref: '#/components/schemas/orgConfig'
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
       tags:
         - organization
-        - cluster
-    get:
-      description: Get organization's cluster recycle bin configuration
-      summary: Get cluster recycle bin config
-      operationId: getClusterRecycleBin
-      parameters:
-        - description: Name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgClusterRecycleBin'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organization
-        - cluster
+      x-codegen-request-body-name: body
   /api/v1/environments/{environmentName}/projects:
     get:
       tags:
@@ -9552,6 +9551,9 @@ components:
           description: Enable pod antiaffinity for cluster
           type: boolean
           default: true
+        defaultStorageClass:
+          type: string
+          description: the default storageClass for the environment
       required:
         - provider
         - region
@@ -9563,6 +9565,7 @@ components:
         - orgName
         - state
         - updatedAt
+        - defaultStorageClass
       type: object
     environmentList:
       description: EnvironmentList is a list of Environments
@@ -15232,19 +15235,18 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
-    orgClusterRecycleBin:
-      description: the cluster recycle bin config for organization
+    orgConfig:
+      description: the config for organization
       properties:
-        enable:
-          description: whether enable the recycle bin
+        clusterRecycleBinEnabled:
+          description: whether the cluster recycle bin is enabled
           type: boolean
-        retention:
+          nullable: true
+        clusterRecycleBinRetention:
           description: the retention period of cluster in recycle bin (e.g. '24h', '7d')
           type: string
           example: 24h
-      required:
-        - enable
-        - retention
+          nullable: true
       type: object
     projectItem:
       description: Project item.

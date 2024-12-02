@@ -149,16 +149,16 @@ func (a *OrganizationApi) FreezeMember(ctx _context.Context, orgName string, mem
 	return localVarHTTPResponse, nil
 }
 
-// GetClusterRecycleBin Get cluster recycle bin config.
-// Get organization's cluster recycle bin configuration
-func (a *OrganizationApi) GetClusterRecycleBin(ctx _context.Context, orgName string) (OrgClusterRecycleBin, *_nethttp.Response, error) {
+// GetOrgConfig Get organization config.
+// get the config of the organization
+func (a *OrganizationApi) GetOrgConfig(ctx _context.Context, orgName string) (OrgConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue OrgClusterRecycleBin
+		localVarReturnValue OrgConfig
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.GetClusterRecycleBin")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.GetOrgConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -530,16 +530,16 @@ func (a *OrganizationApi) UnfreezeMember(ctx _context.Context, orgName string, m
 	return localVarHTTPResponse, nil
 }
 
-// UpdateOrgClusterRecycleBin Update cluster recycle bin config.
-// Update organization's cluster recycle bin configuration
-func (a *OrganizationApi) UpdateOrgClusterRecycleBin(ctx _context.Context, orgName string, body OrgClusterRecycleBin) (OrgClusterRecycleBin, *_nethttp.Response, error) {
+// UpdateOrgConfig Update organization config.
+// update the config of the organization
+func (a *OrganizationApi) UpdateOrgConfig(ctx _context.Context, orgName string, body OrgConfig) (OrgConfig, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue OrgClusterRecycleBin
+		localVarReturnValue OrgConfig
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.UpdateOrgClusterRecycleBin")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.UpdateOrgConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
