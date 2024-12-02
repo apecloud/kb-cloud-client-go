@@ -13729,7 +13729,6 @@ components:
         - modes
         - dms
         - endpoints
-        - networkMode
         - promote
         - stop
         - start
