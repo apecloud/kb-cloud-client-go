@@ -242,7 +242,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
@@ -429,16 +429,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/orgUpdate'
         required: true
@@ -611,16 +602,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/orgMemberUpdate'
         required: true
@@ -1506,16 +1488,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/clusterUpdate'
         required: true
@@ -4996,16 +4969,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/paramTplUpdate'
         required: true
@@ -5338,16 +5302,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertReceiver'
         required: true
@@ -8809,7 +8764,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}:
+  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}:
     delete:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
@@ -8842,7 +8797,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - disasterRecovery
-  /api/v1/organizations/{orgName}/parent/{parentClusterID}/disaster-recovery:
+  /api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery:
     get:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
@@ -8914,7 +8869,7 @@ paths:
       tags:
         - disasterRecovery
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/promote:
+  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote:
     post:
       operationId: promoteDisasterRecovery
       summary: Promote a disaster recovery instance to the main instance
@@ -8954,7 +8909,7 @@ paths:
       tags:
         - disasterRecovery
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/switch-history:
+  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory:
     get:
       operationId: getDisasterRecoveryHistory
       summary: Get switch history of a disaster recovery instance
@@ -8979,6 +8934,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/disasterRecoveryHistory'
           description: Switch history retrieved successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - disasterRecovery
+  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status:
+    get:
+      operationId: getDisasterRecoveryStatus
+      summary: Retrieve Disaster Recovery Instance Status
+      description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+      parameters:
+        - description: Unique identifier of the disaster recovery instance
+          in: path
+          name: clusterID
+          required: true
+          schema:
+            type: integer
+        - description: Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/disasterRecoveryStatusResponse'
+          description: Status query successfully
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -9507,6 +9495,9 @@ components:
           description: Enable pod antiaffinity for cluster
           type: boolean
           default: true
+        defaultStorageClass:
+          type: string
+          description: the default storageClass for the environment
       required:
         - provider
         - region
@@ -9518,6 +9509,7 @@ components:
         - orgName
         - state
         - updatedAt
+        - defaultStorageClass
       type: object
     environmentList:
       description: EnvironmentList is a list of Environments
@@ -9652,6 +9644,7 @@ components:
             type: string
           description: the mount options of the storage class
         createdAt:
+          nullable: true
           type: string
           format: date-time
           description: the creation time of the storage class
@@ -9668,6 +9661,7 @@ components:
           type: string
           description: the id of the storage class
         updatedAt:
+          nullable: true
           type: string
           format: date-time
           description: the update time of the storage class
@@ -9686,9 +9680,6 @@ components:
         - name
         - creationTimestamp
         - provisioner
-        - parameters
-        - labels
-        - annotations
         - reclaimPolicy
         - allowVolumeExpansion
         - volumeBindingMode
@@ -9697,14 +9688,10 @@ components:
         - allowSnapshot
         - isDefaultClass
         - type
-        - mountOptions
-        - createdAt
         - description
         - displayName
         - enabled
         - id
-        - updatedAt
-        - statsByNodeList
       type: object
     storageClassList:
       description: StorageClassList stands for stats for storage classes.
@@ -9714,8 +9701,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageClassInfo'
-      required:
-        - items
       type: object
     loadBalancerAvailableType:
       description: Whether the loadbalancer is available in the environment.
@@ -10598,7 +10583,6 @@ components:
         - HostNetwork
         - NodePort
         - FixedPodIP
-        - HeadlessSvc
       type: string
     cluster:
       required:
@@ -11278,8 +11262,6 @@ components:
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
-      required:
-        - replicas
       properties:
         component:
           description: component type
@@ -11287,6 +11269,11 @@ components:
         replicas:
           description: number of replicas
           type: integer
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
@@ -13462,9 +13449,9 @@ components:
           description: selector of k8s service
     networkModeOption:
       type: object
+      required:
+        - supported
       properties:
-        default:
-          type: string
         supported:
           type: array
           items:
@@ -13555,17 +13542,19 @@ components:
       enum:
         - instant
         - range
+    metricsOptionQuery:
+      type: object
+      properties:
+        queryPattern:
+          type: string
+          x-nullable: false
+        queryType:
+          $ref: '#/components/schemas/engineOptionsMetricsQueryType'
     metricsOption:
       type: object
       properties:
         replicationLag:
-          type: object
-          properties:
-            queryPattern:
-              type: string
-              x-nullable: false
-            queryType:
-              $ref: '#/components/schemas/engineOptionsMetricsQueryType'
+          $ref: '#/components/schemas/metricsOptionQuery'
     dashboardOption:
       type: object
       required:
@@ -13705,6 +13694,18 @@ components:
         disableHA:
           type: boolean
           default: false
+    engineOptionsDisasterRecoverySource:
+      type: object
+      properties:
+        metricSource:
+          $ref: '#/components/schemas/metricsOptionQuery'
+    engineOptionsDisasterRecoveryStatus:
+      type: object
+      properties:
+        delay:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
+        replicationPoint:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
     disasterRecoveryOption:
       type: object
       required:
@@ -13715,6 +13716,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        status:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     engineOption:
       type: object
       required:
@@ -13726,6 +13729,7 @@ components:
         - modes
         - dms
         - endpoints
+        - networkMode
         - promote
         - stop
         - start
@@ -13770,7 +13774,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
-        networkModes:
+        networkMode:
           $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
@@ -15330,6 +15334,63 @@ components:
           type: array
       required:
         - items
+      type: object
+    disasterRecoveryStatusResponse:
+      description: Status of the Disaster Recovery instance
+      properties:
+        clusterId:
+          title: Cluster ID
+          type: integer
+          description: Unique identifier for the cluster
+        clusterName:
+          title: Cluster Name
+          type: string
+          nullable: true
+          description: Name of the cluster
+        displayName:
+          title: Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the cluster
+        status:
+          title: Status
+          type: string
+          nullable: true
+          description: Current operational status of the cluster
+        parentId:
+          title: Parent Cluster ID
+          type: integer
+          format: int64
+          description: ID of the parent cluster, if applicable; can be empty if there is no parent relationship
+        parentName:
+          title: Parent Cluster Name
+          type: string
+          nullable: true
+          description: Name of the parent cluster
+        parentDisplayName:
+          title: Parent Cluster Display Name
+          type: string
+          nullable: true
+          description: User-friendly name of the parent cluster
+        parentStatus:
+          title: Parent Cluster Status
+          type: string
+          nullable: true
+          description: Current operational status of the parent cluster
+        delay:
+          title: Delay
+          type: number
+          format: double
+          nullable: true
+          description: Delay time in seconds
+        currentReplicationPoint:
+          title: Current Replication Point
+          type: string
+          nullable: true
+          description: Current replication point for the disaster recovery instance
+      required:
+        - clusterId
+        - parentId
       type: object
   responses:
     '400':

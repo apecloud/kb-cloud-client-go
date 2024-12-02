@@ -22,7 +22,7 @@ type EngineOption struct {
 	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            *BenchOption            `json:"bench,omitempty"`
 	Endpoints        []EndpointOption        `json:"endpoints"`
-	NetworkModes     *NetworkModeOption      `json:"networkModes,omitempty"`
+	NetworkMode      NetworkModeOption       `json:"networkMode"`
 	Promote          []ComponentOpsOption    `json:"promote"`
 	Stop             []ComponentOpsOption    `json:"stop"`
 	Start            []ComponentOpsOption    `json:"start"`
@@ -46,7 +46,7 @@ type EngineOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
+func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, networkMode NetworkModeOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
@@ -56,6 +56,7 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 	this.Modes = modes
 	this.Dms = dms
 	this.Endpoints = endpoints
+	this.NetworkMode = networkMode
 	this.Promote = promote
 	this.Stop = stop
 	this.Start = start
@@ -373,32 +374,27 @@ func (o *EngineOption) SetEndpoints(v []EndpointOption) {
 	o.Endpoints = v
 }
 
-// GetNetworkModes returns the NetworkModes field value if set, zero value otherwise.
-func (o *EngineOption) GetNetworkModes() NetworkModeOption {
-	if o == nil || o.NetworkModes == nil {
+// GetNetworkMode returns the NetworkMode field value.
+func (o *EngineOption) GetNetworkMode() NetworkModeOption {
+	if o == nil {
 		var ret NetworkModeOption
 		return ret
 	}
-	return *o.NetworkModes
+	return o.NetworkMode
 }
 
-// GetNetworkModesOk returns a tuple with the NetworkModes field value if set, nil otherwise
+// GetNetworkModeOk returns a tuple with the NetworkMode field value
 // and a boolean to check if the value has been set.
-func (o *EngineOption) GetNetworkModesOk() (*NetworkModeOption, bool) {
-	if o == nil || o.NetworkModes == nil {
+func (o *EngineOption) GetNetworkModeOk() (*NetworkModeOption, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.NetworkModes, true
+	return &o.NetworkMode, true
 }
 
-// HasNetworkModes returns a boolean if a field has been set.
-func (o *EngineOption) HasNetworkModes() bool {
-	return o != nil && o.NetworkModes != nil
-}
-
-// SetNetworkModes gets a reference to the given NetworkModeOption and assigns it to the NetworkModes field.
-func (o *EngineOption) SetNetworkModes(v NetworkModeOption) {
-	o.NetworkModes = &v
+// SetNetworkMode sets field value.
+func (o *EngineOption) SetNetworkMode(v NetworkModeOption) {
+	o.NetworkMode = v
 }
 
 // GetPromote returns the Promote field value.
@@ -769,9 +765,7 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["bench"] = o.Bench
 	}
 	toSerialize["endpoints"] = o.Endpoints
-	if o.NetworkModes != nil {
-		toSerialize["networkModes"] = o.NetworkModes
-	}
+	toSerialize["networkMode"] = o.NetworkMode
 	toSerialize["promote"] = o.Promote
 	toSerialize["stop"] = o.Stop
 	toSerialize["start"] = o.Start
@@ -816,7 +810,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Backup           *BackupOption           `json:"backup,omitempty"`
 		Bench            *BenchOption            `json:"bench,omitempty"`
 		Endpoints        *[]EndpointOption       `json:"endpoints"`
-		NetworkModes     *NetworkModeOption      `json:"networkModes,omitempty"`
+		NetworkMode      *NetworkModeOption      `json:"networkMode"`
 		Promote          *[]ComponentOpsOption   `json:"promote"`
 		Stop             *[]ComponentOpsOption   `json:"stop"`
 		Start            *[]ComponentOpsOption   `json:"start"`
@@ -859,6 +853,9 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Endpoints == nil {
 		return fmt.Errorf("required field endpoints missing")
 	}
+	if all.NetworkMode == nil {
+		return fmt.Errorf("required field networkMode missing")
+	}
 	if all.Promote == nil {
 		return fmt.Errorf("required field promote missing")
 	}
@@ -891,7 +888,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
 	} else {
 		return err
 	}
@@ -927,10 +924,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Bench = all.Bench
 	o.Endpoints = *all.Endpoints
-	if all.NetworkModes != nil && all.NetworkModes.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.NetworkMode.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.NetworkModes = all.NetworkModes
+	o.NetworkMode = *all.NetworkMode
 	o.Promote = *all.Promote
 	o.Stop = *all.Stop
 	o.Start = *all.Start
