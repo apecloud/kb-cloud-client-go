@@ -11905,21 +11905,15 @@ components:
         - backupType
         - cloudProvider
         - cloudRegion
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - engine
         - environmentName
-        - expiration
         - name
         - orgName
         - retentionPeriod
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
         - status
-        - timeRangeStart
-        - timeRangeEnd
         - totalSize
       type: object
     backupPolicy:
