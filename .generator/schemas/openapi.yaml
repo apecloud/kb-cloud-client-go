@@ -10578,6 +10578,12 @@ components:
           type: boolean
           nullable: true
       type: object
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     cluster:
       required:
         - engine
@@ -10744,6 +10750,9 @@ components:
         static:
           description: if cluster is static cluster
           type: boolean
+        networkMode:
+          description: Specify the network mode for intra-cluster communication
+          $ref: '#/components/schemas/networkMode'
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -13432,6 +13441,15 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+    networkModeOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
     componentOpsOption:
       type: object
       required:
@@ -13749,6 +13767,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
+        networkMode:
+          $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
           items:
