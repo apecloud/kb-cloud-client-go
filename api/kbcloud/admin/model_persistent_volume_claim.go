@@ -17,13 +17,13 @@ type PersistentVolumeClaim struct {
 	// the phase of the PVC
 	Phase string `json:"phase"`
 	// the capacity of the PVC
-	Capacity string `json:"capacity"`
+	Capacity common.NullableString `json:"capacity,omitempty"`
 	// access mode of the PVC
-	AccessMode string `json:"accessMode"`
+	AccessMode common.NullableString `json:"accessMode,omitempty"`
 	// the persistentvolume of the PVC
-	VolumeName string `json:"volumeName"`
+	VolumeName common.NullableString `json:"volumeName,omitempty"`
 	// the node of the PVC
-	Node string `json:"node"`
+	Node common.NullableString `json:"node,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -33,15 +33,11 @@ type PersistentVolumeClaim struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPersistentVolumeClaim(nameSpace string, name string, phase string, capacity string, accessMode string, volumeName string, node string) *PersistentVolumeClaim {
+func NewPersistentVolumeClaim(nameSpace string, name string, phase string) *PersistentVolumeClaim {
 	this := PersistentVolumeClaim{}
 	this.NameSpace = nameSpace
 	this.Name = name
 	this.Phase = phase
-	this.Capacity = capacity
-	this.AccessMode = accessMode
-	this.VolumeName = volumeName
-	this.Node = node
 	return &this
 }
 
@@ -122,96 +118,160 @@ func (o *PersistentVolumeClaim) SetPhase(v string) {
 	o.Phase = v
 }
 
-// GetCapacity returns the Capacity field value.
+// GetCapacity returns the Capacity field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PersistentVolumeClaim) GetCapacity() string {
-	if o == nil {
+	if o == nil || o.Capacity.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.Capacity
+	return *o.Capacity.Get()
 }
 
-// GetCapacityOk returns a tuple with the Capacity field value
+// GetCapacityOk returns a tuple with the Capacity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PersistentVolumeClaim) GetCapacityOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Capacity, true
+	return o.Capacity.Get(), o.Capacity.IsSet()
 }
 
-// SetCapacity sets field value.
+// HasCapacity returns a boolean if a field has been set.
+func (o *PersistentVolumeClaim) HasCapacity() bool {
+	return o != nil && o.Capacity.IsSet()
+}
+
+// SetCapacity gets a reference to the given common.NullableString and assigns it to the Capacity field.
 func (o *PersistentVolumeClaim) SetCapacity(v string) {
-	o.Capacity = v
+	o.Capacity.Set(&v)
 }
 
-// GetAccessMode returns the AccessMode field value.
+// SetCapacityNil sets the value for Capacity to be an explicit nil.
+func (o *PersistentVolumeClaim) SetCapacityNil() {
+	o.Capacity.Set(nil)
+}
+
+// UnsetCapacity ensures that no value is present for Capacity, not even an explicit nil.
+func (o *PersistentVolumeClaim) UnsetCapacity() {
+	o.Capacity.Unset()
+}
+
+// GetAccessMode returns the AccessMode field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PersistentVolumeClaim) GetAccessMode() string {
-	if o == nil {
+	if o == nil || o.AccessMode.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.AccessMode
+	return *o.AccessMode.Get()
 }
 
-// GetAccessModeOk returns a tuple with the AccessMode field value
+// GetAccessModeOk returns a tuple with the AccessMode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PersistentVolumeClaim) GetAccessModeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.AccessMode, true
+	return o.AccessMode.Get(), o.AccessMode.IsSet()
 }
 
-// SetAccessMode sets field value.
+// HasAccessMode returns a boolean if a field has been set.
+func (o *PersistentVolumeClaim) HasAccessMode() bool {
+	return o != nil && o.AccessMode.IsSet()
+}
+
+// SetAccessMode gets a reference to the given common.NullableString and assigns it to the AccessMode field.
 func (o *PersistentVolumeClaim) SetAccessMode(v string) {
-	o.AccessMode = v
+	o.AccessMode.Set(&v)
 }
 
-// GetVolumeName returns the VolumeName field value.
+// SetAccessModeNil sets the value for AccessMode to be an explicit nil.
+func (o *PersistentVolumeClaim) SetAccessModeNil() {
+	o.AccessMode.Set(nil)
+}
+
+// UnsetAccessMode ensures that no value is present for AccessMode, not even an explicit nil.
+func (o *PersistentVolumeClaim) UnsetAccessMode() {
+	o.AccessMode.Unset()
+}
+
+// GetVolumeName returns the VolumeName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PersistentVolumeClaim) GetVolumeName() string {
-	if o == nil {
+	if o == nil || o.VolumeName.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.VolumeName
+	return *o.VolumeName.Get()
 }
 
-// GetVolumeNameOk returns a tuple with the VolumeName field value
+// GetVolumeNameOk returns a tuple with the VolumeName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PersistentVolumeClaim) GetVolumeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.VolumeName, true
+	return o.VolumeName.Get(), o.VolumeName.IsSet()
 }
 
-// SetVolumeName sets field value.
+// HasVolumeName returns a boolean if a field has been set.
+func (o *PersistentVolumeClaim) HasVolumeName() bool {
+	return o != nil && o.VolumeName.IsSet()
+}
+
+// SetVolumeName gets a reference to the given common.NullableString and assigns it to the VolumeName field.
 func (o *PersistentVolumeClaim) SetVolumeName(v string) {
-	o.VolumeName = v
+	o.VolumeName.Set(&v)
 }
 
-// GetNode returns the Node field value.
+// SetVolumeNameNil sets the value for VolumeName to be an explicit nil.
+func (o *PersistentVolumeClaim) SetVolumeNameNil() {
+	o.VolumeName.Set(nil)
+}
+
+// UnsetVolumeName ensures that no value is present for VolumeName, not even an explicit nil.
+func (o *PersistentVolumeClaim) UnsetVolumeName() {
+	o.VolumeName.Unset()
+}
+
+// GetNode returns the Node field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *PersistentVolumeClaim) GetNode() string {
-	if o == nil {
+	if o == nil || o.Node.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.Node
+	return *o.Node.Get()
 }
 
-// GetNodeOk returns a tuple with the Node field value
+// GetNodeOk returns a tuple with the Node field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *PersistentVolumeClaim) GetNodeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Node, true
+	return o.Node.Get(), o.Node.IsSet()
 }
 
-// SetNode sets field value.
+// HasNode returns a boolean if a field has been set.
+func (o *PersistentVolumeClaim) HasNode() bool {
+	return o != nil && o.Node.IsSet()
+}
+
+// SetNode gets a reference to the given common.NullableString and assigns it to the Node field.
 func (o *PersistentVolumeClaim) SetNode(v string) {
-	o.Node = v
+	o.Node.Set(&v)
+}
+
+// SetNodeNil sets the value for Node to be an explicit nil.
+func (o *PersistentVolumeClaim) SetNodeNil() {
+	o.Node.Set(nil)
+}
+
+// UnsetNode ensures that no value is present for Node, not even an explicit nil.
+func (o *PersistentVolumeClaim) UnsetNode() {
+	o.Node.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -223,10 +283,18 @@ func (o PersistentVolumeClaim) MarshalJSON() ([]byte, error) {
 	toSerialize["nameSpace"] = o.NameSpace
 	toSerialize["name"] = o.Name
 	toSerialize["phase"] = o.Phase
-	toSerialize["capacity"] = o.Capacity
-	toSerialize["accessMode"] = o.AccessMode
-	toSerialize["volumeName"] = o.VolumeName
-	toSerialize["node"] = o.Node
+	if o.Capacity.IsSet() {
+		toSerialize["capacity"] = o.Capacity.Get()
+	}
+	if o.AccessMode.IsSet() {
+		toSerialize["accessMode"] = o.AccessMode.Get()
+	}
+	if o.VolumeName.IsSet() {
+		toSerialize["volumeName"] = o.VolumeName.Get()
+	}
+	if o.Node.IsSet() {
+		toSerialize["node"] = o.Node.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -237,13 +305,13 @@ func (o PersistentVolumeClaim) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PersistentVolumeClaim) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NameSpace  *string `json:"nameSpace"`
-		Name       *string `json:"name"`
-		Phase      *string `json:"phase"`
-		Capacity   *string `json:"capacity"`
-		AccessMode *string `json:"accessMode"`
-		VolumeName *string `json:"volumeName"`
-		Node       *string `json:"node"`
+		NameSpace  *string               `json:"nameSpace"`
+		Name       *string               `json:"name"`
+		Phase      *string               `json:"phase"`
+		Capacity   common.NullableString `json:"capacity,omitempty"`
+		AccessMode common.NullableString `json:"accessMode,omitempty"`
+		VolumeName common.NullableString `json:"volumeName,omitempty"`
+		Node       common.NullableString `json:"node,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -257,18 +325,6 @@ func (o *PersistentVolumeClaim) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Phase == nil {
 		return fmt.Errorf("required field phase missing")
 	}
-	if all.Capacity == nil {
-		return fmt.Errorf("required field capacity missing")
-	}
-	if all.AccessMode == nil {
-		return fmt.Errorf("required field accessMode missing")
-	}
-	if all.VolumeName == nil {
-		return fmt.Errorf("required field volumeName missing")
-	}
-	if all.Node == nil {
-		return fmt.Errorf("required field node missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"nameSpace", "name", "phase", "capacity", "accessMode", "volumeName", "node"})
@@ -278,10 +334,10 @@ func (o *PersistentVolumeClaim) UnmarshalJSON(bytes []byte) (err error) {
 	o.NameSpace = *all.NameSpace
 	o.Name = *all.Name
 	o.Phase = *all.Phase
-	o.Capacity = *all.Capacity
-	o.AccessMode = *all.AccessMode
-	o.VolumeName = *all.VolumeName
-	o.Node = *all.Node
+	o.Capacity = all.Capacity
+	o.AccessMode = all.AccessMode
+	o.VolumeName = all.VolumeName
+	o.Node = all.Node
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -2194,7 +2194,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /admin/v1/organizations/{orgName}/cluster/{clusterName}/clustertask:
+  /admin/v1/organizations/{orgName}/cluster/{clusterName}/task:
     get:
       description: Query task detail of clusters
       summary: Query operation task detail
@@ -6987,13 +6987,6 @@ paths:
     get:
       operationId: getBackupStats
       summary: Get backup statistics
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -9372,7 +9365,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instanceTypes:
+  /admin/v1/instance-types:
     get:
       tags:
         - instanceTypes
@@ -9414,7 +9407,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/productTypes/{id}:
+  /admin/v1/instance-types/{id}:
     get:
       tags:
         - instanceTypes
@@ -12651,6 +12644,12 @@ components:
           type: boolean
           nullable: true
       type: object
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     cluster:
       required:
         - engine
@@ -12817,6 +12816,9 @@ components:
         static:
           description: if cluster is static cluster
           type: boolean
+        networkMode:
+          description: Specify the network mode for intra-cluster communication
+          $ref: '#/components/schemas/networkMode'
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -13701,7 +13703,7 @@ components:
       required:
         - items
       type: object
-    clusterTaskProgressDetail:
+    clusterTaskProgress:
       description: clusterTaskProgressDetail is the information of the task progress
       properties:
         name:
@@ -13728,16 +13730,16 @@ components:
           format: date-time
           type: string
       type: object
-    clusterTaskProgressDetails:
-      description: clusterTaskProgressDetails is a list of task progress detail
+    clusterTaskProgresses:
+      description: clusterTaskProgresses is a list of task progress detail
       properties:
         items:
           description: Items is the list of task progress detail in the list
           items:
-            $ref: '#/components/schemas/clusterTaskProgressDetail'
+            $ref: '#/components/schemas/clusterTaskProgress'
           type: array
       type: object
-    clusterTaskCondition:
+    clusterTaskDetail:
       type: object
       description: taskCondition is the information of the task condition
       properties:
@@ -13757,13 +13759,13 @@ components:
           description: last transition time of the task condition
           format: date-time
           type: string
-    clusterTaskConditions:
+    clusterTaskDetails:
       description: taskConditions is a list of task condition
       properties:
         items:
           description: Items is the list of task condition in the list
           items:
-            $ref: '#/components/schemas/clusterTaskCondition'
+            $ref: '#/components/schemas/clusterTaskDetail'
           type: array
       type: object
     clusterTask:
@@ -13783,7 +13785,7 @@ components:
           description: Name of the task
           type: string
         namespace:
-          description: Name of the task
+          description: Namespace of the task
           type: string
         status:
           description: status of the task
@@ -13794,10 +13796,10 @@ components:
         progress:
           description: progress of the task
           type: string
-        taskProgressDetails:
-          $ref: '#/components/schemas/clusterTaskProgressDetails'
-        taskConditions:
-          $ref: '#/components/schemas/clusterTaskConditions'
+        taskProgresses:
+          $ref: '#/components/schemas/clusterTaskProgresses'
+        taskDetails:
+          $ref: '#/components/schemas/clusterTaskDetails'
         startTime:
           type: string
           format: date-time
@@ -15099,6 +15101,7 @@ components:
             type: string
           description: the mount options of the storage class
         createdAt:
+          nullable: true
           type: string
           format: date-time
           description: the creation time of the storage class
@@ -15115,6 +15118,7 @@ components:
           type: string
           description: the id of the storage class
         updatedAt:
+          nullable: true
           type: string
           format: date-time
           description: the update time of the storage class
@@ -15133,9 +15137,6 @@ components:
         - name
         - creationTimestamp
         - provisioner
-        - parameters
-        - labels
-        - annotations
         - reclaimPolicy
         - allowVolumeExpansion
         - volumeBindingMode
@@ -15144,14 +15145,10 @@ components:
         - allowSnapshot
         - isDefaultClass
         - type
-        - mountOptions
-        - createdAt
         - description
         - displayName
         - enabled
         - id
-        - updatedAt
-        - statsByNodeList
       type: object
     storageClassList:
       description: StorageClassList stands for stats for storage classes.
@@ -15161,8 +15158,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageClassInfo'
-      required:
-        - items
       type: object
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
@@ -16603,15 +16598,14 @@ components:
       description: StorageProvisioner provides detailed information about the provisioner used by storage classes.
       properties:
         provisioner:
+          nullable: true
           type: string
         type:
+          nullable: true
           type: string
         cloudProvider:
+          nullable: true
           type: string
-      required:
-        - provisioner
-        - type
-        - cloudProvider
       type: object
     storageProvisionerList:
       description: StorageProvisionerList stands for stats for provisioners can be used by storage classes.
@@ -16658,24 +16652,24 @@ components:
           type: string
         capacity:
           description: the capacity of the PVC
+          nullable: true
           type: string
         accessMode:
           description: access mode of the PVC
+          nullable: true
           type: string
         volumeName:
           description: the persistentvolume of the PVC
+          nullable: true
           type: string
         node:
           description: the node of the PVC
+          nullable: true
           type: string
       required:
         - nameSpace
         - name
         - phase
-        - capacity
-        - accessMode
-        - volumeName
-        - node
       type: object
     persistentVolumeClaimList:
       description: the List stands for stats for persistentvolumeclaims.
@@ -16686,21 +16680,19 @@ components:
             $ref: '#/components/schemas/persistentVolumeClaim'
         currentPage:
           description: the current page number
+          nullable: true
           format: int64
           type: integer
         totalPage:
           description: the total page number
+          nullable: true
           format: int64
           type: integer
         pageSize:
           description: the page size
+          nullable: true
           format: int64
           type: integer
-      required:
-        - items
-        - currentPage
-        - totalPage
-        - pageSize
       type: object
     nodeGroup:
       required:
@@ -17312,21 +17304,15 @@ components:
         - backupType
         - cloudProvider
         - cloudRegion
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - engine
         - environmentName
-        - expiration
         - name
         - orgName
         - retentionPeriod
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
         - status
-        - timeRangeStart
-        - timeRangeEnd
         - totalSize
       type: object
     backupPolicy:
@@ -18419,6 +18405,15 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+    networkModeOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
     componentOpsOption:
       type: object
       required:
@@ -18505,17 +18500,19 @@ components:
       enum:
         - instant
         - range
+    metricsOptionQuery:
+      type: object
+      properties:
+        queryPattern:
+          type: string
+          x-nullable: false
+        queryType:
+          $ref: '#/components/schemas/engineOptionsMetricsQueryType'
     metricsOption:
       type: object
       properties:
         replicationLag:
-          type: object
-          properties:
-            queryPattern:
-              type: string
-              x-nullable: false
-            queryType:
-              $ref: '#/components/schemas/engineOptionsMetricsQueryType'
+          $ref: '#/components/schemas/metricsOptionQuery'
     dashboardOption:
       type: object
       required:
@@ -18655,6 +18652,18 @@ components:
         disableHA:
           type: boolean
           default: false
+    engineOptionsDisasterRecoverySource:
+      type: object
+      properties:
+        metricSource:
+          $ref: '#/components/schemas/metricsOptionQuery'
+    engineOptionsDisasterRecoveryStatus:
+      type: object
+      properties:
+        delay:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
+        replicationPoint:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
     disasterRecoveryOption:
       type: object
       required:
@@ -18665,6 +18674,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        status:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     engineOption:
       type: object
       required:
@@ -18720,6 +18731,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
+        networkMode:
+          $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
           items:
