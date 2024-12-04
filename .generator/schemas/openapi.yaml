@@ -306,7 +306,7 @@ paths:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -754,6 +754,102 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /api/v1/organizations/{orgName}/oparameters:
+    get:
+      operationId: listOrgParameters
+      summary: List parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: the category of the parameters
+          in: query
+          name: category
+          schema:
+            type: string
+        - description: the name of the parameter
+          in: query
+          name: name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+  /api/v1/organizations/{orgName}/parameters/{parameterName}:
+    get:
+      operationId: getOrgParameter
+      summary: Get a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      operationId: patchOrgParameter
+      summary: Update a parameter of an organization
+      description: Update a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameter'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+      tags:
+        - organization
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -8736,62 +8832,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/recycleBin:
-    get:
-      description: get the config of the organization
-      summary: Get organization config
-      operationId: getOrgConfig
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgConfig'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organization
-    patch:
-      description: update the config of the organization
-      summary: Update organization config
-      operationId: updateOrgConfig
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/orgConfig'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgConfig'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organization
-      x-codegen-request-body-name: body
   /api/v1/environments/{environmentName}/projects:
     get:
       tags:
@@ -9131,6 +9171,7 @@ components:
           description: The expired time of APIKey, return empty without setting duration
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -9138,7 +9179,6 @@ components:
       required:
         - accessKey
         - description
-        - expiredAt
         - createAt
       type: object
     pageResult:
@@ -9190,6 +9230,7 @@ components:
           description: The expired time of APIKey
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -9198,7 +9239,6 @@ components:
         - accessKey
         - secretKey
         - description
-        - expiredAt
         - createAt
       type: object
     org:
@@ -9419,6 +9459,9 @@ components:
         eventName:
           description: Event name is OpsRequest name or cluster operation name
           type: string
+        displayName:
+          description: Display name is custom operation name
+          type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
         source:
@@ -9447,6 +9490,68 @@ components:
       required:
         - items
       type: object
+    orgParameter:
+      description: org parameter item
+      type: object
+      required:
+        - id
+        - orgId
+        - name
+        - category
+        - type
+        - constraints
+        - value
+        - description
+      properties:
+        id:
+          type: string
+          description: org parameter id
+        orgId:
+          type: string
+          description: org id
+        name:
+          type: string
+          description: org parameter name
+        category:
+          type: string
+          description: org parameter category
+        type:
+          type: string
+          description: type of org parameter value
+        constraints:
+          type: object
+          description: org parameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: org parameter min value
+            max:
+              type: string
+              description: org parameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: org parameter enum constraints
+            default:
+              type: string
+              description: org parameter default value
+        description:
+          type: string
+          description: org parameter description
+        value:
+          type: string
+          description: org parameter value
+    orgParameterList:
+      description: org parameter list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/orgParameter'
+      required:
+        - items
     networkConfig:
       type: object
       title: NetworkConfig
@@ -10634,6 +10739,12 @@ components:
           type: boolean
           nullable: true
       type: object
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     cluster:
       required:
         - engine
@@ -10800,6 +10911,9 @@ components:
         static:
           description: if cluster is static cluster
           type: boolean
+        networkMode:
+          description: Specify the network mode for intra-cluster communication
+          $ref: '#/components/schemas/networkMode'
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -11952,21 +12066,15 @@ components:
         - backupType
         - cloudProvider
         - cloudRegion
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - engine
         - environmentName
-        - expiration
         - name
         - orgName
         - retentionPeriod
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
         - status
-        - timeRangeStart
-        - timeRangeEnd
         - totalSize
       type: object
     backupPolicy:
@@ -13494,6 +13602,15 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+    networkModeOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
     componentOpsOption:
       type: object
       required:
@@ -13811,6 +13928,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
+        networkMode:
+          $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
           items:
@@ -15235,19 +15354,6 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
-    orgConfig:
-      description: the config for organization
-      properties:
-        clusterRecycleBinEnabled:
-          description: whether the cluster recycle bin is enabled
-          type: boolean
-          nullable: true
-        clusterRecycleBinRetention:
-          description: the retention period of cluster in recycle bin (e.g. '24h', '7d')
-          type: string
-          example: 24h
-          nullable: true
-      type: object
     projectItem:
       description: Project item.
       type: object

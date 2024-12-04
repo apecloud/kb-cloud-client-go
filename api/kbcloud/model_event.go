@@ -28,6 +28,8 @@ type Event struct {
 	Result *string `json:"result,omitempty"`
 	// Event name is OpsRequest name or cluster operation name
 	EventName *string `json:"eventName,omitempty"`
+	// Display name is custom operation name
+	DisplayName *string `json:"displayName,omitempty"`
 	// result status of the operation event
 	ResultStatus *EventResultStatus `json:"resultStatus,omitempty"`
 	// event source
@@ -340,6 +342,34 @@ func (o *Event) SetEventName(v string) {
 	o.EventName = &v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *Event) GetDisplayName() string {
+	if o == nil || o.DisplayName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Event) GetDisplayNameOk() (*string, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *Event) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+func (o *Event) SetDisplayName(v string) {
+	o.DisplayName = &v
+}
+
 // GetResultStatus returns the ResultStatus field value if set, zero value otherwise.
 func (o *Event) GetResultStatus() EventResultStatus {
 	if o == nil || o.ResultStatus == nil {
@@ -516,6 +546,9 @@ func (o Event) MarshalJSON() ([]byte, error) {
 	if o.EventName != nil {
 		toSerialize["eventName"] = o.EventName
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 	if o.ResultStatus != nil {
 		toSerialize["resultStatus"] = o.ResultStatus
 	}
@@ -563,6 +596,7 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 		HasTask      *bool              `json:"hasTask,omitempty"`
 		Result       *string            `json:"result,omitempty"`
 		EventName    *string            `json:"eventName,omitempty"`
+		DisplayName  *string            `json:"displayName,omitempty"`
 		ResultStatus *EventResultStatus `json:"resultStatus,omitempty"`
 		Source       *EventSource       `json:"source,omitempty"`
 		End          *time.Time         `json:"end,omitempty"`
@@ -574,7 +608,7 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "resultStatus", "source", "end", "start", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceId", "resourceType", "resourceName", "operator", "operatorId", "details", "hasTask", "result", "eventName", "displayName", "resultStatus", "source", "end", "start", "createdAt"})
 	} else {
 		return err
 	}
@@ -594,6 +628,7 @@ func (o *Event) UnmarshalJSON(bytes []byte) (err error) {
 	o.HasTask = all.HasTask
 	o.Result = all.Result
 	o.EventName = all.EventName
+	o.DisplayName = all.DisplayName
 	if all.ResultStatus != nil && !all.ResultStatus.IsValid() {
 		hasInvalidField = true
 	} else {
