@@ -159,7 +159,7 @@ func (a *EnvironmentApi) CheckNodeSSHConfig(ctx _context.Context, body SshConfig
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/checkNodeSshConfig"
+	localVarPath := localBasePath + "/admin/v1/environments/checkNodeSSHConfig"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
