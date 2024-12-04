@@ -152,7 +152,7 @@
 //   - [engineVersionApi.patchEngineVersion]
 //   - [environmentApi.addNodes]
 //   - [environmentApi.checkEnvironmentAddRecord]
-//   - [environmentApi.checkNodesSSHConfig]
+//   - [environmentApi.checkNodeSSHConfig]
 //   - [environmentApi.cordonEnvironmentNode]
 //   - [environmentApi.createEnvironment]
 //   - [environmentApi.createNodeGroup]

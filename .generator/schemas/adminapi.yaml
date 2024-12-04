@@ -4855,13 +4855,13 @@ paths:
                 $ref: '#/components/schemas/environmentAdded'
       tags:
         - environment
-  /admin/v1/environments/checkNodesSSHConfig:
+  /admin/v1/environments/checkNodeSshConfig:
     post:
       tags:
         - environment
       summary: Check nodes ssh config
       description: Check ssh config of provided IP addresses
-      operationId: checkNodesSSHConfig
+      operationId: checkNodeSSHConfig
       requestBody:
         content:
           application/json:
