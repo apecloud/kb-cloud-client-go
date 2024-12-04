@@ -17,6 +17,7 @@ type EventApi common.Service
 
 // QueryClusterEventsOptionalParameters holds optional parameters for QueryClusterEvents.
 type QueryClusterEventsOptionalParameters struct {
+	OrgName      *string
 	ResourceId   *int32
 	ResourceType *string
 	EventName    *string
@@ -29,6 +30,12 @@ type QueryClusterEventsOptionalParameters struct {
 func NewQueryClusterEventsOptionalParameters() *QueryClusterEventsOptionalParameters {
 	this := QueryClusterEventsOptionalParameters{}
 	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *QueryClusterEventsOptionalParameters) WithOrgName(orgName string) *QueryClusterEventsOptionalParameters {
+	r.OrgName = &orgName
+	return r
 }
 
 // WithResourceId sets the corresponding parameter name and returns the struct.
@@ -69,7 +76,7 @@ func (r *QueryClusterEventsOptionalParameters) WithEnd(end int64) *QueryClusterE
 
 // QueryClusterEvents Query operation events.
 // Query events of clusters
-func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
+func (a *EventApi) QueryClusterEvents(ctx _context.Context, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -94,7 +101,9 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, o ..
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	if optionalParams.ResourceId != nil {
 		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
 	}

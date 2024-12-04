@@ -2154,7 +2154,6 @@ paths:
         - description: Organization Name
           in: query
           name: orgName
-          required: true
           schema:
             type: string
         - description: resource ID
