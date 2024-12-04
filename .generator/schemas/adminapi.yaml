@@ -2145,16 +2145,15 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/events:
+  /admin/v1/events:
     get:
       description: Query events of clusters
       summary: Query operation events
       operationId: queryClusterEvents
       parameters:
         - description: Organization Name
-          in: path
+          in: query
           name: orgName
-          required: true
           schema:
             type: string
         - description: resource ID
@@ -11897,6 +11896,7 @@ components:
           description: The expired time of APIKey, return empty without setting duration
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11904,7 +11904,6 @@ components:
       required:
         - accessKey
         - description
-        - expiredAt
         - createAt
       type: object
     pageResult:
@@ -11956,6 +11955,7 @@ components:
           description: The expired time of APIKey
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11964,7 +11964,6 @@ components:
         - accessKey
         - secretKey
         - description
-        - expiredAt
         - createAt
       type: object
     aggregateMetaDataType:
@@ -13635,6 +13634,9 @@ components:
           type: string
         eventName:
           description: Event name is OpsRequest name or cluster operation name
+          type: string
+        displayName:
+          description: Display name is custom operation name
           type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
