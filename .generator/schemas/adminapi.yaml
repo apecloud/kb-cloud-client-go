@@ -4855,7 +4855,7 @@ paths:
                 $ref: '#/components/schemas/environmentAdded'
       tags:
         - environment
-  /admin/v1/environments/checkNodeSshConfig:
+  /admin/v1/environments/checkNodeSSHConfig:
     post:
       tags:
         - environment
