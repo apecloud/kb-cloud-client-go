@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type EngineOptionsDisasterRecoveryStatus struct {
 	Delay            *EngineOptionsDisasterRecoverySource `json:"delay,omitempty"`
 	ReplicationPoint *EngineOptionsDisasterRecoverySource `json:"replicationPoint,omitempty"`

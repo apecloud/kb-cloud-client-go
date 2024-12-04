@@ -9363,6 +9363,9 @@ components:
         eventName:
           description: Event name is OpsRequest name or cluster operation name
           type: string
+        displayName:
+          description: Display name is custom operation name
+          type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
         source:

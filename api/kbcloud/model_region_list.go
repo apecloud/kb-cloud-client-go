@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // RegionList The list of regions.
 type RegionList struct {
 	// The list of regions.
