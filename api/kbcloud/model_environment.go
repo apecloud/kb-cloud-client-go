@@ -47,6 +47,8 @@ type Environment struct {
 	Namespaces []string `json:"namespaces,omitempty"`
 	// Enable pod antiaffinity for cluster
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
+	// the default storageClass for the environment
+	DefaultStorageClass string `json:"defaultStorageClass"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -56,7 +58,7 @@ type Environment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment(provider string, region string, availabilityZones []string, createdAt time.Time, id uuid.UUID, name string, orgName string, state EnvironmentState, typeVar EnvironmentType, updatedAt time.Time) *Environment {
+func NewEnvironment(provider string, region string, availabilityZones []string, createdAt time.Time, id uuid.UUID, name string, orgName string, state EnvironmentState, typeVar EnvironmentType, updatedAt time.Time, defaultStorageClass string) *Environment {
 	this := Environment{}
 	this.Provider = provider
 	this.Region = region
@@ -70,6 +72,7 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	this.UpdatedAt = updatedAt
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
+	this.DefaultStorageClass = defaultStorageClass
 	return &this
 }
 
@@ -509,6 +512,29 @@ func (o *Environment) SetPodAntiAffinityEnabled(v bool) {
 	o.PodAntiAffinityEnabled = &v
 }
 
+// GetDefaultStorageClass returns the DefaultStorageClass field value.
+func (o *Environment) GetDefaultStorageClass() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.DefaultStorageClass
+}
+
+// GetDefaultStorageClassOk returns a tuple with the DefaultStorageClass field value
+// and a boolean to check if the value has been set.
+func (o *Environment) GetDefaultStorageClassOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DefaultStorageClass, true
+}
+
+// SetDefaultStorageClass sets field value.
+func (o *Environment) SetDefaultStorageClass(v string) {
+	o.DefaultStorageClass = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -554,6 +580,7 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.PodAntiAffinityEnabled != nil {
 		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
 	}
+	toSerialize["defaultStorageClass"] = o.DefaultStorageClass
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -581,6 +608,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		ExtraInfo              *string           `json:"extraInfo,omitempty"`
 		Namespaces             []string          `json:"namespaces,omitempty"`
 		PodAntiAffinityEnabled *bool             `json:"podAntiAffinityEnabled,omitempty"`
+		DefaultStorageClass    *string           `json:"defaultStorageClass"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -615,9 +643,12 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UpdatedAt == nil {
 		return fmt.Errorf("required field updatedAt missing")
 	}
+	if all.DefaultStorageClass == nil {
+		return fmt.Errorf("required field defaultStorageClass missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass"})
 	} else {
 		return err
 	}
@@ -651,6 +682,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.ExtraInfo = all.ExtraInfo
 	o.Namespaces = all.Namespaces
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
+	o.DefaultStorageClass = *all.DefaultStorageClass
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

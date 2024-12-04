@@ -30,7 +30,7 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disaster-recovery"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
 	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
@@ -104,7 +104,7 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clust
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disaster-recovery/{clusterID}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
@@ -175,7 +175,78 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/switch-history"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetDisasterRecoveryStatus Retrieve Disaster Recovery Instance Status.
+// Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue DisasterRecoveryStatusResponse
+	)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryStatus")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
@@ -246,7 +317,7 @@ func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentC
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disaster-recovery"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
 	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
@@ -317,7 +388,7 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disaster-recovery/{clusterID}/promote"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote"
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 

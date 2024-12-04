@@ -12605,6 +12605,12 @@ components:
           type: boolean
           nullable: true
       type: object
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     cluster:
       required:
         - engine
@@ -12771,6 +12777,9 @@ components:
         static:
           description: if cluster is static cluster
           type: boolean
+        networkMode:
+          description: Specify the network mode for intra-cluster communication
+          $ref: '#/components/schemas/networkMode'
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
@@ -17152,21 +17161,15 @@ components:
         - backupType
         - cloudProvider
         - cloudRegion
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - engine
         - environmentName
-        - expiration
         - name
         - orgName
         - retentionPeriod
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
         - status
-        - timeRangeStart
-        - timeRangeEnd
         - totalSize
       type: object
     backupPolicy:
@@ -18259,6 +18262,15 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+    networkModeOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
     componentOpsOption:
       type: object
       required:
@@ -18345,17 +18357,19 @@ components:
       enum:
         - instant
         - range
+    metricsOptionQuery:
+      type: object
+      properties:
+        queryPattern:
+          type: string
+          x-nullable: false
+        queryType:
+          $ref: '#/components/schemas/engineOptionsMetricsQueryType'
     metricsOption:
       type: object
       properties:
         replicationLag:
-          type: object
-          properties:
-            queryPattern:
-              type: string
-              x-nullable: false
-            queryType:
-              $ref: '#/components/schemas/engineOptionsMetricsQueryType'
+          $ref: '#/components/schemas/metricsOptionQuery'
     dashboardOption:
       type: object
       required:
@@ -18495,6 +18509,18 @@ components:
         disableHA:
           type: boolean
           default: false
+    engineOptionsDisasterRecoverySource:
+      type: object
+      properties:
+        metricSource:
+          $ref: '#/components/schemas/metricsOptionQuery'
+    engineOptionsDisasterRecoveryStatus:
+      type: object
+      properties:
+        delay:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
+        replicationPoint:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
     disasterRecoveryOption:
       type: object
       required:
@@ -18505,6 +18531,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        status:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     engineOption:
       type: object
       required:
@@ -18560,6 +18588,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
+        networkMode:
+          $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
           items:
