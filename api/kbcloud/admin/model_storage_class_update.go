@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // StorageClassUpdate StorageClassUpdate provides the fields for updating a specific storage class.

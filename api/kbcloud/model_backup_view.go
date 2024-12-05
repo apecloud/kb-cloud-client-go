@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type BackupView struct {
 	// the paths of file to view
 	Filepaths []string `json:"filepaths,omitempty"`

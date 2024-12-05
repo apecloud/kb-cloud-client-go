@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type DmsResultStats struct {
 	ColumnsCount    *int32     `json:"columns_count,omitempty"`

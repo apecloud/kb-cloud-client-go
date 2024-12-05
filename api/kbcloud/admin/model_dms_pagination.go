@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DmsPagination struct {
 	RowsCount  *int32 `json:"rows_count,omitempty"`
 	Page       *int32 `json:"page,omitempty"`

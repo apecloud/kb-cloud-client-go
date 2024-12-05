@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // StorageProvisioner StorageProvisioner provides detailed information about the provisioner used by storage classes.
 type StorageProvisioner struct {
 	Provisioner   common.NullableString `json:"provisioner,omitempty"`

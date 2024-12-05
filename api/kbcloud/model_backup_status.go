@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // BackupStatus The current status. Valid values are New, InProgress, Completed, Failed.
