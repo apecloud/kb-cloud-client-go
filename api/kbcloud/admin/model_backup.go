@@ -14,9 +14,9 @@ type Backup struct {
 	// autoBackup or not
 	AutoBackup bool `json:"autoBackup"`
 	// Backup Method.
-	BackupMethod string `json:"backupMethod"`
+	BackupMethod *string `json:"backupMethod,omitempty"`
 	// Which backupPolicy is applied to perform this backup
-	BackupPolicyName string `json:"backupPolicyName"`
+	BackupPolicyName *string `json:"backupPolicyName,omitempty"`
 	// backupRepo is the name of backupRepo and it is used to store the backup data
 	BackupRepo *string `json:"backupRepo,omitempty"`
 	// the type of backup
@@ -52,7 +52,7 @@ type Backup struct {
 	// the path of backup files
 	Path *string `json:"path,omitempty"`
 	// determines a duration up to which the backup should be kept
-	RetentionPeriod string `json:"retentionPeriod"`
+	RetentionPeriod *string `json:"retentionPeriod,omitempty"`
 	// indicates when this backup becomes eligible for garbage collection
 	Expiration *time.Time `json:"expiration,omitempty"`
 	// the backup id
@@ -62,7 +62,7 @@ type Backup struct {
 	// the cloud provider
 	CloudProvider string `json:"cloudProvider"`
 	// the cloud region
-	CloudRegion string `json:"cloudRegion"`
+	CloudRegion *string `json:"cloudRegion,omitempty"`
 	// the environment name
 	EnvironmentName string `json:"environmentName"`
 	// the cluster engine
@@ -76,11 +76,9 @@ type Backup struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string, status BackupStatus, totalSize string, retentionPeriod string, cloudProvider string, cloudRegion string, environmentName string, engine string) *Backup {
+func NewBackup(autoBackup bool, backupType BackupType, creationTimestamp time.Time, name string, orgName string, snapshotVolumes bool, sourceCluster string, status BackupStatus, totalSize string, cloudProvider string, environmentName string, engine string) *Backup {
 	this := Backup{}
 	this.AutoBackup = autoBackup
-	this.BackupMethod = backupMethod
-	this.BackupPolicyName = backupPolicyName
 	this.BackupType = backupType
 	this.CreationTimestamp = creationTimestamp
 	this.Name = name
@@ -89,9 +87,7 @@ func NewBackup(autoBackup bool, backupMethod string, backupPolicyName string, ba
 	this.SourceCluster = sourceCluster
 	this.Status = status
 	this.TotalSize = totalSize
-	this.RetentionPeriod = retentionPeriod
 	this.CloudProvider = cloudProvider
-	this.CloudRegion = cloudRegion
 	this.EnvironmentName = environmentName
 	this.Engine = engine
 	return &this
@@ -128,50 +124,60 @@ func (o *Backup) SetAutoBackup(v bool) {
 	o.AutoBackup = v
 }
 
-// GetBackupMethod returns the BackupMethod field value.
+// GetBackupMethod returns the BackupMethod field value if set, zero value otherwise.
 func (o *Backup) GetBackupMethod() string {
-	if o == nil {
+	if o == nil || o.BackupMethod == nil {
 		var ret string
 		return ret
 	}
-	return o.BackupMethod
+	return *o.BackupMethod
 }
 
-// GetBackupMethodOk returns a tuple with the BackupMethod field value
+// GetBackupMethodOk returns a tuple with the BackupMethod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetBackupMethodOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.BackupMethod == nil {
 		return nil, false
 	}
-	return &o.BackupMethod, true
+	return o.BackupMethod, true
 }
 
-// SetBackupMethod sets field value.
+// HasBackupMethod returns a boolean if a field has been set.
+func (o *Backup) HasBackupMethod() bool {
+	return o != nil && o.BackupMethod != nil
+}
+
+// SetBackupMethod gets a reference to the given string and assigns it to the BackupMethod field.
 func (o *Backup) SetBackupMethod(v string) {
-	o.BackupMethod = v
+	o.BackupMethod = &v
 }
 
-// GetBackupPolicyName returns the BackupPolicyName field value.
+// GetBackupPolicyName returns the BackupPolicyName field value if set, zero value otherwise.
 func (o *Backup) GetBackupPolicyName() string {
-	if o == nil {
+	if o == nil || o.BackupPolicyName == nil {
 		var ret string
 		return ret
 	}
-	return o.BackupPolicyName
+	return *o.BackupPolicyName
 }
 
-// GetBackupPolicyNameOk returns a tuple with the BackupPolicyName field value
+// GetBackupPolicyNameOk returns a tuple with the BackupPolicyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetBackupPolicyNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.BackupPolicyName == nil {
 		return nil, false
 	}
-	return &o.BackupPolicyName, true
+	return o.BackupPolicyName, true
 }
 
-// SetBackupPolicyName sets field value.
+// HasBackupPolicyName returns a boolean if a field has been set.
+func (o *Backup) HasBackupPolicyName() bool {
+	return o != nil && o.BackupPolicyName != nil
+}
+
+// SetBackupPolicyName gets a reference to the given string and assigns it to the BackupPolicyName field.
 func (o *Backup) SetBackupPolicyName(v string) {
-	o.BackupPolicyName = v
+	o.BackupPolicyName = &v
 }
 
 // GetBackupRepo returns the BackupRepo field value if set, zero value otherwise.
@@ -638,27 +644,32 @@ func (o *Backup) SetPath(v string) {
 	o.Path = &v
 }
 
-// GetRetentionPeriod returns the RetentionPeriod field value.
+// GetRetentionPeriod returns the RetentionPeriod field value if set, zero value otherwise.
 func (o *Backup) GetRetentionPeriod() string {
-	if o == nil {
+	if o == nil || o.RetentionPeriod == nil {
 		var ret string
 		return ret
 	}
-	return o.RetentionPeriod
+	return *o.RetentionPeriod
 }
 
-// GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value
+// GetRetentionPeriodOk returns a tuple with the RetentionPeriod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetRetentionPeriodOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.RetentionPeriod == nil {
 		return nil, false
 	}
-	return &o.RetentionPeriod, true
+	return o.RetentionPeriod, true
 }
 
-// SetRetentionPeriod sets field value.
+// HasRetentionPeriod returns a boolean if a field has been set.
+func (o *Backup) HasRetentionPeriod() bool {
+	return o != nil && o.RetentionPeriod != nil
+}
+
+// SetRetentionPeriod gets a reference to the given string and assigns it to the RetentionPeriod field.
 func (o *Backup) SetRetentionPeriod(v string) {
-	o.RetentionPeriod = v
+	o.RetentionPeriod = &v
 }
 
 // GetExpiration returns the Expiration field value if set, zero value otherwise.
@@ -768,27 +779,32 @@ func (o *Backup) SetCloudProvider(v string) {
 	o.CloudProvider = v
 }
 
-// GetCloudRegion returns the CloudRegion field value.
+// GetCloudRegion returns the CloudRegion field value if set, zero value otherwise.
 func (o *Backup) GetCloudRegion() string {
-	if o == nil {
+	if o == nil || o.CloudRegion == nil {
 		var ret string
 		return ret
 	}
-	return o.CloudRegion
+	return *o.CloudRegion
 }
 
-// GetCloudRegionOk returns a tuple with the CloudRegion field value
+// GetCloudRegionOk returns a tuple with the CloudRegion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Backup) GetCloudRegionOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.CloudRegion == nil {
 		return nil, false
 	}
-	return &o.CloudRegion, true
+	return o.CloudRegion, true
 }
 
-// SetCloudRegion sets field value.
+// HasCloudRegion returns a boolean if a field has been set.
+func (o *Backup) HasCloudRegion() bool {
+	return o != nil && o.CloudRegion != nil
+}
+
+// SetCloudRegion gets a reference to the given string and assigns it to the CloudRegion field.
 func (o *Backup) SetCloudRegion(v string) {
-	o.CloudRegion = v
+	o.CloudRegion = &v
 }
 
 // GetEnvironmentName returns the EnvironmentName field value.
@@ -844,8 +860,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["autoBackup"] = o.AutoBackup
-	toSerialize["backupMethod"] = o.BackupMethod
-	toSerialize["backupPolicyName"] = o.BackupPolicyName
+	if o.BackupMethod != nil {
+		toSerialize["backupMethod"] = o.BackupMethod
+	}
+	if o.BackupPolicyName != nil {
+		toSerialize["backupPolicyName"] = o.BackupPolicyName
+	}
 	if o.BackupRepo != nil {
 		toSerialize["backupRepo"] = o.BackupRepo
 	}
@@ -904,7 +924,9 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.Path != nil {
 		toSerialize["path"] = o.Path
 	}
-	toSerialize["retentionPeriod"] = o.RetentionPeriod
+	if o.RetentionPeriod != nil {
+		toSerialize["retentionPeriod"] = o.RetentionPeriod
+	}
 	if o.Expiration != nil {
 		if o.Expiration.Nanosecond() == 0 {
 			toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05Z07:00")
@@ -919,7 +941,9 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		toSerialize["clusterId"] = o.ClusterId
 	}
 	toSerialize["cloudProvider"] = o.CloudProvider
-	toSerialize["cloudRegion"] = o.CloudRegion
+	if o.CloudRegion != nil {
+		toSerialize["cloudRegion"] = o.CloudRegion
+	}
 	toSerialize["environmentName"] = o.EnvironmentName
 	toSerialize["engine"] = o.Engine
 
@@ -933,8 +957,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		AutoBackup          *bool         `json:"autoBackup"`
-		BackupMethod        *string       `json:"backupMethod"`
-		BackupPolicyName    *string       `json:"backupPolicyName"`
+		BackupMethod        *string       `json:"backupMethod,omitempty"`
+		BackupPolicyName    *string       `json:"backupPolicyName,omitempty"`
 		BackupRepo          *string       `json:"backupRepo,omitempty"`
 		BackupType          *BackupType   `json:"backupType"`
 		CompletionTimestamp *time.Time    `json:"completionTimestamp,omitempty"`
@@ -953,12 +977,12 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		Extras              *string       `json:"extras,omitempty"`
 		TargetPods          []string      `json:"targetPods,omitempty"`
 		Path                *string       `json:"path,omitempty"`
-		RetentionPeriod     *string       `json:"retentionPeriod"`
+		RetentionPeriod     *string       `json:"retentionPeriod,omitempty"`
 		Expiration          *time.Time    `json:"expiration,omitempty"`
 		Id                  *string       `json:"id,omitempty"`
 		ClusterId           *string       `json:"clusterId,omitempty"`
 		CloudProvider       *string       `json:"cloudProvider"`
-		CloudRegion         *string       `json:"cloudRegion"`
+		CloudRegion         *string       `json:"cloudRegion,omitempty"`
 		EnvironmentName     *string       `json:"environmentName"`
 		Engine              *string       `json:"engine"`
 	}{}
@@ -967,12 +991,6 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.AutoBackup == nil {
 		return fmt.Errorf("required field autoBackup missing")
-	}
-	if all.BackupMethod == nil {
-		return fmt.Errorf("required field backupMethod missing")
-	}
-	if all.BackupPolicyName == nil {
-		return fmt.Errorf("required field backupPolicyName missing")
 	}
 	if all.BackupType == nil {
 		return fmt.Errorf("required field backupType missing")
@@ -998,14 +1016,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	if all.TotalSize == nil {
 		return fmt.Errorf("required field totalSize missing")
 	}
-	if all.RetentionPeriod == nil {
-		return fmt.Errorf("required field retentionPeriod missing")
-	}
 	if all.CloudProvider == nil {
 		return fmt.Errorf("required field cloudProvider missing")
-	}
-	if all.CloudRegion == nil {
-		return fmt.Errorf("required field cloudRegion missing")
 	}
 	if all.EnvironmentName == nil {
 		return fmt.Errorf("required field environmentName missing")
@@ -1022,8 +1034,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.AutoBackup = *all.AutoBackup
-	o.BackupMethod = *all.BackupMethod
-	o.BackupPolicyName = *all.BackupPolicyName
+	o.BackupMethod = all.BackupMethod
+	o.BackupPolicyName = all.BackupPolicyName
 	o.BackupRepo = all.BackupRepo
 	if !all.BackupType.IsValid() {
 		hasInvalidField = true
@@ -1050,12 +1062,12 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.Extras = all.Extras
 	o.TargetPods = all.TargetPods
 	o.Path = all.Path
-	o.RetentionPeriod = *all.RetentionPeriod
+	o.RetentionPeriod = all.RetentionPeriod
 	o.Expiration = all.Expiration
 	o.Id = all.Id
 	o.ClusterId = all.ClusterId
 	o.CloudProvider = *all.CloudProvider
-	o.CloudRegion = *all.CloudRegion
+	o.CloudRegion = all.CloudRegion
 	o.EnvironmentName = *all.EnvironmentName
 	o.Engine = *all.Engine
 
