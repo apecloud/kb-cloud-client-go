@@ -454,6 +454,102 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - organization
+  /admin/v1/organizations/{orgName}/parameters:
+    get:
+      operationId: listOrgParameters
+      summary: List parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: the category of the parameters
+          in: query
+          name: category
+          schema:
+            type: string
+        - description: the name of the parameter
+          in: query
+          name: name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+  /admin/v1/organizations/{orgName}/parameters/{parameterName}:
+    get:
+      operationId: getOrgParameter
+      summary: Get a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      operationId: patchOrgParameter
+      summary: Update a parameter of an organization
+      description: Update a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameter'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+      tags:
+        - organization
   /admin/v1/permissions:
     get:
       tags:
@@ -12157,6 +12253,68 @@ components:
       required:
         - items
       type: object
+    orgParameter:
+      description: org parameter item
+      type: object
+      required:
+        - id
+        - orgId
+        - name
+        - category
+        - type
+        - constraints
+        - value
+        - description
+      properties:
+        id:
+          type: string
+          description: org parameter id
+        orgId:
+          type: string
+          description: org id
+        name:
+          type: string
+          description: org parameter name
+        category:
+          type: string
+          description: org parameter category
+        type:
+          type: string
+          description: type of org parameter value
+        constraints:
+          type: object
+          description: org parameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: org parameter min value
+            max:
+              type: string
+              description: org parameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: org parameter enum constraints
+            default:
+              type: string
+              description: org parameter default value
+        description:
+          type: string
+          description: org parameter description
+        value:
+          type: string
+          description: org parameter value
+    orgParameterList:
+      description: org parameter list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/orgParameter'
+      required:
+        - items
     permission:
       description: Permission information
       type: object
