@@ -12252,6 +12252,7 @@ components:
         accepted:
           description: User has accepted or not
           type: boolean
+          nullable: true
         createdAt:
           format: date-time
           type: string
@@ -12286,7 +12287,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id

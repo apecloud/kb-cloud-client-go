@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ComponentOptionVersionMinorVersion struct {
 	// determine whether minor version can be rolled back.
 	Rollback *bool `json:"rollback,omitempty"`

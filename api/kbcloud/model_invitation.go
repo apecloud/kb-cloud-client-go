@@ -7,14 +7,12 @@ package kbcloud
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Invitation Invitation info
 type Invitation struct {
 	// User has accepted or not
-	Accepted bool `json:"accepted"`
+	Accepted common.NullableBool `json:"accepted,omitempty"`
 	// the created time of the invitation
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The email of the invitee
@@ -44,9 +42,8 @@ type Invitation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInvitation(accepted bool, email string, expireTime time.Time, id string, lastEmailTime time.Time, orgName string, roleName string, token string) *Invitation {
+func NewInvitation(email string, expireTime time.Time, id string, lastEmailTime time.Time, orgName string, roleName string, token string) *Invitation {
 	this := Invitation{}
-	this.Accepted = accepted
 	this.Email = email
 	this.ExpireTime = expireTime
 	this.Id = id
@@ -65,27 +62,43 @@ func NewInvitationWithDefaults() *Invitation {
 	return &this
 }
 
-// GetAccepted returns the Accepted field value.
+// GetAccepted returns the Accepted field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Invitation) GetAccepted() bool {
-	if o == nil {
+	if o == nil || o.Accepted.Get() == nil {
 		var ret bool
 		return ret
 	}
-	return o.Accepted
+	return *o.Accepted.Get()
 }
 
-// GetAcceptedOk returns a tuple with the Accepted field value
+// GetAcceptedOk returns a tuple with the Accepted field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Invitation) GetAcceptedOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Accepted, true
+	return o.Accepted.Get(), o.Accepted.IsSet()
 }
 
-// SetAccepted sets field value.
+// HasAccepted returns a boolean if a field has been set.
+func (o *Invitation) HasAccepted() bool {
+	return o != nil && o.Accepted.IsSet()
+}
+
+// SetAccepted gets a reference to the given common.NullableBool and assigns it to the Accepted field.
 func (o *Invitation) SetAccepted(v bool) {
-	o.Accepted = v
+	o.Accepted.Set(&v)
+}
+
+// SetAcceptedNil sets the value for Accepted to be an explicit nil.
+func (o *Invitation) SetAcceptedNil() {
+	o.Accepted.Set(nil)
+}
+
+// UnsetAccepted ensures that no value is present for Accepted, not even an explicit nil.
+func (o *Invitation) UnsetAccepted() {
+	o.Accepted.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -339,7 +352,9 @@ func (o Invitation) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["accepted"] = o.Accepted
+	if o.Accepted.IsSet() {
+		toSerialize["accepted"] = o.Accepted.Get()
+	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -382,23 +397,20 @@ func (o Invitation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Accepted      *bool             `json:"accepted"`
-		CreatedAt     *time.Time        `json:"createdAt,omitempty"`
-		Email         *string           `json:"email"`
-		ExpireTime    *time.Time        `json:"expireTime"`
-		Id            *string           `json:"id"`
-		LastEmailTime *time.Time        `json:"lastEmailTime"`
-		OrgName       *string           `json:"orgName"`
-		RoleName      *string           `json:"roleName"`
-		Sender        *InvitationSender `json:"sender,omitempty"`
-		Token         *string           `json:"token"`
-		UpdatedAt     *time.Time        `json:"updatedAt,omitempty"`
+		Accepted      common.NullableBool `json:"accepted,omitempty"`
+		CreatedAt     *time.Time          `json:"createdAt,omitempty"`
+		Email         *string             `json:"email"`
+		ExpireTime    *time.Time          `json:"expireTime"`
+		Id            *string             `json:"id"`
+		LastEmailTime *time.Time          `json:"lastEmailTime"`
+		OrgName       *string             `json:"orgName"`
+		RoleName      *string             `json:"roleName"`
+		Sender        *InvitationSender   `json:"sender,omitempty"`
+		Token         *string             `json:"token"`
+		UpdatedAt     *time.Time          `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.Accepted == nil {
-		return fmt.Errorf("required field accepted missing")
 	}
 	if all.Email == nil {
 		return fmt.Errorf("required field email missing")
@@ -429,7 +441,7 @@ func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.Accepted = *all.Accepted
+	o.Accepted = all.Accepted
 	o.CreatedAt = all.CreatedAt
 	o.Email = *all.Email
 	o.ExpireTime = *all.ExpireTime
