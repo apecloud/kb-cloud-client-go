@@ -218,7 +218,7 @@ paths:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -2145,16 +2145,15 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/events:
+  /admin/v1/events:
     get:
       description: Query events of clusters
       summary: Query operation events
       operationId: queryClusterEvents
       parameters:
         - description: Organization Name
-          in: path
+          in: query
           name: orgName
-          required: true
           schema:
             type: string
         - description: resource ID
@@ -4856,13 +4855,13 @@ paths:
                 $ref: '#/components/schemas/environmentAdded'
       tags:
         - environment
-  /admin/v1/environments/checkNodesSSHConfig:
+  /admin/v1/environments/checkNodeSSHConfig:
     post:
       tags:
         - environment
       summary: Check nodes ssh config
       description: Check ssh config of provided IP addresses
-      operationId: checkNodesSSHConfig
+      operationId: checkNodeSSHConfig
       requestBody:
         content:
           application/json:
@@ -11420,30 +11419,6 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-    post:
-      tags:
-        - metadb
-      operationId: metadbCheckBackupConfig
-      summary: check backup config
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/backupConfig'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backupConfig'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
     patch:
       tags:
         - metadb
@@ -11921,6 +11896,7 @@ components:
           description: The expired time of APIKey, return empty without setting duration
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11928,7 +11904,6 @@ components:
       required:
         - accessKey
         - description
-        - expiredAt
         - createAt
       type: object
     pageResult:
@@ -11980,6 +11955,7 @@ components:
           description: The expired time of APIKey
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11988,7 +11964,6 @@ components:
         - accessKey
         - secretKey
         - description
-        - expiredAt
         - createAt
       type: object
     aggregateMetaDataType:
@@ -13659,6 +13634,9 @@ components:
           type: string
         eventName:
           description: Event name is OpsRequest name or cluster operation name
+          type: string
+        displayName:
+          description: Display name is custom operation name
           type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
@@ -20406,9 +20384,6 @@ components:
         lastBackupTime:
           description: the time of last backup
           type: string
-        connected:
-          description: Whether the server can connect to the backup storage
-          type: boolean
       required:
         - provider
         - accessKeyId

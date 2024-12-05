@@ -24,8 +24,6 @@ type BackupConfig struct {
 	RetentionPolicy *string `json:"retentionPolicy,omitempty"`
 	// the time of last backup
 	LastBackupTime *string `json:"lastBackupTime,omitempty"`
-	// Whether the server can connect to the backup storage
-	Connected *bool `json:"connected,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -340,34 +338,6 @@ func (o *BackupConfig) SetLastBackupTime(v string) {
 	o.LastBackupTime = &v
 }
 
-// GetConnected returns the Connected field value if set, zero value otherwise.
-func (o *BackupConfig) GetConnected() bool {
-	if o == nil || o.Connected == nil {
-		var ret bool
-		return ret
-	}
-	return *o.Connected
-}
-
-// GetConnectedOk returns a tuple with the Connected field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BackupConfig) GetConnectedOk() (*bool, bool) {
-	if o == nil || o.Connected == nil {
-		return nil, false
-	}
-	return o.Connected, true
-}
-
-// HasConnected returns a boolean if a field has been set.
-func (o *BackupConfig) HasConnected() bool {
-	return o != nil && o.Connected != nil
-}
-
-// SetConnected gets a reference to the given bool and assigns it to the Connected field.
-func (o *BackupConfig) SetConnected(v bool) {
-	o.Connected = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -397,9 +367,6 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.LastBackupTime != nil {
 		toSerialize["lastBackupTime"] = o.LastBackupTime
 	}
-	if o.Connected != nil {
-		toSerialize["connected"] = o.Connected
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -421,7 +388,6 @@ func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 		NextBackupTime  *string `json:"nextBackupTime,omitempty"`
 		RetentionPolicy *string `json:"retentionPolicy,omitempty"`
 		LastBackupTime  *string `json:"lastBackupTime,omitempty"`
-		Connected       *bool   `json:"connected,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -443,7 +409,7 @@ func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "bucket", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime", "connected"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "bucket", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime"})
 	} else {
 		return err
 	}
@@ -458,7 +424,6 @@ func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	o.NextBackupTime = all.NextBackupTime
 	o.RetentionPolicy = all.RetentionPolicy
 	o.LastBackupTime = all.LastBackupTime
-	o.Connected = all.Connected
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
