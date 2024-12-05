@@ -933,6 +933,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zone for filtering node groups
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -942,52 +948,8 @@ paths:
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
-      tags:
-        - environment
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/environments/{environmentName}/nodeList:
-    get:
-      operationId: listNodes
-      summary: List environment nodes
-      description: Retrieve a list of nodes for the specified environment
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Organization
-          required: true
-          schema:
-            type: string
-        - name: environmentName
-          in: path
-          description: Name of the environment
-          required: true
-          schema:
-            type: string
-        - name: zones
-          in: query
-          description: Filter nodes by availability zones
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/nodeList'
-          description: Successfully retrieved the list of nodes
-        '400':
-          $ref: '#/components/responses/400'
-        '403':
-          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -9790,103 +9752,6 @@ components:
             format: string
           type: array
           description: the nodes of the node group
-    resourceStats:
-      description: ResourceStats holds the requests, limits, and available stats for a resource.
-      properties:
-        allocatable:
-          description: The amount of CPU or Memory resources that are available on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-        limits:
-          description: The maximum number of CPU or Memory resources pods are allowed to use on the node.  Unit is GiB for memory and Cores for CPU
-          format: double
-          type: number
-        requests:
-          description: The number of CPU or Memory resources requested by pods running on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-        usage:
-          description: The amount of CPU or Memory resources that are already used on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-        capacity:
-          description: The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-      required:
-        - allocatable
-        - capacity
-        - limits
-        - requests
-        - usage
-      type: object
-    node:
-      description: node info
-      properties:
-        cpu:
-          description: CPU cores of the node
-          format: int64
-          type: integer
-        cpuStats:
-          $ref: '#/components/schemas/resourceStats'
-        createdAt:
-          description: |-
-            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
-          format: date-time
-          type: string
-        hostName:
-          description: Host name of the node
-          type: string
-        instanceType:
-          description: Instance type of the node
-          type: string
-        ip:
-          description: IP address of the node
-          type: string
-        memory:
-          description: Memory of the node, unit is GiB
-          format: int64
-          type: integer
-        memoryStats:
-          $ref: '#/components/schemas/resourceStats'
-        zone:
-          description: Zone of the node
-          type: string
-        region:
-          description: Region of the node
-          type: string
-        unschedulable:
-          description: whether node is unschedulable
-          type: boolean
-        nodeGroup:
-          description: Node Group of the node
-          type: string
-        controlPlane:
-          description: node is in control plane
-          type: boolean
-        dataPlane:
-          description: node is in data plane
-          type: boolean
-      required:
-        - createdAt
-        - hostName
-        - ip
-      type: object
-    nodeList:
-      description: nodeList is a list of nodes
-      properties:
-        items:
-          description: Items is the list of Org objects in the list
-          items:
-            $ref: '#/components/schemas/node'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
     benchmarkType:
       type: string
       description: Type of benchmark

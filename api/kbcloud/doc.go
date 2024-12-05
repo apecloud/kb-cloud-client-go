@@ -139,7 +139,6 @@
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listNodeGroup]
-//   - [environmentApi.listNodes]
 //   - [eventApi.queryClusterEvents]
 //   - [featureApi.listFeature]
 //   - [featureApi.readFeature]
