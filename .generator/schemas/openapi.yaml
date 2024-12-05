@@ -9854,8 +9854,20 @@ components:
         zone:
           description: Zone of the node
           type: string
+        region:
+          description: Region of the node
+          type: string
         unschedulable:
           description: whether node is unschedulable
+          type: boolean
+        nodeGroup:
+          description: Node Group of the node
+          type: string
+        controlPlane:
+          description: node is in control plane
+          type: boolean
+        dataPlane:
+          description: node is in data plane
           type: boolean
       required:
         - createdAt
