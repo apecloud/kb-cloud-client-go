@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // InvitationSender InvitationSender is the User who send the Invitation
 type InvitationSender struct {
 	// The email of the User

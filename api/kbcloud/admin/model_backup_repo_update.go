@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // BackupRepoUpdate BackupRepoUpdate is the payload to update a KubeBlocks cluster backup repo

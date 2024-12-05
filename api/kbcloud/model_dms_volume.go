@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DmsVolume struct {
 	Name      *string `json:"name,omitempty"`
 	Type      *string `json:"type,omitempty"`

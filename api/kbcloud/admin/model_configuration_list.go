@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ConfigurationList A list of cluster parameters configuration
 type ConfigurationList struct {
 	Items []Configuration `json:"items,omitempty"`

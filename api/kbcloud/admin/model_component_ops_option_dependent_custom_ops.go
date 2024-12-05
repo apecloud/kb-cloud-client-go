@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type ComponentOpsOptionDependentCustomOps struct {
 	// opsDefinition name
 	OpsDefName *string `json:"opsDefName,omitempty"`

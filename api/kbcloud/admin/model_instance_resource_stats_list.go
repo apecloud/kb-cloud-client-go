@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // InstanceResourceStatsList InstanceResourceStatsList is a list of InstanceResourceStats

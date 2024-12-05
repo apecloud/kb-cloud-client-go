@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ComponentItem ComponentItem is the information of a component
 type ComponentItem struct {
 	// component name

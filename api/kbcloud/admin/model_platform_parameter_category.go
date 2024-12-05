@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // PlatformParameterCategory platformParameter category, representing the platformParameter group, such as 'recycle bin'

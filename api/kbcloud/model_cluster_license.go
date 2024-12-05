@@ -7,6 +7,8 @@ package kbcloud
 import (
 	_io "io"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type ClusterLicense struct {

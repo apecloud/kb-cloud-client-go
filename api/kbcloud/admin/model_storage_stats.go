@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // StorageStats StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.

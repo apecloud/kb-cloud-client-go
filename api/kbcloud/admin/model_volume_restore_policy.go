@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // VolumeRestorePolicy the volume claim restore policy, support values: [Serial, Parallel]

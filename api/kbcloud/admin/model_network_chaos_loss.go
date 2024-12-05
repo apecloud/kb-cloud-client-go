@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // NetworkChaosLoss specify the loss in the chaos action
 type NetworkChaosLoss struct {
 	// specify the loss in the chaos action

@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type SqlReqRes struct {
 	// SQL request or response body
 	Body *string `json:"body,omitempty"`
