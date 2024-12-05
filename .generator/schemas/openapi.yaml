@@ -13352,6 +13352,9 @@ components:
         feature:
           type: object
           additionalProperties: {}
+        defaultAccount:
+          type: string
+          x-nullable: true
         tableMetadata:
           type: array
           items:
