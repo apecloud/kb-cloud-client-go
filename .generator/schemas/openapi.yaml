@@ -10252,7 +10252,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id
