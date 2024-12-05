@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Ycsb ycsb is the ycsb benchmark object

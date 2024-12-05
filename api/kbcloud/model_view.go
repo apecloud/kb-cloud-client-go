@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // View View is the schema for the views API
 type View struct {
 	// A label selector is a label query over a set of resources.

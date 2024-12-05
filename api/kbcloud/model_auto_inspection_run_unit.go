@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // AutoInspectionRunUnit Specifies the unit of time for the auto inspection schedule.

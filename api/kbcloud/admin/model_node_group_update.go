@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // NodeGroupUpdate NodeGroup patch info
 type NodeGroupUpdate struct {
 	// NodeGroup description

@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // OpsRebuildInstance rebuild the instances of the cluster.
 type OpsRebuildInstance struct {
 	// will ignore role check during rebuilding instance.

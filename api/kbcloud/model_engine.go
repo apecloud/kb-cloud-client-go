@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type Engine struct {
 	// engine ID
 	Id *string `json:"id,omitempty"`

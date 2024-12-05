@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ClusterType Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster

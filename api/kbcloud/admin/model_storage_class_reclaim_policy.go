@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // StorageClassReclaimPolicy reclaimPolicy controls the reclaimPolicy for dynamically provisioned PersistentVolumes of this storage class. Defaults to Delete.

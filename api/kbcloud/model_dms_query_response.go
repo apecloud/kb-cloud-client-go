@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DmsQueryResponse struct {
 	// result set of query
 	Data []DmsResult `json:"data,omitempty"`

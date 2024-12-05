@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ClusterBackup clusterBackup is the payload for cluster backup
 type ClusterBackup struct {
 	// PITREnabled or not

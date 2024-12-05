@@ -4,7 +4,11 @@
 
 package admin
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type InstanceTypes struct {
 	// The unique identifier for the instance type.

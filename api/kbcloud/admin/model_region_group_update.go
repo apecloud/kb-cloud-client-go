@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // RegionGroupUpdate The region group that needs to be updated.
 type RegionGroupUpdate struct {
 	// The Chinese name of the region group.

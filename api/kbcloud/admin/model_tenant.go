@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type Tenant struct {
 	Id               *string   `json:"id,omitempty"`
 	Name             *string   `json:"name,omitempty"`

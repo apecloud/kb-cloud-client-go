@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // RestoreLog restore workload logs
 type RestoreLog struct {
 	// items is the list of restoreLogByPod objects

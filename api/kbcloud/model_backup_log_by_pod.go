@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // BackupLogByPod info of backup workload log
 type BackupLogByPod struct {

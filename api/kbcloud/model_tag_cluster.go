@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type TagCluster struct {
 	// The cluster id corresponding to the tag
 	ClusterId *string `json:"clusterId,omitempty"`
