@@ -5767,6 +5767,18 @@ paths:
           required: true
           schema:
             type: string
+        - name: page
+          in: query
+          description: page number
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: A successful response.
@@ -13108,6 +13120,10 @@ components:
           type: integer
         orgName:
           type: string
+        page:
+          type: integer
+        pageSize:
+          type: integer
       description: Alert object information
     alertObjectList:
       required:
