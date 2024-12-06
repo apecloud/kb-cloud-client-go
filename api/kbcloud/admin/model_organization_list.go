@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // OrganizationList Organization list.
 type OrganizationList struct {
 	// The list of organizations.

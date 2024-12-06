@@ -6,8 +6,6 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // DatabaseItem Cluster database information

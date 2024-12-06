@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // OpsRestart OpsRestart is the payload to restart a KubeBlocks cluster
 type OpsRestart struct {
 	// component type

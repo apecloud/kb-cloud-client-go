@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // BackupOption If present, it must be set defaultMethod and fullMethod

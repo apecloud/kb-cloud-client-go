@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // OpsExpose OpsExpose is the payload to expose a KubeBlocks cluster

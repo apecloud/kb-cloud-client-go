@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // BackupStatsType Totalsize and number of backups for the backup type
 type BackupStatsType struct {
 	// backup type

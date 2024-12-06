@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type TlsRequest struct {
 	// Enable TLS or not
 	Enable *bool `json:"enable,omitempty"`

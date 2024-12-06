@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // StorageClassList StorageClassList stands for stats for storage classes.
 type StorageClassList struct {
 	// the list of storage classes

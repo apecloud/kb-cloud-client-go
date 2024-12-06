@@ -4,11 +4,7 @@
 
 package kbcloud
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // Benchmark Benchmark is the benchmark object
 type Benchmark struct {

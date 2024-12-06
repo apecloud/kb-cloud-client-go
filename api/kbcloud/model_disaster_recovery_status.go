@@ -6,8 +6,6 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // DisasterRecoveryStatus the status of promote event, support values: [Succeed, Failed, Running, Unknown]

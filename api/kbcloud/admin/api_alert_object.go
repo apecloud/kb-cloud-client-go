@@ -18,7 +18,9 @@ type AlertObjectApi common.Service
 
 // ListAlertObjectsOptionalParameters holds optional parameters for ListAlertObjects.
 type ListAlertObjectsOptionalParameters struct {
-	OrgName *string
+	OrgName  *string
+	Page     *int32
+	PageSize *int32
 }
 
 // NewListAlertObjectsOptionalParameters creates an empty struct for parameters.
@@ -30,6 +32,18 @@ func NewListAlertObjectsOptionalParameters() *ListAlertObjectsOptionalParameters
 // WithOrgName sets the corresponding parameter name and returns the struct.
 func (r *ListAlertObjectsOptionalParameters) WithOrgName(orgName string) *ListAlertObjectsOptionalParameters {
 	r.OrgName = &orgName
+	return r
+}
+
+// WithPage sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithPage(page int32) *ListAlertObjectsOptionalParameters {
+	r.Page = &page
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithPageSize(pageSize int32) *ListAlertObjectsOptionalParameters {
+	r.PageSize = &pageSize
 	return r
 }
 
@@ -61,6 +75,12 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, o ...ListAlertOb
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.Page != nil {
+		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

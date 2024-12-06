@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ViewInvolvedObjectsSelectorMatchExpressionsItem struct {
 	// key is the label key that the selector applies to.
 	Key *string `json:"key,omitempty"`

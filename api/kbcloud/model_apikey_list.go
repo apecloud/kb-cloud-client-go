@@ -6,8 +6,6 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ApikeyList APIKeys is a list of APIKey objects

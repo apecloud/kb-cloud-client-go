@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type DmsResult struct {
 	Pagination *DmsPagination  `json:"pagination,omitempty"`
 	Columns    []string        `json:"columns,omitempty"`

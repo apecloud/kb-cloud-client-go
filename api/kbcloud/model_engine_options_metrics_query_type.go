@@ -6,8 +6,6 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EngineOptionsMetricsQueryType Specifies the type of metrics query to be performed.

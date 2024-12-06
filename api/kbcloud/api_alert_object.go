@@ -16,13 +16,45 @@ import (
 // AlertObjectApi service type
 type AlertObjectApi common.Service
 
+// ListAlertObjectsOptionalParameters holds optional parameters for ListAlertObjects.
+type ListAlertObjectsOptionalParameters struct {
+	Page     *int32
+	PageSize *int32
+}
+
+// NewListAlertObjectsOptionalParameters creates an empty struct for parameters.
+func NewListAlertObjectsOptionalParameters() *ListAlertObjectsOptionalParameters {
+	this := ListAlertObjectsOptionalParameters{}
+	return &this
+}
+
+// WithPage sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithPage(page int32) *ListAlertObjectsOptionalParameters {
+	r.Page = &page
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListAlertObjectsOptionalParameters) WithPageSize(pageSize int32) *ListAlertObjectsOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
 // ListAlertObjects List alert objects.
-func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, orgName string) (AlertObjectList, *_nethttp.Response, error) {
+func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, orgName string, o ...ListAlertObjectsOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AlertObjectList
+		optionalParams      ListAlertObjectsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertObjectsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertObjectApi.ListAlertObjects")
 	if err != nil {
@@ -35,6 +67,12 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, orgName string) 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Page != nil {
+		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

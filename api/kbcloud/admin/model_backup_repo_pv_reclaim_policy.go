@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // BackupRepoPVReclaimPolicy Specify the reclaim policy for PVs created by this backup repo

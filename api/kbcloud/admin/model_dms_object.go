@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type DmsObject struct {
 	// Type is the type of db object, like 'Table', 'Views', 'Functions'
 	Type *string `json:"type,omitempty"`

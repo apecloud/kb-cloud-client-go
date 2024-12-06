@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ParameterSpecListItem With the list of parameterSpecs and the configuration file name
 type ParameterSpecListItem struct {
 	Specs []ParameterSpec `json:"specs,omitempty"`

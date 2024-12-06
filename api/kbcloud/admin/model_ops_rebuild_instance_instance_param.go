@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // OpsRebuildInstanceInstanceParam instance params for RebuildInstance ops
