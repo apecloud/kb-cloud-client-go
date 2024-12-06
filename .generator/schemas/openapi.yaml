@@ -465,16 +465,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -754,6 +744,102 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /api/v1/organizations/{orgName}/oparameters:
+    get:
+      operationId: listOrgParameters
+      summary: List parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: the category of the parameters
+          in: query
+          name: category
+          schema:
+            type: string
+        - description: the name of the parameter
+          in: query
+          name: name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+  /api/v1/organizations/{orgName}/parameters/{parameterName}:
+    get:
+      operationId: getOrgParameter
+      summary: Get a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      operationId: patchOrgParameter
+      summary: Update a parameter of an organization
+      description: Update a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameter'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+      tags:
+        - organization
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -997,9 +1083,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
+              $ref: '#/components/schemas/deleteBenchOption'
         required: true
       responses:
         '204':
@@ -5671,6 +5755,18 @@ paths:
           required: true
           schema:
             type: string
+        - name: page
+          in: query
+          description: page number
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: A successful response.
@@ -8975,6 +9071,140 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - disasterRecovery
+  /api/v1/organizations/{orgName}/cluster/{clusterName}/availables:
+    get:
+      tags:
+        - relation
+      summary: list the available clusters for the organization to create the a relation
+      operationId: listAvailableClustersInRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: targetType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the available clusters for the organization to create the a relation successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/relation:
+    get:
+      tags:
+        - relation
+      summary: list the clusters that have built a relation for the organization
+      operationId: listLinkedRelationsClusters
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the clusters that have built a relation for the organization successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - relation
+      summary: register a relation between the clusters in the organization
+      operationId: linkRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: register a relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}:
+    delete:
+      tags:
+        - relation
+      summary: unregister a relation between the clusters in the organization
+      operationId: unlinkRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: unregister a relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -9394,6 +9624,68 @@ components:
       required:
         - items
       type: object
+    orgParameter:
+      description: org parameter item
+      type: object
+      required:
+        - id
+        - orgId
+        - name
+        - category
+        - type
+        - constraints
+        - value
+        - description
+      properties:
+        id:
+          type: string
+          description: org parameter id
+        orgId:
+          type: string
+          description: org id
+        name:
+          type: string
+          description: org parameter name
+        category:
+          type: string
+          description: org parameter category
+        type:
+          type: string
+          description: type of org parameter value
+        constraints:
+          type: object
+          description: org parameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: org parameter min value
+            max:
+              type: string
+              description: org parameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: org parameter enum constraints
+            default:
+              type: string
+              description: org parameter default value
+        description:
+          type: string
+          description: org parameter description
+        value:
+          type: string
+          description: org parameter value
+    orgParameterList:
+      description: org parameter list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/orgParameter'
+      required:
+        - items
     networkConfig:
       type: object
       title: NetworkConfig
@@ -9812,17 +10104,16 @@ components:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
       description: BenchmarkList is a list of benchmarks
-      properties:
-        items:
-          description: Items is the list of benchmark objects in the list
-          items:
-            $ref: '#/components/schemas/benchmark'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/benchmark'
+    deleteBenchOption:
       type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
     pgbenchStep:
       type: string
       description: Step of pgbench
@@ -12950,6 +13241,10 @@ components:
           type: integer
         orgName:
           type: string
+        page:
+          type: integer
+        pageSize:
+          type: integer
       description: Alert object information
     alertObjectList:
       required:
@@ -13352,6 +13647,9 @@ components:
         feature:
           type: object
           additionalProperties: {}
+        defaultAccount:
+          type: string
+          x-nullable: true
         tableMetadata:
           type: array
           items:
