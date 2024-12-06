@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type BackupRepoCheck struct {
 	// whether backup repo pass the check
 	Success *bool `json:"success,omitempty"`

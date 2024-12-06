@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // DisasterRecoveryPromote the Promote object for disasterRecovery instance
 type DisasterRecoveryPromote struct {
 	// the reason for promoting

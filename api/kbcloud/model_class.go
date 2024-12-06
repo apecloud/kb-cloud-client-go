@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type Class struct {
 	Engine        *string  `json:"engine,omitempty"`
 	Code          *string  `json:"code,omitempty"`

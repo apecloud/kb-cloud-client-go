@@ -4,11 +4,7 @@
 
 package kbcloud
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // DisasterRecoveryHistoryItem DisasterRecovery history detail for Cluster
 type DisasterRecoveryHistoryItem struct {

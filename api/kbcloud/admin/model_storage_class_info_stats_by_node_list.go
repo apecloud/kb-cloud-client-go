@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // StorageClassInfoStatsByNodeList the List stands for stats for the storage volumes of nodes.

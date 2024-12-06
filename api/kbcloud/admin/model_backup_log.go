@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // BackupLog backup workload logs
 type BackupLog struct {
 	// items is the list of backupLogByPod objects
