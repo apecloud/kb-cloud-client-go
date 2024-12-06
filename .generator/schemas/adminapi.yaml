@@ -19098,7 +19098,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     classBatch:
       type: object
@@ -19109,7 +19109,7 @@ components:
           type: string
         component:
           type: string
-        series:
+        instanceType:
           type: string
         cpuOverCommit:
           type: number
