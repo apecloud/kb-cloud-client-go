@@ -218,7 +218,7 @@ paths:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -452,6 +452,102 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - organization
+  /admin/v1/organizations/{orgName}/parameters:
+    get:
+      operationId: listOrgParameters
+      summary: List parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: the category of the parameters
+          in: query
+          name: category
+          schema:
+            type: string
+        - description: the name of the parameter
+          in: query
+          name: name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+  /admin/v1/organizations/{orgName}/parameters/{parameterName}:
+    get:
+      operationId: getOrgParameter
+      summary: Get a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      operationId: patchOrgParameter
+      summary: Update a parameter of an organization
+      description: Update a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameter'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
       tags:
         - organization
   /admin/v1/permissions:
@@ -2145,16 +2241,15 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/events:
+  /admin/v1/events:
     get:
       description: Query events of clusters
       summary: Query operation events
       operationId: queryClusterEvents
       parameters:
         - description: Organization Name
-          in: path
+          in: query
           name: orgName
-          required: true
           schema:
             type: string
         - description: resource ID
@@ -2194,7 +2289,42 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /admin/v1/organizations/{orgName}/cluster/{clusterName}/task:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/tasks:
+    get:
+      operationId: listTasks
+      summary: List cluster tasks
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: You want to check the status of the task. If not passed, all selected by default
+          in: query
+          name: status
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTaskList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - task
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/tasks/{taskId}:
     get:
       description: Query task detail of clusters
       summary: Query operation task detail
@@ -2213,7 +2343,7 @@ paths:
           schema:
             type: string
         - description: Task ID
-          in: query
+          in: path
           name: taskId
           required: true
           schema:
@@ -4895,13 +5025,13 @@ paths:
                 $ref: '#/components/schemas/environmentAdded'
       tags:
         - environment
-  /admin/v1/environments/checkNodesSSHConfig:
+  /admin/v1/environments/checkNodeSSHConfig:
     post:
       tags:
         - environment
       summary: Check nodes ssh config
       description: Check ssh config of provided IP addresses
-      operationId: checkNodesSSHConfig
+      operationId: checkNodeSSHConfig
       requestBody:
         content:
           application/json:
@@ -8335,6 +8465,18 @@ paths:
           required: false
           schema:
             type: string
+        - name: page
+          in: query
+          description: page number
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: A successful response.
@@ -11936,6 +12078,7 @@ components:
           description: The expired time of APIKey, return empty without setting duration
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11943,7 +12086,6 @@ components:
       required:
         - accessKey
         - description
-        - expiredAt
         - createAt
       type: object
     pageResult:
@@ -11995,6 +12137,7 @@ components:
           description: The expired time of APIKey
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -12003,7 +12146,6 @@ components:
         - accessKey
         - secretKey
         - description
-        - expiredAt
         - createAt
       type: object
     aggregateMetaDataType:
@@ -12197,6 +12339,68 @@ components:
       required:
         - items
       type: object
+    orgParameter:
+      description: org parameter item
+      type: object
+      required:
+        - id
+        - orgId
+        - name
+        - category
+        - type
+        - constraints
+        - value
+        - description
+      properties:
+        id:
+          type: string
+          description: org parameter id
+        orgId:
+          type: string
+          description: org id
+        name:
+          type: string
+          description: org parameter name
+        category:
+          type: string
+          description: org parameter category
+        type:
+          type: string
+          description: type of org parameter value
+        constraints:
+          type: object
+          description: org parameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: org parameter min value
+            max:
+              type: string
+              description: org parameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: org parameter enum constraints
+            default:
+              type: string
+              description: org parameter default value
+        description:
+          type: string
+          description: org parameter description
+        value:
+          type: string
+          description: org parameter value
+    orgParameterList:
+      description: org parameter list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/orgParameter'
+      required:
+        - items
     permission:
       description: Permission information
       type: object
@@ -13675,6 +13879,9 @@ components:
         eventName:
           description: Event name is OpsRequest name or cluster operation name
           type: string
+        displayName:
+          description: Display name is custom operation name
+          type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
         source:
@@ -13808,6 +14015,17 @@ components:
           type: string
           format: date-time
           description: Time when the task completed or failed
+    clusterTaskList:
+      description: TaskList is a list of operation task objects
+      properties:
+        items:
+          description: Items is the list of operation task objects in the list
+          items:
+            $ref: '#/components/schemas/clusterTask'
+          type: array
+      required:
+        - items
+      type: object
     parameterHistory:
       description: The history of a parameter
       type: object
@@ -17980,6 +18198,10 @@ components:
           type: integer
         orgName:
           type: string
+        page:
+          type: integer
+        pageSize:
+          type: integer
       description: Alert object information
     alertObjectList:
       required:
@@ -18313,6 +18535,9 @@ components:
         feature:
           type: object
           additionalProperties: {}
+        defaultAccount:
+          type: string
+          x-nullable: true
         tableMetadata:
           type: array
           items:
@@ -20501,6 +20726,8 @@ components:
     backupConfig:
       type: object
       properties:
+        provider:
+          type: string
         schedule:
           type: string
         accessKeyId:
@@ -20511,7 +20738,7 @@ components:
           type: string
         region:
           type: string
-        s3Prefix:
+        bucket:
           type: string
         autoBackup:
           default: false
@@ -20526,6 +20753,12 @@ components:
         lastBackupTime:
           description: the time of last backup
           type: string
+      required:
+        - provider
+        - accessKeyId
+        - secretAccessKey
+        - endpoint
+        - bucket
     metadb_restore:
       type: object
       properties:
