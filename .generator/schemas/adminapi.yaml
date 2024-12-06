@@ -20533,6 +20533,8 @@ components:
     backupConfig:
       type: object
       properties:
+        provider:
+          type: string
         schedule:
           type: string
         accessKeyId:
@@ -20543,7 +20545,7 @@ components:
           type: string
         region:
           type: string
-        s3Prefix:
+        bucket:
           type: string
         autoBackup:
           default: false
@@ -20558,6 +20560,12 @@ components:
         lastBackupTime:
           description: the time of last backup
           type: string
+      required:
+        - provider
+        - accessKeyId
+        - secretAccessKey
+        - endpoint
+        - bucket
     metadb_restore:
       type: object
       properties:
