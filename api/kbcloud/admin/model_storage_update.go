@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // StorageUpdate storageUpdate is the schema for storage update request
 type StorageUpdate struct {
 	// the name of storage
