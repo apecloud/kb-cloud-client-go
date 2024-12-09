@@ -265,13 +265,38 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, orgName string, o
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListNodeGroupOptionalParameters holds optional parameters for ListNodeGroup.
+type ListNodeGroupOptionalParameters struct {
+	Zones *string
+}
+
+// NewListNodeGroupOptionalParameters creates an empty struct for parameters.
+func NewListNodeGroupOptionalParameters() *ListNodeGroupOptionalParameters {
+	this := ListNodeGroupOptionalParameters{}
+	return &this
+}
+
+// WithZones sets the corresponding parameter name and returns the struct.
+func (r *ListNodeGroupOptionalParameters) WithZones(zones string) *ListNodeGroupOptionalParameters {
+	r.Zones = &zones
+	return r
+}
+
 // ListNodeGroup List environment node group.
-func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string) (NodeGroup, *_nethttp.Response, error) {
+func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string, o ...ListNodeGroupOptionalParameters) (NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue NodeGroup
+		optionalParams      ListNodeGroupOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListNodeGroupOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroup")
 	if err != nil {
@@ -284,6 +309,9 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Zones != nil {
+		localVarQueryParams.Add("zones", common.ParameterToString(*optionalParams.Zones, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -311,7 +339,7 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
