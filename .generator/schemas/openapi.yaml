@@ -778,6 +778,36 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameterList'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
   /api/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -5410,6 +5440,32 @@ paths:
       tags:
         - alertReceiver
       x-codegen-request-body-name: body
+  /api/v1/alerts/checkURL:
+    post:
+      summary: Batch check URLs connectivity
+      description: Tests multiple URLs for connectivity in parallel
+      operationId: batchCheckURLConnectivity
+      tags:
+        - URL Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLCheck'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/strategies:
     get:
       tags:
@@ -9686,14 +9742,9 @@ components:
           description: org parameter value
     orgParameterList:
       description: org parameter list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgParameter'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     networkConfig:
       type: object
       title: NetworkConfig
@@ -12156,10 +12207,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -13027,6 +13080,28 @@ components:
       required:
         - items
       type: object
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
     alertSeverity:
       enum:
         - critical
