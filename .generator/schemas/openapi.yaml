@@ -778,6 +778,36 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameterList'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
   /api/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -9578,14 +9608,9 @@ components:
           description: org parameter value
     orgParameterList:
       description: org parameter list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgParameter'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     networkConfig:
       type: object
       title: NetworkConfig

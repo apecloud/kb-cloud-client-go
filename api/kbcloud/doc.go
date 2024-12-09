@@ -187,6 +187,7 @@
 //   - [opsrequestApi.updateClusterLicense]
 //   - [opsrequestApi.upgradeCluster]
 //   - [opsrequestApi.verticalScaleCluster]
+//   - [organizationApi.batchUpdateOrgParameters]
 //   - [organizationApi.createOrg]
 //   - [organizationApi.freezeMember]
 //   - [organizationApi.getOrgParameter]

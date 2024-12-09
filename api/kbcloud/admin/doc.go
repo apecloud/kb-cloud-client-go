@@ -265,6 +265,7 @@
 //   - [opsrequestApi.updateClusterLicense]
 //   - [opsrequestApi.upgradeCluster]
 //   - [opsrequestApi.verticalScaleCluster]
+//   - [organizationApi.batchUpdateOrgParameters]
 //   - [organizationApi.disableOrg]
 //   - [organizationApi.enableOrg]
 //   - [organizationApi.getOrgParameter]
