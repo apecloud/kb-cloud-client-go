@@ -6139,7 +6139,7 @@ paths:
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
-      summary: Create environment node group
+      summary: List environment node group
       parameters:
         - name: environmentName
           in: path
@@ -6147,6 +6147,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zones for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
