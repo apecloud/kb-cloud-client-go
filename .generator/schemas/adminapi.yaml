@@ -11882,7 +11882,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - task
-  /admin/v1/organizations/{orgName}/cluster/{clusterName}/availables:
+  /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
         - relation

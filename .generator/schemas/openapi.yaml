@@ -1019,6 +1019,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zone for filtering node groups
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -1028,6 +1034,8 @@ paths:
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -9071,7 +9079,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - disasterRecovery
-  /api/v1/organizations/{orgName}/cluster/{clusterName}/availables:
+  /api/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
         - relation
