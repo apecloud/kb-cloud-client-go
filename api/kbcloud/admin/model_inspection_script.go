@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type InspectionScript struct {
 	Id              *int32  `json:"id,omitempty"`
 	Engine          *string `json:"engine,omitempty"`
