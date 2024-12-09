@@ -465,16 +465,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -1093,9 +1083,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
+              $ref: '#/components/schemas/deleteBenchOption'
         required: true
       responses:
         '204':
@@ -9982,17 +9970,16 @@ components:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
       description: BenchmarkList is a list of benchmarks
-      properties:
-        items:
-          description: Items is the list of benchmark objects in the list
-          items:
-            $ref: '#/components/schemas/benchmark'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/benchmark'
+    deleteBenchOption:
       type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
     pgbenchStep:
       type: string
       description: Step of pgbench
