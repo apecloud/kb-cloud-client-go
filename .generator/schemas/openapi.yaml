@@ -779,9 +779,9 @@ paths:
       tags:
         - organization
     post:
-      operationId: patchOrgParameters
-      summary: Update parameters of an organization
-      description: Update parameters of an organization
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
       parameters:
         - description: The name of the organization
           in: path
