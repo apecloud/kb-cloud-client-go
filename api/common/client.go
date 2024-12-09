@@ -464,6 +464,33 @@ func (c *APIClient) Decode(v interface{}, b []byte, contentType string) (err err
 	return nil
 }
 
+// ClearDigestAuth removes the Digest authentication information from the transport.
+func (c *APIClient) ClearDigestAuth() {
+	if d, ok := c.Cfg.HTTPClient.Transport.(*digest.Transport); ok {
+		d.Username = ""
+		d.Password = ""
+	}
+}
+
+// SetDigestAuth sets the Digest authentication information for the transport.
+func (c *APIClient) SetDigestAuth(username, password string) {
+	if d, ok := c.Cfg.HTTPClient.Transport.(*digest.Transport); ok {
+		d.Username = username
+		d.Password = password
+	}
+}
+
+// SwitchUser switches the user by clearing the old user's authentication information and setting up the new user's authentication.
+func (c *APIClient) SwitchUser(newUsername, newPassword string) error {
+	// Clear the old user's authentication information
+	c.ClearDigestAuth()
+
+	// Set up the new user's authentication information
+	c.SetDigestAuth(newUsername, newPassword)
+
+	return nil
+}
+
 // Add a file to the multipart request.
 func addFile(w *multipart.Writer, fieldName, path string) error {
 	file, err := os.Open(path)
