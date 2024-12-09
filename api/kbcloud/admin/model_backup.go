@@ -7,8 +7,6 @@ package admin
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Backup backup is the payload for KubeBlocks cluster backup
@@ -42,9 +40,9 @@ type Backup struct {
 	// The current status. Valid values are New, InProgress, Completed, Failed.
 	Status BackupStatus `json:"status"`
 	// timeRangeEnd records the end time of the backup.
-	TimeRangeEnd *time.Time `json:"timeRangeEnd,omitempty"`
+	TimeRangeEnd common.NullableTime `json:"timeRangeEnd,omitempty"`
 	// timeRangeStart records the start time of the backup.
-	TimeRangeStart *time.Time `json:"timeRangeStart,omitempty"`
+	TimeRangeStart common.NullableTime `json:"timeRangeStart,omitempty"`
 	// Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
 	TotalSize     string  `json:"totalSize"`
 	FailureReason *string `json:"failureReason,omitempty"`
@@ -449,60 +447,82 @@ func (o *Backup) SetStatus(v BackupStatus) {
 	o.Status = v
 }
 
-// GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise.
+// GetTimeRangeEnd returns the TimeRangeEnd field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetTimeRangeEnd() time.Time {
-	if o == nil || o.TimeRangeEnd == nil {
+	if o == nil || o.TimeRangeEnd.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.TimeRangeEnd
+	return *o.TimeRangeEnd.Get()
 }
 
 // GetTimeRangeEndOk returns a tuple with the TimeRangeEnd field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetTimeRangeEndOk() (*time.Time, bool) {
-	if o == nil || o.TimeRangeEnd == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TimeRangeEnd, true
+	return o.TimeRangeEnd.Get(), o.TimeRangeEnd.IsSet()
 }
 
 // HasTimeRangeEnd returns a boolean if a field has been set.
 func (o *Backup) HasTimeRangeEnd() bool {
-	return o != nil && o.TimeRangeEnd != nil
+	return o != nil && o.TimeRangeEnd.IsSet()
 }
 
-// SetTimeRangeEnd gets a reference to the given time.Time and assigns it to the TimeRangeEnd field.
+// SetTimeRangeEnd gets a reference to the given common.NullableTime and assigns it to the TimeRangeEnd field.
 func (o *Backup) SetTimeRangeEnd(v time.Time) {
-	o.TimeRangeEnd = &v
+	o.TimeRangeEnd.Set(&v)
 }
 
-// GetTimeRangeStart returns the TimeRangeStart field value if set, zero value otherwise.
+// SetTimeRangeEndNil sets the value for TimeRangeEnd to be an explicit nil.
+func (o *Backup) SetTimeRangeEndNil() {
+	o.TimeRangeEnd.Set(nil)
+}
+
+// UnsetTimeRangeEnd ensures that no value is present for TimeRangeEnd, not even an explicit nil.
+func (o *Backup) UnsetTimeRangeEnd() {
+	o.TimeRangeEnd.Unset()
+}
+
+// GetTimeRangeStart returns the TimeRangeStart field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetTimeRangeStart() time.Time {
-	if o == nil || o.TimeRangeStart == nil {
+	if o == nil || o.TimeRangeStart.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.TimeRangeStart
+	return *o.TimeRangeStart.Get()
 }
 
 // GetTimeRangeStartOk returns a tuple with the TimeRangeStart field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetTimeRangeStartOk() (*time.Time, bool) {
-	if o == nil || o.TimeRangeStart == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.TimeRangeStart, true
+	return o.TimeRangeStart.Get(), o.TimeRangeStart.IsSet()
 }
 
 // HasTimeRangeStart returns a boolean if a field has been set.
 func (o *Backup) HasTimeRangeStart() bool {
-	return o != nil && o.TimeRangeStart != nil
+	return o != nil && o.TimeRangeStart.IsSet()
 }
 
-// SetTimeRangeStart gets a reference to the given time.Time and assigns it to the TimeRangeStart field.
+// SetTimeRangeStart gets a reference to the given common.NullableTime and assigns it to the TimeRangeStart field.
 func (o *Backup) SetTimeRangeStart(v time.Time) {
-	o.TimeRangeStart = &v
+	o.TimeRangeStart.Set(&v)
+}
+
+// SetTimeRangeStartNil sets the value for TimeRangeStart to be an explicit nil.
+func (o *Backup) SetTimeRangeStartNil() {
+	o.TimeRangeStart.Set(nil)
+}
+
+// UnsetTimeRangeStart ensures that no value is present for TimeRangeStart, not even an explicit nil.
+func (o *Backup) UnsetTimeRangeStart() {
+	o.TimeRangeStart.Unset()
 }
 
 // GetTotalSize returns the TotalSize field value.
@@ -879,19 +899,11 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		}
 	}
 	toSerialize["status"] = o.Status
-	if o.TimeRangeEnd != nil {
-		if o.TimeRangeEnd.Nanosecond() == 0 {
-			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.TimeRangeEnd.IsSet() {
+		toSerialize["timeRangeEnd"] = o.TimeRangeEnd.Get()
 	}
-	if o.TimeRangeStart != nil {
-		if o.TimeRangeStart.Nanosecond() == 0 {
-			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["timeRangeStart"] = o.TimeRangeStart.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.TimeRangeStart.IsSet() {
+		toSerialize["timeRangeStart"] = o.TimeRangeStart.Get()
 	}
 	toSerialize["totalSize"] = o.TotalSize
 	if o.FailureReason != nil {
@@ -934,35 +946,35 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup          *bool         `json:"autoBackup"`
-		BackupMethod        *string       `json:"backupMethod"`
-		BackupPolicyName    *string       `json:"backupPolicyName"`
-		BackupRepo          *string       `json:"backupRepo,omitempty"`
-		BackupType          *BackupType   `json:"backupType"`
-		CompletionTimestamp *time.Time    `json:"completionTimestamp,omitempty"`
-		CreationTimestamp   *time.Time    `json:"creationTimestamp"`
-		Duration            *string       `json:"duration,omitempty"`
-		Name                *string       `json:"name"`
-		OrgName             *string       `json:"orgName"`
-		SnapshotVolumes     *bool         `json:"snapshotVolumes"`
-		SourceCluster       *string       `json:"sourceCluster"`
-		StartTimestamp      *time.Time    `json:"startTimestamp,omitempty"`
-		Status              *BackupStatus `json:"status"`
-		TimeRangeEnd        *time.Time    `json:"timeRangeEnd,omitempty"`
-		TimeRangeStart      *time.Time    `json:"timeRangeStart,omitempty"`
-		TotalSize           *string       `json:"totalSize"`
-		FailureReason       *string       `json:"failureReason,omitempty"`
-		Extras              *string       `json:"extras,omitempty"`
-		TargetPods          []string      `json:"targetPods,omitempty"`
-		Path                *string       `json:"path,omitempty"`
-		RetentionPeriod     *string       `json:"retentionPeriod"`
-		Expiration          *time.Time    `json:"expiration,omitempty"`
-		Id                  *string       `json:"id,omitempty"`
-		ClusterId           *string       `json:"clusterId,omitempty"`
-		CloudProvider       *string       `json:"cloudProvider"`
-		CloudRegion         *string       `json:"cloudRegion"`
-		EnvironmentName     *string       `json:"environmentName"`
-		Engine              *string       `json:"engine"`
+		AutoBackup          *bool               `json:"autoBackup"`
+		BackupMethod        *string             `json:"backupMethod"`
+		BackupPolicyName    *string             `json:"backupPolicyName"`
+		BackupRepo          *string             `json:"backupRepo,omitempty"`
+		BackupType          *BackupType         `json:"backupType"`
+		CompletionTimestamp *time.Time          `json:"completionTimestamp,omitempty"`
+		CreationTimestamp   *time.Time          `json:"creationTimestamp"`
+		Duration            *string             `json:"duration,omitempty"`
+		Name                *string             `json:"name"`
+		OrgName             *string             `json:"orgName"`
+		SnapshotVolumes     *bool               `json:"snapshotVolumes"`
+		SourceCluster       *string             `json:"sourceCluster"`
+		StartTimestamp      *time.Time          `json:"startTimestamp,omitempty"`
+		Status              *BackupStatus       `json:"status"`
+		TimeRangeEnd        common.NullableTime `json:"timeRangeEnd,omitempty"`
+		TimeRangeStart      common.NullableTime `json:"timeRangeStart,omitempty"`
+		TotalSize           *string             `json:"totalSize"`
+		FailureReason       *string             `json:"failureReason,omitempty"`
+		Extras              *string             `json:"extras,omitempty"`
+		TargetPods          []string            `json:"targetPods,omitempty"`
+		Path                *string             `json:"path,omitempty"`
+		RetentionPeriod     *string             `json:"retentionPeriod"`
+		Expiration          *time.Time          `json:"expiration,omitempty"`
+		Id                  *string             `json:"id,omitempty"`
+		ClusterId           *string             `json:"clusterId,omitempty"`
+		CloudProvider       *string             `json:"cloudProvider"`
+		CloudRegion         *string             `json:"cloudRegion"`
+		EnvironmentName     *string             `json:"environmentName"`
+		Engine              *string             `json:"engine"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

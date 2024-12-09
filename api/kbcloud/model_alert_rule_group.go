@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type AlertRuleGroup struct {
 	Name  *string     `json:"name,omitempty"`
 	Rules []AlertRule `json:"rules,omitempty"`
