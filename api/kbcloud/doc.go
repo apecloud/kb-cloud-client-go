@@ -3,6 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
+//   - [URLCheckerApi.batchCheckURLConnectivity]
 //   - [accountApi.createAccount]
 //   - [accountApi.deleteAccount]
 //   - [accountApi.getDSN]
