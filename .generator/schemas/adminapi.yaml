@@ -4943,44 +4943,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/restorePreflight:
-    post:
-      operationId: preflightRestoreEnvironment
-      summary: Preflight check before restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/preflightList'
-      tags:
-        - environment
-  /admin/v1/environments/checkAddRecord:
-    post:
-      operationId: checkEnvironmentAddRecord
-      summary: check if environment added before
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentAdded'
-      tags:
-        - environment
   /admin/v1/environments/checkNodeSSHConfig:
     post:
       tags:
@@ -6320,28 +6282,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/environments/restore:
-    post:
-      operationId: restoreEnvironment
-      summary: restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentRestore'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environment'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - environment
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -15703,26 +15643,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    environmentAdded:
-      type: object
-      properties:
-        addedBefore:
-          type: boolean
-          description: whether the environment has ever been added
-        stillInUse:
-          type: boolean
-          description: whether the environment is still in use
-        environment:
-          $ref: '#/components/schemas/environment'
-        loki:
-          type: boolean
-          description: whether loki component is running
-        backupRepo:
-          type: boolean
-          description: whether backup repo is exist and ready
-        victoriaMetrics:
-          type: boolean
-          description: whether victoria metrics is exist
     sshConfig:
       type: object
       properties:
@@ -16801,16 +16721,6 @@ components:
       items:
         type: string
       type: array
-    environmentRestore:
-      type: object
-      required:
-        - environment
-      properties:
-        environment:
-          $ref: '#/components/schemas/environment'
-        victoriaMetrics:
-          type: boolean
-          description: whether to install victoria metrics
     kubeConfig:
       pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
       type: string
