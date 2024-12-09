@@ -1019,6 +1019,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zone for filtering node groups
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -1028,6 +1034,8 @@ paths:
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -1083,9 +1091,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
+              $ref: '#/components/schemas/deleteBenchOption'
         required: true
       responses:
         '204':
@@ -9972,17 +9978,16 @@ components:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
       description: BenchmarkList is a list of benchmarks
-      properties:
-        items:
-          description: Items is the list of benchmark objects in the list
-          items:
-            $ref: '#/components/schemas/benchmark'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/benchmark'
+    deleteBenchOption:
       type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
     pgbenchStep:
       type: string
       description: Step of pgbench
