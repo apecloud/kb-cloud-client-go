@@ -488,7 +488,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-    patch:
+    post:
       operationId: patchOrgParameters
       summary: Update parameters of an organization
       description: Update parameters of an organization

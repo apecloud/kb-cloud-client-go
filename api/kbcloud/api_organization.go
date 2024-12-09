@@ -568,7 +568,7 @@ func (a *OrganizationApi) PatchOrgParameter(ctx _context.Context, orgName string
 // Update parameters of an organization
 func (a *OrganizationApi) PatchOrgParameters(ctx _context.Context, orgName string, body []OrgParameter) ([]OrgParameter, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue []OrgParameter
 	)
