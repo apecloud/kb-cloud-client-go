@@ -8,6 +8,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"reflect"
 	"strings"
 	"time"
 
@@ -1995,7 +1996,7 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 
 // ListNodeGroupOptionalParameters holds optional parameters for ListNodeGroup.
 type ListNodeGroupOptionalParameters struct {
-	Zones *string
+	Zones *[]string
 }
 
 // NewListNodeGroupOptionalParameters creates an empty struct for parameters.
@@ -2005,12 +2006,12 @@ func NewListNodeGroupOptionalParameters() *ListNodeGroupOptionalParameters {
 }
 
 // WithZones sets the corresponding parameter name and returns the struct.
-func (r *ListNodeGroupOptionalParameters) WithZones(zones string) *ListNodeGroupOptionalParameters {
+func (r *ListNodeGroupOptionalParameters) WithZones(zones []string) *ListNodeGroupOptionalParameters {
 	r.Zones = &zones
 	return r
 }
 
-// ListNodeGroup Create environment node group.
+// ListNodeGroup List environment node group.
 func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string, o ...ListNodeGroupOptionalParameters) (NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -2038,7 +2039,15 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Zones != nil {
-		localVarQueryParams.Add("zones", common.ParameterToString(*optionalParams.Zones, ""))
+		t := *optionalParams.Zones
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("zones", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("zones", common.ParameterToString(t, "multi"))
+		}
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

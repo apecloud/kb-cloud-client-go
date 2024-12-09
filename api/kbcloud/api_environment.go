@@ -8,6 +8,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"reflect"
 	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -267,7 +268,7 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, orgName string, o
 
 // ListNodeGroupOptionalParameters holds optional parameters for ListNodeGroup.
 type ListNodeGroupOptionalParameters struct {
-	Zones *string
+	Zones *[]string
 }
 
 // NewListNodeGroupOptionalParameters creates an empty struct for parameters.
@@ -277,7 +278,7 @@ func NewListNodeGroupOptionalParameters() *ListNodeGroupOptionalParameters {
 }
 
 // WithZones sets the corresponding parameter name and returns the struct.
-func (r *ListNodeGroupOptionalParameters) WithZones(zones string) *ListNodeGroupOptionalParameters {
+func (r *ListNodeGroupOptionalParameters) WithZones(zones []string) *ListNodeGroupOptionalParameters {
 	r.Zones = &zones
 	return r
 }
@@ -310,7 +311,15 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Zones != nil {
-		localVarQueryParams.Add("zones", common.ParameterToString(*optionalParams.Zones, ""))
+		t := *optionalParams.Zones
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("zones", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("zones", common.ParameterToString(t, "multi"))
+		}
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

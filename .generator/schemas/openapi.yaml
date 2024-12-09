@@ -1054,7 +1054,9 @@ paths:
           description: available zone for filtering node groups
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
