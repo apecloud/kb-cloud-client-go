@@ -9108,7 +9108,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/relation:
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/relations:
     get:
       tags:
         - relation

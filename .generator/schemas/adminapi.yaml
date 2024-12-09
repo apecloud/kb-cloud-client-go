@@ -11919,7 +11919,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relation:
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relations:
     get:
       tags:
         - relation
