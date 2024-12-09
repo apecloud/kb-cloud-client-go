@@ -7,8 +7,6 @@ package kbcloud
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Region The region that the cloud provider has.

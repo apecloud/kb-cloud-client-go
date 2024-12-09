@@ -193,6 +193,7 @@
 //   - [organizationApi.listOrgParameters]
 //   - [organizationApi.patchOrg]
 //   - [organizationApi.patchOrgParameter]
+//   - [organizationApi.patchOrgParameters]
 //   - [organizationApi.readOrg]
 //   - [organizationApi.unfreezeMember]
 //   - [paramTplApi.createParamTpl]
