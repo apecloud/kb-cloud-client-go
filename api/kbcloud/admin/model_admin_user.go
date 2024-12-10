@@ -23,6 +23,8 @@ type AdminUser struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 	// return true if the default admin user need to reset password
 	IsDefaultPassword bool `json:"isDefaultPassword"`
+	// The ID for the user
+	Id *string `json:"id,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -197,6 +199,34 @@ func (o *AdminUser) SetIsDefaultPassword(v bool) {
 	o.IsDefaultPassword = v
 }
 
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *AdminUser) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AdminUser) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *AdminUser) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *AdminUser) SetId(v string) {
+	o.Id = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AdminUser) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -221,6 +251,9 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	toSerialize["isDefaultPassword"] = o.IsDefaultPassword
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -237,6 +270,7 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt         *time.Time `json:"createdAt"`
 		UpdatedAt         *time.Time `json:"updatedAt"`
 		IsDefaultPassword *bool      `json:"isDefaultPassword"`
+		Id                *string    `json:"id,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -255,7 +289,7 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword"})
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword", "id"})
 	} else {
 		return err
 	}
@@ -265,6 +299,7 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
 	o.IsDefaultPassword = *all.IsDefaultPassword
+	o.Id = all.Id
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
