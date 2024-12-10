@@ -11893,6 +11893,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        id:
+          description: The ID for the user
+          type: string
       required:
         - userName
         - createdAt
