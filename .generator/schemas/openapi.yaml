@@ -1054,7 +1054,9 @@ paths:
           description: available zone for filtering node groups
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
@@ -9386,10 +9388,12 @@ components:
           type: string
       type: object
     orgMemberRole:
-      description: The role of the User in the Org. Required
+      description: The default role of the User in the Org. Required
       enum:
-        - admin
-        - developer
+        - orgadmin
+        - orgaudit
+        - orgmember
+        - orgviewer
       type: string
     orgMember:
       description: Org Member info
@@ -12073,10 +12077,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -14825,7 +14831,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     provider:
       description: The cloud provider that the environment is running on.

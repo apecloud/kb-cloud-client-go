@@ -132,9 +132,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/adminUserList'
+                $ref: '#/components/schemas/adminUserList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -6139,7 +6137,7 @@ paths:
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
-      summary: Create environment node group
+      summary: List environment node group
       parameters:
         - name: environmentName
           in: path
@@ -6147,6 +6145,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zones for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
@@ -9433,7 +9439,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/instanceTypes'
+              $ref: '#/components/schemas/createInstanceType'
       responses:
         '201':
           description: A successful response.
@@ -11885,6 +11891,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        id:
+          description: The ID for the user
+          type: string
       required:
         - userName
         - createdAt
@@ -12194,10 +12203,12 @@ components:
         - enabled
       type: object
     orgMemberRole:
-      description: The role of the User in the Org. Required
+      description: The default role of the User in the Org. Required
       enum:
-        - admin
-        - developer
+        - orgadmin
+        - orgaudit
+        - orgmember
+        - orgviewer
       type: string
     orgMember:
       description: Org Member info
@@ -17214,10 +17225,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -19033,7 +19046,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     classBatch:
       type: object
@@ -19044,7 +19057,7 @@ components:
           type: string
         component:
           type: string
-        series:
+        instanceType:
           type: string
         cpuOverCommit:
           type: number
@@ -19091,6 +19104,30 @@ components:
           description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
         serverConfiguration:
           $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
