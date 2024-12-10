@@ -9441,7 +9441,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/instanceTypes'
+              $ref: '#/components/schemas/createInstanceType'
       responses:
         '201':
           description: A successful response.
@@ -19104,6 +19104,30 @@ components:
           description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
         serverConfiguration:
           $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
