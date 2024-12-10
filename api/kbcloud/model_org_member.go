@@ -14,7 +14,7 @@ type OrgMember struct {
 	DisplayName *string `json:"displayName,omitempty"`
 	// The email of User. Required when create. Read-Only after create
 	Email string `json:"email"`
-	// The role of the User in the Org. Required
+	// The default role of the User in the Org. Required
 	Role OrgMemberRole `json:"role"`
 	// The ID of User. Read-Only
 	UserId string `json:"userId"`
