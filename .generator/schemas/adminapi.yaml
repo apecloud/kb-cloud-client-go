@@ -12202,14 +12202,6 @@ components:
         - updatedAt
         - enabled
       type: object
-    orgMemberRole:
-      description: The default role of the User in the Org. Required
-      enum:
-        - orgadmin
-        - orgaudit
-        - orgmember
-        - orgviewer
-      type: string
     orgMember:
       description: Org Member info
       properties:
@@ -12220,7 +12212,8 @@ components:
           description: The email of User. Required when create. Read-Only after create
           type: string
         role:
-          $ref: '#/components/schemas/orgMemberRole'
+          description: The role of the User in the Org.
+          type: string
         userId:
           description: The ID of User. Read-Only
           type: string
