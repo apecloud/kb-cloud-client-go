@@ -14829,7 +14829,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     provider:
       description: The cloud provider that the environment is running on.
