@@ -9388,10 +9388,12 @@ components:
           type: string
       type: object
     orgMemberRole:
-      description: The role of the User in the Org. Required
+      description: The default role of the User in the Org. Required
       enum:
-        - admin
-        - developer
+        - orgadmin
+        - orgaudit
+        - orgmember
+        - orgviewer
       type: string
     orgMember:
       description: Org Member info

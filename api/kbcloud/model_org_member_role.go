@@ -10,18 +10,22 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OrgMemberRole The role of the User in the Org. Required
+// OrgMemberRole The default role of the User in the Org. Required
 type OrgMemberRole string
 
 // List of OrgMemberRole.
 const (
-	OrgMemberRoleAdmin     OrgMemberRole = "admin"
-	OrgMemberRoleDeveloper OrgMemberRole = "developer"
+	OrgMemberRoleOrgadmin  OrgMemberRole = "orgadmin"
+	OrgMemberRoleOrgaudit  OrgMemberRole = "orgaudit"
+	OrgMemberRoleOrgmember OrgMemberRole = "orgmember"
+	OrgMemberRoleOrgviewer OrgMemberRole = "orgviewer"
 )
 
 var allowedOrgMemberRoleEnumValues = []OrgMemberRole{
-	OrgMemberRoleAdmin,
-	OrgMemberRoleDeveloper,
+	OrgMemberRoleOrgadmin,
+	OrgMemberRoleOrgaudit,
+	OrgMemberRoleOrgmember,
+	OrgMemberRoleOrgviewer,
 }
 
 // GetAllowedValues returns the list of possible values.
