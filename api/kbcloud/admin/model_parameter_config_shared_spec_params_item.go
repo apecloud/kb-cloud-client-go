@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ParameterConfigSharedSpecParamsItem struct {
 	// name of the parameter
 	Name *string `json:"name,omitempty"`
