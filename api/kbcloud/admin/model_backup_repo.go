@@ -33,6 +33,8 @@ type BackupRepo struct {
 	Name string `json:"name"`
 	// status specifies the status of the backupRepo
 	Status string `json:"status"`
+	// the name of storage used by backup repo
+	StorageName *string `json:"storageName,omitempty"`
 	// the id of storage used by backup repo
 	StorageId *string `json:"storageID,omitempty"`
 	// storageProvider specifies the storage provider of the backupRepo
@@ -313,6 +315,34 @@ func (o *BackupRepo) SetStatus(v string) {
 	o.Status = v
 }
 
+// GetStorageName returns the StorageName field value if set, zero value otherwise.
+func (o *BackupRepo) GetStorageName() string {
+	if o == nil || o.StorageName == nil {
+		var ret string
+		return ret
+	}
+	return *o.StorageName
+}
+
+// GetStorageNameOk returns a tuple with the StorageName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupRepo) GetStorageNameOk() (*string, bool) {
+	if o == nil || o.StorageName == nil {
+		return nil, false
+	}
+	return o.StorageName, true
+}
+
+// HasStorageName returns a boolean if a field has been set.
+func (o *BackupRepo) HasStorageName() bool {
+	return o != nil && o.StorageName != nil
+}
+
+// SetStorageName gets a reference to the given string and assigns it to the StorageName field.
+func (o *BackupRepo) SetStorageName(v string) {
+	o.StorageName = &v
+}
+
 // GetStorageId returns the StorageId field value if set, zero value otherwise.
 func (o *BackupRepo) GetStorageId() string {
 	if o == nil || o.StorageId == nil {
@@ -465,6 +495,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 	toSerialize["environmentName"] = o.EnvironmentName
 	toSerialize["name"] = o.Name
 	toSerialize["status"] = o.Status
+	if o.StorageName != nil {
+		toSerialize["storageName"] = o.StorageName
+	}
 	if o.StorageId != nil {
 		toSerialize["storageID"] = o.StorageId
 	}
@@ -496,6 +529,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 		EnvironmentName *string                 `json:"environmentName"`
 		Name            *string                 `json:"name"`
 		Status          *string                 `json:"status"`
+		StorageName     *string                 `json:"storageName,omitempty"`
 		StorageId       *string                 `json:"storageID,omitempty"`
 		StorageProvider *string                 `json:"storageProvider"`
 		TotalSize       *string                 `json:"totalSize"`
@@ -540,7 +574,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageID", "storageProvider", "totalSize", "failedReason", "failedMessage"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMethod", "id", "backupNums", "config", "createdAt", "default", "environmentId", "environmentName", "name", "status", "storageName", "storageID", "storageProvider", "totalSize", "failedReason", "failedMessage"})
 	} else {
 		return err
 	}
@@ -560,6 +594,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentName = *all.EnvironmentName
 	o.Name = *all.Name
 	o.Status = *all.Status
+	o.StorageName = all.StorageName
 	o.StorageId = all.StorageId
 	o.StorageProvider = *all.StorageProvider
 	o.TotalSize = *all.TotalSize

@@ -3,6 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
+//   - [URLCheckerApi.batchCheckURLConnectivity]
 //   - [accountApi.createAccount]
 //   - [accountApi.deleteAccount]
 //   - [accountApi.getDSN]
@@ -186,6 +187,7 @@
 //   - [opsrequestApi.updateClusterLicense]
 //   - [opsrequestApi.upgradeCluster]
 //   - [opsrequestApi.verticalScaleCluster]
+//   - [organizationApi.batchUpdateOrgParameters]
 //   - [organizationApi.createOrg]
 //   - [organizationApi.freezeMember]
 //   - [organizationApi.getOrgParameter]
