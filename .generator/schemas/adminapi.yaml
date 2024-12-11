@@ -7781,6 +7781,26 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alerts/statistic:
+    get:
+      summary: alert statistic
+      description: alert statistic
+      operationId: alertStatistic
+      tags:
+        - statistic
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/statistic'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/receivers:
     post:
       tags:
@@ -17614,6 +17634,17 @@ components:
         error:
           type: string
           example: null
+    statistic:
+      type: object
+      properties:
+        total:
+          type: integer
+        critical:
+          type: integer
+        warning:
+          type: integer
+        info:
+          type: integer
     alertSeverity:
       enum:
         - critical

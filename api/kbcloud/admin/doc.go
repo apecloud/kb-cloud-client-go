@@ -322,6 +322,7 @@
 //   - [roleApi.listRolePermissions]
 //   - [roleApi.listRoles]
 //   - [serviceVersionApi.ListServiceVersion]
+//   - [statisticApi.alertStatistic]
 //   - [storageApi.checkStorage]
 //   - [storageApi.createStorage]
 //   - [storageApi.deleteStorage]
