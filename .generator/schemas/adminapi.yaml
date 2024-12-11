@@ -4523,31 +4523,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                compName:
-                  description: component name
-                  type: string
-                opsType:
-                  description: ops definition name.
-                  type: string
-                dependentOnOps:
-                  description: ops definition name.
-                  items:
-                    type: string
-                  type: array
-                params:
-                  description: custom ops parameters
-                  items:
-                    properties:
-                      name:
-                        type: string
-                        description: parameter name.
-                      value:
-                        type: string
-                        description: parameter value.
-                    type: object
-                  type: array
-              type: object
+              $ref: '#/components/schemas/opsCustom'
         required: true
       responses:
         '202':
@@ -14793,6 +14769,33 @@ components:
         licenseId:
           description: license ID
           type: string
+      type: object
+    opsCustom:
+      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      required:
+        - opsType
+      properties:
+        compName:
+          description: component name
+          type: string
+        opsType:
+          description: ops definition name.
+          type: string
+        dependentOnOps:
+          description: ops definition name.
+          items:
+            type: string
+          type: array
+        params:
+          description: custom ops parameters
+          type: array
+          items:
+            x-go-type:
+              type: Parameter
+              import:
+                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+              hints:
+                kind: interface
       type: object
     listKubernetesNodeOpType:
       type: string
