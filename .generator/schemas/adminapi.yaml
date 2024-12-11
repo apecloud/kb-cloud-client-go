@@ -11801,7 +11801,6 @@ components:
         - userName
         - createdAt
         - updatedAt
-        - isDefaultPassword
     APIErrorResponse:
       description: API error response.
       properties:
@@ -12127,7 +12126,6 @@ components:
         - email
         - role
         - userId
-        - freezed
       type: object
     orgMemberList:
       description: OrgMemberList is org member list
