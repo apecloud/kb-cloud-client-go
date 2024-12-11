@@ -132,9 +132,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/adminUserList'
+                $ref: '#/components/schemas/adminUserList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -475,6 +473,36 @@ paths:
           name: name
           schema:
             type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameterList'
+        required: true
       responses:
         '200':
           content:
@@ -4913,44 +4941,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/restorePreflight:
-    post:
-      operationId: preflightRestoreEnvironment
-      summary: Preflight check before restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/preflightList'
-      tags:
-        - environment
-  /admin/v1/environments/checkAddRecord:
-    post:
-      operationId: checkEnvironmentAddRecord
-      summary: check if environment added before
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentAdded'
-      tags:
-        - environment
   /admin/v1/environments/checkNodeSSHConfig:
     post:
       tags:
@@ -6147,7 +6137,7 @@ paths:
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
-      summary: Create environment node group
+      summary: List environment node group
       parameters:
         - name: environmentName
           in: path
@@ -6155,6 +6145,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zones for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
@@ -6290,28 +6288,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/environments/restore:
-    post:
-      operationId: restoreEnvironment
-      summary: restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentRestore'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environment'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - environment
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -9463,7 +9439,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/instanceTypes'
+              $ref: '#/components/schemas/createInstanceType'
       responses:
         '201':
           description: A successful response.
@@ -11915,6 +11891,9 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        id:
+          description: The ID for the user
+          type: string
       required:
         - userName
         - createdAt
@@ -12223,12 +12202,6 @@ components:
         - updatedAt
         - enabled
       type: object
-    orgMemberRole:
-      description: The role of the User in the Org. Required
-      enum:
-        - admin
-        - developer
-      type: string
     orgMember:
       description: Org Member info
       properties:
@@ -12239,7 +12212,8 @@ components:
           description: The email of User. Required when create. Read-Only after create
           type: string
         role:
-          $ref: '#/components/schemas/orgMemberRole'
+          description: The role of the User in the Org.
+          type: string
         userId:
           description: The ID of User. Read-Only
           type: string
@@ -12319,14 +12293,9 @@ components:
           description: org parameter value
     orgParameterList:
       description: org parameter list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgParameter'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     permission:
       description: Permission information
       type: object
@@ -15678,26 +15647,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    environmentAdded:
-      type: object
-      properties:
-        addedBefore:
-          type: boolean
-          description: whether the environment has ever been added
-        stillInUse:
-          type: boolean
-          description: whether the environment is still in use
-        environment:
-          $ref: '#/components/schemas/environment'
-        loki:
-          type: boolean
-          description: whether loki component is running
-        backupRepo:
-          type: boolean
-          description: whether backup repo is exist and ready
-        victoriaMetrics:
-          type: boolean
-          description: whether victoria metrics is exist
     sshConfig:
       type: object
       properties:
@@ -16776,16 +16725,6 @@ components:
       items:
         type: string
       type: array
-    environmentRestore:
-      type: object
-      required:
-        - environment
-      properties:
-        environment:
-          $ref: '#/components/schemas/environment'
-        victoriaMetrics:
-          type: boolean
-          description: whether to install victoria metrics
     kubeConfig:
       pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
       type: string
@@ -16944,6 +16883,9 @@ components:
           type: string
         status:
           description: status specifies the status of the backupRepo
+          type: string
+        storageName:
+          description: the name of storage used by backup repo
           type: string
         storageID:
           description: the id of storage used by backup repo
@@ -17279,10 +17221,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -19098,7 +19042,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     classBatch:
       type: object
@@ -19109,7 +19053,7 @@ components:
           type: string
         component:
           type: string
-        series:
+        instanceType:
           type: string
         cpuOverCommit:
           type: number
@@ -19156,6 +19100,30 @@ components:
           description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
         serverConfiguration:
           $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
@@ -20534,6 +20502,8 @@ components:
     backupConfig:
       type: object
       properties:
+        provider:
+          type: string
         schedule:
           type: string
         accessKeyId:
@@ -20544,7 +20514,7 @@ components:
           type: string
         region:
           type: string
-        s3Prefix:
+        bucket:
           type: string
         autoBackup:
           default: false
@@ -20559,6 +20529,12 @@ components:
         lastBackupTime:
           description: the time of last backup
           type: string
+      required:
+        - provider
+        - accessKeyId
+        - secretAccessKey
+        - endpoint
+        - bucket
     metadb_restore:
       type: object
       properties:

@@ -18,7 +18,7 @@ type InstanceTypesApi common.Service
 
 // CreateInstanceTypeOptionalParameters holds optional parameters for CreateInstanceType.
 type CreateInstanceTypeOptionalParameters struct {
-	Body *InstanceTypes
+	Body *CreateInstanceType
 }
 
 // NewCreateInstanceTypeOptionalParameters creates an empty struct for parameters.
@@ -28,7 +28,7 @@ func NewCreateInstanceTypeOptionalParameters() *CreateInstanceTypeOptionalParame
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *CreateInstanceTypeOptionalParameters) WithBody(body InstanceTypes) *CreateInstanceTypeOptionalParameters {
+func (r *CreateInstanceTypeOptionalParameters) WithBody(body CreateInstanceType) *CreateInstanceTypeOptionalParameters {
 	r.Body = &body
 	return r
 }

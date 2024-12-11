@@ -778,6 +778,36 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameterList'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
   /api/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -1019,6 +1049,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zone for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
@@ -1028,6 +1066,8 @@ paths:
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -1083,9 +1123,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
+              $ref: '#/components/schemas/deleteBenchOption'
         required: true
       responses:
         '204':
@@ -5404,6 +5442,32 @@ paths:
       tags:
         - alertReceiver
       x-codegen-request-body-name: body
+  /api/v1/alerts/checkURL:
+    post:
+      summary: Batch check URLs connectivity
+      description: Tests multiple URLs for connectivity in parallel
+      operationId: batchCheckURLConnectivity
+      tags:
+        - URL Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLCheck'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/strategies:
     get:
       tags:
@@ -9323,12 +9387,6 @@ components:
           description: The display name of the organization
           type: string
       type: object
-    orgMemberRole:
-      description: The role of the User in the Org. Required
-      enum:
-        - admin
-        - developer
-      type: string
     orgMember:
       description: Org Member info
       properties:
@@ -9339,7 +9397,8 @@ components:
           description: The email of User. Required when create. Read-Only after create
           type: string
         role:
-          $ref: '#/components/schemas/orgMemberRole'
+          description: The role of the User in the Org.
+          type: string
         userId:
           description: The ID of User. Read-Only
           type: string
@@ -9546,14 +9605,9 @@ components:
           description: org parameter value
     orgParameterList:
       description: org parameter list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgParameter'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     networkConfig:
       type: object
       title: NetworkConfig
@@ -9972,17 +10026,16 @@ components:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
       description: BenchmarkList is a list of benchmarks
-      properties:
-        items:
-          description: Items is the list of benchmark objects in the list
-          items:
-            $ref: '#/components/schemas/benchmark'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/benchmark'
+    deleteBenchOption:
       type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
     pgbenchStep:
       type: string
       description: Step of pgbench
@@ -12017,10 +12070,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -12470,6 +12525,9 @@ components:
         status:
           description: status specifies the status of the backupRepo
           type: string
+        storageName:
+          description: the name of storage used by backup repo
+          type: string
         storageID:
           description: the id of storage used by backup repo
           type: string
@@ -12888,6 +12946,28 @@ components:
       required:
         - items
       type: object
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
     alertSeverity:
       enum:
         - critical
@@ -14747,7 +14827,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     provider:
       description: The cloud provider that the environment is running on.
