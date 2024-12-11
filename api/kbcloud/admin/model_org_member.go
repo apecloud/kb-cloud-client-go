@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // OrgMember Org Member info
@@ -21,7 +19,7 @@ type OrgMember struct {
 	// The ID of User. Read-Only
 	UserId string `json:"userId"`
 	// Return true if the member is freezed in the organization
-	Freezed bool `json:"freezed"`
+	Freezed *bool `json:"freezed,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,12 +29,11 @@ type OrgMember struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgMember(email string, role string, userId string, freezed bool) *OrgMember {
+func NewOrgMember(email string, role string, userId string) *OrgMember {
 	this := OrgMember{}
 	this.Email = email
 	this.Role = role
 	this.UserId = userId
-	this.Freezed = freezed
 	return &this
 }
 
@@ -145,27 +142,32 @@ func (o *OrgMember) SetUserId(v string) {
 	o.UserId = v
 }
 
-// GetFreezed returns the Freezed field value.
+// GetFreezed returns the Freezed field value if set, zero value otherwise.
 func (o *OrgMember) GetFreezed() bool {
-	if o == nil {
+	if o == nil || o.Freezed == nil {
 		var ret bool
 		return ret
 	}
-	return o.Freezed
+	return *o.Freezed
 }
 
-// GetFreezedOk returns a tuple with the Freezed field value
+// GetFreezedOk returns a tuple with the Freezed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OrgMember) GetFreezedOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.Freezed == nil {
 		return nil, false
 	}
-	return &o.Freezed, true
+	return o.Freezed, true
 }
 
-// SetFreezed sets field value.
+// HasFreezed returns a boolean if a field has been set.
+func (o *OrgMember) HasFreezed() bool {
+	return o != nil && o.Freezed != nil
+}
+
+// SetFreezed gets a reference to the given bool and assigns it to the Freezed field.
 func (o *OrgMember) SetFreezed(v bool) {
-	o.Freezed = v
+	o.Freezed = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -180,7 +182,9 @@ func (o OrgMember) MarshalJSON() ([]byte, error) {
 	toSerialize["email"] = o.Email
 	toSerialize["role"] = o.Role
 	toSerialize["userId"] = o.UserId
-	toSerialize["freezed"] = o.Freezed
+	if o.Freezed != nil {
+		toSerialize["freezed"] = o.Freezed
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -195,7 +199,7 @@ func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 		Email       *string `json:"email"`
 		Role        *string `json:"role"`
 		UserId      *string `json:"userId"`
-		Freezed     *bool   `json:"freezed"`
+		Freezed     *bool   `json:"freezed,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -209,9 +213,6 @@ func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UserId == nil {
 		return fmt.Errorf("required field userId missing")
 	}
-	if all.Freezed == nil {
-		return fmt.Errorf("required field freezed missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"displayName", "email", "role", "userId", "freezed"})
@@ -222,7 +223,7 @@ func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	o.Email = *all.Email
 	o.Role = *all.Role
 	o.UserId = *all.UserId
-	o.Freezed = *all.Freezed
+	o.Freezed = all.Freezed
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
