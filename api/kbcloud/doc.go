@@ -234,6 +234,7 @@
 //   - [roleApi.updateRoleByName]
 //   - [serviceVersionApi.ListServiceVersion]
 //   - [sqlEditorApi.runSQLOnCluster]
+//   - [statisticApi.alertStatistic]
 //   - [storageClassApi.getStorageClassStats]
 //   - [tagApi.createTag]
 //   - [tagApi.deleteTags]
