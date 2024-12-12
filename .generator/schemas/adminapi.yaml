@@ -4523,31 +4523,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                compName:
-                  description: component name
-                  type: string
-                opsType:
-                  description: ops definition name.
-                  type: string
-                dependentOnOps:
-                  description: ops definition name.
-                  items:
-                    type: string
-                  type: array
-                params:
-                  description: custom ops parameters
-                  items:
-                    properties:
-                      name:
-                        type: string
-                        description: parameter name.
-                      value:
-                        type: string
-                        description: parameter value.
-                    type: object
-                  type: array
-              type: object
+              $ref: '#/components/schemas/opsCustom'
         required: true
       responses:
         '202':
@@ -7775,6 +7751,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/alerts/statistic:
+    get:
+      summary: alert statistic
+      description: alert statistic
+      operationId: alertStatistic
+      tags:
+        - statistic
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertStatistic'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11395,10 +11391,15 @@ paths:
       parameters:
         - name: backupName
           in: query
-          description: Deleting target backup by name or using "everything" to delete all backups.
-          required: true
+          description: Delete target backup by name
           schema:
             type: string
+        - name: all
+          in: query
+          description: Delete all backups in the storage
+          schema:
+            type: string
+            required: true
       responses:
         '204':
           content: {}
@@ -11783,6 +11784,140 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - task
+  /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
+    get:
+      tags:
+        - relation
+      summary: list the available clusters for the organization to create the a relation
+      operationId: listAvailableClustersForRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: targetType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the available clusters for the organization to create the a relation successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relations:
+    get:
+      tags:
+        - relation
+      summary: list the clusters that have built a relation to the specified cluster
+      operationId: listRelatedClusters
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the clusters that have built relations to the cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - relation
+      summary: create a relation between the clusters in the organization
+      operationId: createRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: create a relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}:
+    delete:
+      tags:
+        - relation
+      summary: delete a existed relation between the clusters in the organization
+      operationId: deleteRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: delete a existed relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -11823,7 +11958,6 @@ components:
         - userName
         - createdAt
         - updatedAt
-        - isDefaultPassword
     APIErrorResponse:
       description: API error response.
       properties:
@@ -12149,7 +12283,6 @@ components:
         - email
         - role
         - userId
-        - freezed
       type: object
     orgMemberList:
       description: OrgMemberList is org member list
@@ -14817,6 +14950,33 @@ components:
         licenseId:
           description: license ID
           type: string
+      type: object
+    opsCustom:
+      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      required:
+        - opsType
+      properties:
+        compName:
+          description: component name
+          type: string
+        opsType:
+          description: ops definition name.
+          type: string
+        dependentOnOps:
+          description: ops definition name.
+          items:
+            type: string
+          type: array
+        params:
+          description: custom ops parameters
+          type: array
+          items:
+            x-go-type:
+              type: Parameter
+              import:
+                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+              hints:
+                kind: interface
       type: object
     listKubernetesNodeOpType:
       type: string
@@ -17636,6 +17796,17 @@ components:
         error:
           type: string
           example: null
+    alertStatistic:
+      type: object
+      properties:
+        total:
+          type: integer
+        critical:
+          type: integer
+        warning:
+          type: integer
+        info:
+          type: integer
     alertSeverity:
       enum:
         - critical
@@ -20906,6 +21077,7 @@ x-tagGroup:
       - tls
       - database
       - recycleBinCluster
+      - relation
   - name: License
     tags:
       - license
