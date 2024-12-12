@@ -81,23 +81,6 @@ func ReadBody(response *http.Response) ([]byte, error) {
 // optionally a custom http.Client to allow for advanced features such as caching.
 func NewAPIClient(cfg *Configuration) *APIClient {
 	if cfg.HTTPClient == nil {
-		cfg.HTTPClient = http.DefaultClient
-	}
-
-	if cfg.RetryConfiguration.BackOffBase < 2 {
-		cfg.RetryConfiguration.BackOffBase = 2
-		log.Printf("WARNING: BackOffBase value is smaller than 2. Setting it to 2.")
-	}
-
-	c := &APIClient{}
-	c.Cfg = cfg
-
-	return c
-}
-
-// NewUniqueAPIClient creates a new API client. Requires a userAgent string describing your application.
-func NewUniqueAPIClient(cfg *Configuration) *APIClient {
-	if cfg.HTTPClient == nil {
 		cfg.HTTPClient = &http.Client{}
 	}
 
