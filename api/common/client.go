@@ -95,6 +95,20 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	return c
 }
 
+// NewUniqueAPIClient creates a new API client. Requires a userAgent string describing your application.
+func NewUniqueAPIClient(cfg *Configuration) *APIClient {
+	if cfg.HTTPClient == nil {
+		cfg.HTTPClient = &http.Client{}
+	}
+
+	if cfg.RetryConfiguration.BackOffBase < 2 {
+		cfg.RetryConfiguration.BackOffBase = 2
+		log.Printf("WARNING: BackOffBase value is smaller than 2. Setting it to 2.")
+	}
+
+	c := &APIClient{}
+})
+
 // ParameterToString convert interface{} parameters to string, using a delimiter if format is provided.
 func ParameterToString(obj interface{}, collectionFormat string) string {
 	var delimiter string
