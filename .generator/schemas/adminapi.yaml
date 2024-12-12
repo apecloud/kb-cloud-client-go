@@ -12772,7 +12772,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
