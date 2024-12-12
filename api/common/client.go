@@ -107,7 +107,10 @@ func NewUniqueAPIClient(cfg *Configuration) *APIClient {
 	}
 
 	c := &APIClient{}
-})
+	c.Cfg = cfg
+
+	return c
+}
 
 // ParameterToString convert interface{} parameters to string, using a delimiter if format is provided.
 func ParameterToString(obj interface{}, collectionFormat string) string {
