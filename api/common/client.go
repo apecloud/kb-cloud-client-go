@@ -81,7 +81,7 @@ func ReadBody(response *http.Response) ([]byte, error) {
 // optionally a custom http.Client to allow for advanced features such as caching.
 func NewAPIClient(cfg *Configuration) *APIClient {
 	if cfg.HTTPClient == nil {
-		cfg.HTTPClient = http.DefaultClient
+		cfg.HTTPClient = &http.Client{}
 	}
 
 	if cfg.RetryConfiguration.BackOffBase < 2 {
