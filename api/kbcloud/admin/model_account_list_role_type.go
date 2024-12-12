@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // AccountListRoleType The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].

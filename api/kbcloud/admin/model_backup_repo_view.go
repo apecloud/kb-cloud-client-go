@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type BackupRepoView struct {
 	// the router to show in backup repo
 	Filepath *string `json:"filepath,omitempty"`

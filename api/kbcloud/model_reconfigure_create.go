@@ -6,8 +6,6 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ReconfigureCreate ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster

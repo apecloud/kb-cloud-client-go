@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ResourceStats ResourceStats holds the requests, limits, and available stats for a resource.

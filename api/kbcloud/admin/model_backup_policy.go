@@ -4,11 +4,7 @@
 
 package admin
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // BackupPolicy BackupPolicy is the payload for KubeBlocks cluster backup policy
 type BackupPolicy struct {

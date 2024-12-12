@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ParamTplGet paramTplGet is the response of get parameter template request
 type ParamTplGet struct {
 	// family of parameter template

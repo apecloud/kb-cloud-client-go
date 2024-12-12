@@ -4,11 +4,7 @@
 
 package kbcloud
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 type AutoInspection struct {
 	Id        *int32     `json:"id,omitempty"`

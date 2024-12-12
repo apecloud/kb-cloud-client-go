@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // RawCluster cluster info
 type RawCluster struct {
 	// the cluster name in k8s

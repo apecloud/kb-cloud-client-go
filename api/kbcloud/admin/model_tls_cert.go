@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type TlsCert struct {
 	// Configuration for TLS including all certificates and keys
 	TlsConfig *TlsConfig `json:"tlsConfig,omitempty"`

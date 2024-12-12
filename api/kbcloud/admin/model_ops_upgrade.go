@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
