@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type EndpointOption struct {
@@ -26,6 +24,8 @@ type EndpointOption struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 	// selector of k8s service
 	Selector map[string]string `json:"selector,omitempty"`
+	// metadata key for the service
+	MetadataKey *string `json:"metadataKey,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -312,6 +312,34 @@ func (o *EndpointOption) SetSelector(v map[string]string) {
 	o.Selector = v
 }
 
+// GetMetadataKey returns the MetadataKey field value if set, zero value otherwise.
+func (o *EndpointOption) GetMetadataKey() string {
+	if o == nil || o.MetadataKey == nil {
+		var ret string
+		return ret
+	}
+	return *o.MetadataKey
+}
+
+// GetMetadataKeyOk returns a tuple with the MetadataKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetMetadataKeyOk() (*string, bool) {
+	if o == nil || o.MetadataKey == nil {
+		return nil, false
+	}
+	return o.MetadataKey, true
+}
+
+// HasMetadataKey returns a boolean if a field has been set.
+func (o *EndpointOption) HasMetadataKey() bool {
+	return o != nil && o.MetadataKey != nil
+}
+
+// SetMetadataKey gets a reference to the given string and assigns it to the MetadataKey field.
+func (o *EndpointOption) SetMetadataKey(v string) {
+	o.MetadataKey = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -338,6 +366,9 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.Selector != nil {
 		toSerialize["selector"] = o.Selector
 	}
+	if o.MetadataKey != nil {
+		toSerialize["metadataKey"] = o.MetadataKey
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -358,6 +389,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 		ServiceNameRegex  *string                      `json:"serviceNameRegex,omitempty"`
 		ServiceName       *string                      `json:"serviceName,omitempty"`
 		Selector          map[string]string            `json:"selector,omitempty"`
+		MetadataKey       *string                      `json:"metadataKey,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -379,7 +411,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "metadataKey"})
 	} else {
 		return err
 	}
@@ -402,6 +434,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceNameRegex = all.ServiceNameRegex
 	o.ServiceName = all.ServiceName
 	o.Selector = all.Selector
+	o.MetadataKey = all.MetadataKey
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -18434,6 +18434,9 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        metadataKey:
+          type: string
+          description: metadata key for the service
     networkModeOption:
       type: object
       required:
