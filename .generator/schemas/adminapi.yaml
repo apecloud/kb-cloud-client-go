@@ -1497,6 +1497,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - description: whether query redis sentinel account
+          in: query
+          name: isSentinel
+          schema:
+            type: boolean
       responses:
         '200':
           content:
