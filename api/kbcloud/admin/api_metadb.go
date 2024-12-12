@@ -18,7 +18,6 @@ type MetadbApi common.Service
 // DeleteMetadbBackupsOptionalParameters holds optional parameters for DeleteMetadbBackups.
 type DeleteMetadbBackupsOptionalParameters struct {
 	BackupName *string
-	All        *string
 }
 
 // NewDeleteMetadbBackupsOptionalParameters creates an empty struct for parameters.
@@ -33,14 +32,8 @@ func (r *DeleteMetadbBackupsOptionalParameters) WithBackupName(backupName string
 	return r
 }
 
-// WithAll sets the corresponding parameter name and returns the struct.
-func (r *DeleteMetadbBackupsOptionalParameters) WithAll(all string) *DeleteMetadbBackupsOptionalParameters {
-	r.All = &all
-	return r
-}
-
 // DeleteMetadbBackups Delete backups by name or delete all.
-func (a *MetadbApi) DeleteMetadbBackups(ctx _context.Context, o ...DeleteMetadbBackupsOptionalParameters) (*_nethttp.Response, error) {
+func (a *MetadbApi) DeleteMetadbBackups(ctx _context.Context, all string, o ...DeleteMetadbBackupsOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -64,11 +57,9 @@ func (a *MetadbApi) DeleteMetadbBackups(ctx _context.Context, o ...DeleteMetadbB
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("all", common.ParameterToString(all, ""))
 	if optionalParams.BackupName != nil {
 		localVarQueryParams.Add("backupName", common.ParameterToString(*optionalParams.BackupName, ""))
-	}
-	if optionalParams.All != nil {
-		localVarQueryParams.Add("all", common.ParameterToString(*optionalParams.All, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

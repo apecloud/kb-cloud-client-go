@@ -11397,9 +11397,9 @@ paths:
         - name: all
           in: query
           description: Delete all backups in the storage
+          required: true
           schema:
             type: string
-            required: true
       responses:
         '204':
           content: {}
