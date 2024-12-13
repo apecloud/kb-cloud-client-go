@@ -16036,9 +16036,9 @@ components:
       enum:
         - ScaleOut
         - ScaleIn
-        - DrDeletion
-        - DrCreation
-        - DrPromotion
+        - DeleteDisasterRecoveryCluster
+        - CreateDisasterRecoveryCluster
+        - PromoteDisasterRecoveryCluster
       description: Type of task operation
     taskStatus:
       type: string
