@@ -2405,11 +2405,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
-        - description: whether query redis sentinel account
+        - description: component name
           in: query
-          name: isSentinel
+          name: component
           schema:
-            type: boolean
+            type: string
       responses:
         '200':
           content:

@@ -145,7 +145,7 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 // ListAccountsOptionalParameters holds optional parameters for ListAccounts.
 type ListAccountsOptionalParameters struct {
 	IncludeRoot *bool
-	IsSentinel  *bool
+	Component   *string
 }
 
 // NewListAccountsOptionalParameters creates an empty struct for parameters.
@@ -160,9 +160,9 @@ func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *List
 	return r
 }
 
-// WithIsSentinel sets the corresponding parameter name and returns the struct.
-func (r *ListAccountsOptionalParameters) WithIsSentinel(isSentinel bool) *ListAccountsOptionalParameters {
-	r.IsSentinel = &isSentinel
+// WithComponent sets the corresponding parameter name and returns the struct.
+func (r *ListAccountsOptionalParameters) WithComponent(component string) *ListAccountsOptionalParameters {
+	r.Component = &component
 	return r
 }
 
@@ -198,8 +198,8 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	if optionalParams.IncludeRoot != nil {
 		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
 	}
-	if optionalParams.IsSentinel != nil {
-		localVarQueryParams.Add("isSentinel", common.ParameterToString(*optionalParams.IsSentinel, ""))
+	if optionalParams.Component != nil {
+		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
