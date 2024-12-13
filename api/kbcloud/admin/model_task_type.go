@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // TaskType Type of task operation
@@ -15,19 +13,19 @@ type TaskType string
 
 // List of TaskType.
 const (
-	TaskTypeScaleOut    TaskType = "ScaleOut"
-	TaskTypeScaleIn     TaskType = "ScaleIn"
-	TaskTypeDrDeletion  TaskType = "DrDeletion"
-	TaskTypeDrCreation  TaskType = "DrCreation"
-	TaskTypeDrPromotion TaskType = "DrPromotion"
+	TaskTypeScaleOut                       TaskType = "ScaleOut"
+	TaskTypeScaleIn                        TaskType = "ScaleIn"
+	TaskTypeDeleteDisasterRecoveryCluster  TaskType = "DeleteDisasterRecoveryCluster"
+	TaskTypeCreateDisasterRecoveryCluster  TaskType = "CreateDisasterRecoveryCluster"
+	TaskTypePromoteDisasterRecoveryCluster TaskType = "PromoteDisasterRecoveryCluster"
 )
 
 var allowedTaskTypeEnumValues = []TaskType{
 	TaskTypeScaleOut,
 	TaskTypeScaleIn,
-	TaskTypeDrDeletion,
-	TaskTypeDrCreation,
-	TaskTypeDrPromotion,
+	TaskTypeDeleteDisasterRecoveryCluster,
+	TaskTypeCreateDisasterRecoveryCluster,
+	TaskTypePromoteDisasterRecoveryCluster,
 }
 
 // GetAllowedValues returns the list of possible values.
