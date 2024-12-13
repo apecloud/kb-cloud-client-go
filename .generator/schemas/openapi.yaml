@@ -11850,6 +11850,7 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -13869,6 +13870,10 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
     networkModeOption:
       type: object
       required:
