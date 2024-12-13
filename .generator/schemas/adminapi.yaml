@@ -1497,6 +1497,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
       responses:
         '200':
           content:
