@@ -1497,7 +1497,7 @@ paths:
           name: includeRoot
           schema:
             type: boolean
-        - description: component name
+        - description: component type
           in: query
           name: component
           schema:
