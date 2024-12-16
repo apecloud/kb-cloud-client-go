@@ -1316,17 +1316,6 @@ paths:
       description: create a Invitation
       summary: Create invitation
       operationId: createInvitation
-      parameters:
-        - name: orgName
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -10633,6 +10622,7 @@ components:
         email:
           description: The email of the invitee
           type: string
+          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
