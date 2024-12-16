@@ -9737,6 +9737,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     networkConfig:
       type: object
       title: NetworkConfig
@@ -9754,6 +9760,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -10924,12 +10935,6 @@ components:
           type: boolean
           nullable: true
       type: object
-    networkMode:
-      enum:
-        - HostNetwork
-        - NodePort
-        - FixedPodIP
-      type: string
     cluster:
       required:
         - engine
