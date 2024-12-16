@@ -21029,6 +21029,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1708848695
     endTime:
       name: end
@@ -21037,6 +21038,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1711354295
 x-tagGroup:
   - name: User
