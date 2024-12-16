@@ -744,7 +744,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /api/v1/organizations/{orgName}/oparameters:
+  /api/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
       summary: List parameters of an organization
