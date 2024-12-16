@@ -15251,6 +15251,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -15859,6 +15864,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
           nullable: true

@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // NetworkConfig Configuration of networking for this environment
 type NetworkConfig struct {
 	// Enable node port service for this environment
@@ -14,6 +12,8 @@ type NetworkConfig struct {
 	LbEnabled *bool `json:"lbEnabled,omitempty"`
 	// Enable the Internet load balancer service for this environment
 	InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
+	// Network modes of the environment
+	NetworkModes []NetworkMode `json:"networkModes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -132,6 +132,34 @@ func (o *NetworkConfig) SetInternetLbEnabled(v bool) {
 	o.InternetLbEnabled = &v
 }
 
+// GetNetworkModes returns the NetworkModes field value if set, zero value otherwise.
+func (o *NetworkConfig) GetNetworkModes() []NetworkMode {
+	if o == nil || o.NetworkModes == nil {
+		var ret []NetworkMode
+		return ret
+	}
+	return o.NetworkModes
+}
+
+// GetNetworkModesOk returns a tuple with the NetworkModes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NetworkConfig) GetNetworkModesOk() (*[]NetworkMode, bool) {
+	if o == nil || o.NetworkModes == nil {
+		return nil, false
+	}
+	return &o.NetworkModes, true
+}
+
+// HasNetworkModes returns a boolean if a field has been set.
+func (o *NetworkConfig) HasNetworkModes() bool {
+	return o != nil && o.NetworkModes != nil
+}
+
+// SetNetworkModes gets a reference to the given []NetworkMode and assigns it to the NetworkModes field.
+func (o *NetworkConfig) SetNetworkModes(v []NetworkMode) {
+	o.NetworkModes = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o NetworkConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -147,6 +175,9 @@ func (o NetworkConfig) MarshalJSON() ([]byte, error) {
 	if o.InternetLbEnabled != nil {
 		toSerialize["internetLBEnabled"] = o.InternetLbEnabled
 	}
+	if o.NetworkModes != nil {
+		toSerialize["networkModes"] = o.NetworkModes
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -157,22 +188,24 @@ func (o NetworkConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NetworkConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NodePortEnabled   *bool `json:"nodePortEnabled,omitempty"`
-		LbEnabled         *bool `json:"lbEnabled,omitempty"`
-		InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
+		NodePortEnabled   *bool         `json:"nodePortEnabled,omitempty"`
+		LbEnabled         *bool         `json:"lbEnabled,omitempty"`
+		InternetLbEnabled *bool         `json:"internetLBEnabled,omitempty"`
+		NetworkModes      []NetworkMode `json:"networkModes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodePortEnabled", "lbEnabled", "internetLBEnabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes"})
 	} else {
 		return err
 	}
 	o.NodePortEnabled = all.NodePortEnabled
 	o.LbEnabled = all.LbEnabled
 	o.InternetLbEnabled = all.InternetLbEnabled
+	o.NetworkModes = all.NetworkModes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
