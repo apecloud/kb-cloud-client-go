@@ -132,9 +132,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/adminUserList'
+                $ref: '#/components/schemas/adminUserList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -488,6 +486,36 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameterList'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
   /admin/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -593,38 +621,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-    post:
-      tags:
-        - role
-      summary: Create role
-      description: Create role
-      operationId: createRole
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/roleCreate'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/roles/{roleName}:
     get:
       tags:
@@ -651,71 +647,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - role
-      summary: Update role by name
-      description: Update role by name
-      operationId: updateRoleByName
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: roleName
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/roleUpdate'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - role
-      summary: Delete role by name
-      description: Delete role by name
-      operationId: deleteRoleByName
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: roleName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when role is deleted successfully.
-          content: {}
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1566,6 +1497,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -4666,31 +4602,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                compName:
-                  description: component name
-                  type: string
-                opsType:
-                  description: ops definition name.
-                  type: string
-                dependentOnOps:
-                  description: ops definition name.
-                  items:
-                    type: string
-                  type: array
-                params:
-                  description: custom ops parameters
-                  items:
-                    properties:
-                      name:
-                        type: string
-                        description: parameter name.
-                      value:
-                        type: string
-                        description: parameter value.
-                    type: object
-                  type: array
-              type: object
+              $ref: '#/components/schemas/opsCustom'
         required: true
       responses:
         '202':
@@ -4987,44 +4899,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/restorePreflight:
-    post:
-      operationId: preflightRestoreEnvironment
-      summary: Preflight check before restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/preflightList'
-      tags:
-        - environment
-  /admin/v1/environments/checkAddRecord:
-    post:
-      operationId: checkEnvironmentAddRecord
-      summary: check if environment added before
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentAdded'
-      tags:
-        - environment
   /admin/v1/environments/checkNodeSSHConfig:
     post:
       tags:
@@ -6221,7 +6095,7 @@ paths:
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
-      summary: Create environment node group
+      summary: List environment node group
       parameters:
         - name: environmentName
           in: path
@@ -6229,6 +6103,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zones for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
@@ -6364,28 +6246,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/environments/restore:
-    post:
-      operationId: restoreEnvironment
-      summary: restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentRestore'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environment'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - environment
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -7976,6 +7836,26 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alerts/statistic:
+    get:
+      summary: alert statistic
+      description: alert statistic
+      operationId: alertStatistic
+      tags:
+        - statistic
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertStatistic'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/receivers:
     post:
       tags:
@@ -8278,6 +8158,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -8304,6 +8190,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       requestBody:
         content:
           application/json:
@@ -9537,7 +9429,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/instanceTypes'
+              $ref: '#/components/schemas/createInstanceType'
       responses:
         '201':
           description: A successful response.
@@ -11956,6 +11848,140 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - task
+  /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
+    get:
+      tags:
+        - relation
+      summary: list the available clusters for the organization to create the a relation
+      operationId: listAvailableClustersForRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: targetType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the available clusters for the organization to create the a relation successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relations:
+    get:
+      tags:
+        - relation
+      summary: list the clusters that have built a relation to the specified cluster
+      operationId: listRelatedClusters
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the clusters that have built relations to the cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - relation
+      summary: create a relation between the clusters in the organization
+      operationId: createRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: create a relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}:
+    delete:
+      tags:
+        - relation
+      summary: delete a existed relation between the clusters in the organization
+      operationId: deleteRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: delete a existed relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -11989,11 +12015,13 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        id:
+          description: The ID for the user
+          type: string
       required:
         - userName
         - createdAt
         - updatedAt
-        - isDefaultPassword
     APIErrorResponse:
       description: API error response.
       properties:
@@ -12297,12 +12325,6 @@ components:
         - updatedAt
         - enabled
       type: object
-    orgMemberRole:
-      description: The role of the User in the Org. Required
-      enum:
-        - admin
-        - developer
-      type: string
     orgMember:
       description: Org Member info
       properties:
@@ -12313,7 +12335,8 @@ components:
           description: The email of User. Required when create. Read-Only after create
           type: string
         role:
-          $ref: '#/components/schemas/orgMemberRole'
+          description: The role of the User in the Org.
+          type: string
         userId:
           description: The ID of User. Read-Only
           type: string
@@ -12324,7 +12347,6 @@ components:
         - email
         - role
         - userId
-        - freezed
       type: object
     orgMemberList:
       description: OrgMemberList is org member list
@@ -12393,14 +12415,9 @@ components:
           description: org parameter value
     orgParameterList:
       description: org parameter list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgParameter'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     permission:
       description: Permission information
       type: object
@@ -12457,23 +12474,6 @@ components:
       required:
         - items
       type: object
-    roleCreate:
-      description: Role create
-      type: object
-      properties:
-        name:
-          description: The name of the role
-          type: string
-        description:
-          description: The description of the role
-          type: string
-    roleUpdate:
-      description: Role update
-      type: object
-      properties:
-        description:
-          description: The description of the role
-          type: string
     invitationSender:
       description: InvitationSender is the User who send the Invitation
       properties:
@@ -12863,7 +12863,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
@@ -13194,6 +13194,7 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -15133,6 +15134,33 @@ components:
           description: license ID
           type: string
       type: object
+    opsCustom:
+      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      required:
+        - opsType
+      properties:
+        compName:
+          description: component name
+          type: string
+        opsType:
+          description: ops definition name.
+          type: string
+        dependentOnOps:
+          description: ops definition name.
+          items:
+            type: string
+          type: array
+        params:
+          description: custom ops parameters
+          type: array
+          items:
+            x-go-type:
+              type: Parameter
+              import:
+                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+              hints:
+                kind: interface
+      type: object
     listKubernetesNodeOpType:
       type: string
       description: operation for list nodes, either `in` or `notin`
@@ -15870,26 +15898,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    environmentAdded:
-      type: object
-      properties:
-        addedBefore:
-          type: boolean
-          description: whether the environment has ever been added
-        stillInUse:
-          type: boolean
-          description: whether the environment is still in use
-        environment:
-          $ref: '#/components/schemas/environment'
-        loki:
-          type: boolean
-          description: whether loki component is running
-        backupRepo:
-          type: boolean
-          description: whether backup repo is exist and ready
-        victoriaMetrics:
-          type: boolean
-          description: whether victoria metrics is exist
     sshConfig:
       type: object
       properties:
@@ -16220,9 +16228,9 @@ components:
       enum:
         - ScaleOut
         - ScaleIn
-        - DrDeletion
-        - DrCreation
-        - DrPromotion
+        - DeleteDisasterRecoveryCluster
+        - CreateDisasterRecoveryCluster
+        - PromoteDisasterRecoveryCluster
       description: Type of task operation
     taskStatus:
       type: string
@@ -16968,16 +16976,6 @@ components:
       items:
         type: string
       type: array
-    environmentRestore:
-      type: object
-      required:
-        - environment
-      properties:
-        environment:
-          $ref: '#/components/schemas/environment'
-        victoriaMetrics:
-          type: boolean
-          description: whether to install victoria metrics
     kubeConfig:
       pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
       type: string
@@ -17136,6 +17134,9 @@ components:
           type: string
         status:
           description: status specifies the status of the backupRepo
+          type: string
+        storageName:
+          description: the name of storage used by backup repo
           type: string
         storageID:
           description: the id of storage used by backup repo
@@ -17471,10 +17472,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -17976,6 +17979,17 @@ components:
         error:
           type: string
           example: null
+    alertStatistic:
+      type: object
+      properties:
+        total:
+          type: integer
+        critical:
+          type: integer
+        warning:
+          type: integer
+        info:
+          type: integer
     alertSeverity:
       enum:
         - critical
@@ -18630,6 +18644,10 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
     networkModeOption:
       type: object
       required:
@@ -19290,7 +19308,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     classBatch:
       type: object
@@ -19301,7 +19319,7 @@ components:
           type: string
         component:
           type: string
-        series:
+        instanceType:
           type: string
         cpuOverCommit:
           type: number
@@ -19348,6 +19366,30 @@ components:
           description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
         serverConfiguration:
           $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
@@ -21222,6 +21264,7 @@ x-tagGroup:
       - tls
       - database
       - recycleBinCluster
+      - relation
   - name: License
     tags:
       - license

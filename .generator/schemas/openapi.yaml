@@ -744,45 +744,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/tasks/{taskId}:
-    get:
-      description: Query task detail of clusters
-      summary: Query operation task detail
-      operationId: queryClusterTaskDetail
-      parameters:
-        - description: Organization Name
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: Cluster Name
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: Task ID
-          in: path
-          name: taskId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTask'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - task
   /api/v1/organizations/{orgName}/oparameters:
     get:
       operationId: listOrgParameters
@@ -804,6 +765,36 @@ paths:
           name: name
           schema:
             type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameterList'
+        required: true
       responses:
         '200':
           content:
@@ -879,6 +870,45 @@ paths:
           description: OK
       tags:
         - organization
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/tasks/{taskId}:
+    get:
+      description: Query task detail of clusters
+      summary: Query operation task detail
+      operationId: queryClusterTaskDetail
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Cluster Name
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Task ID
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -1058,6 +1088,14 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zone for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
@@ -1067,6 +1105,8 @@ paths:
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -1122,9 +1162,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
+              $ref: '#/components/schemas/deleteBenchOption'
         required: true
       responses:
         '204':
@@ -2406,6 +2444,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -3242,31 +3285,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                compName:
-                  description: component name
-                  type: string
-                opsType:
-                  description: ops definition name.
-                  type: string
-                dependentOnOps:
-                  description: ops definition name.
-                  items:
-                    type: string
-                  type: array
-                params:
-                  description: custom ops parameters
-                  items:
-                    properties:
-                      name:
-                        type: string
-                        description: parameter name.
-                      value:
-                        type: string
-                        description: parameter value.
-                    type: object
-                  type: array
-              type: object
+              $ref: '#/components/schemas/opsCustom'
         required: true
       responses:
         '202':
@@ -5443,6 +5462,52 @@ paths:
       tags:
         - alertReceiver
       x-codegen-request-body-name: body
+  /api/v1/alerts/checkURL:
+    post:
+      summary: Batch check URLs connectivity
+      description: Tests multiple URLs for connectivity in parallel
+      operationId: batchCheckURLConnectivity
+      tags:
+        - URL Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLCheck'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/alerts/statistic:
+    get:
+      summary: alert statistic
+      description: alert statistic
+      operationId: alertStatistic
+      tags:
+        - statistic
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertStatistic'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/strategies:
     get:
       tags:
@@ -5610,6 +5675,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -9112,6 +9183,140 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - disasterRecovery
+  /api/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
+    get:
+      tags:
+        - relation
+      summary: list the available clusters for the organization to create the a relation
+      operationId: listAvailableClustersForRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: targetType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the available clusters for the organization to create the a relation successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/relations:
+    get:
+      tags:
+        - relation
+      summary: list the clusters that have built a relation to the specified cluster
+      operationId: listRelatedClusters
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the clusters that have built relations to the cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - relation
+      summary: create a relation between the clusters in the organization
+      operationId: createRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: create a relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}:
+    delete:
+      tags:
+        - relation
+      summary: delete a existed relation between the clusters in the organization
+      operationId: deleteRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: delete a existed relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -9362,12 +9567,6 @@ components:
           description: The display name of the organization
           type: string
       type: object
-    orgMemberRole:
-      description: The role of the User in the Org. Required
-      enum:
-        - admin
-        - developer
-      type: string
     orgMember:
       description: Org Member info
       properties:
@@ -9378,7 +9577,8 @@ components:
           description: The email of User. Required when create. Read-Only after create
           type: string
         role:
-          $ref: '#/components/schemas/orgMemberRole'
+          description: The role of the User in the Org.
+          type: string
         userId:
           description: The ID of User. Read-Only
           type: string
@@ -9389,7 +9589,6 @@ components:
         - email
         - role
         - userId
-        - freezed
       type: object
     orgMemberList:
       description: OrgMemberList is org member list
@@ -9531,6 +9730,63 @@ components:
       required:
         - items
       type: object
+    orgParameter:
+      description: org parameter item
+      type: object
+      required:
+        - id
+        - orgId
+        - name
+        - category
+        - type
+        - constraints
+        - value
+        - description
+      properties:
+        id:
+          type: string
+          description: org parameter id
+        orgId:
+          type: string
+          description: org id
+        name:
+          type: string
+          description: org parameter name
+        category:
+          type: string
+          description: org parameter category
+        type:
+          type: string
+          description: type of org parameter value
+        constraints:
+          type: object
+          description: org parameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: org parameter min value
+            max:
+              type: string
+              description: org parameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: org parameter enum constraints
+            default:
+              type: string
+              description: org parameter default value
+        description:
+          type: string
+          description: org parameter description
+        value:
+          type: string
+          description: org parameter value
+    orgParameterList:
+      description: org parameter list
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     clusterTaskProgress:
       description: clusterTaskProgressDetail is the information of the task progress
       properties:
@@ -9636,68 +9892,6 @@ components:
           type: string
           format: date-time
           description: Time when the task completed or failed
-    orgParameter:
-      description: org parameter item
-      type: object
-      required:
-        - id
-        - orgId
-        - name
-        - category
-        - type
-        - constraints
-        - value
-        - description
-      properties:
-        id:
-          type: string
-          description: org parameter id
-        orgId:
-          type: string
-          description: org id
-        name:
-          type: string
-          description: org parameter name
-        category:
-          type: string
-          description: org parameter category
-        type:
-          type: string
-          description: type of org parameter value
-        constraints:
-          type: object
-          description: org parameter constraints including min, max, enum, default value
-          properties:
-            min:
-              type: string
-              description: org parameter min value
-            max:
-              type: string
-              description: org parameter max value
-            enum:
-              type: array
-              items:
-                type: string
-              description: org parameter enum constraints
-            default:
-              type: string
-              description: org parameter default value
-        description:
-          type: string
-          description: org parameter description
-        value:
-          type: string
-          description: org parameter value
-    orgParameterList:
-      description: org parameter list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/orgParameter'
-      required:
-        - items
     networkConfig:
       type: object
       title: NetworkConfig
@@ -10116,17 +10310,16 @@ components:
           $ref: '#/components/schemas/benchmarkStatus'
     benchmarkList:
       description: BenchmarkList is a list of benchmarks
-      properties:
-        items:
-          description: Items is the list of benchmark objects in the list
-          items:
-            $ref: '#/components/schemas/benchmark'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
+      type: array
+      items:
+        $ref: '#/components/schemas/benchmark'
+    deleteBenchOption:
       type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
     pgbenchStep:
       type: string
       description: Step of pgbench
@@ -10900,7 +11093,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
@@ -11646,6 +11839,33 @@ components:
           description: license ID
           type: string
       type: object
+    opsCustom:
+      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      required:
+        - opsType
+      properties:
+        compName:
+          description: component name
+          type: string
+        opsType:
+          description: ops definition name.
+          type: string
+        dependentOnOps:
+          description: ops definition name.
+          items:
+            type: string
+          type: array
+        params:
+          description: custom ops parameters
+          type: array
+          items:
+            x-go-type:
+              type: Parameter
+              import:
+                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+              hints:
+                kind: interface
+      type: object
     autohealingList:
       description: An Autohealing object in k8s
       type: array
@@ -11776,6 +11996,7 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -12163,10 +12384,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -12616,6 +12839,9 @@ components:
         status:
           description: status specifies the status of the backupRepo
           type: string
+        storageName:
+          description: the name of storage used by backup repo
+          type: string
         storageID:
           description: the id of storage used by backup repo
           type: string
@@ -13034,6 +13260,39 @@ components:
       required:
         - items
       type: object
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
+    alertStatistic:
+      type: object
+      properties:
+        total:
+          type: integer
+        critical:
+          type: integer
+        warning:
+          type: integer
+        info:
+          type: integer
     alertSeverity:
       enum:
         - critical
@@ -13757,6 +14016,10 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
     networkModeOption:
       type: object
       required:
@@ -14893,7 +15156,7 @@ components:
           format: double
         component:
           type: string
-        series:
+        instanceType:
           type: string
     provider:
       description: The cloud provider that the environment is running on.

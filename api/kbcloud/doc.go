@@ -3,6 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
+//   - [URLCheckerApi.batchCheckURLConnectivity]
 //   - [accountApi.createAccount]
 //   - [accountApi.deleteAccount]
 //   - [accountApi.getDSN]
@@ -186,6 +187,7 @@
 //   - [opsrequestApi.updateClusterLicense]
 //   - [opsrequestApi.upgradeCluster]
 //   - [opsrequestApi.verticalScaleCluster]
+//   - [organizationApi.batchUpdateOrgParameters]
 //   - [organizationApi.createOrg]
 //   - [organizationApi.freezeMember]
 //   - [organizationApi.getOrgParameter]
@@ -214,6 +216,10 @@
 //   - [recycleBinClusterApi.restoreRecycleBinCluster]
 //   - [regionApi.getRegion]
 //   - [regionApi.listRegions]
+//   - [relationApi.createRelation]
+//   - [relationApi.deleteRelation]
+//   - [relationApi.listAvailableClustersForRelation]
+//   - [relationApi.listRelatedClusters]
 //   - [restoreApi.GetRestoreLog]
 //   - [restoreApi.deleteRestoreObject]
 //   - [restoreApi.doRestore]
@@ -232,6 +238,7 @@
 //   - [roleApi.updateRoleByName]
 //   - [serviceVersionApi.ListServiceVersion]
 //   - [sqlEditorApi.runSQLOnCluster]
+//   - [statisticApi.alertStatistic]
 //   - [storageClassApi.getStorageClassStats]
 //   - [tagApi.createTag]
 //   - [tagApi.deleteTags]

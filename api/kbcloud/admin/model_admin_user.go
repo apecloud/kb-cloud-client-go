@@ -20,7 +20,9 @@ type AdminUser struct {
 	CreatedAt   time.Time `json:"createdAt"`
 	UpdatedAt   time.Time `json:"updatedAt"`
 	// return true if the default admin user need to reset password
-	IsDefaultPassword bool `json:"isDefaultPassword"`
+	IsDefaultPassword *bool `json:"isDefaultPassword,omitempty"`
+	// The ID for the user
+	Id *string `json:"id,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,12 +32,11 @@ type AdminUser struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUser(userName string, createdAt time.Time, updatedAt time.Time, isDefaultPassword bool) *AdminUser {
+func NewAdminUser(userName string, createdAt time.Time, updatedAt time.Time) *AdminUser {
 	this := AdminUser{}
 	this.UserName = userName
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
-	this.IsDefaultPassword = isDefaultPassword
 	return &this
 }
 
@@ -172,27 +173,60 @@ func (o *AdminUser) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
-// GetIsDefaultPassword returns the IsDefaultPassword field value.
+// GetIsDefaultPassword returns the IsDefaultPassword field value if set, zero value otherwise.
 func (o *AdminUser) GetIsDefaultPassword() bool {
-	if o == nil {
+	if o == nil || o.IsDefaultPassword == nil {
 		var ret bool
 		return ret
 	}
-	return o.IsDefaultPassword
+	return *o.IsDefaultPassword
 }
 
-// GetIsDefaultPasswordOk returns a tuple with the IsDefaultPassword field value
+// GetIsDefaultPasswordOk returns a tuple with the IsDefaultPassword field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdminUser) GetIsDefaultPasswordOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.IsDefaultPassword == nil {
 		return nil, false
 	}
-	return &o.IsDefaultPassword, true
+	return o.IsDefaultPassword, true
 }
 
-// SetIsDefaultPassword sets field value.
+// HasIsDefaultPassword returns a boolean if a field has been set.
+func (o *AdminUser) HasIsDefaultPassword() bool {
+	return o != nil && o.IsDefaultPassword != nil
+}
+
+// SetIsDefaultPassword gets a reference to the given bool and assigns it to the IsDefaultPassword field.
 func (o *AdminUser) SetIsDefaultPassword(v bool) {
-	o.IsDefaultPassword = v
+	o.IsDefaultPassword = &v
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *AdminUser) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AdminUser) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *AdminUser) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *AdminUser) SetId(v string) {
+	o.Id = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -218,7 +252,12 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 	} else {
 		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	toSerialize["isDefaultPassword"] = o.IsDefaultPassword
+	if o.IsDefaultPassword != nil {
+		toSerialize["isDefaultPassword"] = o.IsDefaultPassword
+	}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -234,7 +273,8 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 		PhoneNumber       *string    `json:"phoneNumber,omitempty"`
 		CreatedAt         *time.Time `json:"createdAt"`
 		UpdatedAt         *time.Time `json:"updatedAt"`
-		IsDefaultPassword *bool      `json:"isDefaultPassword"`
+		IsDefaultPassword *bool      `json:"isDefaultPassword,omitempty"`
+		Id                *string    `json:"id,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -248,12 +288,9 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UpdatedAt == nil {
 		return fmt.Errorf("required field updatedAt missing")
 	}
-	if all.IsDefaultPassword == nil {
-		return fmt.Errorf("required field isDefaultPassword missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword"})
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword", "id"})
 	} else {
 		return err
 	}
@@ -262,7 +299,8 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	o.PhoneNumber = all.PhoneNumber
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
-	o.IsDefaultPassword = *all.IsDefaultPassword
+	o.IsDefaultPassword = all.IsDefaultPassword
+	o.Id = all.Id
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
