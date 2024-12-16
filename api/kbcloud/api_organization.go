@@ -30,7 +30,7 @@ func (a *OrganizationApi) BatchUpdateOrgParameters(ctx _context.Context, orgName
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/oparameters"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parameters"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -444,7 +444,7 @@ func (a *OrganizationApi) ListOrgParameters(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/oparameters"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parameters"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

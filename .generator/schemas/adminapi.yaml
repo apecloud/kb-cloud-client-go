@@ -8084,6 +8084,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -8110,6 +8116,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       requestBody:
         content:
           application/json:
@@ -12776,7 +12788,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
@@ -13107,6 +13119,7 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -14994,8 +15007,6 @@ components:
           format: double
           type: number
       required:
-        - allocatable
-        - capacity
         - limits
         - requests
         - usage
@@ -15239,6 +15250,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -15847,6 +15863,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
           nullable: true
@@ -16022,9 +16043,9 @@ components:
       enum:
         - ScaleOut
         - ScaleIn
-        - DrDeletion
-        - DrCreation
-        - DrPromotion
+        - DeleteDisasterRecoveryCluster
+        - CreateDisasterRecoveryCluster
+        - PromoteDisasterRecoveryCluster
       description: Type of task operation
     taskStatus:
       type: string
@@ -18438,6 +18459,10 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
     networkModeOption:
       type: object
       required:
@@ -19917,6 +19942,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -19990,6 +20017,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     storageProviderSchemaProps:
       type: object

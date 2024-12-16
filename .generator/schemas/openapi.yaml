@@ -744,7 +744,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /api/v1/organizations/{orgName}/oparameters:
+  /api/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
       summary: List parameters of an organization
@@ -1316,17 +1316,6 @@ paths:
       description: create a Invitation
       summary: Create invitation
       operationId: createInvitation
-      parameters:
-        - name: orgName
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -5636,6 +5625,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -9742,6 +9737,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     networkConfig:
       type: object
       title: NetworkConfig
@@ -9759,6 +9760,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -10626,6 +10632,7 @@ components:
         email:
           description: The email of the invitee
           type: string
+          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -10927,12 +10934,6 @@ components:
           type: boolean
           nullable: true
       type: object
-    networkMode:
-      enum:
-        - HostNetwork
-        - NodePort
-        - FixedPodIP
-      type: string
     cluster:
       required:
         - engine
@@ -10942,7 +10943,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
@@ -11843,6 +11844,7 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -13862,6 +13864,10 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
     networkModeOption:
       type: object
       required:
@@ -15151,6 +15157,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -15224,6 +15232,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     featurePreReleaseType:
       type: string
