@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // HaHistoryResponse hahistory is the payload to get ha history of a KubeBlocks cluster
 type HaHistoryResponse struct {
 	ComponentName *string                        `json:"componentName,omitempty"`

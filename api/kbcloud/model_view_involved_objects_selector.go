@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ViewInvolvedObjectsSelector A label selector is a label query over a set of resources.
 type ViewInvolvedObjectsSelector struct {
 	// matchExpressions is a list of label selector requirements. The requirements are ANDed.
