@@ -1316,17 +1316,6 @@ paths:
       description: create a Invitation
       summary: Create invitation
       operationId: createInvitation
-      parameters:
-        - name: orgName
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -9748,6 +9737,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     networkConfig:
       type: object
       title: NetworkConfig
@@ -9765,6 +9760,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -10633,6 +10633,7 @@ components:
         email:
           description: The email of the invitee
           type: string
+          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -10934,12 +10935,6 @@ components:
           type: boolean
           nullable: true
       type: object
-    networkMode:
-      enum:
-        - HostNetwork
-        - NodePort
-        - FixedPodIP
-      type: string
     cluster:
       required:
         - engine
@@ -15163,6 +15158,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -15236,6 +15233,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     featurePreReleaseType:
       type: string
