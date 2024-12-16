@@ -15163,6 +15163,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -15236,6 +15238,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     featurePreReleaseType:
       type: string

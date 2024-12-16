@@ -4,11 +4,7 @@
 
 package kbcloud
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // Inspection inspection
 type Inspection struct {
@@ -29,6 +25,7 @@ type Inspection struct {
 	ScriptCategory *string    `json:"scriptCategory,omitempty"`
 	Reason         *string    `json:"reason,omitempty"`
 	Suggestion     *string    `json:"suggestion,omitempty"`
+	Unit           *string    `json:"unit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -527,6 +524,34 @@ func (o *Inspection) SetSuggestion(v string) {
 	o.Suggestion = &v
 }
 
+// GetUnit returns the Unit field value if set, zero value otherwise.
+func (o *Inspection) GetUnit() string {
+	if o == nil || o.Unit == nil {
+		var ret string
+		return ret
+	}
+	return *o.Unit
+}
+
+// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Inspection) GetUnitOk() (*string, bool) {
+	if o == nil || o.Unit == nil {
+		return nil, false
+	}
+	return o.Unit, true
+}
+
+// HasUnit returns a boolean if a field has been set.
+func (o *Inspection) HasUnit() bool {
+	return o != nil && o.Unit != nil
+}
+
+// SetUnit gets a reference to the given string and assigns it to the Unit field.
+func (o *Inspection) SetUnit(v string) {
+	o.Unit = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Inspection) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -592,6 +617,9 @@ func (o Inspection) MarshalJSON() ([]byte, error) {
 	if o.Suggestion != nil {
 		toSerialize["suggestion"] = o.Suggestion
 	}
+	if o.Unit != nil {
+		toSerialize["unit"] = o.Unit
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -619,13 +647,14 @@ func (o *Inspection) UnmarshalJSON(bytes []byte) (err error) {
 		ScriptCategory *string    `json:"scriptCategory,omitempty"`
 		Reason         *string    `json:"reason,omitempty"`
 		Suggestion     *string    `json:"suggestion,omitempty"`
+		Unit           *string    `json:"unit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "updatedAt", "createdAt", "creator", "clusterID", "clusterName", "clusterEngine", "result", "severity", "status", "isAuto", "scriptID", "scriptName", "scriptCategory", "reason", "suggestion"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "updatedAt", "createdAt", "creator", "clusterID", "clusterName", "clusterEngine", "result", "severity", "status", "isAuto", "scriptID", "scriptName", "scriptCategory", "reason", "suggestion", "unit"})
 	} else {
 		return err
 	}
@@ -646,6 +675,7 @@ func (o *Inspection) UnmarshalJSON(bytes []byte) (err error) {
 	o.ScriptCategory = all.ScriptCategory
 	o.Reason = all.Reason
 	o.Suggestion = all.Suggestion
+	o.Unit = all.Unit
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
