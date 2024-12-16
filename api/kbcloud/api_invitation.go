@@ -76,46 +76,14 @@ func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId stri
 	return localVarHTTPResponse, nil
 }
 
-// CreateInvitationOptionalParameters holds optional parameters for CreateInvitation.
-type CreateInvitationOptionalParameters struct {
-	OrgName *string
-	UserId  *string
-}
-
-// NewCreateInvitationOptionalParameters creates an empty struct for parameters.
-func NewCreateInvitationOptionalParameters() *CreateInvitationOptionalParameters {
-	this := CreateInvitationOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *CreateInvitationOptionalParameters) WithOrgName(orgName string) *CreateInvitationOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
-// WithUserId sets the corresponding parameter name and returns the struct.
-func (r *CreateInvitationOptionalParameters) WithUserId(userId string) *CreateInvitationOptionalParameters {
-	r.UserId = &userId
-	return r
-}
-
 // CreateInvitation Create invitation.
 // create a Invitation
-func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCreate, o ...CreateInvitationOptionalParameters) (Invitation, *_nethttp.Response, error) {
+func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCreate) (Invitation, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue Invitation
-		optionalParams      CreateInvitationOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateInvitationOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.CreateInvitation")
 	if err != nil {
@@ -127,12 +95,6 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
-	if optionalParams.UserId != nil {
-		localVarQueryParams.Add("userId", common.ParameterToString(*optionalParams.UserId, ""))
-	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 

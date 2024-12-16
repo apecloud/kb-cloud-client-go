@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // NetworkChaosAction Specifies the type of network chaos action to be performed. Options include introducing delay, packet loss, duplication, corruption, network partition, or bandwidth limitation.
