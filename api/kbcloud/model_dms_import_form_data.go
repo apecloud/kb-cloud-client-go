@@ -7,8 +7,6 @@ package kbcloud
 import (
 	"fmt"
 	_io "io"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // DmsImportFormData the data of the import task

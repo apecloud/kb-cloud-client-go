@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type AlertStatistic struct {
 	Total    *int32 `json:"total,omitempty"`
 	Critical *int32 `json:"critical,omitempty"`
