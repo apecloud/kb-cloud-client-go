@@ -6,16 +6,17 @@ package kbcloud
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
+// LogOption the log type (error, running, etc.) corresponds to MonitorDefinition's logType
 type LogOption struct {
 	Component string `json:"component"`
 	Error     bool   `json:"error"`
 	Slow      bool   `json:"slow"`
 	Audit     bool   `json:"audit"`
 	Running   bool   `json:"running"`
+	// serves the same purpose as the running log
+	Pod *bool `json:"pod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,6 +33,8 @@ func NewLogOption(component string, error bool, slow bool, audit bool, running b
 	this.Slow = slow
 	this.Audit = audit
 	this.Running = running
+	var pod bool = false
+	this.Pod = &pod
 	return &this
 }
 
@@ -40,6 +43,8 @@ func NewLogOption(component string, error bool, slow bool, audit bool, running b
 // but it doesn't guarantee that properties required by API are set.
 func NewLogOptionWithDefaults() *LogOption {
 	this := LogOption{}
+	var pod bool = false
+	this.Pod = &pod
 	return &this
 }
 
@@ -158,6 +163,34 @@ func (o *LogOption) SetRunning(v bool) {
 	o.Running = v
 }
 
+// GetPod returns the Pod field value if set, zero value otherwise.
+func (o *LogOption) GetPod() bool {
+	if o == nil || o.Pod == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Pod
+}
+
+// GetPodOk returns a tuple with the Pod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LogOption) GetPodOk() (*bool, bool) {
+	if o == nil || o.Pod == nil {
+		return nil, false
+	}
+	return o.Pod, true
+}
+
+// HasPod returns a boolean if a field has been set.
+func (o *LogOption) HasPod() bool {
+	return o != nil && o.Pod != nil
+}
+
+// SetPod gets a reference to the given bool and assigns it to the Pod field.
+func (o *LogOption) SetPod(v bool) {
+	o.Pod = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -169,6 +202,9 @@ func (o LogOption) MarshalJSON() ([]byte, error) {
 	toSerialize["slow"] = o.Slow
 	toSerialize["audit"] = o.Audit
 	toSerialize["running"] = o.Running
+	if o.Pod != nil {
+		toSerialize["pod"] = o.Pod
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -184,6 +220,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 		Slow      *bool   `json:"slow"`
 		Audit     *bool   `json:"audit"`
 		Running   *bool   `json:"running"`
+		Pod       *bool   `json:"pod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -205,7 +242,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "error", "slow", "audit", "running", "pod"})
 	} else {
 		return err
 	}
@@ -214,6 +251,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Slow = *all.Slow
 	o.Audit = *all.Audit
 	o.Running = *all.Running
+	o.Pod = all.Pod
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

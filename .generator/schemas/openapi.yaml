@@ -14161,6 +14161,7 @@ components:
                       type: string
     logOption:
       type: object
+      description: the log type (error, running, etc.) corresponds to MonitorDefinition's logType
       required:
         - component
         - error
@@ -14178,6 +14179,10 @@ components:
           type: boolean
         running:
           type: boolean
+        pod:
+          description: serves the same purpose as the running log
+          type: boolean
+          default: false
     parameterConfig:
       required:
         - configName
