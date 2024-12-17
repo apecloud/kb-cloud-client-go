@@ -228,6 +228,7 @@
 //   - [loadBalancerApi.installLoadBalancer]
 //   - [loadBalancerApi.uninstallLoadBalancer]
 //   - [markClusterApi.markClusterRestoreCompleted]
+//   - [metadbApi.deleteMetadbBackups]
 //   - [metadbApi.getMetadbInstancesMetrics]
 //   - [metadbApi.getPostgresClusterInfo]
 //   - [metadbApi.listMetadbBackups]
