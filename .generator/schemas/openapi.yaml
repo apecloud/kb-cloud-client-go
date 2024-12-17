@@ -3340,6 +3340,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
+    get:
+      tags:
+        - opsrequest
+      description: get a OpsRequest status
+      summary: Get OpsRequest Status
+      operationId: getOpsRequestStatus
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsStatus'
+          description: Successful operation
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -11715,6 +11748,19 @@ components:
               hints:
                 kind: interface
       type: object
+    opsStatus:
+      type: object
+      properties:
+        Status:
+          type: object
+          x-go-type:
+            type: OpsRequestStatus
+            import:
+              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+            hints:
+              kind: interface
+        message:
+          type: string
     autohealingList:
       description: An Autohealing object in k8s
       type: array
@@ -15862,6 +15908,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1708848695
     endTime:
       name: end
@@ -15870,6 +15917,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1711354295
 x-tagGroups:
   - name: User

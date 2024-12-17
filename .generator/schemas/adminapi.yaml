@@ -4669,6 +4669,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
+    get:
+      tags:
+        - opsrequest
+      description: get a OpsRequest status
+      summary: Get OpsRequest Status
+      operationId: getOpsRequestStatus
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsStatus'
+          description: Successful operation
   /admin/v1/kubernetes/nodes:
     post:
       operationId: listKubernetesNode
@@ -11400,6 +11433,33 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - metadb
+      operationId: deleteMetadbBackups
+      summary: Delete backups by name or delete all
+      parameters:
+        - name: backupName
+          in: query
+          description: Delete target backup by name
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: Delete all backups in the storage
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/metadb/backupConfig:
     get:
       tags:
@@ -14969,6 +15029,19 @@ components:
               hints:
                 kind: interface
       type: object
+    opsStatus:
+      type: object
+      properties:
+        Status:
+          type: object
+          x-go-type:
+            type: OpsRequestStatus
+            import:
+              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+            hints:
+              kind: interface
+        message:
+          type: string
     listKubernetesNodeOpType:
       type: string
       description: operation for list nodes, either `in` or `notin`
@@ -21039,6 +21112,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1708848695
     endTime:
       name: end
@@ -21047,6 +21121,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1711354295
 x-tagGroup:
   - name: User
