@@ -2225,80 +2225,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/tasks:
-    get:
-      operationId: listTasks
-      summary: List cluster tasks
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: You want to check the status of the task. If not passed, all selected by default
-          in: query
-          name: status
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTaskList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - task
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/tasks/{taskId}:
-    get:
-      description: Query task detail of clusters
-      summary: Query operation task detail
-      operationId: queryClusterTaskDetail
-      parameters:
-        - description: Organization Name
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: Cluster Name
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: Task ID
-          in: path
-          name: taskId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/clusterTask'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - task
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories:
     get:
       operationId: listParametersHistory
@@ -11474,6 +11400,33 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - metadb
+      operationId: deleteMetadbBackups
+      summary: Delete backups by name or delete all
+      parameters:
+        - name: backupName
+          in: query
+          description: Delete target backup by name
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: Delete all backups in the storage
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/metadb/backupConfig:
     get:
       tags:
@@ -11842,6 +11795,83 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/task'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
+  /admin/v1/clustertasks:
+    get:
+      operationId: listTasks
+      summary: List cluster tasks
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: query
+          name: clusterName
+          schema:
+            type: string
+        - description: You want to check the status of the task. If not passed, all selected by default
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/opsStatus'
+        - description: You want to check the type of the task. If not passed, all selected by default
+          in: query
+          name: clusterTaskType
+          schema:
+            $ref: '#/components/schemas/opsType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTaskList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - task
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
+    get:
+      description: Query task detail of clusters
+      summary: Query operation task detail
+      operationId: queryClusterTaskDetail
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Cluster Name
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Task ID
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -13164,6 +13194,11 @@ components:
         - Stop
         - Start
         - Expose
+        - DataScript
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
       type: string
     kubernetesManifests:
       description: Items is the list of Kubernetes objects in the list
@@ -13907,122 +13942,6 @@ components:
           description: Items is the list of operation event objects in the list
           items:
             $ref: '#/components/schemas/cluster_event'
-          type: array
-      required:
-        - items
-      type: object
-    clusterTaskProgress:
-      description: clusterTaskProgressDetail is the information of the task progress
-      properties:
-        name:
-          description: conponent name
-          type: string
-        group:
-          description: group name
-          type: string
-        objectKey:
-          description: the instance name
-          type: string
-        message:
-          description: message of the task progress
-          type: string
-        status:
-          description: status of the task progress
-          type: string
-        startTime:
-          description: start time of the task progress
-          format: date-time
-          type: string
-        endTime:
-          description: end time of the task progress
-          format: date-time
-          type: string
-      type: object
-    clusterTaskProgresses:
-      description: clusterTaskProgresses is a list of task progress detail
-      properties:
-        items:
-          description: Items is the list of task progress detail in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskProgress'
-          type: array
-      type: object
-    clusterTaskDetail:
-      type: object
-      description: taskCondition is the information of the task condition
-      properties:
-        reason:
-          description: reason of the task condition
-          type: string
-        type:
-          description: type of the task condition
-          type: string
-        status:
-          description: status of the task condition
-          type: string
-        message:
-          description: message of the task condition
-          type: string
-        lastTransitionTime:
-          description: last transition time of the task condition
-          format: date-time
-          type: string
-    clusterTaskDetails:
-      description: taskConditions is a list of task condition
-      properties:
-        items:
-          description: Items is the list of task condition in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskDetail'
-          type: array
-      type: object
-    clusterTask:
-      type: object
-      description: task is the information of the operation
-      required:
-        - name
-        - namespace
-        - status
-        - taskType
-        - progress
-      properties:
-        id:
-          description: ID of the task
-          type: string
-        name:
-          description: Name of the task
-          type: string
-        namespace:
-          description: Namespace of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        taskType:
-          description: task type
-          type: string
-        progress:
-          description: progress of the task
-          type: string
-        taskProgresses:
-          $ref: '#/components/schemas/clusterTaskProgresses'
-        taskDetails:
-          $ref: '#/components/schemas/clusterTaskDetails'
-        startTime:
-          type: string
-          format: date-time
-          description: Time when the task started
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
-    clusterTaskList:
-      description: TaskList is a list of operation task objects
-      properties:
-        items:
-          description: Items is the list of operation task objects in the list
-          items:
-            $ref: '#/components/schemas/clusterTask'
           type: array
       required:
         - items
@@ -15200,8 +15119,6 @@ components:
           format: double
           type: number
       required:
-        - allocatable
-        - capacity
         - limits
         - requests
         - usage
@@ -15445,6 +15362,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -16053,6 +15975,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
           nullable: true
@@ -20127,6 +20054,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -20200,6 +20129,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     storageProviderSchemaProps:
       type: object
@@ -21172,6 +21103,133 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/task'
+    opsStatus:
+      enum:
+        - Pending
+        - Creating
+        - Running
+        - Cancelling
+        - Succeed
+        - Cancelled
+        - Failed
+        - Aborted
+      type: string
+    clusterTaskProgress:
+      description: clusterTaskProgressDetail is the information of the task progress
+      properties:
+        name:
+          description: conponent name
+          type: string
+        group:
+          description: group name
+          type: string
+        objectKey:
+          description: the instance name
+          type: string
+        message:
+          description: message of the task progress
+          type: string
+        status:
+          description: status of the task progress
+          type: string
+        startTime:
+          description: start time of the task progress
+          format: date-time
+          type: string
+        endTime:
+          description: end time of the task progress
+          format: date-time
+          type: string
+      type: object
+    clusterTaskProgresses:
+      description: clusterTaskProgresses is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskProgress'
+          type: array
+      type: object
+    clusterTaskDetail:
+      type: object
+      description: taskCondition is the information of the task condition
+      properties:
+        reason:
+          description: reason of the task condition
+          type: string
+        type:
+          description: type of the task condition
+          type: string
+        status:
+          description: status of the task condition
+          type: string
+        message:
+          description: message of the task condition
+          type: string
+        lastTransitionTime:
+          description: last transition time of the task condition
+          format: date-time
+          type: string
+    clusterTaskDetails:
+      description: taskConditions is a list of task condition
+      properties:
+        items:
+          description: Items is the list of task condition in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskDetail'
+          type: array
+      type: object
+    clusterTask:
+      type: object
+      description: task is the information of the operation
+      required:
+        - name
+        - namespace
+        - status
+        - taskType
+        - progress
+      properties:
+        id:
+          description: ID of the task
+          type: string
+        name:
+          description: Name of the task
+          type: string
+        namespace:
+          description: Namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        taskType:
+          description: task type
+          type: string
+        progress:
+          description: progress of the task
+          type: string
+        taskProgresses:
+          $ref: '#/components/schemas/clusterTaskProgresses'
+        taskDetails:
+          $ref: '#/components/schemas/clusterTaskDetails'
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+    clusterTaskList:
+      description: TaskList is a list of operation task objects
+      properties:
+        items:
+          description: Items is the list of operation task objects in the list
+          items:
+            $ref: '#/components/schemas/clusterTask'
+          type: array
+      required:
+        - items
+      type: object
   responses:
     '204':
       description: No Content
@@ -21219,6 +21277,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1708848695
     endTime:
       name: end
@@ -21227,6 +21286,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1711354295
 x-tagGroup:
   - name: User
