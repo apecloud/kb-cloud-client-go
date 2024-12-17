@@ -20642,12 +20642,6 @@ components:
         lastBackupTime:
           description: the time of last backup
           type: string
-      required:
-        - provider
-        - accessKeyId
-        - secretAccessKey
-        - endpoint
-        - bucket
     metadb_restore:
       type: object
       properties:
