@@ -350,6 +350,8 @@
 //   - [tagApi.updateTag]
 //   - [taskApi.getTask]
 //   - [taskApi.listTask]
+//   - [taskApi.listTasks]
+//   - [taskApi.queryClusterTaskDetail]
 //   - [tlsApi.getTLSCertificate]
 //   - [tlsApi.tlsSwitcher]
 //   - [userApi.createUserApikey]
