@@ -159,7 +159,7 @@ func (a *TaskApi) ListTask(ctx _context.Context) (TaskList, *_nethttp.Response, 
 type ListTasksOptionalParameters struct {
 	OrgName         *string
 	ClusterName     *string
-	Status          *OpsStatus
+	Status          *Cluster_opsStatus
 	ClusterTaskType *OpsType
 }
 
@@ -182,7 +182,7 @@ func (r *ListTasksOptionalParameters) WithClusterName(clusterName string) *ListT
 }
 
 // WithStatus sets the corresponding parameter name and returns the struct.
-func (r *ListTasksOptionalParameters) WithStatus(status OpsStatus) *ListTasksOptionalParameters {
+func (r *ListTasksOptionalParameters) WithStatus(status Cluster_opsStatus) *ListTasksOptionalParameters {
 	r.Status = &status
 	return r
 }
