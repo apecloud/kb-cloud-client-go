@@ -4,18 +4,14 @@
 
 package admin
 
-import (
-	"fmt"
-)
-
 type BackupConfig struct {
-	Provider        string  `json:"provider"`
+	Provider        *string `json:"provider,omitempty"`
 	Schedule        *string `json:"schedule,omitempty"`
-	AccessKeyId     string  `json:"accessKeyId"`
-	SecretAccessKey string  `json:"secretAccessKey"`
-	Endpoint        string  `json:"endpoint"`
+	AccessKeyId     *string `json:"accessKeyId,omitempty"`
+	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
+	Endpoint        *string `json:"endpoint,omitempty"`
 	Region          *string `json:"region,omitempty"`
-	Bucket          string  `json:"bucket"`
+	Bucket          *string `json:"bucket,omitempty"`
 	// enable or disable auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// time for next backup
@@ -33,13 +29,8 @@ type BackupConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupConfig(provider string, accessKeyId string, secretAccessKey string, endpoint string, bucket string) *BackupConfig {
+func NewBackupConfig() *BackupConfig {
 	this := BackupConfig{}
-	this.Provider = provider
-	this.AccessKeyId = accessKeyId
-	this.SecretAccessKey = secretAccessKey
-	this.Endpoint = endpoint
-	this.Bucket = bucket
 	var autoBackup bool = false
 	this.AutoBackup = &autoBackup
 	return &this
@@ -55,27 +46,32 @@ func NewBackupConfigWithDefaults() *BackupConfig {
 	return &this
 }
 
-// GetProvider returns the Provider field value.
+// GetProvider returns the Provider field value if set, zero value otherwise.
 func (o *BackupConfig) GetProvider() string {
-	if o == nil {
+	if o == nil || o.Provider == nil {
 		var ret string
 		return ret
 	}
-	return o.Provider
+	return *o.Provider
 }
 
-// GetProviderOk returns a tuple with the Provider field value
+// GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupConfig) GetProviderOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Provider == nil {
 		return nil, false
 	}
-	return &o.Provider, true
+	return o.Provider, true
 }
 
-// SetProvider sets field value.
+// HasProvider returns a boolean if a field has been set.
+func (o *BackupConfig) HasProvider() bool {
+	return o != nil && o.Provider != nil
+}
+
+// SetProvider gets a reference to the given string and assigns it to the Provider field.
 func (o *BackupConfig) SetProvider(v string) {
-	o.Provider = v
+	o.Provider = &v
 }
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
@@ -106,73 +102,88 @@ func (o *BackupConfig) SetSchedule(v string) {
 	o.Schedule = &v
 }
 
-// GetAccessKeyId returns the AccessKeyId field value.
+// GetAccessKeyId returns the AccessKeyId field value if set, zero value otherwise.
 func (o *BackupConfig) GetAccessKeyId() string {
-	if o == nil {
+	if o == nil || o.AccessKeyId == nil {
 		var ret string
 		return ret
 	}
-	return o.AccessKeyId
+	return *o.AccessKeyId
 }
 
-// GetAccessKeyIdOk returns a tuple with the AccessKeyId field value
+// GetAccessKeyIdOk returns a tuple with the AccessKeyId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupConfig) GetAccessKeyIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.AccessKeyId == nil {
 		return nil, false
 	}
-	return &o.AccessKeyId, true
+	return o.AccessKeyId, true
 }
 
-// SetAccessKeyId sets field value.
+// HasAccessKeyId returns a boolean if a field has been set.
+func (o *BackupConfig) HasAccessKeyId() bool {
+	return o != nil && o.AccessKeyId != nil
+}
+
+// SetAccessKeyId gets a reference to the given string and assigns it to the AccessKeyId field.
 func (o *BackupConfig) SetAccessKeyId(v string) {
-	o.AccessKeyId = v
+	o.AccessKeyId = &v
 }
 
-// GetSecretAccessKey returns the SecretAccessKey field value.
+// GetSecretAccessKey returns the SecretAccessKey field value if set, zero value otherwise.
 func (o *BackupConfig) GetSecretAccessKey() string {
-	if o == nil {
+	if o == nil || o.SecretAccessKey == nil {
 		var ret string
 		return ret
 	}
-	return o.SecretAccessKey
+	return *o.SecretAccessKey
 }
 
-// GetSecretAccessKeyOk returns a tuple with the SecretAccessKey field value
+// GetSecretAccessKeyOk returns a tuple with the SecretAccessKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupConfig) GetSecretAccessKeyOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.SecretAccessKey == nil {
 		return nil, false
 	}
-	return &o.SecretAccessKey, true
+	return o.SecretAccessKey, true
 }
 
-// SetSecretAccessKey sets field value.
+// HasSecretAccessKey returns a boolean if a field has been set.
+func (o *BackupConfig) HasSecretAccessKey() bool {
+	return o != nil && o.SecretAccessKey != nil
+}
+
+// SetSecretAccessKey gets a reference to the given string and assigns it to the SecretAccessKey field.
 func (o *BackupConfig) SetSecretAccessKey(v string) {
-	o.SecretAccessKey = v
+	o.SecretAccessKey = &v
 }
 
-// GetEndpoint returns the Endpoint field value.
+// GetEndpoint returns the Endpoint field value if set, zero value otherwise.
 func (o *BackupConfig) GetEndpoint() string {
-	if o == nil {
+	if o == nil || o.Endpoint == nil {
 		var ret string
 		return ret
 	}
-	return o.Endpoint
+	return *o.Endpoint
 }
 
-// GetEndpointOk returns a tuple with the Endpoint field value
+// GetEndpointOk returns a tuple with the Endpoint field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupConfig) GetEndpointOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Endpoint == nil {
 		return nil, false
 	}
-	return &o.Endpoint, true
+	return o.Endpoint, true
 }
 
-// SetEndpoint sets field value.
+// HasEndpoint returns a boolean if a field has been set.
+func (o *BackupConfig) HasEndpoint() bool {
+	return o != nil && o.Endpoint != nil
+}
+
+// SetEndpoint gets a reference to the given string and assigns it to the Endpoint field.
 func (o *BackupConfig) SetEndpoint(v string) {
-	o.Endpoint = v
+	o.Endpoint = &v
 }
 
 // GetRegion returns the Region field value if set, zero value otherwise.
@@ -203,27 +214,32 @@ func (o *BackupConfig) SetRegion(v string) {
 	o.Region = &v
 }
 
-// GetBucket returns the Bucket field value.
+// GetBucket returns the Bucket field value if set, zero value otherwise.
 func (o *BackupConfig) GetBucket() string {
-	if o == nil {
+	if o == nil || o.Bucket == nil {
 		var ret string
 		return ret
 	}
-	return o.Bucket
+	return *o.Bucket
 }
 
-// GetBucketOk returns a tuple with the Bucket field value
+// GetBucketOk returns a tuple with the Bucket field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupConfig) GetBucketOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Bucket == nil {
 		return nil, false
 	}
-	return &o.Bucket, true
+	return o.Bucket, true
 }
 
-// SetBucket sets field value.
+// HasBucket returns a boolean if a field has been set.
+func (o *BackupConfig) HasBucket() bool {
+	return o != nil && o.Bucket != nil
+}
+
+// SetBucket gets a reference to the given string and assigns it to the Bucket field.
 func (o *BackupConfig) SetBucket(v string) {
-	o.Bucket = v
+	o.Bucket = &v
 }
 
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
@@ -344,17 +360,27 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["provider"] = o.Provider
+	if o.Provider != nil {
+		toSerialize["provider"] = o.Provider
+	}
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
-	toSerialize["accessKeyId"] = o.AccessKeyId
-	toSerialize["secretAccessKey"] = o.SecretAccessKey
-	toSerialize["endpoint"] = o.Endpoint
+	if o.AccessKeyId != nil {
+		toSerialize["accessKeyId"] = o.AccessKeyId
+	}
+	if o.SecretAccessKey != nil {
+		toSerialize["secretAccessKey"] = o.SecretAccessKey
+	}
+	if o.Endpoint != nil {
+		toSerialize["endpoint"] = o.Endpoint
+	}
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
 	}
-	toSerialize["bucket"] = o.Bucket
+	if o.Bucket != nil {
+		toSerialize["bucket"] = o.Bucket
+	}
 	if o.AutoBackup != nil {
 		toSerialize["autoBackup"] = o.AutoBackup
 	}
@@ -377,13 +403,13 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider        *string `json:"provider"`
+		Provider        *string `json:"provider,omitempty"`
 		Schedule        *string `json:"schedule,omitempty"`
-		AccessKeyId     *string `json:"accessKeyId"`
-		SecretAccessKey *string `json:"secretAccessKey"`
-		Endpoint        *string `json:"endpoint"`
+		AccessKeyId     *string `json:"accessKeyId,omitempty"`
+		SecretAccessKey *string `json:"secretAccessKey,omitempty"`
+		Endpoint        *string `json:"endpoint,omitempty"`
 		Region          *string `json:"region,omitempty"`
-		Bucket          *string `json:"bucket"`
+		Bucket          *string `json:"bucket,omitempty"`
 		AutoBackup      *bool   `json:"autoBackup,omitempty"`
 		NextBackupTime  *string `json:"nextBackupTime,omitempty"`
 		RetentionPolicy *string `json:"retentionPolicy,omitempty"`
@@ -392,34 +418,19 @@ func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
-	if all.Provider == nil {
-		return fmt.Errorf("required field provider missing")
-	}
-	if all.AccessKeyId == nil {
-		return fmt.Errorf("required field accessKeyId missing")
-	}
-	if all.SecretAccessKey == nil {
-		return fmt.Errorf("required field secretAccessKey missing")
-	}
-	if all.Endpoint == nil {
-		return fmt.Errorf("required field endpoint missing")
-	}
-	if all.Bucket == nil {
-		return fmt.Errorf("required field bucket missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"provider", "schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "bucket", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime"})
 	} else {
 		return err
 	}
-	o.Provider = *all.Provider
+	o.Provider = all.Provider
 	o.Schedule = all.Schedule
-	o.AccessKeyId = *all.AccessKeyId
-	o.SecretAccessKey = *all.SecretAccessKey
-	o.Endpoint = *all.Endpoint
+	o.AccessKeyId = all.AccessKeyId
+	o.SecretAccessKey = all.SecretAccessKey
+	o.Endpoint = all.Endpoint
 	o.Region = all.Region
-	o.Bucket = *all.Bucket
+	o.Bucket = all.Bucket
 	o.AutoBackup = all.AutoBackup
 	o.NextBackupTime = all.NextBackupTime
 	o.RetentionPolicy = all.RetentionPolicy

@@ -11,8 +11,6 @@ import (
 
 // Invitation Invitation info
 type Invitation struct {
-	// User has accepted or not
-	Accepted *bool `json:"accepted,omitempty"`
 	// the created time of the invitation
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The email of the invitee
@@ -60,34 +58,6 @@ func NewInvitation(email string, expireTime time.Time, id string, lastEmailTime 
 func NewInvitationWithDefaults() *Invitation {
 	this := Invitation{}
 	return &this
-}
-
-// GetAccepted returns the Accepted field value if set, zero value otherwise.
-func (o *Invitation) GetAccepted() bool {
-	if o == nil || o.Accepted == nil {
-		var ret bool
-		return ret
-	}
-	return *o.Accepted
-}
-
-// GetAcceptedOk returns a tuple with the Accepted field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Invitation) GetAcceptedOk() (*bool, bool) {
-	if o == nil || o.Accepted == nil {
-		return nil, false
-	}
-	return o.Accepted, true
-}
-
-// HasAccepted returns a boolean if a field has been set.
-func (o *Invitation) HasAccepted() bool {
-	return o != nil && o.Accepted != nil
-}
-
-// SetAccepted gets a reference to the given bool and assigns it to the Accepted field.
-func (o *Invitation) SetAccepted(v bool) {
-	o.Accepted = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -341,9 +311,6 @@ func (o Invitation) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Accepted != nil {
-		toSerialize["accepted"] = o.Accepted
-	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -386,7 +353,6 @@ func (o Invitation) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Accepted      *bool             `json:"accepted,omitempty"`
 		CreatedAt     *time.Time        `json:"createdAt,omitempty"`
 		Email         *string           `json:"email"`
 		ExpireTime    *time.Time        `json:"expireTime"`
@@ -424,13 +390,12 @@ func (o *Invitation) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accepted", "createdAt", "email", "expireTime", "id", "lastEmailTime", "orgName", "roleName", "sender", "token", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "email", "expireTime", "id", "lastEmailTime", "orgName", "roleName", "sender", "token", "updatedAt"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	o.Accepted = all.Accepted
 	o.CreatedAt = all.CreatedAt
 	o.Email = *all.Email
 	o.ExpireTime = *all.ExpireTime

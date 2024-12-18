@@ -16,46 +16,14 @@ import (
 // MetricsApi service type
 type MetricsApi common.Service
 
-// GetAggregateMetaDataOptionalParameters holds optional parameters for GetAggregateMetaData.
-type GetAggregateMetaDataOptionalParameters struct {
-	Start *int64
-	End   *int64
-}
-
-// NewGetAggregateMetaDataOptionalParameters creates an empty struct for parameters.
-func NewGetAggregateMetaDataOptionalParameters() *GetAggregateMetaDataOptionalParameters {
-	this := GetAggregateMetaDataOptionalParameters{}
-	return &this
-}
-
-// WithStart sets the corresponding parameter name and returns the struct.
-func (r *GetAggregateMetaDataOptionalParameters) WithStart(start int64) *GetAggregateMetaDataOptionalParameters {
-	r.Start = &start
-	return r
-}
-
-// WithEnd sets the corresponding parameter name and returns the struct.
-func (r *GetAggregateMetaDataOptionalParameters) WithEnd(end int64) *GetAggregateMetaDataOptionalParameters {
-	r.End = &end
-	return r
-}
-
 // GetAggregateMetaData Get aggregate meta data.
 // Get aggregate meta data including total count and time series
-func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData AggregateMetaDataType, o ...GetAggregateMetaDataOptionalParameters) (AggregateMetaData, *_nethttp.Response, error) {
+func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData AggregateMetaDataType, start int64, end int64) (AggregateMetaData, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AggregateMetaData
-		optionalParams      GetAggregateMetaDataOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAggregateMetaDataOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetAggregateMetaData")
 	if err != nil {
@@ -68,12 +36,8 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("metaData", common.ParameterToString(metaData, ""))
-	if optionalParams.Start != nil {
-		localVarQueryParams.Add("start", common.ParameterToString(*optionalParams.Start, ""))
-	}
-	if optionalParams.End != nil {
-		localVarQueryParams.Add("end", common.ParameterToString(*optionalParams.End, ""))
-	}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -193,46 +157,14 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// QueryClusterMetricsOptionalParameters holds optional parameters for QueryClusterMetrics.
-type QueryClusterMetricsOptionalParameters struct {
-	Start *int64
-	End   *int64
-}
-
-// NewQueryClusterMetricsOptionalParameters creates an empty struct for parameters.
-func NewQueryClusterMetricsOptionalParameters() *QueryClusterMetricsOptionalParameters {
-	this := QueryClusterMetricsOptionalParameters{}
-	return &this
-}
-
-// WithStart sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterMetricsOptionalParameters) WithStart(start int64) *QueryClusterMetricsOptionalParameters {
-	r.Start = &start
-	return r
-}
-
-// WithEnd sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterMetricsOptionalParameters) WithEnd(end int64) *QueryClusterMetricsOptionalParameters {
-	r.End = &end
-	return r
-}
-
 // QueryClusterMetrics Query cluster metrics.
 // Query cluster metrics by specified metric name and instance name, support instant and range query
-func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, o ...QueryClusterMetricsOptionalParameters) (ClusterMetrics, *_nethttp.Response, error) {
+func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, start int64, end int64) (ClusterMetrics, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterMetrics
-		optionalParams      QueryClusterMetricsOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterMetricsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.QueryClusterMetrics")
 	if err != nil {
@@ -248,12 +180,8 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("query", common.ParameterToString(query, ""))
 	localVarQueryParams.Add("queryType", common.ParameterToString(queryType, ""))
-	if optionalParams.Start != nil {
-		localVarQueryParams.Add("start", common.ParameterToString(*optionalParams.Start, ""))
-	}
-	if optionalParams.End != nil {
-		localVarQueryParams.Add("end", common.ParameterToString(*optionalParams.End, ""))
-	}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
