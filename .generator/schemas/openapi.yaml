@@ -8114,7 +8114,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instance-types:
+  /api/v1/instance-types:
     get:
       tags:
         - instanceTypes
@@ -8156,7 +8156,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/instance-types/{id}:
+  /api/v1/instance-types/{id}:
     get:
       tags:
         - instanceTypes
