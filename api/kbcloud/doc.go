@@ -177,6 +177,7 @@
 //   - [opsrequestApi.clusterVolumeExpand]
 //   - [opsrequestApi.customOps]
 //   - [opsrequestApi.exposeCluster]
+//   - [opsrequestApi.getOpsRequestStatus]
 //   - [opsrequestApi.horizontalScaleCluster]
 //   - [opsrequestApi.promoteCluster]
 //   - [opsrequestApi.rebuildInstance]

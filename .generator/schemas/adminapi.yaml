@@ -4669,6 +4669,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
+    get:
+      tags:
+        - opsrequest
+      description: get a OpsRequest status
+      summary: Get OpsRequest Status
+      operationId: getOpsRequestStatus
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsStatus'
+          description: Successful operation
   /admin/v1/kubernetes/nodes:
     post:
       operationId: listKubernetesNode
@@ -11820,7 +11853,7 @@ paths:
           in: query
           name: status
           schema:
-            $ref: '#/components/schemas/opsStatus'
+            $ref: '#/components/schemas/cluster_opsStatus'
         - description: You want to check the type of the task. If not passed, all selected by default
           in: query
           name: clusterTaskType
@@ -15080,6 +15113,20 @@ components:
               hints:
                 kind: interface
       type: object
+    opsStatus:
+      type: object
+      x-go-name: OpsRequestStatus
+      properties:
+        Status:
+          type: object
+          x-go-type:
+            type: OpsRequestStatus
+            import:
+              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+            hints:
+              kind: interface
+        message:
+          type: string
     listKubernetesNodeOpType:
       type: string
       description: operation for list nodes, either `in` or `notin`
@@ -20730,12 +20777,6 @@ components:
         lastBackupTime:
           description: the time of last backup
           type: string
-      required:
-        - provider
-        - accessKeyId
-        - secretAccessKey
-        - endpoint
-        - bucket
     metadb_restore:
       type: object
       properties:
@@ -21107,7 +21148,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/task'
-    opsStatus:
+    cluster_opsStatus:
       enum:
         - Pending
         - Creating
