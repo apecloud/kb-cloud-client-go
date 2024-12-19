@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // PreflightList The preflight results
 type PreflightList struct {
 	Pass []Preflight `json:"pass,omitempty"`
