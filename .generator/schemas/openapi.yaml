@@ -3242,7 +3242,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/opsRequestName'
+                $ref: '#/components/schemas/clusterTask'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -8114,6 +8114,122 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/instance-types:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypes
+      summary: Get all instance types
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - instanceTypes
+      operationId: createInstanceType
+      summary: Create a new instance type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createInstanceType'
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /api/v1/instance-types/{id}:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypeById
+      summary: Get an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - instanceTypes
+      operationId: updateInstanceType
+      summary: Update an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/instanceTypes'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - instanceTypes
+      operationId: deleteInstanceType
+      summary: Delete an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/providers:
     get:
       tags:
@@ -11891,6 +12007,9 @@ components:
           $ref: '#/components/schemas/clusterTaskProgresses'
         taskDetails:
           $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
         startTime:
           type: string
           format: date-time
@@ -15205,6 +15324,67 @@ components:
           type: string
         instanceType:
           type: string
+    OccupationType:
+      type: string
+      enum:
+        - general
+        - exclusive
+    serverConfiguration:
+      type: object
+      properties:
+        architectureType:
+          type: string
+          description: Server architecture type, can be empty.
+    instanceTypes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the instance type.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time.
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
