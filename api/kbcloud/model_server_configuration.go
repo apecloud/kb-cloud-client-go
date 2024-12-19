@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ServerConfiguration struct {
 	// Server architecture type, can be empty.
 	ArchitectureType *string `json:"architectureType,omitempty"`

@@ -6260,6 +6260,38 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Get alert rule configuration YAML
+      description: Retrieves the complete alert rule configuration in YAML format for all organizations
+      operationId: getRuleConfig
+      responses:
+        '200':
+          description: Alert rule configuration in YAML format
+          content:
+            text/yaml:
+              schema:
+                type: string
+                description: YAML formatted string containing the alert rule configuration
+                example: |
+                  groups:
+                    - name: org-name
+                      rules:
+                        - alert: HighCPUUsage
+                          expr: cpu_usage > 90
+                          for: 5m
+                          labels:
+                            severity: critical
+                          annotations:
+                            summary: High CPU usage detected
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/engines:
     get:
       tags:
