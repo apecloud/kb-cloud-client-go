@@ -16227,15 +16227,12 @@ components:
           $ref: '#/components/schemas/resourceStats'
         memoryStats:
           $ref: '#/components/schemas/resourceStats'
-        ephemeralStorageStats:
-          $ref: '#/components/schemas/resourceStats'
         name:
           description: Name of the node.
           type: string
       required:
         - cpuStats
         - memoryStats
-        - ephemeralStorageStats
         - name
       type: object
     nodeResourceStatsList:
