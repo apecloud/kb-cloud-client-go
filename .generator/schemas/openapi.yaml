@@ -12010,6 +12010,9 @@ components:
         opsLog:
           description: pod log of the custom task
           type: string
+        description:
+          description: description of the custom task
+          type: string
         startTime:
           type: string
           format: date-time
