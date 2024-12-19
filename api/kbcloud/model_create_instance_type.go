@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type CreateInstanceType struct {
 	// Any characters, no more than 255 characters long.
 	Description *string `json:"description,omitempty"`
