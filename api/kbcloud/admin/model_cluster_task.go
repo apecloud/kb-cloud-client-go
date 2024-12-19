@@ -29,6 +29,8 @@ type ClusterTask struct {
 	TaskProgresses *ClusterTaskProgresses `json:"taskProgresses,omitempty"`
 	// taskConditions is a list of task condition
 	TaskDetails *ClusterTaskDetails `json:"taskDetails,omitempty"`
+	// pod log of the custom task
+	OpsLog *string `json:"opsLog,omitempty"`
 	// Time when the task started
 	StartTime *time.Time `json:"startTime,omitempty"`
 	// Time when the task completed or failed
@@ -259,6 +261,34 @@ func (o *ClusterTask) SetTaskDetails(v ClusterTaskDetails) {
 	o.TaskDetails = &v
 }
 
+// GetOpsLog returns the OpsLog field value if set, zero value otherwise.
+func (o *ClusterTask) GetOpsLog() string {
+	if o == nil || o.OpsLog == nil {
+		var ret string
+		return ret
+	}
+	return *o.OpsLog
+}
+
+// GetOpsLogOk returns a tuple with the OpsLog field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterTask) GetOpsLogOk() (*string, bool) {
+	if o == nil || o.OpsLog == nil {
+		return nil, false
+	}
+	return o.OpsLog, true
+}
+
+// HasOpsLog returns a boolean if a field has been set.
+func (o *ClusterTask) HasOpsLog() bool {
+	return o != nil && o.OpsLog != nil
+}
+
+// SetOpsLog gets a reference to the given string and assigns it to the OpsLog field.
+func (o *ClusterTask) SetOpsLog(v string) {
+	o.OpsLog = &v
+}
+
 // GetStartTime returns the StartTime field value if set, zero value otherwise.
 func (o *ClusterTask) GetStartTime() time.Time {
 	if o == nil || o.StartTime == nil {
@@ -335,6 +365,9 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 	if o.TaskDetails != nil {
 		toSerialize["taskDetails"] = o.TaskDetails
 	}
+	if o.OpsLog != nil {
+		toSerialize["opsLog"] = o.OpsLog
+	}
 	if o.StartTime != nil {
 		if o.StartTime.Nanosecond() == 0 {
 			toSerialize["startTime"] = o.StartTime.Format("2006-01-02T15:04:05Z07:00")
@@ -367,6 +400,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 		Progress       *string                `json:"progress"`
 		TaskProgresses *ClusterTaskProgresses `json:"taskProgresses,omitempty"`
 		TaskDetails    *ClusterTaskDetails    `json:"taskDetails,omitempty"`
+		OpsLog         *string                `json:"opsLog,omitempty"`
 		StartTime      *time.Time             `json:"startTime,omitempty"`
 		CompletionTime *time.Time             `json:"completionTime,omitempty"`
 	}{}
@@ -390,7 +424,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "status", "taskType", "progress", "taskProgresses", "taskDetails", "startTime", "completionTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "startTime", "completionTime"})
 	} else {
 		return err
 	}
@@ -410,6 +444,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.TaskDetails = all.TaskDetails
+	o.OpsLog = all.OpsLog
 	o.StartTime = all.StartTime
 	o.CompletionTime = all.CompletionTime
 
