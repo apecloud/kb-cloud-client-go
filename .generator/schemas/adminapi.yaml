@@ -4535,7 +4535,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/opsRequestName'
+                $ref: '#/components/schemas/clusterTask'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -15113,6 +15113,114 @@ components:
               hints:
                 kind: interface
       type: object
+    clusterTaskProgress:
+      description: clusterTaskProgressDetail is the information of the task progress
+      properties:
+        name:
+          description: conponent name
+          type: string
+        group:
+          description: group name
+          type: string
+        objectKey:
+          description: the instance name
+          type: string
+        message:
+          description: message of the task progress
+          type: string
+        status:
+          description: status of the task progress
+          type: string
+        startTime:
+          description: start time of the task progress
+          format: date-time
+          type: string
+        endTime:
+          description: end time of the task progress
+          format: date-time
+          type: string
+      type: object
+    clusterTaskProgresses:
+      description: clusterTaskProgresses is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskProgress'
+          type: array
+      type: object
+    clusterTaskDetail:
+      type: object
+      description: taskCondition is the information of the task condition
+      properties:
+        reason:
+          description: reason of the task condition
+          type: string
+        type:
+          description: type of the task condition
+          type: string
+        status:
+          description: status of the task condition
+          type: string
+        message:
+          description: message of the task condition
+          type: string
+        lastTransitionTime:
+          description: last transition time of the task condition
+          format: date-time
+          type: string
+    clusterTaskDetails:
+      description: taskConditions is a list of task condition
+      properties:
+        items:
+          description: Items is the list of task condition in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskDetail'
+          type: array
+      type: object
+    clusterTask:
+      type: object
+      description: task is the information of the operation
+      required:
+        - name
+        - namespace
+        - status
+        - taskType
+        - progress
+      properties:
+        id:
+          description: ID of the task
+          type: string
+        name:
+          description: Name of the task
+          type: string
+        namespace:
+          description: Namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        taskType:
+          description: task type
+          type: string
+        progress:
+          description: progress of the task
+          type: string
+        taskProgresses:
+          $ref: '#/components/schemas/clusterTaskProgresses'
+        taskDetails:
+          $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
     opsStatus:
       type: object
       x-go-name: OpsRequestStatus
@@ -21155,111 +21263,6 @@ components:
         - Failed
         - Aborted
       type: string
-    clusterTaskProgress:
-      description: clusterTaskProgressDetail is the information of the task progress
-      properties:
-        name:
-          description: conponent name
-          type: string
-        group:
-          description: group name
-          type: string
-        objectKey:
-          description: the instance name
-          type: string
-        message:
-          description: message of the task progress
-          type: string
-        status:
-          description: status of the task progress
-          type: string
-        startTime:
-          description: start time of the task progress
-          format: date-time
-          type: string
-        endTime:
-          description: end time of the task progress
-          format: date-time
-          type: string
-      type: object
-    clusterTaskProgresses:
-      description: clusterTaskProgresses is a list of task progress detail
-      properties:
-        items:
-          description: Items is the list of task progress detail in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskProgress'
-          type: array
-      type: object
-    clusterTaskDetail:
-      type: object
-      description: taskCondition is the information of the task condition
-      properties:
-        reason:
-          description: reason of the task condition
-          type: string
-        type:
-          description: type of the task condition
-          type: string
-        status:
-          description: status of the task condition
-          type: string
-        message:
-          description: message of the task condition
-          type: string
-        lastTransitionTime:
-          description: last transition time of the task condition
-          format: date-time
-          type: string
-    clusterTaskDetails:
-      description: taskConditions is a list of task condition
-      properties:
-        items:
-          description: Items is the list of task condition in the list
-          items:
-            $ref: '#/components/schemas/clusterTaskDetail'
-          type: array
-      type: object
-    clusterTask:
-      type: object
-      description: task is the information of the operation
-      required:
-        - name
-        - namespace
-        - status
-        - taskType
-        - progress
-      properties:
-        id:
-          description: ID of the task
-          type: string
-        name:
-          description: Name of the task
-          type: string
-        namespace:
-          description: Namespace of the task
-          type: string
-        status:
-          description: status of the task
-          type: string
-        taskType:
-          description: task type
-          type: string
-        progress:
-          description: progress of the task
-          type: string
-        taskProgresses:
-          $ref: '#/components/schemas/clusterTaskProgresses'
-        taskDetails:
-          $ref: '#/components/schemas/clusterTaskDetails'
-        startTime:
-          type: string
-          format: date-time
-          description: Time when the task started
-        completionTime:
-          type: string
-          format: date-time
-          description: Time when the task completed or failed
     clusterTaskList:
       description: TaskList is a list of operation task objects
       properties:

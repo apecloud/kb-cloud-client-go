@@ -3242,7 +3242,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/opsRequestName'
+                $ref: '#/components/schemas/clusterTask'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -12007,6 +12007,9 @@ components:
           $ref: '#/components/schemas/clusterTaskProgresses'
         taskDetails:
           $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
         startTime:
           type: string
           format: date-time
