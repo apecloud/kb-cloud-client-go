@@ -15210,6 +15210,9 @@ components:
           $ref: '#/components/schemas/clusterTaskProgresses'
         taskDetails:
           $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
         startTime:
           type: string
           format: date-time
