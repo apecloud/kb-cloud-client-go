@@ -300,11 +300,11 @@ func (a *OpsrequestApi) ExposeCluster(ctx _context.Context, orgName string, clus
 
 // GetOpsRequestStatus Get OpsRequest Status.
 // get a OpsRequest status
-func (a *OpsrequestApi) GetOpsRequestStatus(ctx _context.Context, orgName string, clusterName string, opsName string) (OpsStatus, *_nethttp.Response, error) {
+func (a *OpsrequestApi) GetOpsRequestStatus(ctx _context.Context, orgName string, clusterName string, opsName string) (Ops_opsStatus, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue OpsStatus
+		localVarReturnValue Ops_opsStatus
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.GetOpsRequestStatus")
