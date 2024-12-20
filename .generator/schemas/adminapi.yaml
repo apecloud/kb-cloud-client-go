@@ -15245,6 +15245,9 @@ components:
         opsLog:
           description: pod log of the custom task
           type: string
+        description:
+          description: description of the custom task
+          type: string
         startTime:
           type: string
           format: date-time
@@ -16231,15 +16234,12 @@ components:
           $ref: '#/components/schemas/resourceStats'
         memoryStats:
           $ref: '#/components/schemas/resourceStats'
-        ephemeralStorageStats:
-          $ref: '#/components/schemas/resourceStats'
         name:
           description: Name of the node.
           type: string
       required:
         - cpuStats
         - memoryStats
-        - ephemeralStorageStats
         - name
       type: object
     nodeResourceStatsList:
