@@ -4,129 +4,74 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-type OpsStatus struct {
-	Status  interface{} `json:"Status,omitempty"`
-	Message *string     `json:"message,omitempty"`
-	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
-	AdditionalProperties map[string]interface{} `json:"-"`
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+type OpsStatus string
+
+// List of OpsStatus.
+const (
+	OpsStatusPending    OpsStatus = "Pending"
+	OpsStatusCreating   OpsStatus = "Creating"
+	OpsStatusRunning    OpsStatus = "Running"
+	OpsStatusCancelling OpsStatus = "Cancelling"
+	OpsStatusSucceed    OpsStatus = "Succeed"
+	OpsStatusCancelled  OpsStatus = "Cancelled"
+	OpsStatusFailed     OpsStatus = "Failed"
+	OpsStatusAborted    OpsStatus = "Aborted"
+)
+
+var allowedOpsStatusEnumValues = []OpsStatus{
+	OpsStatusPending,
+	OpsStatusCreating,
+	OpsStatusRunning,
+	OpsStatusCancelling,
+	OpsStatusSucceed,
+	OpsStatusCancelled,
+	OpsStatusFailed,
+	OpsStatusAborted,
 }
 
-// NewOpsStatus instantiates a new OpsStatus object.
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed.
-func NewOpsStatus() *OpsStatus {
-	this := OpsStatus{}
-	return &this
-}
-
-// NewOpsStatusWithDefaults instantiates a new OpsStatus object.
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set.
-func NewOpsStatusWithDefaults() *OpsStatus {
-	this := OpsStatus{}
-	return &this
-}
-
-// GetStatus returns the Status field value if set, zero value otherwise.
-func (o *OpsStatus) GetStatus() interface{} {
-	if o == nil || o.Status == nil {
-		var ret interface{}
-		return ret
-	}
-	return o.Status
-}
-
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OpsStatus) GetStatusOk() (*interface{}, bool) {
-	if o == nil || o.Status == nil {
-		return nil, false
-	}
-	return &o.Status, true
-}
-
-// HasStatus returns a boolean if a field has been set.
-func (o *OpsStatus) HasStatus() bool {
-	return o != nil && o.Status != nil
-}
-
-// SetStatus gets a reference to the given interface{} and assigns it to the Status field.
-func (o *OpsStatus) SetStatus(v interface{}) {
-	o.Status = v
-}
-
-// GetMessage returns the Message field value if set, zero value otherwise.
-func (o *OpsStatus) GetMessage() string {
-	if o == nil || o.Message == nil {
-		var ret string
-		return ret
-	}
-	return *o.Message
-}
-
-// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OpsStatus) GetMessageOk() (*string, bool) {
-	if o == nil || o.Message == nil {
-		return nil, false
-	}
-	return o.Message, true
-}
-
-// HasMessage returns a boolean if a field has been set.
-func (o *OpsStatus) HasMessage() bool {
-	return o != nil && o.Message != nil
-}
-
-// SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *OpsStatus) SetMessage(v string) {
-	o.Message = &v
-}
-
-// MarshalJSON serializes the struct using spec logic.
-func (o OpsStatus) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.UnparsedObject != nil {
-		return common.Marshal(o.UnparsedObject)
-	}
-	if o.Status != nil {
-		toSerialize["Status"] = o.Status
-	}
-	if o.Message != nil {
-		toSerialize["message"] = o.Message
-	}
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
-	return common.Marshal(toSerialize)
+// GetAllowedValues returns the list of possible values.
+func (v *OpsStatus) GetAllowedValues() []OpsStatus {
+	return allowedOpsStatusEnumValues
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OpsStatus) UnmarshalJSON(bytes []byte) (err error) {
-	all := struct {
-		Status  interface{} `json:"Status,omitempty"`
-		Message *string     `json:"message,omitempty"`
-	}{}
-	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	additionalProperties := make(map[string]interface{})
-	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"Status", "message"})
-	} else {
+func (v *OpsStatus) UnmarshalJSON(src []byte) error {
+	var value string
+	err := common.Unmarshal(src, &value)
+	if err != nil {
 		return err
 	}
-	o.Status = all.Status
-	o.Message = all.Message
-
-	if len(additionalProperties) > 0 {
-		o.AdditionalProperties = additionalProperties
-	}
-
+	*v = OpsStatus(value)
 	return nil
+}
+
+// NewOpsStatusFromValue returns a pointer to a valid OpsStatus
+// for the value passed as argument, or an error if the value passed is not allowed by the enum.
+func NewOpsStatusFromValue(v string) (*OpsStatus, error) {
+	ev := OpsStatus(v)
+	if ev.IsValid() {
+		return &ev, nil
+	}
+	return nil, fmt.Errorf("invalid value '%v' for OpsStatus: valid values are %v", v, allowedOpsStatusEnumValues)
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise.
+func (v OpsStatus) IsValid() bool {
+	for _, existing := range allowedOpsStatusEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to OpsStatus value.
+func (v OpsStatus) Ptr() *OpsStatus {
+	return &v
 }

@@ -3379,6 +3379,46 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - task
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
+    get:
+      operationId: listTasksInConsole
+      summary: List cluster tasks in console
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          schema:
+            type: string
+          required: true
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: You want to check the status of the task. If not passed, all selected by default
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/opsStatus'
+        - description: You want to check the type of the task. If not passed, all selected by default
+          in: query
+          name: clusterTaskType
+          schema:
+            $ref: '#/components/schemas/opsType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTaskList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - task
   /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
     get:
       tags:
@@ -3410,7 +3450,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/opsStatus'
+                $ref: '#/components/schemas/ops_opsStatus'
           description: Successful operation
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
@@ -12054,6 +12094,28 @@ components:
           format: date-time
           description: Time when the task completed or failed
     opsStatus:
+      enum:
+        - Pending
+        - Creating
+        - Running
+        - Cancelling
+        - Succeed
+        - Cancelled
+        - Failed
+        - Aborted
+      type: string
+    clusterTaskList:
+      description: TaskList is a list of operation task objects
+      properties:
+        items:
+          description: Items is the list of operation task objects in the list
+          items:
+            $ref: '#/components/schemas/clusterTask'
+          type: array
+      required:
+        - items
+      type: object
+    ops_opsStatus:
       type: object
       x-go-name: OpsRequestStatus
       properties:
