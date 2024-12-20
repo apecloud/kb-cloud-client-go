@@ -16,6 +16,8 @@ type NodeResourceStats struct {
 	CpuStats ResourceStats `json:"cpuStats"`
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	MemoryStats ResourceStats `json:"memoryStats"`
+	// ResourceStats holds the requests, limits, and available stats for a resource.
+	EphemeralStorageStats ResourceStats `json:"ephemeralStorageStats"`
 	// Name of the node.
 	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -27,10 +29,11 @@ type NodeResourceStats struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewNodeResourceStats(cpuStats ResourceStats, memoryStats ResourceStats, name string) *NodeResourceStats {
+func NewNodeResourceStats(cpuStats ResourceStats, memoryStats ResourceStats, ephemeralStorageStats ResourceStats, name string) *NodeResourceStats {
 	this := NodeResourceStats{}
 	this.CpuStats = cpuStats
 	this.MemoryStats = memoryStats
+	this.EphemeralStorageStats = ephemeralStorageStats
 	this.Name = name
 	return &this
 }
@@ -89,6 +92,29 @@ func (o *NodeResourceStats) SetMemoryStats(v ResourceStats) {
 	o.MemoryStats = v
 }
 
+// GetEphemeralStorageStats returns the EphemeralStorageStats field value.
+func (o *NodeResourceStats) GetEphemeralStorageStats() ResourceStats {
+	if o == nil {
+		var ret ResourceStats
+		return ret
+	}
+	return o.EphemeralStorageStats
+}
+
+// GetEphemeralStorageStatsOk returns a tuple with the EphemeralStorageStats field value
+// and a boolean to check if the value has been set.
+func (o *NodeResourceStats) GetEphemeralStorageStatsOk() (*ResourceStats, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.EphemeralStorageStats, true
+}
+
+// SetEphemeralStorageStats sets field value.
+func (o *NodeResourceStats) SetEphemeralStorageStats(v ResourceStats) {
+	o.EphemeralStorageStats = v
+}
+
 // GetName returns the Name field value.
 func (o *NodeResourceStats) GetName() string {
 	if o == nil {
@@ -120,6 +146,7 @@ func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["cpuStats"] = o.CpuStats
 	toSerialize["memoryStats"] = o.MemoryStats
+	toSerialize["ephemeralStorageStats"] = o.EphemeralStorageStats
 	toSerialize["name"] = o.Name
 
 	for key, value := range o.AdditionalProperties {
@@ -131,9 +158,10 @@ func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CpuStats    *ResourceStats `json:"cpuStats"`
-		MemoryStats *ResourceStats `json:"memoryStats"`
-		Name        *string        `json:"name"`
+		CpuStats              *ResourceStats `json:"cpuStats"`
+		MemoryStats           *ResourceStats `json:"memoryStats"`
+		EphemeralStorageStats *ResourceStats `json:"ephemeralStorageStats"`
+		Name                  *string        `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -144,12 +172,15 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	if all.MemoryStats == nil {
 		return fmt.Errorf("required field memoryStats missing")
 	}
+	if all.EphemeralStorageStats == nil {
+		return fmt.Errorf("required field ephemeralStorageStats missing")
+	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "ephemeralStorageStats", "name"})
 	} else {
 		return err
 	}
@@ -163,6 +194,10 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.MemoryStats = *all.MemoryStats
+	if all.EphemeralStorageStats.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.EphemeralStorageStats = *all.EphemeralStorageStats
 	o.Name = *all.Name
 
 	if len(additionalProperties) > 0 {
