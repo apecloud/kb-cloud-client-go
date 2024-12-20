@@ -252,6 +252,7 @@
 //   - [tagApi.getTags]
 //   - [tagApi.listOrgTags]
 //   - [tagApi.updateTag]
+//   - [taskApi.listTasksInConsole]
 //   - [taskApi.queryClusterTaskDetail]
 //   - [tlsApi.getTLSCertificate]
 //   - [tlsApi.tlsSwitcher]
