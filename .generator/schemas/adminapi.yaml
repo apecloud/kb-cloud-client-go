@@ -19050,7 +19050,6 @@ components:
         - restart
         - hscale
         - vscale
-        - storageExpansion
         - dashboards
         - logs
         - parameters
