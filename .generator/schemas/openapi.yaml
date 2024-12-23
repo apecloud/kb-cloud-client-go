@@ -15450,6 +15450,11 @@ components:
           items:
             type: string
           description: List of engine names supported by this instance type.
+        sourceInstanceTypeName:
+          type: array
+          items:
+            type: string
+          description: The Names of the instance types to be copied. All specifications of these instances will be copied to the new instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
