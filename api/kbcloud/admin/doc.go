@@ -359,6 +359,7 @@
 //   - [userApi.deleteApikey]
 //   - [userApi.patchAPIkey]
 //   - [userApi.readUserApikeys]
+//   - [userApi.updateAdminUserPassword]
 //   - [viewApi.getTreeView]
 //   - [viewApi.getViewByCluster]
 //   - [vipPoolApi.createVIPPool]

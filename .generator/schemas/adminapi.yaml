@@ -138,6 +138,36 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - adminUser
+  /admin/v1/user/password:
+    patch:
+      description: Update admin user password
+      summary: Update admin user password
+      operationId: updateAdminUserPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                newPassword:
+                  description: The new password for the admin user.
+                  type: string
+              required:
+                - newPassword
+              type: object
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Password updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - user
+      x-codegen-request-body-name: body
   /admin/v1/user/apikey/{keyName}:
     patch:
       description: partially update the specified apikey
@@ -12144,11 +12174,13 @@ components:
         email:
           description: The email for the user
           type: string
+          format: email
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
         - password
+        - email
       type: object
     adminUserUpdate:
       description: Admin user update
@@ -12159,10 +12191,12 @@ components:
         email:
           description: The email for the user
           type: string
+          format: email
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
+        - email
       type: object
     adminUserList:
       description: Admin user list

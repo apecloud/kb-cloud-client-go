@@ -17,7 +17,7 @@ type AdminUserCreate struct {
 	// The password of the admin user
 	Password string `json:"password"`
 	// The email for the user
-	Email *string `json:"email,omitempty"`
+	Email string `json:"email"`
 	// The phonenumber for the user.
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -29,10 +29,11 @@ type AdminUserCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUserCreate(userName string, password string) *AdminUserCreate {
+func NewAdminUserCreate(userName string, password string, email string) *AdminUserCreate {
 	this := AdminUserCreate{}
 	this.UserName = userName
 	this.Password = password
+	this.Email = email
 	return &this
 }
 
@@ -90,32 +91,27 @@ func (o *AdminUserCreate) SetPassword(v string) {
 	o.Password = v
 }
 
-// GetEmail returns the Email field value if set, zero value otherwise.
+// GetEmail returns the Email field value.
 func (o *AdminUserCreate) GetEmail() string {
-	if o == nil || o.Email == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Email
+	return o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
+// GetEmailOk returns a tuple with the Email field value
 // and a boolean to check if the value has been set.
 func (o *AdminUserCreate) GetEmailOk() (*string, bool) {
-	if o == nil || o.Email == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Email, true
+	return &o.Email, true
 }
 
-// HasEmail returns a boolean if a field has been set.
-func (o *AdminUserCreate) HasEmail() bool {
-	return o != nil && o.Email != nil
-}
-
-// SetEmail gets a reference to the given string and assigns it to the Email field.
+// SetEmail sets field value.
 func (o *AdminUserCreate) SetEmail(v string) {
-	o.Email = &v
+	o.Email = v
 }
 
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
@@ -154,9 +150,7 @@ func (o AdminUserCreate) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["userName"] = o.UserName
 	toSerialize["password"] = o.Password
-	if o.Email != nil {
-		toSerialize["email"] = o.Email
-	}
+	toSerialize["email"] = o.Email
 	if o.PhoneNumber != nil {
 		toSerialize["phoneNumber"] = o.PhoneNumber
 	}
@@ -172,7 +166,7 @@ func (o *AdminUserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		UserName    *string `json:"userName"`
 		Password    *string `json:"password"`
-		Email       *string `json:"email,omitempty"`
+		Email       *string `json:"email"`
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -184,6 +178,9 @@ func (o *AdminUserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Password == nil {
 		return fmt.Errorf("required field password missing")
 	}
+	if all.Email == nil {
+		return fmt.Errorf("required field email missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"userName", "password", "email", "phoneNumber"})
@@ -192,7 +189,7 @@ func (o *AdminUserCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.UserName = *all.UserName
 	o.Password = *all.Password
-	o.Email = all.Email
+	o.Email = *all.Email
 	o.PhoneNumber = all.PhoneNumber
 
 	if len(additionalProperties) > 0 {
