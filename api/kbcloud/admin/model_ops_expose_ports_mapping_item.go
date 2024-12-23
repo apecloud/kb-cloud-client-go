@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type OpsExposePortsMappingItem struct {
 	Old *int32 `json:"old,omitempty"`
 	New *int32 `json:"new,omitempty"`
