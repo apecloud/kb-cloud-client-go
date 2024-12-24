@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ClusterMetrics Cluster metrics
 type ClusterMetrics struct {
 	Value  []interface{}   `json:"value,omitempty"`

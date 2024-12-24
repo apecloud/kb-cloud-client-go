@@ -4,11 +4,7 @@
 
 package admin
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // Storage Storage is a specification that provides guidance accessing remote storage.
 type Storage struct {

@@ -7,8 +7,6 @@ package kbcloud
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ClusterTask task is the information of the operation
@@ -36,7 +34,7 @@ type ClusterTask struct {
 	// Time when the task started
 	StartTime *time.Time `json:"startTime,omitempty"`
 	// Time when the task completed or failed
-	CompletionTime *time.Time `json:"completionTime,omitempty"`
+	CompletionTime common.NullableTime `json:"completionTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -347,32 +345,43 @@ func (o *ClusterTask) SetStartTime(v time.Time) {
 	o.StartTime = &v
 }
 
-// GetCompletionTime returns the CompletionTime field value if set, zero value otherwise.
+// GetCompletionTime returns the CompletionTime field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterTask) GetCompletionTime() time.Time {
-	if o == nil || o.CompletionTime == nil {
+	if o == nil || o.CompletionTime.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CompletionTime
+	return *o.CompletionTime.Get()
 }
 
 // GetCompletionTimeOk returns a tuple with the CompletionTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterTask) GetCompletionTimeOk() (*time.Time, bool) {
-	if o == nil || o.CompletionTime == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.CompletionTime, true
+	return o.CompletionTime.Get(), o.CompletionTime.IsSet()
 }
 
 // HasCompletionTime returns a boolean if a field has been set.
 func (o *ClusterTask) HasCompletionTime() bool {
-	return o != nil && o.CompletionTime != nil
+	return o != nil && o.CompletionTime.IsSet()
 }
 
-// SetCompletionTime gets a reference to the given time.Time and assigns it to the CompletionTime field.
+// SetCompletionTime gets a reference to the given common.NullableTime and assigns it to the CompletionTime field.
 func (o *ClusterTask) SetCompletionTime(v time.Time) {
-	o.CompletionTime = &v
+	o.CompletionTime.Set(&v)
+}
+
+// SetCompletionTimeNil sets the value for CompletionTime to be an explicit nil.
+func (o *ClusterTask) SetCompletionTimeNil() {
+	o.CompletionTime.Set(nil)
+}
+
+// UnsetCompletionTime ensures that no value is present for CompletionTime, not even an explicit nil.
+func (o *ClusterTask) UnsetCompletionTime() {
+	o.CompletionTime.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -408,12 +417,8 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 			toSerialize["startTime"] = o.StartTime.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.CompletionTime != nil {
-		if o.CompletionTime.Nanosecond() == 0 {
-			toSerialize["completionTime"] = o.CompletionTime.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["completionTime"] = o.CompletionTime.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.CompletionTime.IsSet() {
+		toSerialize["completionTime"] = o.CompletionTime.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -436,7 +441,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 		OpsLog         *string                `json:"opsLog,omitempty"`
 		Description    *string                `json:"description,omitempty"`
 		StartTime      *time.Time             `json:"startTime,omitempty"`
-		CompletionTime *time.Time             `json:"completionTime,omitempty"`
+		CompletionTime common.NullableTime    `json:"completionTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
