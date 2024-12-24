@@ -14,7 +14,7 @@ import (
 // BackupRepo backupRepo is the payload for KubeBlocks cluster backup repo
 type BackupRepo struct {
 	// the access method for backup repo
-	AccessMethod BackupRepoAccessMethod `json:"accessMethod"`
+	AccessMethod *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
 	// the id of backup repo
 	Id *string `json:"id,omitempty"`
 	// backupNums specifies the number of backups in the backupRepo
@@ -54,9 +54,10 @@ type BackupRepo struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupRepo(accessMethod BackupRepoAccessMethod, backupNums int32, config map[string]string, createdAt time.Time, defaultVar bool, environmentId uuid.UUID, environmentName string, name string, status string, storageProvider string, totalSize string) *BackupRepo {
+func NewBackupRepo(backupNums int32, config map[string]string, createdAt time.Time, defaultVar bool, environmentId uuid.UUID, environmentName string, name string, status string, storageProvider string, totalSize string) *BackupRepo {
 	this := BackupRepo{}
-	this.AccessMethod = accessMethod
+	var accessMethod BackupRepoAccessMethod = BackupRepoAccessMethodTool
+	this.AccessMethod = &accessMethod
 	this.BackupNums = backupNums
 	this.Config = config
 	this.CreatedAt = createdAt
@@ -76,31 +77,36 @@ func NewBackupRepo(accessMethod BackupRepoAccessMethod, backupNums int32, config
 func NewBackupRepoWithDefaults() *BackupRepo {
 	this := BackupRepo{}
 	var accessMethod BackupRepoAccessMethod = BackupRepoAccessMethodTool
-	this.AccessMethod = accessMethod
+	this.AccessMethod = &accessMethod
 	return &this
 }
 
-// GetAccessMethod returns the AccessMethod field value.
+// GetAccessMethod returns the AccessMethod field value if set, zero value otherwise.
 func (o *BackupRepo) GetAccessMethod() BackupRepoAccessMethod {
-	if o == nil {
+	if o == nil || o.AccessMethod == nil {
 		var ret BackupRepoAccessMethod
 		return ret
 	}
-	return o.AccessMethod
+	return *o.AccessMethod
 }
 
-// GetAccessMethodOk returns a tuple with the AccessMethod field value
+// GetAccessMethodOk returns a tuple with the AccessMethod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupRepo) GetAccessMethodOk() (*BackupRepoAccessMethod, bool) {
-	if o == nil {
+	if o == nil || o.AccessMethod == nil {
 		return nil, false
 	}
-	return &o.AccessMethod, true
+	return o.AccessMethod, true
 }
 
-// SetAccessMethod sets field value.
+// HasAccessMethod returns a boolean if a field has been set.
+func (o *BackupRepo) HasAccessMethod() bool {
+	return o != nil && o.AccessMethod != nil
+}
+
+// SetAccessMethod gets a reference to the given BackupRepoAccessMethod and assigns it to the AccessMethod field.
 func (o *BackupRepo) SetAccessMethod(v BackupRepoAccessMethod) {
-	o.AccessMethod = v
+	o.AccessMethod = &v
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -479,7 +485,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["accessMethod"] = o.AccessMethod
+	if o.AccessMethod != nil {
+		toSerialize["accessMethod"] = o.AccessMethod
+	}
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
 	}
@@ -519,7 +527,7 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessMethod    *BackupRepoAccessMethod `json:"accessMethod"`
+		AccessMethod    *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
 		Id              *string                 `json:"id,omitempty"`
 		BackupNums      *int32                  `json:"backupNums"`
 		Config          *map[string]string      `json:"config"`
@@ -538,9 +546,6 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.AccessMethod == nil {
-		return fmt.Errorf("required field accessMethod missing")
 	}
 	if all.BackupNums == nil {
 		return fmt.Errorf("required field backupNums missing")
@@ -580,10 +585,10 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	if !all.AccessMethod.IsValid() {
+	if all.AccessMethod != nil && !all.AccessMethod.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.AccessMethod = *all.AccessMethod
+		o.AccessMethod = all.AccessMethod
 	}
 	o.Id = all.Id
 	o.BackupNums = *all.BackupNums
