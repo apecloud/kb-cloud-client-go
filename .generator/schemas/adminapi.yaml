@@ -17302,7 +17302,6 @@ components:
           type: string
           description: failedMessage specifies the message of the backupRepo failure
       required:
-        - accessMethod
         - backupNums
         - config
         - createdAt
