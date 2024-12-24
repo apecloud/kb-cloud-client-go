@@ -6,8 +6,6 @@ package admin
 
 import (
 	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EnvironmentResourceStats EnvironmentResourceStats holds the cpuStats for a environment.
@@ -18,8 +16,8 @@ type EnvironmentResourceStats struct {
 	MemoryStats ResourceStats `json:"memoryStats"`
 	// Name of the environment.
 	Name string `json:"name"`
-	// StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
-	StorageStats StorageStats `json:"storageStats"`
+	// ResourceStats holds the requests, limits, and available stats for a resource.
+	StorageStats ResourceStats `json:"storageStats"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,7 +27,7 @@ type EnvironmentResourceStats struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentResourceStats(cpuStats ResourceStats, memoryStats ResourceStats, name string, storageStats StorageStats) *EnvironmentResourceStats {
+func NewEnvironmentResourceStats(cpuStats ResourceStats, memoryStats ResourceStats, name string, storageStats ResourceStats) *EnvironmentResourceStats {
 	this := EnvironmentResourceStats{}
 	this.CpuStats = cpuStats
 	this.MemoryStats = memoryStats
@@ -116,9 +114,9 @@ func (o *EnvironmentResourceStats) SetName(v string) {
 }
 
 // GetStorageStats returns the StorageStats field value.
-func (o *EnvironmentResourceStats) GetStorageStats() StorageStats {
+func (o *EnvironmentResourceStats) GetStorageStats() ResourceStats {
 	if o == nil {
-		var ret StorageStats
+		var ret ResourceStats
 		return ret
 	}
 	return o.StorageStats
@@ -126,7 +124,7 @@ func (o *EnvironmentResourceStats) GetStorageStats() StorageStats {
 
 // GetStorageStatsOk returns a tuple with the StorageStats field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentResourceStats) GetStorageStatsOk() (*StorageStats, bool) {
+func (o *EnvironmentResourceStats) GetStorageStatsOk() (*ResourceStats, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -134,7 +132,7 @@ func (o *EnvironmentResourceStats) GetStorageStatsOk() (*StorageStats, bool) {
 }
 
 // SetStorageStats sets field value.
-func (o *EnvironmentResourceStats) SetStorageStats(v StorageStats) {
+func (o *EnvironmentResourceStats) SetStorageStats(v ResourceStats) {
 	o.StorageStats = v
 }
 
@@ -161,7 +159,7 @@ func (o *EnvironmentResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		CpuStats     *ResourceStats `json:"cpuStats"`
 		MemoryStats  *ResourceStats `json:"memoryStats"`
 		Name         *string        `json:"name"`
-		StorageStats *StorageStats  `json:"storageStats"`
+		StorageStats *ResourceStats `json:"storageStats"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

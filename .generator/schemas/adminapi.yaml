@@ -16229,16 +16229,6 @@ components:
         - PrevState
         - Reason
         - Timestamp
-    storageStats:
-      description: StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
-      properties:
-        provisionedCapacity:
-          description: ProvisionedCapacity is the actual size of the volumes that is bound to the PVC, unit is GiB
-          format: double
-          type: number
-      required:
-        - provisionedCapacity
-      type: object
     environmentResourceStats:
       description: EnvironmentResourceStats holds the cpuStats for a environment.
       properties:
@@ -16250,7 +16240,7 @@ components:
           description: Name of the environment.
           type: string
         storageStats:
-          $ref: '#/components/schemas/storageStats'
+          $ref: '#/components/schemas/resourceStats'
       required:
         - cpuStats
         - memoryStats
