@@ -22,8 +22,6 @@ type QueryClusterEventsOptionalParameters struct {
 	ResourceType *string
 	EventName    *string
 	OperatorId   *int32
-	Start        *int64
-	End          *int64
 }
 
 // NewQueryClusterEventsOptionalParameters creates an empty struct for parameters.
@@ -62,21 +60,9 @@ func (r *QueryClusterEventsOptionalParameters) WithOperatorId(operatorId int32) 
 	return r
 }
 
-// WithStart sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithStart(start int64) *QueryClusterEventsOptionalParameters {
-	r.Start = &start
-	return r
-}
-
-// WithEnd sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithEnd(end int64) *QueryClusterEventsOptionalParameters {
-	r.End = &end
-	return r
-}
-
 // QueryClusterEvents Query operation events.
 // Query events of clusters
-func (a *EventApi) QueryClusterEvents(ctx _context.Context, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
+func (a *EventApi) QueryClusterEvents(ctx _context.Context, start int64, end int64, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -101,6 +87,8 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, o ...QueryClusterEve
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -115,12 +103,6 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, o ...QueryClusterEve
 	}
 	if optionalParams.OperatorId != nil {
 		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
-	}
-	if optionalParams.Start != nil {
-		localVarQueryParams.Add("start", common.ParameterToString(*optionalParams.Start, ""))
-	}
-	if optionalParams.End != nil {
-		localVarQueryParams.Add("end", common.ParameterToString(*optionalParams.End, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

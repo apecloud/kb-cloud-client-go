@@ -217,6 +217,7 @@ func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName st
 // ListAccountsOptionalParameters holds optional parameters for ListAccounts.
 type ListAccountsOptionalParameters struct {
 	IncludeRoot *bool
+	Component   *string
 }
 
 // NewListAccountsOptionalParameters creates an empty struct for parameters.
@@ -228,6 +229,12 @@ func NewListAccountsOptionalParameters() *ListAccountsOptionalParameters {
 // WithIncludeRoot sets the corresponding parameter name and returns the struct.
 func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOptionalParameters {
 	r.IncludeRoot = &includeRoot
+	return r
+}
+
+// WithComponent sets the corresponding parameter name and returns the struct.
+func (r *ListAccountsOptionalParameters) WithComponent(component string) *ListAccountsOptionalParameters {
+	r.Component = &component
 	return r
 }
 
@@ -262,6 +269,9 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.IncludeRoot != nil {
 		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
+	}
+	if optionalParams.Component != nil {
+		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

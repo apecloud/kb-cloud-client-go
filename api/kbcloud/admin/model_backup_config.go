@@ -5,12 +5,13 @@
 package admin
 
 type BackupConfig struct {
+	Provider        *string `json:"provider,omitempty"`
 	Schedule        *string `json:"schedule,omitempty"`
 	AccessKeyId     *string `json:"accessKeyId,omitempty"`
 	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
 	Endpoint        *string `json:"endpoint,omitempty"`
 	Region          *string `json:"region,omitempty"`
-	S3Prefix        *string `json:"s3Prefix,omitempty"`
+	Bucket          *string `json:"bucket,omitempty"`
 	// enable or disable auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// time for next backup
@@ -43,6 +44,34 @@ func NewBackupConfigWithDefaults() *BackupConfig {
 	var autoBackup bool = false
 	this.AutoBackup = &autoBackup
 	return &this
+}
+
+// GetProvider returns the Provider field value if set, zero value otherwise.
+func (o *BackupConfig) GetProvider() string {
+	if o == nil || o.Provider == nil {
+		var ret string
+		return ret
+	}
+	return *o.Provider
+}
+
+// GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupConfig) GetProviderOk() (*string, bool) {
+	if o == nil || o.Provider == nil {
+		return nil, false
+	}
+	return o.Provider, true
+}
+
+// HasProvider returns a boolean if a field has been set.
+func (o *BackupConfig) HasProvider() bool {
+	return o != nil && o.Provider != nil
+}
+
+// SetProvider gets a reference to the given string and assigns it to the Provider field.
+func (o *BackupConfig) SetProvider(v string) {
+	o.Provider = &v
 }
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
@@ -185,32 +214,32 @@ func (o *BackupConfig) SetRegion(v string) {
 	o.Region = &v
 }
 
-// GetS3Prefix returns the S3Prefix field value if set, zero value otherwise.
-func (o *BackupConfig) GetS3Prefix() string {
-	if o == nil || o.S3Prefix == nil {
+// GetBucket returns the Bucket field value if set, zero value otherwise.
+func (o *BackupConfig) GetBucket() string {
+	if o == nil || o.Bucket == nil {
 		var ret string
 		return ret
 	}
-	return *o.S3Prefix
+	return *o.Bucket
 }
 
-// GetS3PrefixOk returns a tuple with the S3Prefix field value if set, nil otherwise
+// GetBucketOk returns a tuple with the Bucket field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupConfig) GetS3PrefixOk() (*string, bool) {
-	if o == nil || o.S3Prefix == nil {
+func (o *BackupConfig) GetBucketOk() (*string, bool) {
+	if o == nil || o.Bucket == nil {
 		return nil, false
 	}
-	return o.S3Prefix, true
+	return o.Bucket, true
 }
 
-// HasS3Prefix returns a boolean if a field has been set.
-func (o *BackupConfig) HasS3Prefix() bool {
-	return o != nil && o.S3Prefix != nil
+// HasBucket returns a boolean if a field has been set.
+func (o *BackupConfig) HasBucket() bool {
+	return o != nil && o.Bucket != nil
 }
 
-// SetS3Prefix gets a reference to the given string and assigns it to the S3Prefix field.
-func (o *BackupConfig) SetS3Prefix(v string) {
-	o.S3Prefix = &v
+// SetBucket gets a reference to the given string and assigns it to the Bucket field.
+func (o *BackupConfig) SetBucket(v string) {
+	o.Bucket = &v
 }
 
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
@@ -331,6 +360,9 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Provider != nil {
+		toSerialize["provider"] = o.Provider
+	}
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
@@ -346,8 +378,8 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
 	}
-	if o.S3Prefix != nil {
-		toSerialize["s3Prefix"] = o.S3Prefix
+	if o.Bucket != nil {
+		toSerialize["bucket"] = o.Bucket
 	}
 	if o.AutoBackup != nil {
 		toSerialize["autoBackup"] = o.AutoBackup
@@ -371,12 +403,13 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Provider        *string `json:"provider,omitempty"`
 		Schedule        *string `json:"schedule,omitempty"`
 		AccessKeyId     *string `json:"accessKeyId,omitempty"`
 		SecretAccessKey *string `json:"secretAccessKey,omitempty"`
 		Endpoint        *string `json:"endpoint,omitempty"`
 		Region          *string `json:"region,omitempty"`
-		S3Prefix        *string `json:"s3Prefix,omitempty"`
+		Bucket          *string `json:"bucket,omitempty"`
 		AutoBackup      *bool   `json:"autoBackup,omitempty"`
 		NextBackupTime  *string `json:"nextBackupTime,omitempty"`
 		RetentionPolicy *string `json:"retentionPolicy,omitempty"`
@@ -387,16 +420,17 @@ func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "s3Prefix", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "bucket", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime"})
 	} else {
 		return err
 	}
+	o.Provider = all.Provider
 	o.Schedule = all.Schedule
 	o.AccessKeyId = all.AccessKeyId
 	o.SecretAccessKey = all.SecretAccessKey
 	o.Endpoint = all.Endpoint
 	o.Region = all.Region
-	o.S3Prefix = all.S3Prefix
+	o.Bucket = all.Bucket
 	o.AutoBackup = all.AutoBackup
 	o.NextBackupTime = all.NextBackupTime
 	o.RetentionPolicy = all.RetentionPolicy
