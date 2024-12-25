@@ -12675,6 +12675,7 @@ components:
           description: indicates when this backup becomes eligible for garbage collection
           type: string
           format: date-time
+          nullable: true
         id:
           description: the backup id
           type: string
