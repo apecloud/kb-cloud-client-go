@@ -11812,7 +11812,6 @@ components:
       properties:
         version:
           type: string
-          nullable: false
         component:
           type: string
       required:
