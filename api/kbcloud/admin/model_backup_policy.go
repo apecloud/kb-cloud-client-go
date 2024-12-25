@@ -4,11 +4,7 @@
 
 package admin
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // BackupPolicy BackupPolicy is the payload for KubeBlocks cluster backup policy
 type BackupPolicy struct {
@@ -27,7 +23,7 @@ type BackupPolicy struct {
 	// backup retention policy when cluster is deleted
 	RetentionPolicy *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
 	// the time to do next backup
-	NextBackupTime *time.Time `json:"nextBackupTime,omitempty"`
+	NextBackupTime common.NullableTime `json:"nextBackupTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -254,32 +250,43 @@ func (o *BackupPolicy) SetRetentionPolicy(v BackupRetentionPolicy) {
 	o.RetentionPolicy = &v
 }
 
-// GetNextBackupTime returns the NextBackupTime field value if set, zero value otherwise.
+// GetNextBackupTime returns the NextBackupTime field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *BackupPolicy) GetNextBackupTime() time.Time {
-	if o == nil || o.NextBackupTime == nil {
+	if o == nil || o.NextBackupTime.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.NextBackupTime
+	return *o.NextBackupTime.Get()
 }
 
 // GetNextBackupTimeOk returns a tuple with the NextBackupTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *BackupPolicy) GetNextBackupTimeOk() (*time.Time, bool) {
-	if o == nil || o.NextBackupTime == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.NextBackupTime, true
+	return o.NextBackupTime.Get(), o.NextBackupTime.IsSet()
 }
 
 // HasNextBackupTime returns a boolean if a field has been set.
 func (o *BackupPolicy) HasNextBackupTime() bool {
-	return o != nil && o.NextBackupTime != nil
+	return o != nil && o.NextBackupTime.IsSet()
 }
 
-// SetNextBackupTime gets a reference to the given time.Time and assigns it to the NextBackupTime field.
+// SetNextBackupTime gets a reference to the given common.NullableTime and assigns it to the NextBackupTime field.
 func (o *BackupPolicy) SetNextBackupTime(v time.Time) {
-	o.NextBackupTime = &v
+	o.NextBackupTime.Set(&v)
+}
+
+// SetNextBackupTimeNil sets the value for NextBackupTime to be an explicit nil.
+func (o *BackupPolicy) SetNextBackupTimeNil() {
+	o.NextBackupTime.Set(nil)
+}
+
+// UnsetNextBackupTime ensures that no value is present for NextBackupTime, not even an explicit nil.
+func (o *BackupPolicy) UnsetNextBackupTime() {
+	o.NextBackupTime.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -309,12 +316,8 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	if o.RetentionPolicy != nil {
 		toSerialize["retentionPolicy"] = o.RetentionPolicy
 	}
-	if o.NextBackupTime != nil {
-		if o.NextBackupTime.Nanosecond() == 0 {
-			toSerialize["nextBackupTime"] = o.NextBackupTime.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["nextBackupTime"] = o.NextBackupTime.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.NextBackupTime.IsSet() {
+		toSerialize["nextBackupTime"] = o.NextBackupTime.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -333,7 +336,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		RetentionPeriod  *string                `json:"retentionPeriod,omitempty"`
 		BackupRepo       *string                `json:"backupRepo,omitempty"`
 		RetentionPolicy  *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
-		NextBackupTime   *time.Time             `json:"nextBackupTime,omitempty"`
+		NextBackupTime   common.NullableTime    `json:"nextBackupTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
