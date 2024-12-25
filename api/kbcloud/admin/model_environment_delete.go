@@ -16,6 +16,8 @@ type EnvironmentDelete struct {
 	Minio CloudResourceCleanPolicy `json:"minio"`
 	// The policy to clean cloud resources, either `Delete` or `Retain`
 	VictoriaMetrics CloudResourceCleanPolicy `json:"victoriaMetrics"`
+	// The policy to clean cloud resources, either `Delete` or `Retain`
+	Loki CloudResourceCleanPolicy `json:"loki"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,10 +27,11 @@ type EnvironmentDelete struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentDelete(minio CloudResourceCleanPolicy, victoriaMetrics CloudResourceCleanPolicy) *EnvironmentDelete {
+func NewEnvironmentDelete(minio CloudResourceCleanPolicy, victoriaMetrics CloudResourceCleanPolicy, loki CloudResourceCleanPolicy) *EnvironmentDelete {
 	this := EnvironmentDelete{}
 	this.Minio = minio
 	this.VictoriaMetrics = victoriaMetrics
+	this.Loki = loki
 	return &this
 }
 
@@ -41,6 +44,8 @@ func NewEnvironmentDeleteWithDefaults() *EnvironmentDelete {
 	this.Minio = minio
 	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
 	this.VictoriaMetrics = victoriaMetrics
+	var loki CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
+	this.Loki = loki
 	return &this
 }
 
@@ -118,6 +123,29 @@ func (o *EnvironmentDelete) SetVictoriaMetrics(v CloudResourceCleanPolicy) {
 	o.VictoriaMetrics = v
 }
 
+// GetLoki returns the Loki field value.
+func (o *EnvironmentDelete) GetLoki() CloudResourceCleanPolicy {
+	if o == nil {
+		var ret CloudResourceCleanPolicy
+		return ret
+	}
+	return o.Loki
+}
+
+// GetLokiOk returns a tuple with the Loki field value
+// and a boolean to check if the value has been set.
+func (o *EnvironmentDelete) GetLokiOk() (*CloudResourceCleanPolicy, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Loki, true
+}
+
+// SetLoki sets field value.
+func (o *EnvironmentDelete) SetLoki(v CloudResourceCleanPolicy) {
+	o.Loki = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -129,6 +157,7 @@ func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["minio"] = o.Minio
 	toSerialize["victoriaMetrics"] = o.VictoriaMetrics
+	toSerialize["loki"] = o.Loki
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -142,6 +171,7 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 		CleanCloudResources *bool                     `json:"cleanCloudResources,omitempty"`
 		Minio               *CloudResourceCleanPolicy `json:"minio"`
 		VictoriaMetrics     *CloudResourceCleanPolicy `json:"victoriaMetrics"`
+		Loki                *CloudResourceCleanPolicy `json:"loki"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -152,9 +182,12 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 	if all.VictoriaMetrics == nil {
 		return fmt.Errorf("required field victoriaMetrics missing")
 	}
+	if all.Loki == nil {
+		return fmt.Errorf("required field loki missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources", "minio", "victoriaMetrics"})
+		common.DeleteKeys(additionalProperties, &[]string{"cleanCloudResources", "minio", "victoriaMetrics", "loki"})
 	} else {
 		return err
 	}
@@ -170,6 +203,11 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.VictoriaMetrics = *all.VictoriaMetrics
+	}
+	if !all.Loki.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Loki = *all.Loki
 	}
 
 	if len(additionalProperties) > 0 {
