@@ -4,8 +4,6 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type BackupConfig struct {
 	Provider        *string `json:"provider,omitempty"`
 	Schedule        *string `json:"schedule,omitempty"`

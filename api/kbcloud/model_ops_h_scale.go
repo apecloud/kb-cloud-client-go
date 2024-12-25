@@ -4,9 +4,7 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
-// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster
+// OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
 type OpsHScale struct {
 	// component type
 	Component *string `json:"component,omitempty"`
