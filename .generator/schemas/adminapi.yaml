@@ -13295,6 +13295,7 @@ components:
         - NodePort
         - LoadBalancer
         - FixedPodIP
+        - HostNetwork
     endpointNetworkType:
       description: Network type of endpoint
       type: string
