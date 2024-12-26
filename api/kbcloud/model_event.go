@@ -4,11 +4,7 @@
 
 package kbcloud
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // Event event is the information of operation event
 type Event struct {

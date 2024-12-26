@@ -12008,6 +12008,7 @@ components:
           description: end time of the task progress
           format: date-time
           type: string
+          nullable: true
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
@@ -12093,6 +12094,7 @@ components:
           type: string
           format: date-time
           description: Time when the task completed or failed
+          nullable: true
     opsStatus:
       enum:
         - Pending
@@ -12675,6 +12677,7 @@ components:
           description: indicates when this backup becomes eligible for garbage collection
           type: string
           format: date-time
+          nullable: true
         id:
           description: the backup id
           type: string
@@ -12740,6 +12743,7 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
+          nullable: true
       type: object
     backupList:
       description: BackupList is a list of backups
