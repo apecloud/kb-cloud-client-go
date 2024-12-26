@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ClusterTaskProgress clusterTaskProgressDetail is the information of the task progress
 type ClusterTaskProgress struct {

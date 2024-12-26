@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // DisasterRecoveryEventType the event type of disasterRecovery history, support values: [CreateInstance, DeleteInstance, Promote]

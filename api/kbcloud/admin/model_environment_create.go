@@ -7,6 +7,7 @@ package admin
 import (
 	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/google/uuid"
 )
 
@@ -14,8 +15,8 @@ import (
 type EnvironmentCreate struct {
 	// The full, unique name of this Object in the format environments/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`
-	// Type of this environment 11111111111111111111111111
-	Type Environment_environmentType `json:"type"`
+	// Type of this environment
+	Type EnvironmentType `json:"type"`
 	// Configuration of resource scheduling for this environment
 	SchedulingConfig *SchedulingConfig `json:"schedulingConfig,omitempty"`
 	// Configuration to provision infrastructure for this environment
@@ -48,7 +49,7 @@ type EnvironmentCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentCreate(name string, typeVar Environment_environmentType, provisionConfig ProvisionConfig, organizations []string, provider string, region string, displayName string) *EnvironmentCreate {
+func NewEnvironmentCreate(name string, typeVar EnvironmentType, provisionConfig ProvisionConfig, organizations []string, provider string, region string, displayName string) *EnvironmentCreate {
 	this := EnvironmentCreate{}
 	this.Name = name
 	this.Type = typeVar
@@ -100,9 +101,9 @@ func (o *EnvironmentCreate) SetName(v string) {
 }
 
 // GetType returns the Type field value.
-func (o *EnvironmentCreate) GetType() Environment_environmentType {
+func (o *EnvironmentCreate) GetType() EnvironmentType {
 	if o == nil {
-		var ret Environment_environmentType
+		var ret EnvironmentType
 		return ret
 	}
 	return o.Type
@@ -110,7 +111,7 @@ func (o *EnvironmentCreate) GetType() Environment_environmentType {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentCreate) GetTypeOk() (*Environment_environmentType, bool) {
+func (o *EnvironmentCreate) GetTypeOk() (*EnvironmentType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -118,7 +119,7 @@ func (o *EnvironmentCreate) GetTypeOk() (*Environment_environmentType, bool) {
 }
 
 // SetType sets field value.
-func (o *EnvironmentCreate) SetType(v Environment_environmentType) {
+func (o *EnvironmentCreate) SetType(v EnvironmentType) {
 	o.Type = v
 }
 
@@ -477,20 +478,20 @@ func (o EnvironmentCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string                      `json:"name"`
-		Type              *Environment_environmentType `json:"type"`
-		SchedulingConfig  *SchedulingConfig            `json:"schedulingConfig,omitempty"`
-		ProvisionConfig   *ProvisionConfig             `json:"provisionConfig"`
-		Organizations     *[]string                    `json:"organizations"`
-		Provider          *string                      `json:"provider"`
-		Region            *string                      `json:"region"`
-		AvailabilityZones []string                     `json:"availabilityZones,omitempty"`
-		Description       *string                      `json:"description,omitempty"`
-		DisplayName       *string                      `json:"displayName"`
-		Id                *uuid.UUID                   `json:"id,omitempty"`
-		ExtraInfo         *string                      `json:"extraInfo,omitempty"`
-		DeletePolicy      *EnvironmentDeletePolicy     `json:"deletePolicy,omitempty"`
-		Overwrite         *bool                        `json:"overwrite,omitempty"`
+		Name              *string                  `json:"name"`
+		Type              *EnvironmentType         `json:"type"`
+		SchedulingConfig  *SchedulingConfig        `json:"schedulingConfig,omitempty"`
+		ProvisionConfig   *ProvisionConfig         `json:"provisionConfig"`
+		Organizations     *[]string                `json:"organizations"`
+		Provider          *string                  `json:"provider"`
+		Region            *string                  `json:"region"`
+		AvailabilityZones []string                 `json:"availabilityZones,omitempty"`
+		Description       *string                  `json:"description,omitempty"`
+		DisplayName       *string                  `json:"displayName"`
+		Id                *uuid.UUID               `json:"id,omitempty"`
+		ExtraInfo         *string                  `json:"extraInfo,omitempty"`
+		DeletePolicy      *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
+		Overwrite         *bool                    `json:"overwrite,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

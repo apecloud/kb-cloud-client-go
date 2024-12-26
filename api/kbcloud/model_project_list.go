@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ProjectList Project list.
 type ProjectList struct {
 	// The list of projects.

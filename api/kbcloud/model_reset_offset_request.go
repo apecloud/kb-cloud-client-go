@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type ResetOffsetRequest struct {
 	// the partition to reset
 	Partition *int32               `json:"partition,omitempty"`

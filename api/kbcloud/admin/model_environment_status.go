@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // EnvironmentStatus Environment status
 type EnvironmentStatus struct {
 	// Current service state of environment.

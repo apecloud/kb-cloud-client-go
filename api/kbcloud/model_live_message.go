@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type LiveMessage struct {
 	// 消息ID
 	Id      *string       `json:"id,omitempty"`

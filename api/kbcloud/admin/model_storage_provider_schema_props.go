@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // StorageProviderSchemaProps the schema properties for storage provider parameters
 type StorageProviderSchemaProps struct {
 	// default value for the parameter

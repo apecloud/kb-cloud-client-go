@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // NetworkConfig Configuration of networking for this environment
 type NetworkConfig struct {
 	// Enable node port service for this environment

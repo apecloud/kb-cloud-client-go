@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/google/uuid"
 )
 
@@ -36,8 +37,8 @@ type Environment struct {
 	MetricsMonitorEnabled *bool `json:"metricsMonitorEnabled,omitempty"`
 	// Output only. State of the Environment resource
 	State EnvironmentState `json:"state"`
-	// Type of this environment 11111111111111111111111111
-	Type Environment_environmentType `json:"type"`
+	// Type of this environment
+	Type EnvironmentType `json:"type"`
 	// Configuration to provision infrastructure for this environment
 	ProvisionConfig ProvisionConfig `json:"provisionConfig"`
 	// cluster instance autohealing process config
@@ -59,7 +60,7 @@ type Environment struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment(provider string, region string, availabilityZones []string, displayName string, id uuid.UUID, name string, organizations []string, state EnvironmentState, typeVar Environment_environmentType, provisionConfig ProvisionConfig, createdAt time.Time, updatedAt time.Time) *Environment {
+func NewEnvironment(provider string, region string, availabilityZones []string, displayName string, id uuid.UUID, name string, organizations []string, state EnvironmentState, typeVar EnvironmentType, provisionConfig ProvisionConfig, createdAt time.Time, updatedAt time.Time) *Environment {
 	this := Environment{}
 	this.Provider = provider
 	this.Region = region
@@ -385,9 +386,9 @@ func (o *Environment) SetState(v EnvironmentState) {
 }
 
 // GetType returns the Type field value.
-func (o *Environment) GetType() Environment_environmentType {
+func (o *Environment) GetType() EnvironmentType {
 	if o == nil {
-		var ret Environment_environmentType
+		var ret EnvironmentType
 		return ret
 	}
 	return o.Type
@@ -395,7 +396,7 @@ func (o *Environment) GetType() Environment_environmentType {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *Environment) GetTypeOk() (*Environment_environmentType, bool) {
+func (o *Environment) GetTypeOk() (*EnvironmentType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -403,7 +404,7 @@ func (o *Environment) GetTypeOk() (*Environment_environmentType, bool) {
 }
 
 // SetType sets field value.
-func (o *Environment) SetType(v Environment_environmentType) {
+func (o *Environment) SetType(v EnvironmentType) {
 	o.Type = v
 }
 
@@ -617,25 +618,25 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider              *string                      `json:"provider"`
-		Region                *string                      `json:"region"`
-		AvailabilityZones     *[]string                    `json:"availabilityZones"`
-		SchedulingConfig      *SchedulingConfig            `json:"schedulingConfig,omitempty"`
-		NetworkConfig         *NetworkConfig               `json:"networkConfig,omitempty"`
-		Description           *string                      `json:"description,omitempty"`
-		DisplayName           *string                      `json:"displayName"`
-		Id                    *uuid.UUID                   `json:"id"`
-		Name                  *string                      `json:"name"`
-		Organizations         *[]string                    `json:"organizations"`
-		MetricsMonitorEnabled *bool                        `json:"metricsMonitorEnabled,omitempty"`
-		State                 *EnvironmentState            `json:"state"`
-		Type                  *Environment_environmentType `json:"type"`
-		ProvisionConfig       *ProvisionConfig             `json:"provisionConfig"`
-		AutohealingConfig     *AutohealingConfig           `json:"autohealingConfig,omitempty"`
-		CreatedAt             *time.Time                   `json:"createdAt"`
-		UpdatedAt             *time.Time                   `json:"updatedAt"`
-		ExtraInfo             *string                      `json:"extraInfo,omitempty"`
-		DeletePolicy          *EnvironmentDeletePolicy     `json:"deletePolicy,omitempty"`
+		Provider              *string                  `json:"provider"`
+		Region                *string                  `json:"region"`
+		AvailabilityZones     *[]string                `json:"availabilityZones"`
+		SchedulingConfig      *SchedulingConfig        `json:"schedulingConfig,omitempty"`
+		NetworkConfig         *NetworkConfig           `json:"networkConfig,omitempty"`
+		Description           *string                  `json:"description,omitempty"`
+		DisplayName           *string                  `json:"displayName"`
+		Id                    *uuid.UUID               `json:"id"`
+		Name                  *string                  `json:"name"`
+		Organizations         *[]string                `json:"organizations"`
+		MetricsMonitorEnabled *bool                    `json:"metricsMonitorEnabled,omitempty"`
+		State                 *EnvironmentState        `json:"state"`
+		Type                  *EnvironmentType         `json:"type"`
+		ProvisionConfig       *ProvisionConfig         `json:"provisionConfig"`
+		AutohealingConfig     *AutohealingConfig       `json:"autohealingConfig,omitempty"`
+		CreatedAt             *time.Time               `json:"createdAt"`
+		UpdatedAt             *time.Time               `json:"updatedAt"`
+		ExtraInfo             *string                  `json:"extraInfo,omitempty"`
+		DeletePolicy          *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
