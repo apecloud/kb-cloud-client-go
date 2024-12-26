@@ -727,6 +727,16 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
