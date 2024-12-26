@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type TopicMessage struct {
 	// 消息所属的主题
 	Topic *string `json:"topic,omitempty"`

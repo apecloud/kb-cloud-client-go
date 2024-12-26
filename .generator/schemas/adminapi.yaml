@@ -16137,7 +16137,6 @@ components:
       required:
         - minio
         - victoriaMetrics
-        - loki
       properties:
         cleanCloudResources:
           type: boolean
@@ -16147,9 +16146,6 @@ components:
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
         victoriaMetrics:
           description: reserve vm cluster when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
-        loki:
-          description: reserve loki cluster when delete environment
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
     environmentUpdate:
       type: object
