@@ -21,48 +21,6 @@ servers:
 security:
   - BearerToken: []
 paths:
-  /data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/overview:
-    get:
-      summary: Get kafka cluster information
-      operationId: getKafkaCluster
-      tags:
-        - kafka
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of organization
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Cluster'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
@@ -82,12 +40,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       responses:
         '200':
           description: OK
@@ -132,12 +84,6 @@ paths:
           schema:
             type: integer
           description: The id of broker
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       responses:
         '200':
           description: OK
@@ -179,12 +125,6 @@ paths:
           schema:
             type: integer
           description: The id of broker
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       requestBody:
         required: true
         content:
@@ -224,12 +164,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
         - name: nameFilter
           in: query
           required: false
@@ -277,12 +211,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       requestBody:
         required: true
         content:
@@ -325,12 +253,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       requestBody:
         required: true
         content:
@@ -369,12 +291,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
         - name: topic
           in: path
           required: true
@@ -415,12 +331,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
         - name: topic
           in: path
           required: true
@@ -459,12 +369,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
         - name: topic
           in: path
           required: true
@@ -506,12 +410,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
         - name: topic
           in: path
           required: true
@@ -552,12 +450,6 @@ paths:
           schema:
             type: string
           description: The name of cluster
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
         - name: topic
           in: path
           required: true
@@ -607,12 +499,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       responses:
         '200':
           description: OK
@@ -655,12 +541,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       requestBody:
         required: true
         content:
@@ -852,7 +732,7 @@ paths:
         - name: count
           in: query
           description: 获取消息的数量
-          required: true
+          required: false
           schema:
             type: integer
             default: 100
@@ -910,12 +790,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: id
-          in: query
-          required: false
-          schema:
-            type: string
-          description: the id of datasource
       requestBody:
         required: true
         content:
@@ -1316,40 +1190,6 @@ components:
       name: authorization
       in: header
   schemas:
-    Cluster:
-      x-go-name: KafkaCluster
-      type: object
-      properties:
-        name:
-          type: string
-        controller:
-          type: string
-        status:
-          type: string
-          enum:
-            - online
-            - offline
-        brokerCount:
-          type: integer
-        topicCount:
-          type: integer
-        partitionCount:
-          type: integer
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     Broker:
       x-go-name: KafkaBroker
       type: object
@@ -1371,6 +1211,21 @@ components:
           type: array
           items:
             type: integer
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
     ConfigEntry:
       x-go-name: KafkaConfigEntry
       type: object
