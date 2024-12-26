@@ -764,6 +764,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: static
+          in: query
+          description: Static cluster
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK

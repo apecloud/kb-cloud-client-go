@@ -4,11 +4,7 @@
 
 package admin
 
-import (
-	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "time"
 
 // Role Role information
 type Role struct {

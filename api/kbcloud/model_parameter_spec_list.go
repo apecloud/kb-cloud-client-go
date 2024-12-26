@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ParameterSpecList A list of cluster parameterSpecs
 type ParameterSpecList struct {
 	Items []ParameterSpecListItem `json:"items,omitempty"`

@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type ConfigEntry struct {
 	Name      *string `json:"name,omitempty"`
 	Value     *string `json:"value,omitempty"`

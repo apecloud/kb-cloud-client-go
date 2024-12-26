@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 // ParamTplUpdate paramTplUpdate is the payload to update a parameter template
 type ParamTplUpdate struct {
 	// Specify parameters belongs to which spec

@@ -4,8 +4,6 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type UpdateTopicConfigRequest struct {
 	Configs map[string]string `json:"configs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
