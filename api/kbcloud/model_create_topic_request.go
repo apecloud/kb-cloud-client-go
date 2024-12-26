@@ -13,7 +13,7 @@ import (
 type CreateTopicRequest struct {
 	Name              string `json:"name"`
 	Partitions        int32  `json:"partitions"`
-	ReplicationFactor int16  `json:"replicationFactor"`
+	ReplicationFactor int32  `json:"replicationFactor"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +23,7 @@ type CreateTopicRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewCreateTopicRequest(name string, partitions int32, replicationFactor int16) *CreateTopicRequest {
+func NewCreateTopicRequest(name string, partitions int32, replicationFactor int32) *CreateTopicRequest {
 	this := CreateTopicRequest{}
 	this.Name = name
 	this.Partitions = partitions
@@ -86,9 +86,9 @@ func (o *CreateTopicRequest) SetPartitions(v int32) {
 }
 
 // GetReplicationFactor returns the ReplicationFactor field value.
-func (o *CreateTopicRequest) GetReplicationFactor() int16 {
+func (o *CreateTopicRequest) GetReplicationFactor() int32 {
 	if o == nil {
-		var ret int16
+		var ret int32
 		return ret
 	}
 	return o.ReplicationFactor
@@ -96,7 +96,7 @@ func (o *CreateTopicRequest) GetReplicationFactor() int16 {
 
 // GetReplicationFactorOk returns a tuple with the ReplicationFactor field value
 // and a boolean to check if the value has been set.
-func (o *CreateTopicRequest) GetReplicationFactorOk() (*int16, bool) {
+func (o *CreateTopicRequest) GetReplicationFactorOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -104,7 +104,7 @@ func (o *CreateTopicRequest) GetReplicationFactorOk() (*int16, bool) {
 }
 
 // SetReplicationFactor sets field value.
-func (o *CreateTopicRequest) SetReplicationFactor(v int16) {
+func (o *CreateTopicRequest) SetReplicationFactor(v int32) {
 	o.ReplicationFactor = v
 }
 
@@ -129,7 +129,7 @@ func (o *CreateTopicRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name              *string `json:"name"`
 		Partitions        *int32  `json:"partitions"`
-		ReplicationFactor *int16  `json:"replicationFactor"`
+		ReplicationFactor *int32  `json:"replicationFactor"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

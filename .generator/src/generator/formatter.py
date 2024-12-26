@@ -145,7 +145,6 @@ def simple_type(schema, render_nullable=False, render_new=False):
 
     if type_name == "integer":
         return {
-            "int16": "int16" if not nullable else f"{nullable_prefix}Int16",
             "int32": "int32" if not nullable else f"{nullable_prefix}Int32",
             "int64": "int64" if not nullable else f"{nullable_prefix}Int64",
             None: "int32" if not nullable else f"{nullable_prefix}Int32",

@@ -1310,7 +1310,7 @@ components:
           format: int32
         replicationFactor:
           type: integer
-          format: int16
+          format: int32
       required:
         - name
         - partitions
