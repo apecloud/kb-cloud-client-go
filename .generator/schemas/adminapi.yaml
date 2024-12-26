@@ -764,9 +764,9 @@ paths:
           required: false
           schema:
             type: string
-        - name: static
+        - name: withStatic
           in: query
-          description: Static cluster
+          description: Whether to include static clusters
           required: false
           schema:
             type: boolean
@@ -13331,6 +13331,7 @@ components:
         - NodePort
         - LoadBalancer
         - FixedPodIP
+        - HostNetwork
     endpointNetworkType:
       description: Network type of endpoint
       type: string
