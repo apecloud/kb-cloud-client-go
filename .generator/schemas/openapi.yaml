@@ -1062,7 +1062,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'

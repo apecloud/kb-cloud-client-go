@@ -7,8 +7,6 @@ package kbcloud
 import (
 	"fmt"
 	"time"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Invitation Invitation info
