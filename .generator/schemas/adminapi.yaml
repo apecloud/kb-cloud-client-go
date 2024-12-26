@@ -16067,7 +16067,7 @@ components:
           default: 22
           minimum: 1
           maximum: 65535
-    sshConfigCheckSpec:
+    sshNodeSpec:
       type: object
       required:
         - ip
@@ -16085,10 +16085,17 @@ components:
       required:
         - nodes
       properties:
+        masters:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of masters (jumpserver) to perform preflight checks
         nodes:
           type: array
           items:
-            $ref: '#/components/schemas/sshConfigCheckSpec'
+            $ref: '#/components/schemas/sshNodeSpec'
           minItems: 1
           maxItems: 20
           description: List of nodes to perform preflight checks
@@ -16366,6 +16373,13 @@ components:
       required:
         - nodes
       properties:
+        masters:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of masters (jumpserver for ssh), at least one node is needed
         nodes:
           type: array
           items:
@@ -16447,6 +16461,16 @@ components:
           type: string
           format: date-time
           description: Timestamp when the step was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
     taskFailurePolicy:
       type: string
       enum:
@@ -16482,6 +16506,11 @@ components:
           format: date-time
           description: Timestamp when the task was last updated
         deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        startedAt:
           type: string
           format: date-time
           description: Timestamp when the task was deleted
