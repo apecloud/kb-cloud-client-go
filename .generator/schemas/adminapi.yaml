@@ -15606,6 +15606,12 @@ components:
         - DELETING
         - OUTOFSTOCK
         - UPDATING
+    environment_environmentType:
+      type: string
+      description: Type of this environment 11111111111111111111111111
+      enum:
+        - public
+        - private
     environmentRegisterType:
       type: string
       description: Configuration for privisoining environment resources
@@ -15928,7 +15934,7 @@ components:
         state:
           $ref: '#/components/schemas/environmentState'
         type:
-          $ref: '#/components/schemas/environmentType'
+          $ref: '#/components/schemas/environment_environmentType'
         provisionConfig:
           $ref: '#/components/schemas/provisionConfig'
         autohealingConfig:
@@ -15974,7 +15980,7 @@ components:
           description: The full, unique name of this Object in the format environments/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
         type:
           description: Environment type
-          $ref: '#/components/schemas/environmentType'
+          $ref: '#/components/schemas/environment_environmentType'
         schedulingConfig:
           description: Configuration for resource schduling for an environment
           $ref: '#/components/schemas/schedulingConfig'
