@@ -15171,6 +15171,7 @@ components:
           description: end time of the task progress
           format: date-time
           type: string
+          nullable: true
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
@@ -15256,6 +15257,7 @@ components:
           type: string
           format: date-time
           description: Time when the task completed or failed
+          nullable: true
     opsStatus:
       type: object
       x-go-name: OpsRequestStatus
