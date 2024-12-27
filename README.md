@@ -95,7 +95,7 @@ func main() {
         map[string]string{"site": os.Getenv("KB_CLOUD_SITE")},
     )
     
-    orgName := "myorg"
+    orgName := "my-org"
 	client := common.NewAPIClient(configuration)
 	fmt.Println("Listing environments...")
 	api := kbcloud.NewEnvironmentApi(client)
@@ -104,29 +104,6 @@ func main() {
 		log.Fatalf("Error listing environments: %v\nResponse: %v", err, resp)
 	}
 	fmt.Printf("Environments: %+v\n\n", envs)
-}
-```
-
-### Create Database
-
-```go
-func createDatabase() {
-    // Create context with default configuration
-    ctx := common.NewDefaultContext(context.Background())
-    
-    configuration := kbcloud.NewConfiguration() 
-    client := kbcloud.NewAPIClient(configuration)
-
-    database := admin.Database{
-        Name: "mydb",
-        CharacterSet: "utf8mb4",
-        Collate: "utf8mb4_general_ci",
-    }
-
-    resp, err := client.DatabaseApi.CreateDatabase(ctx, "myorg", "mycluster", database)
-    if err != nil {
-        log.Fatal(err)
-    }
 }
 ```
 
@@ -169,41 +146,6 @@ ctx := context.WithValue(
     context.Background(),
     common.ContextServerVariables,
     map[string]string{"site": os.Getenv("KB_CLOUD_SITE")},
-)
-```
-
-#### Authentication
-
-Configure authentication using context:
-
-```go
-// Bearer Token
-ctx := context.WithValue(
-    context.Background(),
-    common.ContextAccessToken,
-    "your-token",
-)
-
-// Basic Auth
-ctx := context.WithValue(
-    context.Background(),
-    common.ContextBasicAuth,
-    common.BasicAuth{
-        UserName: "user",
-        Password: "pass",
-    },
-)
-
-// API Key
-ctx := context.WithValue(
-    context.Background(),
-    common.ContextAPIKeys,
-    map[string]common.APIKey{
-        "apiKey": {
-            Key: "your-api-key",
-            Prefix: "Bearer",
-        },
-    },
 )
 ```
 
