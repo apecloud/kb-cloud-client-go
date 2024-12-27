@@ -6,11 +6,10 @@ import (
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 	"github.com/apecloud/kb-cloud-client-go/api/kbcloud"
-	"github.com/apecloud/kb-cloud-client-go/api/kbcloud/admin"
 	"github.com/apecloud/kb-cloud-client-go/examples/auth"
 )
 
-const orgName = "cloud-dev"
+const orgName = "my-org"
 
 func main() {
 	ctx := auth.NewAuthContext()
@@ -26,12 +25,4 @@ func main() {
 		log.Fatalf("Error listing environments: %v\nResponse: %v", err, resp)
 	}
 	fmt.Printf("Environments: %+v\n\n", envs)
-
-	// Use admin API client
-	adminApi := admin.NewEnvironmentApi(client)
-	env, resp, err := adminApi.ListEnvironment(ctx)
-	if err != nil {
-		log.Fatalf("Error listing environments: %v\nResponse: %v", err, resp)
-	}
-	fmt.Printf("Environments: %+v\n\n", env)
 }

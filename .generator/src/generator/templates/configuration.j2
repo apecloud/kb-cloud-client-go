@@ -289,6 +289,16 @@ func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint strin
 		return "", err
 	}
 
+	if len(sc) == 0 {
+		for k, v := range variables {
+			sc = append(sc, ServerConfiguration{
+				URL:         v,
+				Description: k,
+				Variables:   map[string]ServerVariable{},
+			})
+		}
+	}
+
 	return sc.URL(index, variables)
 }
 
