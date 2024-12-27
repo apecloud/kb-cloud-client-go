@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ClusterTaskDetails taskConditions is a list of task condition
 type ClusterTaskDetails struct {
 	// Items is the list of task condition in the list

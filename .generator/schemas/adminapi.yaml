@@ -6089,8 +6089,8 @@ paths:
         - storageClass
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
-      operationId: listNodeGroup
-      summary: List environment node group
+      operationId: listNodeGroups
+      summary: List environment node groups
       parameters:
         - name: environmentName
           in: path
@@ -6111,7 +6111,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'

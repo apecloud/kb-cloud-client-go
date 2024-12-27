@@ -1994,40 +1994,40 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListNodeGroupOptionalParameters holds optional parameters for ListNodeGroup.
-type ListNodeGroupOptionalParameters struct {
+// ListNodeGroupsOptionalParameters holds optional parameters for ListNodeGroups.
+type ListNodeGroupsOptionalParameters struct {
 	Zones *[]string
 }
 
-// NewListNodeGroupOptionalParameters creates an empty struct for parameters.
-func NewListNodeGroupOptionalParameters() *ListNodeGroupOptionalParameters {
-	this := ListNodeGroupOptionalParameters{}
+// NewListNodeGroupsOptionalParameters creates an empty struct for parameters.
+func NewListNodeGroupsOptionalParameters() *ListNodeGroupsOptionalParameters {
+	this := ListNodeGroupsOptionalParameters{}
 	return &this
 }
 
 // WithZones sets the corresponding parameter name and returns the struct.
-func (r *ListNodeGroupOptionalParameters) WithZones(zones []string) *ListNodeGroupOptionalParameters {
+func (r *ListNodeGroupsOptionalParameters) WithZones(zones []string) *ListNodeGroupsOptionalParameters {
 	r.Zones = &zones
 	return r
 }
 
-// ListNodeGroup List environment node group.
-func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string, o ...ListNodeGroupOptionalParameters) (NodeGroup, *_nethttp.Response, error) {
+// ListNodeGroups List environment node groups.
+func (a *EnvironmentApi) ListNodeGroups(ctx _context.Context, environmentName string, o ...ListNodeGroupsOptionalParameters) ([]NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue NodeGroup
-		optionalParams      ListNodeGroupOptionalParameters
+		localVarReturnValue []NodeGroup
+		optionalParams      ListNodeGroupsOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListNodeGroupOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListNodeGroupsOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroup")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

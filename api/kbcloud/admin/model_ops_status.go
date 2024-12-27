@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type OpsStatus struct {
 	Status  interface{} `json:"Status,omitempty"`
 	Message *string     `json:"message,omitempty"`

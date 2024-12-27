@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // KubernetesManifestList KubernetesManifestList is the list of Kubernetes objects in the list
 type KubernetesManifestList struct {
 	// Items is the list of Kubernetes objects in the list

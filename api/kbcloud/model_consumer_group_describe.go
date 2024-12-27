@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type ConsumerGroupDescribe struct {
 	// Consumer group ID
 	GroupId *string `json:"groupId,omitempty"`
