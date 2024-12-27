@@ -14285,9 +14285,6 @@ components:
           type: boolean
           default: false
           description: whether the endpoint follows the network mode of the component
-        metadataKey:
-          type: string
-          description: metadata key for the service
     networkModeOption:
       type: object
       required:

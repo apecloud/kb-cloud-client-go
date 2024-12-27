@@ -28,8 +28,6 @@ type EndpointOption struct {
 	Selector map[string]string `json:"selector,omitempty"`
 	// whether the endpoint follows the network mode of the component
 	FollowNetworkMode *bool `json:"followNetworkMode,omitempty"`
-	// metadata key for the service
-	MetadataKey *string `json:"metadataKey,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -348,34 +346,6 @@ func (o *EndpointOption) SetFollowNetworkMode(v bool) {
 	o.FollowNetworkMode = &v
 }
 
-// GetMetadataKey returns the MetadataKey field value if set, zero value otherwise.
-func (o *EndpointOption) GetMetadataKey() string {
-	if o == nil || o.MetadataKey == nil {
-		var ret string
-		return ret
-	}
-	return *o.MetadataKey
-}
-
-// GetMetadataKeyOk returns a tuple with the MetadataKey field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EndpointOption) GetMetadataKeyOk() (*string, bool) {
-	if o == nil || o.MetadataKey == nil {
-		return nil, false
-	}
-	return o.MetadataKey, true
-}
-
-// HasMetadataKey returns a boolean if a field has been set.
-func (o *EndpointOption) HasMetadataKey() bool {
-	return o != nil && o.MetadataKey != nil
-}
-
-// SetMetadataKey gets a reference to the given string and assigns it to the MetadataKey field.
-func (o *EndpointOption) SetMetadataKey(v string) {
-	o.MetadataKey = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -405,9 +375,6 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.FollowNetworkMode != nil {
 		toSerialize["followNetworkMode"] = o.FollowNetworkMode
 	}
-	if o.MetadataKey != nil {
-		toSerialize["metadataKey"] = o.MetadataKey
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -429,7 +396,6 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 		ServiceName       *string                      `json:"serviceName,omitempty"`
 		Selector          map[string]string            `json:"selector,omitempty"`
 		FollowNetworkMode *bool                        `json:"followNetworkMode,omitempty"`
-		MetadataKey       *string                      `json:"metadataKey,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -451,7 +417,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "followNetworkMode", "metadataKey"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "followNetworkMode"})
 	} else {
 		return err
 	}
@@ -475,7 +441,6 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceName = all.ServiceName
 	o.Selector = all.Selector
 	o.FollowNetworkMode = all.FollowNetworkMode
-	o.MetadataKey = all.MetadataKey
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
