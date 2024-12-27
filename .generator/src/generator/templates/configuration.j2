@@ -155,28 +155,7 @@ func NewConfiguration() *Configuration {
 		UserAgent:     getUserAgent(),
 		Debug:         false,
 		Compress:      true,
-		Servers:       ServerConfigurations{
-		{%- for server in openapi.servers %}
-			{{ server_configuration(server)|indent("\t"*3) }},
-		{%- endfor %}
-		},
-		OperationServers: map[string]ServerConfigurations{
-			{%- for version, spec in all_specs.items() %}
-			{%- for path in spec.paths.values() %}
-			{%- for operation in path.values() %}
-			{%- for server in operation.servers %}
-			{%- if loop.first %}
-			"{{ version }}.{{ operation.tags[0].replace(" ", "") }}Api.{{ operation.operationId }}": {
-			{%- endif %}
-				{{ server_configuration(server)|indent("\t"*4) }},
-			{%- if loop.last %}
-			},
-			{%- endif %}
-			{%- endfor %}
-			{%- endfor %}
-			{%- endfor %}
-			{%- endfor %}
-		},
+		Servers:       ServerConfigurations{},
 		unstableOperations: map[string]bool{
         {%- for version, api in apis.items() %}
         {%- for operations in api.values() %}
@@ -189,7 +168,7 @@ func NewConfiguration() *Configuration {
         {%- endfor %}
 		},
 		RetryConfiguration: RetryConfiguration{
-			EnableRetry:       false,
+			EnableRetry:       true,
 			BackOffMultiplier: 2,
 			BackOffBase:       2,
 			HTTPRetryTimeout:  60 * time.Second,
@@ -308,6 +287,16 @@ func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint strin
 	variables, err := getServerOperationVariables(ctx, endpoint)
 	if err != nil {
 		return "", err
+	}
+
+	if len(sc) == 0 {
+		for k, v := range variables {
+			sc = append(sc, ServerConfiguration{
+				URL:         v,
+				Description: k,
+				Variables:   map[string]ServerVariable{},
+			})
+		}
 	}
 
 	return sc.URL(index, variables)
