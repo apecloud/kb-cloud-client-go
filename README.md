@@ -131,7 +131,7 @@ HTTPS_PROXY=http://proxy.example.com:8080
 Configure server URL and variables:
 
 ```go
-configuration := kbcloud.NewConfiguration()
+configuration := common.NewConfiguration()
 
 // Set server URL
 configuration.Host = "api.example.com"
@@ -154,7 +154,7 @@ ctx := context.WithValue(
 Enable debug logging:
 
 ```go
-configuration := kbcloud.NewConfiguration()
+configuration := common.NewConfiguration()
 configuration.Debug = true
 ```
 
@@ -163,7 +163,7 @@ configuration.Debug = true
 Configure retry behavior:
 
 ```go
-configuration := kbcloud.NewConfiguration()
+configuration := common.NewConfiguration()
 
 // Configure retry settings
 configuration.RetryConfiguration = common.RetryConfiguration{
@@ -181,7 +181,7 @@ configuration.RetryConfiguration = common.RetryConfiguration{
 Configure HTTP client:
 
 ```go
-configuration := kbcloud.NewConfiguration()
+configuration := common.NewConfiguration()
 
 // Custom HTTP client
 configuration.HTTPClient = &http.Client{
@@ -206,7 +206,7 @@ ctx := context.WithValue(
 Configure custom user agent:
 
 ```go
-configuration := kbcloud.NewConfiguration()
+configuration := common.NewConfiguration()
 configuration.UserAgent = "MyApp/1.0.0"
 ```
 
@@ -215,7 +215,7 @@ configuration.UserAgent = "MyApp/1.0.0"
 Add default headers to all requests:
 
 ```go
-configuration := kbcloud.NewConfiguration()
+configuration := common.NewConfiguration()
 configuration.AddDefaultHeader("Custom-Header", "value")
 ```
 
