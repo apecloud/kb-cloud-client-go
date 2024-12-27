@@ -233,6 +233,10 @@ To regenerate the API client code:
 
 We welcome contributions! Please feel free to submit a Pull Request.
 
+## Acknowledgments
+
+This project's generator is inspired by and built upon the work from [Datadog's API client generator](https://github.com/DataDog/datadog-api-client-go). We are grateful to Datadog for their excellent work and open source contributions.
+
 ## License
 
 This library is distributed under the Apache 2.0 license found in the [LICENSE](./LICENSE) file.
