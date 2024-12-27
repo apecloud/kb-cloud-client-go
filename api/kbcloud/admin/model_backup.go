@@ -7,6 +7,8 @@ package admin
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Backup backup is the payload for KubeBlocks cluster backup
@@ -54,7 +56,7 @@ type Backup struct {
 	// determines a duration up to which the backup should be kept
 	RetentionPeriod string `json:"retentionPeriod"`
 	// indicates when this backup becomes eligible for garbage collection
-	Expiration *time.Time `json:"expiration,omitempty"`
+	Expiration common.NullableTime `json:"expiration,omitempty"`
 	// the backup id
 	Id *string `json:"id,omitempty"`
 	// the id of cluster that backup belong to
@@ -683,32 +685,43 @@ func (o *Backup) SetRetentionPeriod(v string) {
 	o.RetentionPeriod = v
 }
 
-// GetExpiration returns the Expiration field value if set, zero value otherwise.
+// GetExpiration returns the Expiration field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetExpiration() time.Time {
-	if o == nil || o.Expiration == nil {
+	if o == nil || o.Expiration.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.Expiration
+	return *o.Expiration.Get()
 }
 
 // GetExpirationOk returns a tuple with the Expiration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetExpirationOk() (*time.Time, bool) {
-	if o == nil || o.Expiration == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Expiration, true
+	return o.Expiration.Get(), o.Expiration.IsSet()
 }
 
 // HasExpiration returns a boolean if a field has been set.
 func (o *Backup) HasExpiration() bool {
-	return o != nil && o.Expiration != nil
+	return o != nil && o.Expiration.IsSet()
 }
 
-// SetExpiration gets a reference to the given time.Time and assigns it to the Expiration field.
+// SetExpiration gets a reference to the given common.NullableTime and assigns it to the Expiration field.
 func (o *Backup) SetExpiration(v time.Time) {
-	o.Expiration = &v
+	o.Expiration.Set(&v)
+}
+
+// SetExpirationNil sets the value for Expiration to be an explicit nil.
+func (o *Backup) SetExpirationNil() {
+	o.Expiration.Set(nil)
+}
+
+// UnsetExpiration ensures that no value is present for Expiration, not even an explicit nil.
+func (o *Backup) UnsetExpiration() {
+	o.Expiration.Unset()
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
@@ -919,12 +932,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		toSerialize["path"] = o.Path
 	}
 	toSerialize["retentionPeriod"] = o.RetentionPeriod
-	if o.Expiration != nil {
-		if o.Expiration.Nanosecond() == 0 {
-			toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["expiration"] = o.Expiration.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.Expiration.IsSet() {
+		toSerialize["expiration"] = o.Expiration.Get()
 	}
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
@@ -968,7 +977,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		TargetPods          []string            `json:"targetPods,omitempty"`
 		Path                *string             `json:"path,omitempty"`
 		RetentionPeriod     *string             `json:"retentionPeriod"`
-		Expiration          *time.Time          `json:"expiration,omitempty"`
+		Expiration          common.NullableTime `json:"expiration,omitempty"`
 		Id                  *string             `json:"id,omitempty"`
 		ClusterId           *string             `json:"clusterId,omitempty"`
 		CloudProvider       *string             `json:"cloudProvider"`

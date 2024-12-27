@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type CreateInstanceType struct {
 	// Any characters, no more than 255 characters long.
 	Description *string `json:"description,omitempty"`
@@ -15,6 +17,8 @@ type CreateInstanceType struct {
 	ServerConfiguration *ServerConfiguration `json:"serverConfiguration,omitempty"`
 	// List of engine names supported by this instance type.
 	Engines []string `json:"engines,omitempty"`
+	// The Names of the instance types to be copied. All specifications of these instances will be copied to the new instance type.
+	SourceInstanceTypeName []string `json:"sourceInstanceTypeName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -205,6 +209,34 @@ func (o *CreateInstanceType) SetEngines(v []string) {
 	o.Engines = v
 }
 
+// GetSourceInstanceTypeName returns the SourceInstanceTypeName field value if set, zero value otherwise.
+func (o *CreateInstanceType) GetSourceInstanceTypeName() []string {
+	if o == nil || o.SourceInstanceTypeName == nil {
+		var ret []string
+		return ret
+	}
+	return o.SourceInstanceTypeName
+}
+
+// GetSourceInstanceTypeNameOk returns a tuple with the SourceInstanceTypeName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateInstanceType) GetSourceInstanceTypeNameOk() (*[]string, bool) {
+	if o == nil || o.SourceInstanceTypeName == nil {
+		return nil, false
+	}
+	return &o.SourceInstanceTypeName, true
+}
+
+// HasSourceInstanceTypeName returns a boolean if a field has been set.
+func (o *CreateInstanceType) HasSourceInstanceTypeName() bool {
+	return o != nil && o.SourceInstanceTypeName != nil
+}
+
+// SetSourceInstanceTypeName gets a reference to the given []string and assigns it to the SourceInstanceTypeName field.
+func (o *CreateInstanceType) SetSourceInstanceTypeName(v []string) {
+	o.SourceInstanceTypeName = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o CreateInstanceType) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -229,6 +261,9 @@ func (o CreateInstanceType) MarshalJSON() ([]byte, error) {
 	if o.Engines != nil {
 		toSerialize["engines"] = o.Engines
 	}
+	if o.SourceInstanceTypeName != nil {
+		toSerialize["sourceInstanceTypeName"] = o.SourceInstanceTypeName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -239,19 +274,20 @@ func (o CreateInstanceType) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CreateInstanceType) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description         *string              `json:"description,omitempty"`
-		DisplayName         *string              `json:"displayName,omitempty"`
-		OccupationType      *OccupationType      `json:"occupationType,omitempty"`
-		Name                *string              `json:"name,omitempty"`
-		ServerConfiguration *ServerConfiguration `json:"serverConfiguration,omitempty"`
-		Engines             []string             `json:"engines,omitempty"`
+		Description            *string              `json:"description,omitempty"`
+		DisplayName            *string              `json:"displayName,omitempty"`
+		OccupationType         *OccupationType      `json:"occupationType,omitempty"`
+		Name                   *string              `json:"name,omitempty"`
+		ServerConfiguration    *ServerConfiguration `json:"serverConfiguration,omitempty"`
+		Engines                []string             `json:"engines,omitempty"`
+		SourceInstanceTypeName []string             `json:"sourceInstanceTypeName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "occupationType", "name", "serverConfiguration", "engines"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "occupationType", "name", "serverConfiguration", "engines", "sourceInstanceTypeName"})
 	} else {
 		return err
 	}
@@ -270,6 +306,7 @@ func (o *CreateInstanceType) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ServerConfiguration = all.ServerConfiguration
 	o.Engines = all.Engines
+	o.SourceInstanceTypeName = all.SourceInstanceTypeName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

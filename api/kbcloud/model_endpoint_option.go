@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type EndpointOption struct {
@@ -24,6 +26,8 @@ type EndpointOption struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 	// selector of k8s service
 	Selector map[string]string `json:"selector,omitempty"`
+	// whether the endpoint follows the network mode of the component
+	FollowNetworkMode *bool `json:"followNetworkMode,omitempty"`
 	// metadata key for the service
 	MetadataKey *string `json:"metadataKey,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -44,6 +48,8 @@ func NewEndpointOption(title LocalizedDescription, component string, portName st
 	this.Port = port
 	var servicePattern EngineOptionsServicePattern = EngineOptionsServicePatternClusterComponent
 	this.ServicePattern = &servicePattern
+	var followNetworkMode bool = false
+	this.FollowNetworkMode = &followNetworkMode
 	return &this
 }
 
@@ -54,6 +60,8 @@ func NewEndpointOptionWithDefaults() *EndpointOption {
 	this := EndpointOption{}
 	var servicePattern EngineOptionsServicePattern = EngineOptionsServicePatternClusterComponent
 	this.ServicePattern = &servicePattern
+	var followNetworkMode bool = false
+	this.FollowNetworkMode = &followNetworkMode
 	return &this
 }
 
@@ -312,6 +320,34 @@ func (o *EndpointOption) SetSelector(v map[string]string) {
 	o.Selector = v
 }
 
+// GetFollowNetworkMode returns the FollowNetworkMode field value if set, zero value otherwise.
+func (o *EndpointOption) GetFollowNetworkMode() bool {
+	if o == nil || o.FollowNetworkMode == nil {
+		var ret bool
+		return ret
+	}
+	return *o.FollowNetworkMode
+}
+
+// GetFollowNetworkModeOk returns a tuple with the FollowNetworkMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EndpointOption) GetFollowNetworkModeOk() (*bool, bool) {
+	if o == nil || o.FollowNetworkMode == nil {
+		return nil, false
+	}
+	return o.FollowNetworkMode, true
+}
+
+// HasFollowNetworkMode returns a boolean if a field has been set.
+func (o *EndpointOption) HasFollowNetworkMode() bool {
+	return o != nil && o.FollowNetworkMode != nil
+}
+
+// SetFollowNetworkMode gets a reference to the given bool and assigns it to the FollowNetworkMode field.
+func (o *EndpointOption) SetFollowNetworkMode(v bool) {
+	o.FollowNetworkMode = &v
+}
+
 // GetMetadataKey returns the MetadataKey field value if set, zero value otherwise.
 func (o *EndpointOption) GetMetadataKey() string {
 	if o == nil || o.MetadataKey == nil {
@@ -366,6 +402,9 @@ func (o EndpointOption) MarshalJSON() ([]byte, error) {
 	if o.Selector != nil {
 		toSerialize["selector"] = o.Selector
 	}
+	if o.FollowNetworkMode != nil {
+		toSerialize["followNetworkMode"] = o.FollowNetworkMode
+	}
 	if o.MetadataKey != nil {
 		toSerialize["metadataKey"] = o.MetadataKey
 	}
@@ -389,6 +428,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 		ServiceNameRegex  *string                      `json:"serviceNameRegex,omitempty"`
 		ServiceName       *string                      `json:"serviceName,omitempty"`
 		Selector          map[string]string            `json:"selector,omitempty"`
+		FollowNetworkMode *bool                        `json:"followNetworkMode,omitempty"`
 		MetadataKey       *string                      `json:"metadataKey,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -411,7 +451,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "metadataKey"})
+		common.DeleteKeys(additionalProperties, &[]string{"title", "component", "portName", "type", "port", "supportsSystemUse", "servicePattern", "serviceNameRegex", "serviceName", "selector", "followNetworkMode", "metadataKey"})
 	} else {
 		return err
 	}
@@ -434,6 +474,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceNameRegex = all.ServiceNameRegex
 	o.ServiceName = all.ServiceName
 	o.Selector = all.Selector
+	o.FollowNetworkMode = all.FollowNetworkMode
 	o.MetadataKey = all.MetadataKey
 
 	if len(additionalProperties) > 0 {

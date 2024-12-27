@@ -7,6 +7,8 @@ package admin
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type TaskStep struct {
@@ -34,6 +36,10 @@ type TaskStep struct {
 	CreatedAt time.Time `json:"createdAt"`
 	// Timestamp when the step was last updated
 	UpdatedAt time.Time `json:"updatedAt"`
+	// Timestamp when the task was deleted
+	StartedAt *time.Time `json:"startedAt,omitempty"`
+	// Time when the task completed or failed
+	CompletionTime *time.Time `json:"completionTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -364,6 +370,62 @@ func (o *TaskStep) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
+// GetStartedAt returns the StartedAt field value if set, zero value otherwise.
+func (o *TaskStep) GetStartedAt() time.Time {
+	if o == nil || o.StartedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.StartedAt
+}
+
+// GetStartedAtOk returns a tuple with the StartedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TaskStep) GetStartedAtOk() (*time.Time, bool) {
+	if o == nil || o.StartedAt == nil {
+		return nil, false
+	}
+	return o.StartedAt, true
+}
+
+// HasStartedAt returns a boolean if a field has been set.
+func (o *TaskStep) HasStartedAt() bool {
+	return o != nil && o.StartedAt != nil
+}
+
+// SetStartedAt gets a reference to the given time.Time and assigns it to the StartedAt field.
+func (o *TaskStep) SetStartedAt(v time.Time) {
+	o.StartedAt = &v
+}
+
+// GetCompletionTime returns the CompletionTime field value if set, zero value otherwise.
+func (o *TaskStep) GetCompletionTime() time.Time {
+	if o == nil || o.CompletionTime == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.CompletionTime
+}
+
+// GetCompletionTimeOk returns a tuple with the CompletionTime field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TaskStep) GetCompletionTimeOk() (*time.Time, bool) {
+	if o == nil || o.CompletionTime == nil {
+		return nil, false
+	}
+	return o.CompletionTime, true
+}
+
+// HasCompletionTime returns a boolean if a field has been set.
+func (o *TaskStep) HasCompletionTime() bool {
+	return o != nil && o.CompletionTime != nil
+}
+
+// SetCompletionTime gets a reference to the given time.Time and assigns it to the CompletionTime field.
+func (o *TaskStep) SetCompletionTime(v time.Time) {
+	o.CompletionTime = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o TaskStep) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -400,6 +462,20 @@ func (o TaskStep) MarshalJSON() ([]byte, error) {
 	} else {
 		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
+	if o.StartedAt != nil {
+		if o.StartedAt.Nanosecond() == 0 {
+			toSerialize["startedAt"] = o.StartedAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["startedAt"] = o.StartedAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
+	if o.CompletionTime != nil {
+		if o.CompletionTime.Nanosecond() == 0 {
+			toSerialize["completionTime"] = o.CompletionTime.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["completionTime"] = o.CompletionTime.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -422,6 +498,8 @@ func (o *TaskStep) UnmarshalJSON(bytes []byte) (err error) {
 		Message        *string            `json:"message,omitempty"`
 		CreatedAt      *time.Time         `json:"createdAt"`
 		UpdatedAt      *time.Time         `json:"updatedAt"`
+		StartedAt      *time.Time         `json:"startedAt,omitempty"`
+		CompletionTime *time.Time         `json:"completionTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -449,7 +527,7 @@ func (o *TaskStep) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"stepId", "stepName", "methodName", "inputs", "outputs", "retryLimit", "currRetryCount", "timeoutSecond", "status", "message", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"stepId", "stepName", "methodName", "inputs", "outputs", "retryLimit", "currRetryCount", "timeoutSecond", "status", "message", "createdAt", "updatedAt", "startedAt", "completionTime"})
 	} else {
 		return err
 	}
@@ -471,6 +549,8 @@ func (o *TaskStep) UnmarshalJSON(bytes []byte) (err error) {
 	o.Message = all.Message
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
+	o.StartedAt = all.StartedAt
+	o.CompletionTime = all.CompletionTime
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

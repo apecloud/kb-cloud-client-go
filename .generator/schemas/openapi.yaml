@@ -744,7 +744,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /api/v1/organizations/{orgName}/oparameters:
+  /api/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
       summary: List parameters of an organization
@@ -1062,7 +1062,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -1316,17 +1318,6 @@ paths:
       description: create a Invitation
       summary: Create invitation
       operationId: createInvitation
-      parameters:
-        - name: orgName
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -2405,6 +2396,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -3248,7 +3244,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/opsRequestName'
+                $ref: '#/components/schemas/clusterTask'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -3346,6 +3342,118 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
+    get:
+      description: Query task detail of clusters
+      summary: Query operation task detail
+      operationId: queryClusterTaskDetail
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Cluster Name
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Task ID
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
+    get:
+      operationId: listTasksInConsole
+      summary: List cluster tasks in console
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          schema:
+            type: string
+          required: true
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: You want to check the status of the task. If not passed, all selected by default
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/opsStatus'
+        - description: You want to check the type of the task. If not passed, all selected by default
+          in: query
+          name: clusterTaskType
+          schema:
+            $ref: '#/components/schemas/opsType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTaskList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - task
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
+    get:
+      tags:
+        - opsrequest
+      description: get a OpsRequest status
+      summary: Get OpsRequest Status
+      operationId: getOpsRequestStatus
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ops_opsStatus'
+          description: Successful operation
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -5631,6 +5739,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -6188,6 +6302,38 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Get alert rule configuration YAML
+      description: Retrieves the complete alert rule configuration in YAML format for all organizations
+      operationId: getRuleConfig
+      responses:
+        '200':
+          description: Alert rule configuration in YAML format
+          content:
+            text/yaml:
+              schema:
+                type: string
+                description: YAML formatted string containing the alert rule configuration
+                example: |
+                  groups:
+                    - name: org-name
+                      rules:
+                        - alert: HighCPUUsage
+                          expr: cpu_usage > 90
+                          for: 5m
+                          labels:
+                            severity: critical
+                          annotations:
+                            summary: High CPU usage detected
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/engines:
     get:
       tags:
@@ -8042,6 +8188,122 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/instance-types:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypes
+      summary: Get all instance types
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - instanceTypes
+      operationId: createInstanceType
+      summary: Create a new instance type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createInstanceType'
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /api/v1/instance-types/{id}:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypeById
+      summary: Get an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - instanceTypes
+      operationId: updateInstanceType
+      summary: Update an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/instanceTypes'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - instanceTypes
+      operationId: deleteInstanceType
+      summary: Delete an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/providers:
     get:
       tags:
@@ -9737,6 +9999,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     networkConfig:
       type: object
       title: NetworkConfig
@@ -9754,6 +10022,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -10557,9 +10830,6 @@ components:
     invitation:
       description: Invitation info
       properties:
-        accepted:
-          description: User has accepted or not
-          type: boolean
         createdAt:
           format: date-time
           type: string
@@ -10594,7 +10864,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id
@@ -10622,6 +10891,7 @@ components:
         email:
           description: The email of the invitee
           type: string
+          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -10923,12 +11193,6 @@ components:
           type: boolean
           nullable: true
       type: object
-    networkMode:
-      enum:
-        - HostNetwork
-        - NodePort
-        - FixedPodIP
-      type: string
     cluster:
       required:
         - engine
@@ -10938,7 +11202,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
@@ -11239,6 +11503,11 @@ components:
         - Stop
         - Start
         - Expose
+        - DataScript
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
       type: string
     kubernetesManifests:
       description: Items is the list of Kubernetes objects in the list
@@ -11489,6 +11758,8 @@ components:
           type: string
         dependentOpsName:
           type: string
+        clusterTaskId:
+          type: string
       required:
         - opsRequestName
       type: object
@@ -11606,7 +11877,7 @@ components:
           type: string
       type: object
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
       properties:
         component:
           description: component type
@@ -11709,6 +11980,155 @@ components:
               hints:
                 kind: interface
       type: object
+    clusterTaskProgress:
+      description: clusterTaskProgressDetail is the information of the task progress
+      properties:
+        name:
+          description: conponent name
+          type: string
+        group:
+          description: group name
+          type: string
+        objectKey:
+          description: the instance name
+          type: string
+        message:
+          description: message of the task progress
+          type: string
+        status:
+          description: status of the task progress
+          type: string
+        startTime:
+          description: start time of the task progress
+          format: date-time
+          type: string
+        endTime:
+          description: end time of the task progress
+          format: date-time
+          type: string
+          nullable: true
+      type: object
+    clusterTaskProgresses:
+      description: clusterTaskProgresses is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskProgress'
+          type: array
+      type: object
+    clusterTaskDetail:
+      type: object
+      description: taskCondition is the information of the task condition
+      properties:
+        reason:
+          description: reason of the task condition
+          type: string
+        type:
+          description: type of the task condition
+          type: string
+        status:
+          description: status of the task condition
+          type: string
+        message:
+          description: message of the task condition
+          type: string
+        lastTransitionTime:
+          description: last transition time of the task condition
+          format: date-time
+          type: string
+    clusterTaskDetails:
+      description: taskConditions is a list of task condition
+      properties:
+        items:
+          description: Items is the list of task condition in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskDetail'
+          type: array
+      type: object
+    clusterTask:
+      type: object
+      description: task is the information of the operation
+      required:
+        - name
+        - namespace
+        - status
+        - taskType
+        - progress
+      properties:
+        id:
+          description: ID of the task
+          type: string
+        name:
+          description: Name of the task
+          type: string
+        namespace:
+          description: Namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        taskType:
+          description: task type
+          type: string
+        progress:
+          description: progress of the task
+          type: string
+        taskProgresses:
+          $ref: '#/components/schemas/clusterTaskProgresses'
+        taskDetails:
+          $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
+        description:
+          description: description of the custom task
+          type: string
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          nullable: true
+    opsStatus:
+      enum:
+        - Pending
+        - Creating
+        - Running
+        - Cancelling
+        - Succeed
+        - Cancelled
+        - Failed
+        - Aborted
+      type: string
+    clusterTaskList:
+      description: TaskList is a list of operation task objects
+      properties:
+        items:
+          description: Items is the list of operation task objects in the list
+          items:
+            $ref: '#/components/schemas/clusterTask'
+          type: array
+      required:
+        - items
+      type: object
+    ops_opsStatus:
+      type: object
+      x-go-name: OpsRequestStatus
+      properties:
+        Status:
+          type: object
+          x-go-type:
+            type: OpsRequestStatus
+            import:
+              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+            hints:
+              kind: interface
+        message:
+          type: string
     autohealingList:
       description: An Autohealing object in k8s
       type: array
@@ -11839,6 +12259,8 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
+        - HostNetwork
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -12254,6 +12676,7 @@ components:
           description: indicates when this backup becomes eligible for garbage collection
           type: string
           format: date-time
+          nullable: true
         id:
           description: the backup id
           type: string
@@ -12319,6 +12742,7 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
+          nullable: true
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -12700,7 +13124,6 @@ components:
           type: string
           description: failedMessage specifies the message of the backupRepo failure
       required:
-        - accessMethod
         - backupNums
         - config
         - createdAt
@@ -13858,6 +14281,10 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
         metadataKey:
           type: string
           description: metadata key for the service
@@ -14149,7 +14576,6 @@ components:
         - restart
         - hscale
         - vscale
-        - storageExpansion
         - dashboards
         - logs
         - parameters
@@ -14999,6 +15425,72 @@ components:
           type: string
         instanceType:
           type: string
+    OccupationType:
+      type: string
+      enum:
+        - general
+        - exclusive
+    serverConfiguration:
+      type: object
+      properties:
+        architectureType:
+          type: string
+          description: Server architecture type, can be empty.
+    instanceTypes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the instance type.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time.
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
+        sourceInstanceTypeName:
+          type: array
+          items:
+            type: string
+          description: The Names of the instance types to be copied. All specifications of these instances will be copied to the new instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
@@ -15150,6 +15642,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -15223,6 +15717,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     featurePreReleaseType:
       type: string
@@ -15850,6 +16346,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1708848695
     endTime:
       name: end
@@ -15858,6 +16355,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1711354295
 x-tagGroups:
   - name: User

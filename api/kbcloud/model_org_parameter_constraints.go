@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // OrgParameterConstraints org parameter constraints including min, max, enum, default value
 type OrgParameterConstraints struct {
 	// org parameter min value

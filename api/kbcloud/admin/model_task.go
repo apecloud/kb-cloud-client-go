@@ -7,6 +7,8 @@ package admin
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type Task struct {
@@ -24,6 +26,8 @@ type Task struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	// Timestamp when the task was deleted
 	DeletedAt *time.Time `json:"deletedAt,omitempty"`
+	// Timestamp when the task was deleted
+	StartedAt *time.Time `json:"startedAt,omitempty"`
 	// Time when the task completed or failed
 	CompletionTime *time.Time `json:"completionTime,omitempty"`
 	// Detailed message about the task status
@@ -231,6 +235,34 @@ func (o *Task) HasDeletedAt() bool {
 // SetDeletedAt gets a reference to the given time.Time and assigns it to the DeletedAt field.
 func (o *Task) SetDeletedAt(v time.Time) {
 	o.DeletedAt = &v
+}
+
+// GetStartedAt returns the StartedAt field value if set, zero value otherwise.
+func (o *Task) GetStartedAt() time.Time {
+	if o == nil || o.StartedAt == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.StartedAt
+}
+
+// GetStartedAtOk returns a tuple with the StartedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Task) GetStartedAtOk() (*time.Time, bool) {
+	if o == nil || o.StartedAt == nil {
+		return nil, false
+	}
+	return o.StartedAt, true
+}
+
+// HasStartedAt returns a boolean if a field has been set.
+func (o *Task) HasStartedAt() bool {
+	return o != nil && o.StartedAt != nil
+}
+
+// SetStartedAt gets a reference to the given time.Time and assigns it to the StartedAt field.
+func (o *Task) SetStartedAt(v time.Time) {
+	o.StartedAt = &v
 }
 
 // GetCompletionTime returns the CompletionTime field value if set, zero value otherwise.
@@ -484,6 +516,13 @@ func (o Task) MarshalJSON() ([]byte, error) {
 			toSerialize["deletedAt"] = o.DeletedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.StartedAt != nil {
+		if o.StartedAt.Nanosecond() == 0 {
+			toSerialize["startedAt"] = o.StartedAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["startedAt"] = o.StartedAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
+	}
 	if o.CompletionTime != nil {
 		if o.CompletionTime.Nanosecond() == 0 {
 			toSerialize["completionTime"] = o.CompletionTime.Format("2006-01-02T15:04:05Z07:00")
@@ -529,6 +568,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt      *time.Time         `json:"createdAt"`
 		UpdatedAt      *time.Time         `json:"updatedAt"`
 		DeletedAt      *time.Time         `json:"deletedAt,omitempty"`
+		StartedAt      *time.Time         `json:"startedAt,omitempty"`
 		CompletionTime *time.Time         `json:"completionTime,omitempty"`
 		Message        *string            `json:"message,omitempty"`
 		Progress       *int32             `json:"progress,omitempty"`
@@ -561,7 +601,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "createdAt", "updatedAt", "deletedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond"})
 	} else {
 		return err
 	}
@@ -582,6 +622,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
 	o.DeletedAt = all.DeletedAt
+	o.StartedAt = all.StartedAt
 	o.CompletionTime = all.CompletionTime
 	o.Message = all.Message
 	o.Progress = all.Progress
