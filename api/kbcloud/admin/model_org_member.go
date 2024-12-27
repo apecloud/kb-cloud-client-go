@@ -16,12 +16,12 @@ type OrgMember struct {
 	DisplayName *string `json:"displayName,omitempty"`
 	// The email of User. Required when create. Read-Only after create
 	Email string `json:"email"`
-	// The default role of the User in the Org. Required
-	Role OrgMemberRole `json:"role"`
+	// The role of the User in the Org.
+	Role string `json:"role"`
 	// The ID of User. Read-Only
 	UserId string `json:"userId"`
 	// Return true if the member is freezed in the organization
-	Freezed bool `json:"freezed"`
+	Freezed *bool `json:"freezed,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,12 +31,11 @@ type OrgMember struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgMember(email string, role OrgMemberRole, userId string, freezed bool) *OrgMember {
+func NewOrgMember(email string, role string, userId string) *OrgMember {
 	this := OrgMember{}
 	this.Email = email
 	this.Role = role
 	this.UserId = userId
-	this.Freezed = freezed
 	return &this
 }
 
@@ -100,9 +99,9 @@ func (o *OrgMember) SetEmail(v string) {
 }
 
 // GetRole returns the Role field value.
-func (o *OrgMember) GetRole() OrgMemberRole {
+func (o *OrgMember) GetRole() string {
 	if o == nil {
-		var ret OrgMemberRole
+		var ret string
 		return ret
 	}
 	return o.Role
@@ -110,7 +109,7 @@ func (o *OrgMember) GetRole() OrgMemberRole {
 
 // GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
-func (o *OrgMember) GetRoleOk() (*OrgMemberRole, bool) {
+func (o *OrgMember) GetRoleOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -118,7 +117,7 @@ func (o *OrgMember) GetRoleOk() (*OrgMemberRole, bool) {
 }
 
 // SetRole sets field value.
-func (o *OrgMember) SetRole(v OrgMemberRole) {
+func (o *OrgMember) SetRole(v string) {
 	o.Role = v
 }
 
@@ -145,27 +144,32 @@ func (o *OrgMember) SetUserId(v string) {
 	o.UserId = v
 }
 
-// GetFreezed returns the Freezed field value.
+// GetFreezed returns the Freezed field value if set, zero value otherwise.
 func (o *OrgMember) GetFreezed() bool {
-	if o == nil {
+	if o == nil || o.Freezed == nil {
 		var ret bool
 		return ret
 	}
-	return o.Freezed
+	return *o.Freezed
 }
 
-// GetFreezedOk returns a tuple with the Freezed field value
+// GetFreezedOk returns a tuple with the Freezed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OrgMember) GetFreezedOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.Freezed == nil {
 		return nil, false
 	}
-	return &o.Freezed, true
+	return o.Freezed, true
 }
 
-// SetFreezed sets field value.
+// HasFreezed returns a boolean if a field has been set.
+func (o *OrgMember) HasFreezed() bool {
+	return o != nil && o.Freezed != nil
+}
+
+// SetFreezed gets a reference to the given bool and assigns it to the Freezed field.
 func (o *OrgMember) SetFreezed(v bool) {
-	o.Freezed = v
+	o.Freezed = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -180,7 +184,9 @@ func (o OrgMember) MarshalJSON() ([]byte, error) {
 	toSerialize["email"] = o.Email
 	toSerialize["role"] = o.Role
 	toSerialize["userId"] = o.UserId
-	toSerialize["freezed"] = o.Freezed
+	if o.Freezed != nil {
+		toSerialize["freezed"] = o.Freezed
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -191,11 +197,11 @@ func (o OrgMember) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DisplayName *string        `json:"displayName,omitempty"`
-		Email       *string        `json:"email"`
-		Role        *OrgMemberRole `json:"role"`
-		UserId      *string        `json:"userId"`
-		Freezed     *bool          `json:"freezed"`
+		DisplayName *string `json:"displayName,omitempty"`
+		Email       *string `json:"email"`
+		Role        *string `json:"role"`
+		UserId      *string `json:"userId"`
+		Freezed     *bool   `json:"freezed,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -209,33 +215,20 @@ func (o *OrgMember) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UserId == nil {
 		return fmt.Errorf("required field userId missing")
 	}
-	if all.Freezed == nil {
-		return fmt.Errorf("required field freezed missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"displayName", "email", "role", "userId", "freezed"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.DisplayName = all.DisplayName
 	o.Email = *all.Email
-	if !all.Role.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Role = *all.Role
-	}
+	o.Role = *all.Role
 	o.UserId = *all.UserId
-	o.Freezed = *all.Freezed
+	o.Freezed = all.Freezed
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

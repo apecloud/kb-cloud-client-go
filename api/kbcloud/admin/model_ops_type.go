@@ -24,6 +24,11 @@ const (
 	OpsTypeStop              OpsType = "Stop"
 	OpsTypeStart             OpsType = "Start"
 	OpsTypeExpose            OpsType = "Expose"
+	OpsTypeDataScript        OpsType = "DataScript"
+	OpsTypeBackup            OpsType = "Backup"
+	OpsTypeRestore           OpsType = "Restore"
+	OpsTypeRebuildInstance   OpsType = "RebuildInstance"
+	OpsTypeCustom            OpsType = "Custom"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{
@@ -37,6 +42,11 @@ var allowedOpsTypeEnumValues = []OpsType{
 	OpsTypeStop,
 	OpsTypeStart,
 	OpsTypeExpose,
+	OpsTypeDataScript,
+	OpsTypeBackup,
+	OpsTypeRestore,
+	OpsTypeRebuildInstance,
+	OpsTypeCustom,
 }
 
 // GetAllowedValues returns the list of possible values.

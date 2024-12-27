@@ -34,6 +34,8 @@ type EnvironmentUpdate struct {
 	LbEnabled *bool `json:"lbEnabled,omitempty"`
 	// Enable the Internet load balancer service for this environment
 	InternetLbEnabled *bool `json:"internetLBEnabled,omitempty"`
+	// Network modes of the environment
+	NetworkModes []NetworkMode `json:"networkModes,omitempty"`
 	// Environment delete policy to protect environment from false delete
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -530,6 +532,34 @@ func (o *EnvironmentUpdate) SetInternetLbEnabled(v bool) {
 	o.InternetLbEnabled = &v
 }
 
+// GetNetworkModes returns the NetworkModes field value if set, zero value otherwise.
+func (o *EnvironmentUpdate) GetNetworkModes() []NetworkMode {
+	if o == nil || o.NetworkModes == nil {
+		var ret []NetworkMode
+		return ret
+	}
+	return o.NetworkModes
+}
+
+// GetNetworkModesOk returns a tuple with the NetworkModes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentUpdate) GetNetworkModesOk() (*[]NetworkMode, bool) {
+	if o == nil || o.NetworkModes == nil {
+		return nil, false
+	}
+	return &o.NetworkModes, true
+}
+
+// HasNetworkModes returns a boolean if a field has been set.
+func (o *EnvironmentUpdate) HasNetworkModes() bool {
+	return o != nil && o.NetworkModes != nil
+}
+
+// SetNetworkModes gets a reference to the given []NetworkMode and assigns it to the NetworkModes field.
+func (o *EnvironmentUpdate) SetNetworkModes(v []NetworkMode) {
+	o.NetworkModes = v
+}
+
 // GetDeletePolicy returns the DeletePolicy field value if set, zero value otherwise.
 func (o *EnvironmentUpdate) GetDeletePolicy() EnvironmentDeletePolicy {
 	if o == nil || o.DeletePolicy == nil {
@@ -603,6 +633,9 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.InternetLbEnabled != nil {
 		toSerialize["internetLBEnabled"] = o.InternetLbEnabled
 	}
+	if o.NetworkModes != nil {
+		toSerialize["networkModes"] = o.NetworkModes
+	}
 	if o.DeletePolicy != nil {
 		toSerialize["deletePolicy"] = o.DeletePolicy
 	}
@@ -629,6 +662,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		NodePortEnabled        *bool                       `json:"nodePortEnabled,omitempty"`
 		LbEnabled              *bool                       `json:"lbEnabled,omitempty"`
 		InternetLbEnabled      *bool                       `json:"internetLBEnabled,omitempty"`
+		NetworkModes           []NetworkMode               `json:"networkModes,omitempty"`
 		DeletePolicy           *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -636,7 +670,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "deletePolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy"})
 	} else {
 		return err
 	}
@@ -658,6 +692,7 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	o.NodePortEnabled = all.NodePortEnabled
 	o.LbEnabled = all.LbEnabled
 	o.InternetLbEnabled = all.InternetLbEnabled
+	o.NetworkModes = all.NetworkModes
 	if all.DeletePolicy != nil && !all.DeletePolicy.IsValid() {
 		hasInvalidField = true
 	} else {

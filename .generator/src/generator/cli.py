@@ -110,6 +110,9 @@ def cli(specs, output):
 
         for name, operations in apis.items():
             print(f"Generating API {name}")
+            if name == None:
+                print(f"missing tag for {operations}")
+                exit(1)
             filename = "api_" + formatter.snake_case(name) + ".go"
             api_path = resources_dir / filename
             api_path.parent.mkdir(parents=True, exist_ok=True)
