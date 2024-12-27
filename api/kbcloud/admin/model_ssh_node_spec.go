@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type SshConfigCheckSpec struct {
+type SshNodeSpec struct {
 	// IP address of the node
 	Ip  string     `json:"ip"`
 	Ssh *SshConfig `json:"ssh,omitempty"`
@@ -19,26 +19,26 @@ type SshConfigCheckSpec struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSshConfigCheckSpec instantiates a new SshConfigCheckSpec object.
+// NewSshNodeSpec instantiates a new SshNodeSpec object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSshConfigCheckSpec(ip string) *SshConfigCheckSpec {
-	this := SshConfigCheckSpec{}
+func NewSshNodeSpec(ip string) *SshNodeSpec {
+	this := SshNodeSpec{}
 	this.Ip = ip
 	return &this
 }
 
-// NewSshConfigCheckSpecWithDefaults instantiates a new SshConfigCheckSpec object.
+// NewSshNodeSpecWithDefaults instantiates a new SshNodeSpec object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSshConfigCheckSpecWithDefaults() *SshConfigCheckSpec {
-	this := SshConfigCheckSpec{}
+func NewSshNodeSpecWithDefaults() *SshNodeSpec {
+	this := SshNodeSpec{}
 	return &this
 }
 
 // GetIp returns the Ip field value.
-func (o *SshConfigCheckSpec) GetIp() string {
+func (o *SshNodeSpec) GetIp() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -48,7 +48,7 @@ func (o *SshConfigCheckSpec) GetIp() string {
 
 // GetIpOk returns a tuple with the Ip field value
 // and a boolean to check if the value has been set.
-func (o *SshConfigCheckSpec) GetIpOk() (*string, bool) {
+func (o *SshNodeSpec) GetIpOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *SshConfigCheckSpec) GetIpOk() (*string, bool) {
 }
 
 // SetIp sets field value.
-func (o *SshConfigCheckSpec) SetIp(v string) {
+func (o *SshNodeSpec) SetIp(v string) {
 	o.Ip = v
 }
 
 // GetSsh returns the Ssh field value if set, zero value otherwise.
-func (o *SshConfigCheckSpec) GetSsh() SshConfig {
+func (o *SshNodeSpec) GetSsh() SshConfig {
 	if o == nil || o.Ssh == nil {
 		var ret SshConfig
 		return ret
@@ -71,7 +71,7 @@ func (o *SshConfigCheckSpec) GetSsh() SshConfig {
 
 // GetSshOk returns a tuple with the Ssh field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SshConfigCheckSpec) GetSshOk() (*SshConfig, bool) {
+func (o *SshNodeSpec) GetSshOk() (*SshConfig, bool) {
 	if o == nil || o.Ssh == nil {
 		return nil, false
 	}
@@ -79,17 +79,17 @@ func (o *SshConfigCheckSpec) GetSshOk() (*SshConfig, bool) {
 }
 
 // HasSsh returns a boolean if a field has been set.
-func (o *SshConfigCheckSpec) HasSsh() bool {
+func (o *SshNodeSpec) HasSsh() bool {
 	return o != nil && o.Ssh != nil
 }
 
 // SetSsh gets a reference to the given SshConfig and assigns it to the Ssh field.
-func (o *SshConfigCheckSpec) SetSsh(v SshConfig) {
+func (o *SshNodeSpec) SetSsh(v SshConfig) {
 	o.Ssh = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SshConfigCheckSpec) MarshalJSON() ([]byte, error) {
+func (o SshNodeSpec) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -106,7 +106,7 @@ func (o SshConfigCheckSpec) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SshConfigCheckSpec) UnmarshalJSON(bytes []byte) (err error) {
+func (o *SshNodeSpec) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Ip  *string    `json:"ip"`
 		Ssh *SshConfig `json:"ssh,omitempty"`

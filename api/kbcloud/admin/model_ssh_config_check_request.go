@@ -11,9 +11,11 @@ import (
 )
 
 type SshConfigCheckRequest struct {
+	// List of masters (jumpserver) to perform preflight checks
+	Masters []SshNodeSpec `json:"masters,omitempty"`
 	// List of nodes to perform preflight checks
-	Nodes      []SshConfigCheckSpec `json:"nodes"`
-	DefaultSsh *SshConfig           `json:"defaultSSH,omitempty"`
+	Nodes      []SshNodeSpec `json:"nodes"`
+	DefaultSsh *SshConfig    `json:"defaultSSH,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +25,7 @@ type SshConfigCheckRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSshConfigCheckRequest(nodes []SshConfigCheckSpec) *SshConfigCheckRequest {
+func NewSshConfigCheckRequest(nodes []SshNodeSpec) *SshConfigCheckRequest {
 	this := SshConfigCheckRequest{}
 	this.Nodes = nodes
 	return &this
@@ -37,10 +39,38 @@ func NewSshConfigCheckRequestWithDefaults() *SshConfigCheckRequest {
 	return &this
 }
 
+// GetMasters returns the Masters field value if set, zero value otherwise.
+func (o *SshConfigCheckRequest) GetMasters() []SshNodeSpec {
+	if o == nil || o.Masters == nil {
+		var ret []SshNodeSpec
+		return ret
+	}
+	return o.Masters
+}
+
+// GetMastersOk returns a tuple with the Masters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SshConfigCheckRequest) GetMastersOk() (*[]SshNodeSpec, bool) {
+	if o == nil || o.Masters == nil {
+		return nil, false
+	}
+	return &o.Masters, true
+}
+
+// HasMasters returns a boolean if a field has been set.
+func (o *SshConfigCheckRequest) HasMasters() bool {
+	return o != nil && o.Masters != nil
+}
+
+// SetMasters gets a reference to the given []SshNodeSpec and assigns it to the Masters field.
+func (o *SshConfigCheckRequest) SetMasters(v []SshNodeSpec) {
+	o.Masters = v
+}
+
 // GetNodes returns the Nodes field value.
-func (o *SshConfigCheckRequest) GetNodes() []SshConfigCheckSpec {
+func (o *SshConfigCheckRequest) GetNodes() []SshNodeSpec {
 	if o == nil {
-		var ret []SshConfigCheckSpec
+		var ret []SshNodeSpec
 		return ret
 	}
 	return o.Nodes
@@ -48,7 +78,7 @@ func (o *SshConfigCheckRequest) GetNodes() []SshConfigCheckSpec {
 
 // GetNodesOk returns a tuple with the Nodes field value
 // and a boolean to check if the value has been set.
-func (o *SshConfigCheckRequest) GetNodesOk() (*[]SshConfigCheckSpec, bool) {
+func (o *SshConfigCheckRequest) GetNodesOk() (*[]SshNodeSpec, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,7 +86,7 @@ func (o *SshConfigCheckRequest) GetNodesOk() (*[]SshConfigCheckSpec, bool) {
 }
 
 // SetNodes sets field value.
-func (o *SshConfigCheckRequest) SetNodes(v []SshConfigCheckSpec) {
+func (o *SshConfigCheckRequest) SetNodes(v []SshNodeSpec) {
 	o.Nodes = v
 }
 
@@ -94,6 +124,9 @@ func (o SshConfigCheckRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Masters != nil {
+		toSerialize["masters"] = o.Masters
+	}
 	toSerialize["nodes"] = o.Nodes
 	if o.DefaultSsh != nil {
 		toSerialize["defaultSSH"] = o.DefaultSsh
@@ -108,8 +141,9 @@ func (o SshConfigCheckRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *SshConfigCheckRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Nodes      *[]SshConfigCheckSpec `json:"nodes"`
-		DefaultSsh *SshConfig            `json:"defaultSSH,omitempty"`
+		Masters    []SshNodeSpec  `json:"masters,omitempty"`
+		Nodes      *[]SshNodeSpec `json:"nodes"`
+		DefaultSsh *SshConfig     `json:"defaultSSH,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -119,12 +153,13 @@ func (o *SshConfigCheckRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodes", "defaultSSH"})
+		common.DeleteKeys(additionalProperties, &[]string{"masters", "nodes", "defaultSSH"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Masters = all.Masters
 	o.Nodes = *all.Nodes
 	if all.DefaultSsh != nil && all.DefaultSsh.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
