@@ -124,31 +124,14 @@ type RetryConfiguration struct {
 // NewConfiguration returns a new Configuration object.
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		DefaultHeader: make(map[string]string),
-		UserAgent:     getUserAgent(),
-		Debug:         false,
-		Compress:      true,
-		Servers: ServerConfigurations{
-			{
-				URL:         "http://127.0.0.1:8080",
-				Description: "local",
-				Variables:   map[string]ServerVariable{},
-			},
-			{
-				URL:         "https://api-dev.apecloud.cn",
-				Description: "dev",
-				Variables:   map[string]ServerVariable{},
-			},
-			{
-				URL:         "https://cloudapi.apecloud.cn",
-				Description: "demo",
-				Variables:   map[string]ServerVariable{},
-			},
-		},
-		OperationServers:   map[string]ServerConfigurations{},
+		DefaultHeader:      make(map[string]string),
+		UserAgent:          getUserAgent(),
+		Debug:              false,
+		Compress:           true,
+		Servers:            ServerConfigurations{},
 		unstableOperations: map[string]bool{},
 		RetryConfiguration: RetryConfiguration{
-			EnableRetry:       false,
+			EnableRetry:       true,
 			BackOffMultiplier: 2,
 			BackOffBase:       2,
 			HTTPRetryTimeout:  60 * time.Second,
@@ -267,6 +250,16 @@ func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint strin
 	variables, err := getServerOperationVariables(ctx, endpoint)
 	if err != nil {
 		return "", err
+	}
+
+	if len(sc) == 0 {
+		for k, v := range variables {
+			sc = append(sc, ServerConfiguration{
+				URL:         v,
+				Description: k,
+				Variables:   map[string]ServerVariable{},
+			})
+		}
 	}
 
 	return sc.URL(index, variables)
