@@ -334,6 +334,7 @@
 //   - [storageApi.createStorage]
 //   - [storageApi.deleteStorage]
 //   - [storageApi.getStorage]
+//   - [storageApi.importBackup]
 //   - [storageApi.listStorageProviders]
 //   - [storageApi.listStorages]
 //   - [storageApi.updateStorage]

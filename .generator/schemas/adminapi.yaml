@@ -11060,6 +11060,42 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
+    post:
+      operationId: importBackup
+      summary: import backuprecords from storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/importBackup'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
   /admin/v1/fault:
     get:
       tags:
@@ -20505,6 +20541,16 @@ components:
         error:
           type: string
           description: the error msg
+    importBackup:
+      description: import backuprecords from storage
+      type: object
+      properties:
+        bucket:
+          type: string
+          description: the name of bucket
+        path:
+          type: string
+          description: the path to backup's kubeblocks-backup.json
     faultType:
       type: string
       enum:
