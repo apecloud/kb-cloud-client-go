@@ -17,7 +17,7 @@ type ClusterTaskProgress struct {
 	// group name
 	Group *string `json:"group,omitempty"`
 	// the instance name
-	ObjectKey *string `json:"objectKey,omitempty"`
+	ObjectKey common.NullableString `json:"objectKey,omitempty"`
 	// message of the task progress
 	Message *string `json:"message,omitempty"`
 	// status of the task progress
@@ -26,6 +26,10 @@ type ClusterTaskProgress struct {
 	StartTime *time.Time `json:"startTime,omitempty"`
 	// end time of the task progress
 	EndTime common.NullableTime `json:"endTime,omitempty"`
+	// Indicates the name of an OpsAction, Either `objectKey` or `actionName` must be provided.
+	ActionName common.NullableString `json:"actionName,omitempty"`
+	// actionTasks is a list of task progress detail
+	ActionTasks *ActionTasks `json:"actionTasks,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -104,32 +108,43 @@ func (o *ClusterTaskProgress) SetGroup(v string) {
 	o.Group = &v
 }
 
-// GetObjectKey returns the ObjectKey field value if set, zero value otherwise.
+// GetObjectKey returns the ObjectKey field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterTaskProgress) GetObjectKey() string {
-	if o == nil || o.ObjectKey == nil {
+	if o == nil || o.ObjectKey.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.ObjectKey
+	return *o.ObjectKey.Get()
 }
 
 // GetObjectKeyOk returns a tuple with the ObjectKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterTaskProgress) GetObjectKeyOk() (*string, bool) {
-	if o == nil || o.ObjectKey == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ObjectKey, true
+	return o.ObjectKey.Get(), o.ObjectKey.IsSet()
 }
 
 // HasObjectKey returns a boolean if a field has been set.
 func (o *ClusterTaskProgress) HasObjectKey() bool {
-	return o != nil && o.ObjectKey != nil
+	return o != nil && o.ObjectKey.IsSet()
 }
 
-// SetObjectKey gets a reference to the given string and assigns it to the ObjectKey field.
+// SetObjectKey gets a reference to the given common.NullableString and assigns it to the ObjectKey field.
 func (o *ClusterTaskProgress) SetObjectKey(v string) {
-	o.ObjectKey = &v
+	o.ObjectKey.Set(&v)
+}
+
+// SetObjectKeyNil sets the value for ObjectKey to be an explicit nil.
+func (o *ClusterTaskProgress) SetObjectKeyNil() {
+	o.ObjectKey.Set(nil)
+}
+
+// UnsetObjectKey ensures that no value is present for ObjectKey, not even an explicit nil.
+func (o *ClusterTaskProgress) UnsetObjectKey() {
+	o.ObjectKey.Unset()
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
@@ -255,6 +270,73 @@ func (o *ClusterTaskProgress) UnsetEndTime() {
 	o.EndTime.Unset()
 }
 
+// GetActionName returns the ActionName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ClusterTaskProgress) GetActionName() string {
+	if o == nil || o.ActionName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.ActionName.Get()
+}
+
+// GetActionNameOk returns a tuple with the ActionName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ClusterTaskProgress) GetActionNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ActionName.Get(), o.ActionName.IsSet()
+}
+
+// HasActionName returns a boolean if a field has been set.
+func (o *ClusterTaskProgress) HasActionName() bool {
+	return o != nil && o.ActionName.IsSet()
+}
+
+// SetActionName gets a reference to the given common.NullableString and assigns it to the ActionName field.
+func (o *ClusterTaskProgress) SetActionName(v string) {
+	o.ActionName.Set(&v)
+}
+
+// SetActionNameNil sets the value for ActionName to be an explicit nil.
+func (o *ClusterTaskProgress) SetActionNameNil() {
+	o.ActionName.Set(nil)
+}
+
+// UnsetActionName ensures that no value is present for ActionName, not even an explicit nil.
+func (o *ClusterTaskProgress) UnsetActionName() {
+	o.ActionName.Unset()
+}
+
+// GetActionTasks returns the ActionTasks field value if set, zero value otherwise.
+func (o *ClusterTaskProgress) GetActionTasks() ActionTasks {
+	if o == nil || o.ActionTasks == nil {
+		var ret ActionTasks
+		return ret
+	}
+	return *o.ActionTasks
+}
+
+// GetActionTasksOk returns a tuple with the ActionTasks field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterTaskProgress) GetActionTasksOk() (*ActionTasks, bool) {
+	if o == nil || o.ActionTasks == nil {
+		return nil, false
+	}
+	return o.ActionTasks, true
+}
+
+// HasActionTasks returns a boolean if a field has been set.
+func (o *ClusterTaskProgress) HasActionTasks() bool {
+	return o != nil && o.ActionTasks != nil
+}
+
+// SetActionTasks gets a reference to the given ActionTasks and assigns it to the ActionTasks field.
+func (o *ClusterTaskProgress) SetActionTasks(v ActionTasks) {
+	o.ActionTasks = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -267,8 +349,8 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 	if o.Group != nil {
 		toSerialize["group"] = o.Group
 	}
-	if o.ObjectKey != nil {
-		toSerialize["objectKey"] = o.ObjectKey
+	if o.ObjectKey.IsSet() {
+		toSerialize["objectKey"] = o.ObjectKey.Get()
 	}
 	if o.Message != nil {
 		toSerialize["message"] = o.Message
@@ -286,6 +368,12 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 	if o.EndTime.IsSet() {
 		toSerialize["endTime"] = o.EndTime.Get()
 	}
+	if o.ActionName.IsSet() {
+		toSerialize["actionName"] = o.ActionName.Get()
+	}
+	if o.ActionTasks != nil {
+		toSerialize["actionTasks"] = o.ActionTasks
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -296,23 +384,27 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterTaskProgress) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name      *string             `json:"name,omitempty"`
-		Group     *string             `json:"group,omitempty"`
-		ObjectKey *string             `json:"objectKey,omitempty"`
-		Message   *string             `json:"message,omitempty"`
-		Status    *string             `json:"status,omitempty"`
-		StartTime *time.Time          `json:"startTime,omitempty"`
-		EndTime   common.NullableTime `json:"endTime,omitempty"`
+		Name        *string               `json:"name,omitempty"`
+		Group       *string               `json:"group,omitempty"`
+		ObjectKey   common.NullableString `json:"objectKey,omitempty"`
+		Message     *string               `json:"message,omitempty"`
+		Status      *string               `json:"status,omitempty"`
+		StartTime   *time.Time            `json:"startTime,omitempty"`
+		EndTime     common.NullableTime   `json:"endTime,omitempty"`
+		ActionName  common.NullableString `json:"actionName,omitempty"`
+		ActionTasks *ActionTasks          `json:"actionTasks,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "group", "objectKey", "message", "status", "startTime", "endTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "group", "objectKey", "message", "status", "startTime", "endTime", "actionName", "actionTasks"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Group = all.Group
 	o.ObjectKey = all.ObjectKey
@@ -320,9 +412,18 @@ func (o *ClusterTaskProgress) UnmarshalJSON(bytes []byte) (err error) {
 	o.Status = all.Status
 	o.StartTime = all.StartTime
 	o.EndTime = all.EndTime
+	o.ActionName = all.ActionName
+	if all.ActionTasks != nil && all.ActionTasks.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ActionTasks = all.ActionTasks
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

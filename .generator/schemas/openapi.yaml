@@ -11980,6 +11980,35 @@ components:
               hints:
                 kind: interface
       type: object
+    actionTask:
+      description: actionTask is the information of the task progress
+      properties:
+        objectKey:
+          description: the instance name
+          type: string
+        namespace:
+          description: namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        targetPodName:
+          description: target pod name of the task
+          type: string
+        retries:
+          description: retries of the task
+          type: integer
+          format: int32
+      type: object
+    actionTasks:
+      description: actionTasks is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/actionTask'
+          type: array
+      type: object
     clusterTaskProgress:
       description: clusterTaskProgressDetail is the information of the task progress
       properties:
@@ -11992,6 +12021,7 @@ components:
         objectKey:
           description: the instance name
           type: string
+          nullable: true
         message:
           description: message of the task progress
           type: string
@@ -12007,6 +12037,12 @@ components:
           format: date-time
           type: string
           nullable: true
+        actionName:
+          description: Indicates the name of an OpsAction, Either `objectKey` or `actionName` must be provided.
+          type: string
+          nullable: true
+        actionTasks:
+          $ref: '#/components/schemas/actionTasks'
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
