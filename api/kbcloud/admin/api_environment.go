@@ -2505,7 +2505,7 @@ func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environ
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/scaleIn"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/nodes/scaleIn"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -2578,7 +2578,7 @@ func (a *EnvironmentApi) ScaleOutEnvironmentNodes(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/scaleOut"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/nodes/scaleOut"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
