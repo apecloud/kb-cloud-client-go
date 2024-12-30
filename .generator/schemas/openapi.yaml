@@ -9941,7 +9941,7 @@ components:
           format: date-time
           type: string
       type: object
-    eventPagination:
+    paginationResult:
       description: event pagination
       properties:
         page:
@@ -9967,7 +9967,7 @@ components:
             $ref: '#/components/schemas/event'
           type: array
         pagination:
-          $ref: '#/components/schemas/eventPagination'
+          $ref: '#/components/schemas/paginationResult'
       required:
         - items
       type: object

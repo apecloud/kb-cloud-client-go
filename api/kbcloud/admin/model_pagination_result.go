@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EventPagination event pagination
-type EventPagination struct {
+// PaginationResult event pagination
+type PaginationResult struct {
 	// current page
 	Page int32 `json:"page"`
 	// page size
@@ -23,28 +23,28 @@ type EventPagination struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEventPagination instantiates a new EventPagination object.
+// NewPaginationResult instantiates a new PaginationResult object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEventPagination(page int32, pageSize int32, total int32) *EventPagination {
-	this := EventPagination{}
+func NewPaginationResult(page int32, pageSize int32, total int32) *PaginationResult {
+	this := PaginationResult{}
 	this.Page = page
 	this.PageSize = pageSize
 	this.Total = total
 	return &this
 }
 
-// NewEventPaginationWithDefaults instantiates a new EventPagination object.
+// NewPaginationResultWithDefaults instantiates a new PaginationResult object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEventPaginationWithDefaults() *EventPagination {
-	this := EventPagination{}
+func NewPaginationResultWithDefaults() *PaginationResult {
+	this := PaginationResult{}
 	return &this
 }
 
 // GetPage returns the Page field value.
-func (o *EventPagination) GetPage() int32 {
+func (o *PaginationResult) GetPage() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -54,7 +54,7 @@ func (o *EventPagination) GetPage() int32 {
 
 // GetPageOk returns a tuple with the Page field value
 // and a boolean to check if the value has been set.
-func (o *EventPagination) GetPageOk() (*int32, bool) {
+func (o *PaginationResult) GetPageOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,12 +62,12 @@ func (o *EventPagination) GetPageOk() (*int32, bool) {
 }
 
 // SetPage sets field value.
-func (o *EventPagination) SetPage(v int32) {
+func (o *PaginationResult) SetPage(v int32) {
 	o.Page = v
 }
 
 // GetPageSize returns the PageSize field value.
-func (o *EventPagination) GetPageSize() int32 {
+func (o *PaginationResult) GetPageSize() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -77,7 +77,7 @@ func (o *EventPagination) GetPageSize() int32 {
 
 // GetPageSizeOk returns a tuple with the PageSize field value
 // and a boolean to check if the value has been set.
-func (o *EventPagination) GetPageSizeOk() (*int32, bool) {
+func (o *PaginationResult) GetPageSizeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -85,12 +85,12 @@ func (o *EventPagination) GetPageSizeOk() (*int32, bool) {
 }
 
 // SetPageSize sets field value.
-func (o *EventPagination) SetPageSize(v int32) {
+func (o *PaginationResult) SetPageSize(v int32) {
 	o.PageSize = v
 }
 
 // GetTotal returns the Total field value.
-func (o *EventPagination) GetTotal() int32 {
+func (o *PaginationResult) GetTotal() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -100,7 +100,7 @@ func (o *EventPagination) GetTotal() int32 {
 
 // GetTotalOk returns a tuple with the Total field value
 // and a boolean to check if the value has been set.
-func (o *EventPagination) GetTotalOk() (*int32, bool) {
+func (o *PaginationResult) GetTotalOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -108,12 +108,12 @@ func (o *EventPagination) GetTotalOk() (*int32, bool) {
 }
 
 // SetTotal sets field value.
-func (o *EventPagination) SetTotal(v int32) {
+func (o *PaginationResult) SetTotal(v int32) {
 	o.Total = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EventPagination) MarshalJSON() ([]byte, error) {
+func (o PaginationResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -129,7 +129,7 @@ func (o EventPagination) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EventPagination) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PaginationResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Page     *int32 `json:"page"`
 		PageSize *int32 `json:"pageSize"`

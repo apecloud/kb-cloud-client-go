@@ -15,7 +15,7 @@ type EventList struct {
 	// Items is the list of operation event objects in the list
 	Items []Cluster_event `json:"items"`
 	// event pagination
-	Pagination *EventPagination `json:"pagination,omitempty"`
+	Pagination *PaginationResult `json:"pagination,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -63,9 +63,9 @@ func (o *EventList) SetItems(v []Cluster_event) {
 }
 
 // GetPagination returns the Pagination field value if set, zero value otherwise.
-func (o *EventList) GetPagination() EventPagination {
+func (o *EventList) GetPagination() PaginationResult {
 	if o == nil || o.Pagination == nil {
-		var ret EventPagination
+		var ret PaginationResult
 		return ret
 	}
 	return *o.Pagination
@@ -73,7 +73,7 @@ func (o *EventList) GetPagination() EventPagination {
 
 // GetPaginationOk returns a tuple with the Pagination field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventList) GetPaginationOk() (*EventPagination, bool) {
+func (o *EventList) GetPaginationOk() (*PaginationResult, bool) {
 	if o == nil || o.Pagination == nil {
 		return nil, false
 	}
@@ -85,8 +85,8 @@ func (o *EventList) HasPagination() bool {
 	return o != nil && o.Pagination != nil
 }
 
-// SetPagination gets a reference to the given EventPagination and assigns it to the Pagination field.
-func (o *EventList) SetPagination(v EventPagination) {
+// SetPagination gets a reference to the given PaginationResult and assigns it to the Pagination field.
+func (o *EventList) SetPagination(v PaginationResult) {
 	o.Pagination = &v
 }
 
@@ -110,8 +110,8 @@ func (o EventList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EventList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Cluster_event `json:"items"`
-		Pagination *EventPagination `json:"pagination,omitempty"`
+		Items      *[]Cluster_event  `json:"items"`
+		Pagination *PaginationResult `json:"pagination,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

@@ -5217,7 +5217,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/scaleOut:
+  /admin/v1/environments/{environmentName}/nodes/scaleOut:
     post:
       tags:
         - environment
@@ -5248,7 +5248,7 @@ paths:
           $ref: '#/components/responses/400'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/environments/{environmentName}/scaleIn:
+  /admin/v1/environments/{environmentName}/nodes/scaleIn:
     post:
       tags:
         - environment
@@ -14075,7 +14075,7 @@ components:
           format: date-time
           type: string
       type: object
-    eventPagination:
+    paginationResult:
       description: event pagination
       properties:
         page:
@@ -14101,7 +14101,7 @@ components:
             $ref: '#/components/schemas/cluster_event'
           type: array
         pagination:
-          $ref: '#/components/schemas/eventPagination'
+          $ref: '#/components/schemas/paginationResult'
       required:
         - items
       type: object
