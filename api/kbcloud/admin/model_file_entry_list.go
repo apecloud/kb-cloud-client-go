@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // FileEntryList BackupEntryList is a list of entry

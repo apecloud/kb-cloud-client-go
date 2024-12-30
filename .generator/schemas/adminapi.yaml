@@ -764,6 +764,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: withStatic
+          in: query
+          description: Whether to include static clusters
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -6083,8 +6089,8 @@ paths:
         - storageClass
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
-      operationId: listNodeGroup
-      summary: List environment node group
+      operationId: listNodeGroups
+      summary: List environment node groups
       parameters:
         - name: environmentName
           in: path
@@ -6105,7 +6111,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -11052,6 +11060,42 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
+    post:
+      operationId: importBackup
+      summary: import backuprecords from storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/importBackup'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
   /admin/v1/fault:
     get:
       tags:
@@ -14031,6 +14075,23 @@ components:
           format: date-time
           type: string
       type: object
+    eventPagination:
+      description: event pagination
+      properties:
+        page:
+          description: current page
+          type: integer
+        pageSize:
+          description: page size
+          type: integer
+        total:
+          description: total records
+          type: integer
+      required:
+        - page
+        - pageSize
+        - total
+      type: object
     eventList:
       description: EventList is a list of operation event objects
       properties:
@@ -14039,6 +14100,8 @@ components:
           items:
             $ref: '#/components/schemas/cluster_event'
           type: array
+        pagination:
+          $ref: '#/components/schemas/eventPagination'
       required:
         - items
       type: object
@@ -20497,6 +20560,16 @@ components:
         error:
           type: string
           description: the error msg
+    importBackup:
+      description: import backuprecords from storage
+      type: object
+      properties:
+        bucket:
+          type: string
+          description: the name of bucket
+        path:
+          type: string
+          description: the path to backup's kubeblocks-backup.json
     faultType:
       type: string
       enum:

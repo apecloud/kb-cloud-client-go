@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // AlertRuleList AlertRuleList is a list of alert rules

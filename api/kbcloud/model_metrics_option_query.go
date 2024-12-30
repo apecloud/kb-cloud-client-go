@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type MetricsOptionQuery struct {
 	QueryPattern *string `json:"queryPattern,omitempty"`
 	// Specifies the type of metrics query to be performed.

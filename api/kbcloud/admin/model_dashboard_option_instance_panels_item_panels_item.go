@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DashboardOptionInstancePanelsItemPanelsItem struct {
 	Description *string `json:"description,omitempty"`
 	Id          *string `json:"id,omitempty"`

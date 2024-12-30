@@ -1072,7 +1072,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -9939,6 +9941,23 @@ components:
           format: date-time
           type: string
       type: object
+    eventPagination:
+      description: event pagination
+      properties:
+        page:
+          description: current page
+          type: integer
+        pageSize:
+          description: page size
+          type: integer
+        total:
+          description: total records
+          type: integer
+      required:
+        - page
+        - pageSize
+        - total
+      type: object
     eventList:
       description: EventList is a list of operation event objects
       properties:
@@ -9947,6 +9966,8 @@ components:
           items:
             $ref: '#/components/schemas/event'
           type: array
+        pagination:
+          $ref: '#/components/schemas/eventPagination'
       required:
         - items
       type: object

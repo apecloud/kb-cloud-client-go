@@ -7,6 +7,8 @@ package admin
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // NodeResourceStatsList NodeResourceStatsList is a list of NodeResourceStats

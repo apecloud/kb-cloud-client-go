@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type TopicOffset struct {
 	// 主题名称
 	Topic *string `json:"topic,omitempty"`

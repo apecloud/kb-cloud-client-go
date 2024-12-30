@@ -919,8 +919,9 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 
 // ListClustersOptionalParameters holds optional parameters for ListClusters.
 type ListClustersOptionalParameters struct {
-	OrgName *string
-	EnvName *string
+	OrgName    *string
+	EnvName    *string
+	WithStatic *bool
 }
 
 // NewListClustersOptionalParameters creates an empty struct for parameters.
@@ -938,6 +939,12 @@ func (r *ListClustersOptionalParameters) WithOrgName(orgName string) *ListCluste
 // WithEnvName sets the corresponding parameter name and returns the struct.
 func (r *ListClustersOptionalParameters) WithEnvName(envName string) *ListClustersOptionalParameters {
 	r.EnvName = &envName
+	return r
+}
+
+// WithWithStatic sets the corresponding parameter name and returns the struct.
+func (r *ListClustersOptionalParameters) WithWithStatic(withStatic bool) *ListClustersOptionalParameters {
+	r.WithStatic = &withStatic
 	return r
 }
 
@@ -973,6 +980,9 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 	}
 	if optionalParams.EnvName != nil {
 		localVarQueryParams.Add("envName", common.ParameterToString(*optionalParams.EnvName, ""))
+	}
+	if optionalParams.WithStatic != nil {
+		localVarQueryParams.Add("withStatic", common.ParameterToString(*optionalParams.WithStatic, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
