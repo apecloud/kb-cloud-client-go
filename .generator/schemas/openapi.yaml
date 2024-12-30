@@ -1062,7 +1062,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -10828,9 +10830,6 @@ components:
     invitation:
       description: Invitation info
       properties:
-        accepted:
-          description: User has accepted or not
-          type: boolean
         createdAt:
           format: date-time
           type: string
@@ -10865,7 +10864,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id
@@ -11879,7 +11877,7 @@ components:
           type: string
       type: object
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
       properties:
         component:
           description: component type
@@ -12008,6 +12006,7 @@ components:
           description: end time of the task progress
           format: date-time
           type: string
+          nullable: true
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
@@ -12093,6 +12092,7 @@ components:
           type: string
           format: date-time
           description: Time when the task completed or failed
+          nullable: true
     opsStatus:
       enum:
         - Pending
@@ -12260,6 +12260,7 @@ components:
         - NodePort
         - LoadBalancer
         - FixedPodIP
+        - HostNetwork
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -12675,6 +12676,7 @@ components:
           description: indicates when this backup becomes eligible for garbage collection
           type: string
           format: date-time
+          nullable: true
         id:
           description: the backup id
           type: string
@@ -12740,6 +12742,7 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
+          nullable: true
       type: object
     backupList:
       description: BackupList is a list of backups

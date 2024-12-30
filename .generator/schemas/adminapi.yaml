@@ -764,6 +764,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: withStatic
+          in: query
+          description: Whether to include static clusters
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -6083,8 +6089,8 @@ paths:
         - storageClass
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
-      operationId: listNodeGroup
-      summary: List environment node group
+      operationId: listNodeGroups
+      summary: List environment node groups
       parameters:
         - name: environmentName
           in: path
@@ -6105,7 +6111,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -11052,6 +11060,42 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
+    post:
+      operationId: importBackup
+      summary: import backuprecords from storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/importBackup'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
   /admin/v1/fault:
     get:
       tags:
@@ -12622,9 +12666,6 @@ components:
     invitation:
       description: Invitation info
       properties:
-        accepted:
-          description: User has accepted or not
-          type: boolean
         createdAt:
           format: date-time
           type: string
@@ -12659,7 +12700,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id
@@ -13329,6 +13369,7 @@ components:
         - NodePort
         - LoadBalancer
         - FixedPodIP
+        - HostNetwork
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -15076,7 +15117,7 @@ components:
           type: string
       type: object
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
       properties:
         component:
           description: component type
@@ -15205,6 +15246,7 @@ components:
           description: end time of the task progress
           format: date-time
           type: string
+          nullable: true
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
@@ -15290,6 +15332,7 @@ components:
           type: string
           format: date-time
           description: Time when the task completed or failed
+          nullable: true
     opsStatus:
       type: object
       x-go-name: OpsRequestStatus
@@ -16065,7 +16108,7 @@ components:
           default: 22
           minimum: 1
           maximum: 65535
-    sshConfigCheckSpec:
+    sshNodeSpec:
       type: object
       required:
         - ip
@@ -16083,10 +16126,17 @@ components:
       required:
         - nodes
       properties:
+        masters:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of masters (jumpserver) to perform preflight checks
         nodes:
           type: array
           items:
-            $ref: '#/components/schemas/sshConfigCheckSpec'
+            $ref: '#/components/schemas/sshNodeSpec'
           minItems: 1
           maxItems: 20
           description: List of nodes to perform preflight checks
@@ -16350,6 +16400,13 @@ components:
       required:
         - nodes
       properties:
+        masters:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of masters (jumpserver for ssh), at least one node is needed
         nodes:
           type: array
           items:
@@ -16431,6 +16488,16 @@ components:
           type: string
           format: date-time
           description: Timestamp when the step was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
     taskFailurePolicy:
       type: string
       enum:
@@ -16466,6 +16533,11 @@ components:
           format: date-time
           description: Timestamp when the task was last updated
         deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        startedAt:
           type: string
           format: date-time
           description: Timestamp when the task was deleted
@@ -17637,6 +17709,7 @@ components:
           description: indicates when this backup becomes eligible for garbage collection
           type: string
           format: date-time
+          nullable: true
         id:
           description: the backup id
           type: string
@@ -17702,6 +17775,7 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
+          nullable: true
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -20457,6 +20531,16 @@ components:
         error:
           type: string
           description: the error msg
+    importBackup:
+      description: import backuprecords from storage
+      type: object
+      properties:
+        bucket:
+          type: string
+          description: the name of bucket
+        path:
+          type: string
+          description: the path to backup's kubeblocks-backup.json
     faultType:
       type: string
       enum:

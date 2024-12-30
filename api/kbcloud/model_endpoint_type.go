@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EndpointType Type of endpoint
@@ -17,6 +19,7 @@ const (
 	EndpointTypeNodePort     EndpointType = "NodePort"
 	EndpointTypeLoadBalancer EndpointType = "LoadBalancer"
 	EndpointTypeFixedPodIp   EndpointType = "FixedPodIP"
+	EndpointTypeHostNetwork  EndpointType = "HostNetwork"
 )
 
 var allowedEndpointTypeEnumValues = []EndpointType{
@@ -24,6 +27,7 @@ var allowedEndpointTypeEnumValues = []EndpointType{
 	EndpointTypeNodePort,
 	EndpointTypeLoadBalancer,
 	EndpointTypeFixedPodIp,
+	EndpointTypeHostNetwork,
 }
 
 // GetAllowedValues returns the list of possible values.

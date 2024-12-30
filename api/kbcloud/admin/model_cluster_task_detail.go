@@ -4,7 +4,11 @@
 
 package admin
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ClusterTaskDetail taskCondition is the information of the task condition
 type ClusterTaskDetail struct {

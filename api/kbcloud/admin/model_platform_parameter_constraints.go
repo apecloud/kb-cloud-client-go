@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // PlatformParameterConstraints platformParameter constraints including min, max, enum, default value
 type PlatformParameterConstraints struct {
 	// platformParameter min value

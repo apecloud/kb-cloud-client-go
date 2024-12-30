@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ClusterTaskProgress clusterTaskProgressDetail is the information of the task progress
 type ClusterTaskProgress struct {
@@ -21,7 +25,7 @@ type ClusterTaskProgress struct {
 	// start time of the task progress
 	StartTime *time.Time `json:"startTime,omitempty"`
 	// end time of the task progress
-	EndTime *time.Time `json:"endTime,omitempty"`
+	EndTime common.NullableTime `json:"endTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -212,32 +216,43 @@ func (o *ClusterTaskProgress) SetStartTime(v time.Time) {
 	o.StartTime = &v
 }
 
-// GetEndTime returns the EndTime field value if set, zero value otherwise.
+// GetEndTime returns the EndTime field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterTaskProgress) GetEndTime() time.Time {
-	if o == nil || o.EndTime == nil {
+	if o == nil || o.EndTime.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.EndTime
+	return *o.EndTime.Get()
 }
 
 // GetEndTimeOk returns a tuple with the EndTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterTaskProgress) GetEndTimeOk() (*time.Time, bool) {
-	if o == nil || o.EndTime == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.EndTime, true
+	return o.EndTime.Get(), o.EndTime.IsSet()
 }
 
 // HasEndTime returns a boolean if a field has been set.
 func (o *ClusterTaskProgress) HasEndTime() bool {
-	return o != nil && o.EndTime != nil
+	return o != nil && o.EndTime.IsSet()
 }
 
-// SetEndTime gets a reference to the given time.Time and assigns it to the EndTime field.
+// SetEndTime gets a reference to the given common.NullableTime and assigns it to the EndTime field.
 func (o *ClusterTaskProgress) SetEndTime(v time.Time) {
-	o.EndTime = &v
+	o.EndTime.Set(&v)
+}
+
+// SetEndTimeNil sets the value for EndTime to be an explicit nil.
+func (o *ClusterTaskProgress) SetEndTimeNil() {
+	o.EndTime.Set(nil)
+}
+
+// UnsetEndTime ensures that no value is present for EndTime, not even an explicit nil.
+func (o *ClusterTaskProgress) UnsetEndTime() {
+	o.EndTime.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -268,12 +283,8 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 			toSerialize["startTime"] = o.StartTime.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.EndTime != nil {
-		if o.EndTime.Nanosecond() == 0 {
-			toSerialize["endTime"] = o.EndTime.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["endTime"] = o.EndTime.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.EndTime.IsSet() {
+		toSerialize["endTime"] = o.EndTime.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -285,13 +296,13 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterTaskProgress) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name      *string    `json:"name,omitempty"`
-		Group     *string    `json:"group,omitempty"`
-		ObjectKey *string    `json:"objectKey,omitempty"`
-		Message   *string    `json:"message,omitempty"`
-		Status    *string    `json:"status,omitempty"`
-		StartTime *time.Time `json:"startTime,omitempty"`
-		EndTime   *time.Time `json:"endTime,omitempty"`
+		Name      *string             `json:"name,omitempty"`
+		Group     *string             `json:"group,omitempty"`
+		ObjectKey *string             `json:"objectKey,omitempty"`
+		Message   *string             `json:"message,omitempty"`
+		Status    *string             `json:"status,omitempty"`
+		StartTime *time.Time          `json:"startTime,omitempty"`
+		EndTime   common.NullableTime `json:"endTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

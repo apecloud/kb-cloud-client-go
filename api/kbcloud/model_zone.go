@@ -7,6 +7,8 @@ package kbcloud
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Zone The zone that the region has.

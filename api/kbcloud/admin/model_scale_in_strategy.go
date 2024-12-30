@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type ScaleInStrategy struct {
 	// Type of scale in strategy
 	Type *ScaleInType `json:"type,omitempty"`

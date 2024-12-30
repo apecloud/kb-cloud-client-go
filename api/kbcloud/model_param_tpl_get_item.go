@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ParamTplGetItem paramTplGetItem is a list of get parameter template and parameterSpec

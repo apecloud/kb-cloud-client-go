@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type Memory struct {
 	MemCapacity *string `json:"mem_capacity,omitempty"`
 	MemoryLimit *string `json:"memory_limit,omitempty"`

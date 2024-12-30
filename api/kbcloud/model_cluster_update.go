@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster
 type ClusterUpdate struct {
 	// The termination policy of cluster.

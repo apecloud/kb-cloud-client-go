@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // RawBackupRepo backup repo info
 type RawBackupRepo struct {
 	// the backup repo name

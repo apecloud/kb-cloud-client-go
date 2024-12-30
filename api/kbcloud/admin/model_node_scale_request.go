@@ -6,9 +6,13 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type NodeScaleRequest struct {
+	// List of masters (jumpserver for ssh), at least one node is needed
+	Masters []SshNodeSpec `json:"masters,omitempty"`
 	// List of nodes to be added, support 1-20 nodes per request
 	Nodes      []NodeScaleSpec `json:"nodes"`
 	DefaultSsh *SshConfig      `json:"defaultSSH,omitempty"`
@@ -33,6 +37,34 @@ func NewNodeScaleRequest(nodes []NodeScaleSpec) *NodeScaleRequest {
 func NewNodeScaleRequestWithDefaults() *NodeScaleRequest {
 	this := NodeScaleRequest{}
 	return &this
+}
+
+// GetMasters returns the Masters field value if set, zero value otherwise.
+func (o *NodeScaleRequest) GetMasters() []SshNodeSpec {
+	if o == nil || o.Masters == nil {
+		var ret []SshNodeSpec
+		return ret
+	}
+	return o.Masters
+}
+
+// GetMastersOk returns a tuple with the Masters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NodeScaleRequest) GetMastersOk() (*[]SshNodeSpec, bool) {
+	if o == nil || o.Masters == nil {
+		return nil, false
+	}
+	return &o.Masters, true
+}
+
+// HasMasters returns a boolean if a field has been set.
+func (o *NodeScaleRequest) HasMasters() bool {
+	return o != nil && o.Masters != nil
+}
+
+// SetMasters gets a reference to the given []SshNodeSpec and assigns it to the Masters field.
+func (o *NodeScaleRequest) SetMasters(v []SshNodeSpec) {
+	o.Masters = v
 }
 
 // GetNodes returns the Nodes field value.
@@ -92,6 +124,9 @@ func (o NodeScaleRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Masters != nil {
+		toSerialize["masters"] = o.Masters
+	}
 	toSerialize["nodes"] = o.Nodes
 	if o.DefaultSsh != nil {
 		toSerialize["defaultSSH"] = o.DefaultSsh
@@ -106,6 +141,7 @@ func (o NodeScaleRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodeScaleRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Masters    []SshNodeSpec    `json:"masters,omitempty"`
 		Nodes      *[]NodeScaleSpec `json:"nodes"`
 		DefaultSsh *SshConfig       `json:"defaultSSH,omitempty"`
 	}{}
@@ -117,12 +153,13 @@ func (o *NodeScaleRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodes", "defaultSSH"})
+		common.DeleteKeys(additionalProperties, &[]string{"masters", "nodes", "defaultSSH"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Masters = all.Masters
 	o.Nodes = *all.Nodes
 	if all.DefaultSsh != nil && all.DefaultSsh.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type EngineOptionsDisasterRecoverySource struct {
 	MetricSource *MetricsOptionQuery `json:"metricSource,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

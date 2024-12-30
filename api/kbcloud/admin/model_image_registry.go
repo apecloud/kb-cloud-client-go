@@ -7,6 +7,8 @@ package admin
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // ImageRegistry Represents an image registry.
