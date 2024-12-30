@@ -14,7 +14,7 @@ import (
 type EventList struct {
 	// Items is the list of operation event objects in the list
 	Items []Cluster_event `json:"items"`
-	// event pagination
+	// api result pagination
 	Pagination *PaginationResult `json:"pagination,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

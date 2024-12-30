@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PaginationResult event pagination
+// PaginationResult api result pagination
 type PaginationResult struct {
 	// current page
 	Page int32 `json:"page"`

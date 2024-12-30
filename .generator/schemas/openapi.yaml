@@ -9942,7 +9942,7 @@ components:
           type: string
       type: object
     paginationResult:
-      description: event pagination
+      description: api result pagination
       properties:
         page:
           description: current page
