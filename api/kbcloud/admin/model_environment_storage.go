@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // EnvironmentStorage Storage config
 type EnvironmentStorage struct {
 	// the storage name
@@ -15,7 +17,8 @@ type EnvironmentStorage struct {
 	// the existed cluster namespace for creating storage
 	ReusedClusterNamespace *string `json:"reusedClusterNamespace,omitempty"`
 	// storageCreate is the schema for the storage create request
-	Config *StorageCreate `json:"config,omitempty"`
+	Config  *StorageCreate `json:"config,omitempty"`
+	Cluster *StaticCluster `json:"cluster,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -178,6 +181,34 @@ func (o *EnvironmentStorage) SetConfig(v StorageCreate) {
 	o.Config = &v
 }
 
+// GetCluster returns the Cluster field value if set, zero value otherwise.
+func (o *EnvironmentStorage) GetCluster() StaticCluster {
+	if o == nil || o.Cluster == nil {
+		var ret StaticCluster
+		return ret
+	}
+	return *o.Cluster
+}
+
+// GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentStorage) GetClusterOk() (*StaticCluster, bool) {
+	if o == nil || o.Cluster == nil {
+		return nil, false
+	}
+	return o.Cluster, true
+}
+
+// HasCluster returns a boolean if a field has been set.
+func (o *EnvironmentStorage) HasCluster() bool {
+	return o != nil && o.Cluster != nil
+}
+
+// SetCluster gets a reference to the given StaticCluster and assigns it to the Cluster field.
+func (o *EnvironmentStorage) SetCluster(v StaticCluster) {
+	o.Cluster = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentStorage) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -199,6 +230,9 @@ func (o EnvironmentStorage) MarshalJSON() ([]byte, error) {
 	if o.Config != nil {
 		toSerialize["config"] = o.Config
 	}
+	if o.Cluster != nil {
+		toSerialize["cluster"] = o.Cluster
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -214,13 +248,14 @@ func (o *EnvironmentStorage) UnmarshalJSON(bytes []byte) (err error) {
 		ReusedClusterName      *string                 `json:"reusedClusterName,omitempty"`
 		ReusedClusterNamespace *string                 `json:"reusedClusterNamespace,omitempty"`
 		Config                 *StorageCreate          `json:"config,omitempty"`
+		Cluster                *StaticCluster          `json:"cluster,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "reusedClusterName", "reusedClusterNamespace", "config"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "type", "reusedClusterName", "reusedClusterNamespace", "config", "cluster"})
 	} else {
 		return err
 	}
@@ -238,6 +273,10 @@ func (o *EnvironmentStorage) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Config = all.Config
+	if all.Cluster != nil && all.Cluster.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Cluster = all.Cluster
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

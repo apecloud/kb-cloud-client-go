@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // StorageClassVolumeBindingMode volumeBindingMode indicates how PersistentVolumeClaims should be provisioned and bound. Defaults to Immediate.

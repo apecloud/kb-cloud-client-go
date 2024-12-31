@@ -150,46 +150,14 @@ func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, member
 	return localVarHTTPResponse, nil
 }
 
-// ListOrgMemberOptionalParameters holds optional parameters for ListOrgMember.
-type ListOrgMemberOptionalParameters struct {
-	PageToken *string
-	PageSize  *string
-}
-
-// NewListOrgMemberOptionalParameters creates an empty struct for parameters.
-func NewListOrgMemberOptionalParameters() *ListOrgMemberOptionalParameters {
-	this := ListOrgMemberOptionalParameters{}
-	return &this
-}
-
-// WithPageToken sets the corresponding parameter name and returns the struct.
-func (r *ListOrgMemberOptionalParameters) WithPageToken(pageToken string) *ListOrgMemberOptionalParameters {
-	r.PageToken = &pageToken
-	return r
-}
-
-// WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *ListOrgMemberOptionalParameters) WithPageSize(pageSize string) *ListOrgMemberOptionalParameters {
-	r.PageSize = &pageSize
-	return r
-}
-
 // ListOrgMember List members.
 // list members of the specified Org
-func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...ListOrgMemberOptionalParameters) (OrgMemberList, *_nethttp.Response, error) {
+func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string) (OrgMemberList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue OrgMemberList
-		optionalParams      ListOrgMemberOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListOrgMemberOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ListOrgMember")
 	if err != nil {
@@ -202,12 +170,6 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string, o ...Lis
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.PageToken != nil {
-		localVarQueryParams.Add("pageToken", common.ParameterToString(*optionalParams.PageToken, ""))
-	}
-	if optionalParams.PageSize != nil {
-		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -348,7 +310,7 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/apply-patch+yaml"
+	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params

@@ -6,13 +6,16 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type DmsOption struct {
-	Enabled       bool                   `json:"enabled"`
-	Protocol      string                 `json:"protocol"`
-	Feature       map[string]interface{} `json:"feature,omitempty"`
-	TableMetadata []interface{}          `json:"tableMetadata,omitempty"`
+	Enabled        bool                   `json:"enabled"`
+	Protocol       string                 `json:"protocol"`
+	Feature        map[string]interface{} `json:"feature,omitempty"`
+	DefaultAccount *string                `json:"defaultAccount,omitempty"`
+	TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -111,6 +114,34 @@ func (o *DmsOption) SetFeature(v map[string]interface{}) {
 	o.Feature = v
 }
 
+// GetDefaultAccount returns the DefaultAccount field value if set, zero value otherwise.
+func (o *DmsOption) GetDefaultAccount() string {
+	if o == nil || o.DefaultAccount == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefaultAccount
+}
+
+// GetDefaultAccountOk returns a tuple with the DefaultAccount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsOption) GetDefaultAccountOk() (*string, bool) {
+	if o == nil || o.DefaultAccount == nil {
+		return nil, false
+	}
+	return o.DefaultAccount, true
+}
+
+// HasDefaultAccount returns a boolean if a field has been set.
+func (o *DmsOption) HasDefaultAccount() bool {
+	return o != nil && o.DefaultAccount != nil
+}
+
+// SetDefaultAccount gets a reference to the given string and assigns it to the DefaultAccount field.
+func (o *DmsOption) SetDefaultAccount(v string) {
+	o.DefaultAccount = &v
+}
+
 // GetTableMetadata returns the TableMetadata field value if set, zero value otherwise.
 func (o *DmsOption) GetTableMetadata() []interface{} {
 	if o == nil || o.TableMetadata == nil {
@@ -150,6 +181,9 @@ func (o DmsOption) MarshalJSON() ([]byte, error) {
 	if o.Feature != nil {
 		toSerialize["feature"] = o.Feature
 	}
+	if o.DefaultAccount != nil {
+		toSerialize["defaultAccount"] = o.DefaultAccount
+	}
 	if o.TableMetadata != nil {
 		toSerialize["tableMetadata"] = o.TableMetadata
 	}
@@ -163,10 +197,11 @@ func (o DmsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled       *bool                  `json:"enabled"`
-		Protocol      *string                `json:"protocol"`
-		Feature       map[string]interface{} `json:"feature,omitempty"`
-		TableMetadata []interface{}          `json:"tableMetadata,omitempty"`
+		Enabled        *bool                  `json:"enabled"`
+		Protocol       *string                `json:"protocol"`
+		Feature        map[string]interface{} `json:"feature,omitempty"`
+		DefaultAccount *string                `json:"defaultAccount,omitempty"`
+		TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -179,13 +214,14 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "protocol", "feature", "tableMetadata"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "protocol", "feature", "defaultAccount", "tableMetadata"})
 	} else {
 		return err
 	}
 	o.Enabled = *all.Enabled
 	o.Protocol = *all.Protocol
 	o.Feature = all.Feature
+	o.DefaultAccount = all.DefaultAccount
 	o.TableMetadata = all.TableMetadata
 
 	if len(additionalProperties) > 0 {

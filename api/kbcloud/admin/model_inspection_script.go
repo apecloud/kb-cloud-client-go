@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type InspectionScript struct {
 	Id              *int32  `json:"id,omitempty"`
 	Engine          *string `json:"engine,omitempty"`
@@ -18,6 +20,7 @@ type InspectionScript struct {
 	Script          *string `json:"script,omitempty"`
 	StatusCheckName *string `json:"statusCheckName,omitempty"`
 	StatusCheck     *string `json:"statusCheck,omitempty"`
+	Unit            *string `json:"unit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -404,6 +407,34 @@ func (o *InspectionScript) SetStatusCheck(v string) {
 	o.StatusCheck = &v
 }
 
+// GetUnit returns the Unit field value if set, zero value otherwise.
+func (o *InspectionScript) GetUnit() string {
+	if o == nil || o.Unit == nil {
+		var ret string
+		return ret
+	}
+	return *o.Unit
+}
+
+// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScript) GetUnitOk() (*string, bool) {
+	if o == nil || o.Unit == nil {
+		return nil, false
+	}
+	return o.Unit, true
+}
+
+// HasUnit returns a boolean if a field has been set.
+func (o *InspectionScript) HasUnit() bool {
+	return o != nil && o.Unit != nil
+}
+
+// SetUnit gets a reference to the given string and assigns it to the Unit field.
+func (o *InspectionScript) SetUnit(v string) {
+	o.Unit = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o InspectionScript) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -449,6 +480,9 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 	if o.StatusCheck != nil {
 		toSerialize["statusCheck"] = o.StatusCheck
 	}
+	if o.Unit != nil {
+		toSerialize["unit"] = o.Unit
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -472,13 +506,14 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 		Script          *string `json:"script,omitempty"`
 		StatusCheckName *string `json:"statusCheckName,omitempty"`
 		StatusCheck     *string `json:"statusCheck,omitempty"`
+		Unit            *string `json:"unit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "engine", "name", "category", "type", "scriptType", "reason", "suggestion", "enabled", "scriptName", "script", "statusCheckName", "statusCheck"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "engine", "name", "category", "type", "scriptType", "reason", "suggestion", "enabled", "scriptName", "script", "statusCheckName", "statusCheck", "unit"})
 	} else {
 		return err
 	}
@@ -495,6 +530,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	o.Script = all.Script
 	o.StatusCheckName = all.StatusCheckName
 	o.StatusCheck = all.StatusCheck
+	o.Unit = all.Unit
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -6,11 +6,14 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type DisasterRecoveryOption struct {
-	Enabled       bool   `json:"enabled"`
-	InstanceLimit *int32 `json:"instanceLimit,omitempty"`
+	Enabled       bool                                 `json:"enabled"`
+	InstanceLimit *int32                               `json:"instanceLimit,omitempty"`
+	Status        *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -89,6 +92,34 @@ func (o *DisasterRecoveryOption) SetInstanceLimit(v int32) {
 	o.InstanceLimit = &v
 }
 
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *DisasterRecoveryOption) GetStatus() EngineOptionsDisasterRecoveryStatus {
+	if o == nil || o.Status == nil {
+		var ret EngineOptionsDisasterRecoveryStatus
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DisasterRecoveryOption) GetStatusOk() (*EngineOptionsDisasterRecoveryStatus, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *DisasterRecoveryOption) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given EngineOptionsDisasterRecoveryStatus and assigns it to the Status field.
+func (o *DisasterRecoveryOption) SetStatus(v EngineOptionsDisasterRecoveryStatus) {
+	o.Status = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -98,6 +129,9 @@ func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 	toSerialize["enabled"] = o.Enabled
 	if o.InstanceLimit != nil {
 		toSerialize["instanceLimit"] = o.InstanceLimit
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -109,8 +143,9 @@ func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled       *bool  `json:"enabled"`
-		InstanceLimit *int32 `json:"instanceLimit,omitempty"`
+		Enabled       *bool                                `json:"enabled"`
+		InstanceLimit *int32                               `json:"instanceLimit,omitempty"`
+		Status        *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -120,15 +155,25 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "instanceLimit"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "instanceLimit", "status"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Enabled = *all.Enabled
 	o.InstanceLimit = all.InstanceLimit
+	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Status = all.Status
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

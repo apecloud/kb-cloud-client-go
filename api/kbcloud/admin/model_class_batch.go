@@ -4,13 +4,15 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type ClassBatch struct {
-	Engine           *string      `json:"engine,omitempty"`
-	Mode             *string      `json:"mode,omitempty"`
-	Component        *string      `json:"component,omitempty"`
-	Series           *ClassSeries `json:"series,omitempty"`
-	CpuOverCommit    *float64     `json:"cpuOverCommit,omitempty"`
-	MemoryOverCommit *float64     `json:"memoryOverCommit,omitempty"`
+	Engine           *string  `json:"engine,omitempty"`
+	Mode             *string  `json:"mode,omitempty"`
+	Component        *string  `json:"component,omitempty"`
+	InstanceType     *string  `json:"instanceType,omitempty"`
+	CpuOverCommit    *float64 `json:"cpuOverCommit,omitempty"`
+	MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -117,32 +119,32 @@ func (o *ClassBatch) SetComponent(v string) {
 	o.Component = &v
 }
 
-// GetSeries returns the Series field value if set, zero value otherwise.
-func (o *ClassBatch) GetSeries() ClassSeries {
-	if o == nil || o.Series == nil {
-		var ret ClassSeries
+// GetInstanceType returns the InstanceType field value if set, zero value otherwise.
+func (o *ClassBatch) GetInstanceType() string {
+	if o == nil || o.InstanceType == nil {
+		var ret string
 		return ret
 	}
-	return *o.Series
+	return *o.InstanceType
 }
 
-// GetSeriesOk returns a tuple with the Series field value if set, nil otherwise
+// GetInstanceTypeOk returns a tuple with the InstanceType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClassBatch) GetSeriesOk() (*ClassSeries, bool) {
-	if o == nil || o.Series == nil {
+func (o *ClassBatch) GetInstanceTypeOk() (*string, bool) {
+	if o == nil || o.InstanceType == nil {
 		return nil, false
 	}
-	return o.Series, true
+	return o.InstanceType, true
 }
 
-// HasSeries returns a boolean if a field has been set.
-func (o *ClassBatch) HasSeries() bool {
-	return o != nil && o.Series != nil
+// HasInstanceType returns a boolean if a field has been set.
+func (o *ClassBatch) HasInstanceType() bool {
+	return o != nil && o.InstanceType != nil
 }
 
-// SetSeries gets a reference to the given ClassSeries and assigns it to the Series field.
-func (o *ClassBatch) SetSeries(v ClassSeries) {
-	o.Series = &v
+// SetInstanceType gets a reference to the given string and assigns it to the InstanceType field.
+func (o *ClassBatch) SetInstanceType(v string) {
+	o.InstanceType = &v
 }
 
 // GetCpuOverCommit returns the CpuOverCommit field value if set, zero value otherwise.
@@ -216,8 +218,8 @@ func (o ClassBatch) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
-	if o.Series != nil {
-		toSerialize["series"] = o.Series
+	if o.InstanceType != nil {
+		toSerialize["instanceType"] = o.InstanceType
 	}
 	if o.CpuOverCommit != nil {
 		toSerialize["cpuOverCommit"] = o.CpuOverCommit
@@ -235,41 +237,31 @@ func (o ClassBatch) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClassBatch) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Engine           *string      `json:"engine,omitempty"`
-		Mode             *string      `json:"mode,omitempty"`
-		Component        *string      `json:"component,omitempty"`
-		Series           *ClassSeries `json:"series,omitempty"`
-		CpuOverCommit    *float64     `json:"cpuOverCommit,omitempty"`
-		MemoryOverCommit *float64     `json:"memoryOverCommit,omitempty"`
+		Engine           *string  `json:"engine,omitempty"`
+		Mode             *string  `json:"mode,omitempty"`
+		Component        *string  `json:"component,omitempty"`
+		InstanceType     *string  `json:"instanceType,omitempty"`
+		CpuOverCommit    *float64 `json:"cpuOverCommit,omitempty"`
+		MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engine", "mode", "component", "series", "cpuOverCommit", "memoryOverCommit"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "mode", "component", "instanceType", "cpuOverCommit", "memoryOverCommit"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Engine = all.Engine
 	o.Mode = all.Mode
 	o.Component = all.Component
-	if all.Series != nil && !all.Series.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Series = all.Series
-	}
+	o.InstanceType = all.InstanceType
 	o.CpuOverCommit = all.CpuOverCommit
 	o.MemoryOverCommit = all.MemoryOverCommit
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

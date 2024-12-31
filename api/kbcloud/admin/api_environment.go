@@ -8,6 +8,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"reflect"
 	"strings"
 	"time"
 
@@ -90,77 +91,21 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// CheckEnvironmentAddRecord check if environment added before.
-func (a *EnvironmentApi) CheckEnvironmentAddRecord(ctx _context.Context, body Kubeconfig) (EnvironmentAdded, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue EnvironmentAdded
-	)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CheckEnvironmentAddRecord")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/checkAddRecord"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	localVarPostBody = &body
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// CheckNodesSSHConfig Check nodes ssh config.
+// CheckNodeSSHConfig Check nodes ssh config.
 // Check ssh config of provided IP addresses
-func (a *EnvironmentApi) CheckNodesSSHConfig(ctx _context.Context, environmentName string, body SshConfigCheckRequest) (SshConfigCheckResponse, *_nethttp.Response, error) {
+func (a *EnvironmentApi) CheckNodeSSHConfig(ctx _context.Context, body SshConfigCheckRequest) (SshConfigCheckResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue SshConfigCheckResponse
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CheckNodesSSHConfig")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CheckNodeSSHConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/checkNodesSSHConfig"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/environments/checkNodeSSHConfig"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -2049,15 +1994,40 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListNodeGroup Create environment node group.
-func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string) (NodeGroup, *_nethttp.Response, error) {
+// ListNodeGroupsOptionalParameters holds optional parameters for ListNodeGroups.
+type ListNodeGroupsOptionalParameters struct {
+	Zones *[]string
+}
+
+// NewListNodeGroupsOptionalParameters creates an empty struct for parameters.
+func NewListNodeGroupsOptionalParameters() *ListNodeGroupsOptionalParameters {
+	this := ListNodeGroupsOptionalParameters{}
+	return &this
+}
+
+// WithZones sets the corresponding parameter name and returns the struct.
+func (r *ListNodeGroupsOptionalParameters) WithZones(zones []string) *ListNodeGroupsOptionalParameters {
+	r.Zones = &zones
+	return r
+}
+
+// ListNodeGroups List environment node groups.
+func (a *EnvironmentApi) ListNodeGroups(ctx _context.Context, environmentName string, o ...ListNodeGroupsOptionalParameters) ([]NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue NodeGroup
+		localVarReturnValue []NodeGroup
+		optionalParams      ListNodeGroupsOptionalParameters
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroup")
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListNodeGroupsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -2068,6 +2038,17 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Zones != nil {
+		t := *optionalParams.Zones
+		if reflect.TypeOf(t).Kind() == reflect.Slice {
+			s := reflect.ValueOf(t)
+			for i := 0; i < s.Len(); i++ {
+				localVarQueryParams.Add("zones", common.ParameterToString(s.Index(i), "multi"))
+			}
+		} else {
+			localVarQueryParams.Add("zones", common.ParameterToString(t, "multi"))
+		}
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -2510,159 +2491,6 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PreflightRestoreEnvironment Preflight check before restore environment.
-func (a *EnvironmentApi) PreflightRestoreEnvironment(ctx _context.Context, body Kubeconfig) (PreflightList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue PreflightList
-	)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PreflightRestoreEnvironment")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/restorePreflight"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	localVarPostBody = &body
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// RestoreEnvironmentOptionalParameters holds optional parameters for RestoreEnvironment.
-type RestoreEnvironmentOptionalParameters struct {
-	Body *EnvironmentRestore
-}
-
-// NewRestoreEnvironmentOptionalParameters creates an empty struct for parameters.
-func NewRestoreEnvironmentOptionalParameters() *RestoreEnvironmentOptionalParameters {
-	this := RestoreEnvironmentOptionalParameters{}
-	return &this
-}
-
-// WithBody sets the corresponding parameter name and returns the struct.
-func (r *RestoreEnvironmentOptionalParameters) WithBody(body EnvironmentRestore) *RestoreEnvironmentOptionalParameters {
-	r.Body = &body
-	return r
-}
-
-// RestoreEnvironment restore environment.
-func (a *EnvironmentApi) RestoreEnvironment(ctx _context.Context, o ...RestoreEnvironmentOptionalParameters) (Environment, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Environment
-		optionalParams      RestoreEnvironmentOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type RestoreEnvironmentOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.RestoreEnvironment")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/environments/restore"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
-
-	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.Body
-	}
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // ScaleDownEnvironmentNodes Scale in environment nodes.
 // Scale in environment by removing nodes using sealos
 func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environmentName string, body NodeScaleInRequest) (Task, *_nethttp.Response, error) {
@@ -2677,7 +2505,7 @@ func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environ
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/scaleIn"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/nodes/scaleIn"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -2750,7 +2578,7 @@ func (a *EnvironmentApi) ScaleOutEnvironmentNodes(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/scaleOut"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/nodes/scaleOut"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

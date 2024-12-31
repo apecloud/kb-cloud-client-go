@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // BackupStatsEngine Totalsize and number of backups for the engine
 type BackupStatsEngine struct {
 	// Engine name

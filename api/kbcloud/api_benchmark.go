@@ -241,7 +241,7 @@ func (a *BenchmarkApi) CreateYcsb(ctx _context.Context, orgName string, body Ycs
 }
 
 // DeleteBenchmark Delete benchmark tasks.
-func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, body []string) (interface{}, *_nethttp.Response, error) {
+func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, body DeleteBenchOption) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -398,11 +398,11 @@ func (r *ListBenchmarkOptionalParameters) WithClusterId(clusterId string) *ListB
 }
 
 // ListBenchmark List benchmark tasks.
-func (a *BenchmarkApi) ListBenchmark(ctx _context.Context, orgName string, o ...ListBenchmarkOptionalParameters) (BenchmarkList, *_nethttp.Response, error) {
+func (a *BenchmarkApi) ListBenchmark(ctx _context.Context, orgName string, o ...ListBenchmarkOptionalParameters) ([]Benchmark, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue BenchmarkList
+		localVarReturnValue []Benchmark
 		optionalParams      ListBenchmarkOptionalParameters
 	)
 
