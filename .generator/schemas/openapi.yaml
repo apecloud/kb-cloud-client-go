@@ -11879,7 +11879,7 @@ components:
           type: string
       type: object
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
       properties:
         component:
           description: component type
