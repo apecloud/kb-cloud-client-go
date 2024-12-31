@@ -21028,9 +21028,11 @@ components:
         nextBackupTime:
           description: time for next backup
           type: string
-        retentionPolicy:
-          description: specify the retention policy
-          type: string
+        retentionDay:
+          description: specify the retention days
+          type: integer
+          default: 5
+          minimum: 2
         lastBackupTime:
           description: the time of last backup
           type: string
