@@ -6,36 +6,36 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ActionTasks actionTasks is a list of task progress detail
-type ActionTasks struct {
-	// Items is the list of task progress detail in the list
-	Items []ActionTask `json:"items,omitempty"`
+// CustomOpsTasks customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
+type CustomOpsTasks struct {
+	// The list of custom ops task.
+	Items []CustomOpsTask `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewActionTasks instantiates a new ActionTasks object.
+// NewCustomOpsTasks instantiates a new CustomOpsTasks object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewActionTasks() *ActionTasks {
-	this := ActionTasks{}
+func NewCustomOpsTasks() *CustomOpsTasks {
+	this := CustomOpsTasks{}
 	return &this
 }
 
-// NewActionTasksWithDefaults instantiates a new ActionTasks object.
+// NewCustomOpsTasksWithDefaults instantiates a new CustomOpsTasks object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewActionTasksWithDefaults() *ActionTasks {
-	this := ActionTasks{}
+func NewCustomOpsTasksWithDefaults() *CustomOpsTasks {
+	this := CustomOpsTasks{}
 	return &this
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
-func (o *ActionTasks) GetItems() []ActionTask {
+func (o *CustomOpsTasks) GetItems() []CustomOpsTask {
 	if o == nil || o.Items == nil {
-		var ret []ActionTask
+		var ret []CustomOpsTask
 		return ret
 	}
 	return o.Items
@@ -43,7 +43,7 @@ func (o *ActionTasks) GetItems() []ActionTask {
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ActionTasks) GetItemsOk() (*[]ActionTask, bool) {
+func (o *CustomOpsTasks) GetItemsOk() (*[]CustomOpsTask, bool) {
 	if o == nil || o.Items == nil {
 		return nil, false
 	}
@@ -51,17 +51,17 @@ func (o *ActionTasks) GetItemsOk() (*[]ActionTask, bool) {
 }
 
 // HasItems returns a boolean if a field has been set.
-func (o *ActionTasks) HasItems() bool {
+func (o *CustomOpsTasks) HasItems() bool {
 	return o != nil && o.Items != nil
 }
 
-// SetItems gets a reference to the given []ActionTask and assigns it to the Items field.
-func (o *ActionTasks) SetItems(v []ActionTask) {
+// SetItems gets a reference to the given []CustomOpsTask and assigns it to the Items field.
+func (o *CustomOpsTasks) SetItems(v []CustomOpsTask) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ActionTasks) MarshalJSON() ([]byte, error) {
+func (o CustomOpsTasks) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -77,9 +77,9 @@ func (o ActionTasks) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ActionTasks) UnmarshalJSON(bytes []byte) (err error) {
+func (o *CustomOpsTasks) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []ActionTask `json:"items,omitempty"`
+		Items []CustomOpsTask `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

@@ -6,9 +6,9 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ActionTask actionTask is the information of the task progress
-type ActionTask struct {
-	// the instance name
+// CustomOpsTask customOpsTask is the information of custom ops task
+type CustomOpsTask struct {
+	// the pod name
 	ObjectKey *string `json:"objectKey,omitempty"`
 	// namespace of the task
 	Namespace *string `json:"namespace,omitempty"`
@@ -23,25 +23,25 @@ type ActionTask struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewActionTask instantiates a new ActionTask object.
+// NewCustomOpsTask instantiates a new CustomOpsTask object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewActionTask() *ActionTask {
-	this := ActionTask{}
+func NewCustomOpsTask() *CustomOpsTask {
+	this := CustomOpsTask{}
 	return &this
 }
 
-// NewActionTaskWithDefaults instantiates a new ActionTask object.
+// NewCustomOpsTaskWithDefaults instantiates a new CustomOpsTask object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewActionTaskWithDefaults() *ActionTask {
-	this := ActionTask{}
+func NewCustomOpsTaskWithDefaults() *CustomOpsTask {
+	this := CustomOpsTask{}
 	return &this
 }
 
 // GetObjectKey returns the ObjectKey field value if set, zero value otherwise.
-func (o *ActionTask) GetObjectKey() string {
+func (o *CustomOpsTask) GetObjectKey() string {
 	if o == nil || o.ObjectKey == nil {
 		var ret string
 		return ret
@@ -51,7 +51,7 @@ func (o *ActionTask) GetObjectKey() string {
 
 // GetObjectKeyOk returns a tuple with the ObjectKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ActionTask) GetObjectKeyOk() (*string, bool) {
+func (o *CustomOpsTask) GetObjectKeyOk() (*string, bool) {
 	if o == nil || o.ObjectKey == nil {
 		return nil, false
 	}
@@ -59,17 +59,17 @@ func (o *ActionTask) GetObjectKeyOk() (*string, bool) {
 }
 
 // HasObjectKey returns a boolean if a field has been set.
-func (o *ActionTask) HasObjectKey() bool {
+func (o *CustomOpsTask) HasObjectKey() bool {
 	return o != nil && o.ObjectKey != nil
 }
 
 // SetObjectKey gets a reference to the given string and assigns it to the ObjectKey field.
-func (o *ActionTask) SetObjectKey(v string) {
+func (o *CustomOpsTask) SetObjectKey(v string) {
 	o.ObjectKey = &v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *ActionTask) GetNamespace() string {
+func (o *CustomOpsTask) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
 		var ret string
 		return ret
@@ -79,7 +79,7 @@ func (o *ActionTask) GetNamespace() string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ActionTask) GetNamespaceOk() (*string, bool) {
+func (o *CustomOpsTask) GetNamespaceOk() (*string, bool) {
 	if o == nil || o.Namespace == nil {
 		return nil, false
 	}
@@ -87,17 +87,17 @@ func (o *ActionTask) GetNamespaceOk() (*string, bool) {
 }
 
 // HasNamespace returns a boolean if a field has been set.
-func (o *ActionTask) HasNamespace() bool {
+func (o *CustomOpsTask) HasNamespace() bool {
 	return o != nil && o.Namespace != nil
 }
 
 // SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-func (o *ActionTask) SetNamespace(v string) {
+func (o *CustomOpsTask) SetNamespace(v string) {
 	o.Namespace = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *ActionTask) GetStatus() string {
+func (o *CustomOpsTask) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -107,7 +107,7 @@ func (o *ActionTask) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ActionTask) GetStatusOk() (*string, bool) {
+func (o *CustomOpsTask) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -115,17 +115,17 @@ func (o *ActionTask) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *ActionTask) HasStatus() bool {
+func (o *CustomOpsTask) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *ActionTask) SetStatus(v string) {
+func (o *CustomOpsTask) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetTargetPodName returns the TargetPodName field value if set, zero value otherwise.
-func (o *ActionTask) GetTargetPodName() string {
+func (o *CustomOpsTask) GetTargetPodName() string {
 	if o == nil || o.TargetPodName == nil {
 		var ret string
 		return ret
@@ -135,7 +135,7 @@ func (o *ActionTask) GetTargetPodName() string {
 
 // GetTargetPodNameOk returns a tuple with the TargetPodName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ActionTask) GetTargetPodNameOk() (*string, bool) {
+func (o *CustomOpsTask) GetTargetPodNameOk() (*string, bool) {
 	if o == nil || o.TargetPodName == nil {
 		return nil, false
 	}
@@ -143,17 +143,17 @@ func (o *ActionTask) GetTargetPodNameOk() (*string, bool) {
 }
 
 // HasTargetPodName returns a boolean if a field has been set.
-func (o *ActionTask) HasTargetPodName() bool {
+func (o *CustomOpsTask) HasTargetPodName() bool {
 	return o != nil && o.TargetPodName != nil
 }
 
 // SetTargetPodName gets a reference to the given string and assigns it to the TargetPodName field.
-func (o *ActionTask) SetTargetPodName(v string) {
+func (o *CustomOpsTask) SetTargetPodName(v string) {
 	o.TargetPodName = &v
 }
 
 // GetRetries returns the Retries field value if set, zero value otherwise.
-func (o *ActionTask) GetRetries() int32 {
+func (o *CustomOpsTask) GetRetries() int32 {
 	if o == nil || o.Retries == nil {
 		var ret int32
 		return ret
@@ -163,7 +163,7 @@ func (o *ActionTask) GetRetries() int32 {
 
 // GetRetriesOk returns a tuple with the Retries field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ActionTask) GetRetriesOk() (*int32, bool) {
+func (o *CustomOpsTask) GetRetriesOk() (*int32, bool) {
 	if o == nil || o.Retries == nil {
 		return nil, false
 	}
@@ -171,17 +171,17 @@ func (o *ActionTask) GetRetriesOk() (*int32, bool) {
 }
 
 // HasRetries returns a boolean if a field has been set.
-func (o *ActionTask) HasRetries() bool {
+func (o *CustomOpsTask) HasRetries() bool {
 	return o != nil && o.Retries != nil
 }
 
 // SetRetries gets a reference to the given int32 and assigns it to the Retries field.
-func (o *ActionTask) SetRetries(v int32) {
+func (o *CustomOpsTask) SetRetries(v int32) {
 	o.Retries = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ActionTask) MarshalJSON() ([]byte, error) {
+func (o CustomOpsTask) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -209,7 +209,7 @@ func (o ActionTask) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ActionTask) UnmarshalJSON(bytes []byte) (err error) {
+func (o *CustomOpsTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ObjectKey     *string `json:"objectKey,omitempty"`
 		Namespace     *string `json:"namespace,omitempty"`

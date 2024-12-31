@@ -11980,11 +11980,11 @@ components:
               hints:
                 kind: interface
       type: object
-    actionTask:
-      description: actionTask is the information of the task progress
+    customOpsTask:
+      description: customOpsTask is the information of custom ops task
       properties:
         objectKey:
-          description: the instance name
+          description: the pod name
           type: string
         namespace:
           description: namespace of the task
@@ -12000,17 +12000,17 @@ components:
           type: integer
           format: int32
       type: object
-    actionTasks:
-      description: actionTasks is a list of task progress detail
+    customOpsTasks:
+      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
       properties:
         items:
-          description: Items is the list of task progress detail in the list
+          description: The list of custom ops task.
           items:
-            $ref: '#/components/schemas/actionTask'
+            $ref: '#/components/schemas/customOpsTask'
           type: array
       type: object
     clusterTaskProgress:
-      description: clusterTaskProgressDetail is the information of the task progress
+      description: clusterTaskProgress is the information of the task progress
       properties:
         name:
           description: conponent name
@@ -12037,12 +12037,12 @@ components:
           format: date-time
           type: string
           nullable: true
-        actionName:
-          description: Indicates the name of an OpsAction, Either `objectKey` or `actionName` must be provided.
+        customOpsName:
+          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
           type: string
           nullable: true
-        actionTasks:
-          $ref: '#/components/schemas/actionTasks'
+        customOpsTasks:
+          $ref: '#/components/schemas/customOpsTasks'
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
