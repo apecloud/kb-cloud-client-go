@@ -15242,8 +15242,37 @@ components:
               hints:
                 kind: interface
       type: object
+    customOpsTask:
+      description: customOpsTask is the information of custom ops task
+      properties:
+        objectKey:
+          description: the pod name
+          type: string
+        namespace:
+          description: namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        targetPodName:
+          description: target pod name of the task
+          type: string
+        retries:
+          description: retries of the task
+          type: integer
+          format: int32
+      type: object
+    customOpsTasks:
+      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
+      properties:
+        items:
+          description: The list of custom ops task.
+          items:
+            $ref: '#/components/schemas/customOpsTask'
+          type: array
+      type: object
     clusterTaskProgress:
-      description: clusterTaskProgressDetail is the information of the task progress
+      description: clusterTaskProgress is the information of the task progress
       properties:
         name:
           description: conponent name
@@ -15254,6 +15283,7 @@ components:
         objectKey:
           description: the instance name
           type: string
+          nullable: true
         message:
           description: message of the task progress
           type: string
@@ -15269,6 +15299,12 @@ components:
           format: date-time
           type: string
           nullable: true
+        customOpsName:
+          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
+          type: string
+          nullable: true
+        customOpsTasks:
+          $ref: '#/components/schemas/customOpsTasks'
       type: object
     clusterTaskProgresses:
       description: clusterTaskProgresses is a list of task progress detail
