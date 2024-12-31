@@ -6053,8 +6053,8 @@ paths:
         - storageClass
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
-      operationId: listNodeGroup
-      summary: List environment node group
+      operationId: listNodeGroups
+      summary: List environment node groups
       parameters:
         - name: environmentName
           in: path
@@ -6075,7 +6075,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -12588,9 +12590,6 @@ components:
     invitation:
       description: Invitation info
       properties:
-        accepted:
-          description: User has accepted or not
-          type: boolean
         createdAt:
           format: date-time
           type: string
@@ -12625,7 +12624,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id

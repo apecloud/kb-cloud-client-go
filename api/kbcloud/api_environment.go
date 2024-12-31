@@ -284,11 +284,11 @@ func (r *ListNodeGroupOptionalParameters) WithZones(zones []string) *ListNodeGro
 }
 
 // ListNodeGroup List environment node group.
-func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string, o ...ListNodeGroupOptionalParameters) (NodeGroup, *_nethttp.Response, error) {
+func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName string, o ...ListNodeGroupOptionalParameters) ([]NodeGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue NodeGroup
+		localVarReturnValue []NodeGroup
 		optionalParams      ListNodeGroupOptionalParameters
 	)
 

@@ -177,7 +177,7 @@
 //   - [environmentApi.listEnvironmentObjectStorage]
 //   - [environmentApi.listKubernetesNode]
 //   - [environmentApi.listKubernetesStorageClass]
-//   - [environmentApi.listNodeGroup]
+//   - [environmentApi.listNodeGroups]
 //   - [environmentApi.listNodePod]
 //   - [environmentApi.listNodes]
 //   - [environmentApi.patchEnvironment]
