@@ -734,6 +734,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: withStatic
+          in: query
+          description: Whether to include static clusters
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
