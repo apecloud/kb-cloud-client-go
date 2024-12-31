@@ -10,13 +10,13 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// PaginationResult api result pagination
+// PaginationResult Pagination information
 type PaginationResult struct {
-	// current page
+	// Current page number (1-based)
 	Page int32 `json:"page"`
-	// page size
+	// Number of records per page
 	PageSize int32 `json:"pageSize"`
-	// total records
+	// Total number of records
 	Total int32 `json:"total"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

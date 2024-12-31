@@ -9942,17 +9942,20 @@ components:
           type: string
       type: object
     paginationResult:
-      description: api result pagination
+      description: Pagination information
       properties:
         page:
-          description: current page
+          description: Current page number (1-based)
           type: integer
+          minimum: 1
         pageSize:
-          description: page size
+          description: Number of records per page
           type: integer
+          minimum: 1
         total:
-          description: total records
+          description: Total number of records
           type: integer
+          minimum: 0
       required:
         - page
         - pageSize
