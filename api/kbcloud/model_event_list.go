@@ -14,6 +14,8 @@ import (
 type EventList struct {
 	// Items is the list of operation event objects in the list
 	Items []Event `json:"items"`
+	// Pagination information
+	Pagination *PaginationResult `json:"pagination,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +62,34 @@ func (o *EventList) SetItems(v []Event) {
 	o.Items = v
 }
 
+// GetPagination returns the Pagination field value if set, zero value otherwise.
+func (o *EventList) GetPagination() PaginationResult {
+	if o == nil || o.Pagination == nil {
+		var ret PaginationResult
+		return ret
+	}
+	return *o.Pagination
+}
+
+// GetPaginationOk returns a tuple with the Pagination field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventList) GetPaginationOk() (*PaginationResult, bool) {
+	if o == nil || o.Pagination == nil {
+		return nil, false
+	}
+	return o.Pagination, true
+}
+
+// HasPagination returns a boolean if a field has been set.
+func (o *EventList) HasPagination() bool {
+	return o != nil && o.Pagination != nil
+}
+
+// SetPagination gets a reference to the given PaginationResult and assigns it to the Pagination field.
+func (o *EventList) SetPagination(v PaginationResult) {
+	o.Pagination = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EventList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -67,6 +97,9 @@ func (o EventList) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["items"] = o.Items
+	if o.Pagination != nil {
+		toSerialize["pagination"] = o.Pagination
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,7 +110,8 @@ func (o EventList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EventList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]Event `json:"items"`
+		Items      *[]Event          `json:"items"`
+		Pagination *PaginationResult `json:"pagination,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -87,14 +121,24 @@ func (o *EventList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"items", "pagination"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Items = *all.Items
+	if all.Pagination != nil && all.Pagination.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Pagination = all.Pagination
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

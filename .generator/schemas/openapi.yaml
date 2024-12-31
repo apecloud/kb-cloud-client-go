@@ -727,6 +727,16 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -9931,6 +9941,26 @@ components:
           format: date-time
           type: string
       type: object
+    paginationResult:
+      description: Pagination information
+      properties:
+        page:
+          description: Current page number (1-based)
+          type: integer
+          minimum: 1
+        pageSize:
+          description: Number of records per page
+          type: integer
+          minimum: 1
+        total:
+          description: Total number of records
+          type: integer
+          minimum: 0
+      required:
+        - page
+        - pageSize
+        - total
+      type: object
     eventList:
       description: EventList is a list of operation event objects
       properties:
@@ -9939,6 +9969,8 @@ components:
           items:
             $ref: '#/components/schemas/event'
           type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
       required:
         - items
       type: object
