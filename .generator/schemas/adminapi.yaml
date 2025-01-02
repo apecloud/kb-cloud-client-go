@@ -19093,25 +19093,52 @@ components:
           type: boolean
         running:
           type: boolean
+    calculationParam:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the parameter
+        description:
+          type: string
+          description: description of each variables and expression
+        unit:
+          type: string
+          description: unit of parameter
+    sharedSpecParams:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the parameter
+        expression:
+          type: string
+          description: expression of the parameter value
     parameterConfig:
+      description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
       required:
-        - configName
-        - specName
+        - configFileName
+        - name
         - constraint
         - regex
         - configTplName
       type: object
       properties:
-        configName:
+        configFileName:
           type: string
-        specName:
+          description: name of configuration file
+        name:
           type: string
+          description: name of the configuration template, equal to componentDefinition.configs[x].name
         constraint:
           type: string
+          description: constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
         regex:
           type: string
+          description: regular expression of the parameters, mainly used by the frontend for parameter parsing.
         configTplName:
           type: string
+          description: name of the referenced configuration template ConfigMap object, equal to componentDefinition.configs[x].templateRef
         initOptions:
           type: object
           additionalProperties:
@@ -19122,63 +19149,55 @@ components:
           x-nullable: false
           description: Parameters to be calculated based on the instance specifications
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: name of the parameter
-              description:
-                type: string
-                description: description of each variables and expression
-              unit:
-                type: string
-                description: unit of parameter
+            $ref: '#/components/schemas/calculationParam'
         sharedSpecParams:
           type: array
           x-nullable: false
           description: sharedSpecParams means that the parameter value is different from the dedicated specification under the shared specification
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: name of the parameter
-              expression:
-                type: string
-                description: expression of the parameter value
-    parameterOption:
+            $ref: '#/components/schemas/sharedSpecParams'
+    parameterTemplate:
       type: object
       required:
-        - component
+        - name
+        - description
         - configs
-        - exportTpl
-        - family
-        - defaultTplName
-        - defaultTplDescription
+        - majorVersion
       properties:
-        component:
+        name:
           type: string
+          description: name of default parameter template
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        majorVersion:
+          type: string
+          description: match the major version set in the component
         configs:
           type: array
           items:
             $ref: '#/components/schemas/parameterConfig'
-        versions:
+    parameterOption:
+      type: object
+      required:
+        - component
+        - defaultTemplates
+        - exportTpl
+        - enableTemplate
+      properties:
+        component:
+          type: string
+          description: component type
+        defaultTemplates:
+          description: default parameter templates, Including default parameter templates for different major versions or default parameter templates for different purposes.
           type: array
-          description: deprecated
           items:
-            type: string
+            $ref: '#/components/schemas/parameterTemplate'
         exportTpl:
+          description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
           type: boolean
-        family:
-          type: string
-          description: a alias with major version.
-        majorVersion:
-          type: string
-          description: match the major version
-        defaultTplName:
-          type: string
-        defaultTplDescription:
-          $ref: '#/components/schemas/localizedDescription'
+        enableTemplate:
+          description: If set to true, the parameter templates of the component can be used. Mainly used by frontend.
+          type: boolean
         disableHA:
           type: boolean
           default: false

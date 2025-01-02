@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ParameterConfigCalculationParamsItem struct {
+type CalculationParam struct {
 	// name of the parameter
 	Name *string `json:"name,omitempty"`
 	// description of each variables and expression
@@ -18,25 +18,25 @@ type ParameterConfigCalculationParamsItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewParameterConfigCalculationParamsItem instantiates a new ParameterConfigCalculationParamsItem object.
+// NewCalculationParam instantiates a new CalculationParam object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterConfigCalculationParamsItem() *ParameterConfigCalculationParamsItem {
-	this := ParameterConfigCalculationParamsItem{}
+func NewCalculationParam() *CalculationParam {
+	this := CalculationParam{}
 	return &this
 }
 
-// NewParameterConfigCalculationParamsItemWithDefaults instantiates a new ParameterConfigCalculationParamsItem object.
+// NewCalculationParamWithDefaults instantiates a new CalculationParam object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewParameterConfigCalculationParamsItemWithDefaults() *ParameterConfigCalculationParamsItem {
-	this := ParameterConfigCalculationParamsItem{}
+func NewCalculationParamWithDefaults() *CalculationParam {
+	this := CalculationParam{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ParameterConfigCalculationParamsItem) GetName() string {
+func (o *CalculationParam) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -46,7 +46,7 @@ func (o *ParameterConfigCalculationParamsItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterConfigCalculationParamsItem) GetNameOk() (*string, bool) {
+func (o *CalculationParam) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -54,17 +54,17 @@ func (o *ParameterConfigCalculationParamsItem) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ParameterConfigCalculationParamsItem) HasName() bool {
+func (o *CalculationParam) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ParameterConfigCalculationParamsItem) SetName(v string) {
+func (o *CalculationParam) SetName(v string) {
 	o.Name = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *ParameterConfigCalculationParamsItem) GetDescription() string {
+func (o *CalculationParam) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -74,7 +74,7 @@ func (o *ParameterConfigCalculationParamsItem) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterConfigCalculationParamsItem) GetDescriptionOk() (*string, bool) {
+func (o *CalculationParam) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -82,17 +82,17 @@ func (o *ParameterConfigCalculationParamsItem) GetDescriptionOk() (*string, bool
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *ParameterConfigCalculationParamsItem) HasDescription() bool {
+func (o *CalculationParam) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *ParameterConfigCalculationParamsItem) SetDescription(v string) {
+func (o *CalculationParam) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetUnit returns the Unit field value if set, zero value otherwise.
-func (o *ParameterConfigCalculationParamsItem) GetUnit() string {
+func (o *CalculationParam) GetUnit() string {
 	if o == nil || o.Unit == nil {
 		var ret string
 		return ret
@@ -102,7 +102,7 @@ func (o *ParameterConfigCalculationParamsItem) GetUnit() string {
 
 // GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterConfigCalculationParamsItem) GetUnitOk() (*string, bool) {
+func (o *CalculationParam) GetUnitOk() (*string, bool) {
 	if o == nil || o.Unit == nil {
 		return nil, false
 	}
@@ -110,17 +110,17 @@ func (o *ParameterConfigCalculationParamsItem) GetUnitOk() (*string, bool) {
 }
 
 // HasUnit returns a boolean if a field has been set.
-func (o *ParameterConfigCalculationParamsItem) HasUnit() bool {
+func (o *CalculationParam) HasUnit() bool {
 	return o != nil && o.Unit != nil
 }
 
 // SetUnit gets a reference to the given string and assigns it to the Unit field.
-func (o *ParameterConfigCalculationParamsItem) SetUnit(v string) {
+func (o *CalculationParam) SetUnit(v string) {
 	o.Unit = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ParameterConfigCalculationParamsItem) MarshalJSON() ([]byte, error) {
+func (o CalculationParam) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -142,7 +142,7 @@ func (o ParameterConfigCalculationParamsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ParameterConfigCalculationParamsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *CalculationParam) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name        *string `json:"name,omitempty"`
 		Description *string `json:"description,omitempty"`

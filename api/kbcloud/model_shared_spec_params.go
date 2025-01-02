@@ -6,7 +6,7 @@ package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ParameterConfigSharedSpecParamsItem struct {
+type SharedSpecParams struct {
 	// name of the parameter
 	Name *string `json:"name,omitempty"`
 	// expression of the parameter value
@@ -16,25 +16,25 @@ type ParameterConfigSharedSpecParamsItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewParameterConfigSharedSpecParamsItem instantiates a new ParameterConfigSharedSpecParamsItem object.
+// NewSharedSpecParams instantiates a new SharedSpecParams object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterConfigSharedSpecParamsItem() *ParameterConfigSharedSpecParamsItem {
-	this := ParameterConfigSharedSpecParamsItem{}
+func NewSharedSpecParams() *SharedSpecParams {
+	this := SharedSpecParams{}
 	return &this
 }
 
-// NewParameterConfigSharedSpecParamsItemWithDefaults instantiates a new ParameterConfigSharedSpecParamsItem object.
+// NewSharedSpecParamsWithDefaults instantiates a new SharedSpecParams object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewParameterConfigSharedSpecParamsItemWithDefaults() *ParameterConfigSharedSpecParamsItem {
-	this := ParameterConfigSharedSpecParamsItem{}
+func NewSharedSpecParamsWithDefaults() *SharedSpecParams {
+	this := SharedSpecParams{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ParameterConfigSharedSpecParamsItem) GetName() string {
+func (o *SharedSpecParams) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -44,7 +44,7 @@ func (o *ParameterConfigSharedSpecParamsItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterConfigSharedSpecParamsItem) GetNameOk() (*string, bool) {
+func (o *SharedSpecParams) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *ParameterConfigSharedSpecParamsItem) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ParameterConfigSharedSpecParamsItem) HasName() bool {
+func (o *SharedSpecParams) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ParameterConfigSharedSpecParamsItem) SetName(v string) {
+func (o *SharedSpecParams) SetName(v string) {
 	o.Name = &v
 }
 
 // GetExpression returns the Expression field value if set, zero value otherwise.
-func (o *ParameterConfigSharedSpecParamsItem) GetExpression() string {
+func (o *SharedSpecParams) GetExpression() string {
 	if o == nil || o.Expression == nil {
 		var ret string
 		return ret
@@ -72,7 +72,7 @@ func (o *ParameterConfigSharedSpecParamsItem) GetExpression() string {
 
 // GetExpressionOk returns a tuple with the Expression field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterConfigSharedSpecParamsItem) GetExpressionOk() (*string, bool) {
+func (o *SharedSpecParams) GetExpressionOk() (*string, bool) {
 	if o == nil || o.Expression == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *ParameterConfigSharedSpecParamsItem) GetExpressionOk() (*string, bool) 
 }
 
 // HasExpression returns a boolean if a field has been set.
-func (o *ParameterConfigSharedSpecParamsItem) HasExpression() bool {
+func (o *SharedSpecParams) HasExpression() bool {
 	return o != nil && o.Expression != nil
 }
 
 // SetExpression gets a reference to the given string and assigns it to the Expression field.
-func (o *ParameterConfigSharedSpecParamsItem) SetExpression(v string) {
+func (o *SharedSpecParams) SetExpression(v string) {
 	o.Expression = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ParameterConfigSharedSpecParamsItem) MarshalJSON() ([]byte, error) {
+func (o SharedSpecParams) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -109,7 +109,7 @@ func (o ParameterConfigSharedSpecParamsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ParameterConfigSharedSpecParamsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *SharedSpecParams) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name       *string `json:"name,omitempty"`
 		Expression *string `json:"expression,omitempty"`
