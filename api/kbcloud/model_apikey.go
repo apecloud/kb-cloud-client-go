@@ -7,6 +7,8 @@ package kbcloud
 import (
 	"fmt"
 	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // Apikey APIKey is the key for API access
@@ -16,7 +18,7 @@ type Apikey struct {
 	// The description for APIKey
 	Description string `json:"description"`
 	// The expired time of APIKey, return empty without setting duration
-	ExpiredAt time.Time `json:"expiredAt"`
+	ExpiredAt *time.Time `json:"expiredAt,omitempty"`
 	// The create time of APIKey
 	CreateAt time.Time `json:"createAt"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -28,11 +30,10 @@ type Apikey struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewApikey(accessKey string, description string, expiredAt time.Time, createAt time.Time) *Apikey {
+func NewApikey(accessKey string, description string, createAt time.Time) *Apikey {
 	this := Apikey{}
 	this.AccessKey = accessKey
 	this.Description = description
-	this.ExpiredAt = expiredAt
 	this.CreateAt = createAt
 	return &this
 }
@@ -91,27 +92,32 @@ func (o *Apikey) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetExpiredAt returns the ExpiredAt field value.
+// GetExpiredAt returns the ExpiredAt field value if set, zero value otherwise.
 func (o *Apikey) GetExpiredAt() time.Time {
-	if o == nil {
+	if o == nil || o.ExpiredAt == nil {
 		var ret time.Time
 		return ret
 	}
-	return o.ExpiredAt
+	return *o.ExpiredAt
 }
 
-// GetExpiredAtOk returns a tuple with the ExpiredAt field value
+// GetExpiredAtOk returns a tuple with the ExpiredAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Apikey) GetExpiredAtOk() (*time.Time, bool) {
-	if o == nil {
+	if o == nil || o.ExpiredAt == nil {
 		return nil, false
 	}
-	return &o.ExpiredAt, true
+	return o.ExpiredAt, true
 }
 
-// SetExpiredAt sets field value.
+// HasExpiredAt returns a boolean if a field has been set.
+func (o *Apikey) HasExpiredAt() bool {
+	return o != nil && o.ExpiredAt != nil
+}
+
+// SetExpiredAt gets a reference to the given time.Time and assigns it to the ExpiredAt field.
 func (o *Apikey) SetExpiredAt(v time.Time) {
-	o.ExpiredAt = v
+	o.ExpiredAt = &v
 }
 
 // GetCreateAt returns the CreateAt field value.
@@ -145,10 +151,12 @@ func (o Apikey) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["accessKey"] = o.AccessKey
 	toSerialize["description"] = o.Description
-	if o.ExpiredAt.Nanosecond() == 0 {
-		toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05Z07:00")
-	} else {
-		toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05.000Z07:00")
+	if o.ExpiredAt != nil {
+		if o.ExpiredAt.Nanosecond() == 0 {
+			toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05Z07:00")
+		} else {
+			toSerialize["expiredAt"] = o.ExpiredAt.Format("2006-01-02T15:04:05.000Z07:00")
+		}
 	}
 	if o.CreateAt.Nanosecond() == 0 {
 		toSerialize["createAt"] = o.CreateAt.Format("2006-01-02T15:04:05Z07:00")
@@ -167,7 +175,7 @@ func (o *Apikey) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		AccessKey   *string    `json:"accessKey"`
 		Description *string    `json:"description"`
-		ExpiredAt   *time.Time `json:"expiredAt"`
+		ExpiredAt   *time.Time `json:"expiredAt,omitempty"`
 		CreateAt    *time.Time `json:"createAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -178,9 +186,6 @@ func (o *Apikey) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
-	}
-	if all.ExpiredAt == nil {
-		return fmt.Errorf("required field expiredAt missing")
 	}
 	if all.CreateAt == nil {
 		return fmt.Errorf("required field createAt missing")
@@ -193,7 +198,7 @@ func (o *Apikey) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.AccessKey = *all.AccessKey
 	o.Description = *all.Description
-	o.ExpiredAt = *all.ExpiredAt
+	o.ExpiredAt = all.ExpiredAt
 	o.CreateAt = *all.CreateAt
 
 	if len(additionalProperties) > 0 {

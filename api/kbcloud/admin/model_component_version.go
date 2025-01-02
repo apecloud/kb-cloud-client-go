@@ -4,6 +4,8 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // ComponentVersion component version
 type ComponentVersion struct {
 	Kubeblocks *string `json:"kubeblocks,omitempty"`

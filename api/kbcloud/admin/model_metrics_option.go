@@ -4,8 +4,10 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type MetricsOption struct {
-	ReplicationLag *MetricsOptionReplicationLag `json:"replicationLag,omitempty"`
+	ReplicationLag *MetricsOptionQuery `json:"replicationLag,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,9 +31,9 @@ func NewMetricsOptionWithDefaults() *MetricsOption {
 }
 
 // GetReplicationLag returns the ReplicationLag field value if set, zero value otherwise.
-func (o *MetricsOption) GetReplicationLag() MetricsOptionReplicationLag {
+func (o *MetricsOption) GetReplicationLag() MetricsOptionQuery {
 	if o == nil || o.ReplicationLag == nil {
-		var ret MetricsOptionReplicationLag
+		var ret MetricsOptionQuery
 		return ret
 	}
 	return *o.ReplicationLag
@@ -39,7 +41,7 @@ func (o *MetricsOption) GetReplicationLag() MetricsOptionReplicationLag {
 
 // GetReplicationLagOk returns a tuple with the ReplicationLag field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetricsOption) GetReplicationLagOk() (*MetricsOptionReplicationLag, bool) {
+func (o *MetricsOption) GetReplicationLagOk() (*MetricsOptionQuery, bool) {
 	if o == nil || o.ReplicationLag == nil {
 		return nil, false
 	}
@@ -51,8 +53,8 @@ func (o *MetricsOption) HasReplicationLag() bool {
 	return o != nil && o.ReplicationLag != nil
 }
 
-// SetReplicationLag gets a reference to the given MetricsOptionReplicationLag and assigns it to the ReplicationLag field.
-func (o *MetricsOption) SetReplicationLag(v MetricsOptionReplicationLag) {
+// SetReplicationLag gets a reference to the given MetricsOptionQuery and assigns it to the ReplicationLag field.
+func (o *MetricsOption) SetReplicationLag(v MetricsOptionQuery) {
 	o.ReplicationLag = &v
 }
 
@@ -75,7 +77,7 @@ func (o MetricsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *MetricsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ReplicationLag *MetricsOptionReplicationLag `json:"replicationLag,omitempty"`
+		ReplicationLag *MetricsOptionQuery `json:"replicationLag,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

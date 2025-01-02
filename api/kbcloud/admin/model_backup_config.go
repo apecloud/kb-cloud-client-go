@@ -4,19 +4,22 @@
 
 package admin
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type BackupConfig struct {
+	Provider        *string `json:"provider,omitempty"`
 	Schedule        *string `json:"schedule,omitempty"`
 	AccessKeyId     *string `json:"accessKeyId,omitempty"`
 	SecretAccessKey *string `json:"secretAccessKey,omitempty"`
 	Endpoint        *string `json:"endpoint,omitempty"`
 	Region          *string `json:"region,omitempty"`
-	S3Prefix        *string `json:"s3Prefix,omitempty"`
+	Bucket          *string `json:"bucket,omitempty"`
 	// enable or disable auto backup
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// time for next backup
 	NextBackupTime *string `json:"nextBackupTime,omitempty"`
-	// specify the retention policy
-	RetentionPolicy *string `json:"retentionPolicy,omitempty"`
+	// specify the retention days
+	RetentionDay *int32 `json:"retentionDay,omitempty"`
 	// the time of last backup
 	LastBackupTime *string `json:"lastBackupTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -32,6 +35,8 @@ func NewBackupConfig() *BackupConfig {
 	this := BackupConfig{}
 	var autoBackup bool = false
 	this.AutoBackup = &autoBackup
+	var retentionDay int32 = 5
+	this.RetentionDay = &retentionDay
 	return &this
 }
 
@@ -42,7 +47,37 @@ func NewBackupConfigWithDefaults() *BackupConfig {
 	this := BackupConfig{}
 	var autoBackup bool = false
 	this.AutoBackup = &autoBackup
+	var retentionDay int32 = 5
+	this.RetentionDay = &retentionDay
 	return &this
+}
+
+// GetProvider returns the Provider field value if set, zero value otherwise.
+func (o *BackupConfig) GetProvider() string {
+	if o == nil || o.Provider == nil {
+		var ret string
+		return ret
+	}
+	return *o.Provider
+}
+
+// GetProviderOk returns a tuple with the Provider field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupConfig) GetProviderOk() (*string, bool) {
+	if o == nil || o.Provider == nil {
+		return nil, false
+	}
+	return o.Provider, true
+}
+
+// HasProvider returns a boolean if a field has been set.
+func (o *BackupConfig) HasProvider() bool {
+	return o != nil && o.Provider != nil
+}
+
+// SetProvider gets a reference to the given string and assigns it to the Provider field.
+func (o *BackupConfig) SetProvider(v string) {
+	o.Provider = &v
 }
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
@@ -185,32 +220,32 @@ func (o *BackupConfig) SetRegion(v string) {
 	o.Region = &v
 }
 
-// GetS3Prefix returns the S3Prefix field value if set, zero value otherwise.
-func (o *BackupConfig) GetS3Prefix() string {
-	if o == nil || o.S3Prefix == nil {
+// GetBucket returns the Bucket field value if set, zero value otherwise.
+func (o *BackupConfig) GetBucket() string {
+	if o == nil || o.Bucket == nil {
 		var ret string
 		return ret
 	}
-	return *o.S3Prefix
+	return *o.Bucket
 }
 
-// GetS3PrefixOk returns a tuple with the S3Prefix field value if set, nil otherwise
+// GetBucketOk returns a tuple with the Bucket field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupConfig) GetS3PrefixOk() (*string, bool) {
-	if o == nil || o.S3Prefix == nil {
+func (o *BackupConfig) GetBucketOk() (*string, bool) {
+	if o == nil || o.Bucket == nil {
 		return nil, false
 	}
-	return o.S3Prefix, true
+	return o.Bucket, true
 }
 
-// HasS3Prefix returns a boolean if a field has been set.
-func (o *BackupConfig) HasS3Prefix() bool {
-	return o != nil && o.S3Prefix != nil
+// HasBucket returns a boolean if a field has been set.
+func (o *BackupConfig) HasBucket() bool {
+	return o != nil && o.Bucket != nil
 }
 
-// SetS3Prefix gets a reference to the given string and assigns it to the S3Prefix field.
-func (o *BackupConfig) SetS3Prefix(v string) {
-	o.S3Prefix = &v
+// SetBucket gets a reference to the given string and assigns it to the Bucket field.
+func (o *BackupConfig) SetBucket(v string) {
+	o.Bucket = &v
 }
 
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
@@ -269,32 +304,32 @@ func (o *BackupConfig) SetNextBackupTime(v string) {
 	o.NextBackupTime = &v
 }
 
-// GetRetentionPolicy returns the RetentionPolicy field value if set, zero value otherwise.
-func (o *BackupConfig) GetRetentionPolicy() string {
-	if o == nil || o.RetentionPolicy == nil {
-		var ret string
+// GetRetentionDay returns the RetentionDay field value if set, zero value otherwise.
+func (o *BackupConfig) GetRetentionDay() int32 {
+	if o == nil || o.RetentionDay == nil {
+		var ret int32
 		return ret
 	}
-	return *o.RetentionPolicy
+	return *o.RetentionDay
 }
 
-// GetRetentionPolicyOk returns a tuple with the RetentionPolicy field value if set, nil otherwise
+// GetRetentionDayOk returns a tuple with the RetentionDay field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BackupConfig) GetRetentionPolicyOk() (*string, bool) {
-	if o == nil || o.RetentionPolicy == nil {
+func (o *BackupConfig) GetRetentionDayOk() (*int32, bool) {
+	if o == nil || o.RetentionDay == nil {
 		return nil, false
 	}
-	return o.RetentionPolicy, true
+	return o.RetentionDay, true
 }
 
-// HasRetentionPolicy returns a boolean if a field has been set.
-func (o *BackupConfig) HasRetentionPolicy() bool {
-	return o != nil && o.RetentionPolicy != nil
+// HasRetentionDay returns a boolean if a field has been set.
+func (o *BackupConfig) HasRetentionDay() bool {
+	return o != nil && o.RetentionDay != nil
 }
 
-// SetRetentionPolicy gets a reference to the given string and assigns it to the RetentionPolicy field.
-func (o *BackupConfig) SetRetentionPolicy(v string) {
-	o.RetentionPolicy = &v
+// SetRetentionDay gets a reference to the given int32 and assigns it to the RetentionDay field.
+func (o *BackupConfig) SetRetentionDay(v int32) {
+	o.RetentionDay = &v
 }
 
 // GetLastBackupTime returns the LastBackupTime field value if set, zero value otherwise.
@@ -331,6 +366,9 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Provider != nil {
+		toSerialize["provider"] = o.Provider
+	}
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
@@ -346,8 +384,8 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
 	}
-	if o.S3Prefix != nil {
-		toSerialize["s3Prefix"] = o.S3Prefix
+	if o.Bucket != nil {
+		toSerialize["bucket"] = o.Bucket
 	}
 	if o.AutoBackup != nil {
 		toSerialize["autoBackup"] = o.AutoBackup
@@ -355,8 +393,8 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 	if o.NextBackupTime != nil {
 		toSerialize["nextBackupTime"] = o.NextBackupTime
 	}
-	if o.RetentionPolicy != nil {
-		toSerialize["retentionPolicy"] = o.RetentionPolicy
+	if o.RetentionDay != nil {
+		toSerialize["retentionDay"] = o.RetentionDay
 	}
 	if o.LastBackupTime != nil {
 		toSerialize["lastBackupTime"] = o.LastBackupTime
@@ -371,15 +409,16 @@ func (o BackupConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Provider        *string `json:"provider,omitempty"`
 		Schedule        *string `json:"schedule,omitempty"`
 		AccessKeyId     *string `json:"accessKeyId,omitempty"`
 		SecretAccessKey *string `json:"secretAccessKey,omitempty"`
 		Endpoint        *string `json:"endpoint,omitempty"`
 		Region          *string `json:"region,omitempty"`
-		S3Prefix        *string `json:"s3Prefix,omitempty"`
+		Bucket          *string `json:"bucket,omitempty"`
 		AutoBackup      *bool   `json:"autoBackup,omitempty"`
 		NextBackupTime  *string `json:"nextBackupTime,omitempty"`
-		RetentionPolicy *string `json:"retentionPolicy,omitempty"`
+		RetentionDay    *int32  `json:"retentionDay,omitempty"`
 		LastBackupTime  *string `json:"lastBackupTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -387,19 +426,20 @@ func (o *BackupConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "s3Prefix", "autoBackup", "nextBackupTime", "retentionPolicy", "lastBackupTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "schedule", "accessKeyId", "secretAccessKey", "endpoint", "region", "bucket", "autoBackup", "nextBackupTime", "retentionDay", "lastBackupTime"})
 	} else {
 		return err
 	}
+	o.Provider = all.Provider
 	o.Schedule = all.Schedule
 	o.AccessKeyId = all.AccessKeyId
 	o.SecretAccessKey = all.SecretAccessKey
 	o.Endpoint = all.Endpoint
 	o.Region = all.Region
-	o.S3Prefix = all.S3Prefix
+	o.Bucket = all.Bucket
 	o.AutoBackup = all.AutoBackup
 	o.NextBackupTime = all.NextBackupTime
-	o.RetentionPolicy = all.RetentionPolicy
+	o.RetentionDay = all.RetentionDay
 	o.LastBackupTime = all.LastBackupTime
 
 	if len(additionalProperties) > 0 {

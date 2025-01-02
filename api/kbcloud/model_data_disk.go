@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type DataDisk struct {
 	DataDiskCapacity     *string `json:"data_disk_capacity,omitempty"`
 	DataDiskAllocated    *string `json:"data_disk_allocated,omitempty"`

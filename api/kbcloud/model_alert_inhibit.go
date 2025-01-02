@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 // AlertInhibit Alert object information
 type AlertInhibit struct {
 	Id          *int32              `json:"id,omitempty"`

@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type OpsType string
@@ -23,6 +25,10 @@ const (
 	OpsTypeStart             OpsType = "Start"
 	OpsTypeExpose            OpsType = "Expose"
 	OpsTypeDataScript        OpsType = "DataScript"
+	OpsTypeBackup            OpsType = "Backup"
+	OpsTypeRestore           OpsType = "Restore"
+	OpsTypeRebuildInstance   OpsType = "RebuildInstance"
+	OpsTypeCustom            OpsType = "Custom"
 )
 
 var allowedOpsTypeEnumValues = []OpsType{
@@ -37,6 +43,10 @@ var allowedOpsTypeEnumValues = []OpsType{
 	OpsTypeStart,
 	OpsTypeExpose,
 	OpsTypeDataScript,
+	OpsTypeBackup,
+	OpsTypeRestore,
+	OpsTypeRebuildInstance,
+	OpsTypeCustom,
 }
 
 // GetAllowedValues returns the list of possible values.

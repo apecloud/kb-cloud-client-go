@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // DisasterRecoveryHistoryItem DisasterRecovery history detail for Cluster
 type DisasterRecoveryHistoryItem struct {
@@ -22,10 +26,14 @@ type DisasterRecoveryHistoryItem struct {
 	ClusterName common.NullableString `json:"clusterName,omitempty"`
 	// env name
 	EnvName common.NullableString `json:"envName,omitempty"`
+	// the event type of disasterRecovery history, support values: [CreateInstance, DeleteInstance, Promote]
+	EventType NullableDisasterRecoveryEventType `json:"eventType,omitempty"`
 	// the reason of promote
 	Reason common.NullableString `json:"reason,omitempty"`
-	// the operator
+	// the operator name
 	Operator *string `json:"operator,omitempty"`
+	// the user ID of the operator
+	OperatorId *string `json:"operatorId,omitempty"`
 	// the create time of promote event
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// the update time of promote event
@@ -331,6 +339,45 @@ func (o *DisasterRecoveryHistoryItem) UnsetEnvName() {
 	o.EnvName.Unset()
 }
 
+// GetEventType returns the EventType field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DisasterRecoveryHistoryItem) GetEventType() DisasterRecoveryEventType {
+	if o == nil || o.EventType.Get() == nil {
+		var ret DisasterRecoveryEventType
+		return ret
+	}
+	return *o.EventType.Get()
+}
+
+// GetEventTypeOk returns a tuple with the EventType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DisasterRecoveryHistoryItem) GetEventTypeOk() (*DisasterRecoveryEventType, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.EventType.Get(), o.EventType.IsSet()
+}
+
+// HasEventType returns a boolean if a field has been set.
+func (o *DisasterRecoveryHistoryItem) HasEventType() bool {
+	return o != nil && o.EventType.IsSet()
+}
+
+// SetEventType gets a reference to the given NullableDisasterRecoveryEventType and assigns it to the EventType field.
+func (o *DisasterRecoveryHistoryItem) SetEventType(v DisasterRecoveryEventType) {
+	o.EventType.Set(&v)
+}
+
+// SetEventTypeNil sets the value for EventType to be an explicit nil.
+func (o *DisasterRecoveryHistoryItem) SetEventTypeNil() {
+	o.EventType.Set(nil)
+}
+
+// UnsetEventType ensures that no value is present for EventType, not even an explicit nil.
+func (o *DisasterRecoveryHistoryItem) UnsetEventType() {
+	o.EventType.Unset()
+}
+
 // GetReason returns the Reason field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DisasterRecoveryHistoryItem) GetReason() string {
 	if o == nil || o.Reason.Get() == nil {
@@ -396,6 +443,34 @@ func (o *DisasterRecoveryHistoryItem) HasOperator() bool {
 // SetOperator gets a reference to the given string and assigns it to the Operator field.
 func (o *DisasterRecoveryHistoryItem) SetOperator(v string) {
 	o.Operator = &v
+}
+
+// GetOperatorId returns the OperatorId field value if set, zero value otherwise.
+func (o *DisasterRecoveryHistoryItem) GetOperatorId() string {
+	if o == nil || o.OperatorId == nil {
+		var ret string
+		return ret
+	}
+	return *o.OperatorId
+}
+
+// GetOperatorIdOk returns a tuple with the OperatorId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DisasterRecoveryHistoryItem) GetOperatorIdOk() (*string, bool) {
+	if o == nil || o.OperatorId == nil {
+		return nil, false
+	}
+	return o.OperatorId, true
+}
+
+// HasOperatorId returns a boolean if a field has been set.
+func (o *DisasterRecoveryHistoryItem) HasOperatorId() bool {
+	return o != nil && o.OperatorId != nil
+}
+
+// SetOperatorId gets a reference to the given string and assigns it to the OperatorId field.
+func (o *DisasterRecoveryHistoryItem) SetOperatorId(v string) {
+	o.OperatorId = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -520,11 +595,17 @@ func (o DisasterRecoveryHistoryItem) MarshalJSON() ([]byte, error) {
 	if o.EnvName.IsSet() {
 		toSerialize["envName"] = o.EnvName.Get()
 	}
+	if o.EventType.IsSet() {
+		toSerialize["eventType"] = o.EventType.Get()
+	}
 	if o.Reason.IsSet() {
 		toSerialize["reason"] = o.Reason.Get()
 	}
 	if o.Operator != nil {
 		toSerialize["operator"] = o.Operator
+	}
+	if o.OperatorId != nil {
+		toSerialize["operatorId"] = o.OperatorId
 	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
@@ -553,25 +634,27 @@ func (o DisasterRecoveryHistoryItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryHistoryItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId            common.NullableInt32           `json:"taskID,omitempty"`
-		ParentClusterId   common.NullableInt32           `json:"parentClusterID,omitempty"`
-		ParentClusterName common.NullableString          `json:"parentClusterName,omitempty"`
-		ParentEnvName     common.NullableString          `json:"parentEnvName,omitempty"`
-		ClusterId         common.NullableInt32           `json:"clusterID,omitempty"`
-		ClusterName       common.NullableString          `json:"clusterName,omitempty"`
-		EnvName           common.NullableString          `json:"envName,omitempty"`
-		Reason            common.NullableString          `json:"reason,omitempty"`
-		Operator          *string                        `json:"operator,omitempty"`
-		CreatedAt         *time.Time                     `json:"createdAt,omitempty"`
-		UpdateAt          *time.Time                     `json:"updateAt,omitempty"`
-		Status            NullableDisasterRecoveryStatus `json:"status,omitempty"`
+		TaskId            common.NullableInt32              `json:"taskID,omitempty"`
+		ParentClusterId   common.NullableInt32              `json:"parentClusterID,omitempty"`
+		ParentClusterName common.NullableString             `json:"parentClusterName,omitempty"`
+		ParentEnvName     common.NullableString             `json:"parentEnvName,omitempty"`
+		ClusterId         common.NullableInt32              `json:"clusterID,omitempty"`
+		ClusterName       common.NullableString             `json:"clusterName,omitempty"`
+		EnvName           common.NullableString             `json:"envName,omitempty"`
+		EventType         NullableDisasterRecoveryEventType `json:"eventType,omitempty"`
+		Reason            common.NullableString             `json:"reason,omitempty"`
+		Operator          *string                           `json:"operator,omitempty"`
+		OperatorId        *string                           `json:"operatorId,omitempty"`
+		CreatedAt         *time.Time                        `json:"createdAt,omitempty"`
+		UpdateAt          *time.Time                        `json:"updateAt,omitempty"`
+		Status            NullableDisasterRecoveryStatus    `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskID", "parentClusterID", "parentClusterName", "parentEnvName", "clusterID", "clusterName", "envName", "reason", "operator", "createdAt", "updateAt", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskID", "parentClusterID", "parentClusterName", "parentEnvName", "clusterID", "clusterName", "envName", "eventType", "reason", "operator", "operatorId", "createdAt", "updateAt", "status"})
 	} else {
 		return err
 	}
@@ -584,8 +667,14 @@ func (o *DisasterRecoveryHistoryItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ClusterId = all.ClusterId
 	o.ClusterName = all.ClusterName
 	o.EnvName = all.EnvName
+	if all.EventType.Get() != nil && !all.EventType.Get().IsValid() {
+		hasInvalidField = true
+	} else {
+		o.EventType = all.EventType
+	}
 	o.Reason = all.Reason
 	o.Operator = all.Operator
+	o.OperatorId = all.OperatorId
 	o.CreatedAt = all.CreatedAt
 	o.UpdateAt = all.UpdateAt
 	if all.Status.Get() != nil && !all.Status.Get().IsValid() {

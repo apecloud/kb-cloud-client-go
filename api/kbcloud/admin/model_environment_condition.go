@@ -6,6 +6,8 @@ package admin
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // EnvironmentCondition EnvironmentCondition contains details for the current condition of this environment.

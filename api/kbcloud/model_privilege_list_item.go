@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 // PrivilegeListItem Database and its assigned privileges.
@@ -13,7 +15,7 @@ type PrivilegeListItem struct {
 	// The name of the database.
 	DatabaseName *string `json:"databaseName,omitempty"`
 	// The type of privilege.
-	Privileges string `json:"privileges"`
+	Privileges PrivilegeType `json:"privileges"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +25,7 @@ type PrivilegeListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPrivilegeListItem(privileges string) *PrivilegeListItem {
+func NewPrivilegeListItem(privileges PrivilegeType) *PrivilegeListItem {
 	this := PrivilegeListItem{}
 	this.Privileges = privileges
 	return &this
@@ -66,9 +68,9 @@ func (o *PrivilegeListItem) SetDatabaseName(v string) {
 }
 
 // GetPrivileges returns the Privileges field value.
-func (o *PrivilegeListItem) GetPrivileges() string {
+func (o *PrivilegeListItem) GetPrivileges() PrivilegeType {
 	if o == nil {
-		var ret string
+		var ret PrivilegeType
 		return ret
 	}
 	return o.Privileges
@@ -76,7 +78,7 @@ func (o *PrivilegeListItem) GetPrivileges() string {
 
 // GetPrivilegesOk returns a tuple with the Privileges field value
 // and a boolean to check if the value has been set.
-func (o *PrivilegeListItem) GetPrivilegesOk() (*string, bool) {
+func (o *PrivilegeListItem) GetPrivilegesOk() (*PrivilegeType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,7 +86,7 @@ func (o *PrivilegeListItem) GetPrivilegesOk() (*string, bool) {
 }
 
 // SetPrivileges sets field value.
-func (o *PrivilegeListItem) SetPrivileges(v string) {
+func (o *PrivilegeListItem) SetPrivileges(v PrivilegeType) {
 	o.Privileges = v
 }
 
@@ -108,8 +110,8 @@ func (o PrivilegeListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DatabaseName *string `json:"databaseName,omitempty"`
-		Privileges   *string `json:"privileges"`
+		DatabaseName *string        `json:"databaseName,omitempty"`
+		Privileges   *PrivilegeType `json:"privileges"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -123,11 +125,21 @@ func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.DatabaseName = all.DatabaseName
-	o.Privileges = *all.Privileges
+	if !all.Privileges.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Privileges = *all.Privileges
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

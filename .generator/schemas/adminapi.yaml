@@ -53,6 +53,8 @@ tags:
     description: Recycle Bin Cluster APIs
   - name: project
     description: Project APIs
+  - name: task
+    description: Task APIs
 paths:
   /admin/v1/user:
     post:
@@ -130,14 +132,42 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/adminUserList'
+                $ref: '#/components/schemas/adminUserList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
       tags:
         - adminUser
+  /admin/v1/user/password:
+    patch:
+      description: Update admin user password
+      summary: Update admin user password
+      operationId: updateAdminUserPassword
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                newPassword:
+                  description: The new password for the admin user.
+                  type: string
+              required:
+                - newPassword
+              type: object
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Password updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - user
+      x-codegen-request-body-name: body
   /admin/v1/user/apikey/{keyName}:
     patch:
       description: partially update the specified apikey
@@ -152,7 +182,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
@@ -216,7 +246,7 @@ paths:
               $ref: '#/components/schemas/apikeyCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -315,74 +345,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/organizations/{orgName}/members:
-    get:
-      description: list members of the specified Org
-      summary: List members
-      operationId: listOrgMember
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMemberList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - member
-    post:
-      description: Add organization with specific role
-      summary: Add member
-      operationId: addOrgMember
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/orgMemberAdd'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orgMember'
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - member
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -408,52 +370,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-    patch:
-      description: partially update the specified Org
-      summary: Update organization
-      operationId: patchOrg
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/org'
-          description: OK
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/org'
-          description: Created
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organization
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/enable:
     post:
       description: enable the organization
@@ -498,11 +414,11 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
-  /admin/v1/organizations/{orgName}/members/{memberId}:
-    delete:
-      description: delete a Org Member
-      summary: Delete member
-      operationId: deleteOrgMember
+  /admin/v1/organizations/{orgName}/members:
+    get:
+      description: list members of the specified Org
+      summary: List members
+      operationId: listOrgMember
       parameters:
         - description: Name of the Org
           in: path
@@ -510,24 +426,30 @@ paths:
           required: true
           schema:
             type: string
-        - description: ID of the member
-          in: path
-          name: memberId
-          required: true
+        - description: The pagination token in the List request
+          in: query
+          name: pageToken
+          schema:
+            type: string
+        - description: The pagination size in the List request.
+          in: query
+          name: pageSize
           schema:
             type: string
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMemberList'
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
       tags:
-        - member
+        - organization
+  /admin/v1/organizations/{orgName}/members/{memberId}:
     get:
       description: read the specified OrgMember
       summary: Get member
@@ -559,55 +481,133 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - member
-    patch:
-      description: Only authenticated organization admins can update the member's role
-      summary: Update member role
-      operationId: patchOrgMember
+        - organization
+  /admin/v1/organizations/{orgName}/parameters:
+    get:
+      operationId: listOrgParameters
+      summary: List parameters of an organization
       parameters:
-        - description: name of the Org
+        - description: The name of the organization
           in: path
           name: orgName
           required: true
           schema:
             type: string
-        - description: ID of the member
+        - description: the category of the parameters
+          in: query
+          name: category
+          schema:
+            type: string
+        - description: the name of the parameter
+          in: query
+          name: name
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameterList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    post:
+      operationId: batchUpdateOrgParameters
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
           in: path
-          name: memberId
+          name: orgName
           required: true
           schema:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
+          application/json:
             schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/orgMemberUpdate'
+              $ref: '#/components/schemas/orgParameterList'
         required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/orgMember'
+                $ref: '#/components/schemas/orgParameterList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
       tags:
-        - member
-      x-codegen-request-body-name: body
+        - organization
+  /admin/v1/organizations/{orgName}/parameters/{parameterName}:
+    get:
+      operationId: getOrgParameter
+      summary: Get a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      operationId: patchOrgParameter
+      summary: Update a parameter of an organization
+      description: Update a parameter of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the parameter
+          in: path
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgParameter'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgParameter'
+          description: OK
+      tags:
+        - organization
   /admin/v1/permissions:
     get:
       tags:
@@ -651,38 +651,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-    post:
-      tags:
-        - role
-      summary: Create role
-      description: Create role
-      operationId: createRole
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/roleCreate'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/roles/{roleName}:
     get:
       tags:
@@ -709,71 +677,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - role
-      summary: Update role by name
-      description: Update role by name
-      operationId: updateRoleByName
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: roleName
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/roleUpdate'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - role
-      summary: Delete role by name
-      description: Delete role by name
-      operationId: deleteRoleByName
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: roleName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when role is deleted successfully.
-          content: {}
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -861,6 +764,12 @@ paths:
           required: false
           schema:
             type: string
+        - name: withStatic
+          in: query
+          description: Whether to include static clusters
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: OK
@@ -1029,16 +938,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/clusterUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/clusterUpdate'
         required: true
@@ -1633,6 +1533,11 @@ paths:
           name: includeRoot
           schema:
             type: boolean
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -2308,16 +2213,15 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/events:
+  /admin/v1/events:
     get:
       description: Query events of clusters
       summary: Query operation events
       operationId: queryClusterEvents
       parameters:
         - description: Organization Name
-          in: path
+          in: query
           name: orgName
-          required: true
           schema:
             type: string
         - description: resource ID
@@ -2635,16 +2539,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/paramTplUpdate'
         required: true
@@ -3193,6 +3088,10 @@ paths:
                 database:
                   type: string
                   description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
+                skipNull:
+                  type: boolean
+                  description: whether skip the row which has null value when import data
+                  default: true
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DmsImportFormData'
@@ -4665,38 +4564,14 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                compName:
-                  description: component name
-                  type: string
-                opsType:
-                  description: ops definition name.
-                  type: string
-                dependentOnOps:
-                  description: ops definition name.
-                  items:
-                    type: string
-                  type: array
-                params:
-                  description: custom ops parameters
-                  items:
-                    properties:
-                      name:
-                        type: string
-                        description: parameter name.
-                      value:
-                        type: string
-                        description: parameter value.
-                    type: object
-                  type: array
-              type: object
+              $ref: '#/components/schemas/opsCustom'
         required: true
       responses:
         '202':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/opsRequestName'
+                $ref: '#/components/schemas/clusterTask'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -4830,6 +4705,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
+    get:
+      tags:
+        - opsrequest
+      description: get a OpsRequest status
+      summary: Get OpsRequest Status
+      operationId: getOpsRequestStatus
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsStatus'
+          description: Successful operation
   /admin/v1/kubernetes/nodes:
     post:
       operationId: listKubernetesNode
@@ -4966,42 +4874,6 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/statusHistory:
-    get:
-      operationId: getEnvironmentStatusHistory
-      summary: Get environment status history
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: start time of the query range (nano seconds)
-          in: query
-          name: startTime
-          required: false
-          schema:
-            type: string
-            format: date-time
-        - description: end time of the query range(nano seconds)
-          in: query
-          name: endTime
-          required: false
-          schema:
-            type: string
-            format: date-time
-      tags:
-        - environment
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/environmentStatusHistory'
   /admin/v1/environments/preflight:
     post:
       operationId: preflightEnvironment
@@ -5022,44 +4894,30 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/restorePreflight:
+  /admin/v1/environments/checkNodeSSHConfig:
     post:
-      operationId: preflightRestoreEnvironment
-      summary: Preflight check before restore environment
+      tags:
+        - environment
+      summary: Check nodes ssh config
+      description: Check ssh config of provided IP addresses
+      operationId: checkNodeSSHConfig
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/kubeconfig'
+              $ref: '#/components/schemas/sshConfigCheckRequest'
         required: true
       responses:
         '200':
-          description: OK
+          description: IP connectivity check results
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/preflightList'
-      tags:
-        - environment
-  /admin/v1/environments/checkAddRecord:
-    post:
-      operationId: checkEnvironmentAddRecord
-      summary: check if environment added before
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/kubeconfig'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentAdded'
-      tags:
-        - environment
+                $ref: '#/components/schemas/sshConfigCheckResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -5140,6 +4998,42 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/statusHistory:
+    get:
+      operationId: getEnvironmentStatusHistory
+      summary: Get environment status history
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: start time of the query range (nano seconds)
+          in: query
+          name: startTime
+          required: false
+          schema:
+            type: string
+            format: date-time
+        - description: end time of the query range(nano seconds)
+          in: query
+          name: endTime
+          required: false
+          schema:
+            type: string
+            format: date-time
+      tags:
+        - environment
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/environmentStatusHistory'
   /admin/v1/environments/{environmentName}/resourceStats:
     get:
       description: Returns aggregated resource statistics for the specified environment within an organization.
@@ -5323,6 +5217,68 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
+  /admin/v1/environments/{environmentName}/nodes/scaleOut:
+    post:
+      tags:
+        - environment
+      summary: Scale out environment nodes
+      description: Scale out environment by adding new nodes using sealos
+      operationId: scaleOutEnvironmentNodes
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nodeScaleRequest'
+        required: true
+      responses:
+        '202':
+          description: Node scaling task accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/environments/{environmentName}/nodes/scaleIn:
+    post:
+      tags:
+        - environment
+      summary: Scale in environment nodes
+      description: Scale in environment by removing nodes using sealos
+      operationId: scaleDownEnvironmentNodes
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/nodeScaleInRequest'
+        required: true
+      responses:
+        '202':
+          description: Node scale in task accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
   /admin/v1/environments/{environmentName}/node/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
@@ -6133,8 +6089,8 @@ paths:
         - storageClass
   /admin/v1/environments/{environmentName}/nodeGroups:
     get:
-      operationId: listNodeGroup
-      summary: Create environment node group
+      operationId: listNodeGroups
+      summary: List environment node groups
       parameters:
         - name: environmentName
           in: path
@@ -6142,12 +6098,22 @@ paths:
           required: true
           schema:
             type: string
+        - name: zones
+          in: query
+          description: available zones for filtering node groups
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/nodeGroup'
+                type: array
+                items:
+                  $ref: '#/components/schemas/nodeGroup'
           description: Returned when environment is created successfully.
         '403':
           $ref: '#/components/responses/403'
@@ -6277,28 +6243,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/environments/restore:
-    post:
-      operationId: restoreEnvironment
-      summary: restore environment
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentRestore'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environment'
-          description: A successful response.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - environment
   /admin/v1/environmentObjectStorage:
     post:
       operationId: listEnvironmentObjectStorage
@@ -7030,13 +6974,6 @@ paths:
     get:
       operationId: getBackupStats
       summary: Get backup statistics
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -7757,16 +7694,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/strategic-merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertTemplate'
-          application/apply-patch+yaml:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertTemplate'
         required: true
@@ -7873,6 +7801,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/alertReceiverList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/alerts/checkURL:
+    post:
+      summary: Batch check URLs connectivity
+      description: Tests multiple URLs for connectivity in parallel
+      operationId: batchCheckURLConnectivity
+      tags:
+        - URL Checker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLCheck'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLCheck'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/alerts/statistic:
+    get:
+      summary: alert statistic
+      description: alert statistic
+      operationId: alertStatistic
+      tags:
+        - statistic
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertStatistic'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -7997,16 +7971,7 @@ paths:
             type: string
       requestBody:
         content:
-          application/apply-patch+yaml:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/json-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/merge-patch+json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-          application/strategic-merge-patch+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/alertReceiver'
         required: true
@@ -8190,6 +8155,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: A successful response.
@@ -8216,6 +8187,12 @@ paths:
           required: true
           schema:
             type: string
+        - name: disabled
+          in: query
+          description: disabled status
+          required: false
+          schema:
+            type: boolean
       requestBody:
         content:
           application/json:
@@ -8377,6 +8354,18 @@ paths:
           required: false
           schema:
             type: string
+        - name: page
+          in: query
+          description: page number
+          required: false
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: A successful response.
@@ -8714,6 +8703,38 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+  /admin/v1/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Get alert rule configuration YAML
+      description: Retrieves the complete alert rule configuration in YAML format for all organizations
+      operationId: getRuleConfig
+      responses:
+        '200':
+          description: Alert rule configuration in YAML format
+          content:
+            text/yaml:
+              schema:
+                type: string
+                description: YAML formatted string containing the alert rule configuration
+                example: |
+                  groups:
+                    - name: org-name
+                      rules:
+                        - alert: HighCPUUsage
+                          expr: cpu_usage > 90
+                          for: 5m
+                          labels:
+                            severity: critical
+                          annotations:
+                            summary: High CPU usage detected
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/engineOptions:
     get:
       description: list all engineOptions
@@ -9205,6 +9226,52 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: actionInfo
+  /admin/v1/engines:
+    get:
+      operationId: listAllEngines
+      summary: List all engines
+      parameters:
+        - description: engine name
+          in: query
+          name: name
+          schema:
+            type: string
+        - description: engine Type
+          in: query
+          name: type
+          schema:
+            $ref: '#/components/schemas/engineType'
+        - description: engine version
+          in: query
+          name: version
+          schema:
+            type: string
+        - name: provider
+          in: query
+          description: engine provider
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: list all engines include uninstall engines
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /admin/v1/license:
     get:
       tags:
@@ -9355,6 +9422,122 @@ paths:
         '200':
           description: A successful response.
           content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/instance-types:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypes
+      summary: Get all instance types
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - instanceTypes
+      operationId: createInstanceType
+      summary: Create a new instance type
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createInstanceType'
+      responses:
+        '201':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/instance-types/{id}:
+    get:
+      tags:
+        - instanceTypes
+      operationId: getInstanceTypeById
+      summary: Get an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - instanceTypes
+      operationId: updateInstanceType
+      summary: Update an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/instanceTypes'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceTypes'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - instanceTypes
+      operationId: deleteInstanceType
+      summary: Delete an instance type by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: A successful response.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10346,6 +10529,28 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - feature
+  /admin/v1/featureGroups:
+    get:
+      description: Get feature group list
+      summary: Get feature group list
+      operationId: listFeatureGroup
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - feature
   /admin/v1/features/{featureName}:
     get:
       description: Get feature
@@ -10855,6 +11060,42 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
+    post:
+      operationId: importBackup
+      summary: import backuprecords from storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/importBackup'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/backupList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
   /admin/v1/fault:
     get:
       tags:
@@ -11298,6 +11539,33 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - metadb
+      operationId: deleteMetadbBackups
+      summary: Delete backups by name or delete all
+      parameters:
+        - name: backupName
+          in: query
+          description: Delete target backup by name
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: Delete all backups in the storage
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/metadb/backupConfig:
     get:
       tags:
@@ -11631,11 +11899,263 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/alertAdmin/rules:
+  /admin/v1/tasks:
     get:
       tags:
-        - alertAdminRule
-      operationId: getAlertAdminRuleList
+        - task
+      summary: List task
+      description: List tasks
+      operationId: listTask
+      responses:
+        '200':
+          description: Current task list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/taskList'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/tasks/{taskId}:
+    get:
+      summary: Get task detail
+      description: Get task
+      operationId: getTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
+  /admin/v1/clustertasks:
+    get:
+      operationId: listTasks
+      summary: List cluster tasks
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: query
+          name: clusterName
+          schema:
+            type: string
+        - description: You want to check the status of the task. If not passed, all selected by default
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/cluster_opsStatus'
+        - description: You want to check the type of the task. If not passed, all selected by default
+          in: query
+          name: clusterTaskType
+          schema:
+            $ref: '#/components/schemas/opsType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTaskList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - task
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
+    get:
+      description: Query task detail of clusters
+      summary: Query operation task detail
+      operationId: queryClusterTaskDetail
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Cluster Name
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: Task ID
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
+  /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
+    get:
+      tags:
+        - relation
+      summary: list the available clusters for the organization to create the a relation
+      operationId: listAvailableClustersForRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: targetType
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the available clusters for the organization to create the a relation successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relations:
+    get:
+      tags:
+        - relation
+      summary: list the clusters that have built a relation to the specified cluster
+      operationId: listRelatedClusters
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list the clusters that have built relations to the cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - relation
+      summary: create a relation between the clusters in the organization
+      operationId: createRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: create a relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}:
+    delete:
+      tags:
+        - relation
+      summary: delete a existed relation between the clusters in the organization
+      operationId: deleteRelation
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: target
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: delete a existed relation between the clusters in the organization successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/alertadmin/rules:
+    get:
+      tags:
+        - alertadminRule
+      operationId: getAlertadminRuleList
       parameters:
         - name: groupName
           in: query
@@ -11649,7 +12169,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/alertAdmin_alertRuleList'
+                $ref: '#/components/schemas/alertadmin_alertRuleList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11658,14 +12178,14 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - alertAdminRule
-      operationId: createAlertAdminRule
+        - alertadminRule
+      operationId: createAlertadminRule
       summary: Create alert admin rule
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertAdmin_alertRule'
+              $ref: '#/components/schemas/alertadmin_alertRule'
         required: true
       responses:
         '200':
@@ -11673,7 +12193,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertAdmin_alertRule'
+                $ref: '#/components/schemas/alertadmin_alertRule'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11682,14 +12202,14 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - alertAdminRule
-      operationId: deleteAlertAdminRule
+        - alertadminRule
+      operationId: deleteAlertadminRule
       summary: Delete alert admin rule
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertAdmin_alertRule'
+              $ref: '#/components/schemas/alertadmin_alertRule'
         required: true
       responses:
         '204':
@@ -11704,14 +12224,14 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - alertAdminRule
-      operationId: updateAlertAdminRule
+        - alertadminRule
+      operationId: updateAlertadminRule
       summary: Update alert admin rule
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertAdmin_alertRule'
+              $ref: '#/components/schemas/alertadmin_alertRule'
         required: true
       responses:
         '200':
@@ -11719,7 +12239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertAdmin_alertRule'
+                $ref: '#/components/schemas/alertadmin_alertRule'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11727,11 +12247,11 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/alertAdmin/objects:
+  /admin/v1/alertadmin/objects:
     get:
       tags:
-        - alertAdminObjects
-      operationId: listAlertAdminObjects
+        - alertadminObjects
+      operationId: listAlertadminObjects
       summary: List alert admin objects
       responses:
         '200':
@@ -11739,18 +12259,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertAdmin_alertObjectList'
+                $ref: '#/components/schemas/alertadmin_alertObjectList'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/alertAdmin/alertStatus/{alertId}:
+  /admin/v1/alertadmin/alertStatus/{alertId}:
     patch:
       tags:
-        - alertAdminObjects
-      operationId: setAlertAdminStatus
+        - alertadminObjects
+      operationId: setAlertadminStatus
       summary: Set alert admin status
       parameters:
         - name: alertId
@@ -11770,18 +12290,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertAdmin_alertObject'
+                $ref: '#/components/schemas/alertadmin_alertObject'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/alertAdmin/alertsStatus:
+  /admin/v1/alertadmin/alertsStatus:
     patch:
       tags:
-        - alertAdminObjects
-      operationId: setAlertsAdminStatus
+        - alertadminObjects
+      operationId: setAlertsadminStatus
       summary: Set alerts admin status
       parameters:
         - name: status
@@ -11796,14 +12316,14 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/alertAdmin_alertObject'
+                $ref: '#/components/schemas/alertadmin_alertObject'
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertAdmin_alertObjectList'
+                $ref: '#/components/schemas/alertadmin_alertObjectList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11843,11 +12363,13 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
+        id:
+          description: The ID for the user
+          type: string
       required:
         - userName
         - createdAt
         - updatedAt
-        - isDefaultPassword
     APIErrorResponse:
       description: API error response.
       properties:
@@ -11875,11 +12397,13 @@ components:
         email:
           description: The email for the user
           type: string
+          format: email
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
         - password
+        - email
       type: object
     adminUserUpdate:
       description: Admin user update
@@ -11890,10 +12414,12 @@ components:
         email:
           description: The email for the user
           type: string
+          format: email
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
+        - email
       type: object
     adminUserList:
       description: Admin user list
@@ -11932,6 +12458,7 @@ components:
           description: The expired time of APIKey, return empty without setting duration
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11939,7 +12466,6 @@ components:
       required:
         - accessKey
         - description
-        - expiredAt
         - createAt
       type: object
     pageResult:
@@ -11991,6 +12517,7 @@ components:
           description: The expired time of APIKey
           type: string
           format: date-time
+          x-nullable: true
         createAt:
           description: The create time of APIKey
           type: string
@@ -11999,7 +12526,6 @@ components:
         - accessKey
         - secretKey
         - description
-        - expiredAt
         - createAt
       type: object
     aggregateMetaDataType:
@@ -12113,61 +12639,6 @@ components:
           items:
             $ref: '#/components/schemas/organizationItem'
           description: The list of organizations.
-    orgMemberRole:
-      description: The role of the User in the Org. Required
-      enum:
-        - admin
-        - developer
-      type: string
-    orgMember:
-      description: Org Member info
-      properties:
-        displayName:
-          description: The display name of User. Read-Only
-          type: string
-        email:
-          description: The email of User. Required when create. Read-Only after create
-          type: string
-        role:
-          $ref: '#/components/schemas/orgMemberRole'
-        userId:
-          description: The ID of User. Read-Only
-          type: string
-        freezed:
-          description: Return true if the member is freezed in the organization
-          type: boolean
-      required:
-        - email
-        - role
-        - userId
-        - freezed
-      type: object
-    orgMemberList:
-      description: OrgMemberList is org member list
-      properties:
-        items:
-          description: Items is the list of OrgMember objects in the list
-          items:
-            $ref: '#/components/schemas/orgMember'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    orgMemberAdd:
-      description: MemberAdd is the payload for adding organization member
-      properties:
-        role:
-          description: The name of the role in the organization
-          type: string
-        userId:
-          description: The ID of the user
-          type: string
-      required:
-        - role
-        - userId
-      type: object
     org:
       description: Org info
       properties:
@@ -12206,25 +12677,99 @@ components:
         - updatedAt
         - enabled
       type: object
-    orgUpdate:
-      description: Organization update
+    orgMember:
+      description: Org Member info
       properties:
-        description:
-          description: The description of the organization
-          type: string
         displayName:
-          description: The display name of the organization
+          description: The display name of User. Read-Only
           type: string
-      type: object
-    orgMemberUpdate:
-      description: Org Member update
-      properties:
+        email:
+          description: The email of User. Required when create. Read-Only after create
+          type: string
         role:
-          description: The role of the User in the Org. Required
+          description: The role of the User in the Org.
           type: string
+        userId:
+          description: The ID of User. Read-Only
+          type: string
+        freezed:
+          description: Return true if the member is freezed in the organization
+          type: boolean
       required:
+        - email
         - role
+        - userId
       type: object
+    orgMemberList:
+      description: OrgMemberList is org member list
+      properties:
+        items:
+          description: Items is the list of OrgMember objects in the list
+          items:
+            $ref: '#/components/schemas/orgMember'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    orgParameter:
+      description: org parameter item
+      type: object
+      required:
+        - id
+        - orgId
+        - name
+        - category
+        - type
+        - constraints
+        - value
+        - description
+      properties:
+        id:
+          type: string
+          description: org parameter id
+        orgId:
+          type: string
+          description: org id
+        name:
+          type: string
+          description: org parameter name
+        category:
+          type: string
+          description: org parameter category
+        type:
+          type: string
+          description: type of org parameter value
+        constraints:
+          type: object
+          description: org parameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: org parameter min value
+            max:
+              type: string
+              description: org parameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: org parameter enum constraints
+            default:
+              type: string
+              description: org parameter default value
+        description:
+          type: string
+          description: org parameter description
+        value:
+          type: string
+          description: org parameter value
+    orgParameterList:
+      description: org parameter list
+      type: array
+      items:
+        $ref: '#/components/schemas/orgParameter'
     permission:
       description: Permission information
       type: object
@@ -12281,23 +12826,6 @@ components:
       required:
         - items
       type: object
-    roleCreate:
-      description: Role create
-      type: object
-      properties:
-        name:
-          description: The name of the role
-          type: string
-        description:
-          description: The description of the role
-          type: string
-    roleUpdate:
-      description: Role update
-      type: object
-      properties:
-        description:
-          description: The description of the role
-          type: string
     invitationSender:
       description: InvitationSender is the User who send the Invitation
       properties:
@@ -12317,9 +12845,6 @@ components:
     invitation:
       description: Invitation info
       properties:
-        accepted:
-          description: User has accepted or not
-          type: boolean
         createdAt:
           format: date-time
           type: string
@@ -12354,7 +12879,6 @@ components:
           type: string
           description: the updated time of the invitation
       required:
-        - accepted
         - email
         - expireTime
         - id
@@ -12428,6 +12952,16 @@ components:
           format: int64
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        parentName:
+          title: ParentName
+          type: string
+          nullable: true
+          description: the name of parent cluster
+        parentDisplayName:
+          title: ParentDisplayName
+          type: string
+          nullable: true
+          description: the display name of parent cluster
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -12513,9 +13047,6 @@ components:
       description: the item of the parameter template
       type: object
       properties:
-        componentDefRef:
-          type: string
-          description: component type, refer to componentDef and support NamePrefix, Deprecated.
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
@@ -12540,98 +13071,94 @@ components:
         - Halt
         - Delete
         - WipeOut
+    componentVolumeItem:
+      description: ComponentVolumeItem is the information of a component volume
+      type: object
+      properties:
+        name:
+          type: string
+          description: volume name
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+    componentItem:
+      type: object
+      description: ComponentItem is the information of a component
+      properties:
+        name:
+          type: string
+          description: component name
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix
+        compNum:
+          title: CompNum
+          type: integer
+          description: number of components
+        replicas:
+          title: Replicas
+          maximum: 5
+          minimum: 1
+          type: integer
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        classCode:
+          type: string
+        classSeries:
+          type: string
+        cpu:
+          title: CPU
+          multipleOf: 0.5
+          maximum: 64
+          minimum: 0.5
+          type: number
+          description: CPU cores.
+          format: double
+        memory:
+          title: Memory(Gi)
+          maximum: 1000
+          minimum: 0.5
+          type: number
+          description: Memory, the unit is Gi.
+          format: double
+        storageClass:
+          title: StorageClass
+          type: string
+          description: StorageClass name
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/componentVolumeItem'
+        codeShort:
+          description: Cluster main component codeShort
+          type: string
     components:
       type: array
-      description: Items is the list of ComponentSpec in the list
+      description: Components is the list of components
       items:
-        type: object
-        properties:
-          name:
+        $ref: '#/components/schemas/componentItem'
+    initOptionItem:
+      description: InitOptionItem is the information of init option
+      type: object
+      properties:
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix'
+        initParams:
+          type: object
+          additionalProperties:
             type: string
-            description: component name
-          component:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix
-          componentDef:
-            type: string
-            description: componentDefinition name
-          compNum:
-            title: CompNum
-            type: integer
-            description: number of components
-          monitor:
-            type: boolean
-            description: enable monitor
-          replicas:
-            title: Replicas
-            maximum: 5
-            minimum: 1
-            type: integer
-            description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-          classCode:
-            type: string
-          classSeries:
-            type: string
-          cpu:
-            title: CPU
-            multipleOf: 0.5
-            maximum: 64
-            minimum: 0.5
-            type: number
-            description: CPU cores.
-            format: double
-          memory:
-            title: Memory(Gi)
-            maximum: 1000
-            minimum: 0.5
-            type: number
-            description: Memory, the unit is Gi.
-            format: double
-          storage:
-            title: Storage
-            type: string
-            description: Storage
-          storageClass:
-            title: StorageClass
-            type: string
-            description: StorageClass name
-          volumes:
-            type: array
-            items:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: volume name
-                storage:
-                  title: Storage(Gi)
-                  maximum: 10000
-                  minimum: 1
-                  type: number
-                  description: Storage size, the unit is Gi.
-                  format: double
-          codeShort:
-            description: Cluster main component codeShort
-            type: string
+        specName:
+          type: string
+          description: config spec name
     initOptions:
       type: array
-      description: Items is the list of init Options in the list
+      description: InitOptions is the list of init option
       items:
-        type: object
-        properties:
-          component:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix'
-          componentDefRef:
-            type: string
-            description: component type, refer to componentDef and support NamePrefix, Deprecated
-          initParams:
-            type: object
-            additionalProperties:
-              type: string
-          specName:
-            type: string
-            description: config spec name
+        $ref: '#/components/schemas/initOptionItem'
     backupRetentionPolicy:
       type: string
       description: backup retention policy when cluster is deleted
@@ -12669,6 +13196,12 @@ components:
           type: boolean
           nullable: true
       type: object
+    networkMode:
+      enum:
+        - HostNetwork
+        - NodePort
+        - FixedPodIP
+      type: string
     cluster:
       required:
         - engine
@@ -12678,7 +13211,7 @@ components:
       properties:
         id:
           title: ID
-          type: object
+          type: string
           description: Cluster ID
         parentId:
           title: ParentId
@@ -12686,6 +13219,16 @@ components:
           format: int64
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        parentName:
+          title: ParentName
+          type: string
+          nullable: true
+          description: the name of parent cluster
+        parentDisplayName:
+          title: ParentDisplayName
+          type: string
+          nullable: true
+          description: the display name of parent cluster
         clusterType:
           $ref: '#/components/schemas/clusterType'
         delay:
@@ -12717,17 +13260,11 @@ components:
           title: Cloud Region
           type: string
           description: Cloud Region
-        namespace:
-          title: Environment Namespace
-          type: string
-          default: kubeblocks-cloud-ns
-          description: Environment Namespace
-          deprecated: true
         project:
           title: Project
           type: string
           default: kubeblocks-cloud-ns
-          description: Name of project
+          description: Name of project, it is the alias of environment namespace
         name:
           title: Name
           type: string
@@ -12744,59 +13281,12 @@ components:
           $ref: '#/components/schemas/clusterLicense'
         paramTpls:
           $ref: '#/components/schemas/paramTpls'
-        Values:
-          type: object
-          additionalProperties: true
-          description: Values
         version:
           title: Version
           type: string
           description: Cluster Application Version
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-          default: false
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-          default: false
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-          default: false
         tlsEnabled:
           title: TLS Enabled
           type: boolean
@@ -12821,10 +13311,6 @@ components:
           type: string
           description: UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
           format: date-time
-        createOnlySet:
-          title: CreateOnlySet
-          type: boolean
-          description: CreateOnlySet
         mode:
           title: Mode
           type: string
@@ -12837,21 +13323,14 @@ components:
         components:
           $ref: '#/components/schemas/components'
         extra:
-          title: Values
+          title: Extra
           type: object
           additionalProperties:
             type: object
             properties: {}
-          description: Values
+          description: Extra configuration for cluster
         initOptions:
           $ref: '#/components/schemas/initOptions'
-        extraInfo:
-          title: ExtraInfo
-          type: object
-          additionalProperties:
-            type: object
-            properties: {}
-          description: ExtraInfo
         tolerations:
           title: Tolerations
           type: string
@@ -12889,58 +13368,15 @@ components:
         static:
           description: if cluster is static cluster
           type: boolean
+        networkMode:
+          description: Specify the network mode for intra-cluster communication
+          $ref: '#/components/schemas/networkMode'
       description: KubeBlocks cluster information
     clusterUpdate:
       type: object
       properties:
-        replicas:
-          title: Replicas
-          maximum: 5
-          minimum: 1
-          type: integer
-          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-        cpu:
-          title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
-          type: number
-          description: CPU cores.
-          format: double
-        memory:
-          title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
-          type: number
-          description: Memory, the unit is Gi.
-          format: double
-        storage:
-          title: Storage(Gi)
-          maximum: 10000
-          minimum: 1
-          type: number
-          description: Storage size, the unit is Gi.
-          format: double
         terminationPolicy:
           $ref: '#/components/schemas/clusterTerminationPolicy'
-        monitorEnabled:
-          title: Monitor Enabled
-          type: boolean
-          description: Specify whether the cluster enable monitoring.
-        vpcEndpointEnabled:
-          title: VPC Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from within the VPC.
-        internetEndpointEnabled:
-          title: Internet Endpoint Enabled
-          type: boolean
-          description: Specify whether the cluster can be accessed from the public internet.
-        paramTpls:
-          $ref: '#/components/schemas/paramTpls'
-        tolerations:
-          title: Tolerations
-          type: string
-          description: Tolerations of cluster
         displayName:
           description: Display name of cluster.
           type: string
@@ -13077,6 +13513,10 @@ components:
         - Start
         - Expose
         - DataScript
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
       type: string
     kubernetesManifests:
       description: Items is the list of Kubernetes objects in the list
@@ -13107,6 +13547,8 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
+        - FixedPodIP
+        - HostNetwork
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -13392,6 +13834,16 @@ components:
         - BASICUSER
         - ROOT
       type: string
+    privilegeType:
+      title: privilegeType
+      description: The type of privilege.
+      type: string
+      enum:
+        - DBADMIN
+        - READWRITE
+        - READONLY
+        - DDLONLY
+        - DMLONLY
     privilegeListItem:
       type: object
       description: Database and its assigned privileges.
@@ -13401,9 +13853,7 @@ components:
           type: string
           description: The name of the database.
         privileges:
-          title: privileges
-          description: The type of privilege.
-          type: string
+          $ref: '#/components/schemas/privilegeType'
       required:
         - privileges
     privilegeList:
@@ -13792,6 +14242,9 @@ components:
         eventName:
           description: Event name is OpsRequest name or cluster operation name
           type: string
+        displayName:
+          description: Display name is custom operation name
+          type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
         source:
@@ -13809,6 +14262,26 @@ components:
           format: date-time
           type: string
       type: object
+    paginationResult:
+      description: Pagination information
+      properties:
+        page:
+          description: Current page number (1-based)
+          type: integer
+          minimum: 1
+        pageSize:
+          description: Number of records per page
+          type: integer
+          minimum: 1
+        total:
+          description: Total number of records
+          type: integer
+          minimum: 0
+      required:
+        - page
+        - pageSize
+        - total
+      type: object
     eventList:
       description: EventList is a list of operation event objects
       properties:
@@ -13817,6 +14290,8 @@ components:
           items:
             $ref: '#/components/schemas/cluster_event'
           type: array
+        pagination:
+          $ref: '#/components/schemas/paginationResult'
       required:
         - items
       type: object
@@ -14732,6 +15207,8 @@ components:
           type: string
         dependentOpsName:
           type: string
+        clusterTaskId:
+          type: string
       required:
         - opsRequestName
       type: object
@@ -14741,6 +15218,10 @@ components:
         component:
           description: component type
           type: string
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -14845,9 +15326,7 @@ components:
           type: string
       type: object
     opsHScale:
-      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster
-      required:
-        - replicas
+      description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
       properties:
         component:
           description: component type
@@ -14855,6 +15334,15 @@ components:
         replicas:
           description: number of replicas
           type: integer
+          nullable: true
+        shards:
+          description: number of shards, mutually exclusive with replicas.
+          type: integer
+          nullable: true
+        preConditionDeadlineSeconds:
+          description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
+          type: integer
+          nullable: true
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
@@ -14914,6 +15402,196 @@ components:
           description: license ID
           type: string
       type: object
+    opsCustom:
+      description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
+      required:
+        - opsType
+      properties:
+        compName:
+          description: component name
+          type: string
+        opsType:
+          description: ops definition name.
+          type: string
+        dependentOnOps:
+          description: ops definition name.
+          items:
+            type: string
+          type: array
+        params:
+          description: custom ops parameters
+          type: array
+          items:
+            x-go-type:
+              type: Parameter
+              import:
+                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+              hints:
+                kind: interface
+      type: object
+    customOpsTask:
+      description: customOpsTask is the information of custom ops task
+      properties:
+        objectKey:
+          description: the pod name
+          type: string
+        namespace:
+          description: namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        targetPodName:
+          description: target pod name of the task
+          type: string
+        retries:
+          description: retries of the task
+          type: integer
+          format: int32
+      type: object
+    customOpsTasks:
+      description: customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
+      properties:
+        items:
+          description: The list of custom ops task.
+          items:
+            $ref: '#/components/schemas/customOpsTask'
+          type: array
+      type: object
+    clusterTaskProgress:
+      description: clusterTaskProgress is the information of the task progress
+      properties:
+        name:
+          description: conponent name
+          type: string
+        group:
+          description: group name
+          type: string
+        objectKey:
+          description: the instance name
+          type: string
+          nullable: true
+        message:
+          description: message of the task progress
+          type: string
+        status:
+          description: status of the task progress
+          type: string
+        startTime:
+          description: start time of the task progress
+          format: date-time
+          type: string
+        endTime:
+          description: end time of the task progress
+          format: date-time
+          type: string
+          nullable: true
+        customOpsName:
+          description: Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
+          type: string
+          nullable: true
+        customOpsTasks:
+          $ref: '#/components/schemas/customOpsTasks'
+      type: object
+    clusterTaskProgresses:
+      description: clusterTaskProgresses is a list of task progress detail
+      properties:
+        items:
+          description: Items is the list of task progress detail in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskProgress'
+          type: array
+      type: object
+    clusterTaskDetail:
+      type: object
+      description: taskCondition is the information of the task condition
+      properties:
+        reason:
+          description: reason of the task condition
+          type: string
+        type:
+          description: type of the task condition
+          type: string
+        status:
+          description: status of the task condition
+          type: string
+        message:
+          description: message of the task condition
+          type: string
+        lastTransitionTime:
+          description: last transition time of the task condition
+          format: date-time
+          type: string
+    clusterTaskDetails:
+      description: taskConditions is a list of task condition
+      properties:
+        items:
+          description: Items is the list of task condition in the list
+          items:
+            $ref: '#/components/schemas/clusterTaskDetail'
+          type: array
+      type: object
+    clusterTask:
+      type: object
+      description: task is the information of the operation
+      required:
+        - name
+        - namespace
+        - status
+        - taskType
+        - progress
+      properties:
+        id:
+          description: ID of the task
+          type: string
+        name:
+          description: Name of the task
+          type: string
+        namespace:
+          description: Namespace of the task
+          type: string
+        status:
+          description: status of the task
+          type: string
+        taskType:
+          description: task type
+          type: string
+        progress:
+          description: progress of the task
+          type: string
+        taskProgresses:
+          $ref: '#/components/schemas/clusterTaskProgresses'
+        taskDetails:
+          $ref: '#/components/schemas/clusterTaskDetails'
+        opsLog:
+          description: pod log of the custom task
+          type: string
+        description:
+          description: description of the custom task
+          type: string
+        startTime:
+          type: string
+          format: date-time
+          description: Time when the task started
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          nullable: true
+    opsStatus:
+      type: object
+      x-go-name: OpsRequestStatus
+      properties:
+        Status:
+          type: object
+          x-go-type:
+            type: OpsRequestStatus
+            import:
+              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+            hints:
+              kind: interface
+        message:
+          type: string
     listKubernetesNodeOpType:
       type: string
       description: operation for list nodes, either `in` or `notin`
@@ -14953,8 +15631,6 @@ components:
           format: double
           type: number
       required:
-        - allocatable
-        - capacity
         - limits
         - requests
         - usage
@@ -15100,6 +15776,7 @@ components:
             type: string
           description: the mount options of the storage class
         createdAt:
+          nullable: true
           type: string
           format: date-time
           description: the creation time of the storage class
@@ -15116,6 +15793,7 @@ components:
           type: string
           description: the id of the storage class
         updatedAt:
+          nullable: true
           type: string
           format: date-time
           description: the update time of the storage class
@@ -15134,9 +15812,6 @@ components:
         - name
         - creationTimestamp
         - provisioner
-        - parameters
-        - labels
-        - annotations
         - reclaimPolicy
         - allowVolumeExpansion
         - volumeBindingMode
@@ -15145,14 +15820,10 @@ components:
         - allowSnapshot
         - isDefaultClass
         - type
-        - mountOptions
-        - createdAt
         - description
         - displayName
         - enabled
         - id
-        - updatedAt
-        - statsByNodeList
       type: object
     storageClassList:
       description: StorageClassList stands for stats for storage classes.
@@ -15162,8 +15833,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageClassInfo'
-      required:
-        - items
       type: object
     tolerateDefaultTaints:
       title: TolerateDefaultTaints
@@ -15205,6 +15874,11 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
     environmentState:
       type: string
       description: Output only. State of the Environment resource
@@ -15351,6 +16025,21 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+    staticCluster:
+      properties:
+        replicas:
+          title: Replicas
+          type: integer
+          description: the number of replicas
+        storage:
+          title: Storage(Gi)
+          maximum: 10000
+          minimum: 1
+          type: number
+          description: Storage size, the unit is Gi.
+          format: double
+        classCode:
+          type: string
     environmentStorage:
       type: object
       description: Storage config
@@ -15368,6 +16057,8 @@ components:
           type: string
         config:
           $ref: '#/components/schemas/storageCreate'
+        cluster:
+          $ref: '#/components/schemas/staticCluster'
     storageConfig:
       type: object
       description: Storage config for environment
@@ -15428,18 +16119,24 @@ components:
       type: object
       description: cluster instance autohealing process config
       required:
-        - pauseAutoHealingOnNodeUnavailable
-        - rebuildStartDelaySeconds
+        - enableAutoHealing
+        - rebuildStartDelaySecondsWhenNodeFail
+        - rebuildStartDelaySecondsWhenInMaintenance
         - minClusterRebuildIntervalSeconds
         - rebuildConcurrencyPerNode
+        - rebuildConcurrencyGlobally
       properties:
-        pauseAutoHealingOnNodeUnavailable:
+        enableAutoHealing:
           type: boolean
-          description: Set to true to pause the auto-healing process, preventing automatic rebuilding of instances when a node fails or is in maintenance mode.
-        rebuildStartDelaySeconds:
+          description: Set to true to enable the auto-healing process, which automatically rebuilds instances when a node fails or is in maintenance mode.
+        rebuildStartDelaySecondsWhenNodeFail:
           type: integer
           format: int32
           description: The number of seconds to wait before starting a rebuild when a node fails.
+        rebuildStartDelaySecondsWhenInMaintenance:
+          type: integer
+          format: int32
+          description: The number of seconds to wait before starting a rebuild when a node is in maintenance mode.
         minClusterRebuildIntervalSeconds:
           type: integer
           format: int32
@@ -15448,6 +16145,10 @@ components:
           type: integer
           format: int32
           description: The maximum number of rebuild jobs that can run simultaneously for a single node.
+        rebuildConcurrencyGlobally:
+          type: integer
+          format: int32
+          description: The maximum number of rebuild jobs that can run simultaneously for the whole k8s cluster.
     environmentDeletePolicy:
       type: string
       description: Environment delete policy to protect environment from false delete
@@ -15605,28 +16306,6 @@ components:
           type: boolean
           description: overwrite a environment if it has been added before
           default: false
-    environmentStatusHistory:
-      description: EventEnvironmentState contains details for the current and previous state of the environment.
-      type: object
-      properties:
-        CurrentState:
-          description: The current state of the environment.
-          type: string
-        PrevState:
-          description: The previous state of the environment.
-          type: string
-        Reason:
-          description: The reason for the state transition.
-          type: string
-        Timestamp:
-          description: The timestamp of the state transition.
-          type: string
-          format: date-time
-      required:
-        - CurrentState
-        - PrevState
-        - Reason
-        - Timestamp
     preflight:
       title: Preflight results
       description: The result of preflight check
@@ -15653,26 +16332,84 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/preflight'
-    environmentAdded:
+    sshConfig:
       type: object
       properties:
-        addedBefore:
+        username:
+          type: string
+          description: SSH username for connecting to the node
+          minLength: 1
+          maxLength: 32
+          pattern: ^[a-z_][a-z0-9_-]*$
+        password:
+          type: string
+          description: SSH password for connecting to the node
+          format: password
+          minLength: 1
+          writeOnly: true
+        port:
+          type: integer
+          description: SSH port number
+          default: 22
+          minimum: 1
+          maximum: 65535
+    sshNodeSpec:
+      type: object
+      required:
+        - ip
+      properties:
+        ip:
+          type: string
+          format: ipv4
+          description: IP address of the node
+        ssh:
+          $ref: '#/components/schemas/sshConfig'
+          description: SSH configuration for this specific node
+          x-nullable: true
+    sshConfigCheckRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        masters:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of masters (jumpserver) to perform preflight checks
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of nodes to perform preflight checks
+        defaultSSH:
+          $ref: '#/components/schemas/sshConfig'
+          description: Default SSH configuration for all nodes. Individual node SSH config will override this.
+    sshConfigCheckResult:
+      type: object
+      required:
+        - ip
+        - reachable
+      properties:
+        ip:
+          type: string
+          format: ipv4
+        reachable:
           type: boolean
-          description: whether the environment has ever been added
-        stillInUse:
-          type: boolean
-          description: whether the environment is still in use
-        environment:
-          $ref: '#/components/schemas/environment'
-        loki:
-          type: boolean
-          description: whether loki component is running
-        backupRepo:
-          type: boolean
-          description: whether backup repo is exist and ready
-        victoriaMetrics:
-          type: boolean
-          description: whether victoria metrics is exist
+        message:
+          type: string
+    sshConfigCheckResponse:
+      type: object
+      required:
+        - results
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshConfigCheckResult'
     cloudResourceCleanPolicy:
       type: string
       description: The policy to clean cloud resources, either `Delete` or `Retain`
@@ -15684,16 +16421,12 @@ components:
       description: Environment deletion option
       type: object
       required:
-        - backup
         - minio
         - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
           description: clean up resources in the cloud (only valid if creation is done by role ARN)
-        backup:
-          description: reserve backup when delete environment
-          $ref: '#/components/schemas/cloudResourceCleanPolicy'
         minio:
           description: reserve minio cluster when delete environment
           $ref: '#/components/schemas/cloudResourceCleanPolicy'
@@ -15761,9 +16494,36 @@ components:
           description: Enable the Internet load balancer service for this environment
           type: boolean
           default: true
+        networkModes:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
+          description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
           nullable: true
+    environmentStatusHistory:
+      description: EventEnvironmentState contains details for the current and previous state of the environment.
+      type: object
+      properties:
+        CurrentState:
+          description: The current state of the environment.
+          type: string
+        PrevState:
+          description: The previous state of the environment.
+          type: string
+        Reason:
+          description: The reason for the state transition.
+          type: string
+        Timestamp:
+          description: The timestamp of the state transition.
+          type: string
+          format: date-time
+      required:
+        - CurrentState
+        - PrevState
+        - Reason
+        - Timestamp
     storageStats:
       description: StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
       properties:
@@ -15799,15 +16559,12 @@ components:
           $ref: '#/components/schemas/resourceStats'
         memoryStats:
           $ref: '#/components/schemas/resourceStats'
-        ephemeralStorageStats:
-          $ref: '#/components/schemas/resourceStats'
         name:
           description: Name of the node.
           type: string
       required:
         - cpuStats
         - memoryStats
-        - ephemeralStorageStats
         - name
       type: object
     nodeResourceStatsList:
@@ -15867,6 +16624,296 @@ components:
       required:
         - items
       type: object
+    nodeScaleSpec:
+      type: object
+      required:
+        - ip
+        - availabilityZone
+        - markControlPlane
+        - markDataPlane
+      properties:
+        ip:
+          type: string
+          description: IP address of the node to be added
+          format: ipv4
+        availabilityZone:
+          type: string
+        markControlPlane:
+          type: boolean
+          description: Whether mark the node serves as control plane
+          default: false
+        markDataPlane:
+          description: Whether mark the node serves as data plane
+          type: boolean
+          default: true
+        ssh:
+          description: SSH connection details for the node. If not provided, environment default will be used
+          $ref: '#/components/schemas/sshConfig'
+          x-nullable: true
+    nodeScaleRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        masters:
+          type: array
+          items:
+            $ref: '#/components/schemas/sshNodeSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of masters (jumpserver for ssh), at least one node is needed
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/nodeScaleSpec'
+          minItems: 1
+          maxItems: 20
+          description: List of nodes to be added, support 1-20 nodes per request
+        defaultSSH:
+          description: Default SSH configuration for all nodes. Individual node SSH config will override this
+          $ref: '#/components/schemas/sshConfig'
+          x-nullable: true
+    taskType:
+      type: string
+      enum:
+        - ScaleOut
+        - ScaleIn
+        - DeleteDisasterRecoveryCluster
+        - CreateDisasterRecoveryCluster
+        - PromoteDisasterRecoveryCluster
+      description: Type of task operation
+    taskStatus:
+      type: string
+      enum:
+        - Pending
+        - Running
+        - Stopped
+        - Succeed
+        - Failed
+      description: Current status of the task
+    taskStep:
+      type: object
+      required:
+        - stepId
+        - inputs
+        - stepName
+        - methodName
+        - status
+        - createdAt
+        - updatedAt
+      properties:
+        stepId:
+          type: string
+          description: Unique identifier for the step
+        stepName:
+          type: string
+          description: Name of the step
+        methodName:
+          type: string
+          description: Method to be executed in this step
+        inputs:
+          type: object
+          description: Input parameters for the step
+          additionalProperties:
+            type: string
+        outputs:
+          type: object
+          description: Output parameters from the step
+          additionalProperties:
+            type: string
+        retryLimit:
+          type: integer
+          description: Number of times to retry the step in case of failure
+        currRetryCount:
+          type: integer
+          description: Current retry count for the step
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the step in seconds
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        message:
+          type: string
+          description: Detailed message about the step status
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the step was last updated
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+    taskFailurePolicy:
+      type: string
+      enum:
+        - interrupt
+        - ignore
+      description: Policy to handle failures
+    task:
+      type: object
+      required:
+        - taskId
+        - status
+        - taskName
+        - taskType
+        - createdAt
+        - updatedAt
+      properties:
+        taskId:
+          type: string
+          description: ID of the scaling task
+        taskName:
+          type: string
+          description: Name of the task
+        taskType:
+          $ref: '#/components/schemas/taskType'
+        status:
+          $ref: '#/components/schemas/taskStatus'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was last updated
+        deletedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        startedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the task was deleted
+          x-nullable: true
+        completionTime:
+          type: string
+          format: date-time
+          description: Time when the task completed or failed
+          x-nullable: true
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/taskStep'
+        parallelism:
+          type: integer
+          description: Degree of parallelism for the task
+        failurePolicy:
+          $ref: '#/components/schemas/taskFailurePolicy'
+        retryLimit:
+          type: integer
+          description: Maximum number of retries for the task
+        timeoutSecond:
+          type: integer
+          description: Timeout duration for the task in seconds
+    scaleInType:
+      type: string
+      enum:
+        - Parallel
+        - Serial
+      default: Serial
+      description: Type of scale in strategy
+    scaleInHealthCheck:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          default: true
+          description: Whether to perform health checks during scale in
+        healthyThreshold:
+          type: integer
+          minimum: 1
+          default: 3
+          description: Number of consecutive successful health checks required
+        unhealthyThreshold:
+          type: integer
+          minimum: 1
+          default: 3
+          description: Number of consecutive failed health checks before marking unhealthy
+        interval:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 10s
+          description: Interval between health checks
+        timeout:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 5s
+          description: Timeout for each health check
+    scaleInStrategy:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/scaleInType'
+        maxUnavailable:
+          type: string
+          pattern: ^([0-9]+|[0-9]+%|)$
+          default: 25%
+          description: Maximum number of nodes that can be unavailable during scale in. Can be an absolute number or a percentage.
+        maxSurge:
+          type: string
+          pattern: ^([0-9]+|[0-9]+%|)$
+          default: 0%
+          description: Maximum number of nodes that can be scheduled above the desired number. Can be an absolute number or a percentage.
+        drainTimeout:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 5m
+          description: How long to wait for pod eviction when draining a node
+        podEvictionWaitTime:
+          type: string
+          pattern: ^([0-9]+(\.[0-9]+)?(ns|us|µs|ms|s|m|h))+$
+          default: 30s
+          description: Time to wait between pod evictions
+        minReadySeconds:
+          type: integer
+          minimum: 0
+          default: 30
+          description: Minimum time a replacement node should be ready before proceeding
+        healthCheck:
+          $ref: '#/components/schemas/scaleInHealthCheck'
+          description: Health check configuration for the scale in process
+    nodeScaleInRequest:
+      type: object
+      required:
+        - nodes
+      properties:
+        nodes:
+          type: array
+          items:
+            type: string
+          description: List of node names to be removed
+        drain:
+          type: boolean
+          description: Whether to drain nodes before removal
+          default: true
+        strategy:
+          $ref: '#/components/schemas/scaleInStrategy'
+          description: Strategy to control the scale in process
+        force:
+          type: boolean
+          description: Force remove nodes even if they have pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet
+          default: false
     listBody:
       description: Represents a list of JSON bodies.
       items:
@@ -16242,15 +17289,14 @@ components:
       description: StorageProvisioner provides detailed information about the provisioner used by storage classes.
       properties:
         provisioner:
+          nullable: true
           type: string
         type:
+          nullable: true
           type: string
         cloudProvider:
+          nullable: true
           type: string
-      required:
-        - provisioner
-        - type
-        - cloudProvider
       type: object
     storageProvisionerList:
       description: StorageProvisionerList stands for stats for provisioners can be used by storage classes.
@@ -16297,24 +17343,24 @@ components:
           type: string
         capacity:
           description: the capacity of the PVC
+          nullable: true
           type: string
         accessMode:
           description: access mode of the PVC
+          nullable: true
           type: string
         volumeName:
           description: the persistentvolume of the PVC
+          nullable: true
           type: string
         node:
           description: the node of the PVC
+          nullable: true
           type: string
       required:
         - nameSpace
         - name
         - phase
-        - capacity
-        - accessMode
-        - volumeName
-        - node
       type: object
     persistentVolumeClaimList:
       description: the List stands for stats for persistentvolumeclaims.
@@ -16325,21 +17371,19 @@ components:
             $ref: '#/components/schemas/persistentVolumeClaim'
         currentPage:
           description: the current page number
+          nullable: true
           format: int64
           type: integer
         totalPage:
           description: the total page number
+          nullable: true
           format: int64
           type: integer
         pageSize:
           description: the page size
+          nullable: true
           format: int64
           type: integer
-      required:
-        - items
-        - currentPage
-        - totalPage
-        - pageSize
       type: object
     nodeGroup:
       required:
@@ -16397,16 +17441,6 @@ components:
       items:
         type: string
       type: array
-    environmentRestore:
-      type: object
-      required:
-        - environment
-      properties:
-        environment:
-          $ref: '#/components/schemas/environment'
-        victoriaMetrics:
-          type: boolean
-          description: whether to install victoria metrics
     kubeConfig:
       pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
       type: string
@@ -16566,6 +17600,9 @@ components:
         status:
           description: status specifies the status of the backupRepo
           type: string
+        storageName:
+          description: the name of storage used by backup repo
+          type: string
         storageID:
           description: the id of storage used by backup repo
           type: string
@@ -16582,7 +17619,6 @@ components:
           type: string
           description: failedMessage specifies the message of the backupRepo failure
       required:
-        - accessMethod
         - backupNums
         - config
         - createdAt
@@ -16781,6 +17817,7 @@ components:
       properties:
         name:
           type: string
+          x-nullable: false
           description: The name of the image registry.
         url:
           type: string
@@ -16899,10 +17936,12 @@ components:
           description: timeRangeEnd records the end time of the backup.
           format: date-time
           type: string
+          nullable: true
         timeRangeStart:
           description: timeRangeStart records the start time of the backup.
           format: date-time
           type: string
+          nullable: true
         totalSize:
           description: Backup total size. A string with capacity units in the form of "1Gi", "1Mi", "1Ki".
           type: string
@@ -16925,6 +17964,7 @@ components:
           description: indicates when this backup becomes eligible for garbage collection
           type: string
           format: date-time
+          nullable: true
         id:
           description: the backup id
           type: string
@@ -16950,21 +17990,15 @@ components:
         - backupType
         - cloudProvider
         - cloudRegion
-        - completionTimestamp
         - creationTimestamp
-        - duration
         - engine
         - environmentName
-        - expiration
         - name
         - orgName
         - retentionPeriod
         - snapshotVolumes
         - sourceCluster
-        - startTimestamp
         - status
-        - timeRangeStart
-        - timeRangeEnd
         - totalSize
       type: object
     backupPolicy:
@@ -16996,6 +18030,7 @@ components:
           description: the time to do next backup
           format: date-time
           type: string
+          nullable: true
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -17388,6 +18423,39 @@ components:
       required:
         - items
       type: object
+    URLCheck:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          example: https://example.com
+        isConnectable:
+          type: boolean
+          example: true
+          default: false
+        timeout:
+          type: integer
+          minimum: 1
+          maximum: 30
+          default: 5
+          example: 5
+        error:
+          type: string
+          example: null
+    alertStatistic:
+      type: object
+      properties:
+        total:
+          type: integer
+        critical:
+          type: integer
+        warning:
+          type: integer
+        info:
+          type: integer
     alertSeverity:
       enum:
         - critical
@@ -17610,6 +18678,10 @@ components:
           type: integer
         orgName:
           type: string
+        page:
+          type: integer
+        pageSize:
+          type: integer
       description: Alert object information
     alertObjectList:
       required:
@@ -17943,6 +19015,9 @@ components:
         feature:
           type: object
           additionalProperties: {}
+        defaultAccount:
+          type: string
+          x-nullable: true
         tableMetadata:
           type: array
           items:
@@ -18035,6 +19110,19 @@ components:
           additionalProperties:
             type: string
           description: selector of k8s service
+        followNetworkMode:
+          type: boolean
+          default: false
+          description: whether the endpoint follows the network mode of the component
+    networkModeOption:
+      type: object
+      required:
+        - supported
+      properties:
+        supported:
+          type: array
+          items:
+            $ref: '#/components/schemas/networkMode'
     componentOpsOption:
       type: object
       required:
@@ -18121,17 +19209,19 @@ components:
       enum:
         - instant
         - range
+    metricsOptionQuery:
+      type: object
+      properties:
+        queryPattern:
+          type: string
+          x-nullable: false
+        queryType:
+          $ref: '#/components/schemas/engineOptionsMetricsQueryType'
     metricsOption:
       type: object
       properties:
         replicationLag:
-          type: object
-          properties:
-            queryPattern:
-              type: string
-              x-nullable: false
-            queryType:
-              $ref: '#/components/schemas/engineOptionsMetricsQueryType'
+          $ref: '#/components/schemas/metricsOptionQuery'
     dashboardOption:
       type: object
       required:
@@ -18271,6 +19361,18 @@ components:
         disableHA:
           type: boolean
           default: false
+    engineOptionsDisasterRecoverySource:
+      type: object
+      properties:
+        metricSource:
+          $ref: '#/components/schemas/metricsOptionQuery'
+    engineOptionsDisasterRecoveryStatus:
+      type: object
+      properties:
+        delay:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
+        replicationPoint:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoverySource'
     disasterRecoveryOption:
       type: object
       required:
@@ -18281,6 +19383,8 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        status:
+          $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     engineOption:
       type: object
       required:
@@ -18298,7 +19402,6 @@ components:
         - restart
         - hscale
         - vscale
-        - storageExpansion
         - dashboards
         - logs
         - parameters
@@ -18336,6 +19439,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
+        networkMode:
+          $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
           items:
@@ -18462,7 +19567,7 @@ components:
           type: string
           format: date-time
         id:
-          type: integer
+          type: string
           x-nullable: false
         idString:
           type: string
@@ -18624,15 +19729,13 @@ components:
           type: string
           description: The license mode
     licenseRequest:
+      required:
+        - key
       properties:
         key:
+          x-nullable: false
           type: string
           description: License key
-    classSeries:
-      type: string
-      enum:
-        - general
-        - exclusive
     class:
       type: object
       properties:
@@ -18670,8 +19773,8 @@ components:
           format: double
         component:
           type: string
-        series:
-          $ref: '#/components/schemas/classSeries'
+        instanceType:
+          type: string
     classBatch:
       type: object
       properties:
@@ -18681,8 +19784,8 @@ components:
           type: string
         component:
           type: string
-        series:
-          $ref: '#/components/schemas/classSeries'
+        instanceType:
+          type: string
         cpuOverCommit:
           type: number
           multipleOf: 0.1
@@ -18691,6 +19794,72 @@ components:
           type: number
           multipleOf: 0.1
           format: double
+    OccupationType:
+      type: string
+      enum:
+        - general
+        - exclusive
+    serverConfiguration:
+      type: object
+      properties:
+        architectureType:
+          type: string
+          description: Server architecture type, can be empty.
+    instanceTypes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the instance type.
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time.
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+    createInstanceType:
+      type: object
+      properties:
+        description:
+          type: string
+          maxLength: 255
+          description: Any characters, no more than 255 characters long.
+        displayName:
+          type: string
+          maxLength: 63
+          description: Any characters, no more than 63 characters long.
+        occupationType:
+          $ref: '#/components/schemas/OccupationType'
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
+        serverConfiguration:
+          $ref: '#/components/schemas/serverConfiguration'
+        engines:
+          type: array
+          items:
+            type: string
+          description: List of engine names supported by this instance type.
+        sourceInstanceTypeName:
+          type: array
+          items:
+            type: string
+          description: The Names of the instance types to be copied. All specifications of these instances will be copied to the new instance type.
     provider:
       description: The cloud provider that the environment is running on.
       type: object
@@ -19428,6 +20597,8 @@ components:
           type: string
         suggestion:
           type: string
+        unit:
+          type: string
       type: object
     autoInspectionRunUnit:
       type: string
@@ -19501,6 +20672,8 @@ components:
         statusCheckName:
           type: string
         statusCheck:
+          type: string
+        unit:
           type: string
     storageProviderSchemaProps:
       type: object
@@ -19613,6 +20786,16 @@ components:
         error:
           type: string
           description: the error msg
+    importBackup:
+      description: import backuprecords from storage
+      type: object
+      properties:
+        bucket:
+          type: string
+          description: the name of bucket
+        path:
+          type: string
+          description: the path to backup's kubeblocks-backup.json
     faultType:
       type: string
       enum:
@@ -20069,6 +21252,8 @@ components:
     backupConfig:
       type: object
       properties:
+        provider:
+          type: string
         schedule:
           type: string
         accessKeyId:
@@ -20079,7 +21264,7 @@ components:
           type: string
         region:
           type: string
-        s3Prefix:
+        bucket:
           type: string
         autoBackup:
           default: false
@@ -20088,9 +21273,11 @@ components:
         nextBackupTime:
           description: time for next backup
           type: string
-        retentionPolicy:
-          description: specify the retention policy
-          type: string
+        retentionDay:
+          description: specify the retention days
+          type: integer
+          default: 5
+          minimum: 2
         lastBackupTime:
           description: the time of last backup
           type: string
@@ -20456,7 +21643,38 @@ components:
           description: ExpiredAt is a timestamp representing the server time when this object will be expired, and deleted automatically.
           format: date-time
       description: KubeBlocks cluster(in recycle bin) information
-    alertAdmin_alertRule:
+    taskList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/task'
+    cluster_opsStatus:
+      enum:
+        - Pending
+        - Creating
+        - Running
+        - Cancelling
+        - Succeed
+        - Cancelled
+        - Failed
+        - Aborted
+      type: string
+    clusterTaskList:
+      description: TaskList is a list of operation task objects
+      properties:
+        items:
+          description: Items is the list of operation task objects in the list
+          items:
+            $ref: '#/components/schemas/clusterTask'
+          type: array
+      required:
+        - items
+      type: object
+    alertadmin_alertRule:
       type: object
       properties:
         description:
@@ -20485,7 +21703,7 @@ components:
         metric:
           $ref: '#/components/schemas/alertMetric'
       description: Alert rule information
-    alertAdmin_alertRuleGroup:
+    alertadmin_alertRuleGroup:
       type: object
       properties:
         name:
@@ -20493,8 +21711,8 @@ components:
         rules:
           type: array
           items:
-            $ref: '#/components/schemas/alertAdmin_alertRule'
-    alertAdmin_alertRuleList:
+            $ref: '#/components/schemas/alertadmin_alertRule'
+    alertadmin_alertRuleList:
       required:
         - items
       type: object
@@ -20503,11 +21721,11 @@ components:
           type: array
           description: Items is the list of alert rule objects in the list
           items:
-            $ref: '#/components/schemas/alertAdmin_alertRuleGroup'
+            $ref: '#/components/schemas/alertadmin_alertRuleGroup'
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
-    alertAdmin_alertObject:
+    alertadmin_alertObject:
       type: object
       properties:
         id:
@@ -20541,7 +21759,7 @@ components:
         count:
           type: integer
       description: Alert object information
-    alertAdmin_alertObjectList:
+    alertadmin_alertObjectList:
       required:
         - items
       type: object
@@ -20550,7 +21768,7 @@ components:
           type: array
           description: Items is the list of alert admin objects in the list
           items:
-            $ref: '#/components/schemas/alertAdmin_alertObject'
+            $ref: '#/components/schemas/alertadmin_alertObject'
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertObjectList is a list of alert admin object
@@ -20601,6 +21819,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1708848695
     endTime:
       name: end
@@ -20609,6 +21828,7 @@ components:
       schema:
         type: integer
         format: int64
+      required: true
       example: 1711354295
 x-tagGroup:
   - name: User
@@ -20646,6 +21866,7 @@ x-tagGroup:
       - tls
       - database
       - recycleBinCluster
+      - relation
   - name: License
     tags:
       - license
@@ -20658,3 +21879,6 @@ x-tagGroup:
   - name: PlatformParameter
     tags:
       - platformParameter
+  - name: task
+    tags:
+      - task

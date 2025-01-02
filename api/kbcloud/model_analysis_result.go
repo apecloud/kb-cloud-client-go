@@ -4,6 +4,8 @@
 
 package kbcloud
 
+import "github.com/apecloud/kb-cloud-client-go/api/common"
+
 type AnalysisResult struct {
 	Explanation *string `json:"explanation,omitempty"`
 	Error       *string `json:"error,omitempty"`

@@ -150,11 +150,11 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*
 
 // ListAdminUsers Get all admin users.
 // Get all admin users
-func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) ([]AdminUserList, *_nethttp.Response, error) {
+func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) (AdminUserList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []AdminUserList
+		localVarReturnValue AdminUserList
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AdminUserApi.ListAdminUsers")

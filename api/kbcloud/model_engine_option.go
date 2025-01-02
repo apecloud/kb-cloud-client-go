@@ -6,6 +6,8 @@ package kbcloud
 
 import (
 	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type EngineOption struct {
@@ -22,6 +24,7 @@ type EngineOption struct {
 	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            *BenchOption            `json:"bench,omitempty"`
 	Endpoints        []EndpointOption        `json:"endpoints"`
+	NetworkMode      *NetworkModeOption      `json:"networkMode,omitempty"`
 	Promote          []ComponentOpsOption    `json:"promote"`
 	Stop             []ComponentOpsOption    `json:"stop"`
 	Start            []ComponentOpsOption    `json:"start"`
@@ -29,7 +32,7 @@ type EngineOption struct {
 	Hscale           []ComponentOpsOption    `json:"hscale"`
 	Vscale           []ComponentOpsOption    `json:"vscale"`
 	License          *EngineOptionLicense    `json:"license,omitempty"`
-	StorageExpansion []ComponentOpsOption    `json:"storageExpansion"`
+	StorageExpansion []ComponentOpsOption    `json:"storageExpansion,omitempty"`
 	RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
 	Metrics          *MetricsOption          `json:"metrics,omitempty"`
 	Dashboards       []DashboardOption       `json:"dashboards"`
@@ -45,7 +48,7 @@ type EngineOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, storageExpansion []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
+func NewEngineOption(engineName string, title string, description LocalizedDescription, versions []string, components []ComponentOption, modes []ModeOption, dms DmsOption, endpoints []EndpointOption, promote []ComponentOpsOption, stop []ComponentOpsOption, start []ComponentOpsOption, restart []ComponentOpsOption, hscale []ComponentOpsOption, vscale []ComponentOpsOption, dashboards []DashboardOption, logs []LogOption, parameters []ParameterOption) *EngineOption {
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
@@ -61,7 +64,6 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 	this.Restart = restart
 	this.Hscale = hscale
 	this.Vscale = vscale
-	this.StorageExpansion = storageExpansion
 	this.Dashboards = dashboards
 	this.Logs = logs
 	this.Parameters = parameters
@@ -372,6 +374,34 @@ func (o *EngineOption) SetEndpoints(v []EndpointOption) {
 	o.Endpoints = v
 }
 
+// GetNetworkMode returns the NetworkMode field value if set, zero value otherwise.
+func (o *EngineOption) GetNetworkMode() NetworkModeOption {
+	if o == nil || o.NetworkMode == nil {
+		var ret NetworkModeOption
+		return ret
+	}
+	return *o.NetworkMode
+}
+
+// GetNetworkModeOk returns a tuple with the NetworkMode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetNetworkModeOk() (*NetworkModeOption, bool) {
+	if o == nil || o.NetworkMode == nil {
+		return nil, false
+	}
+	return o.NetworkMode, true
+}
+
+// HasNetworkMode returns a boolean if a field has been set.
+func (o *EngineOption) HasNetworkMode() bool {
+	return o != nil && o.NetworkMode != nil
+}
+
+// SetNetworkMode gets a reference to the given NetworkModeOption and assigns it to the NetworkMode field.
+func (o *EngineOption) SetNetworkMode(v NetworkModeOption) {
+	o.NetworkMode = &v
+}
+
 // GetPromote returns the Promote field value.
 func (o *EngineOption) GetPromote() []ComponentOpsOption {
 	if o == nil {
@@ -538,25 +568,30 @@ func (o *EngineOption) SetLicense(v EngineOptionLicense) {
 	o.License = &v
 }
 
-// GetStorageExpansion returns the StorageExpansion field value.
+// GetStorageExpansion returns the StorageExpansion field value if set, zero value otherwise.
 func (o *EngineOption) GetStorageExpansion() []ComponentOpsOption {
-	if o == nil {
+	if o == nil || o.StorageExpansion == nil {
 		var ret []ComponentOpsOption
 		return ret
 	}
 	return o.StorageExpansion
 }
 
-// GetStorageExpansionOk returns a tuple with the StorageExpansion field value
+// GetStorageExpansionOk returns a tuple with the StorageExpansion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EngineOption) GetStorageExpansionOk() (*[]ComponentOpsOption, bool) {
-	if o == nil {
+	if o == nil || o.StorageExpansion == nil {
 		return nil, false
 	}
 	return &o.StorageExpansion, true
 }
 
-// SetStorageExpansion sets field value.
+// HasStorageExpansion returns a boolean if a field has been set.
+func (o *EngineOption) HasStorageExpansion() bool {
+	return o != nil && o.StorageExpansion != nil
+}
+
+// SetStorageExpansion gets a reference to the given []ComponentOpsOption and assigns it to the StorageExpansion field.
 func (o *EngineOption) SetStorageExpansion(v []ComponentOpsOption) {
 	o.StorageExpansion = v
 }
@@ -740,6 +775,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["bench"] = o.Bench
 	}
 	toSerialize["endpoints"] = o.Endpoints
+	if o.NetworkMode != nil {
+		toSerialize["networkMode"] = o.NetworkMode
+	}
 	toSerialize["promote"] = o.Promote
 	toSerialize["stop"] = o.Stop
 	toSerialize["start"] = o.Start
@@ -749,7 +787,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.License != nil {
 		toSerialize["license"] = o.License
 	}
-	toSerialize["storageExpansion"] = o.StorageExpansion
+	if o.StorageExpansion != nil {
+		toSerialize["storageExpansion"] = o.StorageExpansion
+	}
 	if o.RebuildInstance != nil {
 		toSerialize["rebuildInstance"] = o.RebuildInstance
 	}
@@ -784,6 +824,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Backup           *BackupOption           `json:"backup,omitempty"`
 		Bench            *BenchOption            `json:"bench,omitempty"`
 		Endpoints        *[]EndpointOption       `json:"endpoints"`
+		NetworkMode      *NetworkModeOption      `json:"networkMode,omitempty"`
 		Promote          *[]ComponentOpsOption   `json:"promote"`
 		Stop             *[]ComponentOpsOption   `json:"stop"`
 		Start            *[]ComponentOpsOption   `json:"start"`
@@ -791,7 +832,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Hscale           *[]ComponentOpsOption   `json:"hscale"`
 		Vscale           *[]ComponentOpsOption   `json:"vscale"`
 		License          *EngineOptionLicense    `json:"license,omitempty"`
-		StorageExpansion *[]ComponentOpsOption   `json:"storageExpansion"`
+		StorageExpansion []ComponentOpsOption    `json:"storageExpansion,omitempty"`
 		RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
 		Metrics          *MetricsOption          `json:"metrics,omitempty"`
 		Dashboards       *[]DashboardOption      `json:"dashboards"`
@@ -844,9 +885,6 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Vscale == nil {
 		return fmt.Errorf("required field vscale missing")
 	}
-	if all.StorageExpansion == nil {
-		return fmt.Errorf("required field storageExpansion missing")
-	}
 	if all.Dashboards == nil {
 		return fmt.Errorf("required field dashboards missing")
 	}
@@ -858,7 +896,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery"})
 	} else {
 		return err
 	}
@@ -894,6 +932,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Bench = all.Bench
 	o.Endpoints = *all.Endpoints
+	if all.NetworkMode != nil && all.NetworkMode.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.NetworkMode = all.NetworkMode
 	o.Promote = *all.Promote
 	o.Stop = *all.Stop
 	o.Start = *all.Start
@@ -904,7 +946,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.License = all.License
-	o.StorageExpansion = *all.StorageExpansion
+	o.StorageExpansion = all.StorageExpansion
 	o.RebuildInstance = all.RebuildInstance
 	if all.Metrics != nil && all.Metrics.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

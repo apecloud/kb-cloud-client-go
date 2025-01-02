@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type RestoreStatusConditionsItem struct {
 	Message *string `json:"message,omitempty"`

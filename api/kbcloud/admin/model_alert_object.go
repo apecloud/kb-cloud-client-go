@@ -4,7 +4,11 @@
 
 package admin
 
-import "time"
+import (
+	"time"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // AlertObject Alert object information
 type AlertObject struct {
@@ -24,6 +28,8 @@ type AlertObject struct {
 	Status      *AlertStatus   `json:"status,omitempty"`
 	Count       *int32         `json:"count,omitempty"`
 	OrgName     *string        `json:"orgName,omitempty"`
+	Page        *int32         `json:"page,omitempty"`
+	PageSize    *int32         `json:"pageSize,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -494,6 +500,62 @@ func (o *AlertObject) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+// GetPage returns the Page field value if set, zero value otherwise.
+func (o *AlertObject) GetPage() int32 {
+	if o == nil || o.Page == nil {
+		var ret int32
+		return ret
+	}
+	return *o.Page
+}
+
+// GetPageOk returns a tuple with the Page field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertObject) GetPageOk() (*int32, bool) {
+	if o == nil || o.Page == nil {
+		return nil, false
+	}
+	return o.Page, true
+}
+
+// HasPage returns a boolean if a field has been set.
+func (o *AlertObject) HasPage() bool {
+	return o != nil && o.Page != nil
+}
+
+// SetPage gets a reference to the given int32 and assigns it to the Page field.
+func (o *AlertObject) SetPage(v int32) {
+	o.Page = &v
+}
+
+// GetPageSize returns the PageSize field value if set, zero value otherwise.
+func (o *AlertObject) GetPageSize() int32 {
+	if o == nil || o.PageSize == nil {
+		var ret int32
+		return ret
+	}
+	return *o.PageSize
+}
+
+// GetPageSizeOk returns a tuple with the PageSize field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertObject) GetPageSizeOk() (*int32, bool) {
+	if o == nil || o.PageSize == nil {
+		return nil, false
+	}
+	return o.PageSize, true
+}
+
+// HasPageSize returns a boolean if a field has been set.
+func (o *AlertObject) HasPageSize() bool {
+	return o != nil && o.PageSize != nil
+}
+
+// SetPageSize gets a reference to the given int32 and assigns it to the PageSize field.
+func (o *AlertObject) SetPageSize(v int32) {
+	o.PageSize = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertObject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -556,6 +618,12 @@ func (o AlertObject) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.Page != nil {
+		toSerialize["page"] = o.Page
+	}
+	if o.PageSize != nil {
+		toSerialize["pageSize"] = o.PageSize
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -582,13 +650,15 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 		Status      *AlertStatus   `json:"status,omitempty"`
 		Count       *int32         `json:"count,omitempty"`
 		OrgName     *string        `json:"orgName,omitempty"`
+		Page        *int32         `json:"page,omitempty"`
+		PageSize    *int32         `json:"pageSize,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize"})
 	} else {
 		return err
 	}
@@ -618,6 +688,8 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Count = all.Count
 	o.OrgName = all.OrgName
+	o.Page = all.Page
+	o.PageSize = all.PageSize
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

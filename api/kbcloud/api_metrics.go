@@ -16,46 +16,14 @@ import (
 // MetricsApi service type
 type MetricsApi common.Service
 
-// QueryClusterMetricsOptionalParameters holds optional parameters for QueryClusterMetrics.
-type QueryClusterMetricsOptionalParameters struct {
-	Start *int64
-	End   *int64
-}
-
-// NewQueryClusterMetricsOptionalParameters creates an empty struct for parameters.
-func NewQueryClusterMetricsOptionalParameters() *QueryClusterMetricsOptionalParameters {
-	this := QueryClusterMetricsOptionalParameters{}
-	return &this
-}
-
-// WithStart sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterMetricsOptionalParameters) WithStart(start int64) *QueryClusterMetricsOptionalParameters {
-	r.Start = &start
-	return r
-}
-
-// WithEnd sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterMetricsOptionalParameters) WithEnd(end int64) *QueryClusterMetricsOptionalParameters {
-	r.End = &end
-	return r
-}
-
 // QueryClusterMetrics Query cluster metrics.
 // Query cluster metrics by specified metric name and instance name, support instant and range query
-func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, o ...QueryClusterMetricsOptionalParameters) (ClusterMetrics, *_nethttp.Response, error) {
+func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, clusterName string, query string, queryType MetricsQueryType, start int64, end int64) (ClusterMetrics, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterMetrics
-		optionalParams      QueryClusterMetricsOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterMetricsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.QueryClusterMetrics")
 	if err != nil {
@@ -71,12 +39,8 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("query", common.ParameterToString(query, ""))
 	localVarQueryParams.Add("queryType", common.ParameterToString(queryType, ""))
-	if optionalParams.Start != nil {
-		localVarQueryParams.Add("start", common.ParameterToString(*optionalParams.Start, ""))
-	}
-	if optionalParams.End != nil {
-		localVarQueryParams.Add("end", common.ParameterToString(*optionalParams.End, ""))
-	}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
