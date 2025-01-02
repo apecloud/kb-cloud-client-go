@@ -21,6 +21,111 @@ servers:
 security:
   - BearerToken: []
 paths:
+  /data/v1/organizations/{orgName}/clusters/{clusterName}/databases:
+    get:
+      description: list databases in cluster
+      summary: List cluster databases
+      operationId: listDatabases
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
+    post:
+      description: create a database in cluster
+      summary: Create cluster database
+      operationId: createDatabase
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/database'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when database is created successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
+      x-codegen-request-body-name: body
+  /data/v1/organizations/{orgName}/clusters/{clusterName}/database/{databaseName}:
+    delete:
+      description: delete a database in cluster
+      summary: Delete cluster database
+      operationId: deleteDatabase
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of database
+          in: path
+          name: databaseName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
   /data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
@@ -1190,6 +1295,68 @@ components:
       name: authorization
       in: header
   schemas:
+    databaseItem:
+      description: Cluster database information
+      properties:
+        name:
+          description: Specify the name of database, which must be unique.
+          title: name
+          type: string
+      required:
+        - name
+      type: object
+    databaseList:
+      description: DatabaesList is a list of Databaes
+      properties:
+        items:
+          description: Items is the list of Databases objects in the list
+          items:
+            $ref: '#/components/schemas/databaseItem'
+          type: array
+      required:
+        - items
+      type: object
+    APIErrorResponse:
+      description: API error response.
+      properties:
+        code:
+          description: The HTTP status code.
+          type: integer
+        reason:
+          description: The reason for the error.
+          type: string
+        message:
+          description: The message for the error.
+          type: string
+      required:
+        - code
+      type: object
+    database:
+      description: Cluster database information
+      properties:
+        component:
+          description: component type
+          title: component
+          type: string
+        name:
+          description: Specify the name of database, which must be unique.
+          title: name
+          type: string
+        accountName:
+          description: Specify account name who can manage this database
+          title: owner
+          type: string
+        charset:
+          description: Specify charsetName of database.
+          title: charsetName
+          type: string
+        description:
+          description: Description of the database.
+          title: description
+          type: string
+      required:
+        - name
+      type: object
     Broker:
       x-go-name: KafkaBroker
       type: object
@@ -1211,21 +1378,6 @@ components:
           type: array
           items:
             type: integer
-    APIErrorResponse:
-      description: API error response.
-      properties:
-        code:
-          description: The HTTP status code.
-          type: integer
-        reason:
-          description: The reason for the error.
-          type: string
-        message:
-          description: The message for the error.
-          type: string
-      required:
-        - code
-      type: object
     ConfigEntry:
       x-go-name: KafkaConfigEntry
       type: object
