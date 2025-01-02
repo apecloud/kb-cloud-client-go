@@ -11660,7 +11660,6 @@ components:
           $ref: '#/components/schemas/privilegeType'
       required:
         - privileges
-        - databaseName
     privilegeList:
       type: array
       items:

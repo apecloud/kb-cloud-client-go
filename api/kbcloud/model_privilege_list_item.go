@@ -13,7 +13,7 @@ import (
 // PrivilegeListItem Database and its assigned privileges.
 type PrivilegeListItem struct {
 	// The name of the database.
-	DatabaseName string `json:"databaseName"`
+	DatabaseName *string `json:"databaseName,omitempty"`
 	// The type of privilege.
 	Privileges PrivilegeType `json:"privileges"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +25,8 @@ type PrivilegeListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPrivilegeListItem(databaseName string, privileges PrivilegeType) *PrivilegeListItem {
+func NewPrivilegeListItem(privileges PrivilegeType) *PrivilegeListItem {
 	this := PrivilegeListItem{}
-	this.DatabaseName = databaseName
 	this.Privileges = privileges
 	return &this
 }
@@ -40,27 +39,32 @@ func NewPrivilegeListItemWithDefaults() *PrivilegeListItem {
 	return &this
 }
 
-// GetDatabaseName returns the DatabaseName field value.
+// GetDatabaseName returns the DatabaseName field value if set, zero value otherwise.
 func (o *PrivilegeListItem) GetDatabaseName() string {
-	if o == nil {
+	if o == nil || o.DatabaseName == nil {
 		var ret string
 		return ret
 	}
-	return o.DatabaseName
+	return *o.DatabaseName
 }
 
-// GetDatabaseNameOk returns a tuple with the DatabaseName field value
+// GetDatabaseNameOk returns a tuple with the DatabaseName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *PrivilegeListItem) GetDatabaseNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.DatabaseName == nil {
 		return nil, false
 	}
-	return &o.DatabaseName, true
+	return o.DatabaseName, true
 }
 
-// SetDatabaseName sets field value.
+// HasDatabaseName returns a boolean if a field has been set.
+func (o *PrivilegeListItem) HasDatabaseName() bool {
+	return o != nil && o.DatabaseName != nil
+}
+
+// SetDatabaseName gets a reference to the given string and assigns it to the DatabaseName field.
 func (o *PrivilegeListItem) SetDatabaseName(v string) {
-	o.DatabaseName = v
+	o.DatabaseName = &v
 }
 
 // GetPrivileges returns the Privileges field value.
@@ -92,7 +96,9 @@ func (o PrivilegeListItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["databaseName"] = o.DatabaseName
+	if o.DatabaseName != nil {
+		toSerialize["databaseName"] = o.DatabaseName
+	}
 	toSerialize["privileges"] = o.Privileges
 
 	for key, value := range o.AdditionalProperties {
@@ -104,14 +110,11 @@ func (o PrivilegeListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DatabaseName *string        `json:"databaseName"`
+		DatabaseName *string        `json:"databaseName,omitempty"`
 		Privileges   *PrivilegeType `json:"privileges"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.DatabaseName == nil {
-		return fmt.Errorf("required field databaseName missing")
 	}
 	if all.Privileges == nil {
 		return fmt.Errorf("required field privileges missing")
@@ -124,7 +127,7 @@ func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.DatabaseName = *all.DatabaseName
+	o.DatabaseName = all.DatabaseName
 	if !all.Privileges.IsValid() {
 		hasInvalidField = true
 	} else {
