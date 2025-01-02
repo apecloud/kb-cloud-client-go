@@ -11638,6 +11638,16 @@ components:
         - BASICUSER
         - ROOT
       type: string
+    privilegeType:
+      title: privilegeType
+      description: The type of privilege.
+      type: string
+      enum:
+        - DBADMIN
+        - READWRITE
+        - READONLY
+        - DDLONLY
+        - DMLONLY
     privilegeListItem:
       type: object
       description: Database and its assigned privileges.
@@ -11647,11 +11657,10 @@ components:
           type: string
           description: The name of the database.
         privileges:
-          title: privileges
-          description: The type of privilege.
-          type: string
+          $ref: '#/components/schemas/privilegeType'
       required:
         - privileges
+        - databaseName
     privilegeList:
       type: array
       items:
