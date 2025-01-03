@@ -599,6 +599,294 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 	return localVarHTTPResponse, nil
 }
 
+// GetComponentInfo Get component information in an environment.
+func (a *EnvironmentApi) GetComponentInfo(ctx _context.Context, envName string) (ComponentInfo, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ComponentInfo
+	)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetComponentInfo")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/environments/{envName}/components"
+	localVarPath = strings.Replace(localVarPath, "{"+"envName"+"}", _neturl.PathEscape(common.ParameterToString(envName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetComponentLogsOptionalParameters holds optional parameters for GetComponentLogs.
+type GetComponentLogsOptionalParameters struct {
+	ContainerName *string
+	SinceSeconds  *int32
+	SinceTime     *time.Time
+	TailLines     *int32
+	Search        *string
+	Previous      *bool
+}
+
+// NewGetComponentLogsOptionalParameters creates an empty struct for parameters.
+func NewGetComponentLogsOptionalParameters() *GetComponentLogsOptionalParameters {
+	this := GetComponentLogsOptionalParameters{}
+	return &this
+}
+
+// WithContainerName sets the corresponding parameter name and returns the struct.
+func (r *GetComponentLogsOptionalParameters) WithContainerName(containerName string) *GetComponentLogsOptionalParameters {
+	r.ContainerName = &containerName
+	return r
+}
+
+// WithSinceSeconds sets the corresponding parameter name and returns the struct.
+func (r *GetComponentLogsOptionalParameters) WithSinceSeconds(sinceSeconds int32) *GetComponentLogsOptionalParameters {
+	r.SinceSeconds = &sinceSeconds
+	return r
+}
+
+// WithSinceTime sets the corresponding parameter name and returns the struct.
+func (r *GetComponentLogsOptionalParameters) WithSinceTime(sinceTime time.Time) *GetComponentLogsOptionalParameters {
+	r.SinceTime = &sinceTime
+	return r
+}
+
+// WithTailLines sets the corresponding parameter name and returns the struct.
+func (r *GetComponentLogsOptionalParameters) WithTailLines(tailLines int32) *GetComponentLogsOptionalParameters {
+	r.TailLines = &tailLines
+	return r
+}
+
+// WithSearch sets the corresponding parameter name and returns the struct.
+func (r *GetComponentLogsOptionalParameters) WithSearch(search string) *GetComponentLogsOptionalParameters {
+	r.Search = &search
+	return r
+}
+
+// WithPrevious sets the corresponding parameter name and returns the struct.
+func (r *GetComponentLogsOptionalParameters) WithPrevious(previous bool) *GetComponentLogsOptionalParameters {
+	r.Previous = &previous
+	return r
+}
+
+// GetComponentLogs Get logs for a component pod.
+func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, envName string, componentName string, podName string, o ...GetComponentLogsOptionalParameters) (ComponentLogs, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ComponentLogs
+		optionalParams      GetComponentLogsOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetComponentLogsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetComponentLogs")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/environments/{envName}/components/{component_name}/pods/{pod_name}/logs"
+	localVarPath = strings.Replace(localVarPath, "{"+"envName"+"}", _neturl.PathEscape(common.ParameterToString(envName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"component_name"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"pod_name"+"}", _neturl.PathEscape(common.ParameterToString(podName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if optionalParams.ContainerName != nil {
+		localVarQueryParams.Add("container_name", common.ParameterToString(*optionalParams.ContainerName, ""))
+	}
+	if optionalParams.SinceSeconds != nil {
+		localVarQueryParams.Add("since_seconds", common.ParameterToString(*optionalParams.SinceSeconds, ""))
+	}
+	if optionalParams.SinceTime != nil {
+		localVarQueryParams.Add("since_time", common.ParameterToString(*optionalParams.SinceTime, ""))
+	}
+	if optionalParams.TailLines != nil {
+		localVarQueryParams.Add("tail_lines", common.ParameterToString(*optionalParams.TailLines, ""))
+	}
+	if optionalParams.Search != nil {
+		localVarQueryParams.Add("search", common.ParameterToString(*optionalParams.Search, ""))
+	}
+	if optionalParams.Previous != nil {
+		localVarQueryParams.Add("previous", common.ParameterToString(*optionalParams.Previous, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// GetComponentPods Get pods information for a component.
+func (a *EnvironmentApi) GetComponentPods(ctx _context.Context, envName string, componentName string) (ComponentPods, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ComponentPods
+	)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetComponentPods")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/environments/{envName}/components/{component_name}/pods"
+	localVarPath = strings.Replace(localVarPath, "{"+"envName"+"}", _neturl.PathEscape(common.ParameterToString(envName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"component_name"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetEnvironment Get environment.
 func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName string) (Environment, *_nethttp.Response, error) {
 	var (

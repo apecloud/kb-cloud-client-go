@@ -12151,6 +12151,139 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/environments/{envName}/components:
+    get:
+      operationId: getComponentInfo
+      summary: Get component information in an environment
+      parameters:
+        - name: envName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/componentInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /api/v1/environments/{envName}/components/{component_name}/pods:
+    get:
+      operationId: getComponentPods
+      summary: Get pods information for a component
+      parameters:
+        - name: envName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+        - name: component_name
+          in: path
+          required: true
+          description: Component name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/componentPods'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /api/v1/environments/{envName}/components/{component_name}/pods/{pod_name}/logs:
+    get:
+      operationId: getComponentLogs
+      summary: Get logs for a component pod
+      parameters:
+        - name: envName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+        - name: component_name
+          in: path
+          required: true
+          description: Component name
+          schema:
+            type: string
+        - name: pod_name
+          in: path
+          required: true
+          description: Pod name
+          schema:
+            type: string
+        - name: container_name
+          in: query
+          required: false
+          description: Container name
+          schema:
+            type: string
+        - name: since_seconds
+          in: query
+          required: false
+          description: Get logs from the last n seconds
+          schema:
+            type: integer
+        - name: since_time
+          in: query
+          required: false
+          description: Get logs since this time (RFC3339 format)
+          schema:
+            type: string
+            format: date-time
+        - name: tail_lines
+          in: query
+          required: false
+          description: Number of lines to return from the end
+          schema:
+            type: integer
+        - name: search
+          in: query
+          required: false
+          description: Search keyword in logs
+          schema:
+            type: string
+        - name: previous
+          in: query
+          required: false
+          description: Get previous terminated container logs
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/componentLogs'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
 components:
   securitySchemes:
     BearerToken:
@@ -21495,6 +21628,187 @@ components:
       required:
         - items
       type: object
+    componentInfo:
+      type: object
+      description: Component information in an environment
+      properties:
+        environment_id:
+          type: string
+          description: Environment ID
+        last_updated:
+          type: string
+          format: date-time
+          description: Last update time of the data
+        components:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Component name
+              version:
+                type: string
+                description: Component version
+              status:
+                type: string
+                description: Component status (running, stopped, error, not_installed)
+              management_type:
+                type: string
+                description: Management type (unmanageable, manageable, kb-cluster)
+              replicas:
+                type: integer
+                description: Number of replicas
+              location:
+                type: string
+                description: Deployment location
+    componentPods:
+      type: object
+      description: Pods information for a component
+      properties:
+        environment_id:
+          type: string
+          description: Environment ID
+        component_name:
+          type: string
+          description: Component name
+        last_updated:
+          type: string
+          format: date-time
+          description: Last update time of the data
+        pods:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Pod name
+              namespace:
+                type: string
+                description: Pod namespace
+              node_name:
+                type: string
+                description: Node name where pod is running
+              status:
+                type: string
+                description: Pod status
+              phase:
+                type: string
+                description: Pod phase
+              ip:
+                type: string
+                description: Pod IP address
+              creation_timestamp:
+                type: string
+                format: date-time
+                description: Pod creation time
+              resources:
+                type: object
+                description: Resource usage (only for kb-cluster type)
+                properties:
+                  cpu:
+                    type: string
+                    description: CPU usage
+                  memory:
+                    type: string
+                    description: Memory usage
+                  storage:
+                    type: string
+                    description: Storage usage
+              owner_references:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    kind:
+                      type: string
+                      description: Owner type
+                    name:
+                      type: string
+                      description: Owner name
+                    uid:
+                      type: string
+                      description: Owner UID
+                    api_version:
+                      type: string
+                      description: Owner API version
+                    controller:
+                      type: boolean
+                      description: Whether it is a controller
+              containers:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Container name
+                    image:
+                      type: string
+                      description: Container image
+                    ready:
+                      type: boolean
+                      description: Container ready status
+                    restart_count:
+                      type: integer
+                      description: Container restart count
+                    liveness_probe:
+                      type: object
+                      description: Liveness probe configuration
+                    readiness_probe:
+                      type: object
+                      description: Readiness probe configuration
+                    resources:
+                      type: object
+                      description: Container resource usage
+              conditions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: Condition type
+                    status:
+                      type: string
+                      description: Condition status
+                    last_transition_time:
+                      type: string
+                      format: date-time
+                      description: Last transition time
+    componentLogs:
+      type: object
+      description: Component pod logs
+      properties:
+        environment_id:
+          type: string
+          description: Environment ID
+        component_name:
+          type: string
+          description: Component name
+        pod_name:
+          type: string
+          description: Pod name
+        container_name:
+          type: string
+          description: Container name
+        logs:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+                description: Log timestamp
+              message:
+                type: string
+                description: Log message
+        next_timestamp:
+          type: string
+          format: date-time
+          description: Next timestamp for pagination
   responses:
     '204':
       description: No Content
