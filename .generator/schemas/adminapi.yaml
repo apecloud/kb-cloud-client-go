@@ -16852,6 +16852,8 @@ components:
           $ref: '#/components/schemas/workflow'
         upgradeVictoriaMetrics:
           $ref: '#/components/schemas/workflow'
+        upgradeLoki:
+          $ref: '#/components/schemas/workflow'
       example:
         install:
           finishedAt: '2024-04-08T08:09:02.000Z'
@@ -16898,6 +16900,7 @@ components:
         - upgradeGemini
         - uninstall
         - upgradeVictoriaMetrics
+        - upgradeLoki
     workflowCreate:
       type: object
       properties:

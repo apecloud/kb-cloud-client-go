@@ -18,6 +18,8 @@ type WorkflowList struct {
 	UpgradeGemini *Workflow `json:"upgradeGemini,omitempty"`
 	// component management workflow
 	UpgradeVictoriaMetrics *Workflow `json:"upgradeVictoriaMetrics,omitempty"`
+	// component management workflow
+	UpgradeLoki *Workflow `json:"upgradeLoki,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -180,6 +182,34 @@ func (o *WorkflowList) SetUpgradeVictoriaMetrics(v Workflow) {
 	o.UpgradeVictoriaMetrics = &v
 }
 
+// GetUpgradeLoki returns the UpgradeLoki field value if set, zero value otherwise.
+func (o *WorkflowList) GetUpgradeLoki() Workflow {
+	if o == nil || o.UpgradeLoki == nil {
+		var ret Workflow
+		return ret
+	}
+	return *o.UpgradeLoki
+}
+
+// GetUpgradeLokiOk returns a tuple with the UpgradeLoki field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WorkflowList) GetUpgradeLokiOk() (*Workflow, bool) {
+	if o == nil || o.UpgradeLoki == nil {
+		return nil, false
+	}
+	return o.UpgradeLoki, true
+}
+
+// HasUpgradeLoki returns a boolean if a field has been set.
+func (o *WorkflowList) HasUpgradeLoki() bool {
+	return o != nil && o.UpgradeLoki != nil
+}
+
+// SetUpgradeLoki gets a reference to the given Workflow and assigns it to the UpgradeLoki field.
+func (o *WorkflowList) SetUpgradeLoki(v Workflow) {
+	o.UpgradeLoki = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o WorkflowList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -201,6 +231,9 @@ func (o WorkflowList) MarshalJSON() ([]byte, error) {
 	if o.UpgradeVictoriaMetrics != nil {
 		toSerialize["upgradeVictoriaMetrics"] = o.UpgradeVictoriaMetrics
 	}
+	if o.UpgradeLoki != nil {
+		toSerialize["upgradeLoki"] = o.UpgradeLoki
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -216,13 +249,14 @@ func (o *WorkflowList) UnmarshalJSON(bytes []byte) (err error) {
 		UpgradeKubeblocks      *Workflow `json:"upgradeKubeblocks,omitempty"`
 		UpgradeGemini          *Workflow `json:"upgradeGemini,omitempty"`
 		UpgradeVictoriaMetrics *Workflow `json:"upgradeVictoriaMetrics,omitempty"`
+		UpgradeLoki            *Workflow `json:"upgradeLoki,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"install", "uninstall", "upgradeKubeblocks", "upgradeGemini", "upgradeVictoriaMetrics"})
+		common.DeleteKeys(additionalProperties, &[]string{"install", "uninstall", "upgradeKubeblocks", "upgradeGemini", "upgradeVictoriaMetrics", "upgradeLoki"})
 	} else {
 		return err
 	}
@@ -248,6 +282,10 @@ func (o *WorkflowList) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.UpgradeVictoriaMetrics = all.UpgradeVictoriaMetrics
+	if all.UpgradeLoki != nil && all.UpgradeLoki.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.UpgradeLoki = all.UpgradeLoki
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
