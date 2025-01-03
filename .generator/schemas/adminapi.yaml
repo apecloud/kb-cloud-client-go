@@ -19209,6 +19209,167 @@ components:
           default: 8
         status:
           $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
+    cdcClusterConfig:
+      type: object
+      properties:
+        component:
+          type: string
+        configName:
+          type: string
+        parameters:
+          type: object
+          additionalProperties:
+            type: string
+    cdcClusterAccount:
+      type: object
+      properties:
+        defaultAccountName:
+          type: array
+          items:
+            type: string
+    cdcNetworkType:
+      type: string
+      enum:
+        - ClusterIP
+        - NodePort
+        - LoadBalancer
+        - FixedPodIP
+    cdcClusterEndpoint:
+      type: object
+      properties:
+        role:
+          type: string
+        component:
+          type: string
+        portName:
+          type: string
+        port:
+          type: integer
+          format: int32
+        authDatabase:
+          type: string
+          nullable: true
+        networkType:
+          $ref: '#/components/schemas/cdcNetworkType'
+    cdcSqlExecutor:
+      type: object
+      properties:
+        sql:
+          type: array
+          items:
+            type: string
+        result:
+          type: array
+          items:
+            type: string
+        authDatabase:
+          type: string
+          nullable: true
+    cdcLifecycleAction:
+      type: object
+      properties:
+        name:
+          type: string
+        sqlExecutor:
+          $ref: '#/components/schemas/cdcSqlExecutor'
+    cdcLifecycle:
+      type: object
+      properties:
+        preStart:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+        postStart:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+        preStop:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+        postStop:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+    cdcSettings:
+      type: object
+      properties:
+        config:
+          $ref: '#/components/schemas/cdcClusterConfig'
+        account:
+          $ref: '#/components/schemas/cdcClusterAccount'
+        endpoint:
+          $ref: '#/components/schemas/cdcClusterEndpoint'
+        lifecycle:
+          $ref: '#/components/schemas/cdcLifecycle'
+    cdcConfigResourceType:
+      type: string
+      enum:
+        - ConfigMap
+        - Secret
+    cdcConfigFormatType:
+      type: string
+      enum:
+        - Ini
+        - Toml
+        - Properties
+    cdcToolTemplate:
+      type: object
+      properties:
+        image:
+          type: string
+        command:
+          type: array
+          items:
+            type: string
+        args:
+          type: array
+          items:
+            type: string
+        replicas:
+          type: integer
+          format: int32
+          nullable: true
+        configFileName:
+          type: string
+        configFilePath:
+          type: string
+        configResourceType:
+          $ref: '#/components/schemas/cdcConfigResourceType'
+        configFormat:
+          $ref: '#/components/schemas/cdcConfigFormatType'
+        localRecoveryEnabled:
+          description: whether to enable local recovery feature
+          type: boolean
+        localRecoveryStorageClass:
+          type: string
+          nullable: true
+        localRecoveryStorageSize:
+          description: size of local recovery storage, the unit is MiB
+          type: integer
+          nullable: true
+        localRecoveryPath:
+          type: string
+        LogPath:
+          type: string
+        startupTimeoutMinutes:
+          type: integer
+          format: int32
+          nullable: true
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+    cdcWorkerTemplate:
+      type: object
+      properties:
+        usingTool:
+          $ref: '#/components/schemas/cdcToolTemplate'
+    cdcOption:
+      type: object
+      properties:
+        versions:
+          type: array
+          items:
+            type: string
+        source:
+          $ref: '#/components/schemas/cdcSettings'
+        sink:
+          $ref: '#/components/schemas/cdcSettings'
+        worker:
+          $ref: '#/components/schemas/cdcWorkerTemplate'
     engineOption:
       type: object
       required:
@@ -19332,6 +19493,10 @@ components:
             $ref: '#/components/schemas/parameterOption'
         disasterRecovery:
           $ref: '#/components/schemas/disasterRecoveryOption'
+        cdc:
+          type: array
+          items:
+            $ref: '#/components/schemas/cdcOption'
     engineOptionList:
       required:
         - items
