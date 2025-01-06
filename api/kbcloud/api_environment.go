@@ -89,11 +89,11 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, orgName string, en
 
 // ListEnvNodeZone List the availability zones where the environment's nodes are located.
 // List available zones of an environment
-func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, environmentName string) (ZoneList, *_nethttp.Response, error) {
+func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, environmentName string) ([]Zone, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ZoneList
+		localVarReturnValue []Zone
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvNodeZone")
