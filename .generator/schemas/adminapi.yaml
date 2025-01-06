@@ -7840,6 +7840,13 @@ paths:
       operationId: alertStatistic
       tags:
         - statistic
+      parameters:
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -12151,7 +12158,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/environments/{environmentName}/components:
+  /admin/v1/environments/{environmentName}/components:
     get:
       operationId: getComponentInfo
       summary: Get component information in an environment
@@ -12177,7 +12184,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /api/v1/environments/{environmentName}/components/{componentName}/pods:
+  /admin/v1/environments/{environmentName}/components/{componentName}/pods:
     get:
       operationId: getComponentPods
       summary: Get pods information for a component
@@ -12209,10 +12216,10 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /api/v1/environments/{environmentName}/components/{componentName}/pods/{podName}/logs:
+  /admin/v1/environments/{environmentName}/components/{componentName}/pods/{podName}/logs:
     get:
       operationId: getComponentLogs
-      summary: Get logs for a component pod
+      summary: Get logs for a component pod. When no parameters other than containerName and search are provided, start streaming logs in real-time.
       parameters:
         - name: environmentName
           in: path
@@ -13466,7 +13473,6 @@ components:
         - Stop
         - Start
         - Expose
-        - DataScript
         - Backup
         - Restore
         - RebuildInstance
@@ -21834,9 +21840,9 @@ components:
       type: object
       description: Pods information for a component
       properties:
-        environment_id:
+        environment_name:
           type: string
-          description: Environment ID
+          description: Environment name
         component_name:
           type: string
           description: Component name
@@ -21945,6 +21951,12 @@ components:
                       type: string
                       format: date-time
                       description: Last transition time
+                    reason:
+                      type: string
+                      description: Condition reason
+                    message:
+                      type: string
+                      description: Condition message
     componentLogs:
       type: object
       description: Component pod logs

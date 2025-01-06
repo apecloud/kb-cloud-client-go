@@ -17,6 +17,10 @@ type ComponentPodsPodsItemConditionsItem struct {
 	Status *string `json:"status,omitempty"`
 	// Last transition time
 	LastTransitionTime *time.Time `json:"last_transition_time,omitempty"`
+	// Condition reason
+	Reason *string `json:"reason,omitempty"`
+	// Condition message
+	Message *string `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -123,6 +127,62 @@ func (o *ComponentPodsPodsItemConditionsItem) SetLastTransitionTime(v time.Time)
 	o.LastTransitionTime = &v
 }
 
+// GetReason returns the Reason field value if set, zero value otherwise.
+func (o *ComponentPodsPodsItemConditionsItem) GetReason() string {
+	if o == nil || o.Reason == nil {
+		var ret string
+		return ret
+	}
+	return *o.Reason
+}
+
+// GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentPodsPodsItemConditionsItem) GetReasonOk() (*string, bool) {
+	if o == nil || o.Reason == nil {
+		return nil, false
+	}
+	return o.Reason, true
+}
+
+// HasReason returns a boolean if a field has been set.
+func (o *ComponentPodsPodsItemConditionsItem) HasReason() bool {
+	return o != nil && o.Reason != nil
+}
+
+// SetReason gets a reference to the given string and assigns it to the Reason field.
+func (o *ComponentPodsPodsItemConditionsItem) SetReason(v string) {
+	o.Reason = &v
+}
+
+// GetMessage returns the Message field value if set, zero value otherwise.
+func (o *ComponentPodsPodsItemConditionsItem) GetMessage() string {
+	if o == nil || o.Message == nil {
+		var ret string
+		return ret
+	}
+	return *o.Message
+}
+
+// GetMessageOk returns a tuple with the Message field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentPodsPodsItemConditionsItem) GetMessageOk() (*string, bool) {
+	if o == nil || o.Message == nil {
+		return nil, false
+	}
+	return o.Message, true
+}
+
+// HasMessage returns a boolean if a field has been set.
+func (o *ComponentPodsPodsItemConditionsItem) HasMessage() bool {
+	return o != nil && o.Message != nil
+}
+
+// SetMessage gets a reference to the given string and assigns it to the Message field.
+func (o *ComponentPodsPodsItemConditionsItem) SetMessage(v string) {
+	o.Message = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentPodsPodsItemConditionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -142,6 +202,12 @@ func (o ComponentPodsPodsItemConditionsItem) MarshalJSON() ([]byte, error) {
 			toSerialize["last_transition_time"] = o.LastTransitionTime.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.Reason != nil {
+		toSerialize["reason"] = o.Reason
+	}
+	if o.Message != nil {
+		toSerialize["message"] = o.Message
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -155,19 +221,23 @@ func (o *ComponentPodsPodsItemConditionsItem) UnmarshalJSON(bytes []byte) (err e
 		Type               *string    `json:"type,omitempty"`
 		Status             *string    `json:"status,omitempty"`
 		LastTransitionTime *time.Time `json:"last_transition_time,omitempty"`
+		Reason             *string    `json:"reason,omitempty"`
+		Message            *string    `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"type", "status", "last_transition_time"})
+		common.DeleteKeys(additionalProperties, &[]string{"type", "status", "last_transition_time", "reason", "message"})
 	} else {
 		return err
 	}
 	o.Type = all.Type
 	o.Status = all.Status
 	o.LastTransitionTime = all.LastTransitionTime
+	o.Reason = all.Reason
+	o.Message = all.Message
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

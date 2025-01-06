@@ -12,8 +12,8 @@ import (
 
 // ComponentPods Pods information for a component
 type ComponentPods struct {
-	// Environment ID
-	EnvironmentId *string `json:"environment_id,omitempty"`
+	// Environment name
+	EnvironmentName *string `json:"environment_name,omitempty"`
 	// Component name
 	ComponentName *string `json:"component_name,omitempty"`
 	// Last update time of the data
@@ -41,32 +41,32 @@ func NewComponentPodsWithDefaults() *ComponentPods {
 	return &this
 }
 
-// GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
-func (o *ComponentPods) GetEnvironmentId() string {
-	if o == nil || o.EnvironmentId == nil {
+// GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
+func (o *ComponentPods) GetEnvironmentName() string {
+	if o == nil || o.EnvironmentName == nil {
 		var ret string
 		return ret
 	}
-	return *o.EnvironmentId
+	return *o.EnvironmentName
 }
 
-// GetEnvironmentIdOk returns a tuple with the EnvironmentId field value if set, nil otherwise
+// GetEnvironmentNameOk returns a tuple with the EnvironmentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPods) GetEnvironmentIdOk() (*string, bool) {
-	if o == nil || o.EnvironmentId == nil {
+func (o *ComponentPods) GetEnvironmentNameOk() (*string, bool) {
+	if o == nil || o.EnvironmentName == nil {
 		return nil, false
 	}
-	return o.EnvironmentId, true
+	return o.EnvironmentName, true
 }
 
-// HasEnvironmentId returns a boolean if a field has been set.
-func (o *ComponentPods) HasEnvironmentId() bool {
-	return o != nil && o.EnvironmentId != nil
+// HasEnvironmentName returns a boolean if a field has been set.
+func (o *ComponentPods) HasEnvironmentName() bool {
+	return o != nil && o.EnvironmentName != nil
 }
 
-// SetEnvironmentId gets a reference to the given string and assigns it to the EnvironmentId field.
-func (o *ComponentPods) SetEnvironmentId(v string) {
-	o.EnvironmentId = &v
+// SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
+func (o *ComponentPods) SetEnvironmentName(v string) {
+	o.EnvironmentName = &v
 }
 
 // GetComponentName returns the ComponentName field value if set, zero value otherwise.
@@ -159,8 +159,8 @@ func (o ComponentPods) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.EnvironmentId != nil {
-		toSerialize["environment_id"] = o.EnvironmentId
+	if o.EnvironmentName != nil {
+		toSerialize["environment_name"] = o.EnvironmentName
 	}
 	if o.ComponentName != nil {
 		toSerialize["component_name"] = o.ComponentName
@@ -185,21 +185,21 @@ func (o ComponentPods) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentPods) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId *string                 `json:"environment_id,omitempty"`
-		ComponentName *string                 `json:"component_name,omitempty"`
-		LastUpdated   *time.Time              `json:"last_updated,omitempty"`
-		Pods          []ComponentPodsPodsItem `json:"pods,omitempty"`
+		EnvironmentName *string                 `json:"environment_name,omitempty"`
+		ComponentName   *string                 `json:"component_name,omitempty"`
+		LastUpdated     *time.Time              `json:"last_updated,omitempty"`
+		Pods            []ComponentPodsPodsItem `json:"pods,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "component_name", "last_updated", "pods"})
+		common.DeleteKeys(additionalProperties, &[]string{"environment_name", "component_name", "last_updated", "pods"})
 	} else {
 		return err
 	}
-	o.EnvironmentId = all.EnvironmentId
+	o.EnvironmentName = all.EnvironmentName
 	o.ComponentName = all.ComponentName
 	o.LastUpdated = all.LastUpdated
 	o.Pods = all.Pods

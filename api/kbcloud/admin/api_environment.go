@@ -612,7 +612,7 @@ func (a *EnvironmentApi) GetComponentInfo(ctx _context.Context, environmentName 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/components"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/components"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -720,7 +720,7 @@ func (r *GetComponentLogsOptionalParameters) WithPrevious(previous bool) *GetCom
 	return r
 }
 
-// GetComponentLogs Get logs for a component pod.
+// GetComponentLogs Get logs for a component pod. When no parameters other than containerName and search are provided, start streaming logs in real-time..
 func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, environmentName string, componentName string, podName string, o ...GetComponentLogsOptionalParameters) (ComponentLogs, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -741,7 +741,7 @@ func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, environmentName 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/components/{componentName}/pods/{podName}/logs"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/components/{componentName}/pods/{podName}/logs"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"componentName"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"podName"+"}", _neturl.PathEscape(common.ParameterToString(podName, "")), -1)
@@ -830,7 +830,7 @@ func (a *EnvironmentApi) GetComponentPods(ctx _context.Context, environmentName 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/components/{componentName}/pods"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/components/{componentName}/pods"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"componentName"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
 
