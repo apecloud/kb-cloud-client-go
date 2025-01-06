@@ -7840,6 +7840,13 @@ paths:
       operationId: alertStatistic
       tags:
         - statistic
+      parameters:
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
