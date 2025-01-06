@@ -600,7 +600,7 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 }
 
 // GetComponentInfo Get component information in an environment.
-func (a *EnvironmentApi) GetComponentInfo(ctx _context.Context, envName string) (ComponentInfo, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetComponentInfo(ctx _context.Context, environmentName string) (ComponentInfo, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -612,8 +612,8 @@ func (a *EnvironmentApi) GetComponentInfo(ctx _context.Context, envName string) 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{envName}/components"
-	localVarPath = strings.Replace(localVarPath, "{"+"envName"+"}", _neturl.PathEscape(common.ParameterToString(envName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/components"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -721,7 +721,7 @@ func (r *GetComponentLogsOptionalParameters) WithPrevious(previous bool) *GetCom
 }
 
 // GetComponentLogs Get logs for a component pod.
-func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, envName string, componentName string, podName string, o ...GetComponentLogsOptionalParameters) (ComponentLogs, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, environmentName string, componentName string, podName string, o ...GetComponentLogsOptionalParameters) (ComponentLogs, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -741,25 +741,25 @@ func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, envName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{envName}/components/{component_name}/pods/{pod_name}/logs"
-	localVarPath = strings.Replace(localVarPath, "{"+"envName"+"}", _neturl.PathEscape(common.ParameterToString(envName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"component_name"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"pod_name"+"}", _neturl.PathEscape(common.ParameterToString(podName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/components/{componentName}/pods/{podName}/logs"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"componentName"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"podName"+"}", _neturl.PathEscape(common.ParameterToString(podName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.ContainerName != nil {
-		localVarQueryParams.Add("container_name", common.ParameterToString(*optionalParams.ContainerName, ""))
+		localVarQueryParams.Add("containerName", common.ParameterToString(*optionalParams.ContainerName, ""))
 	}
 	if optionalParams.SinceSeconds != nil {
-		localVarQueryParams.Add("since_seconds", common.ParameterToString(*optionalParams.SinceSeconds, ""))
+		localVarQueryParams.Add("sinceSeconds", common.ParameterToString(*optionalParams.SinceSeconds, ""))
 	}
 	if optionalParams.SinceTime != nil {
-		localVarQueryParams.Add("since_time", common.ParameterToString(*optionalParams.SinceTime, ""))
+		localVarQueryParams.Add("sinceTime", common.ParameterToString(*optionalParams.SinceTime, ""))
 	}
 	if optionalParams.TailLines != nil {
-		localVarQueryParams.Add("tail_lines", common.ParameterToString(*optionalParams.TailLines, ""))
+		localVarQueryParams.Add("tailLines", common.ParameterToString(*optionalParams.TailLines, ""))
 	}
 	if optionalParams.Search != nil {
 		localVarQueryParams.Add("search", common.ParameterToString(*optionalParams.Search, ""))
@@ -818,7 +818,7 @@ func (a *EnvironmentApi) GetComponentLogs(ctx _context.Context, envName string, 
 }
 
 // GetComponentPods Get pods information for a component.
-func (a *EnvironmentApi) GetComponentPods(ctx _context.Context, envName string, componentName string) (ComponentPods, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetComponentPods(ctx _context.Context, environmentName string, componentName string) (ComponentPods, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -830,9 +830,9 @@ func (a *EnvironmentApi) GetComponentPods(ctx _context.Context, envName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{envName}/components/{component_name}/pods"
-	localVarPath = strings.Replace(localVarPath, "{"+"envName"+"}", _neturl.PathEscape(common.ParameterToString(envName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"component_name"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/components/{componentName}/pods"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"componentName"+"}", _neturl.PathEscape(common.ParameterToString(componentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
