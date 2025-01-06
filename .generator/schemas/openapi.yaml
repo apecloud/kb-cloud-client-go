@@ -11542,7 +11542,6 @@ components:
         - Stop
         - Start
         - Expose
-        - DataScript
         - Backup
         - Restore
         - RebuildInstance
