@@ -24,7 +24,6 @@ const (
 	OpsTypeStop              OpsType = "Stop"
 	OpsTypeStart             OpsType = "Start"
 	OpsTypeExpose            OpsType = "Expose"
-	OpsTypeDataScript        OpsType = "DataScript"
 	OpsTypeBackup            OpsType = "Backup"
 	OpsTypeRestore           OpsType = "Restore"
 	OpsTypeRebuildInstance   OpsType = "RebuildInstance"
@@ -42,7 +41,6 @@ var allowedOpsTypeEnumValues = []OpsType{
 	OpsTypeStop,
 	OpsTypeStart,
 	OpsTypeExpose,
-	OpsTypeDataScript,
 	OpsTypeBackup,
 	OpsTypeRestore,
 	OpsTypeRebuildInstance,
