@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Alertadmin_alertObject Alert object information
-type Alertadmin_alertObject struct {
+// PlatformAlert_alertObject Alert object information
+type PlatformAlert_alertObject struct {
 	Id          *int32         `json:"id,omitempty"`
 	AlertName   *string        `json:"alertName,omitempty"`
 	GroupName   *string        `json:"groupName,omitempty"`
@@ -31,25 +31,25 @@ type Alertadmin_alertObject struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAlertadmin_alertObject instantiates a new Alertadmin_alertObject object.
+// NewPlatformAlert_alertObject instantiates a new PlatformAlert_alertObject object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertadmin_alertObject() *Alertadmin_alertObject {
-	this := Alertadmin_alertObject{}
+func NewPlatformAlert_alertObject() *PlatformAlert_alertObject {
+	this := PlatformAlert_alertObject{}
 	return &this
 }
 
-// NewAlertadmin_alertObjectWithDefaults instantiates a new Alertadmin_alertObject object.
+// NewPlatformAlert_alertObjectWithDefaults instantiates a new PlatformAlert_alertObject object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAlertadmin_alertObjectWithDefaults() *Alertadmin_alertObject {
-	this := Alertadmin_alertObject{}
+func NewPlatformAlert_alertObjectWithDefaults() *PlatformAlert_alertObject {
+	this := PlatformAlert_alertObject{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetId() int32 {
+func (o *PlatformAlert_alertObject) GetId() int32 {
 	if o == nil || o.Id == nil {
 		var ret int32
 		return ret
@@ -59,7 +59,7 @@ func (o *Alertadmin_alertObject) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetIdOk() (*int32, bool) {
+func (o *PlatformAlert_alertObject) GetIdOk() (*int32, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -67,17 +67,17 @@ func (o *Alertadmin_alertObject) GetIdOk() (*int32, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasId() bool {
+func (o *PlatformAlert_alertObject) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
 // SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *Alertadmin_alertObject) SetId(v int32) {
+func (o *PlatformAlert_alertObject) SetId(v int32) {
 	o.Id = &v
 }
 
 // GetAlertName returns the AlertName field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetAlertName() string {
+func (o *PlatformAlert_alertObject) GetAlertName() string {
 	if o == nil || o.AlertName == nil {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *Alertadmin_alertObject) GetAlertName() string {
 
 // GetAlertNameOk returns a tuple with the AlertName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetAlertNameOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetAlertNameOk() (*string, bool) {
 	if o == nil || o.AlertName == nil {
 		return nil, false
 	}
@@ -95,17 +95,17 @@ func (o *Alertadmin_alertObject) GetAlertNameOk() (*string, bool) {
 }
 
 // HasAlertName returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasAlertName() bool {
+func (o *PlatformAlert_alertObject) HasAlertName() bool {
 	return o != nil && o.AlertName != nil
 }
 
 // SetAlertName gets a reference to the given string and assigns it to the AlertName field.
-func (o *Alertadmin_alertObject) SetAlertName(v string) {
+func (o *PlatformAlert_alertObject) SetAlertName(v string) {
 	o.AlertName = &v
 }
 
 // GetGroupName returns the GroupName field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetGroupName() string {
+func (o *PlatformAlert_alertObject) GetGroupName() string {
 	if o == nil || o.GroupName == nil {
 		var ret string
 		return ret
@@ -115,7 +115,7 @@ func (o *Alertadmin_alertObject) GetGroupName() string {
 
 // GetGroupNameOk returns a tuple with the GroupName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetGroupNameOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetGroupNameOk() (*string, bool) {
 	if o == nil || o.GroupName == nil {
 		return nil, false
 	}
@@ -123,17 +123,17 @@ func (o *Alertadmin_alertObject) GetGroupNameOk() (*string, bool) {
 }
 
 // HasGroupName returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasGroupName() bool {
+func (o *PlatformAlert_alertObject) HasGroupName() bool {
 	return o != nil && o.GroupName != nil
 }
 
 // SetGroupName gets a reference to the given string and assigns it to the GroupName field.
-func (o *Alertadmin_alertObject) SetGroupName(v string) {
+func (o *PlatformAlert_alertObject) SetGroupName(v string) {
 	o.GroupName = &v
 }
 
 // GetExpr returns the Expr field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetExpr() string {
+func (o *PlatformAlert_alertObject) GetExpr() string {
 	if o == nil || o.Expr == nil {
 		var ret string
 		return ret
@@ -143,7 +143,7 @@ func (o *Alertadmin_alertObject) GetExpr() string {
 
 // GetExprOk returns a tuple with the Expr field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetExprOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetExprOk() (*string, bool) {
 	if o == nil || o.Expr == nil {
 		return nil, false
 	}
@@ -151,17 +151,17 @@ func (o *Alertadmin_alertObject) GetExprOk() (*string, bool) {
 }
 
 // HasExpr returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasExpr() bool {
+func (o *PlatformAlert_alertObject) HasExpr() bool {
 	return o != nil && o.Expr != nil
 }
 
 // SetExpr gets a reference to the given string and assigns it to the Expr field.
-func (o *Alertadmin_alertObject) SetExpr(v string) {
+func (o *PlatformAlert_alertObject) SetExpr(v string) {
 	o.Expr = &v
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetEngine() string {
+func (o *PlatformAlert_alertObject) GetEngine() string {
 	if o == nil || o.Engine == nil {
 		var ret string
 		return ret
@@ -171,7 +171,7 @@ func (o *Alertadmin_alertObject) GetEngine() string {
 
 // GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetEngineOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetEngineOk() (*string, bool) {
 	if o == nil || o.Engine == nil {
 		return nil, false
 	}
@@ -179,17 +179,17 @@ func (o *Alertadmin_alertObject) GetEngineOk() (*string, bool) {
 }
 
 // HasEngine returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasEngine() bool {
+func (o *PlatformAlert_alertObject) HasEngine() bool {
 	return o != nil && o.Engine != nil
 }
 
 // SetEngine gets a reference to the given string and assigns it to the Engine field.
-func (o *Alertadmin_alertObject) SetEngine(v string) {
+func (o *PlatformAlert_alertObject) SetEngine(v string) {
 	o.Engine = &v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetNamespace() string {
+func (o *PlatformAlert_alertObject) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
 		var ret string
 		return ret
@@ -199,7 +199,7 @@ func (o *Alertadmin_alertObject) GetNamespace() string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetNamespaceOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetNamespaceOk() (*string, bool) {
 	if o == nil || o.Namespace == nil {
 		return nil, false
 	}
@@ -207,17 +207,17 @@ func (o *Alertadmin_alertObject) GetNamespaceOk() (*string, bool) {
 }
 
 // HasNamespace returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasNamespace() bool {
+func (o *PlatformAlert_alertObject) HasNamespace() bool {
 	return o != nil && o.Namespace != nil
 }
 
 // SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-func (o *Alertadmin_alertObject) SetNamespace(v string) {
+func (o *PlatformAlert_alertObject) SetNamespace(v string) {
 	o.Namespace = &v
 }
 
 // GetPod returns the Pod field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetPod() string {
+func (o *PlatformAlert_alertObject) GetPod() string {
 	if o == nil || o.Pod == nil {
 		var ret string
 		return ret
@@ -227,7 +227,7 @@ func (o *Alertadmin_alertObject) GetPod() string {
 
 // GetPodOk returns a tuple with the Pod field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetPodOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetPodOk() (*string, bool) {
 	if o == nil || o.Pod == nil {
 		return nil, false
 	}
@@ -235,17 +235,17 @@ func (o *Alertadmin_alertObject) GetPodOk() (*string, bool) {
 }
 
 // HasPod returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasPod() bool {
+func (o *PlatformAlert_alertObject) HasPod() bool {
 	return o != nil && o.Pod != nil
 }
 
 // SetPod gets a reference to the given string and assigns it to the Pod field.
-func (o *Alertadmin_alertObject) SetPod(v string) {
+func (o *PlatformAlert_alertObject) SetPod(v string) {
 	o.Pod = &v
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetSeverity() AlertSeverity {
+func (o *PlatformAlert_alertObject) GetSeverity() AlertSeverity {
 	if o == nil || o.Severity == nil {
 		var ret AlertSeverity
 		return ret
@@ -255,7 +255,7 @@ func (o *Alertadmin_alertObject) GetSeverity() AlertSeverity {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetSeverityOk() (*AlertSeverity, bool) {
+func (o *PlatformAlert_alertObject) GetSeverityOk() (*AlertSeverity, bool) {
 	if o == nil || o.Severity == nil {
 		return nil, false
 	}
@@ -263,17 +263,17 @@ func (o *Alertadmin_alertObject) GetSeverityOk() (*AlertSeverity, bool) {
 }
 
 // HasSeverity returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasSeverity() bool {
+func (o *PlatformAlert_alertObject) HasSeverity() bool {
 	return o != nil && o.Severity != nil
 }
 
 // SetSeverity gets a reference to the given AlertSeverity and assigns it to the Severity field.
-func (o *Alertadmin_alertObject) SetSeverity(v AlertSeverity) {
+func (o *PlatformAlert_alertObject) SetSeverity(v AlertSeverity) {
 	o.Severity = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetDescription() string {
+func (o *PlatformAlert_alertObject) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -283,7 +283,7 @@ func (o *Alertadmin_alertObject) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetDescriptionOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -291,17 +291,17 @@ func (o *Alertadmin_alertObject) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasDescription() bool {
+func (o *PlatformAlert_alertObject) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *Alertadmin_alertObject) SetDescription(v string) {
+func (o *PlatformAlert_alertObject) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetFingerprint returns the Fingerprint field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetFingerprint() string {
+func (o *PlatformAlert_alertObject) GetFingerprint() string {
 	if o == nil || o.Fingerprint == nil {
 		var ret string
 		return ret
@@ -311,7 +311,7 @@ func (o *Alertadmin_alertObject) GetFingerprint() string {
 
 // GetFingerprintOk returns a tuple with the Fingerprint field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetFingerprintOk() (*string, bool) {
+func (o *PlatformAlert_alertObject) GetFingerprintOk() (*string, bool) {
 	if o == nil || o.Fingerprint == nil {
 		return nil, false
 	}
@@ -319,17 +319,17 @@ func (o *Alertadmin_alertObject) GetFingerprintOk() (*string, bool) {
 }
 
 // HasFingerprint returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasFingerprint() bool {
+func (o *PlatformAlert_alertObject) HasFingerprint() bool {
 	return o != nil && o.Fingerprint != nil
 }
 
 // SetFingerprint gets a reference to the given string and assigns it to the Fingerprint field.
-func (o *Alertadmin_alertObject) SetFingerprint(v string) {
+func (o *PlatformAlert_alertObject) SetFingerprint(v string) {
 	o.Fingerprint = &v
 }
 
 // GetStartsAt returns the StartsAt field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetStartsAt() time.Time {
+func (o *PlatformAlert_alertObject) GetStartsAt() time.Time {
 	if o == nil || o.StartsAt == nil {
 		var ret time.Time
 		return ret
@@ -339,7 +339,7 @@ func (o *Alertadmin_alertObject) GetStartsAt() time.Time {
 
 // GetStartsAtOk returns a tuple with the StartsAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetStartsAtOk() (*time.Time, bool) {
+func (o *PlatformAlert_alertObject) GetStartsAtOk() (*time.Time, bool) {
 	if o == nil || o.StartsAt == nil {
 		return nil, false
 	}
@@ -347,17 +347,17 @@ func (o *Alertadmin_alertObject) GetStartsAtOk() (*time.Time, bool) {
 }
 
 // HasStartsAt returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasStartsAt() bool {
+func (o *PlatformAlert_alertObject) HasStartsAt() bool {
 	return o != nil && o.StartsAt != nil
 }
 
 // SetStartsAt gets a reference to the given time.Time and assigns it to the StartsAt field.
-func (o *Alertadmin_alertObject) SetStartsAt(v time.Time) {
+func (o *PlatformAlert_alertObject) SetStartsAt(v time.Time) {
 	o.StartsAt = &v
 }
 
 // GetEndsAt returns the EndsAt field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetEndsAt() time.Time {
+func (o *PlatformAlert_alertObject) GetEndsAt() time.Time {
 	if o == nil || o.EndsAt == nil {
 		var ret time.Time
 		return ret
@@ -367,7 +367,7 @@ func (o *Alertadmin_alertObject) GetEndsAt() time.Time {
 
 // GetEndsAtOk returns a tuple with the EndsAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetEndsAtOk() (*time.Time, bool) {
+func (o *PlatformAlert_alertObject) GetEndsAtOk() (*time.Time, bool) {
 	if o == nil || o.EndsAt == nil {
 		return nil, false
 	}
@@ -375,17 +375,17 @@ func (o *Alertadmin_alertObject) GetEndsAtOk() (*time.Time, bool) {
 }
 
 // HasEndsAt returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasEndsAt() bool {
+func (o *PlatformAlert_alertObject) HasEndsAt() bool {
 	return o != nil && o.EndsAt != nil
 }
 
 // SetEndsAt gets a reference to the given time.Time and assigns it to the EndsAt field.
-func (o *Alertadmin_alertObject) SetEndsAt(v time.Time) {
+func (o *PlatformAlert_alertObject) SetEndsAt(v time.Time) {
 	o.EndsAt = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetStatus() AlertStatus {
+func (o *PlatformAlert_alertObject) GetStatus() AlertStatus {
 	if o == nil || o.Status == nil {
 		var ret AlertStatus
 		return ret
@@ -395,7 +395,7 @@ func (o *Alertadmin_alertObject) GetStatus() AlertStatus {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetStatusOk() (*AlertStatus, bool) {
+func (o *PlatformAlert_alertObject) GetStatusOk() (*AlertStatus, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -403,17 +403,17 @@ func (o *Alertadmin_alertObject) GetStatusOk() (*AlertStatus, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasStatus() bool {
+func (o *PlatformAlert_alertObject) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given AlertStatus and assigns it to the Status field.
-func (o *Alertadmin_alertObject) SetStatus(v AlertStatus) {
+func (o *PlatformAlert_alertObject) SetStatus(v AlertStatus) {
 	o.Status = &v
 }
 
 // GetCount returns the Count field value if set, zero value otherwise.
-func (o *Alertadmin_alertObject) GetCount() int32 {
+func (o *PlatformAlert_alertObject) GetCount() int32 {
 	if o == nil || o.Count == nil {
 		var ret int32
 		return ret
@@ -423,7 +423,7 @@ func (o *Alertadmin_alertObject) GetCount() int32 {
 
 // GetCountOk returns a tuple with the Count field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObject) GetCountOk() (*int32, bool) {
+func (o *PlatformAlert_alertObject) GetCountOk() (*int32, bool) {
 	if o == nil || o.Count == nil {
 		return nil, false
 	}
@@ -431,17 +431,17 @@ func (o *Alertadmin_alertObject) GetCountOk() (*int32, bool) {
 }
 
 // HasCount returns a boolean if a field has been set.
-func (o *Alertadmin_alertObject) HasCount() bool {
+func (o *PlatformAlert_alertObject) HasCount() bool {
 	return o != nil && o.Count != nil
 }
 
 // SetCount gets a reference to the given int32 and assigns it to the Count field.
-func (o *Alertadmin_alertObject) SetCount(v int32) {
+func (o *PlatformAlert_alertObject) SetCount(v int32) {
 	o.Count = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Alertadmin_alertObject) MarshalJSON() ([]byte, error) {
+func (o PlatformAlert_alertObject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -504,7 +504,7 @@ func (o Alertadmin_alertObject) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Alertadmin_alertObject) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PlatformAlert_alertObject) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id          *int32         `json:"id,omitempty"`
 		AlertName   *string        `json:"alertName,omitempty"`

@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Alertadmin_alertRule Alert rule information
-type Alertadmin_alertRule struct {
+// PlatformAlert_alertRule Alert rule information
+type PlatformAlert_alertRule struct {
 	Description *string        `json:"description,omitempty"`
 	Summary     *string        `json:"summary,omitempty"`
 	GroupName   *string        `json:"groupName,omitempty"`
@@ -29,29 +29,29 @@ type Alertadmin_alertRule struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAlertadmin_alertRule instantiates a new Alertadmin_alertRule object.
+// NewPlatformAlert_alertRule instantiates a new PlatformAlert_alertRule object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertadmin_alertRule() *Alertadmin_alertRule {
-	this := Alertadmin_alertRule{}
+func NewPlatformAlert_alertRule() *PlatformAlert_alertRule {
+	this := PlatformAlert_alertRule{}
 	var disabled bool = false
 	this.Disabled = &disabled
 	return &this
 }
 
-// NewAlertadmin_alertRuleWithDefaults instantiates a new Alertadmin_alertRule object.
+// NewPlatformAlert_alertRuleWithDefaults instantiates a new PlatformAlert_alertRule object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAlertadmin_alertRuleWithDefaults() *Alertadmin_alertRule {
-	this := Alertadmin_alertRule{}
+func NewPlatformAlert_alertRuleWithDefaults() *PlatformAlert_alertRule {
+	this := PlatformAlert_alertRule{}
 	var disabled bool = false
 	this.Disabled = &disabled
 	return &this
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetDescription() string {
+func (o *PlatformAlert_alertRule) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -61,7 +61,7 @@ func (o *Alertadmin_alertRule) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetDescriptionOk() (*string, bool) {
+func (o *PlatformAlert_alertRule) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -69,17 +69,17 @@ func (o *Alertadmin_alertRule) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasDescription() bool {
+func (o *PlatformAlert_alertRule) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *Alertadmin_alertRule) SetDescription(v string) {
+func (o *PlatformAlert_alertRule) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetSummary returns the Summary field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetSummary() string {
+func (o *PlatformAlert_alertRule) GetSummary() string {
 	if o == nil || o.Summary == nil {
 		var ret string
 		return ret
@@ -89,7 +89,7 @@ func (o *Alertadmin_alertRule) GetSummary() string {
 
 // GetSummaryOk returns a tuple with the Summary field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetSummaryOk() (*string, bool) {
+func (o *PlatformAlert_alertRule) GetSummaryOk() (*string, bool) {
 	if o == nil || o.Summary == nil {
 		return nil, false
 	}
@@ -97,17 +97,17 @@ func (o *Alertadmin_alertRule) GetSummaryOk() (*string, bool) {
 }
 
 // HasSummary returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasSummary() bool {
+func (o *PlatformAlert_alertRule) HasSummary() bool {
 	return o != nil && o.Summary != nil
 }
 
 // SetSummary gets a reference to the given string and assigns it to the Summary field.
-func (o *Alertadmin_alertRule) SetSummary(v string) {
+func (o *PlatformAlert_alertRule) SetSummary(v string) {
 	o.Summary = &v
 }
 
 // GetGroupName returns the GroupName field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetGroupName() string {
+func (o *PlatformAlert_alertRule) GetGroupName() string {
 	if o == nil || o.GroupName == nil {
 		var ret string
 		return ret
@@ -117,7 +117,7 @@ func (o *Alertadmin_alertRule) GetGroupName() string {
 
 // GetGroupNameOk returns a tuple with the GroupName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetGroupNameOk() (*string, bool) {
+func (o *PlatformAlert_alertRule) GetGroupNameOk() (*string, bool) {
 	if o == nil || o.GroupName == nil {
 		return nil, false
 	}
@@ -125,17 +125,17 @@ func (o *Alertadmin_alertRule) GetGroupNameOk() (*string, bool) {
 }
 
 // HasGroupName returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasGroupName() bool {
+func (o *PlatformAlert_alertRule) HasGroupName() bool {
 	return o != nil && o.GroupName != nil
 }
 
 // SetGroupName gets a reference to the given string and assigns it to the GroupName field.
-func (o *Alertadmin_alertRule) SetGroupName(v string) {
+func (o *PlatformAlert_alertRule) SetGroupName(v string) {
 	o.GroupName = &v
 }
 
 // GetAlertName returns the AlertName field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetAlertName() string {
+func (o *PlatformAlert_alertRule) GetAlertName() string {
 	if o == nil || o.AlertName == nil {
 		var ret string
 		return ret
@@ -145,7 +145,7 @@ func (o *Alertadmin_alertRule) GetAlertName() string {
 
 // GetAlertNameOk returns a tuple with the AlertName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetAlertNameOk() (*string, bool) {
+func (o *PlatformAlert_alertRule) GetAlertNameOk() (*string, bool) {
 	if o == nil || o.AlertName == nil {
 		return nil, false
 	}
@@ -153,17 +153,17 @@ func (o *Alertadmin_alertRule) GetAlertNameOk() (*string, bool) {
 }
 
 // HasAlertName returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasAlertName() bool {
+func (o *PlatformAlert_alertRule) HasAlertName() bool {
 	return o != nil && o.AlertName != nil
 }
 
 // SetAlertName gets a reference to the given string and assigns it to the AlertName field.
-func (o *Alertadmin_alertRule) SetAlertName(v string) {
+func (o *PlatformAlert_alertRule) SetAlertName(v string) {
 	o.AlertName = &v
 }
 
 // GetExpr returns the Expr field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetExpr() string {
+func (o *PlatformAlert_alertRule) GetExpr() string {
 	if o == nil || o.Expr == nil {
 		var ret string
 		return ret
@@ -173,7 +173,7 @@ func (o *Alertadmin_alertRule) GetExpr() string {
 
 // GetExprOk returns a tuple with the Expr field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetExprOk() (*string, bool) {
+func (o *PlatformAlert_alertRule) GetExprOk() (*string, bool) {
 	if o == nil || o.Expr == nil {
 		return nil, false
 	}
@@ -181,17 +181,17 @@ func (o *Alertadmin_alertRule) GetExprOk() (*string, bool) {
 }
 
 // HasExpr returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasExpr() bool {
+func (o *PlatformAlert_alertRule) HasExpr() bool {
 	return o != nil && o.Expr != nil
 }
 
 // SetExpr gets a reference to the given string and assigns it to the Expr field.
-func (o *Alertadmin_alertRule) SetExpr(v string) {
+func (o *PlatformAlert_alertRule) SetExpr(v string) {
 	o.Expr = &v
 }
 
 // GetFor returns the For field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetFor() string {
+func (o *PlatformAlert_alertRule) GetFor() string {
 	if o == nil || o.For == nil {
 		var ret string
 		return ret
@@ -201,7 +201,7 @@ func (o *Alertadmin_alertRule) GetFor() string {
 
 // GetForOk returns a tuple with the For field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetForOk() (*string, bool) {
+func (o *PlatformAlert_alertRule) GetForOk() (*string, bool) {
 	if o == nil || o.For == nil {
 		return nil, false
 	}
@@ -209,17 +209,17 @@ func (o *Alertadmin_alertRule) GetForOk() (*string, bool) {
 }
 
 // HasFor returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasFor() bool {
+func (o *PlatformAlert_alertRule) HasFor() bool {
 	return o != nil && o.For != nil
 }
 
 // SetFor gets a reference to the given string and assigns it to the For field.
-func (o *Alertadmin_alertRule) SetFor(v string) {
+func (o *PlatformAlert_alertRule) SetFor(v string) {
 	o.For = &v
 }
 
 // GetDisabled returns the Disabled field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetDisabled() bool {
+func (o *PlatformAlert_alertRule) GetDisabled() bool {
 	if o == nil || o.Disabled == nil {
 		var ret bool
 		return ret
@@ -229,7 +229,7 @@ func (o *Alertadmin_alertRule) GetDisabled() bool {
 
 // GetDisabledOk returns a tuple with the Disabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetDisabledOk() (*bool, bool) {
+func (o *PlatformAlert_alertRule) GetDisabledOk() (*bool, bool) {
 	if o == nil || o.Disabled == nil {
 		return nil, false
 	}
@@ -237,17 +237,17 @@ func (o *Alertadmin_alertRule) GetDisabledOk() (*bool, bool) {
 }
 
 // HasDisabled returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasDisabled() bool {
+func (o *PlatformAlert_alertRule) HasDisabled() bool {
 	return o != nil && o.Disabled != nil
 }
 
 // SetDisabled gets a reference to the given bool and assigns it to the Disabled field.
-func (o *Alertadmin_alertRule) SetDisabled(v bool) {
+func (o *PlatformAlert_alertRule) SetDisabled(v bool) {
 	o.Disabled = &v
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetSeverity() AlertSeverity {
+func (o *PlatformAlert_alertRule) GetSeverity() AlertSeverity {
 	if o == nil || o.Severity == nil {
 		var ret AlertSeverity
 		return ret
@@ -257,7 +257,7 @@ func (o *Alertadmin_alertRule) GetSeverity() AlertSeverity {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetSeverityOk() (*AlertSeverity, bool) {
+func (o *PlatformAlert_alertRule) GetSeverityOk() (*AlertSeverity, bool) {
 	if o == nil || o.Severity == nil {
 		return nil, false
 	}
@@ -265,17 +265,17 @@ func (o *Alertadmin_alertRule) GetSeverityOk() (*AlertSeverity, bool) {
 }
 
 // HasSeverity returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasSeverity() bool {
+func (o *PlatformAlert_alertRule) HasSeverity() bool {
 	return o != nil && o.Severity != nil
 }
 
 // SetSeverity gets a reference to the given AlertSeverity and assigns it to the Severity field.
-func (o *Alertadmin_alertRule) SetSeverity(v AlertSeverity) {
+func (o *PlatformAlert_alertRule) SetSeverity(v AlertSeverity) {
 	o.Severity = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetCreatedAt() time.Time {
+func (o *PlatformAlert_alertRule) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
 		var ret time.Time
 		return ret
@@ -285,7 +285,7 @@ func (o *Alertadmin_alertRule) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetCreatedAtOk() (*time.Time, bool) {
+func (o *PlatformAlert_alertRule) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || o.CreatedAt == nil {
 		return nil, false
 	}
@@ -293,17 +293,17 @@ func (o *Alertadmin_alertRule) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasCreatedAt() bool {
+func (o *PlatformAlert_alertRule) HasCreatedAt() bool {
 	return o != nil && o.CreatedAt != nil
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *Alertadmin_alertRule) SetCreatedAt(v time.Time) {
+func (o *PlatformAlert_alertRule) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetUpdatedAt() time.Time {
+func (o *PlatformAlert_alertRule) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
 		var ret time.Time
 		return ret
@@ -313,7 +313,7 @@ func (o *Alertadmin_alertRule) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *PlatformAlert_alertRule) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil || o.UpdatedAt == nil {
 		return nil, false
 	}
@@ -321,17 +321,17 @@ func (o *Alertadmin_alertRule) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // HasUpdatedAt returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasUpdatedAt() bool {
+func (o *PlatformAlert_alertRule) HasUpdatedAt() bool {
 	return o != nil && o.UpdatedAt != nil
 }
 
 // SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *Alertadmin_alertRule) SetUpdatedAt(v time.Time) {
+func (o *PlatformAlert_alertRule) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
 // GetMetric returns the Metric field value if set, zero value otherwise.
-func (o *Alertadmin_alertRule) GetMetric() AlertMetric {
+func (o *PlatformAlert_alertRule) GetMetric() AlertMetric {
 	if o == nil || o.Metric == nil {
 		var ret AlertMetric
 		return ret
@@ -341,7 +341,7 @@ func (o *Alertadmin_alertRule) GetMetric() AlertMetric {
 
 // GetMetricOk returns a tuple with the Metric field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertRule) GetMetricOk() (*AlertMetric, bool) {
+func (o *PlatformAlert_alertRule) GetMetricOk() (*AlertMetric, bool) {
 	if o == nil || o.Metric == nil {
 		return nil, false
 	}
@@ -349,17 +349,17 @@ func (o *Alertadmin_alertRule) GetMetricOk() (*AlertMetric, bool) {
 }
 
 // HasMetric returns a boolean if a field has been set.
-func (o *Alertadmin_alertRule) HasMetric() bool {
+func (o *PlatformAlert_alertRule) HasMetric() bool {
 	return o != nil && o.Metric != nil
 }
 
 // SetMetric gets a reference to the given AlertMetric and assigns it to the Metric field.
-func (o *Alertadmin_alertRule) SetMetric(v AlertMetric) {
+func (o *PlatformAlert_alertRule) SetMetric(v AlertMetric) {
 	o.Metric = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Alertadmin_alertRule) MarshalJSON() ([]byte, error) {
+func (o PlatformAlert_alertRule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -413,7 +413,7 @@ func (o Alertadmin_alertRule) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Alertadmin_alertRule) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PlatformAlert_alertRule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Description *string        `json:"description,omitempty"`
 		Summary     *string        `json:"summary,omitempty"`

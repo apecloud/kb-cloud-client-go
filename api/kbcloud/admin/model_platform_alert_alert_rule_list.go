@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Alertadmin_alertObjectList AlertObjectList is a list of alert admin object
-type Alertadmin_alertObjectList struct {
-	// Items is the list of alert admin objects in the list
-	Items []Alertadmin_alertObject `json:"items"`
+// PlatformAlert_alertRuleList AlertRuleList is a list of alert rules
+type PlatformAlert_alertRuleList struct {
+	// Items is the list of alert rule objects in the list
+	Items []PlatformAlert_alertRuleGroup `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,28 +21,28 @@ type Alertadmin_alertObjectList struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAlertadmin_alertObjectList instantiates a new Alertadmin_alertObjectList object.
+// NewPlatformAlert_alertRuleList instantiates a new PlatformAlert_alertRuleList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertadmin_alertObjectList(items []Alertadmin_alertObject) *Alertadmin_alertObjectList {
-	this := Alertadmin_alertObjectList{}
+func NewPlatformAlert_alertRuleList(items []PlatformAlert_alertRuleGroup) *PlatformAlert_alertRuleList {
+	this := PlatformAlert_alertRuleList{}
 	this.Items = items
 	return &this
 }
 
-// NewAlertadmin_alertObjectListWithDefaults instantiates a new Alertadmin_alertObjectList object.
+// NewPlatformAlert_alertRuleListWithDefaults instantiates a new PlatformAlert_alertRuleList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAlertadmin_alertObjectListWithDefaults() *Alertadmin_alertObjectList {
-	this := Alertadmin_alertObjectList{}
+func NewPlatformAlert_alertRuleListWithDefaults() *PlatformAlert_alertRuleList {
+	this := PlatformAlert_alertRuleList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *Alertadmin_alertObjectList) GetItems() []Alertadmin_alertObject {
+func (o *PlatformAlert_alertRuleList) GetItems() []PlatformAlert_alertRuleGroup {
 	if o == nil {
-		var ret []Alertadmin_alertObject
+		var ret []PlatformAlert_alertRuleGroup
 		return ret
 	}
 	return o.Items
@@ -50,7 +50,7 @@ func (o *Alertadmin_alertObjectList) GetItems() []Alertadmin_alertObject {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObjectList) GetItemsOk() (*[]Alertadmin_alertObject, bool) {
+func (o *PlatformAlert_alertRuleList) GetItemsOk() (*[]PlatformAlert_alertRuleGroup, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,12 +58,12 @@ func (o *Alertadmin_alertObjectList) GetItemsOk() (*[]Alertadmin_alertObject, bo
 }
 
 // SetItems sets field value.
-func (o *Alertadmin_alertObjectList) SetItems(v []Alertadmin_alertObject) {
+func (o *PlatformAlert_alertRuleList) SetItems(v []PlatformAlert_alertRuleGroup) {
 	o.Items = v
 }
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
-func (o *Alertadmin_alertObjectList) GetPageResult() PageResult {
+func (o *PlatformAlert_alertRuleList) GetPageResult() PageResult {
 	if o == nil || o.PageResult == nil {
 		var ret PageResult
 		return ret
@@ -73,7 +73,7 @@ func (o *Alertadmin_alertObjectList) GetPageResult() PageResult {
 
 // GetPageResultOk returns a tuple with the PageResult field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Alertadmin_alertObjectList) GetPageResultOk() (*PageResult, bool) {
+func (o *PlatformAlert_alertRuleList) GetPageResultOk() (*PageResult, bool) {
 	if o == nil || o.PageResult == nil {
 		return nil, false
 	}
@@ -81,17 +81,17 @@ func (o *Alertadmin_alertObjectList) GetPageResultOk() (*PageResult, bool) {
 }
 
 // HasPageResult returns a boolean if a field has been set.
-func (o *Alertadmin_alertObjectList) HasPageResult() bool {
+func (o *PlatformAlert_alertRuleList) HasPageResult() bool {
 	return o != nil && o.PageResult != nil
 }
 
 // SetPageResult gets a reference to the given PageResult and assigns it to the PageResult field.
-func (o *Alertadmin_alertObjectList) SetPageResult(v PageResult) {
+func (o *PlatformAlert_alertRuleList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Alertadmin_alertObjectList) MarshalJSON() ([]byte, error) {
+func (o PlatformAlert_alertRuleList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -108,10 +108,10 @@ func (o Alertadmin_alertObjectList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Alertadmin_alertObjectList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PlatformAlert_alertRuleList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Alertadmin_alertObject `json:"items"`
-		PageResult *PageResult               `json:"pageResult,omitempty"`
+		Items      *[]PlatformAlert_alertRuleGroup `json:"items"`
+		PageResult *PageResult                     `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

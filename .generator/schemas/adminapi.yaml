@@ -12151,11 +12151,11 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/alertadmin/rules:
+  /admin/v1/platformAlert/rules:
     get:
       tags:
-        - alertadminRule
-      operationId: getAlertadminRuleList
+        - platformAlertRule
+      operationId: getPlatformAlertRuleList
       parameters:
         - name: groupName
           in: query
@@ -12169,7 +12169,7 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/alertadmin_alertRuleList'
+                $ref: '#/components/schemas/platformAlert_alertRuleList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12178,14 +12178,14 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - alertadminRule
-      operationId: createAlertadminRule
-      summary: Create alert admin rule
+        - platformAlertRule
+      operationId: createPlatformAlertRule
+      summary: Create platform alert rule
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertadmin_alertRule'
+              $ref: '#/components/schemas/platformAlert_alertRule'
         required: true
       responses:
         '200':
@@ -12193,7 +12193,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertadmin_alertRule'
+                $ref: '#/components/schemas/platformAlert_alertRule'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12202,14 +12202,14 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - alertadminRule
-      operationId: deleteAlertadminRule
-      summary: Delete alert admin rule
+        - platformAlertRule
+      operationId: deletePlatformAlertRule
+      summary: Delete platform alert rule
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertadmin_alertRule'
+              $ref: '#/components/schemas/platformAlert_alertRule'
         required: true
       responses:
         '204':
@@ -12224,14 +12224,14 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - alertadminRule
-      operationId: updateAlertadminRule
-      summary: Update alert admin rule
+        - platformAlertRule
+      operationId: updatePlatformAlertRule
+      summary: Update platform alert rule
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertadmin_alertRule'
+              $ref: '#/components/schemas/platformAlert_alertRule'
         required: true
       responses:
         '200':
@@ -12239,7 +12239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertadmin_alertRule'
+                $ref: '#/components/schemas/platformAlert_alertRule'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12247,62 +12247,31 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/alertadmin/objects:
+  /admin/v1/platformAlert/alerts:
     get:
       tags:
-        - alertadminObjects
-      operationId: listAlertadminObjects
-      summary: List alert admin objects
+        - platformAlertObjects
+      operationId: listPlatformAlertObjects
+      summary: List platform alert objects
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertadmin_alertObjectList'
+                $ref: '#/components/schemas/platformAlert_alertObjectList'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/alertadmin/alertStatus/{alertId}:
+  /admin/v1/platformAlert/alerts-status:
     patch:
       tags:
-        - alertadminObjects
-      operationId: setAlertadminStatus
-      summary: Set alert admin status
-      parameters:
-        - name: alertId
-          in: path
-          description: alert id
-          required: true
-          schema:
-            type: string
-        - name: status
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertadmin_alertObject'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/alertadmin/alertsStatus:
-    patch:
-      tags:
-        - alertadminObjects
-      operationId: setAlertsadminStatus
-      summary: Set alerts admin status
+        - platformAlertObjects
+      operationId: setPlatformAlertsStatus
+      summary: Set platform alerts status
       parameters:
         - name: status
           in: query
@@ -12316,14 +12285,14 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/alertadmin_alertObject'
+                $ref: '#/components/schemas/platformAlert_alertObject'
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/alertadmin_alertObjectList'
+                $ref: '#/components/schemas/platformAlert_alertObjectList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17031,6 +17000,8 @@ components:
           $ref: '#/components/schemas/workflow'
         upgradeVictoriaMetrics:
           $ref: '#/components/schemas/workflow'
+        upgradeLoki:
+          $ref: '#/components/schemas/workflow'
       example:
         install:
           finishedAt: '2024-04-08T08:09:02.000Z'
@@ -17077,6 +17048,7 @@ components:
         - upgradeGemini
         - uninstall
         - upgradeVictoriaMetrics
+        - upgradeLoki
     workflowCreate:
       type: object
       properties:
@@ -19385,6 +19357,167 @@ components:
           default: 8
         status:
           $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
+    cdcClusterConfig:
+      type: object
+      properties:
+        component:
+          type: string
+        configName:
+          type: string
+        parameters:
+          type: object
+          additionalProperties:
+            type: string
+    cdcClusterAccount:
+      type: object
+      properties:
+        defaultAccountName:
+          type: array
+          items:
+            type: string
+    cdcNetworkType:
+      type: string
+      enum:
+        - ClusterIP
+        - NodePort
+        - LoadBalancer
+        - FixedPodIP
+    cdcClusterEndpoint:
+      type: object
+      properties:
+        role:
+          type: string
+        component:
+          type: string
+        portName:
+          type: string
+        port:
+          type: integer
+          format: int32
+        authDatabase:
+          type: string
+          nullable: true
+        networkType:
+          $ref: '#/components/schemas/cdcNetworkType'
+    cdcSqlExecutor:
+      type: object
+      properties:
+        sql:
+          type: array
+          items:
+            type: string
+        result:
+          type: array
+          items:
+            type: string
+        authDatabase:
+          type: string
+          nullable: true
+    cdcLifecycleAction:
+      type: object
+      properties:
+        name:
+          type: string
+        sqlExecutor:
+          $ref: '#/components/schemas/cdcSqlExecutor'
+    cdcLifecycle:
+      type: object
+      properties:
+        preStart:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+        postStart:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+        preStop:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+        postStop:
+          $ref: '#/components/schemas/cdcLifecycleAction'
+    cdcSettings:
+      type: object
+      properties:
+        config:
+          $ref: '#/components/schemas/cdcClusterConfig'
+        account:
+          $ref: '#/components/schemas/cdcClusterAccount'
+        endpoint:
+          $ref: '#/components/schemas/cdcClusterEndpoint'
+        lifecycle:
+          $ref: '#/components/schemas/cdcLifecycle'
+    cdcConfigResourceType:
+      type: string
+      enum:
+        - ConfigMap
+        - Secret
+    cdcConfigFormatType:
+      type: string
+      enum:
+        - Ini
+        - Toml
+        - Properties
+    cdcToolTemplate:
+      type: object
+      properties:
+        image:
+          type: string
+        command:
+          type: array
+          items:
+            type: string
+        args:
+          type: array
+          items:
+            type: string
+        replicas:
+          type: integer
+          format: int32
+          nullable: true
+        configFileName:
+          type: string
+        configFilePath:
+          type: string
+        configResourceType:
+          $ref: '#/components/schemas/cdcConfigResourceType'
+        configFormat:
+          $ref: '#/components/schemas/cdcConfigFormatType'
+        localRecoveryEnabled:
+          description: whether to enable local recovery feature
+          type: boolean
+        localRecoveryStorageClass:
+          type: string
+          nullable: true
+        localRecoveryStorageSize:
+          description: size of local recovery storage, the unit is MiB
+          type: integer
+          nullable: true
+        localRecoveryPath:
+          type: string
+        LogPath:
+          type: string
+        startupTimeoutMinutes:
+          type: integer
+          format: int32
+          nullable: true
+        properties:
+          type: object
+          additionalProperties:
+            type: string
+    cdcWorkerTemplate:
+      type: object
+      properties:
+        usingTool:
+          $ref: '#/components/schemas/cdcToolTemplate'
+    cdcOption:
+      type: object
+      properties:
+        versions:
+          type: array
+          items:
+            type: string
+        source:
+          $ref: '#/components/schemas/cdcSettings'
+        sink:
+          $ref: '#/components/schemas/cdcSettings'
+        worker:
+          $ref: '#/components/schemas/cdcWorkerTemplate'
     engineOption:
       type: object
       required:
@@ -19508,6 +19641,10 @@ components:
             $ref: '#/components/schemas/parameterOption'
         disasterRecovery:
           $ref: '#/components/schemas/disasterRecoveryOption'
+        cdc:
+          type: array
+          items:
+            $ref: '#/components/schemas/cdcOption'
     engineOptionList:
       required:
         - items
@@ -21674,7 +21811,7 @@ components:
       required:
         - items
       type: object
-    alertadmin_alertRule:
+    platformAlert_alertRule:
       type: object
       properties:
         description:
@@ -21703,7 +21840,7 @@ components:
         metric:
           $ref: '#/components/schemas/alertMetric'
       description: Alert rule information
-    alertadmin_alertRuleGroup:
+    platformAlert_alertRuleGroup:
       type: object
       properties:
         name:
@@ -21711,8 +21848,8 @@ components:
         rules:
           type: array
           items:
-            $ref: '#/components/schemas/alertadmin_alertRule'
-    alertadmin_alertRuleList:
+            $ref: '#/components/schemas/platformAlert_alertRule'
+    platformAlert_alertRuleList:
       required:
         - items
       type: object
@@ -21721,11 +21858,11 @@ components:
           type: array
           description: Items is the list of alert rule objects in the list
           items:
-            $ref: '#/components/schemas/alertadmin_alertRuleGroup'
+            $ref: '#/components/schemas/platformAlert_alertRuleGroup'
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
-    alertadmin_alertObject:
+    platformAlert_alertObject:
       type: object
       properties:
         id:
@@ -21759,7 +21896,7 @@ components:
         count:
           type: integer
       description: Alert object information
-    alertadmin_alertObjectList:
+    platformAlert_alertObjectList:
       required:
         - items
       type: object
@@ -21768,7 +21905,7 @@ components:
           type: array
           description: Items is the list of alert admin objects in the list
           items:
-            $ref: '#/components/schemas/alertadmin_alertObject'
+            $ref: '#/components/schemas/platformAlert_alertObject'
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertObjectList is a list of alert admin object
