@@ -2244,6 +2244,16 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -2252,6 +2262,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/eventList'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
+  /admin/v1/events/{eventID}:
+    get:
+      description: Retrieves detailed information about an event based on the provided Event ID.
+      summary: Query event detail by Event ID
+      operationId: queryEventDetail
+      parameters:
+        - description: Unique identifier for the event.
+          in: path
+          name: eventID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cluster_event'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'

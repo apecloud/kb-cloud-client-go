@@ -142,6 +142,7 @@
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listNodeGroup]
 //   - [eventApi.queryClusterEvents]
+//   - [eventApi.queryEventDetail]
 //   - [featureApi.listFeature]
 //   - [featureApi.readFeature]
 //   - [inspectionApi.createAutoInspection]
