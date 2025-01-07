@@ -11984,6 +11984,87 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - task
+  /admin/v1/tasks/{taskId}/stop:
+    patch:
+      summary: Stop a task
+      description: stop task
+      operationId: stopTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
+  /admin/v1/tasks/{taskId}/retry:
+    patch:
+      summary: Retry a task
+      description: retry task
+      operationId: retryTask
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current status of the task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/task'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - task
+  /admin/v1/tasks/{taskId}/log:
+    get:
+      tags:
+        - task
+      consumes:
+        - '*/*'
+      produces:
+        - text/plain
+      schemes:
+        - https
+        - http
+      operationId: getTaskLog
+      summary: Get task log
+      parameters:
+        - description: ID of the task
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/clustertasks:
     get:
       operationId: listTasks
