@@ -11691,6 +11691,31 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/metadb/hscale:
+    post:
+      tags:
+        - metadb
+      operationId: metadbHorizontalScale
+      summary: metadb horizontal scale
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/hscale'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/hscale'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/platformParameters:
     get:
       tags:
@@ -21341,6 +21366,14 @@ components:
       required:
         - cpu
         - memory
+    hscale:
+      type: object
+      properties:
+        pods:
+          description: the amount of pods
+          type: integer
+      required:
+        - pods
     platformParameterCategory:
       enum:
         - recycle-bin

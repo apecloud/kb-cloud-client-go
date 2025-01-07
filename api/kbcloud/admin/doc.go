@@ -236,6 +236,7 @@
 //   - [metadbApi.metadbBackup]
 //   - [metadbApi.metadbBackupConfig]
 //   - [metadbApi.metadbBackupGetConfig]
+//   - [metadbApi.metadbHorizontalScale]
 //   - [metadbApi.metadbListInstances]
 //   - [metadbApi.metadbRestore]
 //   - [metadbApi.metadbVerticalScale]
