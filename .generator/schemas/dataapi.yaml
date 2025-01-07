@@ -21,7 +21,7 @@ servers:
 security:
   - BearerToken: []
 paths:
-  /data/{engineName}/v1/organizations/{orgName}/clusters/{clusterName}/databases:
+  /data/{engineType}/v1/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases in cluster
       summary: List cluster databases
@@ -102,7 +102,7 @@ paths:
       tags:
         - database
       x-codegen-request-body-name: body
-  /data/{engineName}/v1/organizations/{orgName}/clusters/{clusterName}/database/{databaseName}:
+  /data/{engineType}/v1/organizations/{orgName}/clusters/{clusterName}/database/{databaseName}:
     delete:
       description: delete a database in cluster
       summary: Delete cluster database
