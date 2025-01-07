@@ -2261,6 +2261,33 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /admin/v1/events/{eventID}:
+    get:
+      description: Retrieves detailed information about an event based on the provided Event ID.
+      summary: Query event detail by Event ID
+      operationId: queryEventDetail
+      parameters:
+        - description: Unique identifier for the event.
+          in: path
+          name: eventID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cluster_event'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories:
     get:
       operationId: listParametersHistory
