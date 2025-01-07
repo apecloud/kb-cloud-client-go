@@ -10,17 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ComponentLogs Component pod logs
-type ComponentLogs struct {
+// EnvironmentModuleLogs Environment module pod logs
+type EnvironmentModuleLogs struct {
 	// Environment ID
 	EnvironmentId *string `json:"environment_id,omitempty"`
-	// Component name
-	ComponentName *string `json:"component_name,omitempty"`
+	// Environment module name
+	ModuleName *string `json:"module_name,omitempty"`
 	// Pod name
 	PodName *string `json:"pod_name,omitempty"`
 	// Container name
-	ContainerName *string                 `json:"container_name,omitempty"`
-	Logs          []ComponentLogsLogsItem `json:"logs,omitempty"`
+	ContainerName *string                         `json:"container_name,omitempty"`
+	Logs          []EnvironmentModuleLogsLogsItem `json:"logs,omitempty"`
 	// Next timestamp for pagination
 	NextTimestamp *time.Time `json:"next_timestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -28,25 +28,25 @@ type ComponentLogs struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentLogs instantiates a new ComponentLogs object.
+// NewEnvironmentModuleLogs instantiates a new EnvironmentModuleLogs object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentLogs() *ComponentLogs {
-	this := ComponentLogs{}
+func NewEnvironmentModuleLogs() *EnvironmentModuleLogs {
+	this := EnvironmentModuleLogs{}
 	return &this
 }
 
-// NewComponentLogsWithDefaults instantiates a new ComponentLogs object.
+// NewEnvironmentModuleLogsWithDefaults instantiates a new EnvironmentModuleLogs object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentLogsWithDefaults() *ComponentLogs {
-	this := ComponentLogs{}
+func NewEnvironmentModuleLogsWithDefaults() *EnvironmentModuleLogs {
+	this := EnvironmentModuleLogs{}
 	return &this
 }
 
 // GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
-func (o *ComponentLogs) GetEnvironmentId() string {
+func (o *EnvironmentModuleLogs) GetEnvironmentId() string {
 	if o == nil || o.EnvironmentId == nil {
 		var ret string
 		return ret
@@ -56,7 +56,7 @@ func (o *ComponentLogs) GetEnvironmentId() string {
 
 // GetEnvironmentIdOk returns a tuple with the EnvironmentId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogs) GetEnvironmentIdOk() (*string, bool) {
+func (o *EnvironmentModuleLogs) GetEnvironmentIdOk() (*string, bool) {
 	if o == nil || o.EnvironmentId == nil {
 		return nil, false
 	}
@@ -64,45 +64,45 @@ func (o *ComponentLogs) GetEnvironmentIdOk() (*string, bool) {
 }
 
 // HasEnvironmentId returns a boolean if a field has been set.
-func (o *ComponentLogs) HasEnvironmentId() bool {
+func (o *EnvironmentModuleLogs) HasEnvironmentId() bool {
 	return o != nil && o.EnvironmentId != nil
 }
 
 // SetEnvironmentId gets a reference to the given string and assigns it to the EnvironmentId field.
-func (o *ComponentLogs) SetEnvironmentId(v string) {
+func (o *EnvironmentModuleLogs) SetEnvironmentId(v string) {
 	o.EnvironmentId = &v
 }
 
-// GetComponentName returns the ComponentName field value if set, zero value otherwise.
-func (o *ComponentLogs) GetComponentName() string {
-	if o == nil || o.ComponentName == nil {
+// GetModuleName returns the ModuleName field value if set, zero value otherwise.
+func (o *EnvironmentModuleLogs) GetModuleName() string {
+	if o == nil || o.ModuleName == nil {
 		var ret string
 		return ret
 	}
-	return *o.ComponentName
+	return *o.ModuleName
 }
 
-// GetComponentNameOk returns a tuple with the ComponentName field value if set, nil otherwise
+// GetModuleNameOk returns a tuple with the ModuleName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogs) GetComponentNameOk() (*string, bool) {
-	if o == nil || o.ComponentName == nil {
+func (o *EnvironmentModuleLogs) GetModuleNameOk() (*string, bool) {
+	if o == nil || o.ModuleName == nil {
 		return nil, false
 	}
-	return o.ComponentName, true
+	return o.ModuleName, true
 }
 
-// HasComponentName returns a boolean if a field has been set.
-func (o *ComponentLogs) HasComponentName() bool {
-	return o != nil && o.ComponentName != nil
+// HasModuleName returns a boolean if a field has been set.
+func (o *EnvironmentModuleLogs) HasModuleName() bool {
+	return o != nil && o.ModuleName != nil
 }
 
-// SetComponentName gets a reference to the given string and assigns it to the ComponentName field.
-func (o *ComponentLogs) SetComponentName(v string) {
-	o.ComponentName = &v
+// SetModuleName gets a reference to the given string and assigns it to the ModuleName field.
+func (o *EnvironmentModuleLogs) SetModuleName(v string) {
+	o.ModuleName = &v
 }
 
 // GetPodName returns the PodName field value if set, zero value otherwise.
-func (o *ComponentLogs) GetPodName() string {
+func (o *EnvironmentModuleLogs) GetPodName() string {
 	if o == nil || o.PodName == nil {
 		var ret string
 		return ret
@@ -112,7 +112,7 @@ func (o *ComponentLogs) GetPodName() string {
 
 // GetPodNameOk returns a tuple with the PodName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogs) GetPodNameOk() (*string, bool) {
+func (o *EnvironmentModuleLogs) GetPodNameOk() (*string, bool) {
 	if o == nil || o.PodName == nil {
 		return nil, false
 	}
@@ -120,17 +120,17 @@ func (o *ComponentLogs) GetPodNameOk() (*string, bool) {
 }
 
 // HasPodName returns a boolean if a field has been set.
-func (o *ComponentLogs) HasPodName() bool {
+func (o *EnvironmentModuleLogs) HasPodName() bool {
 	return o != nil && o.PodName != nil
 }
 
 // SetPodName gets a reference to the given string and assigns it to the PodName field.
-func (o *ComponentLogs) SetPodName(v string) {
+func (o *EnvironmentModuleLogs) SetPodName(v string) {
 	o.PodName = &v
 }
 
 // GetContainerName returns the ContainerName field value if set, zero value otherwise.
-func (o *ComponentLogs) GetContainerName() string {
+func (o *EnvironmentModuleLogs) GetContainerName() string {
 	if o == nil || o.ContainerName == nil {
 		var ret string
 		return ret
@@ -140,7 +140,7 @@ func (o *ComponentLogs) GetContainerName() string {
 
 // GetContainerNameOk returns a tuple with the ContainerName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogs) GetContainerNameOk() (*string, bool) {
+func (o *EnvironmentModuleLogs) GetContainerNameOk() (*string, bool) {
 	if o == nil || o.ContainerName == nil {
 		return nil, false
 	}
@@ -148,19 +148,19 @@ func (o *ComponentLogs) GetContainerNameOk() (*string, bool) {
 }
 
 // HasContainerName returns a boolean if a field has been set.
-func (o *ComponentLogs) HasContainerName() bool {
+func (o *EnvironmentModuleLogs) HasContainerName() bool {
 	return o != nil && o.ContainerName != nil
 }
 
 // SetContainerName gets a reference to the given string and assigns it to the ContainerName field.
-func (o *ComponentLogs) SetContainerName(v string) {
+func (o *EnvironmentModuleLogs) SetContainerName(v string) {
 	o.ContainerName = &v
 }
 
 // GetLogs returns the Logs field value if set, zero value otherwise.
-func (o *ComponentLogs) GetLogs() []ComponentLogsLogsItem {
+func (o *EnvironmentModuleLogs) GetLogs() []EnvironmentModuleLogsLogsItem {
 	if o == nil || o.Logs == nil {
-		var ret []ComponentLogsLogsItem
+		var ret []EnvironmentModuleLogsLogsItem
 		return ret
 	}
 	return o.Logs
@@ -168,7 +168,7 @@ func (o *ComponentLogs) GetLogs() []ComponentLogsLogsItem {
 
 // GetLogsOk returns a tuple with the Logs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogs) GetLogsOk() (*[]ComponentLogsLogsItem, bool) {
+func (o *EnvironmentModuleLogs) GetLogsOk() (*[]EnvironmentModuleLogsLogsItem, bool) {
 	if o == nil || o.Logs == nil {
 		return nil, false
 	}
@@ -176,17 +176,17 @@ func (o *ComponentLogs) GetLogsOk() (*[]ComponentLogsLogsItem, bool) {
 }
 
 // HasLogs returns a boolean if a field has been set.
-func (o *ComponentLogs) HasLogs() bool {
+func (o *EnvironmentModuleLogs) HasLogs() bool {
 	return o != nil && o.Logs != nil
 }
 
-// SetLogs gets a reference to the given []ComponentLogsLogsItem and assigns it to the Logs field.
-func (o *ComponentLogs) SetLogs(v []ComponentLogsLogsItem) {
+// SetLogs gets a reference to the given []EnvironmentModuleLogsLogsItem and assigns it to the Logs field.
+func (o *EnvironmentModuleLogs) SetLogs(v []EnvironmentModuleLogsLogsItem) {
 	o.Logs = v
 }
 
 // GetNextTimestamp returns the NextTimestamp field value if set, zero value otherwise.
-func (o *ComponentLogs) GetNextTimestamp() time.Time {
+func (o *EnvironmentModuleLogs) GetNextTimestamp() time.Time {
 	if o == nil || o.NextTimestamp == nil {
 		var ret time.Time
 		return ret
@@ -196,7 +196,7 @@ func (o *ComponentLogs) GetNextTimestamp() time.Time {
 
 // GetNextTimestampOk returns a tuple with the NextTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogs) GetNextTimestampOk() (*time.Time, bool) {
+func (o *EnvironmentModuleLogs) GetNextTimestampOk() (*time.Time, bool) {
 	if o == nil || o.NextTimestamp == nil {
 		return nil, false
 	}
@@ -204,17 +204,17 @@ func (o *ComponentLogs) GetNextTimestampOk() (*time.Time, bool) {
 }
 
 // HasNextTimestamp returns a boolean if a field has been set.
-func (o *ComponentLogs) HasNextTimestamp() bool {
+func (o *EnvironmentModuleLogs) HasNextTimestamp() bool {
 	return o != nil && o.NextTimestamp != nil
 }
 
 // SetNextTimestamp gets a reference to the given time.Time and assigns it to the NextTimestamp field.
-func (o *ComponentLogs) SetNextTimestamp(v time.Time) {
+func (o *EnvironmentModuleLogs) SetNextTimestamp(v time.Time) {
 	o.NextTimestamp = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentLogs) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModuleLogs) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -222,8 +222,8 @@ func (o ComponentLogs) MarshalJSON() ([]byte, error) {
 	if o.EnvironmentId != nil {
 		toSerialize["environment_id"] = o.EnvironmentId
 	}
-	if o.ComponentName != nil {
-		toSerialize["component_name"] = o.ComponentName
+	if o.ModuleName != nil {
+		toSerialize["module_name"] = o.ModuleName
 	}
 	if o.PodName != nil {
 		toSerialize["pod_name"] = o.PodName
@@ -249,26 +249,26 @@ func (o ComponentLogs) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentLogs) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModuleLogs) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId *string                 `json:"environment_id,omitempty"`
-		ComponentName *string                 `json:"component_name,omitempty"`
-		PodName       *string                 `json:"pod_name,omitempty"`
-		ContainerName *string                 `json:"container_name,omitempty"`
-		Logs          []ComponentLogsLogsItem `json:"logs,omitempty"`
-		NextTimestamp *time.Time              `json:"next_timestamp,omitempty"`
+		EnvironmentId *string                         `json:"environment_id,omitempty"`
+		ModuleName    *string                         `json:"module_name,omitempty"`
+		PodName       *string                         `json:"pod_name,omitempty"`
+		ContainerName *string                         `json:"container_name,omitempty"`
+		Logs          []EnvironmentModuleLogsLogsItem `json:"logs,omitempty"`
+		NextTimestamp *time.Time                      `json:"next_timestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "component_name", "pod_name", "container_name", "logs", "next_timestamp"})
+		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "module_name", "pod_name", "container_name", "logs", "next_timestamp"})
 	} else {
 		return err
 	}
 	o.EnvironmentId = all.EnvironmentId
-	o.ComponentName = all.ComponentName
+	o.ModuleName = all.ModuleName
 	o.PodName = all.PodName
 	o.ContainerName = all.ContainerName
 	o.Logs = all.Logs

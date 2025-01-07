@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ComponentPodsPodsItemOwner_referencesItem struct {
+type EnvironmentModulePodsPodsItemOwner_referencesItem struct {
 	// Owner type
 	Kind *string `json:"kind,omitempty"`
 	// Owner name
@@ -22,25 +22,25 @@ type ComponentPodsPodsItemOwner_referencesItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentPodsPodsItemOwner_referencesItem instantiates a new ComponentPodsPodsItemOwner_referencesItem object.
+// NewEnvironmentModulePodsPodsItemOwner_referencesItem instantiates a new EnvironmentModulePodsPodsItemOwner_referencesItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentPodsPodsItemOwner_referencesItem() *ComponentPodsPodsItemOwner_referencesItem {
-	this := ComponentPodsPodsItemOwner_referencesItem{}
+func NewEnvironmentModulePodsPodsItemOwner_referencesItem() *EnvironmentModulePodsPodsItemOwner_referencesItem {
+	this := EnvironmentModulePodsPodsItemOwner_referencesItem{}
 	return &this
 }
 
-// NewComponentPodsPodsItemOwner_referencesItemWithDefaults instantiates a new ComponentPodsPodsItemOwner_referencesItem object.
+// NewEnvironmentModulePodsPodsItemOwner_referencesItemWithDefaults instantiates a new EnvironmentModulePodsPodsItemOwner_referencesItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentPodsPodsItemOwner_referencesItemWithDefaults() *ComponentPodsPodsItemOwner_referencesItem {
-	this := ComponentPodsPodsItemOwner_referencesItem{}
+func NewEnvironmentModulePodsPodsItemOwner_referencesItemWithDefaults() *EnvironmentModulePodsPodsItemOwner_referencesItem {
+	this := EnvironmentModulePodsPodsItemOwner_referencesItem{}
 	return &this
 }
 
 // GetKind returns the Kind field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetKind() string {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetKind() string {
 	if o == nil || o.Kind == nil {
 		var ret string
 		return ret
@@ -50,7 +50,7 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetKind() string {
 
 // GetKindOk returns a tuple with the Kind field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetKindOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetKindOk() (*string, bool) {
 	if o == nil || o.Kind == nil {
 		return nil, false
 	}
@@ -58,17 +58,17 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetKindOk() (*string, bool) 
 }
 
 // HasKind returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) HasKind() bool {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) HasKind() bool {
 	return o != nil && o.Kind != nil
 }
 
 // SetKind gets a reference to the given string and assigns it to the Kind field.
-func (o *ComponentPodsPodsItemOwner_referencesItem) SetKind(v string) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) SetKind(v string) {
 	o.Kind = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetName() string {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -78,7 +78,7 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetNameOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -86,17 +86,17 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetNameOk() (*string, bool) 
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) HasName() bool {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ComponentPodsPodsItemOwner_referencesItem) SetName(v string) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) SetName(v string) {
 	o.Name = &v
 }
 
 // GetUid returns the Uid field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetUid() string {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetUid() string {
 	if o == nil || o.Uid == nil {
 		var ret string
 		return ret
@@ -106,7 +106,7 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetUid() string {
 
 // GetUidOk returns a tuple with the Uid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetUidOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetUidOk() (*string, bool) {
 	if o == nil || o.Uid == nil {
 		return nil, false
 	}
@@ -114,17 +114,17 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetUidOk() (*string, bool) {
 }
 
 // HasUid returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) HasUid() bool {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) HasUid() bool {
 	return o != nil && o.Uid != nil
 }
 
 // SetUid gets a reference to the given string and assigns it to the Uid field.
-func (o *ComponentPodsPodsItemOwner_referencesItem) SetUid(v string) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) SetUid(v string) {
 	o.Uid = &v
 }
 
 // GetApiVersion returns the ApiVersion field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetApiVersion() string {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetApiVersion() string {
 	if o == nil || o.ApiVersion == nil {
 		var ret string
 		return ret
@@ -134,7 +134,7 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetApiVersion() string {
 
 // GetApiVersionOk returns a tuple with the ApiVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetApiVersionOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetApiVersionOk() (*string, bool) {
 	if o == nil || o.ApiVersion == nil {
 		return nil, false
 	}
@@ -142,17 +142,17 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetApiVersionOk() (*string, 
 }
 
 // HasApiVersion returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) HasApiVersion() bool {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) HasApiVersion() bool {
 	return o != nil && o.ApiVersion != nil
 }
 
 // SetApiVersion gets a reference to the given string and assigns it to the ApiVersion field.
-func (o *ComponentPodsPodsItemOwner_referencesItem) SetApiVersion(v string) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) SetApiVersion(v string) {
 	o.ApiVersion = &v
 }
 
 // GetController returns the Controller field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetController() bool {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetController() bool {
 	if o == nil || o.Controller == nil {
 		var ret bool
 		return ret
@@ -162,7 +162,7 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetController() bool {
 
 // GetControllerOk returns a tuple with the Controller field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) GetControllerOk() (*bool, bool) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) GetControllerOk() (*bool, bool) {
 	if o == nil || o.Controller == nil {
 		return nil, false
 	}
@@ -170,17 +170,17 @@ func (o *ComponentPodsPodsItemOwner_referencesItem) GetControllerOk() (*bool, bo
 }
 
 // HasController returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemOwner_referencesItem) HasController() bool {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) HasController() bool {
 	return o != nil && o.Controller != nil
 }
 
 // SetController gets a reference to the given bool and assigns it to the Controller field.
-func (o *ComponentPodsPodsItemOwner_referencesItem) SetController(v bool) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) SetController(v bool) {
 	o.Controller = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentPodsPodsItemOwner_referencesItem) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModulePodsPodsItemOwner_referencesItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -208,7 +208,7 @@ func (o ComponentPodsPodsItemOwner_referencesItem) MarshalJSON() ([]byte, error)
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentPodsPodsItemOwner_referencesItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModulePodsPodsItemOwner_referencesItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Kind       *string `json:"kind,omitempty"`
 		Name       *string `json:"name,omitempty"`

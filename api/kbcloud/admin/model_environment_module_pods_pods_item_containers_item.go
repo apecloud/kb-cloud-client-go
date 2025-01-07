@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ComponentPodsPodsItemContainersItem struct {
+type EnvironmentModulePodsPodsItemContainersItem struct {
 	// Container name
 	Name *string `json:"name,omitempty"`
 	// Container image
@@ -26,25 +26,25 @@ type ComponentPodsPodsItemContainersItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentPodsPodsItemContainersItem instantiates a new ComponentPodsPodsItemContainersItem object.
+// NewEnvironmentModulePodsPodsItemContainersItem instantiates a new EnvironmentModulePodsPodsItemContainersItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentPodsPodsItemContainersItem() *ComponentPodsPodsItemContainersItem {
-	this := ComponentPodsPodsItemContainersItem{}
+func NewEnvironmentModulePodsPodsItemContainersItem() *EnvironmentModulePodsPodsItemContainersItem {
+	this := EnvironmentModulePodsPodsItemContainersItem{}
 	return &this
 }
 
-// NewComponentPodsPodsItemContainersItemWithDefaults instantiates a new ComponentPodsPodsItemContainersItem object.
+// NewEnvironmentModulePodsPodsItemContainersItemWithDefaults instantiates a new EnvironmentModulePodsPodsItemContainersItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentPodsPodsItemContainersItemWithDefaults() *ComponentPodsPodsItemContainersItem {
-	this := ComponentPodsPodsItemContainersItem{}
+func NewEnvironmentModulePodsPodsItemContainersItemWithDefaults() *EnvironmentModulePodsPodsItemContainersItem {
+	this := EnvironmentModulePodsPodsItemContainersItem{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetName() string {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -54,7 +54,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetNameOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -62,17 +62,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasName() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ComponentPodsPodsItemContainersItem) SetName(v string) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetName(v string) {
 	o.Name = &v
 }
 
 // GetImage returns the Image field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetImage() string {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetImage() string {
 	if o == nil || o.Image == nil {
 		var ret string
 		return ret
@@ -82,7 +82,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetImage() string {
 
 // GetImageOk returns a tuple with the Image field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetImageOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetImageOk() (*string, bool) {
 	if o == nil || o.Image == nil {
 		return nil, false
 	}
@@ -90,17 +90,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetImageOk() (*string, bool) {
 }
 
 // HasImage returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasImage() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasImage() bool {
 	return o != nil && o.Image != nil
 }
 
 // SetImage gets a reference to the given string and assigns it to the Image field.
-func (o *ComponentPodsPodsItemContainersItem) SetImage(v string) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetImage(v string) {
 	o.Image = &v
 }
 
 // GetReady returns the Ready field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetReady() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetReady() bool {
 	if o == nil || o.Ready == nil {
 		var ret bool
 		return ret
@@ -110,7 +110,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetReady() bool {
 
 // GetReadyOk returns a tuple with the Ready field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetReadyOk() (*bool, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetReadyOk() (*bool, bool) {
 	if o == nil || o.Ready == nil {
 		return nil, false
 	}
@@ -118,17 +118,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetReadyOk() (*bool, bool) {
 }
 
 // HasReady returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasReady() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasReady() bool {
 	return o != nil && o.Ready != nil
 }
 
 // SetReady gets a reference to the given bool and assigns it to the Ready field.
-func (o *ComponentPodsPodsItemContainersItem) SetReady(v bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetReady(v bool) {
 	o.Ready = &v
 }
 
 // GetRestartCount returns the RestartCount field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetRestartCount() int32 {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetRestartCount() int32 {
 	if o == nil || o.RestartCount == nil {
 		var ret int32
 		return ret
@@ -138,7 +138,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetRestartCount() int32 {
 
 // GetRestartCountOk returns a tuple with the RestartCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetRestartCountOk() (*int32, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetRestartCountOk() (*int32, bool) {
 	if o == nil || o.RestartCount == nil {
 		return nil, false
 	}
@@ -146,17 +146,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetRestartCountOk() (*int32, bool)
 }
 
 // HasRestartCount returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasRestartCount() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasRestartCount() bool {
 	return o != nil && o.RestartCount != nil
 }
 
 // SetRestartCount gets a reference to the given int32 and assigns it to the RestartCount field.
-func (o *ComponentPodsPodsItemContainersItem) SetRestartCount(v int32) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetRestartCount(v int32) {
 	o.RestartCount = &v
 }
 
 // GetLivenessProbe returns the LivenessProbe field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetLivenessProbe() interface{} {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetLivenessProbe() interface{} {
 	if o == nil || o.LivenessProbe == nil {
 		var ret interface{}
 		return ret
@@ -166,7 +166,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetLivenessProbe() interface{} {
 
 // GetLivenessProbeOk returns a tuple with the LivenessProbe field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetLivenessProbeOk() (*interface{}, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetLivenessProbeOk() (*interface{}, bool) {
 	if o == nil || o.LivenessProbe == nil {
 		return nil, false
 	}
@@ -174,17 +174,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetLivenessProbeOk() (*interface{}
 }
 
 // HasLivenessProbe returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasLivenessProbe() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasLivenessProbe() bool {
 	return o != nil && o.LivenessProbe != nil
 }
 
 // SetLivenessProbe gets a reference to the given interface{} and assigns it to the LivenessProbe field.
-func (o *ComponentPodsPodsItemContainersItem) SetLivenessProbe(v interface{}) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetLivenessProbe(v interface{}) {
 	o.LivenessProbe = v
 }
 
 // GetReadinessProbe returns the ReadinessProbe field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetReadinessProbe() interface{} {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetReadinessProbe() interface{} {
 	if o == nil || o.ReadinessProbe == nil {
 		var ret interface{}
 		return ret
@@ -194,7 +194,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetReadinessProbe() interface{} {
 
 // GetReadinessProbeOk returns a tuple with the ReadinessProbe field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetReadinessProbeOk() (*interface{}, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetReadinessProbeOk() (*interface{}, bool) {
 	if o == nil || o.ReadinessProbe == nil {
 		return nil, false
 	}
@@ -202,17 +202,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetReadinessProbeOk() (*interface{
 }
 
 // HasReadinessProbe returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasReadinessProbe() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasReadinessProbe() bool {
 	return o != nil && o.ReadinessProbe != nil
 }
 
 // SetReadinessProbe gets a reference to the given interface{} and assigns it to the ReadinessProbe field.
-func (o *ComponentPodsPodsItemContainersItem) SetReadinessProbe(v interface{}) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetReadinessProbe(v interface{}) {
 	o.ReadinessProbe = v
 }
 
 // GetResources returns the Resources field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemContainersItem) GetResources() interface{} {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetResources() interface{} {
 	if o == nil || o.Resources == nil {
 		var ret interface{}
 		return ret
@@ -222,7 +222,7 @@ func (o *ComponentPodsPodsItemContainersItem) GetResources() interface{} {
 
 // GetResourcesOk returns a tuple with the Resources field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemContainersItem) GetResourcesOk() (*interface{}, bool) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) GetResourcesOk() (*interface{}, bool) {
 	if o == nil || o.Resources == nil {
 		return nil, false
 	}
@@ -230,17 +230,17 @@ func (o *ComponentPodsPodsItemContainersItem) GetResourcesOk() (*interface{}, bo
 }
 
 // HasResources returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemContainersItem) HasResources() bool {
+func (o *EnvironmentModulePodsPodsItemContainersItem) HasResources() bool {
 	return o != nil && o.Resources != nil
 }
 
 // SetResources gets a reference to the given interface{} and assigns it to the Resources field.
-func (o *ComponentPodsPodsItemContainersItem) SetResources(v interface{}) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) SetResources(v interface{}) {
 	o.Resources = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentPodsPodsItemContainersItem) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModulePodsPodsItemContainersItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -274,7 +274,7 @@ func (o ComponentPodsPodsItemContainersItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentPodsPodsItemContainersItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModulePodsPodsItemContainersItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name           *string     `json:"name,omitempty"`
 		Image          *string     `json:"image,omitempty"`

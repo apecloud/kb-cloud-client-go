@@ -10,37 +10,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ComponentInfo Component information in an environment
-type ComponentInfo struct {
+// EnvironmentModuleInfo Environment module information in an environment
+type EnvironmentModuleInfo struct {
 	// Environment ID
 	EnvironmentId *string `json:"environment_id,omitempty"`
 	// Last update time of the data
-	LastUpdated *time.Time                    `json:"last_updated,omitempty"`
-	Components  []ComponentInfoComponentsItem `json:"components,omitempty"`
+	LastUpdated        *time.Time                                    `json:"last_updated,omitempty"`
+	EnvironmentModules []EnvironmentModuleInfoEnvironmentModulesItem `json:"environmentModules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentInfo instantiates a new ComponentInfo object.
+// NewEnvironmentModuleInfo instantiates a new EnvironmentModuleInfo object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentInfo() *ComponentInfo {
-	this := ComponentInfo{}
+func NewEnvironmentModuleInfo() *EnvironmentModuleInfo {
+	this := EnvironmentModuleInfo{}
 	return &this
 }
 
-// NewComponentInfoWithDefaults instantiates a new ComponentInfo object.
+// NewEnvironmentModuleInfoWithDefaults instantiates a new EnvironmentModuleInfo object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentInfoWithDefaults() *ComponentInfo {
-	this := ComponentInfo{}
+func NewEnvironmentModuleInfoWithDefaults() *EnvironmentModuleInfo {
+	this := EnvironmentModuleInfo{}
 	return &this
 }
 
 // GetEnvironmentId returns the EnvironmentId field value if set, zero value otherwise.
-func (o *ComponentInfo) GetEnvironmentId() string {
+func (o *EnvironmentModuleInfo) GetEnvironmentId() string {
 	if o == nil || o.EnvironmentId == nil {
 		var ret string
 		return ret
@@ -50,7 +50,7 @@ func (o *ComponentInfo) GetEnvironmentId() string {
 
 // GetEnvironmentIdOk returns a tuple with the EnvironmentId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfo) GetEnvironmentIdOk() (*string, bool) {
+func (o *EnvironmentModuleInfo) GetEnvironmentIdOk() (*string, bool) {
 	if o == nil || o.EnvironmentId == nil {
 		return nil, false
 	}
@@ -58,17 +58,17 @@ func (o *ComponentInfo) GetEnvironmentIdOk() (*string, bool) {
 }
 
 // HasEnvironmentId returns a boolean if a field has been set.
-func (o *ComponentInfo) HasEnvironmentId() bool {
+func (o *EnvironmentModuleInfo) HasEnvironmentId() bool {
 	return o != nil && o.EnvironmentId != nil
 }
 
 // SetEnvironmentId gets a reference to the given string and assigns it to the EnvironmentId field.
-func (o *ComponentInfo) SetEnvironmentId(v string) {
+func (o *EnvironmentModuleInfo) SetEnvironmentId(v string) {
 	o.EnvironmentId = &v
 }
 
 // GetLastUpdated returns the LastUpdated field value if set, zero value otherwise.
-func (o *ComponentInfo) GetLastUpdated() time.Time {
+func (o *EnvironmentModuleInfo) GetLastUpdated() time.Time {
 	if o == nil || o.LastUpdated == nil {
 		var ret time.Time
 		return ret
@@ -78,7 +78,7 @@ func (o *ComponentInfo) GetLastUpdated() time.Time {
 
 // GetLastUpdatedOk returns a tuple with the LastUpdated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfo) GetLastUpdatedOk() (*time.Time, bool) {
+func (o *EnvironmentModuleInfo) GetLastUpdatedOk() (*time.Time, bool) {
 	if o == nil || o.LastUpdated == nil {
 		return nil, false
 	}
@@ -86,45 +86,45 @@ func (o *ComponentInfo) GetLastUpdatedOk() (*time.Time, bool) {
 }
 
 // HasLastUpdated returns a boolean if a field has been set.
-func (o *ComponentInfo) HasLastUpdated() bool {
+func (o *EnvironmentModuleInfo) HasLastUpdated() bool {
 	return o != nil && o.LastUpdated != nil
 }
 
 // SetLastUpdated gets a reference to the given time.Time and assigns it to the LastUpdated field.
-func (o *ComponentInfo) SetLastUpdated(v time.Time) {
+func (o *EnvironmentModuleInfo) SetLastUpdated(v time.Time) {
 	o.LastUpdated = &v
 }
 
-// GetComponents returns the Components field value if set, zero value otherwise.
-func (o *ComponentInfo) GetComponents() []ComponentInfoComponentsItem {
-	if o == nil || o.Components == nil {
-		var ret []ComponentInfoComponentsItem
+// GetEnvironmentModules returns the EnvironmentModules field value if set, zero value otherwise.
+func (o *EnvironmentModuleInfo) GetEnvironmentModules() []EnvironmentModuleInfoEnvironmentModulesItem {
+	if o == nil || o.EnvironmentModules == nil {
+		var ret []EnvironmentModuleInfoEnvironmentModulesItem
 		return ret
 	}
-	return o.Components
+	return o.EnvironmentModules
 }
 
-// GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
+// GetEnvironmentModulesOk returns a tuple with the EnvironmentModules field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfo) GetComponentsOk() (*[]ComponentInfoComponentsItem, bool) {
-	if o == nil || o.Components == nil {
+func (o *EnvironmentModuleInfo) GetEnvironmentModulesOk() (*[]EnvironmentModuleInfoEnvironmentModulesItem, bool) {
+	if o == nil || o.EnvironmentModules == nil {
 		return nil, false
 	}
-	return &o.Components, true
+	return &o.EnvironmentModules, true
 }
 
-// HasComponents returns a boolean if a field has been set.
-func (o *ComponentInfo) HasComponents() bool {
-	return o != nil && o.Components != nil
+// HasEnvironmentModules returns a boolean if a field has been set.
+func (o *EnvironmentModuleInfo) HasEnvironmentModules() bool {
+	return o != nil && o.EnvironmentModules != nil
 }
 
-// SetComponents gets a reference to the given []ComponentInfoComponentsItem and assigns it to the Components field.
-func (o *ComponentInfo) SetComponents(v []ComponentInfoComponentsItem) {
-	o.Components = v
+// SetEnvironmentModules gets a reference to the given []EnvironmentModuleInfoEnvironmentModulesItem and assigns it to the EnvironmentModules field.
+func (o *EnvironmentModuleInfo) SetEnvironmentModules(v []EnvironmentModuleInfoEnvironmentModulesItem) {
+	o.EnvironmentModules = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentInfo) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModuleInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -139,8 +139,8 @@ func (o ComponentInfo) MarshalJSON() ([]byte, error) {
 			toSerialize["last_updated"] = o.LastUpdated.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.Components != nil {
-		toSerialize["components"] = o.Components
+	if o.EnvironmentModules != nil {
+		toSerialize["environmentModules"] = o.EnvironmentModules
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -150,24 +150,24 @@ func (o ComponentInfo) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentInfo) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModuleInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId *string                       `json:"environment_id,omitempty"`
-		LastUpdated   *time.Time                    `json:"last_updated,omitempty"`
-		Components    []ComponentInfoComponentsItem `json:"components,omitempty"`
+		EnvironmentId      *string                                       `json:"environment_id,omitempty"`
+		LastUpdated        *time.Time                                    `json:"last_updated,omitempty"`
+		EnvironmentModules []EnvironmentModuleInfoEnvironmentModulesItem `json:"environmentModules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "last_updated", "components"})
+		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "last_updated", "environmentModules"})
 	} else {
 		return err
 	}
 	o.EnvironmentId = all.EnvironmentId
 	o.LastUpdated = all.LastUpdated
-	o.Components = all.Components
+	o.EnvironmentModules = all.EnvironmentModules
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

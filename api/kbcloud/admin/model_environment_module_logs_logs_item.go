@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type ComponentLogsLogsItem struct {
+type EnvironmentModuleLogsLogsItem struct {
 	// Log timestamp
 	Timestamp *time.Time `json:"timestamp,omitempty"`
 	// Log message
@@ -20,25 +20,25 @@ type ComponentLogsLogsItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentLogsLogsItem instantiates a new ComponentLogsLogsItem object.
+// NewEnvironmentModuleLogsLogsItem instantiates a new EnvironmentModuleLogsLogsItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentLogsLogsItem() *ComponentLogsLogsItem {
-	this := ComponentLogsLogsItem{}
+func NewEnvironmentModuleLogsLogsItem() *EnvironmentModuleLogsLogsItem {
+	this := EnvironmentModuleLogsLogsItem{}
 	return &this
 }
 
-// NewComponentLogsLogsItemWithDefaults instantiates a new ComponentLogsLogsItem object.
+// NewEnvironmentModuleLogsLogsItemWithDefaults instantiates a new EnvironmentModuleLogsLogsItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentLogsLogsItemWithDefaults() *ComponentLogsLogsItem {
-	this := ComponentLogsLogsItem{}
+func NewEnvironmentModuleLogsLogsItemWithDefaults() *EnvironmentModuleLogsLogsItem {
+	this := EnvironmentModuleLogsLogsItem{}
 	return &this
 }
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
-func (o *ComponentLogsLogsItem) GetTimestamp() time.Time {
+func (o *EnvironmentModuleLogsLogsItem) GetTimestamp() time.Time {
 	if o == nil || o.Timestamp == nil {
 		var ret time.Time
 		return ret
@@ -48,7 +48,7 @@ func (o *ComponentLogsLogsItem) GetTimestamp() time.Time {
 
 // GetTimestampOk returns a tuple with the Timestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogsLogsItem) GetTimestampOk() (*time.Time, bool) {
+func (o *EnvironmentModuleLogsLogsItem) GetTimestampOk() (*time.Time, bool) {
 	if o == nil || o.Timestamp == nil {
 		return nil, false
 	}
@@ -56,17 +56,17 @@ func (o *ComponentLogsLogsItem) GetTimestampOk() (*time.Time, bool) {
 }
 
 // HasTimestamp returns a boolean if a field has been set.
-func (o *ComponentLogsLogsItem) HasTimestamp() bool {
+func (o *EnvironmentModuleLogsLogsItem) HasTimestamp() bool {
 	return o != nil && o.Timestamp != nil
 }
 
 // SetTimestamp gets a reference to the given time.Time and assigns it to the Timestamp field.
-func (o *ComponentLogsLogsItem) SetTimestamp(v time.Time) {
+func (o *EnvironmentModuleLogsLogsItem) SetTimestamp(v time.Time) {
 	o.Timestamp = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *ComponentLogsLogsItem) GetMessage() string {
+func (o *EnvironmentModuleLogsLogsItem) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -76,7 +76,7 @@ func (o *ComponentLogsLogsItem) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLogsLogsItem) GetMessageOk() (*string, bool) {
+func (o *EnvironmentModuleLogsLogsItem) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -84,17 +84,17 @@ func (o *ComponentLogsLogsItem) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *ComponentLogsLogsItem) HasMessage() bool {
+func (o *EnvironmentModuleLogsLogsItem) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *ComponentLogsLogsItem) SetMessage(v string) {
+func (o *EnvironmentModuleLogsLogsItem) SetMessage(v string) {
 	o.Message = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentLogsLogsItem) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModuleLogsLogsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -117,7 +117,7 @@ func (o ComponentLogsLogsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentLogsLogsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModuleLogsLogsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Timestamp *time.Time `json:"timestamp,omitempty"`
 		Message   *string    `json:"message,omitempty"`

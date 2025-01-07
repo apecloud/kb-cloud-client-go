@@ -6,12 +6,12 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type ComponentInfoComponentsItem struct {
-	// Component name
+type EnvironmentModuleInfoEnvironmentModulesItem struct {
+	// Environment module name
 	Name *string `json:"name,omitempty"`
-	// Component version
+	// Environment module version
 	Version *string `json:"version,omitempty"`
-	// Component status (running, stopped, error, not_installed)
+	// Environment module status (running, stopped, error, not_installed)
 	Status *string `json:"status,omitempty"`
 	// Management type (unmanageable, manageable, kb-cluster)
 	ManagementType *string `json:"management_type,omitempty"`
@@ -24,25 +24,25 @@ type ComponentInfoComponentsItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentInfoComponentsItem instantiates a new ComponentInfoComponentsItem object.
+// NewEnvironmentModuleInfoEnvironmentModulesItem instantiates a new EnvironmentModuleInfoEnvironmentModulesItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentInfoComponentsItem() *ComponentInfoComponentsItem {
-	this := ComponentInfoComponentsItem{}
+func NewEnvironmentModuleInfoEnvironmentModulesItem() *EnvironmentModuleInfoEnvironmentModulesItem {
+	this := EnvironmentModuleInfoEnvironmentModulesItem{}
 	return &this
 }
 
-// NewComponentInfoComponentsItemWithDefaults instantiates a new ComponentInfoComponentsItem object.
+// NewEnvironmentModuleInfoEnvironmentModulesItemWithDefaults instantiates a new EnvironmentModuleInfoEnvironmentModulesItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentInfoComponentsItemWithDefaults() *ComponentInfoComponentsItem {
-	this := ComponentInfoComponentsItem{}
+func NewEnvironmentModuleInfoEnvironmentModulesItemWithDefaults() *EnvironmentModuleInfoEnvironmentModulesItem {
+	this := EnvironmentModuleInfoEnvironmentModulesItem{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ComponentInfoComponentsItem) GetName() string {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *ComponentInfoComponentsItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfoComponentsItem) GetNameOk() (*string, bool) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -60,17 +60,17 @@ func (o *ComponentInfoComponentsItem) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ComponentInfoComponentsItem) HasName() bool {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ComponentInfoComponentsItem) SetName(v string) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetName(v string) {
 	o.Name = &v
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise.
-func (o *ComponentInfoComponentsItem) GetVersion() string {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetVersion() string {
 	if o == nil || o.Version == nil {
 		var ret string
 		return ret
@@ -80,7 +80,7 @@ func (o *ComponentInfoComponentsItem) GetVersion() string {
 
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfoComponentsItem) GetVersionOk() (*string, bool) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetVersionOk() (*string, bool) {
 	if o == nil || o.Version == nil {
 		return nil, false
 	}
@@ -88,17 +88,17 @@ func (o *ComponentInfoComponentsItem) GetVersionOk() (*string, bool) {
 }
 
 // HasVersion returns a boolean if a field has been set.
-func (o *ComponentInfoComponentsItem) HasVersion() bool {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasVersion() bool {
 	return o != nil && o.Version != nil
 }
 
 // SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *ComponentInfoComponentsItem) SetVersion(v string) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetVersion(v string) {
 	o.Version = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *ComponentInfoComponentsItem) GetStatus() string {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -108,7 +108,7 @@ func (o *ComponentInfoComponentsItem) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfoComponentsItem) GetStatusOk() (*string, bool) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -116,17 +116,17 @@ func (o *ComponentInfoComponentsItem) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *ComponentInfoComponentsItem) HasStatus() bool {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *ComponentInfoComponentsItem) SetStatus(v string) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetManagementType returns the ManagementType field value if set, zero value otherwise.
-func (o *ComponentInfoComponentsItem) GetManagementType() string {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetManagementType() string {
 	if o == nil || o.ManagementType == nil {
 		var ret string
 		return ret
@@ -136,7 +136,7 @@ func (o *ComponentInfoComponentsItem) GetManagementType() string {
 
 // GetManagementTypeOk returns a tuple with the ManagementType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfoComponentsItem) GetManagementTypeOk() (*string, bool) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetManagementTypeOk() (*string, bool) {
 	if o == nil || o.ManagementType == nil {
 		return nil, false
 	}
@@ -144,17 +144,17 @@ func (o *ComponentInfoComponentsItem) GetManagementTypeOk() (*string, bool) {
 }
 
 // HasManagementType returns a boolean if a field has been set.
-func (o *ComponentInfoComponentsItem) HasManagementType() bool {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasManagementType() bool {
 	return o != nil && o.ManagementType != nil
 }
 
 // SetManagementType gets a reference to the given string and assigns it to the ManagementType field.
-func (o *ComponentInfoComponentsItem) SetManagementType(v string) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetManagementType(v string) {
 	o.ManagementType = &v
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *ComponentInfoComponentsItem) GetReplicas() int32 {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetReplicas() int32 {
 	if o == nil || o.Replicas == nil {
 		var ret int32
 		return ret
@@ -164,7 +164,7 @@ func (o *ComponentInfoComponentsItem) GetReplicas() int32 {
 
 // GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfoComponentsItem) GetReplicasOk() (*int32, bool) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetReplicasOk() (*int32, bool) {
 	if o == nil || o.Replicas == nil {
 		return nil, false
 	}
@@ -172,17 +172,17 @@ func (o *ComponentInfoComponentsItem) GetReplicasOk() (*int32, bool) {
 }
 
 // HasReplicas returns a boolean if a field has been set.
-func (o *ComponentInfoComponentsItem) HasReplicas() bool {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasReplicas() bool {
 	return o != nil && o.Replicas != nil
 }
 
 // SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
-func (o *ComponentInfoComponentsItem) SetReplicas(v int32) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
 // GetLocation returns the Location field value if set, zero value otherwise.
-func (o *ComponentInfoComponentsItem) GetLocation() string {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetLocation() string {
 	if o == nil || o.Location == nil {
 		var ret string
 		return ret
@@ -192,7 +192,7 @@ func (o *ComponentInfoComponentsItem) GetLocation() string {
 
 // GetLocationOk returns a tuple with the Location field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentInfoComponentsItem) GetLocationOk() (*string, bool) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetLocationOk() (*string, bool) {
 	if o == nil || o.Location == nil {
 		return nil, false
 	}
@@ -200,17 +200,17 @@ func (o *ComponentInfoComponentsItem) GetLocationOk() (*string, bool) {
 }
 
 // HasLocation returns a boolean if a field has been set.
-func (o *ComponentInfoComponentsItem) HasLocation() bool {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasLocation() bool {
 	return o != nil && o.Location != nil
 }
 
 // SetLocation gets a reference to the given string and assigns it to the Location field.
-func (o *ComponentInfoComponentsItem) SetLocation(v string) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetLocation(v string) {
 	o.Location = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentInfoComponentsItem) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModuleInfoEnvironmentModulesItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -241,7 +241,7 @@ func (o ComponentInfoComponentsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentInfoComponentsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name           *string `json:"name,omitempty"`
 		Version        *string `json:"version,omitempty"`

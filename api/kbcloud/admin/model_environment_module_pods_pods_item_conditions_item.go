@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type ComponentPodsPodsItemConditionsItem struct {
+type EnvironmentModulePodsPodsItemConditionsItem struct {
 	// Condition type
 	Type *string `json:"type,omitempty"`
 	// Condition status
@@ -26,25 +26,25 @@ type ComponentPodsPodsItemConditionsItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentPodsPodsItemConditionsItem instantiates a new ComponentPodsPodsItemConditionsItem object.
+// NewEnvironmentModulePodsPodsItemConditionsItem instantiates a new EnvironmentModulePodsPodsItemConditionsItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentPodsPodsItemConditionsItem() *ComponentPodsPodsItemConditionsItem {
-	this := ComponentPodsPodsItemConditionsItem{}
+func NewEnvironmentModulePodsPodsItemConditionsItem() *EnvironmentModulePodsPodsItemConditionsItem {
+	this := EnvironmentModulePodsPodsItemConditionsItem{}
 	return &this
 }
 
-// NewComponentPodsPodsItemConditionsItemWithDefaults instantiates a new ComponentPodsPodsItemConditionsItem object.
+// NewEnvironmentModulePodsPodsItemConditionsItemWithDefaults instantiates a new EnvironmentModulePodsPodsItemConditionsItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentPodsPodsItemConditionsItemWithDefaults() *ComponentPodsPodsItemConditionsItem {
-	this := ComponentPodsPodsItemConditionsItem{}
+func NewEnvironmentModulePodsPodsItemConditionsItemWithDefaults() *EnvironmentModulePodsPodsItemConditionsItem {
+	this := EnvironmentModulePodsPodsItemConditionsItem{}
 	return &this
 }
 
 // GetType returns the Type field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemConditionsItem) GetType() string {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetType() string {
 	if o == nil || o.Type == nil {
 		var ret string
 		return ret
@@ -54,7 +54,7 @@ func (o *ComponentPodsPodsItemConditionsItem) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemConditionsItem) GetTypeOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetTypeOk() (*string, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
@@ -62,17 +62,17 @@ func (o *ComponentPodsPodsItemConditionsItem) GetTypeOk() (*string, bool) {
 }
 
 // HasType returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemConditionsItem) HasType() bool {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) HasType() bool {
 	return o != nil && o.Type != nil
 }
 
 // SetType gets a reference to the given string and assigns it to the Type field.
-func (o *ComponentPodsPodsItemConditionsItem) SetType(v string) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) SetType(v string) {
 	o.Type = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemConditionsItem) GetStatus() string {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -82,7 +82,7 @@ func (o *ComponentPodsPodsItemConditionsItem) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemConditionsItem) GetStatusOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -90,17 +90,17 @@ func (o *ComponentPodsPodsItemConditionsItem) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemConditionsItem) HasStatus() bool {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *ComponentPodsPodsItemConditionsItem) SetStatus(v string) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetLastTransitionTime returns the LastTransitionTime field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemConditionsItem) GetLastTransitionTime() time.Time {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetLastTransitionTime() time.Time {
 	if o == nil || o.LastTransitionTime == nil {
 		var ret time.Time
 		return ret
@@ -110,7 +110,7 @@ func (o *ComponentPodsPodsItemConditionsItem) GetLastTransitionTime() time.Time 
 
 // GetLastTransitionTimeOk returns a tuple with the LastTransitionTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemConditionsItem) GetLastTransitionTimeOk() (*time.Time, bool) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetLastTransitionTimeOk() (*time.Time, bool) {
 	if o == nil || o.LastTransitionTime == nil {
 		return nil, false
 	}
@@ -118,17 +118,17 @@ func (o *ComponentPodsPodsItemConditionsItem) GetLastTransitionTimeOk() (*time.T
 }
 
 // HasLastTransitionTime returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemConditionsItem) HasLastTransitionTime() bool {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) HasLastTransitionTime() bool {
 	return o != nil && o.LastTransitionTime != nil
 }
 
 // SetLastTransitionTime gets a reference to the given time.Time and assigns it to the LastTransitionTime field.
-func (o *ComponentPodsPodsItemConditionsItem) SetLastTransitionTime(v time.Time) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) SetLastTransitionTime(v time.Time) {
 	o.LastTransitionTime = &v
 }
 
 // GetReason returns the Reason field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemConditionsItem) GetReason() string {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetReason() string {
 	if o == nil || o.Reason == nil {
 		var ret string
 		return ret
@@ -138,7 +138,7 @@ func (o *ComponentPodsPodsItemConditionsItem) GetReason() string {
 
 // GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemConditionsItem) GetReasonOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetReasonOk() (*string, bool) {
 	if o == nil || o.Reason == nil {
 		return nil, false
 	}
@@ -146,17 +146,17 @@ func (o *ComponentPodsPodsItemConditionsItem) GetReasonOk() (*string, bool) {
 }
 
 // HasReason returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemConditionsItem) HasReason() bool {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) HasReason() bool {
 	return o != nil && o.Reason != nil
 }
 
 // SetReason gets a reference to the given string and assigns it to the Reason field.
-func (o *ComponentPodsPodsItemConditionsItem) SetReason(v string) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) SetReason(v string) {
 	o.Reason = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *ComponentPodsPodsItemConditionsItem) GetMessage() string {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -166,7 +166,7 @@ func (o *ComponentPodsPodsItemConditionsItem) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentPodsPodsItemConditionsItem) GetMessageOk() (*string, bool) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -174,17 +174,17 @@ func (o *ComponentPodsPodsItemConditionsItem) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *ComponentPodsPodsItemConditionsItem) HasMessage() bool {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *ComponentPodsPodsItemConditionsItem) SetMessage(v string) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) SetMessage(v string) {
 	o.Message = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentPodsPodsItemConditionsItem) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModulePodsPodsItemConditionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -216,7 +216,7 @@ func (o ComponentPodsPodsItemConditionsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentPodsPodsItemConditionsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModulePodsPodsItemConditionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Type               *string    `json:"type,omitempty"`
 		Status             *string    `json:"status,omitempty"`

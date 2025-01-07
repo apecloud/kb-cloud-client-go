@@ -12158,10 +12158,10 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/environments/{environmentName}/components:
+  /admin/v1/environments/{environmentName}/environmentModules:
     get:
-      operationId: getComponentInfo
-      summary: Get component information in an environment
+      operationId: getEnvironmentModuleInfo
+      summary: Get environment module information in an environment
       parameters:
         - name: environmentName
           in: path
@@ -12175,7 +12175,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/componentInfo'
+                $ref: '#/components/schemas/environmentModuleInfo'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -12184,10 +12184,10 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/components/{componentName}/pods:
+  /admin/v1/environments/{environmentName}/environmentModules/{moduleName}/pods:
     get:
-      operationId: getComponentPods
-      summary: Get pods information for a component
+      operationId: getEnvironmentModulePods
+      summary: Get pods information for an environment module
       parameters:
         - name: environmentName
           in: path
@@ -12195,10 +12195,10 @@ paths:
           description: Environment Name
           schema:
             type: string
-        - name: componentName
+        - name: moduleName
           in: path
           required: true
-          description: Component name
+          description: Environment module name
           schema:
             type: string
       responses:
@@ -12207,7 +12207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/componentPods'
+                $ref: '#/components/schemas/environmentModulePods'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -12216,10 +12216,10 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/components/{componentName}/pods/{podName}/logs:
+  /admin/v1/environments/{environmentName}/environmentModules/{moduleName}/pods/{podName}/logs:
     get:
-      operationId: getComponentLogs
-      summary: Get logs for a component pod. When no parameters other than containerName and search are provided, start streaming logs in real-time.
+      operationId: getEnvironmentModuleLogs
+      summary: Get logs for an environment module pod. When no parameters other than containerName and search are provided, start streaming logs in real-time.
       parameters:
         - name: environmentName
           in: path
@@ -12227,10 +12227,10 @@ paths:
           description: Environment Name
           schema:
             type: string
-        - name: componentName
+        - name: moduleName
           in: path
           required: true
-          description: Component name
+          description: Environment module name
           schema:
             type: string
         - name: podName
@@ -12282,7 +12282,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/componentLogs'
+                $ref: '#/components/schemas/environmentModuleLogs'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -21802,9 +21802,9 @@ components:
       required:
         - items
       type: object
-    componentInfo:
+    environmentModuleInfo:
       type: object
-      description: Component information in an environment
+      description: Environment module information in an environment
       properties:
         environment_id:
           type: string
@@ -21813,20 +21813,20 @@ components:
           type: string
           format: date-time
           description: Last update time of the data
-        components:
+        environmentModules:
           type: array
           items:
             type: object
             properties:
               name:
                 type: string
-                description: Component name
+                description: Environment module name
               version:
                 type: string
-                description: Component version
+                description: Environment module version
               status:
                 type: string
-                description: Component status (running, stopped, error, not_installed)
+                description: Environment module status (running, stopped, error, not_installed)
               management_type:
                 type: string
                 description: Management type (unmanageable, manageable, kb-cluster)
@@ -21836,16 +21836,16 @@ components:
               location:
                 type: string
                 description: Deployment location
-    componentPods:
+    environmentModulePods:
       type: object
-      description: Pods information for a component
+      description: Pods information for an environment module
       properties:
         environment_name:
           type: string
           description: Environment name
-        component_name:
+        module_name:
           type: string
-          description: Component name
+          description: Environment module name
         last_updated:
           type: string
           format: date-time
@@ -21957,16 +21957,16 @@ components:
                     message:
                       type: string
                       description: Condition message
-    componentLogs:
+    environmentModuleLogs:
       type: object
-      description: Component pod logs
+      description: Environment module pod logs
       properties:
         environment_id:
           type: string
           description: Environment ID
-        component_name:
+        module_name:
           type: string
-          description: Component name
+          description: Environment module name
         pod_name:
           type: string
           description: Pod name
