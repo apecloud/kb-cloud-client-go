@@ -21,7 +21,7 @@ servers:
 security:
   - BearerToken: []
 paths:
-  /data/v1/organizations/{orgName}/clusters/{clusterName}/databases:
+  /data/{engineName}/v1/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases in cluster
       summary: List cluster databases
@@ -36,6 +36,12 @@ paths:
         - description: name of the Cluster
           in: path
           name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: engine type
+          in: path
+          name: engineType
           required: true
           schema:
             type: string
@@ -71,6 +77,12 @@ paths:
           required: true
           schema:
             type: string
+        - description: engine type
+          in: path
+          name: engineType
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -90,7 +102,7 @@ paths:
       tags:
         - database
       x-codegen-request-body-name: body
-  /data/v1/organizations/{orgName}/clusters/{clusterName}/database/{databaseName}:
+  /data/{engineName}/v1/organizations/{orgName}/clusters/{clusterName}/database/{databaseName}:
     delete:
       description: delete a database in cluster
       summary: Delete cluster database
@@ -105,6 +117,12 @@ paths:
         - description: name of the Cluster
           in: path
           name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: engine type
+          in: path
+          name: engineType
           required: true
           schema:
             type: string
