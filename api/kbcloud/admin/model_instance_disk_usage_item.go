@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceDiskUsageItem pvc disk usage with pvc name.
+// InstanceDiskUsageItem disk usage with volume name.
 type InstanceDiskUsageItem struct {
-	// pvc name
-	PvcName string `json:"pvcName"`
+	// volume name
+	VolumeName string `json:"volumeName"`
 	// disk usage with unit Gi
 	DiskUsage string `json:"diskUsage"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +25,9 @@ type InstanceDiskUsageItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstanceDiskUsageItem(pvcName string, diskUsage string) *InstanceDiskUsageItem {
+func NewInstanceDiskUsageItem(volumeName string, diskUsage string) *InstanceDiskUsageItem {
 	this := InstanceDiskUsageItem{}
-	this.PvcName = pvcName
+	this.VolumeName = volumeName
 	this.DiskUsage = diskUsage
 	return &this
 }
@@ -40,27 +40,27 @@ func NewInstanceDiskUsageItemWithDefaults() *InstanceDiskUsageItem {
 	return &this
 }
 
-// GetPvcName returns the PvcName field value.
-func (o *InstanceDiskUsageItem) GetPvcName() string {
+// GetVolumeName returns the VolumeName field value.
+func (o *InstanceDiskUsageItem) GetVolumeName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.PvcName
+	return o.VolumeName
 }
 
-// GetPvcNameOk returns a tuple with the PvcName field value
+// GetVolumeNameOk returns a tuple with the VolumeName field value
 // and a boolean to check if the value has been set.
-func (o *InstanceDiskUsageItem) GetPvcNameOk() (*string, bool) {
+func (o *InstanceDiskUsageItem) GetVolumeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.PvcName, true
+	return &o.VolumeName, true
 }
 
-// SetPvcName sets field value.
-func (o *InstanceDiskUsageItem) SetPvcName(v string) {
-	o.PvcName = v
+// SetVolumeName sets field value.
+func (o *InstanceDiskUsageItem) SetVolumeName(v string) {
+	o.VolumeName = v
 }
 
 // GetDiskUsage returns the DiskUsage field value.
@@ -92,7 +92,7 @@ func (o InstanceDiskUsageItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["pvcName"] = o.PvcName
+	toSerialize["volumeName"] = o.VolumeName
 	toSerialize["diskUsage"] = o.DiskUsage
 
 	for key, value := range o.AdditionalProperties {
@@ -104,25 +104,25 @@ func (o InstanceDiskUsageItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceDiskUsageItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PvcName   *string `json:"pvcName"`
-		DiskUsage *string `json:"diskUsage"`
+		VolumeName *string `json:"volumeName"`
+		DiskUsage  *string `json:"diskUsage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
-	if all.PvcName == nil {
-		return fmt.Errorf("required field pvcName missing")
+	if all.VolumeName == nil {
+		return fmt.Errorf("required field volumeName missing")
 	}
 	if all.DiskUsage == nil {
 		return fmt.Errorf("required field diskUsage missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pvcName", "diskUsage"})
+		common.DeleteKeys(additionalProperties, &[]string{"volumeName", "diskUsage"})
 	} else {
 		return err
 	}
-	o.PvcName = *all.PvcName
+	o.VolumeName = *all.VolumeName
 	o.DiskUsage = *all.DiskUsage
 
 	if len(additionalProperties) > 0 {

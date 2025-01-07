@@ -187,6 +187,7 @@
 //   - [environmentApi.scaleOutEnvironmentNodes]
 //   - [environmentApi.uncordonEnvironmentNode]
 //   - [eventApi.queryClusterEvents]
+//   - [eventApi.queryEventDetail]
 //   - [faultApi.createClusterNetworkChaos]
 //   - [faultApi.createClusterPodChaos]
 //   - [faultApi.deleteFault]

@@ -754,6 +754,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /api/v1/organizations/{orgName}/events/{eventID}:
+    get:
+      description: Retrieves detailed information about an event based on the provided Event ID.
+      summary: Query event detail by Event ID
+      operationId: queryEventDetail
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Unique identifier for the event.
+          in: path
+          name: eventID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/event'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /api/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
@@ -12426,16 +12459,16 @@ components:
             items: {}
             nullable: true
     instanceDiskUsageItem:
-      description: pvc disk usage with pvc name.
+      description: disk usage with volume name.
       properties:
-        pvcName:
-          description: pvc name
+        volumeName:
+          description: volume name
           type: string
         diskUsage:
           description: disk usage with unit Gi
           type: string
       required:
-        - pvcName
+        - volumeName
         - diskUsage
       type: object
     instanceMetrics:
