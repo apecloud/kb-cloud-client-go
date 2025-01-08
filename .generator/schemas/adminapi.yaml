@@ -13975,6 +13975,19 @@ components:
             type: array
             items: {}
             nullable: true
+    instanceDiskUsageItem:
+      description: disk usage with volume name.
+      properties:
+        volumeName:
+          description: volume name
+          type: string
+        diskUsage:
+          description: disk usage with unit Gi
+          type: string
+      required:
+        - volumeName
+        - diskUsage
+      type: object
     instanceMetrics:
       description: instance metrics
       properties:
@@ -13987,14 +14000,16 @@ components:
         memoryUsage:
           description: memory with uint Gi.
           type: string
-        diskUsage:
-          description: disk with uint Gi.
-          type: string
+        diskUsageItems:
+          description: disk usage items
+          type: array
+          items:
+            $ref: '#/components/schemas/instanceDiskUsageItem'
       required:
         - instanceName
         - cpuUsage
         - memoryUsage
-        - diskUsage
+        - diskUsageItems
       type: object
     instanceMetricsList:
       description: instance metrics list
