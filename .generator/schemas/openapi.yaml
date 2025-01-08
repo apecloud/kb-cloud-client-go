@@ -14310,6 +14310,12 @@ components:
         - resetPassword
         - delete
       properties:
+        superUserAccount:
+          type: integer
+          format: int32
+          minimum: 0
+          default: 2
+          description: number of super user accounts cloud create
         enabled:
           type: boolean
         privileges:

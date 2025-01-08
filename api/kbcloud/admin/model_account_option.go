@@ -11,6 +11,8 @@ import (
 )
 
 type AccountOption struct {
+	// number of super user accounts cloud create
+	SuperUserAccount   *int32   `json:"superUserAccount,omitempty"`
 	Enabled            bool     `json:"enabled"`
 	Privileges         []string `json:"privileges,omitempty"`
 	AccountNamePattern string   `json:"accountNamePattern"`
@@ -28,6 +30,8 @@ type AccountOption struct {
 // will change when the set of required properties is changed.
 func NewAccountOption(enabled bool, accountNamePattern string, create bool, resetPassword bool, delete bool) *AccountOption {
 	this := AccountOption{}
+	var superUserAccount int32 = 2
+	this.SuperUserAccount = &superUserAccount
 	this.Enabled = enabled
 	this.AccountNamePattern = accountNamePattern
 	this.Create = create
@@ -41,7 +45,37 @@ func NewAccountOption(enabled bool, accountNamePattern string, create bool, rese
 // but it doesn't guarantee that properties required by API are set.
 func NewAccountOptionWithDefaults() *AccountOption {
 	this := AccountOption{}
+	var superUserAccount int32 = 2
+	this.SuperUserAccount = &superUserAccount
 	return &this
+}
+
+// GetSuperUserAccount returns the SuperUserAccount field value if set, zero value otherwise.
+func (o *AccountOption) GetSuperUserAccount() int32 {
+	if o == nil || o.SuperUserAccount == nil {
+		var ret int32
+		return ret
+	}
+	return *o.SuperUserAccount
+}
+
+// GetSuperUserAccountOk returns a tuple with the SuperUserAccount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetSuperUserAccountOk() (*int32, bool) {
+	if o == nil || o.SuperUserAccount == nil {
+		return nil, false
+	}
+	return o.SuperUserAccount, true
+}
+
+// HasSuperUserAccount returns a boolean if a field has been set.
+func (o *AccountOption) HasSuperUserAccount() bool {
+	return o != nil && o.SuperUserAccount != nil
+}
+
+// SetSuperUserAccount gets a reference to the given int32 and assigns it to the SuperUserAccount field.
+func (o *AccountOption) SetSuperUserAccount(v int32) {
+	o.SuperUserAccount = &v
 }
 
 // GetEnabled returns the Enabled field value.
@@ -193,6 +227,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.SuperUserAccount != nil {
+		toSerialize["superUserAccount"] = o.SuperUserAccount
+	}
 	toSerialize["enabled"] = o.Enabled
 	if o.Privileges != nil {
 		toSerialize["privileges"] = o.Privileges
@@ -211,6 +248,7 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		SuperUserAccount   *int32   `json:"superUserAccount,omitempty"`
 		Enabled            *bool    `json:"enabled"`
 		Privileges         []string `json:"privileges,omitempty"`
 		AccountNamePattern *string  `json:"accountNamePattern"`
@@ -238,10 +276,11 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
+		common.DeleteKeys(additionalProperties, &[]string{"superUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
 	} else {
 		return err
 	}
+	o.SuperUserAccount = all.SuperUserAccount
 	o.Enabled = *all.Enabled
 	o.Privileges = all.Privileges
 	o.AccountNamePattern = *all.AccountNamePattern

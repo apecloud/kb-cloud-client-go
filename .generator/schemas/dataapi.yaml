@@ -1182,6 +1182,366 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
+    get:
+      description: list databases for rdbms engine cluster
+      summary: List cluster databases
+      operationId: listDatabases
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/databaseList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
+        - rdbms
+    post:
+      description: create a database in cluster
+      summary: Create cluster database
+      operationId: createDatabase
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/database'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when database is created successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
+        - rdbms
+      x-codegen-request-body-name: body
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
+    delete:
+      description: delete a database in cluster
+      summary: Delete cluster database
+      operationId: deleteDatabase
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of database
+          in: path
+          name: databaseName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
+        - rdbms
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
+    get:
+      description: list accounts in cluster
+      summary: List cluster accounts
+      operationId: listAccounts
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: include root account
+          in: query
+          name: includeRoot
+          schema:
+            type: boolean
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/accountList'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+      x-codegen-request-body-name: body
+    post:
+      description: create an account in cluster
+      summary: Create cluster account
+      operationId: createAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+      x-codegen-request-body-name: body
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete an account in cluster
+      summary: Delete cluster account
+      operationId: deleteAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+    patch:
+      description: update an account in cluster
+      summary: update cluster account
+      operationId: updateAccount
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+      x-codegen-request-body-name: body
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
+    patch:
+      description: update account privileges for rdbms engine
+      summary: update account privileges
+      operationId: updateAccountPrivileges
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/privilegeList'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when account privileges are updated successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - rdbms
+      x-codegen-request-body-name: body
 components:
   securitySchemes:
     BearerToken:
@@ -1850,6 +2210,142 @@ components:
           format: date-time
           description: Time when the task completed or failed
           nullable: true
+    databaseItem:
+      description: Cluster database information
+      properties:
+        name:
+          description: Specify the name of database, which must be unique.
+          title: name
+          type: string
+      required:
+        - name
+      type: object
+    databaseList:
+      description: DatabaesList is a list of Databaes
+      properties:
+        items:
+          description: Items is the list of Databases objects in the list
+          items:
+            $ref: '#/components/schemas/databaseItem'
+          type: array
+      required:
+        - items
+      type: object
+    database:
+      description: Cluster database information
+      properties:
+        component:
+          description: component type
+          title: component
+          type: string
+        name:
+          description: Specify the name of database, which must be unique.
+          title: name
+          type: string
+        accountName:
+          description: Specify account name who can manage this database
+          title: owner
+          type: string
+        charset:
+          description: Specify charsetName of database.
+          title: charsetName
+          type: string
+        description:
+          description: Description of the database.
+          title: description
+          type: string
+      required:
+        - name
+      type: object
+    privilegeType:
+      title: privilegeType
+      description: The type of privilege.
+      type: string
+      enum:
+        - DBADMIN
+        - READWRITE
+        - READONLY
+        - DDLONLY
+        - DMLONLY
+    privilegeListItem:
+      type: object
+      description: Database and its assigned privileges.
+      properties:
+        databaseName:
+          title: databaseName
+          type: string
+          description: The name of the database.
+        privileges:
+          $ref: '#/components/schemas/privilegeType'
+      required:
+        - privileges
+    privilegeList:
+      type: array
+      items:
+        $ref: '#/components/schemas/privilegeListItem'
+      description: A list of privileges and their databases.
+    accountListItem:
+      description: Cluster account information.
+      properties:
+        component:
+          description: Component type.
+          type: string
+        name:
+          description: The name of user.
+          type: string
+        password:
+          description: The password of user.
+          type: string
+        role:
+          $ref: '#/components/schemas/accountListRoleType'
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+      required:
+        - name
+      type: object
+    accountList:
+      items:
+        $ref: '#/components/schemas/accountListItem'
+      type: array
+    accountRoleType:
+      default: SUPERUSER
+      description: Role name should be one of [SUPERUSER, BASICUSER].
+      enum:
+        - SUPERUSER
+        - BASICUSER
+      title: role
+      type: string
+    account:
+      description: Cluster account information
+      properties:
+        privilegesList:
+          description: privileges of databases of cluster
+          title: privilegesList
+          $ref: '#/components/schemas/privilegeList'
+        component:
+          description: Specify the name of component to be connected. If not specified, pick the first one.
+          title: component
+          type: string
+        instance:
+          description: Specify the name of instance to be connected.
+          title: instance
+          type: string
+        name:
+          description: Specify the name of user, which must be unique.
+          title: name
+          type: string
+        password:
+          description: Specify the password of user. The default value is empty, which means a random password will be generated.
+          title: password
+          type: string
+        role:
+          $ref: '#/components/schemas/accountRoleType'
+      required:
+        - name
+        - role
+      type: object
   responses:
     '400':
       content:
