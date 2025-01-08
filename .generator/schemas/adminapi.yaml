@@ -19383,6 +19383,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentOpsOption'
+        upgrade:
+          type: array
+          items:
+            $ref: '#/components/schemas/componentOpsOption'
         metrics:
           $ref: '#/components/schemas/metricsOption'
         dashboards:

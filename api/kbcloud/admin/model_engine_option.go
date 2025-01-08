@@ -34,6 +34,7 @@ type EngineOption struct {
 	License          *EngineOptionLicense    `json:"license,omitempty"`
 	StorageExpansion []ComponentOpsOption    `json:"storageExpansion"`
 	RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
+	Upgrade          []ComponentOpsOption    `json:"upgrade,omitempty"`
 	Metrics          *MetricsOption          `json:"metrics,omitempty"`
 	Dashboards       []DashboardOption       `json:"dashboards"`
 	Logs             []LogOption             `json:"logs"`
@@ -621,6 +622,34 @@ func (o *EngineOption) SetRebuildInstance(v []ComponentOpsOption) {
 	o.RebuildInstance = v
 }
 
+// GetUpgrade returns the Upgrade field value if set, zero value otherwise.
+func (o *EngineOption) GetUpgrade() []ComponentOpsOption {
+	if o == nil || o.Upgrade == nil {
+		var ret []ComponentOpsOption
+		return ret
+	}
+	return o.Upgrade
+}
+
+// GetUpgradeOk returns a tuple with the Upgrade field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetUpgradeOk() (*[]ComponentOpsOption, bool) {
+	if o == nil || o.Upgrade == nil {
+		return nil, false
+	}
+	return &o.Upgrade, true
+}
+
+// HasUpgrade returns a boolean if a field has been set.
+func (o *EngineOption) HasUpgrade() bool {
+	return o != nil && o.Upgrade != nil
+}
+
+// SetUpgrade gets a reference to the given []ComponentOpsOption and assigns it to the Upgrade field.
+func (o *EngineOption) SetUpgrade(v []ComponentOpsOption) {
+	o.Upgrade = v
+}
+
 // GetMetrics returns the Metrics field value if set, zero value otherwise.
 func (o *EngineOption) GetMetrics() MetricsOption {
 	if o == nil || o.Metrics == nil {
@@ -816,6 +845,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.RebuildInstance != nil {
 		toSerialize["rebuildInstance"] = o.RebuildInstance
 	}
+	if o.Upgrade != nil {
+		toSerialize["upgrade"] = o.Upgrade
+	}
 	if o.Metrics != nil {
 		toSerialize["metrics"] = o.Metrics
 	}
@@ -860,6 +892,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		License          *EngineOptionLicense    `json:"license,omitempty"`
 		StorageExpansion *[]ComponentOpsOption   `json:"storageExpansion"`
 		RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
+		Upgrade          []ComponentOpsOption    `json:"upgrade,omitempty"`
 		Metrics          *MetricsOption          `json:"metrics,omitempty"`
 		Dashboards       *[]DashboardOption      `json:"dashboards"`
 		Logs             *[]LogOption            `json:"logs"`
@@ -926,7 +959,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
 	} else {
 		return err
 	}
@@ -978,6 +1011,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.License = all.License
 	o.StorageExpansion = *all.StorageExpansion
 	o.RebuildInstance = all.RebuildInstance
+	o.Upgrade = all.Upgrade
 	if all.Metrics != nil && all.Metrics.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
