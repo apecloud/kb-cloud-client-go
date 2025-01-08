@@ -18,8 +18,8 @@ type InstanceMetrics struct {
 	CpuUsage string `json:"cpuUsage"`
 	// memory with uint Gi.
 	MemoryUsage string `json:"memoryUsage"`
-	// disk with uint Gi.
-	DiskUsage string `json:"diskUsage"`
+	// disk usage items
+	DiskUsageItems []InstanceDiskUsageItem `json:"diskUsageItems"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,12 +29,12 @@ type InstanceMetrics struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstanceMetrics(instanceName string, cpuUsage string, memoryUsage string, diskUsage string) *InstanceMetrics {
+func NewInstanceMetrics(instanceName string, cpuUsage string, memoryUsage string, diskUsageItems []InstanceDiskUsageItem) *InstanceMetrics {
 	this := InstanceMetrics{}
 	this.InstanceName = instanceName
 	this.CpuUsage = cpuUsage
 	this.MemoryUsage = memoryUsage
-	this.DiskUsage = diskUsage
+	this.DiskUsageItems = diskUsageItems
 	return &this
 }
 
@@ -115,27 +115,27 @@ func (o *InstanceMetrics) SetMemoryUsage(v string) {
 	o.MemoryUsage = v
 }
 
-// GetDiskUsage returns the DiskUsage field value.
-func (o *InstanceMetrics) GetDiskUsage() string {
+// GetDiskUsageItems returns the DiskUsageItems field value.
+func (o *InstanceMetrics) GetDiskUsageItems() []InstanceDiskUsageItem {
 	if o == nil {
-		var ret string
+		var ret []InstanceDiskUsageItem
 		return ret
 	}
-	return o.DiskUsage
+	return o.DiskUsageItems
 }
 
-// GetDiskUsageOk returns a tuple with the DiskUsage field value
+// GetDiskUsageItemsOk returns a tuple with the DiskUsageItems field value
 // and a boolean to check if the value has been set.
-func (o *InstanceMetrics) GetDiskUsageOk() (*string, bool) {
+func (o *InstanceMetrics) GetDiskUsageItemsOk() (*[]InstanceDiskUsageItem, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.DiskUsage, true
+	return &o.DiskUsageItems, true
 }
 
-// SetDiskUsage sets field value.
-func (o *InstanceMetrics) SetDiskUsage(v string) {
-	o.DiskUsage = v
+// SetDiskUsageItems sets field value.
+func (o *InstanceMetrics) SetDiskUsageItems(v []InstanceDiskUsageItem) {
+	o.DiskUsageItems = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -147,7 +147,7 @@ func (o InstanceMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize["instanceName"] = o.InstanceName
 	toSerialize["cpuUsage"] = o.CpuUsage
 	toSerialize["memoryUsage"] = o.MemoryUsage
-	toSerialize["diskUsage"] = o.DiskUsage
+	toSerialize["diskUsageItems"] = o.DiskUsageItems
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -158,10 +158,10 @@ func (o InstanceMetrics) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		InstanceName *string `json:"instanceName"`
-		CpuUsage     *string `json:"cpuUsage"`
-		MemoryUsage  *string `json:"memoryUsage"`
-		DiskUsage    *string `json:"diskUsage"`
+		InstanceName   *string                  `json:"instanceName"`
+		CpuUsage       *string                  `json:"cpuUsage"`
+		MemoryUsage    *string                  `json:"memoryUsage"`
+		DiskUsageItems *[]InstanceDiskUsageItem `json:"diskUsageItems"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -175,19 +175,19 @@ func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	if all.MemoryUsage == nil {
 		return fmt.Errorf("required field memoryUsage missing")
 	}
-	if all.DiskUsage == nil {
-		return fmt.Errorf("required field diskUsage missing")
+	if all.DiskUsageItems == nil {
+		return fmt.Errorf("required field diskUsageItems missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"instanceName", "cpuUsage", "memoryUsage", "diskUsage"})
+		common.DeleteKeys(additionalProperties, &[]string{"instanceName", "cpuUsage", "memoryUsage", "diskUsageItems"})
 	} else {
 		return err
 	}
 	o.InstanceName = *all.InstanceName
 	o.CpuUsage = *all.CpuUsage
 	o.MemoryUsage = *all.MemoryUsage
-	o.DiskUsage = *all.DiskUsage
+	o.DiskUsageItems = *all.DiskUsageItems
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
