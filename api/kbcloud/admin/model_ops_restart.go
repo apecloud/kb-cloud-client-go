@@ -4,16 +4,12 @@
 
 package admin
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsRestart OpsRestart is the payload to restart a KubeBlocks cluster
 type OpsRestart struct {
 	// component type
-	Component string `json:"component"`
+	Component *string `json:"component,omitempty"`
 	// Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
 	PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +21,8 @@ type OpsRestart struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsRestart(component string) *OpsRestart {
+func NewOpsRestart() *OpsRestart {
 	this := OpsRestart{}
-	this.Component = component
 	return &this
 }
 
@@ -39,27 +34,32 @@ func NewOpsRestartWithDefaults() *OpsRestart {
 	return &this
 }
 
-// GetComponent returns the Component field value.
+// GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsRestart) GetComponent() string {
-	if o == nil {
+	if o == nil || o.Component == nil {
 		var ret string
 		return ret
 	}
-	return o.Component
+	return *o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value
+// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsRestart) GetComponentOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Component == nil {
 		return nil, false
 	}
-	return &o.Component, true
+	return o.Component, true
 }
 
-// SetComponent sets field value.
+// HasComponent returns a boolean if a field has been set.
+func (o *OpsRestart) HasComponent() bool {
+	return o != nil && o.Component != nil
+}
+
+// SetComponent gets a reference to the given string and assigns it to the Component field.
 func (o *OpsRestart) SetComponent(v string) {
-	o.Component = v
+	o.Component = &v
 }
 
 // GetPreConditionDeadlineSeconds returns the PreConditionDeadlineSeconds field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -107,7 +107,9 @@ func (o OpsRestart) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["component"] = o.Component
+	if o.Component != nil {
+		toSerialize["component"] = o.Component
+	}
 	if o.PreConditionDeadlineSeconds.IsSet() {
 		toSerialize["preConditionDeadlineSeconds"] = o.PreConditionDeadlineSeconds.Get()
 	}
@@ -121,14 +123,11 @@ func (o OpsRestart) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsRestart) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component                   *string              `json:"component"`
+		Component                   *string              `json:"component,omitempty"`
 		PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.Component == nil {
-		return fmt.Errorf("required field component missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -136,7 +135,7 @@ func (o *OpsRestart) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Component = *all.Component
+	o.Component = all.Component
 	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
 
 	if len(additionalProperties) > 0 {

@@ -12,8 +12,8 @@ import (
 
 // OpsExpose OpsExpose is the payload to expose a KubeBlocks cluster
 type OpsExpose struct {
-	Component string `json:"component"`
-	Enable    bool   `json:"enable"`
+	Component *string `json:"component,omitempty"`
+	Enable    bool    `json:"enable"`
 	// Specifies the type of exposure for the KubeBlocks cluster.
 	Type OpsExposeType `json:"type"`
 	// Specifies the type of service for the KubeBlocks cluster.
@@ -28,9 +28,8 @@ type OpsExpose struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsExpose(component string, enable bool, typeVar OpsExposeType) *OpsExpose {
+func NewOpsExpose(enable bool, typeVar OpsExposeType) *OpsExpose {
 	this := OpsExpose{}
-	this.Component = component
 	this.Enable = enable
 	this.Type = typeVar
 	var vpcServiceType OpsExposeVPCServiceType = OpsExposeVPCServiceTypeLoadBalancer
@@ -48,27 +47,32 @@ func NewOpsExposeWithDefaults() *OpsExpose {
 	return &this
 }
 
-// GetComponent returns the Component field value.
+// GetComponent returns the Component field value if set, zero value otherwise.
 func (o *OpsExpose) GetComponent() string {
-	if o == nil {
+	if o == nil || o.Component == nil {
 		var ret string
 		return ret
 	}
-	return o.Component
+	return *o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value
+// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsExpose) GetComponentOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Component == nil {
 		return nil, false
 	}
-	return &o.Component, true
+	return o.Component, true
 }
 
-// SetComponent sets field value.
+// HasComponent returns a boolean if a field has been set.
+func (o *OpsExpose) HasComponent() bool {
+	return o != nil && o.Component != nil
+}
+
+// SetComponent gets a reference to the given string and assigns it to the Component field.
 func (o *OpsExpose) SetComponent(v string) {
-	o.Component = v
+	o.Component = &v
 }
 
 // GetEnable returns the Enable field value.
@@ -179,7 +183,9 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["component"] = o.Component
+	if o.Component != nil {
+		toSerialize["component"] = o.Component
+	}
 	toSerialize["enable"] = o.Enable
 	toSerialize["type"] = o.Type
 	if o.VpcServiceType != nil {
@@ -198,7 +204,7 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string                     `json:"component"`
+		Component      *string                     `json:"component,omitempty"`
 		Enable         *bool                       `json:"enable"`
 		Type           *OpsExposeType              `json:"type"`
 		VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
@@ -206,9 +212,6 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.Component == nil {
-		return fmt.Errorf("required field component missing")
 	}
 	if all.Enable == nil {
 		return fmt.Errorf("required field enable missing")
@@ -224,7 +227,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.Component = *all.Component
+	o.Component = all.Component
 	o.Enable = *all.Enable
 	if !all.Type.IsValid() {
 		hasInvalidField = true

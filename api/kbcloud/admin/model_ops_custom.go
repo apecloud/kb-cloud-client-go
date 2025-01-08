@@ -13,7 +13,7 @@ import (
 // OpsCustom OpsCustom is the payload to create a custom KubeBlocks OpsRequest
 type OpsCustom struct {
 	// component name
-	CompName string `json:"compName"`
+	CompName *string `json:"compName,omitempty"`
 	// ops definition name.
 	OpsType string `json:"opsType"`
 	// ops definition name.
@@ -29,9 +29,8 @@ type OpsCustom struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsCustom(compName string, opsType string) *OpsCustom {
+func NewOpsCustom(opsType string) *OpsCustom {
 	this := OpsCustom{}
-	this.CompName = compName
 	this.OpsType = opsType
 	return &this
 }
@@ -44,27 +43,32 @@ func NewOpsCustomWithDefaults() *OpsCustom {
 	return &this
 }
 
-// GetCompName returns the CompName field value.
+// GetCompName returns the CompName field value if set, zero value otherwise.
 func (o *OpsCustom) GetCompName() string {
-	if o == nil {
+	if o == nil || o.CompName == nil {
 		var ret string
 		return ret
 	}
-	return o.CompName
+	return *o.CompName
 }
 
-// GetCompNameOk returns a tuple with the CompName field value
+// GetCompNameOk returns a tuple with the CompName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsCustom) GetCompNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.CompName == nil {
 		return nil, false
 	}
-	return &o.CompName, true
+	return o.CompName, true
 }
 
-// SetCompName sets field value.
+// HasCompName returns a boolean if a field has been set.
+func (o *OpsCustom) HasCompName() bool {
+	return o != nil && o.CompName != nil
+}
+
+// SetCompName gets a reference to the given string and assigns it to the CompName field.
 func (o *OpsCustom) SetCompName(v string) {
-	o.CompName = v
+	o.CompName = &v
 }
 
 // GetOpsType returns the OpsType field value.
@@ -152,7 +156,9 @@ func (o OpsCustom) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["compName"] = o.CompName
+	if o.CompName != nil {
+		toSerialize["compName"] = o.CompName
+	}
 	toSerialize["opsType"] = o.OpsType
 	if o.DependentOnOps != nil {
 		toSerialize["dependentOnOps"] = o.DependentOnOps
@@ -170,16 +176,13 @@ func (o OpsCustom) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsCustom) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CompName       *string       `json:"compName"`
+		CompName       *string       `json:"compName,omitempty"`
 		OpsType        *string       `json:"opsType"`
 		DependentOnOps []string      `json:"dependentOnOps,omitempty"`
 		Params         []interface{} `json:"params,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.CompName == nil {
-		return fmt.Errorf("required field compName missing")
 	}
 	if all.OpsType == nil {
 		return fmt.Errorf("required field opsType missing")
@@ -190,7 +193,7 @@ func (o *OpsCustom) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.CompName = *all.CompName
+	o.CompName = all.CompName
 	o.OpsType = *all.OpsType
 	o.DependentOnOps = all.DependentOnOps
 	o.Params = all.Params

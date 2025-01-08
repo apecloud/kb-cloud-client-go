@@ -4,15 +4,11 @@
 
 package kbcloud
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
 type OpsPromote struct {
-	ComponentName string  `json:"componentName"`
+	ComponentName *string `json:"componentName,omitempty"`
 	InstanceName  *string `json:"instanceName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -23,9 +19,8 @@ type OpsPromote struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsPromote(componentName string) *OpsPromote {
+func NewOpsPromote() *OpsPromote {
 	this := OpsPromote{}
-	this.ComponentName = componentName
 	return &this
 }
 
@@ -37,27 +32,32 @@ func NewOpsPromoteWithDefaults() *OpsPromote {
 	return &this
 }
 
-// GetComponentName returns the ComponentName field value.
+// GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *OpsPromote) GetComponentName() string {
-	if o == nil {
+	if o == nil || o.ComponentName == nil {
 		var ret string
 		return ret
 	}
-	return o.ComponentName
+	return *o.ComponentName
 }
 
-// GetComponentNameOk returns a tuple with the ComponentName field value
+// GetComponentNameOk returns a tuple with the ComponentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OpsPromote) GetComponentNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ComponentName == nil {
 		return nil, false
 	}
-	return &o.ComponentName, true
+	return o.ComponentName, true
 }
 
-// SetComponentName sets field value.
+// HasComponentName returns a boolean if a field has been set.
+func (o *OpsPromote) HasComponentName() bool {
+	return o != nil && o.ComponentName != nil
+}
+
+// SetComponentName gets a reference to the given string and assigns it to the ComponentName field.
 func (o *OpsPromote) SetComponentName(v string) {
-	o.ComponentName = v
+	o.ComponentName = &v
 }
 
 // GetInstanceName returns the InstanceName field value if set, zero value otherwise.
@@ -94,7 +94,9 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["componentName"] = o.ComponentName
+	if o.ComponentName != nil {
+		toSerialize["componentName"] = o.ComponentName
+	}
 	if o.InstanceName != nil {
 		toSerialize["instanceName"] = o.InstanceName
 	}
@@ -108,14 +110,11 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ComponentName *string `json:"componentName"`
+		ComponentName *string `json:"componentName,omitempty"`
 		InstanceName  *string `json:"instanceName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.ComponentName == nil {
-		return fmt.Errorf("required field componentName missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -123,7 +122,7 @@ func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.ComponentName = *all.ComponentName
+	o.ComponentName = all.ComponentName
 	o.InstanceName = all.InstanceName
 
 	if len(additionalProperties) > 0 {
