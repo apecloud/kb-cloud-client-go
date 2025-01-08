@@ -4,12 +4,16 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // OpsVScale OpsVScale is the payload to vertically scale a KubeBlocks cluster
 type OpsVScale struct {
 	// component type
-	Component *string `json:"component,omitempty"`
+	Component string `json:"component"`
 	// number of cpu
 	Cpu *string `json:"cpu,omitempty"`
 	// memory size
@@ -25,8 +29,9 @@ type OpsVScale struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsVScale() *OpsVScale {
+func NewOpsVScale(component string) *OpsVScale {
 	this := OpsVScale{}
+	this.Component = component
 	return &this
 }
 
@@ -38,32 +43,27 @@ func NewOpsVScaleWithDefaults() *OpsVScale {
 	return &this
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *OpsVScale) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *OpsVScale) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *OpsVScale) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *OpsVScale) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
@@ -156,9 +156,7 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["component"] = o.Component
 	if o.Cpu != nil {
 		toSerialize["cpu"] = o.Cpu
 	}
@@ -178,7 +176,7 @@ func (o OpsVScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string `json:"component,omitempty"`
+		Component *string `json:"component"`
 		Cpu       *string `json:"cpu,omitempty"`
 		Memory    *string `json:"memory,omitempty"`
 		ClassCode *string `json:"classCode,omitempty"`
@@ -186,13 +184,16 @@ func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"component", "cpu", "memory", "classCode"})
 	} else {
 		return err
 	}
-	o.Component = all.Component
+	o.Component = *all.Component
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.ClassCode = all.ClassCode
