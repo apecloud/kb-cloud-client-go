@@ -13,12 +13,18 @@ type EnvironmentModuleInfoEnvironmentModulesItem struct {
 	Version *string `json:"version,omitempty"`
 	// Environment module status (running, stopped, error, not_installed)
 	Status *string `json:"status,omitempty"`
-	// Management type (unmanageable, manageable, kb-cluster)
+	// Management type (unmanageable, manageable, kb-cluster). When management_type is kb-cluster, cluster_name, cluster_definition and org_name will be returned
 	ManagementType *string `json:"management_type,omitempty"`
 	// Number of replicas
 	Replicas *int32 `json:"replicas,omitempty"`
 	// Deployment location
 	Location *string `json:"location,omitempty"`
+	// The name of the cluster, only returned when management_type is kb-cluster
+	ClusterName *string `json:"cluster_name,omitempty"`
+	// The definition of the cluster, only returned when management_type is kb-cluster
+	ClusterDefinition *string `json:"cluster_definition,omitempty"`
+	// The organization name, only returned when management_type is kb-cluster
+	OrgName *string `json:"org_name,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -209,6 +215,90 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetLocation(v string) {
 	o.Location = &v
 }
 
+// GetClusterName returns the ClusterName field value if set, zero value otherwise.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterName() string {
+	if o == nil || o.ClusterName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterName
+}
+
+// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterNameOk() (*string, bool) {
+	if o == nil || o.ClusterName == nil {
+		return nil, false
+	}
+	return o.ClusterName, true
+}
+
+// HasClusterName returns a boolean if a field has been set.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasClusterName() bool {
+	return o != nil && o.ClusterName != nil
+}
+
+// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetClusterName(v string) {
+	o.ClusterName = &v
+}
+
+// GetClusterDefinition returns the ClusterDefinition field value if set, zero value otherwise.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterDefinition() string {
+	if o == nil || o.ClusterDefinition == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterDefinition
+}
+
+// GetClusterDefinitionOk returns a tuple with the ClusterDefinition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterDefinitionOk() (*string, bool) {
+	if o == nil || o.ClusterDefinition == nil {
+		return nil, false
+	}
+	return o.ClusterDefinition, true
+}
+
+// HasClusterDefinition returns a boolean if a field has been set.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasClusterDefinition() bool {
+	return o != nil && o.ClusterDefinition != nil
+}
+
+// SetClusterDefinition gets a reference to the given string and assigns it to the ClusterDefinition field.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetClusterDefinition(v string) {
+	o.ClusterDefinition = &v
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetOrgName(v string) {
+	o.OrgName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModuleInfoEnvironmentModulesItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -233,6 +323,15 @@ func (o EnvironmentModuleInfoEnvironmentModulesItem) MarshalJSON() ([]byte, erro
 	if o.Location != nil {
 		toSerialize["location"] = o.Location
 	}
+	if o.ClusterName != nil {
+		toSerialize["cluster_name"] = o.ClusterName
+	}
+	if o.ClusterDefinition != nil {
+		toSerialize["cluster_definition"] = o.ClusterDefinition
+	}
+	if o.OrgName != nil {
+		toSerialize["org_name"] = o.OrgName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -243,19 +342,22 @@ func (o EnvironmentModuleInfoEnvironmentModulesItem) MarshalJSON() ([]byte, erro
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleInfoEnvironmentModulesItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string `json:"name,omitempty"`
-		Version        *string `json:"version,omitempty"`
-		Status         *string `json:"status,omitempty"`
-		ManagementType *string `json:"management_type,omitempty"`
-		Replicas       *int32  `json:"replicas,omitempty"`
-		Location       *string `json:"location,omitempty"`
+		Name              *string `json:"name,omitempty"`
+		Version           *string `json:"version,omitempty"`
+		Status            *string `json:"status,omitempty"`
+		ManagementType    *string `json:"management_type,omitempty"`
+		Replicas          *int32  `json:"replicas,omitempty"`
+		Location          *string `json:"location,omitempty"`
+		ClusterName       *string `json:"cluster_name,omitempty"`
+		ClusterDefinition *string `json:"cluster_definition,omitempty"`
+		OrgName           *string `json:"org_name,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "management_type", "replicas", "location"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "management_type", "replicas", "location", "cluster_name", "cluster_definition", "org_name"})
 	} else {
 		return err
 	}
@@ -265,6 +367,9 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) UnmarshalJSON(bytes []byte
 	o.ManagementType = all.ManagementType
 	o.Replicas = all.Replicas
 	o.Location = all.Location
+	o.ClusterName = all.ClusterName
+	o.ClusterDefinition = all.ClusterDefinition
+	o.OrgName = all.OrgName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

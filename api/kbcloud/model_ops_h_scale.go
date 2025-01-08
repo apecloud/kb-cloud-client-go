@@ -4,12 +4,16 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // OpsHScale OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
 type OpsHScale struct {
 	// component type
-	Component *string `json:"component,omitempty"`
+	Component string `json:"component"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
 	// number of shards, mutually exclusive with replicas.
@@ -25,8 +29,9 @@ type OpsHScale struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsHScale() *OpsHScale {
+func NewOpsHScale(component string) *OpsHScale {
 	this := OpsHScale{}
+	this.Component = component
 	return &this
 }
 
@@ -38,32 +43,27 @@ func NewOpsHScaleWithDefaults() *OpsHScale {
 	return &this
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *OpsHScale) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *OpsHScale) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *OpsHScale) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *OpsHScale) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -189,9 +189,7 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["component"] = o.Component
 	if o.Replicas.IsSet() {
 		toSerialize["replicas"] = o.Replicas.Get()
 	}
@@ -211,7 +209,7 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component                   *string              `json:"component,omitempty"`
+		Component                   *string              `json:"component"`
 		Replicas                    common.NullableInt32 `json:"replicas,omitempty"`
 		Shards                      common.NullableInt32 `json:"shards,omitempty"`
 		PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
@@ -219,13 +217,16 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"component", "replicas", "shards", "preConditionDeadlineSeconds"})
 	} else {
 		return err
 	}
-	o.Component = all.Component
+	o.Component = *all.Component
 	o.Replicas = all.Replicas
 	o.Shards = all.Shards
 	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
