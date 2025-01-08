@@ -986,7 +986,7 @@ func (a *EnvironmentApi) GetEnvironmentModuleInfo(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environmentModules"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1115,7 +1115,7 @@ func (a *EnvironmentApi) GetEnvironmentModuleLogs(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environmentModules/{moduleName}/pods/{podName}/logs"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"moduleName"+"}", _neturl.PathEscape(common.ParameterToString(moduleName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"podName"+"}", _neturl.PathEscape(common.ParameterToString(podName, "")), -1)
@@ -1204,7 +1204,7 @@ func (a *EnvironmentApi) GetEnvironmentModulePods(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environmentModules/{moduleName}/pods"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"moduleName"+"}", _neturl.PathEscape(common.ParameterToString(moduleName, "")), -1)
 
