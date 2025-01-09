@@ -1542,6 +1542,100 @@ paths:
         - account
         - rdbms
       x-codegen-request-body-name: body
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions:
+    get:
+      description: list sessions in cluster
+      summary: List cluster sessions
+      operationId: listSessions
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: all
+          in: query
+          description: whether list all session includes sleep
+          default: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: list all session success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsSessionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - session
+        - rdbms
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{sessionId}:
+    delete:
+      description: kill a session in cluster
+      summary: Kill cluster session
+      operationId: killSession
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: session id
+          in: path
+          name: sessionId
+          required: true
+          schema:
+            type: string
+        - description: if keep is true, the session will not be killed but only closed
+          in: query
+          name: keep
+          schema:
+            type: boolean
+      responses:
+        '204':
+          content: {}
+          description: Returned when session is killed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - session
+        - rdbms
 components:
   securitySchemes:
     BearerToken:
@@ -2346,6 +2440,46 @@ components:
         - name
         - role
       type: object
+    DmsSession:
+      type: object
+      properties:
+        id:
+          type: string
+          description: session id
+        user:
+          type: string
+          description: user name
+        tenant:
+          type: string
+          description: tenant name
+        host:
+          type: string
+          description: host name
+        db:
+          type: string
+          description: database name
+        command:
+          type: string
+          description: command
+        time:
+          type: string
+          description: time
+        state:
+          type: string
+          description: state
+        info:
+          type: string
+          description: info
+        ip:
+          type: string
+          description: ip
+        port:
+          type: string
+          description: port
+    DmsSessionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DmsSession'
   responses:
     '400':
       content:

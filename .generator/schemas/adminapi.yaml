@@ -3601,7 +3601,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DmsObSessionList'
+                $ref: '#/components/schemas/DmsSessionList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12295,6 +12295,9 @@ components:
         userName:
           description: The name of the user, is unique
           type: string
+        displayName:
+          description: The display name of the user
+          type: string
         email:
           description: The email for the user
           type: string
@@ -12316,6 +12319,7 @@ components:
         - userName
         - createdAt
         - updatedAt
+        - displayName
     APIErrorResponse:
       description: API error response.
       properties:
@@ -15061,7 +15065,7 @@ components:
           type: string
           description: The SQL statement defining the view
           nullable: true
-    DmsObSession:
+    DmsSession:
       type: object
       properties:
         id:
@@ -15097,10 +15101,10 @@ components:
         port:
           type: string
           description: port
-    DmsObSessionList:
+    DmsSessionList:
       type: array
       items:
-        $ref: '#/components/schemas/DmsObSession'
+        $ref: '#/components/schemas/DmsSession'
     sortType:
       description: Represents the type of sorting.
       enum:
