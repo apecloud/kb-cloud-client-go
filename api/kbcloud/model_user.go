@@ -15,8 +15,10 @@ import (
 type User struct {
 	// CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
 	CreatedAt time.Time `json:"createdAt"`
+	// The name of the user, is unique
+	UserName string `json:"userName"`
 	// The display name of the user
-	DisplayName *string `json:"displayName,omitempty"`
+	DisplayName string `json:"displayName"`
 	// The email for the user
 	Email string `json:"email"`
 	// The ID for the user
@@ -36,9 +38,11 @@ type User struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewUser(createdAt time.Time, email string, id string, updatedAt time.Time) *User {
+func NewUser(createdAt time.Time, userName string, displayName string, email string, id string, updatedAt time.Time) *User {
 	this := User{}
 	this.CreatedAt = createdAt
+	this.UserName = userName
+	this.DisplayName = displayName
 	this.Email = email
 	this.Id = id
 	this.UpdatedAt = updatedAt
@@ -76,32 +80,50 @@ func (o *User) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
-func (o *User) GetDisplayName() string {
-	if o == nil || o.DisplayName == nil {
+// GetUserName returns the UserName field value.
+func (o *User) GetUserName() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.DisplayName
+	return o.UserName
 }
 
-// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// GetUserNameOk returns a tuple with the UserName field value
 // and a boolean to check if the value has been set.
-func (o *User) GetDisplayNameOk() (*string, bool) {
-	if o == nil || o.DisplayName == nil {
+func (o *User) GetUserNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DisplayName, true
+	return &o.UserName, true
 }
 
-// HasDisplayName returns a boolean if a field has been set.
-func (o *User) HasDisplayName() bool {
-	return o != nil && o.DisplayName != nil
+// SetUserName sets field value.
+func (o *User) SetUserName(v string) {
+	o.UserName = v
 }
 
-// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+// GetDisplayName returns the DisplayName field value.
+func (o *User) GetDisplayName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value
+// and a boolean to check if the value has been set.
+func (o *User) GetDisplayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DisplayName, true
+}
+
+// SetDisplayName sets field value.
 func (o *User) SetDisplayName(v string) {
-	o.DisplayName = &v
+	o.DisplayName = v
 }
 
 // GetEmail returns the Email field value.
@@ -212,9 +234,8 @@ func (o User) MarshalJSON() ([]byte, error) {
 	} else {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	if o.DisplayName != nil {
-		toSerialize["displayName"] = o.DisplayName
-	}
+	toSerialize["userName"] = o.UserName
+	toSerialize["displayName"] = o.DisplayName
 	toSerialize["email"] = o.Email
 	toSerialize["id"] = o.Id
 	if o.PhoneNumber != nil {
@@ -236,7 +257,8 @@ func (o User) MarshalJSON() ([]byte, error) {
 func (o *User) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		CreatedAt   *time.Time `json:"createdAt"`
-		DisplayName *string    `json:"displayName,omitempty"`
+		UserName    *string    `json:"userName"`
+		DisplayName *string    `json:"displayName"`
 		Email       *string    `json:"email"`
 		Id          *string    `json:"id"`
 		PhoneNumber *string    `json:"phoneNumber,omitempty"`
@@ -247,6 +269,12 @@ func (o *User) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.CreatedAt == nil {
 		return fmt.Errorf("required field createdAt missing")
+	}
+	if all.UserName == nil {
+		return fmt.Errorf("required field userName missing")
+	}
+	if all.DisplayName == nil {
+		return fmt.Errorf("required field displayName missing")
 	}
 	if all.Email == nil {
 		return fmt.Errorf("required field email missing")
@@ -259,12 +287,13 @@ func (o *User) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "displayName", "email", "id", "phoneNumber", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "userName", "displayName", "email", "id", "phoneNumber", "updatedAt"})
 	} else {
 		return err
 	}
 	o.CreatedAt = *all.CreatedAt
-	o.DisplayName = all.DisplayName
+	o.UserName = *all.UserName
+	o.DisplayName = *all.DisplayName
 	o.Email = *all.Email
 	o.Id = *all.Id
 	o.PhoneNumber = all.PhoneNumber

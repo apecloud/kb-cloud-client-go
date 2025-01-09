@@ -12295,6 +12295,9 @@ components:
         userName:
           description: The name of the user, is unique
           type: string
+        displayName:
+          description: The display name of the user
+          type: string
         email:
           description: The email for the user
           type: string
@@ -12316,6 +12319,7 @@ components:
         - userName
         - createdAt
         - updatedAt
+        - displayName
     APIErrorResponse:
       description: API error response.
       properties:

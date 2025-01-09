@@ -9599,6 +9599,9 @@ components:
           description: CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
           format: date-time
           type: string
+        userName:
+          description: The name of the user, is unique
+          type: string
         displayName:
           description: The display name of the user
           type: string
@@ -9622,6 +9625,8 @@ components:
         - email
         - id
         - updatedAt
+        - userName
+        - displayName
       type: object
     APIErrorResponse:
       description: API error response.
