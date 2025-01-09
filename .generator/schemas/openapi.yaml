@@ -11264,6 +11264,16 @@ components:
           description: snapshotVolumes specifies whether to take snapshots of persistent volumes to back up
           type: boolean
           nullable: true
+        incrementalBackupEnabled:
+          description: specify whether to enable incremental backup
+          default: false
+          type: boolean
+        autoIncrementalBackupMethod:
+          description: the auto incremental backup method
+          type: string
+        incrementalCronExpression:
+          description: the crop expression for incremental backup schedule
+          type: string
       type: object
     cluster:
       required:
@@ -12879,7 +12889,7 @@ components:
           description: specify whether to use auto backup
           type: boolean
         autoBackupMethod:
-          description: the auto backup method
+          description: the auto full backup method
           type: string
         pitrEnabled:
           description: specify whether to enable point-in-time recovery
@@ -12887,6 +12897,16 @@ components:
           type: boolean
         cronExpression:
           description: the crop expression for schedule
+          type: string
+        incrementalBackupEnabled:
+          description: specify whether to enable incremental backup
+          default: false
+          type: boolean
+        autoIncrementalBackupMethod:
+          description: the auto incremental backup method
+          type: string
+        incrementalCronExpression:
+          description: the crop expression for incremental backup schedule
           type: string
         retentionPeriod:
           description: specify the retention period
@@ -14358,6 +14378,9 @@ components:
       properties:
         name:
           type: string
+        compatibleMethod:
+          description: The compatible full backup method for incremental backup method
+          type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
     backupOption:
@@ -14370,6 +14393,10 @@ components:
         defaultMethod:
           type: string
         fullMethod:
+          type: array
+          items:
+            $ref: '#/components/schemas/backupMethodOption'
+        incrementalMethod:
           type: array
           items:
             $ref: '#/components/schemas/backupMethodOption'
