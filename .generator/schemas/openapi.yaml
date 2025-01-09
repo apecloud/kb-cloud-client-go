@@ -1004,13 +1004,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/zoneList'
+                $ref: '#/components/schemas/stringList'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/environments/{environmentName}/storageClasses:
     get:
       description: Provides a summary of storage class statistics, aggregated and organized by namespace.
@@ -10220,50 +10222,11 @@ components:
       required:
         - items
       type: object
-    zone:
-      description: The zone that the region has.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-        - region
-        - createdAt
-        - updatedAt
-      properties:
-        name:
-          type: string
-          description: The name of the zone.
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-        region:
-          type: string
-          description: The name of the region.
-        createdAt:
-          type: string
-          format: date-time
-          description: The time when the zone was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The time when the zone was last updated.
-    zoneList:
-      description: The list of zones.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/zone'
-          description: The list of zones.
+    stringList:
+      description: Represents a list of strings.
+      items:
+        type: string
+      type: array
     storageVolumeStatsByNode:
       description: storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
       properties:
@@ -15934,6 +15897,50 @@ components:
           items:
             $ref: '#/components/schemas/region'
           description: The list of regions.
+    zone:
+      description: The zone that the region has.
+      type: object
+      required:
+        - name
+        - nameCN
+        - nameEN
+        - enabled
+        - region
+        - createdAt
+        - updatedAt
+      properties:
+        name:
+          type: string
+          description: The name of the zone.
+        nameCN:
+          type: string
+          description: The Chinese name of the zone.
+        nameEN:
+          type: string
+          description: The English name of the zone.
+        enabled:
+          type: boolean
+          description: Whether the zone is enabled.
+        region:
+          type: string
+          description: The name of the region.
+        createdAt:
+          type: string
+          format: date-time
+          description: The time when the zone was created.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The time when the zone was last updated.
+    zoneList:
+      description: The list of zones.
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/zone'
+          description: The list of zones.
     inspection:
       description: inspection
       properties:
