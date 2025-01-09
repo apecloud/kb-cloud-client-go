@@ -14733,6 +14733,8 @@ components:
     cdcClusterAccount:
       type: object
       properties:
+        component:
+          type: string
         defaultAccountName:
           type: array
           items:
