@@ -18978,6 +18978,7 @@ components:
           minimum: 0
           default: 2
           description: number of super user accounts cloud create
+          x-nullable: false
         enabled:
           type: boolean
         privileges:
