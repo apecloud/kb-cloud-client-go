@@ -4953,8 +4953,14 @@ paths:
                 $ref: '#/components/schemas/sshConfigCheckResponse'
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/environments/{environmentName}:
     delete:
       operationId: deleteEnvironment
@@ -5216,12 +5222,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/nodeList'
           description: A list of nodes
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - environment
     post:
@@ -5254,7 +5264,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/nodes/scaleOut:
+  /admin/v1/environments/{environmentName}/nodes/scaleout:
     post:
       tags:
         - environment
@@ -5283,9 +5293,15 @@ paths:
                 $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/environments/{environmentName}/nodes/scaleIn:
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/environments/{environmentName}/nodes/scalein:
     post:
       tags:
         - environment
@@ -5314,9 +5330,15 @@ paths:
                 $ref: '#/components/schemas/task'
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/environments/{environmentName}/node/{nodeName}/cordon:
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon:
     patch:
       description: cordon the specified Environment node
       summary: Cordon environment node
@@ -5338,14 +5360,20 @@ paths:
         '204':
           content: {}
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/node/{nodeName}/uncordon:
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/uncordon:
     patch:
       description: cordon the specified Environment node
       summary: Cordon environment node
@@ -5367,14 +5395,20 @@ paths:
         '204':
           content: {}
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/node/{nodeName}:
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}:
     get:
       description: Get specified node info for environment
       summary: Get node info
@@ -5408,7 +5442,7 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/node/{nodeName}/pods:
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/pods:
     get:
       description: List Pod in the environment node
       summary: List Pod in the environment node
@@ -5439,12 +5473,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/listBody'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - environment
       x-codegen-request-body-name: body
@@ -11957,8 +11995,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/taskList'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/tasks/{taskId}:
     get:
       summary: Get task detail
@@ -11978,10 +12020,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/task'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - task
   /admin/v1/tasks/{taskId}/stop:
@@ -12003,10 +12049,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - task
   /admin/v1/tasks/{taskId}/retry:
@@ -12028,10 +12080,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/task'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - task
   /admin/v1/tasks/{taskId}/log:
@@ -12059,12 +12117,16 @@ paths:
           description: OK
           schema:
             type: string
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/clustertasks:
     get:
       operationId: listTasks
