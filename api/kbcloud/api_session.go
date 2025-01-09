@@ -35,7 +35,7 @@ func (r *KillSessionOptionalParameters) WithKeep(keep bool) *KillSessionOptional
 
 // KillSession Kill cluster session.
 // kill a session in cluster
-func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgName string, clusterName string, sessionId string, o ...KillSessionOptionalParameters) (*_nethttp.Response, error) {
+func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgName string, clusterName string, session string, o ...KillSessionOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -54,11 +54,11 @@ func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgNam
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{sessionId}"
+	localVarPath := localBasePath + "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"sessionId"+"}", _neturl.PathEscape(common.ParameterToString(sessionId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"session"+"}", _neturl.PathEscape(common.ParameterToString(session, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

@@ -1588,7 +1588,7 @@ paths:
       tags:
         - session
         - rdbms
-  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{sessionId}:
+  /data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}:
     delete:
       description: kill a session in cluster
       summary: Kill cluster session
@@ -1614,7 +1614,7 @@ paths:
             type: string
         - description: session id
           in: path
-          name: sessionId
+          name: session
           required: true
           schema:
             type: string
