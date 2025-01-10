@@ -3601,7 +3601,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DmsObSessionList'
+                $ref: '#/components/schemas/DmsSessionList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -15127,7 +15127,7 @@ components:
           type: string
           description: The SQL statement defining the view
           nullable: true
-    DmsObSession:
+    DmsSession:
       type: object
       properties:
         id:
@@ -15163,10 +15163,10 @@ components:
         port:
           type: string
           description: port
-    DmsObSessionList:
+    DmsSessionList:
       type: array
       items:
-        $ref: '#/components/schemas/DmsObSession'
+        $ref: '#/components/schemas/DmsSession'
     sortType:
       description: Represents the type of sorting.
       enum:
@@ -19038,6 +19038,13 @@ components:
         - resetPassword
         - delete
       properties:
+        superUserAccount:
+          type: integer
+          format: int32
+          minimum: 0
+          default: 2
+          description: number of super user accounts cloud create
+          x-nullable: false
         enabled:
           type: boolean
         privileges:

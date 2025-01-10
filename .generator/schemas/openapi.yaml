@@ -7643,7 +7643,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DmsObSessionList'
+                $ref: '#/components/schemas/DmsSessionList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14278,6 +14278,13 @@ components:
         - resetPassword
         - delete
       properties:
+        superUserAccount:
+          type: integer
+          format: int32
+          minimum: 0
+          default: 2
+          description: number of super user accounts cloud create
+          x-nullable: false
         enabled:
           type: boolean
         privileges:
@@ -15540,7 +15547,7 @@ components:
       description: List of Storage Volume
       items:
         $ref: '#/components/schemas/DmsVolume'
-    DmsObSession:
+    DmsSession:
       type: object
       properties:
         id:
@@ -15576,10 +15583,10 @@ components:
         port:
           type: string
           description: port
-    DmsObSessionList:
+    DmsSessionList:
       type: array
       items:
-        $ref: '#/components/schemas/DmsObSession'
+        $ref: '#/components/schemas/DmsSession'
     ipWhitelist:
       description: whitelist
       properties:
