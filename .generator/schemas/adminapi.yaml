@@ -1408,74 +1408,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/view:
-    get:
-      operationId: getViewByCluster
-      summary: Get view details by cluster
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/view'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - view
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/view/tree:
-    get:
-      operationId: getTreeView
-      summary: Get tree view by cluster
-      parameters:
-        - description: Name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: Name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response returns the tree view of the cluster.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/treeNode'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - view
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze:
     get:
       operationId: analyzeView
@@ -2288,7 +2220,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/cluster_event'
+                $ref: '#/components/schemas/event'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -13705,139 +13637,6 @@ components:
         - clusterId
         - items
       type: object
-    owner:
-      type: object
-      description: Owner related to the Event
-      properties:
-        apiVersion:
-          type: string
-          description: APIVersion is the API version of the owner.
-        kind:
-          type: string
-          description: Kind is the type of the owner.
-        name:
-          type: string
-          description: Name is the name of the owner.
-        uid:
-          type: string
-          description: UID is the unique identifier of the owner.
-    event:
-      type: object
-      description: Event related to the view
-      properties:
-        group:
-          type: string
-          description: Group is the API group of the event.
-        kind:
-          type: string
-          description: Kind is the type of the event.
-        name:
-          type: string
-          description: Name is the name of the event.
-        namespace:
-          type: string
-          description: Namespace is the namespace of the event.
-        owners:
-          type: array
-          items:
-            $ref: '#/components/schemas/owner'
-          description: Owners are the owners of the event.
-        progress:
-          type: string
-          description: Progress describes the progress of the event.
-        message:
-          type: string
-          description: Message is the message contained in the event.
-        resourceVersion:
-          type: string
-          description: ResourceVersion is the version of the resource as seen by the system.
-        type:
-          type: string
-          description: Type is the type of the event.
-        version:
-          type: string
-          description: Version is the version of the resource that generated the event.
-        time:
-          type: string
-          description: Time is the time of the resource that generated the event.
-        level:
-          type: string
-          description: Level is the level the event.
-        reason:
-          type: string
-          description: Reason is the reason of the event.
-      required:
-        - group
-        - name
-        - kind
-        - namespace
-        - type
-    view:
-      type: object
-      description: View is the schema for the views API
-      properties:
-        involvedObjectsSelector:
-          type: object
-          description: A label selector is a label query over a set of resources.
-          properties:
-            matchExpressions:
-              type: array
-              description: matchExpressions is a list of label selector requirements. The requirements are ANDed.
-              items:
-                type: object
-                properties:
-                  key:
-                    type: string
-                    description: key is the label key that the selector applies to.
-                  operator:
-                    type: string
-                    description: operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
-                  values:
-                    type: array
-                    items:
-                      type: string
-                    description: values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty.
-            matchLabels:
-              type: object
-              additionalProperties:
-                type: string
-              description: matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed.
-        targetResource:
-          type: string
-          description: targetResource specifies the type of resource the view is targeting.
-        viewDefRef:
-          type: string
-          description: viewDefRef is a reference to the definition of the view.
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/event'
-          description: Events are a list of events related to the view.
-        progress:
-          type: string
-          description: Progress describes the overall progress of the view.
-    treeNode:
-      type: object
-      properties:
-        level:
-          type: string
-          description: A string representing the level of the node.
-        name:
-          type: string
-          description: A string representing the name of the node.
-        uid:
-          type: string
-          description: A string representing the uid of the resource.
-        events:
-          type: array
-          items:
-            $ref: '#/components/schemas/event'
-          description: A mapping where each key is a string representing the event name, and the value is a MapNode object.
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/treeNode'
-          description: An array of child nodes.
     accountListRoleType:
       description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
       enum:
@@ -14236,7 +14035,7 @@ components:
         - user
         - system
       type: string
-    cluster_event:
+    event:
       description: event is the information of operation event
       properties:
         id:
@@ -14314,7 +14113,7 @@ components:
         items:
           description: Items is the list of operation event objects in the list
           items:
-            $ref: '#/components/schemas/cluster_event'
+            $ref: '#/components/schemas/event'
           type: array
         pagination:
           $ref: '#/components/schemas/paginationResult'
@@ -15603,6 +15402,12 @@ components:
           type: string
         namespace:
           description: Namespace of the task
+          type: string
+        orgName:
+          description: OrgName of the task
+          type: string
+        clusterName:
+          description: ClusterName of the task
           type: string
         status:
           description: status of the task

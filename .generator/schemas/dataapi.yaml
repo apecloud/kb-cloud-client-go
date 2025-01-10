@@ -2276,6 +2276,12 @@ components:
         namespace:
           description: Namespace of the task
           type: string
+        orgName:
+          description: OrgName of the task
+          type: string
+        clusterName:
+          description: ClusterName of the task
+          type: string
         status:
           description: status of the task
           type: string
