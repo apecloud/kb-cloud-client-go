@@ -266,8 +266,6 @@
 //   - [userApi.readUserApikeys]
 //   - [userApi.sendVerificationEmail]
 //   - [userApi.updateUserPassword]
-//   - [viewApi.getTreeView]
-//   - [viewApi.getViewByCluster]
 //   - [whitelistApi.deleteIPWhiteList]
 //   - [zoneApi.getZones]
 //   - [zoneApi.listZones]
