@@ -9592,7 +9592,7 @@ components:
     phoneNumber:
       description: The phonenumber for the user.
       example: '+8618912345678'
-      pattern: \+\d{1,3}\d{11}
+      pattern: ^\+\d{1,3}\d{11}$
       type: string
     user:
       description: User info
