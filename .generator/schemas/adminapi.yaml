@@ -15794,41 +15794,20 @@ components:
       type: object
       description: Component info in environment
       required:
-        - defaultStorageClass
+        - name
+        - version
       properties:
-        kubernetesVersion:
+        name:
           type: string
-          description: Kubernetes version of the environment
-        kbVersion:
+          description: the name of component
+        version:
           type: string
-          description: KubeBlocks version of the environment
-        geminiVersion:
-          type: string
-          description: Gemini version of the environment
-        oteldVersion:
-          type: string
-          description: Oteld version of the environment
-        imageRegistry:
-          type: string
-          description: Image registry used by the environment
-        defaultStorageClass:
-          type: string
-          description: Default storage class that used by KubeBlocks to create cluster
-        cpuOvercommitRatio:
-          description: CPU overcommit ratio of this environment
-          type: number
-          format: double
-        memoryOvercommitRatio:
-          description: Memory overcommit ratio of this environment
-          type: number
-          format: double
-        namespaces:
+          description: the version of component
+        dependencies:
+          type: array
           items:
             type: string
-          default:
-            - kubeblocks-cloud-ns
-          type: array
-          description: Namespace info for environment
+          description: the dependencies of component
     nodePoolNode:
       title: NodePoolNode
       description: Node info for environment
@@ -15962,14 +15941,50 @@ components:
       description: Configuration to provision infrastructure for this environment
       type: object
       required:
+        - defaultStorageClass
         - register
-        - component
+        - components
         - storage
       properties:
+        kubernetesVersion:
+          type: string
+          description: Kubernetes version of the environment
+        kbVersion:
+          type: string
+          description: KubeBlocks version of the environment
+        geminiVersion:
+          type: string
+          description: Gemini version of the environment
+        oteldVersion:
+          type: string
+          description: Oteld version of the environment
+        imageRegistry:
+          type: string
+          description: Image registry used by the environment
+        defaultStorageClass:
+          type: string
+          description: Default storage class that used by KubeBlocks to create cluster
+        cpuOvercommitRatio:
+          description: CPU overcommit ratio of this environment
+          type: number
+          format: double
+        memoryOvercommitRatio:
+          description: Memory overcommit ratio of this environment
+          type: number
+          format: double
+        namespaces:
+          items:
+            type: string
+          default:
+            - kubeblocks-cloud-ns
+          type: array
+          description: Namespace info for environment
         register:
           $ref: '#/components/schemas/register'
-        component:
-          $ref: '#/components/schemas/component'
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/component'
         nodePool:
           $ref: '#/components/schemas/nodePool'
         storage:
