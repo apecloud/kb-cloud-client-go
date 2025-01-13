@@ -145,6 +145,7 @@ func (o *ProvisionConfig) SetStorage(v StorageConfig) {
 }
 
 // GetModules returns the Modules field value.
+// If the value is explicit nil, the zero value for []Module will be returned.
 func (o *ProvisionConfig) GetModules() []Module {
 	if o == nil {
 		var ret []Module
@@ -155,8 +156,9 @@ func (o *ProvisionConfig) GetModules() []Module {
 
 // GetModulesOk returns a tuple with the Modules field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ProvisionConfig) GetModulesOk() (*[]Module, bool) {
-	if o == nil {
+	if o == nil || o.Modules == nil {
 		return nil, false
 	}
 	return &o.Modules, true
@@ -179,7 +181,9 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 		toSerialize["nodePool"] = o.NodePool
 	}
 	toSerialize["storage"] = o.Storage
-	toSerialize["modules"] = o.Modules
+	if o.Modules != nil {
+		toSerialize["modules"] = o.Modules
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -194,7 +198,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		Component *Component     `json:"component"`
 		NodePool  []NodePoolNode `json:"nodePool,omitempty"`
 		Storage   *StorageConfig `json:"storage"`
-		Modules   *[]Module      `json:"modules"`
+		Modules   []Module       `json:"modules"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -208,7 +212,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Storage == nil {
 		return fmt.Errorf("required field storage missing")
 	}
-	if all.Modules == nil {
+	if !all.Modules.IsSet() {
 		return fmt.Errorf("required field modules missing")
 	}
 	additionalProperties := make(map[string]interface{})
@@ -232,7 +236,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Storage = *all.Storage
-	o.Modules = *all.Modules
+	o.Modules = all.Modules
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

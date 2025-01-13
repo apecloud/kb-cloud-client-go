@@ -15995,6 +15995,7 @@ components:
           $ref: '#/components/schemas/storageConfig'
         modules:
           type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/module'
     autohealingConfig:
