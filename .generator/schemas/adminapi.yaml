@@ -21847,6 +21847,13 @@ components:
       required:
         - items
       type: object
+    hostingStatus:
+      type: string
+      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+      enum:
+        - Hostable
+        - Non-hostable
+        - Hosted
     clusterInfo:
       type: object
       description: Cluster information
@@ -21874,8 +21881,7 @@ components:
           type: string
           description: Environment module status (running, stopped, error, not_installed, etc..)
         hosting_status:
-          type: string
-          description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+          $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
           description: Number of replicas
@@ -21984,7 +21990,7 @@ components:
         message:
           type: string
           description: Condition message
-    modulePod:
+    pod:
       type: object
       description: Single pod information for environment module
       properties:
@@ -22038,10 +22044,10 @@ components:
           type: string
           format: date-time
           description: Last update time of the data
-        pods:
+        modulePods:
           type: array
           items:
-            $ref: '#/components/schemas/modulePod'
+            $ref: '#/components/schemas/pod'
     logEntry:
       type: object
       description: Single log entry

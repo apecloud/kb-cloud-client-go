@@ -19,7 +19,7 @@ type EnvironmentModule struct {
 	// Environment module status (running, stopped, error, not_installed, etc..)
 	Status string `json:"status"`
 	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-	HostingStatus string `json:"hosting_status"`
+	HostingStatus HostingStatus `json:"hosting_status"`
 	// Number of replicas
 	Replicas int32 `json:"replicas"`
 	// Deployment location
@@ -35,7 +35,7 @@ type EnvironmentModule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentModule(name string, version string, status string, hostingStatus string, replicas int32, location string) *EnvironmentModule {
+func NewEnvironmentModule(name string, version string, status string, hostingStatus HostingStatus, replicas int32, location string) *EnvironmentModule {
 	this := EnvironmentModule{}
 	this.Name = name
 	this.Version = version
@@ -124,9 +124,9 @@ func (o *EnvironmentModule) SetStatus(v string) {
 }
 
 // GetHostingStatus returns the HostingStatus field value.
-func (o *EnvironmentModule) GetHostingStatus() string {
+func (o *EnvironmentModule) GetHostingStatus() HostingStatus {
 	if o == nil {
-		var ret string
+		var ret HostingStatus
 		return ret
 	}
 	return o.HostingStatus
@@ -134,7 +134,7 @@ func (o *EnvironmentModule) GetHostingStatus() string {
 
 // GetHostingStatusOk returns a tuple with the HostingStatus field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetHostingStatusOk() (*string, bool) {
+func (o *EnvironmentModule) GetHostingStatusOk() (*HostingStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -142,7 +142,7 @@ func (o *EnvironmentModule) GetHostingStatusOk() (*string, bool) {
 }
 
 // SetHostingStatus sets field value.
-func (o *EnvironmentModule) SetHostingStatus(v string) {
+func (o *EnvironmentModule) SetHostingStatus(v HostingStatus) {
 	o.HostingStatus = v
 }
 
@@ -245,13 +245,13 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string      `json:"name"`
-		Version       *string      `json:"version"`
-		Status        *string      `json:"status"`
-		HostingStatus *string      `json:"hosting_status"`
-		Replicas      *int32       `json:"replicas"`
-		Location      *string      `json:"location"`
-		ClusterInfo   *ClusterInfo `json:"cluster_info,omitempty"`
+		Name          *string        `json:"name"`
+		Version       *string        `json:"version"`
+		Status        *string        `json:"status"`
+		HostingStatus *HostingStatus `json:"hosting_status"`
+		Replicas      *int32         `json:"replicas"`
+		Location      *string        `json:"location"`
+		ClusterInfo   *ClusterInfo   `json:"cluster_info,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -285,7 +285,11 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.Version = *all.Version
 	o.Status = *all.Status
-	o.HostingStatus = *all.HostingStatus
+	if !all.HostingStatus.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.HostingStatus = *all.HostingStatus
+	}
 	o.Replicas = *all.Replicas
 	o.Location = *all.Location
 	if all.ClusterInfo != nil && all.ClusterInfo.UnparsedObject != nil && o.UnparsedObject == nil {

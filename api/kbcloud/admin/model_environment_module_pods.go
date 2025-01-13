@@ -17,8 +17,8 @@ type EnvironmentModulePods struct {
 	// Environment module name
 	ModuleName *string `json:"module_name,omitempty"`
 	// Last update time of the data
-	LastUpdated *time.Time  `json:"last_updated,omitempty"`
-	Pods        []ModulePod `json:"pods,omitempty"`
+	LastUpdated *time.Time `json:"last_updated,omitempty"`
+	ModulePods  []Pod      `json:"modulePods,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -125,32 +125,32 @@ func (o *EnvironmentModulePods) SetLastUpdated(v time.Time) {
 	o.LastUpdated = &v
 }
 
-// GetPods returns the Pods field value if set, zero value otherwise.
-func (o *EnvironmentModulePods) GetPods() []ModulePod {
-	if o == nil || o.Pods == nil {
-		var ret []ModulePod
+// GetModulePods returns the ModulePods field value if set, zero value otherwise.
+func (o *EnvironmentModulePods) GetModulePods() []Pod {
+	if o == nil || o.ModulePods == nil {
+		var ret []Pod
 		return ret
 	}
-	return o.Pods
+	return o.ModulePods
 }
 
-// GetPodsOk returns a tuple with the Pods field value if set, nil otherwise
+// GetModulePodsOk returns a tuple with the ModulePods field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePods) GetPodsOk() (*[]ModulePod, bool) {
-	if o == nil || o.Pods == nil {
+func (o *EnvironmentModulePods) GetModulePodsOk() (*[]Pod, bool) {
+	if o == nil || o.ModulePods == nil {
 		return nil, false
 	}
-	return &o.Pods, true
+	return &o.ModulePods, true
 }
 
-// HasPods returns a boolean if a field has been set.
-func (o *EnvironmentModulePods) HasPods() bool {
-	return o != nil && o.Pods != nil
+// HasModulePods returns a boolean if a field has been set.
+func (o *EnvironmentModulePods) HasModulePods() bool {
+	return o != nil && o.ModulePods != nil
 }
 
-// SetPods gets a reference to the given []ModulePod and assigns it to the Pods field.
-func (o *EnvironmentModulePods) SetPods(v []ModulePod) {
-	o.Pods = v
+// SetModulePods gets a reference to the given []Pod and assigns it to the ModulePods field.
+func (o *EnvironmentModulePods) SetModulePods(v []Pod) {
+	o.ModulePods = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -172,8 +172,8 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 			toSerialize["last_updated"] = o.LastUpdated.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.Pods != nil {
-		toSerialize["pods"] = o.Pods
+	if o.ModulePods != nil {
+		toSerialize["modulePods"] = o.ModulePods
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -185,24 +185,24 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModulePods) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentName *string     `json:"environment_name,omitempty"`
-		ModuleName      *string     `json:"module_name,omitempty"`
-		LastUpdated     *time.Time  `json:"last_updated,omitempty"`
-		Pods            []ModulePod `json:"pods,omitempty"`
+		EnvironmentName *string    `json:"environment_name,omitempty"`
+		ModuleName      *string    `json:"module_name,omitempty"`
+		LastUpdated     *time.Time `json:"last_updated,omitempty"`
+		ModulePods      []Pod      `json:"modulePods,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_name", "module_name", "last_updated", "pods"})
+		common.DeleteKeys(additionalProperties, &[]string{"environment_name", "module_name", "last_updated", "modulePods"})
 	} else {
 		return err
 	}
 	o.EnvironmentName = all.EnvironmentName
 	o.ModuleName = all.ModuleName
 	o.LastUpdated = all.LastUpdated
-	o.Pods = all.Pods
+	o.ModulePods = all.ModulePods
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

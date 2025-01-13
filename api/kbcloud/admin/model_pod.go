@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ModulePod Single pod information for environment module
-type ModulePod struct {
+// Pod Single pod information for environment module
+type Pod struct {
 	// Pod name
 	Name *string `json:"name,omitempty"`
 	// Pod namespace
@@ -36,25 +36,25 @@ type ModulePod struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewModulePod instantiates a new ModulePod object.
+// NewPod instantiates a new Pod object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModulePod() *ModulePod {
-	this := ModulePod{}
+func NewPod() *Pod {
+	this := Pod{}
 	return &this
 }
 
-// NewModulePodWithDefaults instantiates a new ModulePod object.
+// NewPodWithDefaults instantiates a new Pod object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewModulePodWithDefaults() *ModulePod {
-	this := ModulePod{}
+func NewPodWithDefaults() *Pod {
+	this := Pod{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ModulePod) GetName() string {
+func (o *Pod) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -64,7 +64,7 @@ func (o *ModulePod) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetNameOk() (*string, bool) {
+func (o *Pod) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -72,17 +72,17 @@ func (o *ModulePod) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ModulePod) HasName() bool {
+func (o *Pod) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ModulePod) SetName(v string) {
+func (o *Pod) SetName(v string) {
 	o.Name = &v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *ModulePod) GetNamespace() string {
+func (o *Pod) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
 		var ret string
 		return ret
@@ -92,7 +92,7 @@ func (o *ModulePod) GetNamespace() string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetNamespaceOk() (*string, bool) {
+func (o *Pod) GetNamespaceOk() (*string, bool) {
 	if o == nil || o.Namespace == nil {
 		return nil, false
 	}
@@ -100,17 +100,17 @@ func (o *ModulePod) GetNamespaceOk() (*string, bool) {
 }
 
 // HasNamespace returns a boolean if a field has been set.
-func (o *ModulePod) HasNamespace() bool {
+func (o *Pod) HasNamespace() bool {
 	return o != nil && o.Namespace != nil
 }
 
 // SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-func (o *ModulePod) SetNamespace(v string) {
+func (o *Pod) SetNamespace(v string) {
 	o.Namespace = &v
 }
 
 // GetNodeName returns the NodeName field value if set, zero value otherwise.
-func (o *ModulePod) GetNodeName() string {
+func (o *Pod) GetNodeName() string {
 	if o == nil || o.NodeName == nil {
 		var ret string
 		return ret
@@ -120,7 +120,7 @@ func (o *ModulePod) GetNodeName() string {
 
 // GetNodeNameOk returns a tuple with the NodeName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetNodeNameOk() (*string, bool) {
+func (o *Pod) GetNodeNameOk() (*string, bool) {
 	if o == nil || o.NodeName == nil {
 		return nil, false
 	}
@@ -128,17 +128,17 @@ func (o *ModulePod) GetNodeNameOk() (*string, bool) {
 }
 
 // HasNodeName returns a boolean if a field has been set.
-func (o *ModulePod) HasNodeName() bool {
+func (o *Pod) HasNodeName() bool {
 	return o != nil && o.NodeName != nil
 }
 
 // SetNodeName gets a reference to the given string and assigns it to the NodeName field.
-func (o *ModulePod) SetNodeName(v string) {
+func (o *Pod) SetNodeName(v string) {
 	o.NodeName = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *ModulePod) GetStatus() string {
+func (o *Pod) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -148,7 +148,7 @@ func (o *ModulePod) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetStatusOk() (*string, bool) {
+func (o *Pod) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -156,17 +156,17 @@ func (o *ModulePod) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *ModulePod) HasStatus() bool {
+func (o *Pod) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *ModulePod) SetStatus(v string) {
+func (o *Pod) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetPhase returns the Phase field value if set, zero value otherwise.
-func (o *ModulePod) GetPhase() string {
+func (o *Pod) GetPhase() string {
 	if o == nil || o.Phase == nil {
 		var ret string
 		return ret
@@ -176,7 +176,7 @@ func (o *ModulePod) GetPhase() string {
 
 // GetPhaseOk returns a tuple with the Phase field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetPhaseOk() (*string, bool) {
+func (o *Pod) GetPhaseOk() (*string, bool) {
 	if o == nil || o.Phase == nil {
 		return nil, false
 	}
@@ -184,17 +184,17 @@ func (o *ModulePod) GetPhaseOk() (*string, bool) {
 }
 
 // HasPhase returns a boolean if a field has been set.
-func (o *ModulePod) HasPhase() bool {
+func (o *Pod) HasPhase() bool {
 	return o != nil && o.Phase != nil
 }
 
 // SetPhase gets a reference to the given string and assigns it to the Phase field.
-func (o *ModulePod) SetPhase(v string) {
+func (o *Pod) SetPhase(v string) {
 	o.Phase = &v
 }
 
 // GetIp returns the Ip field value if set, zero value otherwise.
-func (o *ModulePod) GetIp() string {
+func (o *Pod) GetIp() string {
 	if o == nil || o.Ip == nil {
 		var ret string
 		return ret
@@ -204,7 +204,7 @@ func (o *ModulePod) GetIp() string {
 
 // GetIpOk returns a tuple with the Ip field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetIpOk() (*string, bool) {
+func (o *Pod) GetIpOk() (*string, bool) {
 	if o == nil || o.Ip == nil {
 		return nil, false
 	}
@@ -212,17 +212,17 @@ func (o *ModulePod) GetIpOk() (*string, bool) {
 }
 
 // HasIp returns a boolean if a field has been set.
-func (o *ModulePod) HasIp() bool {
+func (o *Pod) HasIp() bool {
 	return o != nil && o.Ip != nil
 }
 
 // SetIp gets a reference to the given string and assigns it to the Ip field.
-func (o *ModulePod) SetIp(v string) {
+func (o *Pod) SetIp(v string) {
 	o.Ip = &v
 }
 
 // GetCreationTimestamp returns the CreationTimestamp field value if set, zero value otherwise.
-func (o *ModulePod) GetCreationTimestamp() time.Time {
+func (o *Pod) GetCreationTimestamp() time.Time {
 	if o == nil || o.CreationTimestamp == nil {
 		var ret time.Time
 		return ret
@@ -232,7 +232,7 @@ func (o *ModulePod) GetCreationTimestamp() time.Time {
 
 // GetCreationTimestampOk returns a tuple with the CreationTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetCreationTimestampOk() (*time.Time, bool) {
+func (o *Pod) GetCreationTimestampOk() (*time.Time, bool) {
 	if o == nil || o.CreationTimestamp == nil {
 		return nil, false
 	}
@@ -240,17 +240,17 @@ func (o *ModulePod) GetCreationTimestampOk() (*time.Time, bool) {
 }
 
 // HasCreationTimestamp returns a boolean if a field has been set.
-func (o *ModulePod) HasCreationTimestamp() bool {
+func (o *Pod) HasCreationTimestamp() bool {
 	return o != nil && o.CreationTimestamp != nil
 }
 
 // SetCreationTimestamp gets a reference to the given time.Time and assigns it to the CreationTimestamp field.
-func (o *ModulePod) SetCreationTimestamp(v time.Time) {
+func (o *Pod) SetCreationTimestamp(v time.Time) {
 	o.CreationTimestamp = &v
 }
 
 // GetResources returns the Resources field value if set, zero value otherwise.
-func (o *ModulePod) GetResources() PodResources {
+func (o *Pod) GetResources() PodResources {
 	if o == nil || o.Resources == nil {
 		var ret PodResources
 		return ret
@@ -260,7 +260,7 @@ func (o *ModulePod) GetResources() PodResources {
 
 // GetResourcesOk returns a tuple with the Resources field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetResourcesOk() (*PodResources, bool) {
+func (o *Pod) GetResourcesOk() (*PodResources, bool) {
 	if o == nil || o.Resources == nil {
 		return nil, false
 	}
@@ -268,17 +268,17 @@ func (o *ModulePod) GetResourcesOk() (*PodResources, bool) {
 }
 
 // HasResources returns a boolean if a field has been set.
-func (o *ModulePod) HasResources() bool {
+func (o *Pod) HasResources() bool {
 	return o != nil && o.Resources != nil
 }
 
 // SetResources gets a reference to the given PodResources and assigns it to the Resources field.
-func (o *ModulePod) SetResources(v PodResources) {
+func (o *Pod) SetResources(v PodResources) {
 	o.Resources = &v
 }
 
 // GetOwnerReferences returns the OwnerReferences field value if set, zero value otherwise.
-func (o *ModulePod) GetOwnerReferences() []PodOwnerReference {
+func (o *Pod) GetOwnerReferences() []PodOwnerReference {
 	if o == nil || o.OwnerReferences == nil {
 		var ret []PodOwnerReference
 		return ret
@@ -288,7 +288,7 @@ func (o *ModulePod) GetOwnerReferences() []PodOwnerReference {
 
 // GetOwnerReferencesOk returns a tuple with the OwnerReferences field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetOwnerReferencesOk() (*[]PodOwnerReference, bool) {
+func (o *Pod) GetOwnerReferencesOk() (*[]PodOwnerReference, bool) {
 	if o == nil || o.OwnerReferences == nil {
 		return nil, false
 	}
@@ -296,17 +296,17 @@ func (o *ModulePod) GetOwnerReferencesOk() (*[]PodOwnerReference, bool) {
 }
 
 // HasOwnerReferences returns a boolean if a field has been set.
-func (o *ModulePod) HasOwnerReferences() bool {
+func (o *Pod) HasOwnerReferences() bool {
 	return o != nil && o.OwnerReferences != nil
 }
 
 // SetOwnerReferences gets a reference to the given []PodOwnerReference and assigns it to the OwnerReferences field.
-func (o *ModulePod) SetOwnerReferences(v []PodOwnerReference) {
+func (o *Pod) SetOwnerReferences(v []PodOwnerReference) {
 	o.OwnerReferences = v
 }
 
 // GetContainers returns the Containers field value if set, zero value otherwise.
-func (o *ModulePod) GetContainers() []ContainerInfo {
+func (o *Pod) GetContainers() []ContainerInfo {
 	if o == nil || o.Containers == nil {
 		var ret []ContainerInfo
 		return ret
@@ -316,7 +316,7 @@ func (o *ModulePod) GetContainers() []ContainerInfo {
 
 // GetContainersOk returns a tuple with the Containers field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetContainersOk() (*[]ContainerInfo, bool) {
+func (o *Pod) GetContainersOk() (*[]ContainerInfo, bool) {
 	if o == nil || o.Containers == nil {
 		return nil, false
 	}
@@ -324,17 +324,17 @@ func (o *ModulePod) GetContainersOk() (*[]ContainerInfo, bool) {
 }
 
 // HasContainers returns a boolean if a field has been set.
-func (o *ModulePod) HasContainers() bool {
+func (o *Pod) HasContainers() bool {
 	return o != nil && o.Containers != nil
 }
 
 // SetContainers gets a reference to the given []ContainerInfo and assigns it to the Containers field.
-func (o *ModulePod) SetContainers(v []ContainerInfo) {
+func (o *Pod) SetContainers(v []ContainerInfo) {
 	o.Containers = v
 }
 
 // GetConditions returns the Conditions field value if set, zero value otherwise.
-func (o *ModulePod) GetConditions() []PodCondition {
+func (o *Pod) GetConditions() []PodCondition {
 	if o == nil || o.Conditions == nil {
 		var ret []PodCondition
 		return ret
@@ -344,7 +344,7 @@ func (o *ModulePod) GetConditions() []PodCondition {
 
 // GetConditionsOk returns a tuple with the Conditions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModulePod) GetConditionsOk() (*[]PodCondition, bool) {
+func (o *Pod) GetConditionsOk() (*[]PodCondition, bool) {
 	if o == nil || o.Conditions == nil {
 		return nil, false
 	}
@@ -352,17 +352,17 @@ func (o *ModulePod) GetConditionsOk() (*[]PodCondition, bool) {
 }
 
 // HasConditions returns a boolean if a field has been set.
-func (o *ModulePod) HasConditions() bool {
+func (o *Pod) HasConditions() bool {
 	return o != nil && o.Conditions != nil
 }
 
 // SetConditions gets a reference to the given []PodCondition and assigns it to the Conditions field.
-func (o *ModulePod) SetConditions(v []PodCondition) {
+func (o *Pod) SetConditions(v []PodCondition) {
 	o.Conditions = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ModulePod) MarshalJSON() ([]byte, error) {
+func (o Pod) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -412,7 +412,7 @@ func (o ModulePod) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ModulePod) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Pod) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name              *string             `json:"name,omitempty"`
 		Namespace         *string             `json:"namespace,omitempty"`
