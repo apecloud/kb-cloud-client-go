@@ -13271,6 +13271,8 @@ components:
         customName:
           description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
           type: string
+        oriPartition:
+          $ref: '#/components/schemas/paramTplPartition'
         isPrivate:
           description: Determines whether the user can see this parameter template
           type: boolean
@@ -14081,7 +14083,7 @@ components:
         - resetPassword
         - delete
       properties:
-        superUserAccount:
+        'maxSuperUserAccount:':
           type: integer
           format: int32
           minimum: 0
@@ -14501,6 +14503,8 @@ components:
         - name
         - description
         - configSpecName
+        - validVariables
+        - defaultExpression
       properties:
         name:
           type: string
@@ -14508,12 +14512,20 @@ components:
         description:
           type: string
           description: description of each variables and expression
-        unit:
-          type: string
-          description: unit of parameter
         configSpecName:
           type: string
           description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+        validVariables:
+          description: valid variables in the expression
+          type: array
+          items:
+            type: string
+        defaultExpression:
+          type: string
+          description: default expression of the parameter
+        unit:
+          type: string
+          description: unit of parameter
     occupationParam:
       type: object
       required:
