@@ -11166,9 +11166,6 @@ components:
           description: specify whether to enable incremental backup
           default: false
           type: boolean
-        autoIncrementalBackupMethod:
-          description: the auto incremental backup method
-          type: string
         incrementalCronExpression:
           description: the crop expression for incremental backup schedule
           type: string
@@ -12682,9 +12679,6 @@ components:
           description: specify whether to enable incremental backup
           default: false
           type: boolean
-        autoIncrementalBackupMethod:
-          description: the auto incremental backup method
-          type: string
         incrementalCronExpression:
           description: the crop expression for incremental backup schedule
           type: string

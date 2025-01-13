@@ -22,8 +22,6 @@ type BackupPolicy struct {
 	CronExpression *string `json:"cronExpression,omitempty"`
 	// specify whether to enable incremental backup
 	IncrementalBackupEnabled *bool `json:"incrementalBackupEnabled,omitempty"`
-	// the auto incremental backup method
-	AutoIncrementalBackupMethod *string `json:"autoIncrementalBackupMethod,omitempty"`
 	// the crop expression for incremental backup schedule
 	IncrementalCronExpression *string `json:"incrementalCronExpression,omitempty"`
 	// specify the retention period
@@ -208,34 +206,6 @@ func (o *BackupPolicy) SetIncrementalBackupEnabled(v bool) {
 	o.IncrementalBackupEnabled = &v
 }
 
-// GetAutoIncrementalBackupMethod returns the AutoIncrementalBackupMethod field value if set, zero value otherwise.
-func (o *BackupPolicy) GetAutoIncrementalBackupMethod() string {
-	if o == nil || o.AutoIncrementalBackupMethod == nil {
-		var ret string
-		return ret
-	}
-	return *o.AutoIncrementalBackupMethod
-}
-
-// GetAutoIncrementalBackupMethodOk returns a tuple with the AutoIncrementalBackupMethod field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BackupPolicy) GetAutoIncrementalBackupMethodOk() (*string, bool) {
-	if o == nil || o.AutoIncrementalBackupMethod == nil {
-		return nil, false
-	}
-	return o.AutoIncrementalBackupMethod, true
-}
-
-// HasAutoIncrementalBackupMethod returns a boolean if a field has been set.
-func (o *BackupPolicy) HasAutoIncrementalBackupMethod() bool {
-	return o != nil && o.AutoIncrementalBackupMethod != nil
-}
-
-// SetAutoIncrementalBackupMethod gets a reference to the given string and assigns it to the AutoIncrementalBackupMethod field.
-func (o *BackupPolicy) SetAutoIncrementalBackupMethod(v string) {
-	o.AutoIncrementalBackupMethod = &v
-}
-
 // GetIncrementalCronExpression returns the IncrementalCronExpression field value if set, zero value otherwise.
 func (o *BackupPolicy) GetIncrementalCronExpression() string {
 	if o == nil || o.IncrementalCronExpression == nil {
@@ -408,9 +378,6 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	if o.IncrementalBackupEnabled != nil {
 		toSerialize["incrementalBackupEnabled"] = o.IncrementalBackupEnabled
 	}
-	if o.AutoIncrementalBackupMethod != nil {
-		toSerialize["autoIncrementalBackupMethod"] = o.AutoIncrementalBackupMethod
-	}
 	if o.IncrementalCronExpression != nil {
 		toSerialize["incrementalCronExpression"] = o.IncrementalCronExpression
 	}
@@ -436,24 +403,23 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AutoBackup                  *bool                  `json:"autoBackup,omitempty"`
-		AutoBackupMethod            *string                `json:"autoBackupMethod,omitempty"`
-		PitrEnabled                 *bool                  `json:"pitrEnabled,omitempty"`
-		CronExpression              *string                `json:"cronExpression,omitempty"`
-		IncrementalBackupEnabled    *bool                  `json:"incrementalBackupEnabled,omitempty"`
-		AutoIncrementalBackupMethod *string                `json:"autoIncrementalBackupMethod,omitempty"`
-		IncrementalCronExpression   *string                `json:"incrementalCronExpression,omitempty"`
-		RetentionPeriod             *string                `json:"retentionPeriod,omitempty"`
-		BackupRepo                  *string                `json:"backupRepo,omitempty"`
-		RetentionPolicy             *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
-		NextBackupTime              common.NullableTime    `json:"nextBackupTime,omitempty"`
+		AutoBackup                *bool                  `json:"autoBackup,omitempty"`
+		AutoBackupMethod          *string                `json:"autoBackupMethod,omitempty"`
+		PitrEnabled               *bool                  `json:"pitrEnabled,omitempty"`
+		CronExpression            *string                `json:"cronExpression,omitempty"`
+		IncrementalBackupEnabled  *bool                  `json:"incrementalBackupEnabled,omitempty"`
+		IncrementalCronExpression *string                `json:"incrementalCronExpression,omitempty"`
+		RetentionPeriod           *string                `json:"retentionPeriod,omitempty"`
+		BackupRepo                *string                `json:"backupRepo,omitempty"`
+		RetentionPolicy           *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
+		NextBackupTime            common.NullableTime    `json:"nextBackupTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "cronExpression", "incrementalBackupEnabled", "autoIncrementalBackupMethod", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime"})
 	} else {
 		return err
 	}
@@ -464,7 +430,6 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	o.PitrEnabled = all.PitrEnabled
 	o.CronExpression = all.CronExpression
 	o.IncrementalBackupEnabled = all.IncrementalBackupEnabled
-	o.AutoIncrementalBackupMethod = all.AutoIncrementalBackupMethod
 	o.IncrementalCronExpression = all.IncrementalCronExpression
 	o.RetentionPeriod = all.RetentionPeriod
 	o.BackupRepo = all.BackupRepo
