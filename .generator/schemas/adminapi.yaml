@@ -5612,18 +5612,18 @@ paths:
               schema:
                 type: string
           description: A successful response.
-  /admin/v1/latestComponentVersion:
+  /admin/v1/latestEnvModuleVersion:
     get:
       tags:
         - environment
-      operationId: getLatestComponentVersion
-      summary: Get component latest version
+      operationId: getLatestEnvModuleVersion
+      summary: Get environment module latest version
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/componentVersion'
+                $ref: '#/components/schemas/envModuleVersion'
           description: A successful response.
   /admin/v1/environments/{environmentName}/loadbalancer:
     get:
@@ -12270,6 +12270,139 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/environments/{environmentName}/environment-modules:
+    get:
+      operationId: getEnvironmentModuleInfo
+      summary: Get environment module information in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods:
+    get:
+      operationId: getEnvironmentModulePods
+      summary: Get pods information for an environment module
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+        - name: moduleName
+          in: path
+          required: true
+          description: Environment module name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModulePods'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs:
+    get:
+      operationId: getEnvironmentModuleLogs
+      summary: Get logs for an environment module pod. When no parameters other than containerName and search are provided, start streaming logs in real-time.
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+        - name: moduleName
+          in: path
+          required: true
+          description: Environment module name
+          schema:
+            type: string
+        - name: podName
+          in: path
+          required: true
+          description: Pod name
+          schema:
+            type: string
+        - name: containerName
+          in: query
+          required: false
+          description: Container name
+          schema:
+            type: string
+        - name: sinceSeconds
+          in: query
+          required: false
+          description: Get logs from the last n seconds
+          schema:
+            type: integer
+        - name: sinceTime
+          in: query
+          required: false
+          description: Get logs since this time (RFC3339 format)
+          schema:
+            type: string
+            format: date-time
+        - name: tailLines
+          in: query
+          required: false
+          description: Number of lines to return from the end
+          schema:
+            type: integer
+        - name: search
+          in: query
+          required: false
+          description: Search keyword in logs
+          schema:
+            type: string
+        - name: previous
+          in: query
+          required: false
+          description: Get previous terminated container logs
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleLogs'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
 components:
   securitySchemes:
     BearerToken:
@@ -16952,8 +17085,8 @@ components:
         oteldVersion:
           type: string
           title: oteld version, only valid in upgradeGemini workflow
-    componentVersion:
-      description: component version
+    envModuleVersion:
+      description: environment module version
       type: object
       properties:
         kubeblocks:
@@ -21838,6 +21971,238 @@ components:
       required:
         - items
       type: object
+    hostingStatus:
+      type: string
+      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+      enum:
+        - Hostable
+        - Non-hostable
+        - Hosted
+    clusterInfo:
+      type: object
+      description: Cluster information
+      properties:
+        cluster_name:
+          type: string
+          description: The name of the cluster
+        cluster_definition:
+          type: string
+          description: The definition of the cluster
+        org_name:
+          type: string
+          description: The organization name
+    environmentModule:
+      type: object
+      description: Single environment module information
+      properties:
+        name:
+          type: string
+          description: Environment module name
+        version:
+          type: string
+          description: Environment module version
+        status:
+          type: string
+          description: Environment module status (running, stopped, error, not_installed, etc..)
+        hosting_status:
+          $ref: '#/components/schemas/hostingStatus'
+        replicas:
+          type: integer
+          description: Number of replicas
+        location:
+          type: string
+          description: Deployment location
+        cluster_info:
+          $ref: '#/components/schemas/clusterInfo'
+          description: Cluster information, only returned when hosting_status is Hosted
+      required:
+        - name
+        - version
+        - status
+        - hosting_status
+        - replicas
+        - location
+    environmentModuleInfo:
+      type: object
+      description: Environment module information in an environment
+      properties:
+        environment_id:
+          type: string
+          description: Environment ID
+        last_updated:
+          type: string
+          format: date-time
+          description: Last update time of the data
+        environmentModules:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentModule'
+    podResources:
+      type: object
+      description: Resource usage information for a pod
+      properties:
+        cpu:
+          type: string
+          description: CPU usage
+        memory:
+          type: string
+          description: Memory usage
+        storage:
+          type: string
+          description: Storage usage
+    podOwnerReference:
+      type: object
+      description: Reference to pod owner
+      properties:
+        kind:
+          type: string
+          description: Owner type
+        name:
+          type: string
+          description: Owner name
+        uid:
+          type: string
+          description: Owner UID
+        api_version:
+          type: string
+          description: Owner API version
+        controller:
+          type: boolean
+          description: Whether it is a controller
+    containerInfo:
+      type: object
+      description: Container information
+      properties:
+        name:
+          type: string
+          description: Container name
+        image:
+          type: string
+          description: Container image
+        ready:
+          type: boolean
+          description: Container ready status
+        restart_count:
+          type: integer
+          description: Container restart count
+        liveness_probe:
+          type: object
+          description: Liveness probe configuration
+        readiness_probe:
+          type: object
+          description: Readiness probe configuration
+        resources:
+          type: object
+          description: Container resource usage
+    podCondition:
+      type: object
+      description: Pod condition information
+      properties:
+        type:
+          type: string
+          description: Condition type
+        status:
+          type: string
+          description: Condition status
+        last_transition_time:
+          type: string
+          format: date-time
+          description: Last transition time
+        reason:
+          type: string
+          description: Condition reason
+        message:
+          type: string
+          description: Condition message
+    pod:
+      type: object
+      description: Single pod information for environment module
+      properties:
+        name:
+          type: string
+          description: Pod name
+        namespace:
+          type: string
+          description: Pod namespace
+        node_name:
+          type: string
+          description: Node name where pod is running
+        status:
+          type: string
+          description: Pod status
+        phase:
+          type: string
+          description: Pod phase
+        ip:
+          type: string
+          description: Pod IP address
+        creation_timestamp:
+          type: string
+          format: date-time
+          description: Pod creation time
+        resources:
+          $ref: '#/components/schemas/podResources'
+        owner_references:
+          type: array
+          items:
+            $ref: '#/components/schemas/podOwnerReference'
+        containers:
+          type: array
+          items:
+            $ref: '#/components/schemas/containerInfo'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/podCondition'
+    environmentModulePods:
+      type: object
+      description: Pods information for an environment module
+      properties:
+        environment_name:
+          type: string
+          description: Environment name
+        module_name:
+          type: string
+          description: Environment module name
+        last_updated:
+          type: string
+          format: date-time
+          description: Last update time of the data
+        modulePods:
+          type: array
+          items:
+            $ref: '#/components/schemas/pod'
+    logEntry:
+      type: object
+      description: Single log entry
+      properties:
+        message:
+          type: string
+          description: Log message
+    environmentModuleLogs:
+      type: object
+      description: Environment module pod logs
+      properties:
+        environment_id:
+          type: string
+          description: Environment ID
+        module_name:
+          type: string
+          description: Environment module name
+        pod_name:
+          type: string
+          description: Pod name
+        container_name:
+          type: string
+          description: Container name
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/logEntry'
+        next_timestamp:
+          type: string
+          format: date-time
+          description: Next timestamp for pagination
   responses:
     '204':
       description: No Content
