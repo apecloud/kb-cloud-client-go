@@ -4,28 +4,28 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // EnvironmentModule Single environment module information
 type EnvironmentModule struct {
 	// Environment module name
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name"`
 	// Environment module version
-	Version *string `json:"version,omitempty"`
-	// Environment module status (running, stopped, error, not_installed)
-	Status *string `json:"status,omitempty"`
-	// Management type (unmanageable, manageable, kb-cluster). When management_type is kb-cluster, cluster_name, cluster_definition and org_name will be returned
-	ManagementType *string `json:"management_type,omitempty"`
+	Version string `json:"version"`
+	// Environment module status (running, stopped, error, not_installed, etc..)
+	Status string `json:"status"`
+	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+	HostingStatus string `json:"hosting_status"`
 	// Number of replicas
-	Replicas *int32 `json:"replicas,omitempty"`
+	Replicas int32 `json:"replicas"`
 	// Deployment location
-	Location *string `json:"location,omitempty"`
-	// The name of the cluster, only returned when management_type is kb-cluster
-	ClusterName *string `json:"cluster_name,omitempty"`
-	// The definition of the cluster, only returned when management_type is kb-cluster
-	ClusterDefinition *string `json:"cluster_definition,omitempty"`
-	// The organization name, only returned when management_type is kb-cluster
-	OrgName *string `json:"org_name,omitempty"`
+	Location string `json:"location"`
+	// Cluster information
+	ClusterInfo *ClusterInfo `json:"cluster_info,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -35,8 +35,14 @@ type EnvironmentModule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentModule() *EnvironmentModule {
+func NewEnvironmentModule(name string, version string, status string, hostingStatus string, replicas int32, location string) *EnvironmentModule {
 	this := EnvironmentModule{}
+	this.Name = name
+	this.Version = version
+	this.Status = status
+	this.HostingStatus = hostingStatus
+	this.Replicas = replicas
+	this.Location = location
 	return &this
 }
 
@@ -48,256 +54,170 @@ func NewEnvironmentModuleWithDefaults() *EnvironmentModule {
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value.
 func (o *EnvironmentModule) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentModule) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasName() bool {
-	return o != nil && o.Name != nil
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value.
 func (o *EnvironmentModule) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
-// GetVersion returns the Version field value if set, zero value otherwise.
+// GetVersion returns the Version field value.
 func (o *EnvironmentModule) GetVersion() string {
-	if o == nil || o.Version == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Version
+	return o.Version
 }
 
-// GetVersionOk returns a tuple with the Version field value if set, nil otherwise
+// GetVersionOk returns a tuple with the Version field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentModule) GetVersionOk() (*string, bool) {
-	if o == nil || o.Version == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Version, true
+	return &o.Version, true
 }
 
-// HasVersion returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasVersion() bool {
-	return o != nil && o.Version != nil
-}
-
-// SetVersion gets a reference to the given string and assigns it to the Version field.
+// SetVersion sets field value.
 func (o *EnvironmentModule) SetVersion(v string) {
-	o.Version = &v
+	o.Version = v
 }
 
-// GetStatus returns the Status field value if set, zero value otherwise.
+// GetStatus returns the Status field value.
 func (o *EnvironmentModule) GetStatus() string {
-	if o == nil || o.Status == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Status
+	return o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentModule) GetStatusOk() (*string, bool) {
-	if o == nil || o.Status == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Status, true
+	return &o.Status, true
 }
 
-// HasStatus returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasStatus() bool {
-	return o != nil && o.Status != nil
-}
-
-// SetStatus gets a reference to the given string and assigns it to the Status field.
+// SetStatus sets field value.
 func (o *EnvironmentModule) SetStatus(v string) {
-	o.Status = &v
+	o.Status = v
 }
 
-// GetManagementType returns the ManagementType field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetManagementType() string {
-	if o == nil || o.ManagementType == nil {
+// GetHostingStatus returns the HostingStatus field value.
+func (o *EnvironmentModule) GetHostingStatus() string {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.ManagementType
+	return o.HostingStatus
 }
 
-// GetManagementTypeOk returns a tuple with the ManagementType field value if set, nil otherwise
+// GetHostingStatusOk returns a tuple with the HostingStatus field value
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetManagementTypeOk() (*string, bool) {
-	if o == nil || o.ManagementType == nil {
+func (o *EnvironmentModule) GetHostingStatusOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ManagementType, true
+	return &o.HostingStatus, true
 }
 
-// HasManagementType returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasManagementType() bool {
-	return o != nil && o.ManagementType != nil
+// SetHostingStatus sets field value.
+func (o *EnvironmentModule) SetHostingStatus(v string) {
+	o.HostingStatus = v
 }
 
-// SetManagementType gets a reference to the given string and assigns it to the ManagementType field.
-func (o *EnvironmentModule) SetManagementType(v string) {
-	o.ManagementType = &v
-}
-
-// GetReplicas returns the Replicas field value if set, zero value otherwise.
+// GetReplicas returns the Replicas field value.
 func (o *EnvironmentModule) GetReplicas() int32 {
-	if o == nil || o.Replicas == nil {
+	if o == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Replicas
+	return o.Replicas
 }
 
-// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
+// GetReplicasOk returns a tuple with the Replicas field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentModule) GetReplicasOk() (*int32, bool) {
-	if o == nil || o.Replicas == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Replicas, true
+	return &o.Replicas, true
 }
 
-// HasReplicas returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasReplicas() bool {
-	return o != nil && o.Replicas != nil
-}
-
-// SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
+// SetReplicas sets field value.
 func (o *EnvironmentModule) SetReplicas(v int32) {
-	o.Replicas = &v
+	o.Replicas = v
 }
 
-// GetLocation returns the Location field value if set, zero value otherwise.
+// GetLocation returns the Location field value.
 func (o *EnvironmentModule) GetLocation() string {
-	if o == nil || o.Location == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Location
+	return o.Location
 }
 
-// GetLocationOk returns a tuple with the Location field value if set, nil otherwise
+// GetLocationOk returns a tuple with the Location field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentModule) GetLocationOk() (*string, bool) {
-	if o == nil || o.Location == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Location, true
+	return &o.Location, true
 }
 
-// HasLocation returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasLocation() bool {
-	return o != nil && o.Location != nil
-}
-
-// SetLocation gets a reference to the given string and assigns it to the Location field.
+// SetLocation sets field value.
 func (o *EnvironmentModule) SetLocation(v string) {
-	o.Location = &v
+	o.Location = v
 }
 
-// GetClusterName returns the ClusterName field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetClusterName() string {
-	if o == nil || o.ClusterName == nil {
-		var ret string
+// GetClusterInfo returns the ClusterInfo field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetClusterInfo() ClusterInfo {
+	if o == nil || o.ClusterInfo == nil {
+		var ret ClusterInfo
 		return ret
 	}
-	return *o.ClusterName
+	return *o.ClusterInfo
 }
 
-// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
+// GetClusterInfoOk returns a tuple with the ClusterInfo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetClusterNameOk() (*string, bool) {
-	if o == nil || o.ClusterName == nil {
+func (o *EnvironmentModule) GetClusterInfoOk() (*ClusterInfo, bool) {
+	if o == nil || o.ClusterInfo == nil {
 		return nil, false
 	}
-	return o.ClusterName, true
+	return o.ClusterInfo, true
 }
 
-// HasClusterName returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasClusterName() bool {
-	return o != nil && o.ClusterName != nil
+// HasClusterInfo returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasClusterInfo() bool {
+	return o != nil && o.ClusterInfo != nil
 }
 
-// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
-func (o *EnvironmentModule) SetClusterName(v string) {
-	o.ClusterName = &v
-}
-
-// GetClusterDefinition returns the ClusterDefinition field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetClusterDefinition() string {
-	if o == nil || o.ClusterDefinition == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClusterDefinition
-}
-
-// GetClusterDefinitionOk returns a tuple with the ClusterDefinition field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetClusterDefinitionOk() (*string, bool) {
-	if o == nil || o.ClusterDefinition == nil {
-		return nil, false
-	}
-	return o.ClusterDefinition, true
-}
-
-// HasClusterDefinition returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasClusterDefinition() bool {
-	return o != nil && o.ClusterDefinition != nil
-}
-
-// SetClusterDefinition gets a reference to the given string and assigns it to the ClusterDefinition field.
-func (o *EnvironmentModule) SetClusterDefinition(v string) {
-	o.ClusterDefinition = &v
-}
-
-// GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetOrgName() string {
-	if o == nil || o.OrgName == nil {
-		var ret string
-		return ret
-	}
-	return *o.OrgName
-}
-
-// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetOrgNameOk() (*string, bool) {
-	if o == nil || o.OrgName == nil {
-		return nil, false
-	}
-	return o.OrgName, true
-}
-
-// HasOrgName returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasOrgName() bool {
-	return o != nil && o.OrgName != nil
-}
-
-// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *EnvironmentModule) SetOrgName(v string) {
-	o.OrgName = &v
+// SetClusterInfo gets a reference to the given ClusterInfo and assigns it to the ClusterInfo field.
+func (o *EnvironmentModule) SetClusterInfo(v ClusterInfo) {
+	o.ClusterInfo = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -306,32 +226,14 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
-	if o.Version != nil {
-		toSerialize["version"] = o.Version
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
-	}
-	if o.ManagementType != nil {
-		toSerialize["management_type"] = o.ManagementType
-	}
-	if o.Replicas != nil {
-		toSerialize["replicas"] = o.Replicas
-	}
-	if o.Location != nil {
-		toSerialize["location"] = o.Location
-	}
-	if o.ClusterName != nil {
-		toSerialize["cluster_name"] = o.ClusterName
-	}
-	if o.ClusterDefinition != nil {
-		toSerialize["cluster_definition"] = o.ClusterDefinition
-	}
-	if o.OrgName != nil {
-		toSerialize["org_name"] = o.OrgName
+	toSerialize["name"] = o.Name
+	toSerialize["version"] = o.Version
+	toSerialize["status"] = o.Status
+	toSerialize["hosting_status"] = o.HostingStatus
+	toSerialize["replicas"] = o.Replicas
+	toSerialize["location"] = o.Location
+	if o.ClusterInfo != nil {
+		toSerialize["cluster_info"] = o.ClusterInfo
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -343,37 +245,60 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name              *string `json:"name,omitempty"`
-		Version           *string `json:"version,omitempty"`
-		Status            *string `json:"status,omitempty"`
-		ManagementType    *string `json:"management_type,omitempty"`
-		Replicas          *int32  `json:"replicas,omitempty"`
-		Location          *string `json:"location,omitempty"`
-		ClusterName       *string `json:"cluster_name,omitempty"`
-		ClusterDefinition *string `json:"cluster_definition,omitempty"`
-		OrgName           *string `json:"org_name,omitempty"`
+		Name          *string      `json:"name"`
+		Version       *string      `json:"version"`
+		Status        *string      `json:"status"`
+		HostingStatus *string      `json:"hosting_status"`
+		Replicas      *int32       `json:"replicas"`
+		Location      *string      `json:"location"`
+		ClusterInfo   *ClusterInfo `json:"cluster_info,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
+	if all.Name == nil {
+		return fmt.Errorf("required field name missing")
+	}
+	if all.Version == nil {
+		return fmt.Errorf("required field version missing")
+	}
+	if all.Status == nil {
+		return fmt.Errorf("required field status missing")
+	}
+	if all.HostingStatus == nil {
+		return fmt.Errorf("required field hosting_status missing")
+	}
+	if all.Replicas == nil {
+		return fmt.Errorf("required field replicas missing")
+	}
+	if all.Location == nil {
+		return fmt.Errorf("required field location missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "management_type", "replicas", "location", "cluster_name", "cluster_definition", "org_name"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hosting_status", "replicas", "location", "cluster_info"})
 	} else {
 		return err
 	}
-	o.Name = all.Name
-	o.Version = all.Version
-	o.Status = all.Status
-	o.ManagementType = all.ManagementType
-	o.Replicas = all.Replicas
-	o.Location = all.Location
-	o.ClusterName = all.ClusterName
-	o.ClusterDefinition = all.ClusterDefinition
-	o.OrgName = all.OrgName
+
+	hasInvalidField := false
+	o.Name = *all.Name
+	o.Version = *all.Version
+	o.Status = *all.Status
+	o.HostingStatus = *all.HostingStatus
+	o.Replicas = *all.Replicas
+	o.Location = *all.Location
+	if all.ClusterInfo != nil && all.ClusterInfo.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ClusterInfo = all.ClusterInfo
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

@@ -21847,7 +21847,20 @@ components:
       required:
         - items
       type: object
-    EnvironmentModule:
+    clusterInfo:
+      type: object
+      description: Cluster information
+      properties:
+        cluster_name:
+          type: string
+          description: The name of the cluster
+        cluster_definition:
+          type: string
+          description: The definition of the cluster
+        org_name:
+          type: string
+          description: The organization name
+    environmentModule:
       type: object
       description: Single environment module information
       properties:
@@ -21859,25 +21872,26 @@ components:
           description: Environment module version
         status:
           type: string
-          description: Environment module status (running, stopped, error, not_installed)
-        management_type:
+          description: Environment module status (running, stopped, error, not_installed, etc..)
+        hosting_status:
           type: string
-          description: Management type (unmanageable, manageable, kb-cluster). When management_type is kb-cluster, cluster_name, cluster_definition and org_name will be returned
+          description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
         replicas:
           type: integer
           description: Number of replicas
         location:
           type: string
           description: Deployment location
-        cluster_name:
-          type: string
-          description: The name of the cluster, only returned when management_type is kb-cluster
-        cluster_definition:
-          type: string
-          description: The definition of the cluster, only returned when management_type is kb-cluster
-        org_name:
-          type: string
-          description: The organization name, only returned when management_type is kb-cluster
+        cluster_info:
+          $ref: '#/components/schemas/clusterInfo'
+          description: Cluster information, only returned when hosting_status is Hosted
+      required:
+        - name
+        - version
+        - status
+        - hosting_status
+        - replicas
+        - location
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment
@@ -21892,8 +21906,8 @@ components:
         environmentModules:
           type: array
           items:
-            $ref: '#/components/schemas/EnvironmentModule'
-    PodResources:
+            $ref: '#/components/schemas/environmentModule'
+    podResources:
       type: object
       description: Resource usage information for a pod
       properties:
@@ -21906,7 +21920,7 @@ components:
         storage:
           type: string
           description: Storage usage
-    PodOwnerReference:
+    podOwnerReference:
       type: object
       description: Reference to pod owner
       properties:
@@ -21925,7 +21939,7 @@ components:
         controller:
           type: boolean
           description: Whether it is a controller
-    ContainerInfo:
+    containerInfo:
       type: object
       description: Container information
       properties:
@@ -21950,7 +21964,7 @@ components:
         resources:
           type: object
           description: Container resource usage
-    PodCondition:
+    podCondition:
       type: object
       description: Pod condition information
       properties:
@@ -21970,7 +21984,7 @@ components:
         message:
           type: string
           description: Condition message
-    ModulePod:
+    modulePod:
       type: object
       description: Single pod information for environment module
       properties:
@@ -21997,19 +22011,19 @@ components:
           format: date-time
           description: Pod creation time
         resources:
-          $ref: '#/components/schemas/PodResources'
+          $ref: '#/components/schemas/podResources'
         owner_references:
           type: array
           items:
-            $ref: '#/components/schemas/PodOwnerReference'
+            $ref: '#/components/schemas/podOwnerReference'
         containers:
           type: array
           items:
-            $ref: '#/components/schemas/ContainerInfo'
+            $ref: '#/components/schemas/containerInfo'
         conditions:
           type: array
           items:
-            $ref: '#/components/schemas/PodCondition'
+            $ref: '#/components/schemas/podCondition'
     environmentModulePods:
       type: object
       description: Pods information for an environment module
@@ -22027,8 +22041,8 @@ components:
         pods:
           type: array
           items:
-            $ref: '#/components/schemas/ModulePod'
-    LogEntry:
+            $ref: '#/components/schemas/modulePod'
+    logEntry:
       type: object
       description: Single log entry
       properties:
@@ -22054,7 +22068,7 @@ components:
         logs:
           type: array
           items:
-            $ref: '#/components/schemas/LogEntry'
+            $ref: '#/components/schemas/logEntry'
         next_timestamp:
           type: string
           format: date-time
