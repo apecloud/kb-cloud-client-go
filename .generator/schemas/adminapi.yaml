@@ -5612,18 +5612,18 @@ paths:
               schema:
                 type: string
           description: A successful response.
-  /admin/v1/latestComponentVersion:
+  /admin/v1/latestEnvModuleVersion:
     get:
       tags:
         - environment
-      operationId: getLatestComponentVersion
-      summary: Get component latest version
+      operationId: getLatestEnvModuleVersion
+      summary: Get environment module latest version
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/componentVersion'
+                $ref: '#/components/schemas/envModuleVersion'
           description: A successful response.
   /admin/v1/environments/{environmentName}/loadbalancer:
     get:
@@ -17083,8 +17083,8 @@ components:
         oteldVersion:
           type: string
           title: oteld version, only valid in upgradeGemini workflow
-    componentVersion:
-      description: component version
+    envModuleVersion:
+      description: environment module version
       type: object
       properties:
         kubeblocks:
@@ -18976,7 +18976,7 @@ components:
         - resetPassword
         - delete
       properties:
-        superUserAccount:
+        'maxSuperUserAccount:':
           type: integer
           format: int32
           minimum: 0
@@ -21847,6 +21847,37 @@ components:
       required:
         - items
       type: object
+    EnvironmentModule:
+      type: object
+      description: Single environment module information
+      properties:
+        name:
+          type: string
+          description: Environment module name
+        version:
+          type: string
+          description: Environment module version
+        status:
+          type: string
+          description: Environment module status (running, stopped, error, not_installed)
+        management_type:
+          type: string
+          description: Management type (unmanageable, manageable, kb-cluster). When management_type is kb-cluster, cluster_name, cluster_definition and org_name will be returned
+        replicas:
+          type: integer
+          description: Number of replicas
+        location:
+          type: string
+          description: Deployment location
+        cluster_name:
+          type: string
+          description: The name of the cluster, only returned when management_type is kb-cluster
+        cluster_definition:
+          type: string
+          description: The definition of the cluster, only returned when management_type is kb-cluster
+        org_name:
+          type: string
+          description: The organization name, only returned when management_type is kb-cluster
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment
@@ -21861,35 +21892,124 @@ components:
         environmentModules:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Environment module name
-              version:
-                type: string
-                description: Environment module version
-              status:
-                type: string
-                description: Environment module status (running, stopped, error, not_installed)
-              management_type:
-                type: string
-                description: Management type (unmanageable, manageable, kb-cluster). When management_type is kb-cluster, cluster_name, cluster_definition and org_name will be returned
-              replicas:
-                type: integer
-                description: Number of replicas
-              location:
-                type: string
-                description: Deployment location
-              cluster_name:
-                type: string
-                description: The name of the cluster, only returned when management_type is kb-cluster
-              cluster_definition:
-                type: string
-                description: The definition of the cluster, only returned when management_type is kb-cluster
-              org_name:
-                type: string
-                description: The organization name, only returned when management_type is kb-cluster
+            $ref: '#/components/schemas/EnvironmentModule'
+    PodResources:
+      type: object
+      description: Resource usage information for a pod
+      properties:
+        cpu:
+          type: string
+          description: CPU usage
+        memory:
+          type: string
+          description: Memory usage
+        storage:
+          type: string
+          description: Storage usage
+    PodOwnerReference:
+      type: object
+      description: Reference to pod owner
+      properties:
+        kind:
+          type: string
+          description: Owner type
+        name:
+          type: string
+          description: Owner name
+        uid:
+          type: string
+          description: Owner UID
+        api_version:
+          type: string
+          description: Owner API version
+        controller:
+          type: boolean
+          description: Whether it is a controller
+    ContainerInfo:
+      type: object
+      description: Container information
+      properties:
+        name:
+          type: string
+          description: Container name
+        image:
+          type: string
+          description: Container image
+        ready:
+          type: boolean
+          description: Container ready status
+        restart_count:
+          type: integer
+          description: Container restart count
+        liveness_probe:
+          type: object
+          description: Liveness probe configuration
+        readiness_probe:
+          type: object
+          description: Readiness probe configuration
+        resources:
+          type: object
+          description: Container resource usage
+    PodCondition:
+      type: object
+      description: Pod condition information
+      properties:
+        type:
+          type: string
+          description: Condition type
+        status:
+          type: string
+          description: Condition status
+        last_transition_time:
+          type: string
+          format: date-time
+          description: Last transition time
+        reason:
+          type: string
+          description: Condition reason
+        message:
+          type: string
+          description: Condition message
+    ModulePod:
+      type: object
+      description: Single pod information for environment module
+      properties:
+        name:
+          type: string
+          description: Pod name
+        namespace:
+          type: string
+          description: Pod namespace
+        node_name:
+          type: string
+          description: Node name where pod is running
+        status:
+          type: string
+          description: Pod status
+        phase:
+          type: string
+          description: Pod phase
+        ip:
+          type: string
+          description: Pod IP address
+        creation_timestamp:
+          type: string
+          format: date-time
+          description: Pod creation time
+        resources:
+          $ref: '#/components/schemas/PodResources'
+        owner_references:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodOwnerReference'
+        containers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContainerInfo'
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PodCondition'
     environmentModulePods:
       type: object
       description: Pods information for an environment module
@@ -21907,110 +22027,14 @@ components:
         pods:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: Pod name
-              namespace:
-                type: string
-                description: Pod namespace
-              node_name:
-                type: string
-                description: Node name where pod is running
-              status:
-                type: string
-                description: Pod status
-              phase:
-                type: string
-                description: Pod phase
-              ip:
-                type: string
-                description: Pod IP address
-              creation_timestamp:
-                type: string
-                format: date-time
-                description: Pod creation time
-              resources:
-                type: object
-                description: Resource usage (only for kb-cluster type)
-                properties:
-                  cpu:
-                    type: string
-                    description: CPU usage
-                  memory:
-                    type: string
-                    description: Memory usage
-                  storage:
-                    type: string
-                    description: Storage usage
-              owner_references:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    kind:
-                      type: string
-                      description: Owner type
-                    name:
-                      type: string
-                      description: Owner name
-                    uid:
-                      type: string
-                      description: Owner UID
-                    api_version:
-                      type: string
-                      description: Owner API version
-                    controller:
-                      type: boolean
-                      description: Whether it is a controller
-              containers:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                      description: Container name
-                    image:
-                      type: string
-                      description: Container image
-                    ready:
-                      type: boolean
-                      description: Container ready status
-                    restart_count:
-                      type: integer
-                      description: Container restart count
-                    liveness_probe:
-                      type: object
-                      description: Liveness probe configuration
-                    readiness_probe:
-                      type: object
-                      description: Readiness probe configuration
-                    resources:
-                      type: object
-                      description: Container resource usage
-              conditions:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                      description: Condition type
-                    status:
-                      type: string
-                      description: Condition status
-                    last_transition_time:
-                      type: string
-                      format: date-time
-                      description: Last transition time
-                    reason:
-                      type: string
-                      description: Condition reason
-                    message:
-                      type: string
-                      description: Condition message
+            $ref: '#/components/schemas/ModulePod'
+    LogEntry:
+      type: object
+      description: Single log entry
+      properties:
+        message:
+          type: string
+          description: Log message
     environmentModuleLogs:
       type: object
       description: Environment module pod logs
@@ -22030,15 +22054,7 @@ components:
         logs:
           type: array
           items:
-            type: object
-            properties:
-              timestamp:
-                type: string
-                format: date-time
-                description: Log timestamp
-              message:
-                type: string
-                description: Log message
+            $ref: '#/components/schemas/LogEntry'
         next_timestamp:
           type: string
           format: date-time

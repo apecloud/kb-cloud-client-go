@@ -6,7 +6,8 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type EnvironmentModuleInfoEnvironmentModulesItem struct {
+// EnvironmentModule Single environment module information
+type EnvironmentModule struct {
 	// Environment module name
 	Name *string `json:"name,omitempty"`
 	// Environment module version
@@ -30,25 +31,25 @@ type EnvironmentModuleInfoEnvironmentModulesItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEnvironmentModuleInfoEnvironmentModulesItem instantiates a new EnvironmentModuleInfoEnvironmentModulesItem object.
+// NewEnvironmentModule instantiates a new EnvironmentModule object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentModuleInfoEnvironmentModulesItem() *EnvironmentModuleInfoEnvironmentModulesItem {
-	this := EnvironmentModuleInfoEnvironmentModulesItem{}
+func NewEnvironmentModule() *EnvironmentModule {
+	this := EnvironmentModule{}
 	return &this
 }
 
-// NewEnvironmentModuleInfoEnvironmentModulesItemWithDefaults instantiates a new EnvironmentModuleInfoEnvironmentModulesItem object.
+// NewEnvironmentModuleWithDefaults instantiates a new EnvironmentModule object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEnvironmentModuleInfoEnvironmentModulesItemWithDefaults() *EnvironmentModuleInfoEnvironmentModulesItem {
-	this := EnvironmentModuleInfoEnvironmentModulesItem{}
+func NewEnvironmentModuleWithDefaults() *EnvironmentModule {
+	this := EnvironmentModule{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetName() string {
+func (o *EnvironmentModule) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -58,7 +59,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetNameOk() (*string, bool) {
+func (o *EnvironmentModule) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -66,17 +67,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetNameOk() (*string, bool
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasName() bool {
+func (o *EnvironmentModule) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetName(v string) {
+func (o *EnvironmentModule) SetName(v string) {
 	o.Name = &v
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetVersion() string {
+func (o *EnvironmentModule) GetVersion() string {
 	if o == nil || o.Version == nil {
 		var ret string
 		return ret
@@ -86,7 +87,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetVersion() string {
 
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetVersionOk() (*string, bool) {
+func (o *EnvironmentModule) GetVersionOk() (*string, bool) {
 	if o == nil || o.Version == nil {
 		return nil, false
 	}
@@ -94,17 +95,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetVersionOk() (*string, b
 }
 
 // HasVersion returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasVersion() bool {
+func (o *EnvironmentModule) HasVersion() bool {
 	return o != nil && o.Version != nil
 }
 
 // SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetVersion(v string) {
+func (o *EnvironmentModule) SetVersion(v string) {
 	o.Version = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetStatus() string {
+func (o *EnvironmentModule) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -114,7 +115,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetStatusOk() (*string, bool) {
+func (o *EnvironmentModule) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -122,17 +123,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetStatusOk() (*string, bo
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasStatus() bool {
+func (o *EnvironmentModule) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetStatus(v string) {
+func (o *EnvironmentModule) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetManagementType returns the ManagementType field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetManagementType() string {
+func (o *EnvironmentModule) GetManagementType() string {
 	if o == nil || o.ManagementType == nil {
 		var ret string
 		return ret
@@ -142,7 +143,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetManagementType() string
 
 // GetManagementTypeOk returns a tuple with the ManagementType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetManagementTypeOk() (*string, bool) {
+func (o *EnvironmentModule) GetManagementTypeOk() (*string, bool) {
 	if o == nil || o.ManagementType == nil {
 		return nil, false
 	}
@@ -150,17 +151,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetManagementTypeOk() (*st
 }
 
 // HasManagementType returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasManagementType() bool {
+func (o *EnvironmentModule) HasManagementType() bool {
 	return o != nil && o.ManagementType != nil
 }
 
 // SetManagementType gets a reference to the given string and assigns it to the ManagementType field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetManagementType(v string) {
+func (o *EnvironmentModule) SetManagementType(v string) {
 	o.ManagementType = &v
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetReplicas() int32 {
+func (o *EnvironmentModule) GetReplicas() int32 {
 	if o == nil || o.Replicas == nil {
 		var ret int32
 		return ret
@@ -170,7 +171,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetReplicas() int32 {
 
 // GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetReplicasOk() (*int32, bool) {
+func (o *EnvironmentModule) GetReplicasOk() (*int32, bool) {
 	if o == nil || o.Replicas == nil {
 		return nil, false
 	}
@@ -178,17 +179,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetReplicasOk() (*int32, b
 }
 
 // HasReplicas returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasReplicas() bool {
+func (o *EnvironmentModule) HasReplicas() bool {
 	return o != nil && o.Replicas != nil
 }
 
 // SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetReplicas(v int32) {
+func (o *EnvironmentModule) SetReplicas(v int32) {
 	o.Replicas = &v
 }
 
 // GetLocation returns the Location field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetLocation() string {
+func (o *EnvironmentModule) GetLocation() string {
 	if o == nil || o.Location == nil {
 		var ret string
 		return ret
@@ -198,7 +199,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetLocation() string {
 
 // GetLocationOk returns a tuple with the Location field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetLocationOk() (*string, bool) {
+func (o *EnvironmentModule) GetLocationOk() (*string, bool) {
 	if o == nil || o.Location == nil {
 		return nil, false
 	}
@@ -206,17 +207,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetLocationOk() (*string, 
 }
 
 // HasLocation returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasLocation() bool {
+func (o *EnvironmentModule) HasLocation() bool {
 	return o != nil && o.Location != nil
 }
 
 // SetLocation gets a reference to the given string and assigns it to the Location field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetLocation(v string) {
+func (o *EnvironmentModule) SetLocation(v string) {
 	o.Location = &v
 }
 
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterName() string {
+func (o *EnvironmentModule) GetClusterName() string {
 	if o == nil || o.ClusterName == nil {
 		var ret string
 		return ret
@@ -226,7 +227,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterName() string {
 
 // GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterNameOk() (*string, bool) {
+func (o *EnvironmentModule) GetClusterNameOk() (*string, bool) {
 	if o == nil || o.ClusterName == nil {
 		return nil, false
 	}
@@ -234,17 +235,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterNameOk() (*strin
 }
 
 // HasClusterName returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasClusterName() bool {
+func (o *EnvironmentModule) HasClusterName() bool {
 	return o != nil && o.ClusterName != nil
 }
 
 // SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetClusterName(v string) {
+func (o *EnvironmentModule) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
 // GetClusterDefinition returns the ClusterDefinition field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterDefinition() string {
+func (o *EnvironmentModule) GetClusterDefinition() string {
 	if o == nil || o.ClusterDefinition == nil {
 		var ret string
 		return ret
@@ -254,7 +255,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterDefinition() str
 
 // GetClusterDefinitionOk returns a tuple with the ClusterDefinition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterDefinitionOk() (*string, bool) {
+func (o *EnvironmentModule) GetClusterDefinitionOk() (*string, bool) {
 	if o == nil || o.ClusterDefinition == nil {
 		return nil, false
 	}
@@ -262,17 +263,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetClusterDefinitionOk() (
 }
 
 // HasClusterDefinition returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasClusterDefinition() bool {
+func (o *EnvironmentModule) HasClusterDefinition() bool {
 	return o != nil && o.ClusterDefinition != nil
 }
 
 // SetClusterDefinition gets a reference to the given string and assigns it to the ClusterDefinition field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetClusterDefinition(v string) {
+func (o *EnvironmentModule) SetClusterDefinition(v string) {
 	o.ClusterDefinition = &v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetOrgName() string {
+func (o *EnvironmentModule) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
 		var ret string
 		return ret
@@ -282,7 +283,7 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetOrgName() string {
 
 // GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetOrgNameOk() (*string, bool) {
+func (o *EnvironmentModule) GetOrgNameOk() (*string, bool) {
 	if o == nil || o.OrgName == nil {
 		return nil, false
 	}
@@ -290,17 +291,17 @@ func (o *EnvironmentModuleInfoEnvironmentModulesItem) GetOrgNameOk() (*string, b
 }
 
 // HasOrgName returns a boolean if a field has been set.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) HasOrgName() bool {
+func (o *EnvironmentModule) HasOrgName() bool {
 	return o != nil && o.OrgName != nil
 }
 
 // SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) SetOrgName(v string) {
+func (o *EnvironmentModule) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EnvironmentModuleInfoEnvironmentModulesItem) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -340,7 +341,7 @@ func (o EnvironmentModuleInfoEnvironmentModulesItem) MarshalJSON() ([]byte, erro
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EnvironmentModuleInfoEnvironmentModulesItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name              *string `json:"name,omitempty"`
 		Version           *string `json:"version,omitempty"`

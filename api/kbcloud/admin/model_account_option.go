@@ -12,13 +12,13 @@ import (
 
 type AccountOption struct {
 	// number of super user accounts cloud create
-	SuperUserAccount   *int32   `json:"superUserAccount,omitempty"`
-	Enabled            bool     `json:"enabled"`
-	Privileges         []string `json:"privileges,omitempty"`
-	AccountNamePattern string   `json:"accountNamePattern"`
-	Create             bool     `json:"create"`
-	ResetPassword      bool     `json:"resetPassword"`
-	Delete             bool     `json:"delete"`
+	MaxSuperUserAccount *int32   `json:"maxSuperUserAccount:,omitempty"`
+	Enabled             bool     `json:"enabled"`
+	Privileges          []string `json:"privileges,omitempty"`
+	AccountNamePattern  string   `json:"accountNamePattern"`
+	Create              bool     `json:"create"`
+	ResetPassword       bool     `json:"resetPassword"`
+	Delete              bool     `json:"delete"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,8 +30,8 @@ type AccountOption struct {
 // will change when the set of required properties is changed.
 func NewAccountOption(enabled bool, accountNamePattern string, create bool, resetPassword bool, delete bool) *AccountOption {
 	this := AccountOption{}
-	var superUserAccount int32 = 2
-	this.SuperUserAccount = &superUserAccount
+	var maxSuperUserAccount int32 = 2
+	this.MaxSuperUserAccount = &maxSuperUserAccount
 	this.Enabled = enabled
 	this.AccountNamePattern = accountNamePattern
 	this.Create = create
@@ -45,37 +45,37 @@ func NewAccountOption(enabled bool, accountNamePattern string, create bool, rese
 // but it doesn't guarantee that properties required by API are set.
 func NewAccountOptionWithDefaults() *AccountOption {
 	this := AccountOption{}
-	var superUserAccount int32 = 2
-	this.SuperUserAccount = &superUserAccount
+	var maxSuperUserAccount int32 = 2
+	this.MaxSuperUserAccount = &maxSuperUserAccount
 	return &this
 }
 
-// GetSuperUserAccount returns the SuperUserAccount field value if set, zero value otherwise.
-func (o *AccountOption) GetSuperUserAccount() int32 {
-	if o == nil || o.SuperUserAccount == nil {
+// GetMaxSuperUserAccount returns the MaxSuperUserAccount field value if set, zero value otherwise.
+func (o *AccountOption) GetMaxSuperUserAccount() int32 {
+	if o == nil || o.MaxSuperUserAccount == nil {
 		var ret int32
 		return ret
 	}
-	return *o.SuperUserAccount
+	return *o.MaxSuperUserAccount
 }
 
-// GetSuperUserAccountOk returns a tuple with the SuperUserAccount field value if set, nil otherwise
+// GetMaxSuperUserAccountOk returns a tuple with the MaxSuperUserAccount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AccountOption) GetSuperUserAccountOk() (*int32, bool) {
-	if o == nil || o.SuperUserAccount == nil {
+func (o *AccountOption) GetMaxSuperUserAccountOk() (*int32, bool) {
+	if o == nil || o.MaxSuperUserAccount == nil {
 		return nil, false
 	}
-	return o.SuperUserAccount, true
+	return o.MaxSuperUserAccount, true
 }
 
-// HasSuperUserAccount returns a boolean if a field has been set.
-func (o *AccountOption) HasSuperUserAccount() bool {
-	return o != nil && o.SuperUserAccount != nil
+// HasMaxSuperUserAccount returns a boolean if a field has been set.
+func (o *AccountOption) HasMaxSuperUserAccount() bool {
+	return o != nil && o.MaxSuperUserAccount != nil
 }
 
-// SetSuperUserAccount gets a reference to the given int32 and assigns it to the SuperUserAccount field.
-func (o *AccountOption) SetSuperUserAccount(v int32) {
-	o.SuperUserAccount = &v
+// SetMaxSuperUserAccount gets a reference to the given int32 and assigns it to the MaxSuperUserAccount field.
+func (o *AccountOption) SetMaxSuperUserAccount(v int32) {
+	o.MaxSuperUserAccount = &v
 }
 
 // GetEnabled returns the Enabled field value.
@@ -227,8 +227,8 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.SuperUserAccount != nil {
-		toSerialize["superUserAccount"] = o.SuperUserAccount
+	if o.MaxSuperUserAccount != nil {
+		toSerialize["maxSuperUserAccount:"] = o.MaxSuperUserAccount
 	}
 	toSerialize["enabled"] = o.Enabled
 	if o.Privileges != nil {
@@ -248,13 +248,13 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SuperUserAccount   *int32   `json:"superUserAccount,omitempty"`
-		Enabled            *bool    `json:"enabled"`
-		Privileges         []string `json:"privileges,omitempty"`
-		AccountNamePattern *string  `json:"accountNamePattern"`
-		Create             *bool    `json:"create"`
-		ResetPassword      *bool    `json:"resetPassword"`
-		Delete             *bool    `json:"delete"`
+		MaxSuperUserAccount *int32   `json:"maxSuperUserAccount:,omitempty"`
+		Enabled             *bool    `json:"enabled"`
+		Privileges          []string `json:"privileges,omitempty"`
+		AccountNamePattern  *string  `json:"accountNamePattern"`
+		Create              *bool    `json:"create"`
+		ResetPassword       *bool    `json:"resetPassword"`
+		Delete              *bool    `json:"delete"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -276,11 +276,11 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"superUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount:", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
 	} else {
 		return err
 	}
-	o.SuperUserAccount = all.SuperUserAccount
+	o.MaxSuperUserAccount = all.MaxSuperUserAccount
 	o.Enabled = *all.Enabled
 	o.Privileges = all.Privileges
 	o.AccountNamePattern = *all.AccountNamePattern

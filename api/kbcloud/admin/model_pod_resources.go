@@ -6,8 +6,8 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// EnvironmentModulePodsPodsItemResources Resource usage (only for kb-cluster type)
-type EnvironmentModulePodsPodsItemResources struct {
+// PodResources Resource usage information for a pod
+type PodResources struct {
 	// CPU usage
 	Cpu *string `json:"cpu,omitempty"`
 	// Memory usage
@@ -19,25 +19,25 @@ type EnvironmentModulePodsPodsItemResources struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEnvironmentModulePodsPodsItemResources instantiates a new EnvironmentModulePodsPodsItemResources object.
+// NewPodResources instantiates a new PodResources object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentModulePodsPodsItemResources() *EnvironmentModulePodsPodsItemResources {
-	this := EnvironmentModulePodsPodsItemResources{}
+func NewPodResources() *PodResources {
+	this := PodResources{}
 	return &this
 }
 
-// NewEnvironmentModulePodsPodsItemResourcesWithDefaults instantiates a new EnvironmentModulePodsPodsItemResources object.
+// NewPodResourcesWithDefaults instantiates a new PodResources object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEnvironmentModulePodsPodsItemResourcesWithDefaults() *EnvironmentModulePodsPodsItemResources {
-	this := EnvironmentModulePodsPodsItemResources{}
+func NewPodResourcesWithDefaults() *PodResources {
+	this := PodResources{}
 	return &this
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
-func (o *EnvironmentModulePodsPodsItemResources) GetCpu() string {
+func (o *PodResources) GetCpu() string {
 	if o == nil || o.Cpu == nil {
 		var ret string
 		return ret
@@ -47,7 +47,7 @@ func (o *EnvironmentModulePodsPodsItemResources) GetCpu() string {
 
 // GetCpuOk returns a tuple with the Cpu field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePodsPodsItemResources) GetCpuOk() (*string, bool) {
+func (o *PodResources) GetCpuOk() (*string, bool) {
 	if o == nil || o.Cpu == nil {
 		return nil, false
 	}
@@ -55,17 +55,17 @@ func (o *EnvironmentModulePodsPodsItemResources) GetCpuOk() (*string, bool) {
 }
 
 // HasCpu returns a boolean if a field has been set.
-func (o *EnvironmentModulePodsPodsItemResources) HasCpu() bool {
+func (o *PodResources) HasCpu() bool {
 	return o != nil && o.Cpu != nil
 }
 
 // SetCpu gets a reference to the given string and assigns it to the Cpu field.
-func (o *EnvironmentModulePodsPodsItemResources) SetCpu(v string) {
+func (o *PodResources) SetCpu(v string) {
 	o.Cpu = &v
 }
 
 // GetMemory returns the Memory field value if set, zero value otherwise.
-func (o *EnvironmentModulePodsPodsItemResources) GetMemory() string {
+func (o *PodResources) GetMemory() string {
 	if o == nil || o.Memory == nil {
 		var ret string
 		return ret
@@ -75,7 +75,7 @@ func (o *EnvironmentModulePodsPodsItemResources) GetMemory() string {
 
 // GetMemoryOk returns a tuple with the Memory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePodsPodsItemResources) GetMemoryOk() (*string, bool) {
+func (o *PodResources) GetMemoryOk() (*string, bool) {
 	if o == nil || o.Memory == nil {
 		return nil, false
 	}
@@ -83,17 +83,17 @@ func (o *EnvironmentModulePodsPodsItemResources) GetMemoryOk() (*string, bool) {
 }
 
 // HasMemory returns a boolean if a field has been set.
-func (o *EnvironmentModulePodsPodsItemResources) HasMemory() bool {
+func (o *PodResources) HasMemory() bool {
 	return o != nil && o.Memory != nil
 }
 
 // SetMemory gets a reference to the given string and assigns it to the Memory field.
-func (o *EnvironmentModulePodsPodsItemResources) SetMemory(v string) {
+func (o *PodResources) SetMemory(v string) {
 	o.Memory = &v
 }
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *EnvironmentModulePodsPodsItemResources) GetStorage() string {
+func (o *PodResources) GetStorage() string {
 	if o == nil || o.Storage == nil {
 		var ret string
 		return ret
@@ -103,7 +103,7 @@ func (o *EnvironmentModulePodsPodsItemResources) GetStorage() string {
 
 // GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePodsPodsItemResources) GetStorageOk() (*string, bool) {
+func (o *PodResources) GetStorageOk() (*string, bool) {
 	if o == nil || o.Storage == nil {
 		return nil, false
 	}
@@ -111,17 +111,17 @@ func (o *EnvironmentModulePodsPodsItemResources) GetStorageOk() (*string, bool) 
 }
 
 // HasStorage returns a boolean if a field has been set.
-func (o *EnvironmentModulePodsPodsItemResources) HasStorage() bool {
+func (o *PodResources) HasStorage() bool {
 	return o != nil && o.Storage != nil
 }
 
 // SetStorage gets a reference to the given string and assigns it to the Storage field.
-func (o *EnvironmentModulePodsPodsItemResources) SetStorage(v string) {
+func (o *PodResources) SetStorage(v string) {
 	o.Storage = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EnvironmentModulePodsPodsItemResources) MarshalJSON() ([]byte, error) {
+func (o PodResources) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -143,7 +143,7 @@ func (o EnvironmentModulePodsPodsItemResources) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EnvironmentModulePodsPodsItemResources) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PodResources) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Cpu     *string `json:"cpu,omitempty"`
 		Memory  *string `json:"memory,omitempty"`

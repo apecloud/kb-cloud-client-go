@@ -15,8 +15,8 @@ type EnvironmentModuleInfo struct {
 	// Environment ID
 	EnvironmentId *string `json:"environment_id,omitempty"`
 	// Last update time of the data
-	LastUpdated        *time.Time                                    `json:"last_updated,omitempty"`
-	EnvironmentModules []EnvironmentModuleInfoEnvironmentModulesItem `json:"environmentModules,omitempty"`
+	LastUpdated        *time.Time          `json:"last_updated,omitempty"`
+	EnvironmentModules []EnvironmentModule `json:"environmentModules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -96,9 +96,9 @@ func (o *EnvironmentModuleInfo) SetLastUpdated(v time.Time) {
 }
 
 // GetEnvironmentModules returns the EnvironmentModules field value if set, zero value otherwise.
-func (o *EnvironmentModuleInfo) GetEnvironmentModules() []EnvironmentModuleInfoEnvironmentModulesItem {
+func (o *EnvironmentModuleInfo) GetEnvironmentModules() []EnvironmentModule {
 	if o == nil || o.EnvironmentModules == nil {
-		var ret []EnvironmentModuleInfoEnvironmentModulesItem
+		var ret []EnvironmentModule
 		return ret
 	}
 	return o.EnvironmentModules
@@ -106,7 +106,7 @@ func (o *EnvironmentModuleInfo) GetEnvironmentModules() []EnvironmentModuleInfoE
 
 // GetEnvironmentModulesOk returns a tuple with the EnvironmentModules field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleInfo) GetEnvironmentModulesOk() (*[]EnvironmentModuleInfoEnvironmentModulesItem, bool) {
+func (o *EnvironmentModuleInfo) GetEnvironmentModulesOk() (*[]EnvironmentModule, bool) {
 	if o == nil || o.EnvironmentModules == nil {
 		return nil, false
 	}
@@ -118,8 +118,8 @@ func (o *EnvironmentModuleInfo) HasEnvironmentModules() bool {
 	return o != nil && o.EnvironmentModules != nil
 }
 
-// SetEnvironmentModules gets a reference to the given []EnvironmentModuleInfoEnvironmentModulesItem and assigns it to the EnvironmentModules field.
-func (o *EnvironmentModuleInfo) SetEnvironmentModules(v []EnvironmentModuleInfoEnvironmentModulesItem) {
+// SetEnvironmentModules gets a reference to the given []EnvironmentModule and assigns it to the EnvironmentModules field.
+func (o *EnvironmentModuleInfo) SetEnvironmentModules(v []EnvironmentModule) {
 	o.EnvironmentModules = v
 }
 
@@ -152,9 +152,9 @@ func (o EnvironmentModuleInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId      *string                                       `json:"environment_id,omitempty"`
-		LastUpdated        *time.Time                                    `json:"last_updated,omitempty"`
-		EnvironmentModules []EnvironmentModuleInfoEnvironmentModulesItem `json:"environmentModules,omitempty"`
+		EnvironmentId      *string             `json:"environment_id,omitempty"`
+		LastUpdated        *time.Time          `json:"last_updated,omitempty"`
+		EnvironmentModules []EnvironmentModule `json:"environmentModules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

@@ -19,8 +19,8 @@ type EnvironmentModuleLogs struct {
 	// Pod name
 	PodName *string `json:"pod_name,omitempty"`
 	// Container name
-	ContainerName *string                         `json:"container_name,omitempty"`
-	Logs          []EnvironmentModuleLogsLogsItem `json:"logs,omitempty"`
+	ContainerName *string    `json:"container_name,omitempty"`
+	Logs          []LogEntry `json:"logs,omitempty"`
 	// Next timestamp for pagination
 	NextTimestamp *time.Time `json:"next_timestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -158,9 +158,9 @@ func (o *EnvironmentModuleLogs) SetContainerName(v string) {
 }
 
 // GetLogs returns the Logs field value if set, zero value otherwise.
-func (o *EnvironmentModuleLogs) GetLogs() []EnvironmentModuleLogsLogsItem {
+func (o *EnvironmentModuleLogs) GetLogs() []LogEntry {
 	if o == nil || o.Logs == nil {
-		var ret []EnvironmentModuleLogsLogsItem
+		var ret []LogEntry
 		return ret
 	}
 	return o.Logs
@@ -168,7 +168,7 @@ func (o *EnvironmentModuleLogs) GetLogs() []EnvironmentModuleLogsLogsItem {
 
 // GetLogsOk returns a tuple with the Logs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModuleLogs) GetLogsOk() (*[]EnvironmentModuleLogsLogsItem, bool) {
+func (o *EnvironmentModuleLogs) GetLogsOk() (*[]LogEntry, bool) {
 	if o == nil || o.Logs == nil {
 		return nil, false
 	}
@@ -180,8 +180,8 @@ func (o *EnvironmentModuleLogs) HasLogs() bool {
 	return o != nil && o.Logs != nil
 }
 
-// SetLogs gets a reference to the given []EnvironmentModuleLogsLogsItem and assigns it to the Logs field.
-func (o *EnvironmentModuleLogs) SetLogs(v []EnvironmentModuleLogsLogsItem) {
+// SetLogs gets a reference to the given []LogEntry and assigns it to the Logs field.
+func (o *EnvironmentModuleLogs) SetLogs(v []LogEntry) {
 	o.Logs = v
 }
 
@@ -251,12 +251,12 @@ func (o EnvironmentModuleLogs) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleLogs) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId *string                         `json:"environment_id,omitempty"`
-		ModuleName    *string                         `json:"module_name,omitempty"`
-		PodName       *string                         `json:"pod_name,omitempty"`
-		ContainerName *string                         `json:"container_name,omitempty"`
-		Logs          []EnvironmentModuleLogsLogsItem `json:"logs,omitempty"`
-		NextTimestamp *time.Time                      `json:"next_timestamp,omitempty"`
+		EnvironmentId *string    `json:"environment_id,omitempty"`
+		ModuleName    *string    `json:"module_name,omitempty"`
+		PodName       *string    `json:"pod_name,omitempty"`
+		ContainerName *string    `json:"container_name,omitempty"`
+		Logs          []LogEntry `json:"logs,omitempty"`
+		NextTimestamp *time.Time `json:"next_timestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

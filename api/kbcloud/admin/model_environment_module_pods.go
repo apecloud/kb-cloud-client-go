@@ -17,8 +17,8 @@ type EnvironmentModulePods struct {
 	// Environment module name
 	ModuleName *string `json:"module_name,omitempty"`
 	// Last update time of the data
-	LastUpdated *time.Time                      `json:"last_updated,omitempty"`
-	Pods        []EnvironmentModulePodsPodsItem `json:"pods,omitempty"`
+	LastUpdated *time.Time  `json:"last_updated,omitempty"`
+	Pods        []ModulePod `json:"pods,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -126,9 +126,9 @@ func (o *EnvironmentModulePods) SetLastUpdated(v time.Time) {
 }
 
 // GetPods returns the Pods field value if set, zero value otherwise.
-func (o *EnvironmentModulePods) GetPods() []EnvironmentModulePodsPodsItem {
+func (o *EnvironmentModulePods) GetPods() []ModulePod {
 	if o == nil || o.Pods == nil {
-		var ret []EnvironmentModulePodsPodsItem
+		var ret []ModulePod
 		return ret
 	}
 	return o.Pods
@@ -136,7 +136,7 @@ func (o *EnvironmentModulePods) GetPods() []EnvironmentModulePodsPodsItem {
 
 // GetPodsOk returns a tuple with the Pods field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePods) GetPodsOk() (*[]EnvironmentModulePodsPodsItem, bool) {
+func (o *EnvironmentModulePods) GetPodsOk() (*[]ModulePod, bool) {
 	if o == nil || o.Pods == nil {
 		return nil, false
 	}
@@ -148,8 +148,8 @@ func (o *EnvironmentModulePods) HasPods() bool {
 	return o != nil && o.Pods != nil
 }
 
-// SetPods gets a reference to the given []EnvironmentModulePodsPodsItem and assigns it to the Pods field.
-func (o *EnvironmentModulePods) SetPods(v []EnvironmentModulePodsPodsItem) {
+// SetPods gets a reference to the given []ModulePod and assigns it to the Pods field.
+func (o *EnvironmentModulePods) SetPods(v []ModulePod) {
 	o.Pods = v
 }
 
@@ -185,10 +185,10 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModulePods) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentName *string                         `json:"environment_name,omitempty"`
-		ModuleName      *string                         `json:"module_name,omitempty"`
-		LastUpdated     *time.Time                      `json:"last_updated,omitempty"`
-		Pods            []EnvironmentModulePodsPodsItem `json:"pods,omitempty"`
+		EnvironmentName *string     `json:"environment_name,omitempty"`
+		ModuleName      *string     `json:"module_name,omitempty"`
+		LastUpdated     *time.Time  `json:"last_updated,omitempty"`
+		Pods            []ModulePod `json:"pods,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

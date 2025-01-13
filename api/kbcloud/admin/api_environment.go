@@ -1490,20 +1490,20 @@ func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, envir
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetLatestComponentVersion Get component latest version.
-func (a *EnvironmentApi) GetLatestComponentVersion(ctx _context.Context) (ComponentVersion, *_nethttp.Response, error) {
+// GetLatestEnvModuleVersion Get environment module latest version.
+func (a *EnvironmentApi) GetLatestEnvModuleVersion(ctx _context.Context) (EnvModuleVersion, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ComponentVersion
+		localVarReturnValue EnvModuleVersion
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetLatestComponentVersion")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetLatestEnvModuleVersion")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/latestComponentVersion"
+	localVarPath := localBasePath + "/admin/v1/latestEnvModuleVersion"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
