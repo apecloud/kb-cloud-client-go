@@ -13,7 +13,7 @@ import (
 // EventList EventList is a list of operation event objects
 type EventList struct {
 	// Items is the list of operation event objects in the list
-	Items []Cluster_event `json:"items"`
+	Items []Event `json:"items"`
 	// Pagination information
 	Pagination *PaginationResult `json:"pagination,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,7 +25,7 @@ type EventList struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEventList(items []Cluster_event) *EventList {
+func NewEventList(items []Event) *EventList {
 	this := EventList{}
 	this.Items = items
 	return &this
@@ -40,9 +40,9 @@ func NewEventListWithDefaults() *EventList {
 }
 
 // GetItems returns the Items field value.
-func (o *EventList) GetItems() []Cluster_event {
+func (o *EventList) GetItems() []Event {
 	if o == nil {
-		var ret []Cluster_event
+		var ret []Event
 		return ret
 	}
 	return o.Items
@@ -50,7 +50,7 @@ func (o *EventList) GetItems() []Cluster_event {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *EventList) GetItemsOk() (*[]Cluster_event, bool) {
+func (o *EventList) GetItemsOk() (*[]Event, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,7 +58,7 @@ func (o *EventList) GetItemsOk() (*[]Cluster_event, bool) {
 }
 
 // SetItems sets field value.
-func (o *EventList) SetItems(v []Cluster_event) {
+func (o *EventList) SetItems(v []Event) {
 	o.Items = v
 }
 
@@ -110,7 +110,7 @@ func (o EventList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EventList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Cluster_event  `json:"items"`
+		Items      *[]Event          `json:"items"`
 		Pagination *PaginationResult `json:"pagination,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {

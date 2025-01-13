@@ -89,11 +89,11 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, orgName string, en
 
 // ListEnvNodeZone List the availability zones where the environment's nodes are located.
 // List available zones of an environment
-func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, environmentName string) (ZoneList, *_nethttp.Response, error) {
+func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, environmentName string) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ZoneList
+		localVarReturnValue []string
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvNodeZone")
@@ -135,7 +135,7 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, e
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

@@ -177,11 +177,11 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, start int64, end int
 
 // QueryEventDetail Query event detail by Event ID.
 // Retrieves detailed information about an event based on the provided Event ID.
-func (a *EventApi) QueryEventDetail(ctx _context.Context, eventId string) (Cluster_event, *_nethttp.Response, error) {
+func (a *EventApi) QueryEventDetail(ctx _context.Context, eventId string) (Event, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue Cluster_event
+		localVarReturnValue Event
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryEventDetail")
