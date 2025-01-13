@@ -18843,7 +18843,7 @@ components:
         - resetPassword
         - delete
       properties:
-        superUserAccount:
+        'maxSuperUserAccount:':
           type: integer
           format: int32
           minimum: 0
