@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// CustomOpsTasks customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`. 
+// CustomOpsTasks customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
 type CustomOpsTasks struct {
 	// The list of custom ops task.
 	Items []CustomOpsTask `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewCustomOpsTasks instantiates a new CustomOpsTasks object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewCustomOpsTasksWithDefaults() *CustomOpsTasks {
 	this := CustomOpsTasks{}
 	return &this
 }
+
 // GetItems returns the Items field value if set, zero value otherwise.
 func (o *CustomOpsTasks) GetItems() []CustomOpsTask {
 	if o == nil || o.Items == nil {
@@ -69,8 +60,6 @@ func (o *CustomOpsTasks) SetItems(v []CustomOpsTask) {
 	o.Items = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o CustomOpsTasks) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -97,7 +86,7 @@ func (o *CustomOpsTasks) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

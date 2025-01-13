@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type TopicMessageRequest struct {
 	// 指定消息将被发送到的Kafka分区
 	Partition *int32 `json:"partition,omitempty"`
@@ -23,10 +14,9 @@ type TopicMessageRequest struct {
 	// 消息的实际内容
 	Value *string `json:"value,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTopicMessageRequest instantiates a new TopicMessageRequest object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +34,7 @@ func NewTopicMessageRequestWithDefaults() *TopicMessageRequest {
 	this := TopicMessageRequest{}
 	return &this
 }
+
 // GetPartition returns the Partition field value if set, zero value otherwise.
 func (o *TopicMessageRequest) GetPartition() int32 {
 	if o == nil || o.Partition == nil {
@@ -71,7 +62,6 @@ func (o *TopicMessageRequest) HasPartition() bool {
 func (o *TopicMessageRequest) SetPartition(v int32) {
 	o.Partition = &v
 }
-
 
 // GetKey returns the Key field value if set, zero value otherwise.
 func (o *TopicMessageRequest) GetKey() string {
@@ -101,7 +91,6 @@ func (o *TopicMessageRequest) SetKey(v string) {
 	o.Key = &v
 }
 
-
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *TopicMessageRequest) GetValue() string {
 	if o == nil || o.Value == nil {
@@ -130,8 +119,6 @@ func (o *TopicMessageRequest) SetValue(v string) {
 	o.Value = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o TopicMessageRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -157,16 +144,16 @@ func (o TopicMessageRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TopicMessageRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Partition *int32 `json:"partition,omitempty"`
-		Key *string `json:"key,omitempty"`
-		Value *string `json:"value,omitempty"`
+		Partition *int32  `json:"partition,omitempty"`
+		Key       *string `json:"key,omitempty"`
+		Value     *string `json:"value,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "partition", "key", "value",  })
+		common.DeleteKeys(additionalProperties, &[]string{"partition", "key", "value"})
 	} else {
 		return err
 	}

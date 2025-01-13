@@ -2,30 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ConfigEntry struct {
-	Name *string `json:"name,omitempty"`
-	Value *string `json:"value,omitempty"`
-	Default *bool `json:"default,omitempty"`
-	ReadOnly *bool `json:"readOnly,omitempty"`
-	Sensitive *bool `json:"sensitive,omitempty"`
+	Name      *string `json:"name,omitempty"`
+	Value     *string `json:"value,omitempty"`
+	Default   *bool   `json:"default,omitempty"`
+	ReadOnly  *bool   `json:"readOnly,omitempty"`
+	Sensitive *bool   `json:"sensitive,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewConfigEntry instantiates a new ConfigEntry object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +33,7 @@ func NewConfigEntryWithDefaults() *ConfigEntry {
 	this := ConfigEntry{}
 	return &this
 }
+
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *ConfigEntry) GetName() string {
 	if o == nil || o.Name == nil {
@@ -70,7 +61,6 @@ func (o *ConfigEntry) HasName() bool {
 func (o *ConfigEntry) SetName(v string) {
 	o.Name = &v
 }
-
 
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *ConfigEntry) GetValue() string {
@@ -100,7 +90,6 @@ func (o *ConfigEntry) SetValue(v string) {
 	o.Value = &v
 }
 
-
 // GetDefault returns the Default field value if set, zero value otherwise.
 func (o *ConfigEntry) GetDefault() bool {
 	if o == nil || o.Default == nil {
@@ -128,7 +117,6 @@ func (o *ConfigEntry) HasDefault() bool {
 func (o *ConfigEntry) SetDefault(v bool) {
 	o.Default = &v
 }
-
 
 // GetReadOnly returns the ReadOnly field value if set, zero value otherwise.
 func (o *ConfigEntry) GetReadOnly() bool {
@@ -158,7 +146,6 @@ func (o *ConfigEntry) SetReadOnly(v bool) {
 	o.ReadOnly = &v
 }
 
-
 // GetSensitive returns the Sensitive field value if set, zero value otherwise.
 func (o *ConfigEntry) GetSensitive() bool {
 	if o == nil || o.Sensitive == nil {
@@ -186,8 +173,6 @@ func (o *ConfigEntry) HasSensitive() bool {
 func (o *ConfigEntry) SetSensitive(v bool) {
 	o.Sensitive = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ConfigEntry) MarshalJSON() ([]byte, error) {
@@ -220,18 +205,18 @@ func (o ConfigEntry) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ConfigEntry) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name,omitempty"`
-		Value *string `json:"value,omitempty"`
-		Default *bool `json:"default,omitempty"`
-		ReadOnly *bool `json:"readOnly,omitempty"`
-		Sensitive *bool `json:"sensitive,omitempty"`
+		Name      *string `json:"name,omitempty"`
+		Value     *string `json:"value,omitempty"`
+		Default   *bool   `json:"default,omitempty"`
+		ReadOnly  *bool   `json:"readOnly,omitempty"`
+		Sensitive *bool   `json:"sensitive,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "value", "default", "readOnly", "sensitive",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "value", "default", "readOnly", "sensitive"})
 	} else {
 		return err
 	}

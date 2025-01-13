@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -30,6 +26,7 @@ func NewCreateRedisAccountOptionalParameters() *CreateRedisAccountOptionalParame
 	this := CreateRedisAccountOptionalParameters{}
 	return &this
 }
+
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *CreateRedisAccountOptionalParameters) WithComponent(component string) *CreateRedisAccountOptionalParameters {
 	r.Component = &component
@@ -39,19 +36,17 @@ func (r *CreateRedisAccountOptionalParameters) WithComponent(component string) *
 // CreateRedisAccount create redis account.
 func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ClusterTask, o ...CreateRedisAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		optionalParams CreateRedisAccountOptionalParameters
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
+		optionalParams     CreateRedisAccountOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return nil, common.ReportError("only one argument of type CreateRedisAccountOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type CreateRedisAccountOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.CreateRedisAccount")
 	if err != nil {
@@ -69,13 +64,11 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] =  "*/*"
-
-	
+	localVarHeaderParams["Accept"] = "*/*"
 
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -97,11 +90,10 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -125,6 +117,7 @@ func NewDeleteRedisAccountOptionalParameters() *DeleteRedisAccountOptionalParame
 	this := DeleteRedisAccountOptionalParameters{}
 	return &this
 }
+
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *DeleteRedisAccountOptionalParameters) WithComponent(component string) *DeleteRedisAccountOptionalParameters {
 	r.Component = &component
@@ -134,20 +127,18 @@ func (r *DeleteRedisAccountOptionalParameters) WithComponent(component string) *
 // DeleteRedisAccount delete redis account.
 func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, o ...DeleteRedisAccountOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
-		localVarReturnValue  ClusterTask
-		optionalParams DeleteRedisAccountOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodDelete
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterTask
+		optionalParams      DeleteRedisAccountOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type DeleteRedisAccountOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteRedisAccountOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.DeleteRedisAccount")
 	if err != nil {
@@ -167,8 +158,7 @@ func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clus
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -190,11 +180,10 @@ func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clus
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -208,7 +197,7 @@ func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clus
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -227,6 +216,7 @@ func NewListRedisAccountsOptionalParameters() *ListRedisAccountsOptionalParamete
 	this := ListRedisAccountsOptionalParameters{}
 	return &this
 }
+
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *ListRedisAccountsOptionalParameters) WithComponent(component string) *ListRedisAccountsOptionalParameters {
 	r.Component = &component
@@ -236,20 +226,18 @@ func (r *ListRedisAccountsOptionalParameters) WithComponent(component string) *L
 // ListRedisAccounts list redis accounts.
 func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListRedisAccountsOptionalParameters) (ACLUserResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  ACLUserResponse
-		optionalParams ListRedisAccountsOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ACLUserResponse
+		optionalParams      ListRedisAccountsOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListRedisAccountsOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListRedisAccountsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.ListRedisAccounts")
 	if err != nil {
@@ -268,8 +256,7 @@ func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clust
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -291,11 +278,10 @@ func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clust
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -309,7 +295,7 @@ func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clust
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -328,6 +314,7 @@ func NewUpdateRedisAccountOptionalParameters() *UpdateRedisAccountOptionalParame
 	this := UpdateRedisAccountOptionalParameters{}
 	return &this
 }
+
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *UpdateRedisAccountOptionalParameters) WithComponent(component string) *UpdateRedisAccountOptionalParameters {
 	r.Component = &component
@@ -337,19 +324,17 @@ func (r *UpdateRedisAccountOptionalParameters) WithComponent(component string) *
 // UpdateRedisAccount update redis account.
 func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body ClusterTask, o ...UpdateRedisAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPatch
-		localVarPostBody     interface{}
-		optionalParams UpdateRedisAccountOptionalParameters
+		localVarHTTPMethod = _nethttp.MethodPatch
+		localVarPostBody   interface{}
+		optionalParams     UpdateRedisAccountOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return nil, common.ReportError("only one argument of type UpdateRedisAccountOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type UpdateRedisAccountOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.UpdateRedisAccount")
 	if err != nil {
@@ -368,13 +353,11 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] =  "*/*"
-
-	
+	localVarHeaderParams["Accept"] = "*/*"
 
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -396,11 +379,10 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

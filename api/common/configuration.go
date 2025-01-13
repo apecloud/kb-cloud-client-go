@@ -2,7 +2,6 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package common
 
 import (
@@ -121,16 +120,16 @@ type RetryConfiguration struct {
 	HTTPRetryTimeout  time.Duration
 	MaxRetries        int
 }
+
 // NewConfiguration returns a new Configuration object.
 func NewConfiguration() *Configuration {
 	cfg := &Configuration{
-		DefaultHeader: make(map[string]string),
-		UserAgent:     getUserAgent(),
-		Debug:         false,
-		Compress:      true,
-		Servers:       ServerConfigurations{},
-		unstableOperations: map[string]bool{
-		},
+		DefaultHeader:      make(map[string]string),
+		UserAgent:          getUserAgent(),
+		Debug:              false,
+		Compress:           true,
+		Servers:            ServerConfigurations{},
+		unstableOperations: map[string]bool{},
 		RetryConfiguration: RetryConfiguration{
 			EnableRetry:       true,
 			BackOffMultiplier: 2,

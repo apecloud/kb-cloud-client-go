@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ACLUserResponse struct {
-	Mode *string `json:"mode,omitempty"`
-	Master []ACLUser `json:"master,omitempty"`
+	Mode     *string   `json:"mode,omitempty"`
+	Master   []ACLUser `json:"master,omitempty"`
 	Sentinel []ACLUser `json:"sentinel,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewACLUserResponse instantiates a new ACLUserResponse object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewACLUserResponseWithDefaults() *ACLUserResponse {
 	this := ACLUserResponse{}
 	return &this
 }
+
 // GetMode returns the Mode field value if set, zero value otherwise.
 func (o *ACLUserResponse) GetMode() string {
 	if o == nil || o.Mode == nil {
@@ -68,7 +59,6 @@ func (o *ACLUserResponse) HasMode() bool {
 func (o *ACLUserResponse) SetMode(v string) {
 	o.Mode = &v
 }
-
 
 // GetMaster returns the Master field value if set, zero value otherwise.
 func (o *ACLUserResponse) GetMaster() []ACLUser {
@@ -98,7 +88,6 @@ func (o *ACLUserResponse) SetMaster(v []ACLUser) {
 	o.Master = v
 }
 
-
 // GetSentinel returns the Sentinel field value if set, zero value otherwise.
 func (o *ACLUserResponse) GetSentinel() []ACLUser {
 	if o == nil || o.Sentinel == nil {
@@ -127,8 +116,6 @@ func (o *ACLUserResponse) SetSentinel(v []ACLUser) {
 	o.Sentinel = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ACLUserResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -154,8 +141,8 @@ func (o ACLUserResponse) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ACLUserResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode *string `json:"mode,omitempty"`
-		Master []ACLUser `json:"master,omitempty"`
+		Mode     *string   `json:"mode,omitempty"`
+		Master   []ACLUser `json:"master,omitempty"`
 		Sentinel []ACLUser `json:"sentinel,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -163,7 +150,7 @@ func (o *ACLUserResponse) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "mode", "master", "sentinel",  })
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "master", "sentinel"})
 	} else {
 		return err
 	}

@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type BrokerNode struct {
-	Id *int32 `json:"id,omitempty"`
-	Host *string `json:"host,omitempty"`
-	Port *int32 `json:"port,omitempty"`
-	LogSize *int64 `json:"logSize,omitempty"`
+	Id      *int32  `json:"id,omitempty"`
+	Host    *string `json:"host,omitempty"`
+	Port    *int32  `json:"port,omitempty"`
+	LogSize *int64  `json:"logSize,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBrokerNode instantiates a new BrokerNode object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewBrokerNodeWithDefaults() *BrokerNode {
 	this := BrokerNode{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *BrokerNode) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -69,7 +60,6 @@ func (o *BrokerNode) HasId() bool {
 func (o *BrokerNode) SetId(v int32) {
 	o.Id = &v
 }
-
 
 // GetHost returns the Host field value if set, zero value otherwise.
 func (o *BrokerNode) GetHost() string {
@@ -99,7 +89,6 @@ func (o *BrokerNode) SetHost(v string) {
 	o.Host = &v
 }
 
-
 // GetPort returns the Port field value if set, zero value otherwise.
 func (o *BrokerNode) GetPort() int32 {
 	if o == nil || o.Port == nil {
@@ -127,7 +116,6 @@ func (o *BrokerNode) HasPort() bool {
 func (o *BrokerNode) SetPort(v int32) {
 	o.Port = &v
 }
-
 
 // GetLogSize returns the LogSize field value if set, zero value otherwise.
 func (o *BrokerNode) GetLogSize() int64 {
@@ -157,8 +145,6 @@ func (o *BrokerNode) SetLogSize(v int64) {
 	o.LogSize = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BrokerNode) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -187,17 +173,17 @@ func (o BrokerNode) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BrokerNode) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *int32 `json:"id,omitempty"`
-		Host *string `json:"host,omitempty"`
-		Port *int32 `json:"port,omitempty"`
-		LogSize *int64 `json:"logSize,omitempty"`
+		Id      *int32  `json:"id,omitempty"`
+		Host    *string `json:"host,omitempty"`
+		Port    *int32  `json:"port,omitempty"`
+		LogSize *int64  `json:"logSize,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "host", "port", "logSize",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "host", "port", "logSize"})
 	} else {
 		return err
 	}

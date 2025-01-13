@@ -2,26 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type UpdateTopicConfigRequest struct {
 	Configs map[string]string `json:"configs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewUpdateTopicConfigRequest instantiates a new UpdateTopicConfigRequest object.
 // This constructor will assign default values to properties that have it defined,
@@ -39,6 +29,7 @@ func NewUpdateTopicConfigRequestWithDefaults() *UpdateTopicConfigRequest {
 	this := UpdateTopicConfigRequest{}
 	return &this
 }
+
 // GetConfigs returns the Configs field value if set, zero value otherwise.
 func (o *UpdateTopicConfigRequest) GetConfigs() map[string]string {
 	if o == nil || o.Configs == nil {
@@ -67,8 +58,6 @@ func (o *UpdateTopicConfigRequest) SetConfigs(v map[string]string) {
 	o.Configs = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o UpdateTopicConfigRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -95,7 +84,7 @@ func (o *UpdateTopicConfigRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "configs",  })
+		common.DeleteKeys(additionalProperties, &[]string{"configs"})
 	} else {
 		return err
 	}

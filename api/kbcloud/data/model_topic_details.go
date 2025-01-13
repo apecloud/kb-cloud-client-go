@@ -2,31 +2,25 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type TopicDetails struct {
-	Name string `json:"name"`
-	Internal *bool `json:"internal,omitempty"`
+	Name     string `json:"name"`
+	Internal *bool  `json:"internal,omitempty"`
 	// the replica count of the topic
-	ReplicaCount *int32 `json:"replicaCount,omitempty"`
-	Partitions []PartitionInfo `json:"partitions,omitempty"`
-	TotalLogSize *int64 `json:"totalLogSize,omitempty"`
+	ReplicaCount *int32          `json:"replicaCount,omitempty"`
+	Partitions   []PartitionInfo `json:"partitions,omitempty"`
+	TotalLogSize *int64          `json:"totalLogSize,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTopicDetails instantiates a new TopicDetails object.
 // This constructor will assign default values to properties that have it defined,
@@ -45,6 +39,7 @@ func NewTopicDetailsWithDefaults() *TopicDetails {
 	this := TopicDetails{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *TopicDetails) GetName() string {
 	if o == nil {
@@ -67,7 +62,6 @@ func (o *TopicDetails) GetNameOk() (*string, bool) {
 func (o *TopicDetails) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetInternal returns the Internal field value if set, zero value otherwise.
 func (o *TopicDetails) GetInternal() bool {
@@ -97,7 +91,6 @@ func (o *TopicDetails) SetInternal(v bool) {
 	o.Internal = &v
 }
 
-
 // GetReplicaCount returns the ReplicaCount field value if set, zero value otherwise.
 func (o *TopicDetails) GetReplicaCount() int32 {
 	if o == nil || o.ReplicaCount == nil {
@@ -125,7 +118,6 @@ func (o *TopicDetails) HasReplicaCount() bool {
 func (o *TopicDetails) SetReplicaCount(v int32) {
 	o.ReplicaCount = &v
 }
-
 
 // GetPartitions returns the Partitions field value if set, zero value otherwise.
 func (o *TopicDetails) GetPartitions() []PartitionInfo {
@@ -155,7 +147,6 @@ func (o *TopicDetails) SetPartitions(v []PartitionInfo) {
 	o.Partitions = v
 }
 
-
 // GetTotalLogSize returns the TotalLogSize field value if set, zero value otherwise.
 func (o *TopicDetails) GetTotalLogSize() int64 {
 	if o == nil || o.TotalLogSize == nil {
@@ -183,8 +174,6 @@ func (o *TopicDetails) HasTotalLogSize() bool {
 func (o *TopicDetails) SetTotalLogSize(v int64) {
 	o.TotalLogSize = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o TopicDetails) MarshalJSON() ([]byte, error) {
@@ -215,11 +204,11 @@ func (o TopicDetails) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TopicDetails) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		Internal *bool `json:"internal,omitempty"`
-		ReplicaCount *int32 `json:"replicaCount,omitempty"`
-		Partitions []PartitionInfo `json:"partitions,omitempty"`
-		TotalLogSize *int64 `json:"totalLogSize,omitempty"`
+		Name         *string         `json:"name"`
+		Internal     *bool           `json:"internal,omitempty"`
+		ReplicaCount *int32          `json:"replicaCount,omitempty"`
+		Partitions   []PartitionInfo `json:"partitions,omitempty"`
+		TotalLogSize *int64          `json:"totalLogSize,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -229,7 +218,7 @@ func (o *TopicDetails) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "internal", "replicaCount", "partitions", "totalLogSize",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "internal", "replicaCount", "partitions", "totalLogSize"})
 	} else {
 		return err
 	}

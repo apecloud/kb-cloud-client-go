@@ -2,19 +2,14 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type ACLUser struct {
 	// The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
 	Role *AccountListRoleType `json:"role,omitempty"`
@@ -35,10 +30,9 @@ type ACLUser struct {
 	// List of password hashes to be removed
 	PasswordHashesToRemove []string `json:"password_hashes_to_remove,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewACLUser instantiates a new ACLUser object.
 // This constructor will assign default values to properties that have it defined,
@@ -57,6 +51,7 @@ func NewACLUserWithDefaults() *ACLUser {
 	this := ACLUser{}
 	return &this
 }
+
 // GetRole returns the Role field value if set, zero value otherwise.
 func (o *ACLUser) GetRole() AccountListRoleType {
 	if o == nil || o.Role == nil {
@@ -84,7 +79,6 @@ func (o *ACLUser) HasRole() bool {
 func (o *ACLUser) SetRole(v AccountListRoleType) {
 	o.Role = &v
 }
-
 
 // GetPrivileges returns the Privileges field value if set, zero value otherwise.
 func (o *ACLUser) GetPrivileges() RedisPrivilegeType {
@@ -114,7 +108,6 @@ func (o *ACLUser) SetPrivileges(v RedisPrivilegeType) {
 	o.Privileges = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *ACLUser) GetName() string {
 	if o == nil {
@@ -137,7 +130,6 @@ func (o *ACLUser) GetNameOk() (*string, bool) {
 func (o *ACLUser) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
 func (o *ACLUser) GetEnabled() bool {
@@ -167,7 +159,6 @@ func (o *ACLUser) SetEnabled(v bool) {
 	o.Enabled = &v
 }
 
-
 // GetNopass returns the Nopass field value if set, zero value otherwise.
 func (o *ACLUser) GetNopass() bool {
 	if o == nil || o.Nopass == nil {
@@ -195,7 +186,6 @@ func (o *ACLUser) HasNopass() bool {
 func (o *ACLUser) SetNopass(v bool) {
 	o.Nopass = &v
 }
-
 
 // GetPasswords returns the Passwords field value if set, zero value otherwise.
 func (o *ACLUser) GetPasswords() []string {
@@ -225,7 +215,6 @@ func (o *ACLUser) SetPasswords(v []string) {
 	o.Passwords = v
 }
 
-
 // GetPasswordHashes returns the PasswordHashes field value if set, zero value otherwise.
 func (o *ACLUser) GetPasswordHashes() []string {
 	if o == nil || o.PasswordHashes == nil {
@@ -253,7 +242,6 @@ func (o *ACLUser) HasPasswordHashes() bool {
 func (o *ACLUser) SetPasswordHashes(v []string) {
 	o.PasswordHashes = v
 }
-
 
 // GetPasswordsToRemove returns the PasswordsToRemove field value if set, zero value otherwise.
 func (o *ACLUser) GetPasswordsToRemove() []string {
@@ -283,7 +271,6 @@ func (o *ACLUser) SetPasswordsToRemove(v []string) {
 	o.PasswordsToRemove = v
 }
 
-
 // GetPasswordHashesToRemove returns the PasswordHashesToRemove field value if set, zero value otherwise.
 func (o *ACLUser) GetPasswordHashesToRemove() []string {
 	if o == nil || o.PasswordHashesToRemove == nil {
@@ -311,8 +298,6 @@ func (o *ACLUser) HasPasswordHashesToRemove() bool {
 func (o *ACLUser) SetPasswordHashesToRemove(v []string) {
 	o.PasswordHashesToRemove = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ACLUser) MarshalJSON() ([]byte, error) {
@@ -355,15 +340,15 @@ func (o ACLUser) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Role *AccountListRoleType `json:"role,omitempty"`
-		Privileges *RedisPrivilegeType `json:"privileges,omitempty"`
-		Name *string `json:"name"`
-		Enabled *bool `json:"enabled,omitempty"`
-		Nopass *bool `json:"nopass,omitempty"`
-		Passwords []string `json:"passwords,omitempty"`
-		PasswordHashes []string `json:"password_hashes,omitempty"`
-		PasswordsToRemove []string `json:"passwords_to_remove,omitempty"`
-		PasswordHashesToRemove []string `json:"password_hashes_to_remove,omitempty"`
+		Role                   *AccountListRoleType `json:"role,omitempty"`
+		Privileges             *RedisPrivilegeType  `json:"privileges,omitempty"`
+		Name                   *string              `json:"name"`
+		Enabled                *bool                `json:"enabled,omitempty"`
+		Nopass                 *bool                `json:"nopass,omitempty"`
+		Passwords              []string             `json:"passwords,omitempty"`
+		PasswordHashes         []string             `json:"password_hashes,omitempty"`
+		PasswordsToRemove      []string             `json:"passwords_to_remove,omitempty"`
+		PasswordHashesToRemove []string             `json:"password_hashes_to_remove,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -373,18 +358,18 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "role", "privileges", "name", "enabled", "nopass", "passwords", "password_hashes", "passwords_to_remove", "password_hashes_to_remove",  })
+		common.DeleteKeys(additionalProperties, &[]string{"role", "privileges", "name", "enabled", "nopass", "passwords", "password_hashes", "passwords_to_remove", "password_hashes_to_remove"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.Role != nil &&!all.Role.IsValid() {
+	if all.Role != nil && !all.Role.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Role = all.Role
 	}
-	if all.Privileges != nil &&!all.Privileges.IsValid() {
+	if all.Privileges != nil && !all.Privileges.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Privileges = all.Privileges

@@ -2,29 +2,24 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // PrivilegeType The type of privilege.
 type PrivilegeType string
 
 // List of PrivilegeType.
 const (
-	PrivilegeTypeDbadmin PrivilegeType = "DBADMIN"
+	PrivilegeTypeDbadmin   PrivilegeType = "DBADMIN"
 	PrivilegeTypeReadwrite PrivilegeType = "READWRITE"
-	PrivilegeTypeReadonly PrivilegeType = "READONLY"
-	PrivilegeTypeDdlonly PrivilegeType = "DDLONLY"
-	PrivilegeTypeDmlonly PrivilegeType = "DMLONLY"
+	PrivilegeTypeReadonly  PrivilegeType = "READONLY"
+	PrivilegeTypeDdlonly   PrivilegeType = "DDLONLY"
+	PrivilegeTypeDmlonly   PrivilegeType = "DMLONLY"
 )
 
 var allowedPrivilegeTypeEnumValues = []PrivilegeType{

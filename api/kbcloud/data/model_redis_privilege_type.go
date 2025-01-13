@@ -2,18 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 // RedisPrivilegeType Redis user privileges
 type RedisPrivilegeType string
@@ -21,8 +16,8 @@ type RedisPrivilegeType string
 // List of RedisPrivilegeType.
 const (
 	RedisPrivilegeTypeReadwrite RedisPrivilegeType = "READWRITE"
-	RedisPrivilegeTypeReadonly RedisPrivilegeType = "READONLY"
-	RedisPrivilegeTypeUnknown RedisPrivilegeType = "UNKNOWN"
+	RedisPrivilegeTypeReadonly  RedisPrivilegeType = "READONLY"
+	RedisPrivilegeTypeUnknown   RedisPrivilegeType = "UNKNOWN"
 )
 
 var allowedRedisPrivilegeTypeEnumValues = []RedisPrivilegeType{

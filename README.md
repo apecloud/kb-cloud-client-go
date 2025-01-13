@@ -32,6 +32,14 @@ The admin API client is located in the `api/kbcloud/admin` directory. Import it 
 import "github.com/apecloud/kb-cloud-client-go/api/kbcloud/admin" 
 ```
 
+### The Data API Client
+
+The data API client is located in the `api/kbcloud/data` directory. Import it with:
+
+```go
+import "github.com/apecloud/kb-cloud-client-go/api/kbcloud/data"
+```
+
 ## Authentication
 
 The client supports authentication via API Key & Secret. The recommended way is to use environment variables with NewDefaultContext:

@@ -2,30 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type Broker struct {
-	Id *int32 `json:"id,omitempty"`
-	Host *string `json:"host,omitempty"`
-	Port *int32 `json:"port,omitempty"`
-	LeaderPartitions []int32 `json:"leaderPartitions,omitempty"`
+	Id                 *int32  `json:"id,omitempty"`
+	Host               *string `json:"host,omitempty"`
+	Port               *int32  `json:"port,omitempty"`
+	LeaderPartitions   []int32 `json:"leaderPartitions,omitempty"`
 	FollowerPartitions []int32 `json:"followerPartitions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewBroker instantiates a new Broker object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +33,7 @@ func NewBrokerWithDefaults() *Broker {
 	this := Broker{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *Broker) GetId() int32 {
 	if o == nil || o.Id == nil {
@@ -70,7 +61,6 @@ func (o *Broker) HasId() bool {
 func (o *Broker) SetId(v int32) {
 	o.Id = &v
 }
-
 
 // GetHost returns the Host field value if set, zero value otherwise.
 func (o *Broker) GetHost() string {
@@ -100,7 +90,6 @@ func (o *Broker) SetHost(v string) {
 	o.Host = &v
 }
 
-
 // GetPort returns the Port field value if set, zero value otherwise.
 func (o *Broker) GetPort() int32 {
 	if o == nil || o.Port == nil {
@@ -128,7 +117,6 @@ func (o *Broker) HasPort() bool {
 func (o *Broker) SetPort(v int32) {
 	o.Port = &v
 }
-
 
 // GetLeaderPartitions returns the LeaderPartitions field value if set, zero value otherwise.
 func (o *Broker) GetLeaderPartitions() []int32 {
@@ -158,7 +146,6 @@ func (o *Broker) SetLeaderPartitions(v []int32) {
 	o.LeaderPartitions = v
 }
 
-
 // GetFollowerPartitions returns the FollowerPartitions field value if set, zero value otherwise.
 func (o *Broker) GetFollowerPartitions() []int32 {
 	if o == nil || o.FollowerPartitions == nil {
@@ -186,8 +173,6 @@ func (o *Broker) HasFollowerPartitions() bool {
 func (o *Broker) SetFollowerPartitions(v []int32) {
 	o.FollowerPartitions = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Broker) MarshalJSON() ([]byte, error) {
@@ -220,10 +205,10 @@ func (o Broker) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Broker) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *int32 `json:"id,omitempty"`
-		Host *string `json:"host,omitempty"`
-		Port *int32 `json:"port,omitempty"`
-		LeaderPartitions []int32 `json:"leaderPartitions,omitempty"`
+		Id                 *int32  `json:"id,omitempty"`
+		Host               *string `json:"host,omitempty"`
+		Port               *int32  `json:"port,omitempty"`
+		LeaderPartitions   []int32 `json:"leaderPartitions,omitempty"`
 		FollowerPartitions []int32 `json:"followerPartitions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -231,7 +216,7 @@ func (o *Broker) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "host", "port", "leaderPartitions", "followerPartitions",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "host", "port", "leaderPartitions", "followerPartitions"})
 	} else {
 		return err
 	}

@@ -2,20 +2,16 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ClusterTask task is the information of the operation 
+// ClusterTask task is the information of the operation
 type ClusterTask struct {
 	// ID of the task
 	Id *string `json:"id,omitempty"`
@@ -46,10 +42,9 @@ type ClusterTask struct {
 	// Time when the task completed or failed
 	CompletionTime common.NullableTime `json:"completionTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClusterTask instantiates a new ClusterTask object.
 // This constructor will assign default values to properties that have it defined,
@@ -72,6 +67,7 @@ func NewClusterTaskWithDefaults() *ClusterTask {
 	this := ClusterTask{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *ClusterTask) GetId() string {
 	if o == nil || o.Id == nil {
@@ -100,7 +96,6 @@ func (o *ClusterTask) SetId(v string) {
 	o.Id = &v
 }
 
-
 // GetName returns the Name field value.
 func (o *ClusterTask) GetName() string {
 	if o == nil {
@@ -124,7 +119,6 @@ func (o *ClusterTask) SetName(v string) {
 	o.Name = v
 }
 
-
 // GetNamespace returns the Namespace field value.
 func (o *ClusterTask) GetNamespace() string {
 	if o == nil {
@@ -147,7 +141,6 @@ func (o *ClusterTask) GetNamespaceOk() (*string, bool) {
 func (o *ClusterTask) SetNamespace(v string) {
 	o.Namespace = v
 }
-
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *ClusterTask) GetOrgName() string {
@@ -177,7 +170,6 @@ func (o *ClusterTask) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
 func (o *ClusterTask) GetClusterName() string {
 	if o == nil || o.ClusterName == nil {
@@ -206,7 +198,6 @@ func (o *ClusterTask) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
-
 // GetStatus returns the Status field value.
 func (o *ClusterTask) GetStatus() string {
 	if o == nil {
@@ -229,7 +220,6 @@ func (o *ClusterTask) GetStatusOk() (*string, bool) {
 func (o *ClusterTask) SetStatus(v string) {
 	o.Status = v
 }
-
 
 // GetTaskType returns the TaskType field value.
 func (o *ClusterTask) GetTaskType() string {
@@ -254,7 +244,6 @@ func (o *ClusterTask) SetTaskType(v string) {
 	o.TaskType = v
 }
 
-
 // GetProgress returns the Progress field value.
 func (o *ClusterTask) GetProgress() string {
 	if o == nil {
@@ -277,7 +266,6 @@ func (o *ClusterTask) GetProgressOk() (*string, bool) {
 func (o *ClusterTask) SetProgress(v string) {
 	o.Progress = v
 }
-
 
 // GetTaskProgresses returns the TaskProgresses field value if set, zero value otherwise.
 func (o *ClusterTask) GetTaskProgresses() ClusterTaskProgresses {
@@ -307,7 +295,6 @@ func (o *ClusterTask) SetTaskProgresses(v ClusterTaskProgresses) {
 	o.TaskProgresses = &v
 }
 
-
 // GetTaskDetails returns the TaskDetails field value if set, zero value otherwise.
 func (o *ClusterTask) GetTaskDetails() ClusterTaskDetails {
 	if o == nil || o.TaskDetails == nil {
@@ -335,7 +322,6 @@ func (o *ClusterTask) HasTaskDetails() bool {
 func (o *ClusterTask) SetTaskDetails(v ClusterTaskDetails) {
 	o.TaskDetails = &v
 }
-
 
 // GetOpsLog returns the OpsLog field value if set, zero value otherwise.
 func (o *ClusterTask) GetOpsLog() string {
@@ -365,7 +351,6 @@ func (o *ClusterTask) SetOpsLog(v string) {
 	o.OpsLog = &v
 }
 
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *ClusterTask) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -393,7 +378,6 @@ func (o *ClusterTask) HasDescription() bool {
 func (o *ClusterTask) SetDescription(v string) {
 	o.Description = &v
 }
-
 
 // GetStartTime returns the StartTime field value if set, zero value otherwise.
 func (o *ClusterTask) GetStartTime() time.Time {
@@ -423,7 +407,6 @@ func (o *ClusterTask) SetStartTime(v time.Time) {
 	o.StartTime = &v
 }
 
-
 // GetCompletionTime returns the CompletionTime field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterTask) GetCompletionTime() time.Time {
 	if o == nil || o.CompletionTime.Get() == nil {
@@ -437,7 +420,7 @@ func (o *ClusterTask) GetCompletionTime() time.Time {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterTask) GetCompletionTimeOk() (*time.Time, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.CompletionTime.Get(), o.CompletionTime.IsSet()
@@ -452,6 +435,7 @@ func (o *ClusterTask) HasCompletionTime() bool {
 func (o *ClusterTask) SetCompletionTime(v time.Time) {
 	o.CompletionTime.Set(&v)
 }
+
 // SetCompletionTimeNil sets the value for CompletionTime to be an explicit nil.
 func (o *ClusterTask) SetCompletionTimeNil() {
 	o.CompletionTime.Set(nil)
@@ -461,8 +445,6 @@ func (o *ClusterTask) SetCompletionTimeNil() {
 func (o *ClusterTask) UnsetCompletionTime() {
 	o.CompletionTime.Unset()
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterTask) MarshalJSON() ([]byte, error) {
@@ -516,20 +498,20 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		Name *string `json:"name"`
-		Namespace *string `json:"namespace"`
-		OrgName *string `json:"orgName,omitempty"`
-		ClusterName *string `json:"clusterName,omitempty"`
-		Status *string `json:"status"`
-		TaskType *string `json:"taskType"`
-		Progress *string `json:"progress"`
+		Id             *string                `json:"id,omitempty"`
+		Name           *string                `json:"name"`
+		Namespace      *string                `json:"namespace"`
+		OrgName        *string                `json:"orgName,omitempty"`
+		ClusterName    *string                `json:"clusterName,omitempty"`
+		Status         *string                `json:"status"`
+		TaskType       *string                `json:"taskType"`
+		Progress       *string                `json:"progress"`
 		TaskProgresses *ClusterTaskProgresses `json:"taskProgresses,omitempty"`
-		TaskDetails *ClusterTaskDetails `json:"taskDetails,omitempty"`
-		OpsLog *string `json:"opsLog,omitempty"`
-		Description *string `json:"description,omitempty"`
-		StartTime *time.Time `json:"startTime,omitempty"`
-		CompletionTime common.NullableTime `json:"completionTime,omitempty"`
+		TaskDetails    *ClusterTaskDetails    `json:"taskDetails,omitempty"`
+		OpsLog         *string                `json:"opsLog,omitempty"`
+		Description    *string                `json:"description,omitempty"`
+		StartTime      *time.Time             `json:"startTime,omitempty"`
+		CompletionTime common.NullableTime    `json:"completionTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -551,7 +533,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "name", "namespace", "orgName", "clusterName", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "description", "startTime", "completionTime",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "orgName", "clusterName", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "description", "startTime", "completionTime"})
 	} else {
 		return err
 	}
@@ -565,11 +547,11 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.Status = *all.Status
 	o.TaskType = *all.TaskType
 	o.Progress = *all.Progress
-	if  all.TaskProgresses != nil && all.TaskProgresses.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.TaskProgresses != nil && all.TaskProgresses.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.TaskProgresses = all.TaskProgresses
-	if  all.TaskDetails != nil && all.TaskDetails.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.TaskDetails != nil && all.TaskDetails.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.TaskDetails = all.TaskDetails

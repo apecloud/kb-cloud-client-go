@@ -2,32 +2,26 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type Partition struct {
-	Id int32 `json:"id"`
-	Leader BrokerNode `json:"leader"`
+	Id       int32        `json:"id"`
+	Leader   BrokerNode   `json:"leader"`
 	Replicas []BrokerNode `json:"replicas,omitempty"`
 	// In-Sync Replicas
-	Isr []BrokerNode `json:"isr,omitempty"`
-	BeginningOffset *int64 `json:"beginningOffset,omitempty"`
-	EndOffset *int64 `json:"endOffset,omitempty"`
+	Isr             []BrokerNode `json:"isr,omitempty"`
+	BeginningOffset *int64       `json:"beginningOffset,omitempty"`
+	EndOffset       *int64       `json:"endOffset,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewPartition instantiates a new Partition object.
 // This constructor will assign default values to properties that have it defined,
@@ -47,6 +41,7 @@ func NewPartitionWithDefaults() *Partition {
 	this := Partition{}
 	return &this
 }
+
 // GetId returns the Id field value.
 func (o *Partition) GetId() int32 {
 	if o == nil {
@@ -70,7 +65,6 @@ func (o *Partition) SetId(v int32) {
 	o.Id = v
 }
 
-
 // GetLeader returns the Leader field value.
 func (o *Partition) GetLeader() BrokerNode {
 	if o == nil {
@@ -93,7 +87,6 @@ func (o *Partition) GetLeaderOk() (*BrokerNode, bool) {
 func (o *Partition) SetLeader(v BrokerNode) {
 	o.Leader = v
 }
-
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *Partition) GetReplicas() []BrokerNode {
@@ -123,7 +116,6 @@ func (o *Partition) SetReplicas(v []BrokerNode) {
 	o.Replicas = v
 }
 
-
 // GetIsr returns the Isr field value if set, zero value otherwise.
 func (o *Partition) GetIsr() []BrokerNode {
 	if o == nil || o.Isr == nil {
@@ -151,7 +143,6 @@ func (o *Partition) HasIsr() bool {
 func (o *Partition) SetIsr(v []BrokerNode) {
 	o.Isr = v
 }
-
 
 // GetBeginningOffset returns the BeginningOffset field value if set, zero value otherwise.
 func (o *Partition) GetBeginningOffset() int64 {
@@ -181,7 +172,6 @@ func (o *Partition) SetBeginningOffset(v int64) {
 	o.BeginningOffset = &v
 }
 
-
 // GetEndOffset returns the EndOffset field value if set, zero value otherwise.
 func (o *Partition) GetEndOffset() int64 {
 	if o == nil || o.EndOffset == nil {
@@ -209,8 +199,6 @@ func (o *Partition) HasEndOffset() bool {
 func (o *Partition) SetEndOffset(v int64) {
 	o.EndOffset = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o Partition) MarshalJSON() ([]byte, error) {
@@ -242,12 +230,12 @@ func (o Partition) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Partition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *int32 `json:"id"`
-		Leader *BrokerNode `json:"leader"`
-		Replicas []BrokerNode `json:"replicas,omitempty"`
-		Isr []BrokerNode `json:"isr,omitempty"`
-		BeginningOffset *int64 `json:"beginningOffset,omitempty"`
-		EndOffset *int64 `json:"endOffset,omitempty"`
+		Id              *int32       `json:"id"`
+		Leader          *BrokerNode  `json:"leader"`
+		Replicas        []BrokerNode `json:"replicas,omitempty"`
+		Isr             []BrokerNode `json:"isr,omitempty"`
+		BeginningOffset *int64       `json:"beginningOffset,omitempty"`
+		EndOffset       *int64       `json:"endOffset,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -260,7 +248,7 @@ func (o *Partition) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "leader", "replicas", "isr", "beginningOffset", "endOffset",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "leader", "replicas", "isr", "beginningOffset", "endOffset"})
 	} else {
 		return err
 	}

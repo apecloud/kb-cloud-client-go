@@ -2,27 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
-
-
 
 type OffsetResetStrategy string
 
 // List of OffsetResetStrategy.
 const (
-	OffsetResetStrategyEarliest OffsetResetStrategy = "EARLIEST"
-	OffsetResetStrategyLatest OffsetResetStrategy = "LATEST"
+	OffsetResetStrategyEarliest  OffsetResetStrategy = "EARLIEST"
+	OffsetResetStrategyLatest    OffsetResetStrategy = "LATEST"
 	OffsetResetStrategyTimestamp OffsetResetStrategy = "TIMESTAMP"
-	OffsetResetStrategyAbsolute OffsetResetStrategy = "ABSOLUTE"
+	OffsetResetStrategyAbsolute  OffsetResetStrategy = "ABSOLUTE"
 )
 
 var allowedOffsetResetStrategyEnumValues = []OffsetResetStrategy{

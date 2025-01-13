@@ -2,20 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
-	"fmt"
+	"time"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// ClusterTaskDetail taskCondition is the information of the task condition 
+// ClusterTaskDetail taskCondition is the information of the task condition
 type ClusterTaskDetail struct {
 	// reason of the task condition
 	Reason *string `json:"reason,omitempty"`
@@ -28,10 +23,9 @@ type ClusterTaskDetail struct {
 	// last transition time of the task condition
 	LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewClusterTaskDetail instantiates a new ClusterTaskDetail object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +43,7 @@ func NewClusterTaskDetailWithDefaults() *ClusterTaskDetail {
 	this := ClusterTaskDetail{}
 	return &this
 }
+
 // GetReason returns the Reason field value if set, zero value otherwise.
 func (o *ClusterTaskDetail) GetReason() string {
 	if o == nil || o.Reason == nil {
@@ -76,7 +71,6 @@ func (o *ClusterTaskDetail) HasReason() bool {
 func (o *ClusterTaskDetail) SetReason(v string) {
 	o.Reason = &v
 }
-
 
 // GetType returns the Type field value if set, zero value otherwise.
 func (o *ClusterTaskDetail) GetType() string {
@@ -106,7 +100,6 @@ func (o *ClusterTaskDetail) SetType(v string) {
 	o.Type = &v
 }
 
-
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *ClusterTaskDetail) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -134,7 +127,6 @@ func (o *ClusterTaskDetail) HasStatus() bool {
 func (o *ClusterTaskDetail) SetStatus(v string) {
 	o.Status = &v
 }
-
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *ClusterTaskDetail) GetMessage() string {
@@ -164,7 +156,6 @@ func (o *ClusterTaskDetail) SetMessage(v string) {
 	o.Message = &v
 }
 
-
 // GetLastTransitionTime returns the LastTransitionTime field value if set, zero value otherwise.
 func (o *ClusterTaskDetail) GetLastTransitionTime() time.Time {
 	if o == nil || o.LastTransitionTime == nil {
@@ -192,8 +183,6 @@ func (o *ClusterTaskDetail) HasLastTransitionTime() bool {
 func (o *ClusterTaskDetail) SetLastTransitionTime(v time.Time) {
 	o.LastTransitionTime = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterTaskDetail) MarshalJSON() ([]byte, error) {
@@ -230,10 +219,10 @@ func (o ClusterTaskDetail) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Reason *string `json:"reason,omitempty"`
-		Type *string `json:"type,omitempty"`
-		Status *string `json:"status,omitempty"`
-		Message *string `json:"message,omitempty"`
+		Reason             *string    `json:"reason,omitempty"`
+		Type               *string    `json:"type,omitempty"`
+		Status             *string    `json:"status,omitempty"`
+		Message            *string    `json:"message,omitempty"`
 		LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -241,7 +230,7 @@ func (o *ClusterTaskDetail) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "reason", "type", "status", "message", "lastTransitionTime",  })
+		common.DeleteKeys(additionalProperties, &[]string{"reason", "type", "status", "message", "lastTransitionTime"})
 	} else {
 		return err
 	}

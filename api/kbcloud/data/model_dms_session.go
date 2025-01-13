@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type DmsSession struct {
 	// session id
 	Id *string `json:"id,omitempty"`
@@ -39,10 +30,9 @@ type DmsSession struct {
 	// port
 	Port *string `json:"port,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewDmsSession instantiates a new DmsSession object.
 // This constructor will assign default values to properties that have it defined,
@@ -60,6 +50,7 @@ func NewDmsSessionWithDefaults() *DmsSession {
 	this := DmsSession{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *DmsSession) GetId() string {
 	if o == nil || o.Id == nil {
@@ -87,7 +78,6 @@ func (o *DmsSession) HasId() bool {
 func (o *DmsSession) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetUser returns the User field value if set, zero value otherwise.
 func (o *DmsSession) GetUser() string {
@@ -117,7 +107,6 @@ func (o *DmsSession) SetUser(v string) {
 	o.User = &v
 }
 
-
 // GetTenant returns the Tenant field value if set, zero value otherwise.
 func (o *DmsSession) GetTenant() string {
 	if o == nil || o.Tenant == nil {
@@ -145,7 +134,6 @@ func (o *DmsSession) HasTenant() bool {
 func (o *DmsSession) SetTenant(v string) {
 	o.Tenant = &v
 }
-
 
 // GetHost returns the Host field value if set, zero value otherwise.
 func (o *DmsSession) GetHost() string {
@@ -175,7 +163,6 @@ func (o *DmsSession) SetHost(v string) {
 	o.Host = &v
 }
 
-
 // GetDb returns the Db field value if set, zero value otherwise.
 func (o *DmsSession) GetDb() string {
 	if o == nil || o.Db == nil {
@@ -203,7 +190,6 @@ func (o *DmsSession) HasDb() bool {
 func (o *DmsSession) SetDb(v string) {
 	o.Db = &v
 }
-
 
 // GetCommand returns the Command field value if set, zero value otherwise.
 func (o *DmsSession) GetCommand() string {
@@ -233,7 +219,6 @@ func (o *DmsSession) SetCommand(v string) {
 	o.Command = &v
 }
 
-
 // GetTime returns the Time field value if set, zero value otherwise.
 func (o *DmsSession) GetTime() string {
 	if o == nil || o.Time == nil {
@@ -261,7 +246,6 @@ func (o *DmsSession) HasTime() bool {
 func (o *DmsSession) SetTime(v string) {
 	o.Time = &v
 }
-
 
 // GetState returns the State field value if set, zero value otherwise.
 func (o *DmsSession) GetState() string {
@@ -291,7 +275,6 @@ func (o *DmsSession) SetState(v string) {
 	o.State = &v
 }
 
-
 // GetInfo returns the Info field value if set, zero value otherwise.
 func (o *DmsSession) GetInfo() string {
 	if o == nil || o.Info == nil {
@@ -319,7 +302,6 @@ func (o *DmsSession) HasInfo() bool {
 func (o *DmsSession) SetInfo(v string) {
 	o.Info = &v
 }
-
 
 // GetIp returns the Ip field value if set, zero value otherwise.
 func (o *DmsSession) GetIp() string {
@@ -349,7 +331,6 @@ func (o *DmsSession) SetIp(v string) {
 	o.Ip = &v
 }
 
-
 // GetPort returns the Port field value if set, zero value otherwise.
 func (o *DmsSession) GetPort() string {
 	if o == nil || o.Port == nil {
@@ -377,8 +358,6 @@ func (o *DmsSession) HasPort() bool {
 func (o *DmsSession) SetPort(v string) {
 	o.Port = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o DmsSession) MarshalJSON() ([]byte, error) {
@@ -429,24 +408,24 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
-		User *string `json:"user,omitempty"`
-		Tenant *string `json:"tenant,omitempty"`
-		Host *string `json:"host,omitempty"`
-		Db *string `json:"db,omitempty"`
+		Id      *string `json:"id,omitempty"`
+		User    *string `json:"user,omitempty"`
+		Tenant  *string `json:"tenant,omitempty"`
+		Host    *string `json:"host,omitempty"`
+		Db      *string `json:"db,omitempty"`
 		Command *string `json:"command,omitempty"`
-		Time *string `json:"time,omitempty"`
-		State *string `json:"state,omitempty"`
-		Info *string `json:"info,omitempty"`
-		Ip *string `json:"ip,omitempty"`
-		Port *string `json:"port,omitempty"`
+		Time    *string `json:"time,omitempty"`
+		State   *string `json:"state,omitempty"`
+		Info    *string `json:"info,omitempty"`
+		Ip      *string `json:"ip,omitempty"`
+		Port    *string `json:"port,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "user", "tenant", "host", "db", "command", "time", "state", "info", "ip", "port",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "user", "tenant", "host", "db", "command", "time", "state", "info", "ip", "port"})
 	} else {
 		return err
 	}

@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
- 
 type CreateTopicRequest struct {
-	Name string `json:"name"`
-	Partitions int32 `json:"partitions"`
-	ReplicationFactor int32 `json:"replicationFactor"`
+	Name              string `json:"name"`
+	Partitions        int32  `json:"partitions"`
+	ReplicationFactor int32  `json:"replicationFactor"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewCreateTopicRequest instantiates a new CreateTopicRequest object.
 // This constructor will assign default values to properties that have it defined,
@@ -44,6 +38,7 @@ func NewCreateTopicRequestWithDefaults() *CreateTopicRequest {
 	this := CreateTopicRequest{}
 	return &this
 }
+
 // GetName returns the Name field value.
 func (o *CreateTopicRequest) GetName() string {
 	if o == nil {
@@ -66,7 +61,6 @@ func (o *CreateTopicRequest) GetNameOk() (*string, bool) {
 func (o *CreateTopicRequest) SetName(v string) {
 	o.Name = v
 }
-
 
 // GetPartitions returns the Partitions field value.
 func (o *CreateTopicRequest) GetPartitions() int32 {
@@ -91,7 +85,6 @@ func (o *CreateTopicRequest) SetPartitions(v int32) {
 	o.Partitions = v
 }
 
-
 // GetReplicationFactor returns the ReplicationFactor field value.
 func (o *CreateTopicRequest) GetReplicationFactor() int32 {
 	if o == nil {
@@ -115,8 +108,6 @@ func (o *CreateTopicRequest) SetReplicationFactor(v int32) {
 	o.ReplicationFactor = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o CreateTopicRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -136,9 +127,9 @@ func (o CreateTopicRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CreateTopicRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
-		Partitions *int32 `json:"partitions"`
-		ReplicationFactor *int32 `json:"replicationFactor"`
+		Name              *string `json:"name"`
+		Partitions        *int32  `json:"partitions"`
+		ReplicationFactor *int32  `json:"replicationFactor"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -154,7 +145,7 @@ func (o *CreateTopicRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "name", "partitions", "replicationFactor",  })
+		common.DeleteKeys(additionalProperties, &[]string{"name", "partitions", "replicationFactor"})
 	} else {
 		return err
 	}

@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type TopicOffset struct {
 	// 主题名称
 	Topic *string `json:"topic,omitempty"`
@@ -29,10 +20,9 @@ type TopicOffset struct {
 	// 消费者组ID
 	GroupId *string `json:"groupId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTopicOffset instantiates a new TopicOffset object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +40,7 @@ func NewTopicOffsetWithDefaults() *TopicOffset {
 	this := TopicOffset{}
 	return &this
 }
+
 // GetTopic returns the Topic field value if set, zero value otherwise.
 func (o *TopicOffset) GetTopic() string {
 	if o == nil || o.Topic == nil {
@@ -77,7 +68,6 @@ func (o *TopicOffset) HasTopic() bool {
 func (o *TopicOffset) SetTopic(v string) {
 	o.Topic = &v
 }
-
 
 // GetPartition returns the Partition field value if set, zero value otherwise.
 func (o *TopicOffset) GetPartition() int32 {
@@ -107,7 +97,6 @@ func (o *TopicOffset) SetPartition(v int32) {
 	o.Partition = &v
 }
 
-
 // GetConsumerOffset returns the ConsumerOffset field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *TopicOffset) GetConsumerOffset() int64 {
 	if o == nil || o.ConsumerOffset.Get() == nil {
@@ -121,7 +110,7 @@ func (o *TopicOffset) GetConsumerOffset() int64 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *TopicOffset) GetConsumerOffsetOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.ConsumerOffset.Get(), o.ConsumerOffset.IsSet()
@@ -136,6 +125,7 @@ func (o *TopicOffset) HasConsumerOffset() bool {
 func (o *TopicOffset) SetConsumerOffset(v int64) {
 	o.ConsumerOffset.Set(&v)
 }
+
 // SetConsumerOffsetNil sets the value for ConsumerOffset to be an explicit nil.
 func (o *TopicOffset) SetConsumerOffsetNil() {
 	o.ConsumerOffset.Set(nil)
@@ -145,7 +135,6 @@ func (o *TopicOffset) SetConsumerOffsetNil() {
 func (o *TopicOffset) UnsetConsumerOffset() {
 	o.ConsumerOffset.Unset()
 }
-
 
 // GetBeginningOffset returns the BeginningOffset field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *TopicOffset) GetBeginningOffset() int64 {
@@ -160,7 +149,7 @@ func (o *TopicOffset) GetBeginningOffset() int64 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *TopicOffset) GetBeginningOffsetOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.BeginningOffset.Get(), o.BeginningOffset.IsSet()
@@ -175,6 +164,7 @@ func (o *TopicOffset) HasBeginningOffset() bool {
 func (o *TopicOffset) SetBeginningOffset(v int64) {
 	o.BeginningOffset.Set(&v)
 }
+
 // SetBeginningOffsetNil sets the value for BeginningOffset to be an explicit nil.
 func (o *TopicOffset) SetBeginningOffsetNil() {
 	o.BeginningOffset.Set(nil)
@@ -184,7 +174,6 @@ func (o *TopicOffset) SetBeginningOffsetNil() {
 func (o *TopicOffset) UnsetBeginningOffset() {
 	o.BeginningOffset.Unset()
 }
-
 
 // GetEndOffset returns the EndOffset field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *TopicOffset) GetEndOffset() int64 {
@@ -199,7 +188,7 @@ func (o *TopicOffset) GetEndOffset() int64 {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *TopicOffset) GetEndOffsetOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.EndOffset.Get(), o.EndOffset.IsSet()
@@ -214,6 +203,7 @@ func (o *TopicOffset) HasEndOffset() bool {
 func (o *TopicOffset) SetEndOffset(v int64) {
 	o.EndOffset.Set(&v)
 }
+
 // SetEndOffsetNil sets the value for EndOffset to be an explicit nil.
 func (o *TopicOffset) SetEndOffsetNil() {
 	o.EndOffset.Set(nil)
@@ -223,7 +213,6 @@ func (o *TopicOffset) SetEndOffsetNil() {
 func (o *TopicOffset) UnsetEndOffset() {
 	o.EndOffset.Unset()
 }
-
 
 // GetGroupId returns the GroupId field value if set, zero value otherwise.
 func (o *TopicOffset) GetGroupId() string {
@@ -252,8 +241,6 @@ func (o *TopicOffset) HasGroupId() bool {
 func (o *TopicOffset) SetGroupId(v string) {
 	o.GroupId = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o TopicOffset) MarshalJSON() ([]byte, error) {
@@ -289,19 +276,19 @@ func (o TopicOffset) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TopicOffset) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Topic *string `json:"topic,omitempty"`
-		Partition *int32 `json:"partition,omitempty"`
-		ConsumerOffset common.NullableInt64 `json:"consumerOffset,omitempty"`
+		Topic           *string              `json:"topic,omitempty"`
+		Partition       *int32               `json:"partition,omitempty"`
+		ConsumerOffset  common.NullableInt64 `json:"consumerOffset,omitempty"`
 		BeginningOffset common.NullableInt64 `json:"beginningOffset,omitempty"`
-		EndOffset common.NullableInt64 `json:"endOffset,omitempty"`
-		GroupId *string `json:"groupId,omitempty"`
+		EndOffset       common.NullableInt64 `json:"endOffset,omitempty"`
+		GroupId         *string              `json:"groupId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "topic", "partition", "consumerOffset", "beginningOffset", "endOffset", "groupId",  })
+		common.DeleteKeys(additionalProperties, &[]string{"topic", "partition", "consumerOffset", "beginningOffset", "endOffset", "groupId"})
 	} else {
 		return err
 	}

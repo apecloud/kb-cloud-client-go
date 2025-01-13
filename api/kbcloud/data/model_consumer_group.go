@@ -2,29 +2,19 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ConsumerGroup struct {
-	GroupId *string `json:"groupId,omitempty"`
-	State *string `json:"state,omitempty"`
-	Lag *int64 `json:"lag,omitempty"`
-	Topics []string `json:"topics,omitempty"`
+	GroupId *string  `json:"groupId,omitempty"`
+	State   *string  `json:"state,omitempty"`
+	Lag     *int64   `json:"lag,omitempty"`
+	Topics  []string `json:"topics,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewConsumerGroup instantiates a new ConsumerGroup object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +32,7 @@ func NewConsumerGroupWithDefaults() *ConsumerGroup {
 	this := ConsumerGroup{}
 	return &this
 }
+
 // GetGroupId returns the GroupId field value if set, zero value otherwise.
 func (o *ConsumerGroup) GetGroupId() string {
 	if o == nil || o.GroupId == nil {
@@ -69,7 +60,6 @@ func (o *ConsumerGroup) HasGroupId() bool {
 func (o *ConsumerGroup) SetGroupId(v string) {
 	o.GroupId = &v
 }
-
 
 // GetState returns the State field value if set, zero value otherwise.
 func (o *ConsumerGroup) GetState() string {
@@ -99,7 +89,6 @@ func (o *ConsumerGroup) SetState(v string) {
 	o.State = &v
 }
 
-
 // GetLag returns the Lag field value if set, zero value otherwise.
 func (o *ConsumerGroup) GetLag() int64 {
 	if o == nil || o.Lag == nil {
@@ -127,7 +116,6 @@ func (o *ConsumerGroup) HasLag() bool {
 func (o *ConsumerGroup) SetLag(v int64) {
 	o.Lag = &v
 }
-
 
 // GetTopics returns the Topics field value if set, zero value otherwise.
 func (o *ConsumerGroup) GetTopics() []string {
@@ -157,8 +145,6 @@ func (o *ConsumerGroup) SetTopics(v []string) {
 	o.Topics = v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ConsumerGroup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -187,17 +173,17 @@ func (o ConsumerGroup) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ConsumerGroup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		GroupId *string `json:"groupId,omitempty"`
-		State *string `json:"state,omitempty"`
-		Lag *int64 `json:"lag,omitempty"`
-		Topics []string `json:"topics,omitempty"`
+		GroupId *string  `json:"groupId,omitempty"`
+		State   *string  `json:"state,omitempty"`
+		Lag     *int64   `json:"lag,omitempty"`
+		Topics  []string `json:"topics,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "groupId", "state", "lag", "topics",  })
+		common.DeleteKeys(additionalProperties, &[]string{"groupId", "state", "lag", "topics"})
 	} else {
 		return err
 	}

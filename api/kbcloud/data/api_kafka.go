@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -23,11 +19,9 @@ type KafkaApi common.Service
 // BatchDeleteKafkaTopics Batch delete topics.
 func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, clusterName string, body BatchDeleteKafkaTopicsRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.BatchDeleteKafkaTopics")
 	if err != nil {
@@ -42,13 +36,11 @@ func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, 
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] =  "*/*"
-
-	
+	localVarHeaderParams["Accept"] = "*/*"
 
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -70,11 +62,10 @@ func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -91,12 +82,10 @@ func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, 
 // CreateKafkaTopic Create new topic.
 func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, clusterName string, body CreateTopicRequest) (Topic, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  Topic
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Topic
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.CreateKafkaTopic")
 	if err != nil {
@@ -113,11 +102,9 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -139,11 +126,10 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -157,7 +143,7 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -169,11 +155,9 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 // DeleteKafkaConsumerGroup Delete consumer group.
 func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string, clusterName string, groupId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.DeleteKafkaConsumerGroup")
 	if err != nil {
@@ -190,8 +174,7 @@ func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -213,11 +196,10 @@ func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -234,11 +216,9 @@ func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string
 // DeleteKafkaTopic Delete topic.
 func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, clusterName string, topic string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.DeleteKafkaTopic")
 	if err != nil {
@@ -255,8 +235,7 @@ func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, cluste
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -278,11 +257,10 @@ func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, cluste
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -299,11 +277,9 @@ func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, cluste
 // ExpandKafkaTopicPartitions expand topic partition.
 func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName string, clusterName string, topic string, body ExpandPartitionRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ExpandKafkaTopicPartitions")
 	if err != nil {
@@ -321,11 +297,9 @@ func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName stri
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -347,11 +321,10 @@ func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -368,12 +341,10 @@ func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName stri
 // GetKafkaBrokerConfigs Get all configs of a broker.
 func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, clusterName string, brokerId int32) ([]ConfigEntry, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []ConfigEntry
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []ConfigEntry
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaBrokerConfigs")
 	if err != nil {
@@ -390,8 +361,7 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -413,11 +383,10 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -431,7 +400,7 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -443,12 +412,10 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 // GetKafkaBrokers Get all brokers in cluster.
 func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, clusterName string) ([]Broker, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []Broker
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []Broker
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaBrokers")
 	if err != nil {
@@ -464,8 +431,7 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -487,11 +453,10 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -505,7 +470,7 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -517,12 +482,10 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 // GetKafkaConsumerGroupDescribe Get consumer group describe.
 func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName string, clusterName string, groupId string) (ConsumerGroupDescribe, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  ConsumerGroupDescribe
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue ConsumerGroupDescribe
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaConsumerGroupDescribe")
 	if err != nil {
@@ -539,8 +502,7 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -562,11 +524,10 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -580,7 +541,7 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -592,12 +553,10 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 // GetKafkaTopicBrokers Get broker distributions of topic.
 func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, clusterName string, topic string) ([]Broker, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []Broker
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []Broker
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicBrokers")
 	if err != nil {
@@ -614,8 +573,7 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -637,11 +595,10 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -655,7 +612,7 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -667,12 +624,10 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 // GetKafkaTopicConfig Get topic configuration.
 func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clusterName string, topic string) ([][]ConfigEntry, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  [][]ConfigEntry
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue [][]ConfigEntry
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicConfig")
 	if err != nil {
@@ -689,8 +644,7 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -712,11 +666,10 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -730,7 +683,7 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -742,12 +695,10 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 // GetKafkaTopicInfos Get topic Infos.
 func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clusterName string, topic string) (TopicDetails, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  TopicDetails
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue TopicDetails
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicInfos")
 	if err != nil {
@@ -764,8 +715,7 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -787,11 +737,10 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -805,7 +754,7 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -817,12 +766,10 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 // GetKafkaTopicPartitions Get partition list of topic.
 func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string, clusterName string, topic string) ([]Partition, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []Partition
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []Partition
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicPartitions")
 	if err != nil {
@@ -839,8 +786,7 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -862,11 +808,10 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -880,7 +825,7 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -892,7 +837,7 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 // GetKafkaTopicsOptionalParameters holds optional parameters for GetKafkaTopics.
 type GetKafkaTopicsOptionalParameters struct {
 	NameFilter *string
-	OnlyNames *bool
+	OnlyNames  *bool
 }
 
 // NewGetKafkaTopicsOptionalParameters creates an empty struct for parameters.
@@ -900,11 +845,13 @@ func NewGetKafkaTopicsOptionalParameters() *GetKafkaTopicsOptionalParameters {
 	this := GetKafkaTopicsOptionalParameters{}
 	return &this
 }
+
 // WithNameFilter sets the corresponding parameter name and returns the struct.
 func (r *GetKafkaTopicsOptionalParameters) WithNameFilter(nameFilter string) *GetKafkaTopicsOptionalParameters {
 	r.NameFilter = &nameFilter
 	return r
 }
+
 // WithOnlyNames sets the corresponding parameter name and returns the struct.
 func (r *GetKafkaTopicsOptionalParameters) WithOnlyNames(onlyNames bool) *GetKafkaTopicsOptionalParameters {
 	r.OnlyNames = &onlyNames
@@ -914,20 +861,18 @@ func (r *GetKafkaTopicsOptionalParameters) WithOnlyNames(onlyNames bool) *GetKaf
 // GetKafkaTopics Get all topics in cluster.
 func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterName string, o ...GetKafkaTopicsOptionalParameters) (TopicsList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  TopicsList
-		optionalParams GetKafkaTopicsOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue TopicsList
+		optionalParams      GetKafkaTopicsOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type GetKafkaTopicsOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetKafkaTopicsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopics")
 	if err != nil {
@@ -949,8 +894,7 @@ func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterN
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -972,11 +916,10 @@ func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterN
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -990,7 +933,7 @@ func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterN
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1009,6 +952,7 @@ func NewListKafkaConsumerGroupsOptionalParameters() *ListKafkaConsumerGroupsOpti
 	this := ListKafkaConsumerGroupsOptionalParameters{}
 	return &this
 }
+
 // WithGroupId sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaConsumerGroupsOptionalParameters) WithGroupId(groupId string) *ListKafkaConsumerGroupsOptionalParameters {
 	r.GroupId = &groupId
@@ -1018,20 +962,18 @@ func (r *ListKafkaConsumerGroupsOptionalParameters) WithGroupId(groupId string) 
 // ListKafkaConsumerGroups List all consumer groups.
 func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string, clusterName string, o ...ListKafkaConsumerGroupsOptionalParameters) ([]ConsumerGroup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []ConsumerGroup
-		optionalParams ListKafkaConsumerGroupsOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []ConsumerGroup
+		optionalParams      ListKafkaConsumerGroupsOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListKafkaConsumerGroupsOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListKafkaConsumerGroupsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaConsumerGroups")
 	if err != nil {
@@ -1050,8 +992,7 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1073,11 +1014,10 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1091,7 +1031,7 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1103,12 +1043,10 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 // ListKafkaTopicConsumerGroups List consumer groups of topic.
 func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName string, clusterName string, topic string) ([]ConsumerGroup, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []ConsumerGroup
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []ConsumerGroup
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicConsumerGroups")
 	if err != nil {
@@ -1125,8 +1063,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName st
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1149,7 +1086,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName st
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1161,12 +1098,10 @@ func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName st
 // ListKafkaTopicConsumerOffsets List consumer offsets of topic.
 func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName string, clusterName string, topic string, groupId string) ([]TopicOffset, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []TopicOffset
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []TopicOffset
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicConsumerOffsets")
 	if err != nil {
@@ -1184,8 +1119,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1207,11 +1141,10 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1225,7 +1158,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1236,8 +1169,8 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 
 // ListKafkaTopicMessagesOptionalParameters holds optional parameters for ListKafkaTopicMessages.
 type ListKafkaTopicMessagesOptionalParameters struct {
-	Count *int32
-	KeyFilter *string
+	Count       *int32
+	KeyFilter   *string
 	ValueFilter *string
 }
 
@@ -1246,16 +1179,19 @@ func NewListKafkaTopicMessagesOptionalParameters() *ListKafkaTopicMessagesOption
 	this := ListKafkaTopicMessagesOptionalParameters{}
 	return &this
 }
+
 // WithCount sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaTopicMessagesOptionalParameters) WithCount(count int32) *ListKafkaTopicMessagesOptionalParameters {
 	r.Count = &count
 	return r
 }
+
 // WithKeyFilter sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaTopicMessagesOptionalParameters) WithKeyFilter(keyFilter string) *ListKafkaTopicMessagesOptionalParameters {
 	r.KeyFilter = &keyFilter
 	return r
 }
+
 // WithValueFilter sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaTopicMessagesOptionalParameters) WithValueFilter(valueFilter string) *ListKafkaTopicMessagesOptionalParameters {
 	r.ValueFilter = &valueFilter
@@ -1265,20 +1201,18 @@ func (r *ListKafkaTopicMessagesOptionalParameters) WithValueFilter(valueFilter s
 // ListKafkaTopicMessages List messages from topic.
 func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, clusterName string, topic string, partition int32, offset int32, o ...ListKafkaTopicMessagesOptionalParameters) ([]TopicMessage, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []TopicMessage
-		optionalParams ListKafkaTopicMessagesOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []TopicMessage
+		optionalParams      ListKafkaTopicMessagesOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListKafkaTopicMessagesOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListKafkaTopicMessagesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicMessages")
 	if err != nil {
@@ -1306,8 +1240,7 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1329,11 +1262,10 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1347,7 +1279,7 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1358,8 +1290,8 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 
 // ListKafkaTopicMessagesLiveOptionalParameters holds optional parameters for ListKafkaTopicMessagesLive.
 type ListKafkaTopicMessagesLiveOptionalParameters struct {
-	Partition *int32
-	KeyFilter *string
+	Partition   *int32
+	KeyFilter   *string
 	ValueFilter *string
 }
 
@@ -1368,16 +1300,19 @@ func NewListKafkaTopicMessagesLiveOptionalParameters() *ListKafkaTopicMessagesLi
 	this := ListKafkaTopicMessagesLiveOptionalParameters{}
 	return &this
 }
+
 // WithPartition sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaTopicMessagesLiveOptionalParameters) WithPartition(partition int32) *ListKafkaTopicMessagesLiveOptionalParameters {
 	r.Partition = &partition
 	return r
 }
+
 // WithKeyFilter sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaTopicMessagesLiveOptionalParameters) WithKeyFilter(keyFilter string) *ListKafkaTopicMessagesLiveOptionalParameters {
 	r.KeyFilter = &keyFilter
 	return r
 }
+
 // WithValueFilter sets the corresponding parameter name and returns the struct.
 func (r *ListKafkaTopicMessagesLiveOptionalParameters) WithValueFilter(valueFilter string) *ListKafkaTopicMessagesLiveOptionalParameters {
 	r.ValueFilter = &valueFilter
@@ -1387,20 +1322,18 @@ func (r *ListKafkaTopicMessagesLiveOptionalParameters) WithValueFilter(valueFilt
 // ListKafkaTopicMessagesLive List live messages of topic.
 func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName string, clusterName string, topic string, o ...ListKafkaTopicMessagesLiveOptionalParameters) (LiveMessage, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  LiveMessage
-		optionalParams ListKafkaTopicMessagesLiveOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue LiveMessage
+		optionalParams      ListKafkaTopicMessagesLiveOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListKafkaTopicMessagesLiveOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListKafkaTopicMessagesLiveOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicMessagesLive")
 	if err != nil {
@@ -1426,8 +1359,7 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1449,11 +1381,10 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1467,7 +1398,7 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1479,12 +1410,10 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 // ProduceKafkaTopicMessage Produce message to topic.
 func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string, clusterName string, topic string, body TopicMessageRequest) (int64, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
-		localVarPostBody     interface{}
-		localVarReturnValue  int64
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue int64
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ProduceKafkaTopicMessage")
 	if err != nil {
@@ -1502,11 +1431,9 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1528,11 +1455,10 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1546,7 +1472,7 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
@@ -1558,11 +1484,9 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 // ResetKafkaTopicConsumerOffset Reset consumer offset of topic.
 func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName string, clusterName string, topic string, groupId string, body ResetOffsetRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPut
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPut
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ResetKafkaTopicConsumerOffset")
 	if err != nil {
@@ -1581,11 +1505,9 @@ func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName s
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1607,11 +1529,10 @@ func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName s
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1628,11 +1549,9 @@ func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName s
 // SetKafkaTopicConfig Update topic configuration.
 func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clusterName string, topic string, body UpdateTopicConfigRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPut
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPut
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.SetKafkaTopicConfig")
 	if err != nil {
@@ -1650,11 +1569,9 @@ func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1676,11 +1593,10 @@ func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1697,11 +1613,9 @@ func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 // UpdateKafkaBrokerConfig Update broker config.
 func (a *KafkaApi) UpdateKafkaBrokerConfig(ctx _context.Context, orgName string, clusterName string, brokerId int32, body UpdateBrokerConfigRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPut
-		localVarPostBody     interface{}
+		localVarHTTPMethod = _nethttp.MethodPut
+		localVarPostBody   interface{}
 	)
-
-    
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.UpdateKafkaBrokerConfig")
 	if err != nil {
@@ -1719,11 +1633,9 @@ func (a *KafkaApi) UpdateKafkaBrokerConfig(ctx _context.Context, orgName string,
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-
 	// body params
 	localVarPostBody = &body
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -1745,11 +1657,10 @@ func (a *KafkaApi) UpdateKafkaBrokerConfig(ctx _context.Context, orgName string,
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 400||localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

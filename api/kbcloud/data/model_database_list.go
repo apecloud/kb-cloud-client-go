@@ -2,28 +2,22 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
+	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-
-
-// DatabaseList DatabaesList is a list of Databaes 
+// DatabaseList DatabaesList is a list of Databaes
 type DatabaseList struct {
 	// Items is the list of Databases objects in the list
 	Items []DatabaseItem `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewDatabaseList instantiates a new DatabaseList object.
 // This constructor will assign default values to properties that have it defined,
@@ -42,6 +36,7 @@ func NewDatabaseListWithDefaults() *DatabaseList {
 	this := DatabaseList{}
 	return &this
 }
+
 // GetItems returns the Items field value.
 func (o *DatabaseList) GetItems() []DatabaseItem {
 	if o == nil {
@@ -64,8 +59,6 @@ func (o *DatabaseList) GetItemsOk() (*[]DatabaseItem, bool) {
 func (o *DatabaseList) SetItems(v []DatabaseItem) {
 	o.Items = v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseList) MarshalJSON() ([]byte, error) {
@@ -94,7 +87,7 @@ func (o *DatabaseList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "items",  })
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}

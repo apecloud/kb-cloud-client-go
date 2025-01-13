@@ -2,20 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
-
-// CustomOpsTask customOpsTask is the information of custom ops task 
+// CustomOpsTask customOpsTask is the information of custom ops task
 type CustomOpsTask struct {
 	// the pod name
 	ObjectKey *string `json:"objectKey,omitempty"`
@@ -28,10 +19,9 @@ type CustomOpsTask struct {
 	// retries of the task
 	Retries *int32 `json:"retries,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewCustomOpsTask instantiates a new CustomOpsTask object.
 // This constructor will assign default values to properties that have it defined,
@@ -49,6 +39,7 @@ func NewCustomOpsTaskWithDefaults() *CustomOpsTask {
 	this := CustomOpsTask{}
 	return &this
 }
+
 // GetObjectKey returns the ObjectKey field value if set, zero value otherwise.
 func (o *CustomOpsTask) GetObjectKey() string {
 	if o == nil || o.ObjectKey == nil {
@@ -76,7 +67,6 @@ func (o *CustomOpsTask) HasObjectKey() bool {
 func (o *CustomOpsTask) SetObjectKey(v string) {
 	o.ObjectKey = &v
 }
-
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
 func (o *CustomOpsTask) GetNamespace() string {
@@ -106,7 +96,6 @@ func (o *CustomOpsTask) SetNamespace(v string) {
 	o.Namespace = &v
 }
 
-
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *CustomOpsTask) GetStatus() string {
 	if o == nil || o.Status == nil {
@@ -134,7 +123,6 @@ func (o *CustomOpsTask) HasStatus() bool {
 func (o *CustomOpsTask) SetStatus(v string) {
 	o.Status = &v
 }
-
 
 // GetTargetPodName returns the TargetPodName field value if set, zero value otherwise.
 func (o *CustomOpsTask) GetTargetPodName() string {
@@ -164,7 +152,6 @@ func (o *CustomOpsTask) SetTargetPodName(v string) {
 	o.TargetPodName = &v
 }
 
-
 // GetRetries returns the Retries field value if set, zero value otherwise.
 func (o *CustomOpsTask) GetRetries() int32 {
 	if o == nil || o.Retries == nil {
@@ -192,8 +179,6 @@ func (o *CustomOpsTask) HasRetries() bool {
 func (o *CustomOpsTask) SetRetries(v int32) {
 	o.Retries = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o CustomOpsTask) MarshalJSON() ([]byte, error) {
@@ -226,18 +211,18 @@ func (o CustomOpsTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *CustomOpsTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ObjectKey *string `json:"objectKey,omitempty"`
-		Namespace *string `json:"namespace,omitempty"`
-		Status *string `json:"status,omitempty"`
+		ObjectKey     *string `json:"objectKey,omitempty"`
+		Namespace     *string `json:"namespace,omitempty"`
+		Status        *string `json:"status,omitempty"`
 		TargetPodName *string `json:"targetPodName,omitempty"`
-		Retries *int32 `json:"retries,omitempty"`
+		Retries       *int32  `json:"retries,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "objectKey", "namespace", "status", "targetPodName", "retries",  })
+		common.DeleteKeys(additionalProperties, &[]string{"objectKey", "namespace", "status", "targetPodName", "retries"})
 	} else {
 		return err
 	}

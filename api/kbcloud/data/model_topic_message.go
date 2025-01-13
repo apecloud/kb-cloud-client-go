@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type TopicMessage struct {
 	// 消息所属的主题
 	Topic *string `json:"topic,omitempty"`
@@ -29,10 +20,9 @@ type TopicMessage struct {
 	// 消息的内容
 	Value *string `json:"value,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewTopicMessage instantiates a new TopicMessage object.
 // This constructor will assign default values to properties that have it defined,
@@ -50,6 +40,7 @@ func NewTopicMessageWithDefaults() *TopicMessage {
 	this := TopicMessage{}
 	return &this
 }
+
 // GetTopic returns the Topic field value if set, zero value otherwise.
 func (o *TopicMessage) GetTopic() string {
 	if o == nil || o.Topic == nil {
@@ -77,7 +68,6 @@ func (o *TopicMessage) HasTopic() bool {
 func (o *TopicMessage) SetTopic(v string) {
 	o.Topic = &v
 }
-
 
 // GetPartition returns the Partition field value if set, zero value otherwise.
 func (o *TopicMessage) GetPartition() int32 {
@@ -107,7 +97,6 @@ func (o *TopicMessage) SetPartition(v int32) {
 	o.Partition = &v
 }
 
-
 // GetOffset returns the Offset field value if set, zero value otherwise.
 func (o *TopicMessage) GetOffset() int64 {
 	if o == nil || o.Offset == nil {
@@ -135,7 +124,6 @@ func (o *TopicMessage) HasOffset() bool {
 func (o *TopicMessage) SetOffset(v int64) {
 	o.Offset = &v
 }
-
 
 // GetTimestamp returns the Timestamp field value if set, zero value otherwise.
 func (o *TopicMessage) GetTimestamp() int64 {
@@ -165,7 +153,6 @@ func (o *TopicMessage) SetTimestamp(v int64) {
 	o.Timestamp = &v
 }
 
-
 // GetKey returns the Key field value if set, zero value otherwise.
 func (o *TopicMessage) GetKey() string {
 	if o == nil || o.Key == nil {
@@ -194,7 +181,6 @@ func (o *TopicMessage) SetKey(v string) {
 	o.Key = &v
 }
 
-
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *TopicMessage) GetValue() string {
 	if o == nil || o.Value == nil {
@@ -222,8 +208,6 @@ func (o *TopicMessage) HasValue() bool {
 func (o *TopicMessage) SetValue(v string) {
 	o.Value = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o TopicMessage) MarshalJSON() ([]byte, error) {
@@ -259,19 +243,19 @@ func (o TopicMessage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TopicMessage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Topic *string `json:"topic,omitempty"`
-		Partition *int32 `json:"partition,omitempty"`
-		Offset *int64 `json:"offset,omitempty"`
-		Timestamp *int64 `json:"timestamp,omitempty"`
-		Key *string `json:"key,omitempty"`
-		Value *string `json:"value,omitempty"`
+		Topic     *string `json:"topic,omitempty"`
+		Partition *int32  `json:"partition,omitempty"`
+		Offset    *int64  `json:"offset,omitempty"`
+		Timestamp *int64  `json:"timestamp,omitempty"`
+		Key       *string `json:"key,omitempty"`
+		Value     *string `json:"value,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "topic", "partition", "offset", "timestamp", "key", "value",  })
+		common.DeleteKeys(additionalProperties, &[]string{"topic", "partition", "offset", "timestamp", "key", "value"})
 	} else {
 		return err
 	}

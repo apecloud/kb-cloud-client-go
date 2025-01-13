@@ -2,17 +2,13 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
 import (
-	"bytes"
 	_context "context"
-	_fmt "fmt"
-	_io "io"
-	_log "log"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -30,6 +26,7 @@ func NewKillSessionOptionalParameters() *KillSessionOptionalParameters {
 	this := KillSessionOptionalParameters{}
 	return &this
 }
+
 // WithKeep sets the corresponding parameter name and returns the struct.
 func (r *KillSessionOptionalParameters) WithKeep(keep bool) *KillSessionOptionalParameters {
 	r.Keep = &keep
@@ -40,19 +37,17 @@ func (r *KillSessionOptionalParameters) WithKeep(keep bool) *KillSessionOptional
 // kill a session in cluster
 func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgName string, clusterName string, session string, o ...KillSessionOptionalParameters) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
-		localVarPostBody     interface{}
-		optionalParams KillSessionOptionalParameters
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
+		optionalParams     KillSessionOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return nil, common.ReportError("only one argument of type KillSessionOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type KillSessionOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SessionApi.KillSession")
 	if err != nil {
@@ -73,8 +68,7 @@ func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgNam
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -96,11 +90,10 @@ func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgNam
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 404{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -124,6 +117,7 @@ func NewListSessionsOptionalParameters() *ListSessionsOptionalParameters {
 	this := ListSessionsOptionalParameters{}
 	return &this
 }
+
 // WithAll sets the corresponding parameter name and returns the struct.
 func (r *ListSessionsOptionalParameters) WithAll(all bool) *ListSessionsOptionalParameters {
 	r.All = &all
@@ -134,20 +128,18 @@ func (r *ListSessionsOptionalParameters) WithAll(all bool) *ListSessionsOptional
 // list sessions in cluster
 func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]DmsSession, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
-		localVarPostBody     interface{}
-		localVarReturnValue  []DmsSession
-		optionalParams ListSessionsOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue []DmsSession
+		optionalParams      ListSessionsOptionalParameters
 	)
 
-    
-    if len(o) > 1 {
-        return  localVarReturnValue, nil, common.ReportError("only one argument of type ListSessionsOptionalParameters is allowed")
-    }
-    if len(o) == 1 {
-        optionalParams = o[0]
-    }
-    
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListSessionsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SessionApi.ListSessions")
 	if err != nil {
@@ -167,8 +159,7 @@ func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgNa
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	
-        common.SetAuthKeys(
+	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
@@ -190,11 +181,10 @@ func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgNa
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if
-		localVarHTTPResponse.StatusCode == 401||localVarHTTPResponse.StatusCode == 403||localVarHTTPResponse.StatusCode == 500{
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -208,7 +198,7 @@ func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgNa
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
-			ErrorBody:  localVarBody,
+			ErrorBody:    localVarBody,
 			ErrorMessage: err.Error(),
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr

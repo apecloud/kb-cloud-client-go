@@ -2,30 +2,20 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ResetOffsetRequest struct {
 	// the partition to reset
-	Partition *int32 `json:"partition,omitempty"`
-	Seek *OffsetResetStrategy `json:"seek,omitempty"`
+	Partition *int32               `json:"partition,omitempty"`
+	Seek      *OffsetResetStrategy `json:"seek,omitempty"`
 	// the offset to reset to
 	Offset *int64 `json:"offset,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewResetOffsetRequest instantiates a new ResetOffsetRequest object.
 // This constructor will assign default values to properties that have it defined,
@@ -43,6 +33,7 @@ func NewResetOffsetRequestWithDefaults() *ResetOffsetRequest {
 	this := ResetOffsetRequest{}
 	return &this
 }
+
 // GetPartition returns the Partition field value if set, zero value otherwise.
 func (o *ResetOffsetRequest) GetPartition() int32 {
 	if o == nil || o.Partition == nil {
@@ -70,7 +61,6 @@ func (o *ResetOffsetRequest) HasPartition() bool {
 func (o *ResetOffsetRequest) SetPartition(v int32) {
 	o.Partition = &v
 }
-
 
 // GetSeek returns the Seek field value if set, zero value otherwise.
 func (o *ResetOffsetRequest) GetSeek() OffsetResetStrategy {
@@ -100,7 +90,6 @@ func (o *ResetOffsetRequest) SetSeek(v OffsetResetStrategy) {
 	o.Seek = &v
 }
 
-
 // GetOffset returns the Offset field value if set, zero value otherwise.
 func (o *ResetOffsetRequest) GetOffset() int64 {
 	if o == nil || o.Offset == nil {
@@ -129,8 +118,6 @@ func (o *ResetOffsetRequest) SetOffset(v int64) {
 	o.Offset = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ResetOffsetRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -156,23 +143,23 @@ func (o ResetOffsetRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ResetOffsetRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Partition *int32 `json:"partition,omitempty"`
-		Seek *OffsetResetStrategy `json:"seek,omitempty"`
-		Offset *int64 `json:"offset,omitempty"`
+		Partition *int32               `json:"partition,omitempty"`
+		Seek      *OffsetResetStrategy `json:"seek,omitempty"`
+		Offset    *int64               `json:"offset,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "partition", "seek", "offset",  })
+		common.DeleteKeys(additionalProperties, &[]string{"partition", "seek", "offset"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Partition = all.Partition
-	if all.Seek != nil &&!all.Seek.IsValid() {
+	if all.Seek != nil && !all.Seek.IsValid() {
 		hasInvalidField = true
 	} else {
 		o.Seek = all.Seek

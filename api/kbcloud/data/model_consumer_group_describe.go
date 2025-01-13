@@ -2,19 +2,10 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type ConsumerGroupDescribe struct {
 	// Consumer group ID
 	GroupId *string `json:"groupId,omitempty"`
@@ -37,10 +28,9 @@ type ConsumerGroupDescribe struct {
 	// Consumer client ID
 	ClientId *string `json:"clientId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewConsumerGroupDescribe instantiates a new ConsumerGroupDescribe object.
 // This constructor will assign default values to properties that have it defined,
@@ -58,6 +48,7 @@ func NewConsumerGroupDescribeWithDefaults() *ConsumerGroupDescribe {
 	this := ConsumerGroupDescribe{}
 	return &this
 }
+
 // GetGroupId returns the GroupId field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetGroupId() string {
 	if o == nil || o.GroupId == nil {
@@ -85,7 +76,6 @@ func (o *ConsumerGroupDescribe) HasGroupId() bool {
 func (o *ConsumerGroupDescribe) SetGroupId(v string) {
 	o.GroupId = &v
 }
-
 
 // GetTopic returns the Topic field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetTopic() string {
@@ -115,7 +105,6 @@ func (o *ConsumerGroupDescribe) SetTopic(v string) {
 	o.Topic = &v
 }
 
-
 // GetPartition returns the Partition field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetPartition() int32 {
 	if o == nil || o.Partition == nil {
@@ -143,7 +132,6 @@ func (o *ConsumerGroupDescribe) HasPartition() bool {
 func (o *ConsumerGroupDescribe) SetPartition(v int32) {
 	o.Partition = &v
 }
-
 
 // GetCurrentOffset returns the CurrentOffset field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetCurrentOffset() int64 {
@@ -173,7 +161,6 @@ func (o *ConsumerGroupDescribe) SetCurrentOffset(v int64) {
 	o.CurrentOffset = &v
 }
 
-
 // GetLogBeginningOffset returns the LogBeginningOffset field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetLogBeginningOffset() int64 {
 	if o == nil || o.LogBeginningOffset == nil {
@@ -201,7 +188,6 @@ func (o *ConsumerGroupDescribe) HasLogBeginningOffset() bool {
 func (o *ConsumerGroupDescribe) SetLogBeginningOffset(v int64) {
 	o.LogBeginningOffset = &v
 }
-
 
 // GetLogEndOffset returns the LogEndOffset field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetLogEndOffset() int64 {
@@ -231,7 +217,6 @@ func (o *ConsumerGroupDescribe) SetLogEndOffset(v int64) {
 	o.LogEndOffset = &v
 }
 
-
 // GetLag returns the Lag field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetLag() int64 {
 	if o == nil || o.Lag == nil {
@@ -259,7 +244,6 @@ func (o *ConsumerGroupDescribe) HasLag() bool {
 func (o *ConsumerGroupDescribe) SetLag(v int64) {
 	o.Lag = &v
 }
-
 
 // GetConsumerId returns the ConsumerId field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetConsumerId() string {
@@ -289,7 +273,6 @@ func (o *ConsumerGroupDescribe) SetConsumerId(v string) {
 	o.ConsumerId = &v
 }
 
-
 // GetHost returns the Host field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetHost() string {
 	if o == nil || o.Host == nil {
@@ -318,7 +301,6 @@ func (o *ConsumerGroupDescribe) SetHost(v string) {
 	o.Host = &v
 }
 
-
 // GetClientId returns the ClientId field value if set, zero value otherwise.
 func (o *ConsumerGroupDescribe) GetClientId() string {
 	if o == nil || o.ClientId == nil {
@@ -346,8 +328,6 @@ func (o *ConsumerGroupDescribe) HasClientId() bool {
 func (o *ConsumerGroupDescribe) SetClientId(v string) {
 	o.ClientId = &v
 }
-
-
 
 // MarshalJSON serializes the struct using spec logic.
 func (o ConsumerGroupDescribe) MarshalJSON() ([]byte, error) {
@@ -395,23 +375,23 @@ func (o ConsumerGroupDescribe) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ConsumerGroupDescribe) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		GroupId *string `json:"groupId,omitempty"`
-		Topic *string `json:"topic,omitempty"`
-		Partition *int32 `json:"partition,omitempty"`
-		CurrentOffset *int64 `json:"currentOffset,omitempty"`
-		LogBeginningOffset *int64 `json:"logBeginningOffset,omitempty"`
-		LogEndOffset *int64 `json:"logEndOffset,omitempty"`
-		Lag *int64 `json:"lag,omitempty"`
-		ConsumerId *string `json:"consumerId,omitempty"`
-		Host *string `json:"host,omitempty"`
-		ClientId *string `json:"clientId,omitempty"`
+		GroupId            *string `json:"groupId,omitempty"`
+		Topic              *string `json:"topic,omitempty"`
+		Partition          *int32  `json:"partition,omitempty"`
+		CurrentOffset      *int64  `json:"currentOffset,omitempty"`
+		LogBeginningOffset *int64  `json:"logBeginningOffset,omitempty"`
+		LogEndOffset       *int64  `json:"logEndOffset,omitempty"`
+		Lag                *int64  `json:"lag,omitempty"`
+		ConsumerId         *string `json:"consumerId,omitempty"`
+		Host               *string `json:"host,omitempty"`
+		ClientId           *string `json:"clientId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "groupId", "topic", "partition", "currentOffset", "logBeginningOffset", "logEndOffset", "lag", "consumerId", "host", "clientId",  })
+		common.DeleteKeys(additionalProperties, &[]string{"groupId", "topic", "partition", "currentOffset", "logBeginningOffset", "logEndOffset", "lag", "consumerId", "host", "clientId"})
 	} else {
 		return err
 	}

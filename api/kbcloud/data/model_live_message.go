@@ -2,28 +2,18 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-
 package data
 
-import (
-	"github.com/google/uuid"
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-
-)
-
-
- 
 type LiveMessage struct {
 	// 消息ID
-	Id *string `json:"id,omitempty"`
+	Id      *string       `json:"id,omitempty"`
 	Message *TopicMessage `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject map[string]interface{} `json:"-"`
+	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
-
 
 // NewLiveMessage instantiates a new LiveMessage object.
 // This constructor will assign default values to properties that have it defined,
@@ -41,6 +31,7 @@ func NewLiveMessageWithDefaults() *LiveMessage {
 	this := LiveMessage{}
 	return &this
 }
+
 // GetId returns the Id field value if set, zero value otherwise.
 func (o *LiveMessage) GetId() string {
 	if o == nil || o.Id == nil {
@@ -68,7 +59,6 @@ func (o *LiveMessage) HasId() bool {
 func (o *LiveMessage) SetId(v string) {
 	o.Id = &v
 }
-
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *LiveMessage) GetMessage() TopicMessage {
@@ -98,8 +88,6 @@ func (o *LiveMessage) SetMessage(v TopicMessage) {
 	o.Message = &v
 }
 
-
-
 // MarshalJSON serializes the struct using spec logic.
 func (o LiveMessage) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -122,7 +110,7 @@ func (o LiveMessage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LiveMessage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id *string `json:"id,omitempty"`
+		Id      *string       `json:"id,omitempty"`
 		Message *TopicMessage `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -130,14 +118,14 @@ func (o *LiveMessage) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{ "id", "message",  })
+		common.DeleteKeys(additionalProperties, &[]string{"id", "message"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Id = all.Id
-	if  all.Message != nil && all.Message.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Message != nil && all.Message.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Message = all.Message
