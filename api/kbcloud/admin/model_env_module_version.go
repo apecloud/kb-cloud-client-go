@@ -6,8 +6,8 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ComponentVersion component version
-type ComponentVersion struct {
+// EnvModuleVersion environment module version
+type EnvModuleVersion struct {
 	Kubeblocks *string `json:"kubeblocks,omitempty"`
 	Gemini     *string `json:"gemini,omitempty"`
 	Oteld      *string `json:"oteld,omitempty"`
@@ -16,25 +16,25 @@ type ComponentVersion struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewComponentVersion instantiates a new ComponentVersion object.
+// NewEnvModuleVersion instantiates a new EnvModuleVersion object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentVersion() *ComponentVersion {
-	this := ComponentVersion{}
+func NewEnvModuleVersion() *EnvModuleVersion {
+	this := EnvModuleVersion{}
 	return &this
 }
 
-// NewComponentVersionWithDefaults instantiates a new ComponentVersion object.
+// NewEnvModuleVersionWithDefaults instantiates a new EnvModuleVersion object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewComponentVersionWithDefaults() *ComponentVersion {
-	this := ComponentVersion{}
+func NewEnvModuleVersionWithDefaults() *EnvModuleVersion {
+	this := EnvModuleVersion{}
 	return &this
 }
 
 // GetKubeblocks returns the Kubeblocks field value if set, zero value otherwise.
-func (o *ComponentVersion) GetKubeblocks() string {
+func (o *EnvModuleVersion) GetKubeblocks() string {
 	if o == nil || o.Kubeblocks == nil {
 		var ret string
 		return ret
@@ -44,7 +44,7 @@ func (o *ComponentVersion) GetKubeblocks() string {
 
 // GetKubeblocksOk returns a tuple with the Kubeblocks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentVersion) GetKubeblocksOk() (*string, bool) {
+func (o *EnvModuleVersion) GetKubeblocksOk() (*string, bool) {
 	if o == nil || o.Kubeblocks == nil {
 		return nil, false
 	}
@@ -52,17 +52,17 @@ func (o *ComponentVersion) GetKubeblocksOk() (*string, bool) {
 }
 
 // HasKubeblocks returns a boolean if a field has been set.
-func (o *ComponentVersion) HasKubeblocks() bool {
+func (o *EnvModuleVersion) HasKubeblocks() bool {
 	return o != nil && o.Kubeblocks != nil
 }
 
 // SetKubeblocks gets a reference to the given string and assigns it to the Kubeblocks field.
-func (o *ComponentVersion) SetKubeblocks(v string) {
+func (o *EnvModuleVersion) SetKubeblocks(v string) {
 	o.Kubeblocks = &v
 }
 
 // GetGemini returns the Gemini field value if set, zero value otherwise.
-func (o *ComponentVersion) GetGemini() string {
+func (o *EnvModuleVersion) GetGemini() string {
 	if o == nil || o.Gemini == nil {
 		var ret string
 		return ret
@@ -72,7 +72,7 @@ func (o *ComponentVersion) GetGemini() string {
 
 // GetGeminiOk returns a tuple with the Gemini field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentVersion) GetGeminiOk() (*string, bool) {
+func (o *EnvModuleVersion) GetGeminiOk() (*string, bool) {
 	if o == nil || o.Gemini == nil {
 		return nil, false
 	}
@@ -80,17 +80,17 @@ func (o *ComponentVersion) GetGeminiOk() (*string, bool) {
 }
 
 // HasGemini returns a boolean if a field has been set.
-func (o *ComponentVersion) HasGemini() bool {
+func (o *EnvModuleVersion) HasGemini() bool {
 	return o != nil && o.Gemini != nil
 }
 
 // SetGemini gets a reference to the given string and assigns it to the Gemini field.
-func (o *ComponentVersion) SetGemini(v string) {
+func (o *EnvModuleVersion) SetGemini(v string) {
 	o.Gemini = &v
 }
 
 // GetOteld returns the Oteld field value if set, zero value otherwise.
-func (o *ComponentVersion) GetOteld() string {
+func (o *EnvModuleVersion) GetOteld() string {
 	if o == nil || o.Oteld == nil {
 		var ret string
 		return ret
@@ -100,7 +100,7 @@ func (o *ComponentVersion) GetOteld() string {
 
 // GetOteldOk returns a tuple with the Oteld field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentVersion) GetOteldOk() (*string, bool) {
+func (o *EnvModuleVersion) GetOteldOk() (*string, bool) {
 	if o == nil || o.Oteld == nil {
 		return nil, false
 	}
@@ -108,17 +108,17 @@ func (o *ComponentVersion) GetOteldOk() (*string, bool) {
 }
 
 // HasOteld returns a boolean if a field has been set.
-func (o *ComponentVersion) HasOteld() bool {
+func (o *EnvModuleVersion) HasOteld() bool {
 	return o != nil && o.Oteld != nil
 }
 
 // SetOteld gets a reference to the given string and assigns it to the Oteld field.
-func (o *ComponentVersion) SetOteld(v string) {
+func (o *EnvModuleVersion) SetOteld(v string) {
 	o.Oteld = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ComponentVersion) MarshalJSON() ([]byte, error) {
+func (o EnvModuleVersion) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -140,7 +140,7 @@ func (o ComponentVersion) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ComponentVersion) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvModuleVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Kubeblocks *string `json:"kubeblocks,omitempty"`
 		Gemini     *string `json:"gemini,omitempty"`
