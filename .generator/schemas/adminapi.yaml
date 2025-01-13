@@ -15740,6 +15740,9 @@ components:
         region:
           description: Region of the node
           type: string
+        underMaintenance:
+          description: whether node is under maintenance
+          type: boolean
         unschedulable:
           description: whether node is unschedulable
           type: boolean
