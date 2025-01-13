@@ -14381,93 +14381,205 @@ components:
           type: boolean
     parameterConfig:
       required:
-        - configName
-        - specName
-        - constraint
-        - regex
-        - configTplName
+        - configSpecName
+        - templateRef
       type: object
       properties:
-        configName:
+        configSpecName:
           type: string
-        specName:
+          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+        templateRef:
           type: string
-        constraint:
-          type: string
-        regex:
-          type: string
-        configTplName:
-          type: string
-        initOptions:
-          type: object
-          additionalProperties:
-            type: object
-            properties: {}
-        calculationParams:
-          type: array
-          x-nullable: false
-          description: Parameters to be calculated based on the instance specifications
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: name of the parameter
-              description:
-                type: string
-                description: description of each variables and expression
-              unit:
-                type: string
-                description: unit of parameter
-        sharedSpecParams:
-          type: array
-          x-nullable: false
-          description: sharedSpecParams means that the parameter value is different from the dedicated specification under the shared specification
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: name of the parameter
-              expression:
-                type: string
-                description: expression of the parameter value
-    parameterOption:
+          description: name of the referenced configuration template configMap object, equal to componentDefinition.configs[x].templateRef
+    parameterTemplate:
       type: object
       required:
-        - component
-        - configs
-        - exportTpl
+        - name
+        - description
+        - majorVersion
         - family
-        - defaultTplName
-        - defaultTplDescription
+        - configs
+        - defaultUse
       properties:
-        component:
+        name:
           type: string
+          description: name of default parameter template
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        majorVersion:
+          type: string
+          description: match the major version set in the component
+        family:
+          type: string
+          description: a alias with major version, used to distinguish between different parameter templates
         configs:
           type: array
+          description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
           items:
             $ref: '#/components/schemas/parameterConfig'
+        defaultUse:
+          type: boolean
+          description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
         versions:
           type: array
           description: deprecated
           items:
             type: string
-        exportTpl:
-          type: boolean
+    parameterConstraint:
+      type: object
+      required:
+        - family
+        - majorVersion
+        - configSpecName
+        - regex
+        - configFileName
+      properties:
         family:
           type: string
-          description: a alias with major version.
+          description: a alias with major version, used to distinguish between different parameter templates
         majorVersion:
           type: string
-          description: match the major version
-        defaultTplName:
+          description: match the major version set in the component
+        versions:
+          type: array
+          description: deprecated
+          items:
+            type: string
+        configSpecName:
           type: string
-        defaultTplDescription:
-          $ref: '#/components/schemas/localizedDescription'
+          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+        constraintRef:
+          type: string
+          description: constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
+        regex:
+          type: string
+          description: regular expression of the parameters, mainly used by the frontend for parameter parsing.
+        configFileName:
+          type: string
+          description: name of configuration file
+    initParam:
+      type: object
+      required:
+        - name
+        - configSpecName
+        - required
+        - label
+        - type
+      properties:
+        name:
+          type: string
+          description: name of the init parameter
+        configSpecName:
+          type: string
+          description: name of config spec, which the parameter belongs to, equal to componentDefinition.configs[x].name
+        required:
+          type: boolean
+          description: whether the parameter is required
+        label:
+          type: string
+          description: label of the parameter
+        type:
+          type: string
+          description: type of the parameter
+        defaultValue:
+          type: string
+          description: default value of the parameter
+        maximum:
+          type: string
+          description: maximum value of the parameter
+        minimum:
+          type: string
+          description: minimum value of the parameter
+        enum:
+          type: array
+          items:
+            type: string
+          description: enum value of the parameter
+    exprParam:
+      type: object
+      required:
+        - name
+        - description
+        - configSpecName
+      properties:
+        name:
+          type: string
+          description: name of the parameter
+        description:
+          type: string
+          description: description of each variables and expression
+        unit:
+          type: string
+          description: unit of parameter
+        configSpecName:
+          type: string
+          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+    occupationParam:
+      type: object
+      required:
+        - name
+        - expression
+        - configSpecName
+      properties:
+        name:
+          type: string
+          description: name of the parameter
+        expression:
+          type: string
+          description: expression of the parameter value
+        configSpecName:
+          type: string
+          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+    parameterOption:
+      type: object
+      required:
+        - component
+        - exportTpl
+        - enableTemplate
+        - configSpecs
+      properties:
+        component:
+          type: string
+          description: component type
+        exportTpl:
+          description: If set to true, the current parameters of the component can be exported and saved as a parameter template.
+          type: boolean
+        enableTemplate:
+          description: If set to true, the parameter templates of the component can be used. Mainly used by frontend.
+          type: boolean
+        configSpecs:
+          type: array
+          description: all parameter configuration specs of this component
+          items:
+            type: string
         disableHA:
           type: boolean
           default: false
+        templates:
+          type: array
+          description: parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
+          items:
+            $ref: '#/components/schemas/parameterTemplate'
+        constraints:
+          type: array
+          description: parameter constraints, mainly used to verify the correctness of the parameter value.
+          items:
+            $ref: '#/components/schemas/parameterConstraint'
+        initOptions:
+          type: array
+          description: Parameters to be initialized when cluster is created
+          items:
+            $ref: '#/components/schemas/initParam'
+        exprParams:
+          type: array
+          description: Parameters to be calculated based on the instance specifications
+          items:
+            $ref: '#/components/schemas/exprParam'
+        occupationParams:
+          type: array
+          description: occupationParams means that the parameter value is different from the dedicated specification under the shared specification
+          items:
+            $ref: '#/components/schemas/occupationParam'
     engineOptionsDisasterRecoverySource:
       type: object
       properties:

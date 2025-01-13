@@ -11,18 +11,25 @@ import (
 )
 
 type ParameterOption struct {
-	Component string            `json:"component"`
-	Configs   []ParameterConfig `json:"configs"`
-	// deprecated
-	Versions  []string `json:"versions,omitempty"`
-	ExportTpl bool     `json:"exportTpl"`
-	// a alias with major version.
-	Family string `json:"family"`
-	// match the major version
-	MajorVersion          *string              `json:"majorVersion,omitempty"`
-	DefaultTplName        string               `json:"defaultTplName"`
-	DefaultTplDescription LocalizedDescription `json:"defaultTplDescription"`
-	DisableHa             *bool                `json:"disableHA,omitempty"`
+	// component type
+	Component string `json:"component"`
+	// If set to true, the current parameters of the component can be exported and saved as a parameter template.
+	ExportTpl bool `json:"exportTpl"`
+	// If set to true, the parameter templates of the component can be used. Mainly used by frontend.
+	EnableTemplate bool `json:"enableTemplate"`
+	// all parameter configuration specs of this component
+	ConfigSpecs []string `json:"configSpecs"`
+	DisableHa   *bool    `json:"disableHA,omitempty"`
+	// parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
+	Templates []ParameterTemplate `json:"templates,omitempty"`
+	// parameter constraints, mainly used to verify the correctness of the parameter value.
+	Constraints []ParameterConstraint `json:"constraints,omitempty"`
+	// Parameters to be initialized when cluster is created
+	InitOptions []InitParam `json:"initOptions,omitempty"`
+	// Parameters to be calculated based on the instance specifications
+	ExprParams []ExprParam `json:"exprParams,omitempty"`
+	// occupationParams means that the parameter value is different from the dedicated specification under the shared specification
+	OccupationParams []OccupationParam `json:"occupationParams,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,14 +39,12 @@ type ParameterOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterOption(component string, configs []ParameterConfig, exportTpl bool, family string, defaultTplName string, defaultTplDescription LocalizedDescription) *ParameterOption {
+func NewParameterOption(component string, exportTpl bool, enableTemplate bool, configSpecs []string) *ParameterOption {
 	this := ParameterOption{}
 	this.Component = component
-	this.Configs = configs
 	this.ExportTpl = exportTpl
-	this.Family = family
-	this.DefaultTplName = defaultTplName
-	this.DefaultTplDescription = defaultTplDescription
+	this.EnableTemplate = enableTemplate
+	this.ConfigSpecs = configSpecs
 	var disableHa bool = false
 	this.DisableHa = &disableHa
 	return &this
@@ -78,57 +83,6 @@ func (o *ParameterOption) SetComponent(v string) {
 	o.Component = v
 }
 
-// GetConfigs returns the Configs field value.
-func (o *ParameterOption) GetConfigs() []ParameterConfig {
-	if o == nil {
-		var ret []ParameterConfig
-		return ret
-	}
-	return o.Configs
-}
-
-// GetConfigsOk returns a tuple with the Configs field value
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetConfigsOk() (*[]ParameterConfig, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Configs, true
-}
-
-// SetConfigs sets field value.
-func (o *ParameterOption) SetConfigs(v []ParameterConfig) {
-	o.Configs = v
-}
-
-// GetVersions returns the Versions field value if set, zero value otherwise.
-func (o *ParameterOption) GetVersions() []string {
-	if o == nil || o.Versions == nil {
-		var ret []string
-		return ret
-	}
-	return o.Versions
-}
-
-// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetVersionsOk() (*[]string, bool) {
-	if o == nil || o.Versions == nil {
-		return nil, false
-	}
-	return &o.Versions, true
-}
-
-// HasVersions returns a boolean if a field has been set.
-func (o *ParameterOption) HasVersions() bool {
-	return o != nil && o.Versions != nil
-}
-
-// SetVersions gets a reference to the given []string and assigns it to the Versions field.
-func (o *ParameterOption) SetVersions(v []string) {
-	o.Versions = v
-}
-
 // GetExportTpl returns the ExportTpl field value.
 func (o *ParameterOption) GetExportTpl() bool {
 	if o == nil {
@@ -152,101 +106,50 @@ func (o *ParameterOption) SetExportTpl(v bool) {
 	o.ExportTpl = v
 }
 
-// GetFamily returns the Family field value.
-func (o *ParameterOption) GetFamily() string {
+// GetEnableTemplate returns the EnableTemplate field value.
+func (o *ParameterOption) GetEnableTemplate() bool {
 	if o == nil {
-		var ret string
+		var ret bool
 		return ret
 	}
-	return o.Family
+	return o.EnableTemplate
 }
 
-// GetFamilyOk returns a tuple with the Family field value
+// GetEnableTemplateOk returns a tuple with the EnableTemplate field value
 // and a boolean to check if the value has been set.
-func (o *ParameterOption) GetFamilyOk() (*string, bool) {
+func (o *ParameterOption) GetEnableTemplateOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Family, true
+	return &o.EnableTemplate, true
 }
 
-// SetFamily sets field value.
-func (o *ParameterOption) SetFamily(v string) {
-	o.Family = v
+// SetEnableTemplate sets field value.
+func (o *ParameterOption) SetEnableTemplate(v bool) {
+	o.EnableTemplate = v
 }
 
-// GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
-func (o *ParameterOption) GetMajorVersion() string {
-	if o == nil || o.MajorVersion == nil {
-		var ret string
-		return ret
-	}
-	return *o.MajorVersion
-}
-
-// GetMajorVersionOk returns a tuple with the MajorVersion field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetMajorVersionOk() (*string, bool) {
-	if o == nil || o.MajorVersion == nil {
-		return nil, false
-	}
-	return o.MajorVersion, true
-}
-
-// HasMajorVersion returns a boolean if a field has been set.
-func (o *ParameterOption) HasMajorVersion() bool {
-	return o != nil && o.MajorVersion != nil
-}
-
-// SetMajorVersion gets a reference to the given string and assigns it to the MajorVersion field.
-func (o *ParameterOption) SetMajorVersion(v string) {
-	o.MajorVersion = &v
-}
-
-// GetDefaultTplName returns the DefaultTplName field value.
-func (o *ParameterOption) GetDefaultTplName() string {
+// GetConfigSpecs returns the ConfigSpecs field value.
+func (o *ParameterOption) GetConfigSpecs() []string {
 	if o == nil {
-		var ret string
+		var ret []string
 		return ret
 	}
-	return o.DefaultTplName
+	return o.ConfigSpecs
 }
 
-// GetDefaultTplNameOk returns a tuple with the DefaultTplName field value
+// GetConfigSpecsOk returns a tuple with the ConfigSpecs field value
 // and a boolean to check if the value has been set.
-func (o *ParameterOption) GetDefaultTplNameOk() (*string, bool) {
+func (o *ParameterOption) GetConfigSpecsOk() (*[]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.DefaultTplName, true
+	return &o.ConfigSpecs, true
 }
 
-// SetDefaultTplName sets field value.
-func (o *ParameterOption) SetDefaultTplName(v string) {
-	o.DefaultTplName = v
-}
-
-// GetDefaultTplDescription returns the DefaultTplDescription field value.
-func (o *ParameterOption) GetDefaultTplDescription() LocalizedDescription {
-	if o == nil {
-		var ret LocalizedDescription
-		return ret
-	}
-	return o.DefaultTplDescription
-}
-
-// GetDefaultTplDescriptionOk returns a tuple with the DefaultTplDescription field value
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetDefaultTplDescriptionOk() (*LocalizedDescription, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.DefaultTplDescription, true
-}
-
-// SetDefaultTplDescription sets field value.
-func (o *ParameterOption) SetDefaultTplDescription(v LocalizedDescription) {
-	o.DefaultTplDescription = v
+// SetConfigSpecs sets field value.
+func (o *ParameterOption) SetConfigSpecs(v []string) {
+	o.ConfigSpecs = v
 }
 
 // GetDisableHa returns the DisableHa field value if set, zero value otherwise.
@@ -277,6 +180,146 @@ func (o *ParameterOption) SetDisableHa(v bool) {
 	o.DisableHa = &v
 }
 
+// GetTemplates returns the Templates field value if set, zero value otherwise.
+func (o *ParameterOption) GetTemplates() []ParameterTemplate {
+	if o == nil || o.Templates == nil {
+		var ret []ParameterTemplate
+		return ret
+	}
+	return o.Templates
+}
+
+// GetTemplatesOk returns a tuple with the Templates field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetTemplatesOk() (*[]ParameterTemplate, bool) {
+	if o == nil || o.Templates == nil {
+		return nil, false
+	}
+	return &o.Templates, true
+}
+
+// HasTemplates returns a boolean if a field has been set.
+func (o *ParameterOption) HasTemplates() bool {
+	return o != nil && o.Templates != nil
+}
+
+// SetTemplates gets a reference to the given []ParameterTemplate and assigns it to the Templates field.
+func (o *ParameterOption) SetTemplates(v []ParameterTemplate) {
+	o.Templates = v
+}
+
+// GetConstraints returns the Constraints field value if set, zero value otherwise.
+func (o *ParameterOption) GetConstraints() []ParameterConstraint {
+	if o == nil || o.Constraints == nil {
+		var ret []ParameterConstraint
+		return ret
+	}
+	return o.Constraints
+}
+
+// GetConstraintsOk returns a tuple with the Constraints field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetConstraintsOk() (*[]ParameterConstraint, bool) {
+	if o == nil || o.Constraints == nil {
+		return nil, false
+	}
+	return &o.Constraints, true
+}
+
+// HasConstraints returns a boolean if a field has been set.
+func (o *ParameterOption) HasConstraints() bool {
+	return o != nil && o.Constraints != nil
+}
+
+// SetConstraints gets a reference to the given []ParameterConstraint and assigns it to the Constraints field.
+func (o *ParameterOption) SetConstraints(v []ParameterConstraint) {
+	o.Constraints = v
+}
+
+// GetInitOptions returns the InitOptions field value if set, zero value otherwise.
+func (o *ParameterOption) GetInitOptions() []InitParam {
+	if o == nil || o.InitOptions == nil {
+		var ret []InitParam
+		return ret
+	}
+	return o.InitOptions
+}
+
+// GetInitOptionsOk returns a tuple with the InitOptions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetInitOptionsOk() (*[]InitParam, bool) {
+	if o == nil || o.InitOptions == nil {
+		return nil, false
+	}
+	return &o.InitOptions, true
+}
+
+// HasInitOptions returns a boolean if a field has been set.
+func (o *ParameterOption) HasInitOptions() bool {
+	return o != nil && o.InitOptions != nil
+}
+
+// SetInitOptions gets a reference to the given []InitParam and assigns it to the InitOptions field.
+func (o *ParameterOption) SetInitOptions(v []InitParam) {
+	o.InitOptions = v
+}
+
+// GetExprParams returns the ExprParams field value if set, zero value otherwise.
+func (o *ParameterOption) GetExprParams() []ExprParam {
+	if o == nil || o.ExprParams == nil {
+		var ret []ExprParam
+		return ret
+	}
+	return o.ExprParams
+}
+
+// GetExprParamsOk returns a tuple with the ExprParams field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetExprParamsOk() (*[]ExprParam, bool) {
+	if o == nil || o.ExprParams == nil {
+		return nil, false
+	}
+	return &o.ExprParams, true
+}
+
+// HasExprParams returns a boolean if a field has been set.
+func (o *ParameterOption) HasExprParams() bool {
+	return o != nil && o.ExprParams != nil
+}
+
+// SetExprParams gets a reference to the given []ExprParam and assigns it to the ExprParams field.
+func (o *ParameterOption) SetExprParams(v []ExprParam) {
+	o.ExprParams = v
+}
+
+// GetOccupationParams returns the OccupationParams field value if set, zero value otherwise.
+func (o *ParameterOption) GetOccupationParams() []OccupationParam {
+	if o == nil || o.OccupationParams == nil {
+		var ret []OccupationParam
+		return ret
+	}
+	return o.OccupationParams
+}
+
+// GetOccupationParamsOk returns a tuple with the OccupationParams field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetOccupationParamsOk() (*[]OccupationParam, bool) {
+	if o == nil || o.OccupationParams == nil {
+		return nil, false
+	}
+	return &o.OccupationParams, true
+}
+
+// HasOccupationParams returns a boolean if a field has been set.
+func (o *ParameterOption) HasOccupationParams() bool {
+	return o != nil && o.OccupationParams != nil
+}
+
+// SetOccupationParams gets a reference to the given []OccupationParam and assigns it to the OccupationParams field.
+func (o *ParameterOption) SetOccupationParams(v []OccupationParam) {
+	o.OccupationParams = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -284,19 +327,26 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["component"] = o.Component
-	toSerialize["configs"] = o.Configs
-	if o.Versions != nil {
-		toSerialize["versions"] = o.Versions
-	}
 	toSerialize["exportTpl"] = o.ExportTpl
-	toSerialize["family"] = o.Family
-	if o.MajorVersion != nil {
-		toSerialize["majorVersion"] = o.MajorVersion
-	}
-	toSerialize["defaultTplName"] = o.DefaultTplName
-	toSerialize["defaultTplDescription"] = o.DefaultTplDescription
+	toSerialize["enableTemplate"] = o.EnableTemplate
+	toSerialize["configSpecs"] = o.ConfigSpecs
 	if o.DisableHa != nil {
 		toSerialize["disableHA"] = o.DisableHa
+	}
+	if o.Templates != nil {
+		toSerialize["templates"] = o.Templates
+	}
+	if o.Constraints != nil {
+		toSerialize["constraints"] = o.Constraints
+	}
+	if o.InitOptions != nil {
+		toSerialize["initOptions"] = o.InitOptions
+	}
+	if o.ExprParams != nil {
+		toSerialize["exprParams"] = o.ExprParams
+	}
+	if o.OccupationParams != nil {
+		toSerialize["occupationParams"] = o.OccupationParams
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -308,15 +358,16 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component             *string               `json:"component"`
-		Configs               *[]ParameterConfig    `json:"configs"`
-		Versions              []string              `json:"versions,omitempty"`
-		ExportTpl             *bool                 `json:"exportTpl"`
-		Family                *string               `json:"family"`
-		MajorVersion          *string               `json:"majorVersion,omitempty"`
-		DefaultTplName        *string               `json:"defaultTplName"`
-		DefaultTplDescription *LocalizedDescription `json:"defaultTplDescription"`
-		DisableHa             *bool                 `json:"disableHA,omitempty"`
+		Component        *string               `json:"component"`
+		ExportTpl        *bool                 `json:"exportTpl"`
+		EnableTemplate   *bool                 `json:"enableTemplate"`
+		ConfigSpecs      *[]string             `json:"configSpecs"`
+		DisableHa        *bool                 `json:"disableHA,omitempty"`
+		Templates        []ParameterTemplate   `json:"templates,omitempty"`
+		Constraints      []ParameterConstraint `json:"constraints,omitempty"`
+		InitOptions      []InitParam           `json:"initOptions,omitempty"`
+		ExprParams       []ExprParam           `json:"exprParams,omitempty"`
+		OccupationParams []OccupationParam     `json:"occupationParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -324,48 +375,34 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
 	}
-	if all.Configs == nil {
-		return fmt.Errorf("required field configs missing")
-	}
 	if all.ExportTpl == nil {
 		return fmt.Errorf("required field exportTpl missing")
 	}
-	if all.Family == nil {
-		return fmt.Errorf("required field family missing")
+	if all.EnableTemplate == nil {
+		return fmt.Errorf("required field enableTemplate missing")
 	}
-	if all.DefaultTplName == nil {
-		return fmt.Errorf("required field defaultTplName missing")
-	}
-	if all.DefaultTplDescription == nil {
-		return fmt.Errorf("required field defaultTplDescription missing")
+	if all.ConfigSpecs == nil {
+		return fmt.Errorf("required field configSpecs missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "configs", "versions", "exportTpl", "family", "majorVersion", "defaultTplName", "defaultTplDescription", "disableHA"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "configSpecs", "disableHA", "templates", "constraints", "initOptions", "exprParams", "occupationParams"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Component = *all.Component
-	o.Configs = *all.Configs
-	o.Versions = all.Versions
 	o.ExportTpl = *all.ExportTpl
-	o.Family = *all.Family
-	o.MajorVersion = all.MajorVersion
-	o.DefaultTplName = *all.DefaultTplName
-	if all.DefaultTplDescription.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.DefaultTplDescription = *all.DefaultTplDescription
+	o.EnableTemplate = *all.EnableTemplate
+	o.ConfigSpecs = *all.ConfigSpecs
 	o.DisableHa = all.DisableHa
+	o.Templates = all.Templates
+	o.Constraints = all.Constraints
+	o.InitOptions = all.InitOptions
+	o.ExprParams = all.ExprParams
+	o.OccupationParams = all.OccupationParams
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
