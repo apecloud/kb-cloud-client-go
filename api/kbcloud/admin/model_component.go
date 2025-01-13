@@ -12,12 +12,24 @@ import (
 
 // Component Component info in environment
 type Component struct {
-	// the name of component
-	Name string `json:"name"`
-	// the version of component
-	Version string `json:"version"`
-	// the dependencies of component
-	Dependencies []string `json:"dependencies,omitempty"`
+	// Kubernetes version of the environment
+	KubernetesVersion *string `json:"kubernetesVersion,omitempty"`
+	// KubeBlocks version of the environment
+	KbVersion *string `json:"kbVersion,omitempty"`
+	// Gemini version of the environment
+	GeminiVersion *string `json:"geminiVersion,omitempty"`
+	// Oteld version of the environment
+	OteldVersion *string `json:"oteldVersion,omitempty"`
+	// Image registry used by the environment
+	ImageRegistry *string `json:"imageRegistry,omitempty"`
+	// Default storage class that used by KubeBlocks to create cluster
+	DefaultStorageClass string `json:"defaultStorageClass"`
+	// CPU overcommit ratio of this environment
+	CpuOvercommitRatio *float64 `json:"cpuOvercommitRatio,omitempty"`
+	// Memory overcommit ratio of this environment
+	MemoryOvercommitRatio *float64 `json:"memoryOvercommitRatio,omitempty"`
+	// Namespace info for environment
+	Namespaces []string `json:"namespaces,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -27,10 +39,9 @@ type Component struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponent(name string, version string) *Component {
+func NewComponent(defaultStorageClass string) *Component {
 	this := Component{}
-	this.Name = name
-	this.Version = version
+	this.DefaultStorageClass = defaultStorageClass
 	return &this
 }
 
@@ -42,78 +53,251 @@ func NewComponentWithDefaults() *Component {
 	return &this
 }
 
-// GetName returns the Name field value.
-func (o *Component) GetName() string {
+// GetKubernetesVersion returns the KubernetesVersion field value if set, zero value otherwise.
+func (o *Component) GetKubernetesVersion() string {
+	if o == nil || o.KubernetesVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.KubernetesVersion
+}
+
+// GetKubernetesVersionOk returns a tuple with the KubernetesVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetKubernetesVersionOk() (*string, bool) {
+	if o == nil || o.KubernetesVersion == nil {
+		return nil, false
+	}
+	return o.KubernetesVersion, true
+}
+
+// HasKubernetesVersion returns a boolean if a field has been set.
+func (o *Component) HasKubernetesVersion() bool {
+	return o != nil && o.KubernetesVersion != nil
+}
+
+// SetKubernetesVersion gets a reference to the given string and assigns it to the KubernetesVersion field.
+func (o *Component) SetKubernetesVersion(v string) {
+	o.KubernetesVersion = &v
+}
+
+// GetKbVersion returns the KbVersion field value if set, zero value otherwise.
+func (o *Component) GetKbVersion() string {
+	if o == nil || o.KbVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.KbVersion
+}
+
+// GetKbVersionOk returns a tuple with the KbVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetKbVersionOk() (*string, bool) {
+	if o == nil || o.KbVersion == nil {
+		return nil, false
+	}
+	return o.KbVersion, true
+}
+
+// HasKbVersion returns a boolean if a field has been set.
+func (o *Component) HasKbVersion() bool {
+	return o != nil && o.KbVersion != nil
+}
+
+// SetKbVersion gets a reference to the given string and assigns it to the KbVersion field.
+func (o *Component) SetKbVersion(v string) {
+	o.KbVersion = &v
+}
+
+// GetGeminiVersion returns the GeminiVersion field value if set, zero value otherwise.
+func (o *Component) GetGeminiVersion() string {
+	if o == nil || o.GeminiVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.GeminiVersion
+}
+
+// GetGeminiVersionOk returns a tuple with the GeminiVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetGeminiVersionOk() (*string, bool) {
+	if o == nil || o.GeminiVersion == nil {
+		return nil, false
+	}
+	return o.GeminiVersion, true
+}
+
+// HasGeminiVersion returns a boolean if a field has been set.
+func (o *Component) HasGeminiVersion() bool {
+	return o != nil && o.GeminiVersion != nil
+}
+
+// SetGeminiVersion gets a reference to the given string and assigns it to the GeminiVersion field.
+func (o *Component) SetGeminiVersion(v string) {
+	o.GeminiVersion = &v
+}
+
+// GetOteldVersion returns the OteldVersion field value if set, zero value otherwise.
+func (o *Component) GetOteldVersion() string {
+	if o == nil || o.OteldVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.OteldVersion
+}
+
+// GetOteldVersionOk returns a tuple with the OteldVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetOteldVersionOk() (*string, bool) {
+	if o == nil || o.OteldVersion == nil {
+		return nil, false
+	}
+	return o.OteldVersion, true
+}
+
+// HasOteldVersion returns a boolean if a field has been set.
+func (o *Component) HasOteldVersion() bool {
+	return o != nil && o.OteldVersion != nil
+}
+
+// SetOteldVersion gets a reference to the given string and assigns it to the OteldVersion field.
+func (o *Component) SetOteldVersion(v string) {
+	o.OteldVersion = &v
+}
+
+// GetImageRegistry returns the ImageRegistry field value if set, zero value otherwise.
+func (o *Component) GetImageRegistry() string {
+	if o == nil || o.ImageRegistry == nil {
+		var ret string
+		return ret
+	}
+	return *o.ImageRegistry
+}
+
+// GetImageRegistryOk returns a tuple with the ImageRegistry field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetImageRegistryOk() (*string, bool) {
+	if o == nil || o.ImageRegistry == nil {
+		return nil, false
+	}
+	return o.ImageRegistry, true
+}
+
+// HasImageRegistry returns a boolean if a field has been set.
+func (o *Component) HasImageRegistry() bool {
+	return o != nil && o.ImageRegistry != nil
+}
+
+// SetImageRegistry gets a reference to the given string and assigns it to the ImageRegistry field.
+func (o *Component) SetImageRegistry(v string) {
+	o.ImageRegistry = &v
+}
+
+// GetDefaultStorageClass returns the DefaultStorageClass field value.
+func (o *Component) GetDefaultStorageClass() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.Name
+	return o.DefaultStorageClass
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetDefaultStorageClassOk returns a tuple with the DefaultStorageClass field value
 // and a boolean to check if the value has been set.
-func (o *Component) GetNameOk() (*string, bool) {
+func (o *Component) GetDefaultStorageClassOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return &o.DefaultStorageClass, true
 }
 
-// SetName sets field value.
-func (o *Component) SetName(v string) {
-	o.Name = v
+// SetDefaultStorageClass sets field value.
+func (o *Component) SetDefaultStorageClass(v string) {
+	o.DefaultStorageClass = v
 }
 
-// GetVersion returns the Version field value.
-func (o *Component) GetVersion() string {
-	if o == nil {
-		var ret string
+// GetCpuOvercommitRatio returns the CpuOvercommitRatio field value if set, zero value otherwise.
+func (o *Component) GetCpuOvercommitRatio() float64 {
+	if o == nil || o.CpuOvercommitRatio == nil {
+		var ret float64
 		return ret
 	}
-	return o.Version
+	return *o.CpuOvercommitRatio
 }
 
-// GetVersionOk returns a tuple with the Version field value
+// GetCpuOvercommitRatioOk returns a tuple with the CpuOvercommitRatio field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Component) GetVersionOk() (*string, bool) {
-	if o == nil {
+func (o *Component) GetCpuOvercommitRatioOk() (*float64, bool) {
+	if o == nil || o.CpuOvercommitRatio == nil {
 		return nil, false
 	}
-	return &o.Version, true
+	return o.CpuOvercommitRatio, true
 }
 
-// SetVersion sets field value.
-func (o *Component) SetVersion(v string) {
-	o.Version = v
+// HasCpuOvercommitRatio returns a boolean if a field has been set.
+func (o *Component) HasCpuOvercommitRatio() bool {
+	return o != nil && o.CpuOvercommitRatio != nil
 }
 
-// GetDependencies returns the Dependencies field value if set, zero value otherwise.
-func (o *Component) GetDependencies() []string {
-	if o == nil || o.Dependencies == nil {
+// SetCpuOvercommitRatio gets a reference to the given float64 and assigns it to the CpuOvercommitRatio field.
+func (o *Component) SetCpuOvercommitRatio(v float64) {
+	o.CpuOvercommitRatio = &v
+}
+
+// GetMemoryOvercommitRatio returns the MemoryOvercommitRatio field value if set, zero value otherwise.
+func (o *Component) GetMemoryOvercommitRatio() float64 {
+	if o == nil || o.MemoryOvercommitRatio == nil {
+		var ret float64
+		return ret
+	}
+	return *o.MemoryOvercommitRatio
+}
+
+// GetMemoryOvercommitRatioOk returns a tuple with the MemoryOvercommitRatio field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetMemoryOvercommitRatioOk() (*float64, bool) {
+	if o == nil || o.MemoryOvercommitRatio == nil {
+		return nil, false
+	}
+	return o.MemoryOvercommitRatio, true
+}
+
+// HasMemoryOvercommitRatio returns a boolean if a field has been set.
+func (o *Component) HasMemoryOvercommitRatio() bool {
+	return o != nil && o.MemoryOvercommitRatio != nil
+}
+
+// SetMemoryOvercommitRatio gets a reference to the given float64 and assigns it to the MemoryOvercommitRatio field.
+func (o *Component) SetMemoryOvercommitRatio(v float64) {
+	o.MemoryOvercommitRatio = &v
+}
+
+// GetNamespaces returns the Namespaces field value if set, zero value otherwise.
+func (o *Component) GetNamespaces() []string {
+	if o == nil || o.Namespaces == nil {
 		var ret []string
 		return ret
 	}
-	return o.Dependencies
+	return o.Namespaces
 }
 
-// GetDependenciesOk returns a tuple with the Dependencies field value if set, nil otherwise
+// GetNamespacesOk returns a tuple with the Namespaces field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Component) GetDependenciesOk() (*[]string, bool) {
-	if o == nil || o.Dependencies == nil {
+func (o *Component) GetNamespacesOk() (*[]string, bool) {
+	if o == nil || o.Namespaces == nil {
 		return nil, false
 	}
-	return &o.Dependencies, true
+	return &o.Namespaces, true
 }
 
-// HasDependencies returns a boolean if a field has been set.
-func (o *Component) HasDependencies() bool {
-	return o != nil && o.Dependencies != nil
+// HasNamespaces returns a boolean if a field has been set.
+func (o *Component) HasNamespaces() bool {
+	return o != nil && o.Namespaces != nil
 }
 
-// SetDependencies gets a reference to the given []string and assigns it to the Dependencies field.
-func (o *Component) SetDependencies(v []string) {
-	o.Dependencies = v
+// SetNamespaces gets a reference to the given []string and assigns it to the Namespaces field.
+func (o *Component) SetNamespaces(v []string) {
+	o.Namespaces = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -122,10 +306,30 @@ func (o Component) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["name"] = o.Name
-	toSerialize["version"] = o.Version
-	if o.Dependencies != nil {
-		toSerialize["dependencies"] = o.Dependencies
+	if o.KubernetesVersion != nil {
+		toSerialize["kubernetesVersion"] = o.KubernetesVersion
+	}
+	if o.KbVersion != nil {
+		toSerialize["kbVersion"] = o.KbVersion
+	}
+	if o.GeminiVersion != nil {
+		toSerialize["geminiVersion"] = o.GeminiVersion
+	}
+	if o.OteldVersion != nil {
+		toSerialize["oteldVersion"] = o.OteldVersion
+	}
+	if o.ImageRegistry != nil {
+		toSerialize["imageRegistry"] = o.ImageRegistry
+	}
+	toSerialize["defaultStorageClass"] = o.DefaultStorageClass
+	if o.CpuOvercommitRatio != nil {
+		toSerialize["cpuOvercommitRatio"] = o.CpuOvercommitRatio
+	}
+	if o.MemoryOvercommitRatio != nil {
+		toSerialize["memoryOvercommitRatio"] = o.MemoryOvercommitRatio
+	}
+	if o.Namespaces != nil {
+		toSerialize["namespaces"] = o.Namespaces
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -137,28 +341,37 @@ func (o Component) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string  `json:"name"`
-		Version      *string  `json:"version"`
-		Dependencies []string `json:"dependencies,omitempty"`
+		KubernetesVersion     *string  `json:"kubernetesVersion,omitempty"`
+		KbVersion             *string  `json:"kbVersion,omitempty"`
+		GeminiVersion         *string  `json:"geminiVersion,omitempty"`
+		OteldVersion          *string  `json:"oteldVersion,omitempty"`
+		ImageRegistry         *string  `json:"imageRegistry,omitempty"`
+		DefaultStorageClass   *string  `json:"defaultStorageClass"`
+		CpuOvercommitRatio    *float64 `json:"cpuOvercommitRatio,omitempty"`
+		MemoryOvercommitRatio *float64 `json:"memoryOvercommitRatio,omitempty"`
+		Namespaces            []string `json:"namespaces,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
-	if all.Name == nil {
-		return fmt.Errorf("required field name missing")
-	}
-	if all.Version == nil {
-		return fmt.Errorf("required field version missing")
+	if all.DefaultStorageClass == nil {
+		return fmt.Errorf("required field defaultStorageClass missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "dependencies"})
+		common.DeleteKeys(additionalProperties, &[]string{"kubernetesVersion", "kbVersion", "geminiVersion", "oteldVersion", "imageRegistry", "defaultStorageClass", "cpuOvercommitRatio", "memoryOvercommitRatio", "namespaces"})
 	} else {
 		return err
 	}
-	o.Name = *all.Name
-	o.Version = *all.Version
-	o.Dependencies = all.Dependencies
+	o.KubernetesVersion = all.KubernetesVersion
+	o.KbVersion = all.KbVersion
+	o.GeminiVersion = all.GeminiVersion
+	o.OteldVersion = all.OteldVersion
+	o.ImageRegistry = all.ImageRegistry
+	o.DefaultStorageClass = *all.DefaultStorageClass
+	o.CpuOvercommitRatio = all.CpuOvercommitRatio
+	o.MemoryOvercommitRatio = all.MemoryOvercommitRatio
+	o.Namespaces = all.Namespaces
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
