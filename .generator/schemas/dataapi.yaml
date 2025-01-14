@@ -1742,7 +1742,11 @@ paths:
           schema:
             type: string
       responses:
-        '204':
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
           description: Returned when dataset is deleted successfully.
         '400':
           $ref: '#/components/responses/400'
