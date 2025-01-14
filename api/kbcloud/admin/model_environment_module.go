@@ -21,13 +21,13 @@ type EnvironmentModule struct {
 	// Environment module status (running, stopped, error, not_installed, etc..)
 	Status string `json:"status"`
 	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-	HostingStatus HostingStatus `json:"hosting_status"`
+	HostingStatus HostingStatus `json:"hostingStatus"`
 	// Number of replicas
 	Replicas int32 `json:"replicas"`
 	// Deployment location
 	Location string `json:"location"`
 	// Cluster information
-	ClusterInfo *ClusterInfo `json:"cluster_info,omitempty"`
+	ClusterInfo *ClusterInfo `json:"clusterInfo,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -262,11 +262,11 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 		toSerialize["enable"] = o.Enable
 	}
 	toSerialize["status"] = o.Status
-	toSerialize["hosting_status"] = o.HostingStatus
+	toSerialize["hostingStatus"] = o.HostingStatus
 	toSerialize["replicas"] = o.Replicas
 	toSerialize["location"] = o.Location
 	if o.ClusterInfo != nil {
-		toSerialize["cluster_info"] = o.ClusterInfo
+		toSerialize["clusterInfo"] = o.ClusterInfo
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -282,10 +282,10 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		Version       *string        `json:"version"`
 		Enable        *bool          `json:"enable,omitempty"`
 		Status        *string        `json:"status"`
-		HostingStatus *HostingStatus `json:"hosting_status"`
+		HostingStatus *HostingStatus `json:"hostingStatus"`
 		Replicas      *int32         `json:"replicas"`
 		Location      *string        `json:"location"`
-		ClusterInfo   *ClusterInfo   `json:"cluster_info,omitempty"`
+		ClusterInfo   *ClusterInfo   `json:"clusterInfo,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -300,7 +300,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		return fmt.Errorf("required field status missing")
 	}
 	if all.HostingStatus == nil {
-		return fmt.Errorf("required field hosting_status missing")
+		return fmt.Errorf("required field hostingStatus missing")
 	}
 	if all.Replicas == nil {
 		return fmt.Errorf("required field replicas missing")
@@ -310,7 +310,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "enable", "status", "hosting_status", "replicas", "location", "cluster_info"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "enable", "status", "hostingStatus", "replicas", "location", "clusterInfo"})
 	} else {
 		return err
 	}

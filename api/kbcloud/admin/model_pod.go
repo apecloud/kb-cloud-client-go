@@ -17,7 +17,7 @@ type Pod struct {
 	// Pod namespace
 	Namespace *string `json:"namespace,omitempty"`
 	// Node name where pod is running
-	NodeName *string `json:"node_name,omitempty"`
+	NodeName *string `json:"nodeName,omitempty"`
 	// Pod status
 	Status *string `json:"status,omitempty"`
 	// Pod phase
@@ -25,10 +25,10 @@ type Pod struct {
 	// Pod IP address
 	Ip *string `json:"ip,omitempty"`
 	// Pod creation time
-	CreationTimestamp *time.Time `json:"creation_timestamp,omitempty"`
+	CreationTimestamp *time.Time `json:"creationTimestamp,omitempty"`
 	// Resource usage information for a pod
 	Resources       *PodResources       `json:"resources,omitempty"`
-	OwnerReferences []PodOwnerReference `json:"owner_references,omitempty"`
+	OwnerReferences []PodOwnerReference `json:"ownerReferences,omitempty"`
 	Containers      []ContainerInfo     `json:"containers,omitempty"`
 	Conditions      []PodCondition      `json:"conditions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -374,7 +374,7 @@ func (o Pod) MarshalJSON() ([]byte, error) {
 		toSerialize["namespace"] = o.Namespace
 	}
 	if o.NodeName != nil {
-		toSerialize["node_name"] = o.NodeName
+		toSerialize["nodeName"] = o.NodeName
 	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
@@ -387,16 +387,16 @@ func (o Pod) MarshalJSON() ([]byte, error) {
 	}
 	if o.CreationTimestamp != nil {
 		if o.CreationTimestamp.Nanosecond() == 0 {
-			toSerialize["creation_timestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05Z07:00")
+			toSerialize["creationTimestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05Z07:00")
 		} else {
-			toSerialize["creation_timestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
+			toSerialize["creationTimestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
 	if o.Resources != nil {
 		toSerialize["resources"] = o.Resources
 	}
 	if o.OwnerReferences != nil {
-		toSerialize["owner_references"] = o.OwnerReferences
+		toSerialize["ownerReferences"] = o.OwnerReferences
 	}
 	if o.Containers != nil {
 		toSerialize["containers"] = o.Containers
@@ -416,13 +416,13 @@ func (o *Pod) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name              *string             `json:"name,omitempty"`
 		Namespace         *string             `json:"namespace,omitempty"`
-		NodeName          *string             `json:"node_name,omitempty"`
+		NodeName          *string             `json:"nodeName,omitempty"`
 		Status            *string             `json:"status,omitempty"`
 		Phase             *string             `json:"phase,omitempty"`
 		Ip                *string             `json:"ip,omitempty"`
-		CreationTimestamp *time.Time          `json:"creation_timestamp,omitempty"`
+		CreationTimestamp *time.Time          `json:"creationTimestamp,omitempty"`
 		Resources         *PodResources       `json:"resources,omitempty"`
-		OwnerReferences   []PodOwnerReference `json:"owner_references,omitempty"`
+		OwnerReferences   []PodOwnerReference `json:"ownerReferences,omitempty"`
 		Containers        []ContainerInfo     `json:"containers,omitempty"`
 		Conditions        []PodCondition      `json:"conditions,omitempty"`
 	}{}
@@ -431,7 +431,7 @@ func (o *Pod) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "namespace", "node_name", "status", "phase", "ip", "creation_timestamp", "resources", "owner_references", "containers", "conditions"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "namespace", "nodeName", "status", "phase", "ip", "creationTimestamp", "resources", "ownerReferences", "containers", "conditions"})
 	} else {
 		return err
 	}
