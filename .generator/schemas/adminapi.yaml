@@ -5340,6 +5340,82 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
+    patch:
+      description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
+      summary: Set the node to maintenance mode
+      operationId: setNodeMaintenanceMode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/off:
+    patch:
+      description: Remove the node from maintenance mode. This action restores the node to its normal operational state, allowing it to resume handling workloads.
+      summary: Remove the node from maintenance mode
+      operationId: removeNodeMaintenanceMode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/nodes/{nodeName}:
     get:
       description: Get specified node info for environment
@@ -12403,6 +12479,43 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}:
+    patch:
+      operationId: updateEnvironmentModule
+      summary: update environment module
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+        - name: moduleName
+          in: path
+          required: true
+          description: Environment module name
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentModule'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModule'
+        '400':
+          $ref: '#/components/responses/400'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
 components:
   securitySchemes:
     BearerToken:
@@ -15169,6 +15282,8 @@ components:
           type: string
         clusterTaskId:
           type: string
+        dependentClusterTaskId:
+          type: string
       required:
         - opsRequestName
       type: object
@@ -15664,6 +15779,9 @@ components:
         region:
           description: Region of the node
           type: string
+        underMaintenance:
+          description: whether node is under maintenance
+          type: boolean
         unschedulable:
           description: whether node is unschedulable
           type: boolean
@@ -16090,24 +16208,60 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
-    module:
+    hostingStatus:
+      type: string
+      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+      enum:
+        - Hostable
+        - Non-hostable
+        - Hosted
+    clusterInfo:
       type: object
-      description: Module info in environment
-      required:
-        - name
-        - version
+      description: Cluster information
+      properties:
+        cluster_name:
+          type: string
+          description: The name of the cluster
+        cluster_definition:
+          type: string
+          description: The definition of the cluster
+        org_name:
+          type: string
+          description: The organization name
+    environmentModule:
+      type: object
+      description: Single environment module information
       properties:
         name:
           type: string
-          description: the name of module
+          description: Environment module name
         version:
           type: string
-          description: the version of module
-        dependencies:
-          type: array
-          items:
-            type: string
-          description: the dependencies of module
+          description: Environment module version
+        enable:
+          type: boolean
+          description: whether environment enable the module
+        status:
+          type: string
+          description: Environment module status (running, stopped, error, not_installed, etc..)
+        hosting_status:
+          $ref: '#/components/schemas/hostingStatus'
+        replicas:
+          type: integer
+          description: Number of replicas
+        location:
+          type: string
+          description: Deployment location
+        cluster_info:
+          $ref: '#/components/schemas/clusterInfo'
+          description: Cluster information, only returned when hosting_status is Hosted
+      required:
+        - name
+        - version
+        - status
+        - hosting_status
+        - replicas
+        - location
     provisionConfig:
       title: ProvisionConfig
       description: Configuration to provision infrastructure for this environment
@@ -16128,9 +16282,10 @@ components:
           $ref: '#/components/schemas/storageConfig'
         modules:
           type: array
+          description: option modules of environment
           nullable: true
           items:
-            $ref: '#/components/schemas/module'
+            $ref: '#/components/schemas/environmentModule'
     autohealingConfig:
       type: object
       description: cluster instance autohealing process config
@@ -17096,6 +17251,7 @@ components:
         - uninstall
         - upgradeVictoriaMetrics
         - upgradeLoki
+        - upgradeModule
     workflowCreate:
       type: object
       properties:
@@ -19000,7 +19156,7 @@ components:
         - resetPassword
         - delete
       properties:
-        'maxSuperUserAccount:':
+        maxSuperUserAccount:
           type: integer
           format: int32
           minimum: 0
@@ -21871,57 +22027,6 @@ components:
       required:
         - items
       type: object
-    hostingStatus:
-      type: string
-      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-      enum:
-        - Hostable
-        - Non-hostable
-        - Hosted
-    clusterInfo:
-      type: object
-      description: Cluster information
-      properties:
-        cluster_name:
-          type: string
-          description: The name of the cluster
-        cluster_definition:
-          type: string
-          description: The definition of the cluster
-        org_name:
-          type: string
-          description: The organization name
-    environmentModule:
-      type: object
-      description: Single environment module information
-      properties:
-        name:
-          type: string
-          description: Environment module name
-        version:
-          type: string
-          description: Environment module version
-        status:
-          type: string
-          description: Environment module status (running, stopped, error, not_installed, etc..)
-        hosting_status:
-          $ref: '#/components/schemas/hostingStatus'
-        replicas:
-          type: integer
-          description: Number of replicas
-        location:
-          type: string
-          description: Deployment location
-        cluster_info:
-          $ref: '#/components/schemas/clusterInfo'
-          description: Cluster information, only returned when hosting_status is Hosted
-      required:
-        - name
-        - version
-        - status
-        - hosting_status
-        - replicas
-        - location
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment

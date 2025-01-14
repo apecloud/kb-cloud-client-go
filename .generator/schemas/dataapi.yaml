@@ -1071,7 +1071,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/clusterTask'
+              $ref: '#/components/schemas/ACLUser'
       responses:
         '201':
           description: create redis account success

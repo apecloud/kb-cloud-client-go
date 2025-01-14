@@ -20,7 +20,8 @@ type ProvisionConfig struct {
 	NodePool []NodePoolNode `json:"nodePool,omitempty"`
 	// Storage config for environment
 	Storage StorageConfig `json:"storage"`
-	Modules []Module      `json:"modules"`
+	// option modules of environment
+	Modules []EnvironmentModule `json:"modules"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,7 +31,7 @@ type ProvisionConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewProvisionConfig(register Register, component Component, storage StorageConfig, modules []Module) *ProvisionConfig {
+func NewProvisionConfig(register Register, component Component, storage StorageConfig, modules []EnvironmentModule) *ProvisionConfig {
 	this := ProvisionConfig{}
 	this.Register = register
 	this.Component = component
@@ -145,10 +146,10 @@ func (o *ProvisionConfig) SetStorage(v StorageConfig) {
 }
 
 // GetModules returns the Modules field value.
-// If the value is explicit nil, the zero value for []Module will be returned.
-func (o *ProvisionConfig) GetModules() []Module {
+// If the value is explicit nil, the zero value for []EnvironmentModule will be returned.
+func (o *ProvisionConfig) GetModules() []EnvironmentModule {
 	if o == nil {
-		var ret []Module
+		var ret []EnvironmentModule
 		return ret
 	}
 	return o.Modules
@@ -157,7 +158,7 @@ func (o *ProvisionConfig) GetModules() []Module {
 // GetModulesOk returns a tuple with the Modules field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ProvisionConfig) GetModulesOk() (*[]Module, bool) {
+func (o *ProvisionConfig) GetModulesOk() (*[]EnvironmentModule, bool) {
 	if o == nil || o.Modules == nil {
 		return nil, false
 	}
@@ -165,7 +166,7 @@ func (o *ProvisionConfig) GetModulesOk() (*[]Module, bool) {
 }
 
 // SetModules sets field value.
-func (o *ProvisionConfig) SetModules(v []Module) {
+func (o *ProvisionConfig) SetModules(v []EnvironmentModule) {
 	o.Modules = v
 }
 
@@ -194,11 +195,11 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Register  *Register      `json:"register"`
-		Component *Component     `json:"component"`
-		NodePool  []NodePoolNode `json:"nodePool,omitempty"`
-		Storage   *StorageConfig `json:"storage"`
-		Modules   []Module       `json:"modules"`
+		Register  *Register           `json:"register"`
+		Component *Component          `json:"component"`
+		NodePool  []NodePoolNode      `json:"nodePool,omitempty"`
+		Storage   *StorageConfig      `json:"storage"`
+		Modules   []EnvironmentModule `json:"modules"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)

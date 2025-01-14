@@ -16,6 +16,8 @@ type EnvironmentModule struct {
 	Name string `json:"name"`
 	// Environment module version
 	Version string `json:"version"`
+	// whether environment enable the module
+	Enable *bool `json:"enable,omitempty"`
 	// Environment module status (running, stopped, error, not_installed, etc..)
 	Status string `json:"status"`
 	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
@@ -98,6 +100,34 @@ func (o *EnvironmentModule) GetVersionOk() (*string, bool) {
 // SetVersion sets field value.
 func (o *EnvironmentModule) SetVersion(v string) {
 	o.Version = v
+}
+
+// GetEnable returns the Enable field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetEnable() bool {
+	if o == nil || o.Enable == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Enable
+}
+
+// GetEnableOk returns a tuple with the Enable field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetEnableOk() (*bool, bool) {
+	if o == nil || o.Enable == nil {
+		return nil, false
+	}
+	return o.Enable, true
+}
+
+// HasEnable returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasEnable() bool {
+	return o != nil && o.Enable != nil
+}
+
+// SetEnable gets a reference to the given bool and assigns it to the Enable field.
+func (o *EnvironmentModule) SetEnable(v bool) {
+	o.Enable = &v
 }
 
 // GetStatus returns the Status field value.
@@ -228,6 +258,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["version"] = o.Version
+	if o.Enable != nil {
+		toSerialize["enable"] = o.Enable
+	}
 	toSerialize["status"] = o.Status
 	toSerialize["hosting_status"] = o.HostingStatus
 	toSerialize["replicas"] = o.Replicas
@@ -247,6 +280,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name          *string        `json:"name"`
 		Version       *string        `json:"version"`
+		Enable        *bool          `json:"enable,omitempty"`
 		Status        *string        `json:"status"`
 		HostingStatus *HostingStatus `json:"hosting_status"`
 		Replicas      *int32         `json:"replicas"`
@@ -276,7 +310,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hosting_status", "replicas", "location", "cluster_info"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "enable", "status", "hosting_status", "replicas", "location", "cluster_info"})
 	} else {
 		return err
 	}
@@ -284,6 +318,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.Version = *all.Version
+	o.Enable = all.Enable
 	o.Status = *all.Status
 	if !all.HostingStatus.IsValid() {
 		hasInvalidField = true

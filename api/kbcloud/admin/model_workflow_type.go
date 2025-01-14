@@ -21,6 +21,7 @@ const (
 	WorkflowTypeUninstall              WorkflowType = "uninstall"
 	WorkflowTypeUpgradeVictoriaMetrics WorkflowType = "upgradeVictoriaMetrics"
 	WorkflowTypeUpgradeLoki            WorkflowType = "upgradeLoki"
+	WorkflowTypeUpgradeModule          WorkflowType = "upgradeModule"
 )
 
 var allowedWorkflowTypeEnumValues = []WorkflowType{
@@ -30,6 +31,7 @@ var allowedWorkflowTypeEnumValues = []WorkflowType{
 	WorkflowTypeUninstall,
 	WorkflowTypeUpgradeVictoriaMetrics,
 	WorkflowTypeUpgradeLoki,
+	WorkflowTypeUpgradeModule,
 }
 
 // GetAllowedValues returns the list of possible values.
