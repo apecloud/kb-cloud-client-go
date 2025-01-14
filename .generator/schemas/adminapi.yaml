@@ -16244,13 +16244,9 @@ components:
         version:
           type: string
           description: Environment module version
-        enabled:
-          type: boolean
-          description: whether environment enable the module
-          nullable: true
         status:
           type: string
-          description: Environment module status (running, stopped, error, not_installed, etc..)
+          description: Environment module status (running, stopped, error, not_installed, enabled, disabled etc..)
         hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
@@ -16264,6 +16260,7 @@ components:
           description: Cluster information, only returned when hosting_status is Hosted
       required:
         - name
+        - status
     provisionConfig:
       title: ProvisionConfig
       description: Configuration to provision infrastructure for this environment
@@ -16284,7 +16281,6 @@ components:
         modules:
           type: array
           description: option modules of environment
-          nullable: true
           items:
             $ref: '#/components/schemas/environmentModule'
     autohealingConfig:
@@ -17252,7 +17248,7 @@ components:
         - uninstall
         - upgradeVictoriaMetrics
         - upgradeLoki
-        - upgradeModule
+        - update
     workflowCreate:
       type: object
       properties:

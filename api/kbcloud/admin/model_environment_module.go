@@ -16,10 +16,8 @@ type EnvironmentModule struct {
 	Name string `json:"name"`
 	// Environment module version
 	Version *string `json:"version,omitempty"`
-	// whether environment enable the module
-	Enabled common.NullableBool `json:"enabled,omitempty"`
-	// Environment module status (running, stopped, error, not_installed, etc..)
-	Status *string `json:"status,omitempty"`
+	// Environment module status (running, stopped, error, not_installed, enabled, disabled etc..)
+	Status string `json:"status"`
 	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
 	HostingStatus *HostingStatus `json:"hostingStatus,omitempty"`
 	// Number of replicas
@@ -37,9 +35,10 @@ type EnvironmentModule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentModule(name string) *EnvironmentModule {
+func NewEnvironmentModule(name string, status string) *EnvironmentModule {
 	this := EnvironmentModule{}
 	this.Name = name
+	this.Status = status
 	return &this
 }
 
@@ -102,71 +101,27 @@ func (o *EnvironmentModule) SetVersion(v string) {
 	o.Version = &v
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EnvironmentModule) GetEnabled() bool {
-	if o == nil || o.Enabled.Get() == nil {
-		var ret bool
-		return ret
-	}
-	return *o.Enabled.Get()
-}
-
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *EnvironmentModule) GetEnabledOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Enabled.Get(), o.Enabled.IsSet()
-}
-
-// HasEnabled returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasEnabled() bool {
-	return o != nil && o.Enabled.IsSet()
-}
-
-// SetEnabled gets a reference to the given common.NullableBool and assigns it to the Enabled field.
-func (o *EnvironmentModule) SetEnabled(v bool) {
-	o.Enabled.Set(&v)
-}
-
-// SetEnabledNil sets the value for Enabled to be an explicit nil.
-func (o *EnvironmentModule) SetEnabledNil() {
-	o.Enabled.Set(nil)
-}
-
-// UnsetEnabled ensures that no value is present for Enabled, not even an explicit nil.
-func (o *EnvironmentModule) UnsetEnabled() {
-	o.Enabled.Unset()
-}
-
-// GetStatus returns the Status field value if set, zero value otherwise.
+// GetStatus returns the Status field value.
 func (o *EnvironmentModule) GetStatus() string {
-	if o == nil || o.Status == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Status
+	return o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentModule) GetStatusOk() (*string, bool) {
-	if o == nil || o.Status == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Status, true
+	return &o.Status, true
 }
 
-// HasStatus returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasStatus() bool {
-	return o != nil && o.Status != nil
-}
-
-// SetStatus gets a reference to the given string and assigns it to the Status field.
+// SetStatus sets field value.
 func (o *EnvironmentModule) SetStatus(v string) {
-	o.Status = &v
+	o.Status = v
 }
 
 // GetHostingStatus returns the HostingStatus field value if set, zero value otherwise.
@@ -291,12 +246,7 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
 	}
-	if o.Enabled.IsSet() {
-		toSerialize["enabled"] = o.Enabled.Get()
-	}
-	if o.Status != nil {
-		toSerialize["status"] = o.Status
-	}
+	toSerialize["status"] = o.Status
 	if o.HostingStatus != nil {
 		toSerialize["hostingStatus"] = o.HostingStatus
 	}
@@ -319,14 +269,13 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string             `json:"name"`
-		Version       *string             `json:"version,omitempty"`
-		Enabled       common.NullableBool `json:"enabled,omitempty"`
-		Status        *string             `json:"status,omitempty"`
-		HostingStatus *HostingStatus      `json:"hostingStatus,omitempty"`
-		Replicas      *int32              `json:"replicas,omitempty"`
-		Location      *string             `json:"location,omitempty"`
-		ClusterInfo   *ClusterInfo        `json:"clusterInfo,omitempty"`
+		Name          *string        `json:"name"`
+		Version       *string        `json:"version,omitempty"`
+		Status        *string        `json:"status"`
+		HostingStatus *HostingStatus `json:"hostingStatus,omitempty"`
+		Replicas      *int32         `json:"replicas,omitempty"`
+		Location      *string        `json:"location,omitempty"`
+		ClusterInfo   *ClusterInfo   `json:"clusterInfo,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -334,9 +283,12 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
+	if all.Status == nil {
+		return fmt.Errorf("required field status missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "enabled", "status", "hostingStatus", "replicas", "location", "clusterInfo"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hostingStatus", "replicas", "location", "clusterInfo"})
 	} else {
 		return err
 	}
@@ -344,8 +296,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.Version = all.Version
-	o.Enabled = all.Enabled
-	o.Status = all.Status
+	o.Status = *all.Status
 	if all.HostingStatus != nil && !all.HostingStatus.IsValid() {
 		hasInvalidField = true
 	} else {
