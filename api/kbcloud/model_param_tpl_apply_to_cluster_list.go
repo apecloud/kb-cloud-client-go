@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ParamTplApplToClusterList paramTplAPPLToClusterList is a list of parameter templates applicable to the cluster
-type ParamTplApplToClusterList struct {
+// ParamTplApplyToClusterList paramTplAPPLToClusterList is a list of parameter templates applicable to the cluster
+type ParamTplApplyToClusterList struct {
 	// Items is the list of parameter templates applicable to the cluster objects in the list
-	Items []ParamTplApplToClusterListItem `json:"items"`
+	Items []ParamTplApplyToClusterListItem `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,28 +21,28 @@ type ParamTplApplToClusterList struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewParamTplApplToClusterList instantiates a new ParamTplApplToClusterList object.
+// NewParamTplApplyToClusterList instantiates a new ParamTplApplyToClusterList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTplApplToClusterList(items []ParamTplApplToClusterListItem) *ParamTplApplToClusterList {
-	this := ParamTplApplToClusterList{}
+func NewParamTplApplyToClusterList(items []ParamTplApplyToClusterListItem) *ParamTplApplyToClusterList {
+	this := ParamTplApplyToClusterList{}
 	this.Items = items
 	return &this
 }
 
-// NewParamTplApplToClusterListWithDefaults instantiates a new ParamTplApplToClusterList object.
+// NewParamTplApplyToClusterListWithDefaults instantiates a new ParamTplApplyToClusterList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewParamTplApplToClusterListWithDefaults() *ParamTplApplToClusterList {
-	this := ParamTplApplToClusterList{}
+func NewParamTplApplyToClusterListWithDefaults() *ParamTplApplyToClusterList {
+	this := ParamTplApplyToClusterList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *ParamTplApplToClusterList) GetItems() []ParamTplApplToClusterListItem {
+func (o *ParamTplApplyToClusterList) GetItems() []ParamTplApplyToClusterListItem {
 	if o == nil {
-		var ret []ParamTplApplToClusterListItem
+		var ret []ParamTplApplyToClusterListItem
 		return ret
 	}
 	return o.Items
@@ -50,7 +50,7 @@ func (o *ParamTplApplToClusterList) GetItems() []ParamTplApplToClusterListItem {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *ParamTplApplToClusterList) GetItemsOk() (*[]ParamTplApplToClusterListItem, bool) {
+func (o *ParamTplApplyToClusterList) GetItemsOk() (*[]ParamTplApplyToClusterListItem, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,12 +58,12 @@ func (o *ParamTplApplToClusterList) GetItemsOk() (*[]ParamTplApplToClusterListIt
 }
 
 // SetItems sets field value.
-func (o *ParamTplApplToClusterList) SetItems(v []ParamTplApplToClusterListItem) {
+func (o *ParamTplApplyToClusterList) SetItems(v []ParamTplApplyToClusterListItem) {
 	o.Items = v
 }
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
-func (o *ParamTplApplToClusterList) GetPageResult() PageResult {
+func (o *ParamTplApplyToClusterList) GetPageResult() PageResult {
 	if o == nil || o.PageResult == nil {
 		var ret PageResult
 		return ret
@@ -73,7 +73,7 @@ func (o *ParamTplApplToClusterList) GetPageResult() PageResult {
 
 // GetPageResultOk returns a tuple with the PageResult field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParamTplApplToClusterList) GetPageResultOk() (*PageResult, bool) {
+func (o *ParamTplApplyToClusterList) GetPageResultOk() (*PageResult, bool) {
 	if o == nil || o.PageResult == nil {
 		return nil, false
 	}
@@ -81,17 +81,17 @@ func (o *ParamTplApplToClusterList) GetPageResultOk() (*PageResult, bool) {
 }
 
 // HasPageResult returns a boolean if a field has been set.
-func (o *ParamTplApplToClusterList) HasPageResult() bool {
+func (o *ParamTplApplyToClusterList) HasPageResult() bool {
 	return o != nil && o.PageResult != nil
 }
 
 // SetPageResult gets a reference to the given PageResult and assigns it to the PageResult field.
-func (o *ParamTplApplToClusterList) SetPageResult(v PageResult) {
+func (o *ParamTplApplyToClusterList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ParamTplApplToClusterList) MarshalJSON() ([]byte, error) {
+func (o ParamTplApplyToClusterList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -108,10 +108,10 @@ func (o ParamTplApplToClusterList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ParamTplApplToClusterList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ParamTplApplyToClusterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]ParamTplApplToClusterListItem `json:"items"`
-		PageResult *PageResult                      `json:"pageResult,omitempty"`
+		Items      *[]ParamTplApplyToClusterListItem `json:"items"`
+		PageResult *PageResult                       `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
