@@ -191,6 +191,7 @@
 //   - [environmentApi.scaleOutEnvironmentNodes]
 //   - [environmentApi.setNodeMaintenanceMode]
 //   - [environmentApi.uncordonEnvironmentNode]
+//   - [environmentApi.updateEnvironmentModule]
 //   - [eventApi.queryClusterEvents]
 //   - [eventApi.queryEventDetail]
 //   - [faultApi.createClusterNetworkChaos]

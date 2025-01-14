@@ -20,6 +20,8 @@ type ProvisionConfig struct {
 	NodePool []NodePoolNode `json:"nodePool,omitempty"`
 	// Storage config for environment
 	Storage StorageConfig `json:"storage"`
+	// option modules of environment
+	Modules []EnvironmentModule `json:"modules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -142,6 +144,34 @@ func (o *ProvisionConfig) SetStorage(v StorageConfig) {
 	o.Storage = v
 }
 
+// GetModules returns the Modules field value if set, zero value otherwise.
+func (o *ProvisionConfig) GetModules() []EnvironmentModule {
+	if o == nil || o.Modules == nil {
+		var ret []EnvironmentModule
+		return ret
+	}
+	return o.Modules
+}
+
+// GetModulesOk returns a tuple with the Modules field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProvisionConfig) GetModulesOk() (*[]EnvironmentModule, bool) {
+	if o == nil || o.Modules == nil {
+		return nil, false
+	}
+	return &o.Modules, true
+}
+
+// HasModules returns a boolean if a field has been set.
+func (o *ProvisionConfig) HasModules() bool {
+	return o != nil && o.Modules != nil
+}
+
+// SetModules gets a reference to the given []EnvironmentModule and assigns it to the Modules field.
+func (o *ProvisionConfig) SetModules(v []EnvironmentModule) {
+	o.Modules = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -154,6 +184,9 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 		toSerialize["nodePool"] = o.NodePool
 	}
 	toSerialize["storage"] = o.Storage
+	if o.Modules != nil {
+		toSerialize["modules"] = o.Modules
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -164,10 +197,11 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Register  *Register      `json:"register"`
-		Component *Component     `json:"component"`
-		NodePool  []NodePoolNode `json:"nodePool,omitempty"`
-		Storage   *StorageConfig `json:"storage"`
+		Register  *Register           `json:"register"`
+		Component *Component          `json:"component"`
+		NodePool  []NodePoolNode      `json:"nodePool,omitempty"`
+		Storage   *StorageConfig      `json:"storage"`
+		Modules   []EnvironmentModule `json:"modules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -183,7 +217,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage"})
+		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage", "modules"})
 	} else {
 		return err
 	}
@@ -202,6 +236,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Storage = *all.Storage
+	o.Modules = all.Modules
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
