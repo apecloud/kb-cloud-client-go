@@ -16244,20 +16244,18 @@ components:
         version:
           type: string
           description: Environment module version
-          nullable: true
-        enable:
+        enabled:
           type: boolean
           description: whether environment enable the module
+          nullable: true
         status:
           type: string
           description: Environment module status (running, stopped, error, not_installed, etc..)
-          nullable: true
         hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
           description: Number of replicas
-          nullable: true
         location:
           type: string
           description: Deployment location

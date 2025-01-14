@@ -15,15 +15,15 @@ type EnvironmentModule struct {
 	// Environment module name
 	Name string `json:"name"`
 	// Environment module version
-	Version common.NullableString `json:"version,omitempty"`
+	Version *string `json:"version,omitempty"`
 	// whether environment enable the module
-	Enable *bool `json:"enable,omitempty"`
+	Enabled common.NullableBool `json:"enabled,omitempty"`
 	// Environment module status (running, stopped, error, not_installed, etc..)
-	Status common.NullableString `json:"status,omitempty"`
+	Status *string `json:"status,omitempty"`
 	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
 	HostingStatus *HostingStatus `json:"hostingStatus,omitempty"`
 	// Number of replicas
-	Replicas common.NullableInt32 `json:"replicas,omitempty"`
+	Replicas *int32 `json:"replicas,omitempty"`
 	// Deployment location
 	Location *string `json:"location,omitempty"`
 	// Cluster information
@@ -74,110 +74,99 @@ func (o *EnvironmentModule) SetName(v string) {
 	o.Name = v
 }
 
-// GetVersion returns the Version field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetVersion returns the Version field value if set, zero value otherwise.
 func (o *EnvironmentModule) GetVersion() string {
-	if o == nil || o.Version.Get() == nil {
+	if o == nil || o.Version == nil {
 		var ret string
 		return ret
 	}
-	return *o.Version.Get()
+	return *o.Version
 }
 
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentModule) GetVersionOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Version == nil {
 		return nil, false
 	}
-	return o.Version.Get(), o.Version.IsSet()
+	return o.Version, true
 }
 
 // HasVersion returns a boolean if a field has been set.
 func (o *EnvironmentModule) HasVersion() bool {
-	return o != nil && o.Version.IsSet()
+	return o != nil && o.Version != nil
 }
 
-// SetVersion gets a reference to the given common.NullableString and assigns it to the Version field.
+// SetVersion gets a reference to the given string and assigns it to the Version field.
 func (o *EnvironmentModule) SetVersion(v string) {
-	o.Version.Set(&v)
+	o.Version = &v
 }
 
-// SetVersionNil sets the value for Version to be an explicit nil.
-func (o *EnvironmentModule) SetVersionNil() {
-	o.Version.Set(nil)
-}
-
-// UnsetVersion ensures that no value is present for Version, not even an explicit nil.
-func (o *EnvironmentModule) UnsetVersion() {
-	o.Version.Unset()
-}
-
-// GetEnable returns the Enable field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetEnable() bool {
-	if o == nil || o.Enable == nil {
+// GetEnabled returns the Enabled field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentModule) GetEnabled() bool {
+	if o == nil || o.Enabled.Get() == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Enable
+	return *o.Enabled.Get()
 }
 
-// GetEnableOk returns a tuple with the Enable field value if set, nil otherwise
+// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetEnableOk() (*bool, bool) {
-	if o == nil || o.Enable == nil {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentModule) GetEnabledOk() (*bool, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Enable, true
+	return o.Enabled.Get(), o.Enabled.IsSet()
 }
 
-// HasEnable returns a boolean if a field has been set.
-func (o *EnvironmentModule) HasEnable() bool {
-	return o != nil && o.Enable != nil
+// HasEnabled returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasEnabled() bool {
+	return o != nil && o.Enabled.IsSet()
 }
 
-// SetEnable gets a reference to the given bool and assigns it to the Enable field.
-func (o *EnvironmentModule) SetEnable(v bool) {
-	o.Enable = &v
+// SetEnabled gets a reference to the given common.NullableBool and assigns it to the Enabled field.
+func (o *EnvironmentModule) SetEnabled(v bool) {
+	o.Enabled.Set(&v)
 }
 
-// GetStatus returns the Status field value if set, zero value otherwise (both if not set or set to explicit null).
+// SetEnabledNil sets the value for Enabled to be an explicit nil.
+func (o *EnvironmentModule) SetEnabledNil() {
+	o.Enabled.Set(nil)
+}
+
+// UnsetEnabled ensures that no value is present for Enabled, not even an explicit nil.
+func (o *EnvironmentModule) UnsetEnabled() {
+	o.Enabled.Unset()
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
 func (o *EnvironmentModule) GetStatus() string {
-	if o == nil || o.Status.Get() == nil {
+	if o == nil || o.Status == nil {
 		var ret string
 		return ret
 	}
-	return *o.Status.Get()
+	return *o.Status
 }
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentModule) GetStatusOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Status == nil {
 		return nil, false
 	}
-	return o.Status.Get(), o.Status.IsSet()
+	return o.Status, true
 }
 
 // HasStatus returns a boolean if a field has been set.
 func (o *EnvironmentModule) HasStatus() bool {
-	return o != nil && o.Status.IsSet()
+	return o != nil && o.Status != nil
 }
 
-// SetStatus gets a reference to the given common.NullableString and assigns it to the Status field.
+// SetStatus gets a reference to the given string and assigns it to the Status field.
 func (o *EnvironmentModule) SetStatus(v string) {
-	o.Status.Set(&v)
-}
-
-// SetStatusNil sets the value for Status to be an explicit nil.
-func (o *EnvironmentModule) SetStatusNil() {
-	o.Status.Set(nil)
-}
-
-// UnsetStatus ensures that no value is present for Status, not even an explicit nil.
-func (o *EnvironmentModule) UnsetStatus() {
-	o.Status.Unset()
+	o.Status = &v
 }
 
 // GetHostingStatus returns the HostingStatus field value if set, zero value otherwise.
@@ -208,43 +197,32 @@ func (o *EnvironmentModule) SetHostingStatus(v HostingStatus) {
 	o.HostingStatus = &v
 }
 
-// GetReplicas returns the Replicas field value if set, zero value otherwise (both if not set or set to explicit null).
+// GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *EnvironmentModule) GetReplicas() int32 {
-	if o == nil || o.Replicas.Get() == nil {
+	if o == nil || o.Replicas == nil {
 		var ret int32
 		return ret
 	}
-	return *o.Replicas.Get()
+	return *o.Replicas
 }
 
 // GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *EnvironmentModule) GetReplicasOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Replicas == nil {
 		return nil, false
 	}
-	return o.Replicas.Get(), o.Replicas.IsSet()
+	return o.Replicas, true
 }
 
 // HasReplicas returns a boolean if a field has been set.
 func (o *EnvironmentModule) HasReplicas() bool {
-	return o != nil && o.Replicas.IsSet()
+	return o != nil && o.Replicas != nil
 }
 
-// SetReplicas gets a reference to the given common.NullableInt32 and assigns it to the Replicas field.
+// SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
 func (o *EnvironmentModule) SetReplicas(v int32) {
-	o.Replicas.Set(&v)
-}
-
-// SetReplicasNil sets the value for Replicas to be an explicit nil.
-func (o *EnvironmentModule) SetReplicasNil() {
-	o.Replicas.Set(nil)
-}
-
-// UnsetReplicas ensures that no value is present for Replicas, not even an explicit nil.
-func (o *EnvironmentModule) UnsetReplicas() {
-	o.Replicas.Unset()
+	o.Replicas = &v
 }
 
 // GetLocation returns the Location field value if set, zero value otherwise.
@@ -310,20 +288,20 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	if o.Version.IsSet() {
-		toSerialize["version"] = o.Version.Get()
+	if o.Version != nil {
+		toSerialize["version"] = o.Version
 	}
-	if o.Enable != nil {
-		toSerialize["enable"] = o.Enable
+	if o.Enabled.IsSet() {
+		toSerialize["enabled"] = o.Enabled.Get()
 	}
-	if o.Status.IsSet() {
-		toSerialize["status"] = o.Status.Get()
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
 	}
 	if o.HostingStatus != nil {
 		toSerialize["hostingStatus"] = o.HostingStatus
 	}
-	if o.Replicas.IsSet() {
-		toSerialize["replicas"] = o.Replicas.Get()
+	if o.Replicas != nil {
+		toSerialize["replicas"] = o.Replicas
 	}
 	if o.Location != nil {
 		toSerialize["location"] = o.Location
@@ -341,14 +319,14 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string               `json:"name"`
-		Version       common.NullableString `json:"version,omitempty"`
-		Enable        *bool                 `json:"enable,omitempty"`
-		Status        common.NullableString `json:"status,omitempty"`
-		HostingStatus *HostingStatus        `json:"hostingStatus,omitempty"`
-		Replicas      common.NullableInt32  `json:"replicas,omitempty"`
-		Location      *string               `json:"location,omitempty"`
-		ClusterInfo   *ClusterInfo          `json:"clusterInfo,omitempty"`
+		Name          *string             `json:"name"`
+		Version       *string             `json:"version,omitempty"`
+		Enabled       common.NullableBool `json:"enabled,omitempty"`
+		Status        *string             `json:"status,omitempty"`
+		HostingStatus *HostingStatus      `json:"hostingStatus,omitempty"`
+		Replicas      *int32              `json:"replicas,omitempty"`
+		Location      *string             `json:"location,omitempty"`
+		ClusterInfo   *ClusterInfo        `json:"clusterInfo,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -358,7 +336,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "enable", "status", "hostingStatus", "replicas", "location", "clusterInfo"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "enabled", "status", "hostingStatus", "replicas", "location", "clusterInfo"})
 	} else {
 		return err
 	}
@@ -366,7 +344,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.Version = all.Version
-	o.Enable = all.Enable
+	o.Enabled = all.Enabled
 	o.Status = all.Status
 	if all.HostingStatus != nil && !all.HostingStatus.IsValid() {
 		hasInvalidField = true
