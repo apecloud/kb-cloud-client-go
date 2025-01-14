@@ -16751,8 +16751,6 @@ components:
       enum:
         - ScaleOut
         - ScaleIn
-        - ImportDemoDataset
-        - ImportData
         - DeleteDisasterRecoveryCluster
         - CreateDisasterRecoveryCluster
         - PromoteDisasterRecoveryCluster

@@ -17,8 +17,6 @@ type TaskType string
 const (
 	TaskTypeScaleOut                       TaskType = "ScaleOut"
 	TaskTypeScaleIn                        TaskType = "ScaleIn"
-	TaskTypeImportDemoDataset              TaskType = "ImportDemoDataset"
-	TaskTypeImportData                     TaskType = "ImportData"
 	TaskTypeDeleteDisasterRecoveryCluster  TaskType = "DeleteDisasterRecoveryCluster"
 	TaskTypeCreateDisasterRecoveryCluster  TaskType = "CreateDisasterRecoveryCluster"
 	TaskTypePromoteDisasterRecoveryCluster TaskType = "PromoteDisasterRecoveryCluster"
@@ -27,8 +25,6 @@ const (
 var allowedTaskTypeEnumValues = []TaskType{
 	TaskTypeScaleOut,
 	TaskTypeScaleIn,
-	TaskTypeImportDemoDataset,
-	TaskTypeImportData,
 	TaskTypeDeleteDisasterRecoveryCluster,
 	TaskTypeCreateDisasterRecoveryCluster,
 	TaskTypePromoteDisasterRecoveryCluster,

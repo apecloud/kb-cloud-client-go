@@ -1667,17 +1667,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  database:
-                    type: string
+                $ref: '#/components/schemas/clusterTask'
           description: Returned when dataset container-database is created successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - dataset
         - rdbms
@@ -1707,6 +1708,44 @@ paths:
                 type: array
                 items:
                   type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataset
+        - rdbms
+  /data/v1/{engineName}/datasources/{id}/datasets/{datasetName}:
+    delete:
+      description: delete a dataset in cluster
+      summary: Delete cluster dataset
+      operationId: deleteDataset
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: id of the datasource
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - description: name of the dataset
+          in: path
+          name: datasetName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when dataset is deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
