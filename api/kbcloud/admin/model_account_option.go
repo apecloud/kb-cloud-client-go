@@ -12,7 +12,7 @@ import (
 
 type AccountOption struct {
 	// number of super user accounts cloud create
-	MaxSuperUserAccount *int32   `json:"maxSuperUserAccount:,omitempty"`
+	MaxSuperUserAccount *int32   `json:"maxSuperUserAccount,omitempty"`
 	Enabled             bool     `json:"enabled"`
 	Privileges          []string `json:"privileges,omitempty"`
 	AccountNamePattern  string   `json:"accountNamePattern"`
@@ -228,7 +228,7 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	if o.MaxSuperUserAccount != nil {
-		toSerialize["maxSuperUserAccount:"] = o.MaxSuperUserAccount
+		toSerialize["maxSuperUserAccount"] = o.MaxSuperUserAccount
 	}
 	toSerialize["enabled"] = o.Enabled
 	if o.Privileges != nil {
@@ -248,7 +248,7 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		MaxSuperUserAccount *int32   `json:"maxSuperUserAccount:,omitempty"`
+		MaxSuperUserAccount *int32   `json:"maxSuperUserAccount,omitempty"`
 		Enabled             *bool    `json:"enabled"`
 		Privileges          []string `json:"privileges,omitempty"`
 		AccountNamePattern  *string  `json:"accountNamePattern"`
@@ -276,7 +276,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount:", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
 	} else {
 		return err
 	}
