@@ -19448,44 +19448,6 @@ components:
         configFileName:
           type: string
           description: name of configuration file
-    initParam:
-      type: object
-      required:
-        - name
-        - configSpecName
-        - required
-        - label
-        - type
-      properties:
-        name:
-          type: string
-          description: name of the init parameter
-        configSpecName:
-          type: string
-          description: name of config spec, which the parameter belongs to, equal to componentDefinition.configs[x].name
-        required:
-          type: boolean
-          description: whether the parameter is required
-        label:
-          type: string
-          description: label of the parameter
-        type:
-          type: string
-          description: type of the parameter
-        defaultValue:
-          type: string
-          description: default value of the parameter
-        maximum:
-          type: string
-          description: maximum value of the parameter
-        minimum:
-          type: string
-          description: minimum value of the parameter
-        enum:
-          type: array
-          items:
-            type: string
-          description: enum value of the parameter
     exprParam:
       type: object
       required:
@@ -19567,10 +19529,11 @@ components:
           items:
             $ref: '#/components/schemas/parameterConstraint'
         initOptions:
-          type: array
+          type: object
           description: Parameters to be initialized when cluster is created
-          items:
-            $ref: '#/components/schemas/initParam'
+          additionalProperties:
+            type: object
+            properties: {}
         exprParams:
           type: array
           description: Parameters to be calculated based on the instance specifications

@@ -25,7 +25,7 @@ type ParameterOption struct {
 	// parameter constraints, mainly used to verify the correctness of the parameter value.
 	Constraints []ParameterConstraint `json:"constraints,omitempty"`
 	// Parameters to be initialized when cluster is created
-	InitOptions []InitParam `json:"initOptions,omitempty"`
+	InitOptions map[string]interface{} `json:"initOptions,omitempty"`
 	// Parameters to be calculated based on the instance specifications
 	ExprParams []ExprParam `json:"exprParams,omitempty"`
 	// occupationParams means that the parameter value is different from the dedicated specification under the shared specification
@@ -237,9 +237,9 @@ func (o *ParameterOption) SetConstraints(v []ParameterConstraint) {
 }
 
 // GetInitOptions returns the InitOptions field value if set, zero value otherwise.
-func (o *ParameterOption) GetInitOptions() []InitParam {
+func (o *ParameterOption) GetInitOptions() map[string]interface{} {
 	if o == nil || o.InitOptions == nil {
-		var ret []InitParam
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.InitOptions
@@ -247,7 +247,7 @@ func (o *ParameterOption) GetInitOptions() []InitParam {
 
 // GetInitOptionsOk returns a tuple with the InitOptions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterOption) GetInitOptionsOk() (*[]InitParam, bool) {
+func (o *ParameterOption) GetInitOptionsOk() (*map[string]interface{}, bool) {
 	if o == nil || o.InitOptions == nil {
 		return nil, false
 	}
@@ -259,8 +259,8 @@ func (o *ParameterOption) HasInitOptions() bool {
 	return o != nil && o.InitOptions != nil
 }
 
-// SetInitOptions gets a reference to the given []InitParam and assigns it to the InitOptions field.
-func (o *ParameterOption) SetInitOptions(v []InitParam) {
+// SetInitOptions gets a reference to the given map[string]interface{} and assigns it to the InitOptions field.
+func (o *ParameterOption) SetInitOptions(v map[string]interface{}) {
 	o.InitOptions = v
 }
 
@@ -358,16 +358,16 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component        *string               `json:"component"`
-		ExportTpl        *bool                 `json:"exportTpl"`
-		EnableTemplate   *bool                 `json:"enableTemplate"`
-		ConfigSpecs      *[]string             `json:"configSpecs"`
-		DisableHa        *bool                 `json:"disableHA,omitempty"`
-		Templates        []ParameterTemplate   `json:"templates,omitempty"`
-		Constraints      []ParameterConstraint `json:"constraints,omitempty"`
-		InitOptions      []InitParam           `json:"initOptions,omitempty"`
-		ExprParams       []ExprParam           `json:"exprParams,omitempty"`
-		OccupationParams []OccupationParam     `json:"occupationParams,omitempty"`
+		Component        *string                `json:"component"`
+		ExportTpl        *bool                  `json:"exportTpl"`
+		EnableTemplate   *bool                  `json:"enableTemplate"`
+		ConfigSpecs      *[]string              `json:"configSpecs"`
+		DisableHa        *bool                  `json:"disableHA,omitempty"`
+		Templates        []ParameterTemplate    `json:"templates,omitempty"`
+		Constraints      []ParameterConstraint  `json:"constraints,omitempty"`
+		InitOptions      map[string]interface{} `json:"initOptions,omitempty"`
+		ExprParams       []ExprParam            `json:"exprParams,omitempty"`
+		OccupationParams []OccupationParam      `json:"occupationParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
