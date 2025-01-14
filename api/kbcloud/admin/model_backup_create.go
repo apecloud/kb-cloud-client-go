@@ -16,8 +16,6 @@ type BackupCreate struct {
 	Name *string `json:"name,omitempty"`
 	// specified the backup method
 	BackupMethod string `json:"backupMethod"`
-	// the parent backup name
-	ParentBackupName *string `json:"parentBackupName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -92,34 +90,6 @@ func (o *BackupCreate) SetBackupMethod(v string) {
 	o.BackupMethod = v
 }
 
-// GetParentBackupName returns the ParentBackupName field value if set, zero value otherwise.
-func (o *BackupCreate) GetParentBackupName() string {
-	if o == nil || o.ParentBackupName == nil {
-		var ret string
-		return ret
-	}
-	return *o.ParentBackupName
-}
-
-// GetParentBackupNameOk returns a tuple with the ParentBackupName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BackupCreate) GetParentBackupNameOk() (*string, bool) {
-	if o == nil || o.ParentBackupName == nil {
-		return nil, false
-	}
-	return o.ParentBackupName, true
-}
-
-// HasParentBackupName returns a boolean if a field has been set.
-func (o *BackupCreate) HasParentBackupName() bool {
-	return o != nil && o.ParentBackupName != nil
-}
-
-// SetParentBackupName gets a reference to the given string and assigns it to the ParentBackupName field.
-func (o *BackupCreate) SetParentBackupName(v string) {
-	o.ParentBackupName = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -130,9 +100,6 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 		toSerialize["name"] = o.Name
 	}
 	toSerialize["backupMethod"] = o.BackupMethod
-	if o.ParentBackupName != nil {
-		toSerialize["parentBackupName"] = o.ParentBackupName
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -143,9 +110,8 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string `json:"name,omitempty"`
-		BackupMethod     *string `json:"backupMethod"`
-		ParentBackupName *string `json:"parentBackupName,omitempty"`
+		Name         *string `json:"name,omitempty"`
+		BackupMethod *string `json:"backupMethod"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -155,13 +121,12 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "backupMethod", "parentBackupName"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "backupMethod"})
 	} else {
 		return err
 	}
 	o.Name = all.Name
 	o.BackupMethod = *all.BackupMethod
-	o.ParentBackupName = all.ParentBackupName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

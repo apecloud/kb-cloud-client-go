@@ -9,11 +9,11 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // ClusterInfo Cluster information
 type ClusterInfo struct {
 	// The name of the cluster
-	ClusterName *string `json:"cluster_name,omitempty"`
+	ClusterName *string `json:"clusterName,omitempty"`
 	// The definition of the cluster
-	ClusterDefinition *string `json:"cluster_definition,omitempty"`
+	ClusterDefinition *string `json:"clusterDefinition,omitempty"`
 	// The organization name
-	OrgName *string `json:"org_name,omitempty"`
+	OrgName *string `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -127,13 +127,13 @@ func (o ClusterInfo) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	if o.ClusterName != nil {
-		toSerialize["cluster_name"] = o.ClusterName
+		toSerialize["clusterName"] = o.ClusterName
 	}
 	if o.ClusterDefinition != nil {
-		toSerialize["cluster_definition"] = o.ClusterDefinition
+		toSerialize["clusterDefinition"] = o.ClusterDefinition
 	}
 	if o.OrgName != nil {
-		toSerialize["org_name"] = o.OrgName
+		toSerialize["orgName"] = o.OrgName
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -145,16 +145,16 @@ func (o ClusterInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterName       *string `json:"cluster_name,omitempty"`
-		ClusterDefinition *string `json:"cluster_definition,omitempty"`
-		OrgName           *string `json:"org_name,omitempty"`
+		ClusterName       *string `json:"clusterName,omitempty"`
+		ClusterDefinition *string `json:"clusterDefinition,omitempty"`
+		OrgName           *string `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cluster_name", "cluster_definition", "org_name"})
+		common.DeleteKeys(additionalProperties, &[]string{"clusterName", "clusterDefinition", "orgName"})
 	} else {
 		return err
 	}
