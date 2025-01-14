@@ -27,6 +27,8 @@ type ParamTplListItem struct {
 	Name string `json:"name"`
 	// the template partition in listParamTpl request
 	Partition string `json:"partition"`
+	// id of parameter template
+	ParamTplId string `json:"paramTplID"`
 	// UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
 	//
 	// Populated by the system. Read-only. Null for lists
@@ -40,12 +42,13 @@ type ParamTplListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTplListItem(description string, family string, name string, partition string) *ParamTplListItem {
+func NewParamTplListItem(description string, family string, name string, partition string, paramTplId string) *ParamTplListItem {
 	this := ParamTplListItem{}
 	this.Description = description
 	this.Family = family
 	this.Name = name
 	this.Partition = partition
+	this.ParamTplId = paramTplId
 	return &this
 }
 
@@ -205,6 +208,29 @@ func (o *ParamTplListItem) SetPartition(v string) {
 	o.Partition = v
 }
 
+// GetParamTplId returns the ParamTplId field value.
+func (o *ParamTplListItem) GetParamTplId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.ParamTplId
+}
+
+// GetParamTplIdOk returns a tuple with the ParamTplId field value
+// and a boolean to check if the value has been set.
+func (o *ParamTplListItem) GetParamTplIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ParamTplId, true
+}
+
+// SetParamTplId sets field value.
+func (o *ParamTplListItem) SetParamTplId(v string) {
+	o.ParamTplId = v
+}
+
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
 func (o *ParamTplListItem) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
@@ -253,6 +279,7 @@ func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
 	toSerialize["family"] = o.Family
 	toSerialize["name"] = o.Name
 	toSerialize["partition"] = o.Partition
+	toSerialize["paramTplID"] = o.ParamTplId
 	if o.UpdatedAt != nil {
 		if o.UpdatedAt.Nanosecond() == 0 {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -276,6 +303,7 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Family      *string    `json:"family"`
 		Name        *string    `json:"name"`
 		Partition   *string    `json:"partition"`
+		ParamTplId  *string    `json:"paramTplID"`
 		UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -293,9 +321,12 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Partition == nil {
 		return fmt.Errorf("required field partition missing")
 	}
+	if all.ParamTplId == nil {
+		return fmt.Errorf("required field paramTplID missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "family", "name", "partition", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "family", "name", "partition", "paramTplID", "updatedAt"})
 	} else {
 		return err
 	}
@@ -305,6 +336,7 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Family = *all.Family
 	o.Name = *all.Name
 	o.Partition = *all.Partition
+	o.ParamTplId = *all.ParamTplId
 	o.UpdatedAt = all.UpdatedAt
 
 	if len(additionalProperties) > 0 {
