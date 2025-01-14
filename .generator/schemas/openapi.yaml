@@ -13346,6 +13346,9 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        newParamTplName:
+          description: Specify the new name of the parameter template
+          type: string
       type: object
     paramTplApplyToClusterListItem:
       description: parameter template applicable to the cluster information
