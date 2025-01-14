@@ -12366,8 +12366,51 @@ paths:
                 $ref: '#/components/schemas/environmentModuleInfo'
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+    patch:
+      operationId: updateEnvironmentModule
+      summary: update environment module
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentModuleList'
+      responses:
+        '200':
+          description: Success
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
       tags:
@@ -16026,8 +16069,8 @@ components:
           type: string
           description: Image registry used by the environment
         defaultStorageClass:
-          type: string
           description: Default storage class that used by KubeBlocks to create cluster
+          type: string
         cpuOvercommitRatio:
           description: CPU overcommit ratio of this environment
           type: number
@@ -16171,6 +16214,53 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    hostingStatus:
+      type: string
+      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+      enum:
+        - Hostable
+        - Non-hostable
+        - Hosted
+    clusterInfo:
+      type: object
+      description: Cluster information
+      properties:
+        clusterName:
+          type: string
+          description: The name of the cluster
+        clusterDefinition:
+          type: string
+          description: The definition of the cluster
+        orgName:
+          type: string
+          description: The organization name
+    environmentModule:
+      type: object
+      description: Single environment module information
+      properties:
+        name:
+          type: string
+          description: Environment module name
+        version:
+          type: string
+          description: Environment module version
+        status:
+          type: string
+          description: Environment module status (running, stopped, error, not_installed, enabled, disabled etc..)
+        hostingStatus:
+          $ref: '#/components/schemas/hostingStatus'
+        replicas:
+          type: integer
+          description: Number of replicas
+        location:
+          type: string
+          description: Deployment location
+        clusterInfo:
+          $ref: '#/components/schemas/clusterInfo'
+          description: Cluster information, only returned when hosting_status is Hosted
+      required:
+        - name
+        - status
     provisionConfig:
       title: ProvisionConfig
       description: Configuration to provision infrastructure for this environment
@@ -16188,6 +16278,11 @@ components:
           $ref: '#/components/schemas/nodePool'
         storage:
           $ref: '#/components/schemas/storageConfig'
+        modules:
+          type: array
+          description: option modules of environment
+          items:
+            $ref: '#/components/schemas/environmentModule'
     autohealingConfig:
       type: object
       description: cluster instance autohealing process config
@@ -17153,6 +17248,7 @@ components:
         - uninstall
         - upgradeVictoriaMetrics
         - upgradeLoki
+        - update
     workflowCreate:
       type: object
       properties:
@@ -21928,57 +22024,6 @@ components:
       required:
         - items
       type: object
-    hostingStatus:
-      type: string
-      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
-      enum:
-        - Hostable
-        - Non-hostable
-        - Hosted
-    clusterInfo:
-      type: object
-      description: Cluster information
-      properties:
-        clusterName:
-          type: string
-          description: The name of the cluster
-        clusterDefinition:
-          type: string
-          description: The definition of the cluster
-        orgName:
-          type: string
-          description: The organization name
-    environmentModule:
-      type: object
-      description: Single environment module information
-      properties:
-        name:
-          type: string
-          description: Environment module name
-        version:
-          type: string
-          description: Environment module version
-        status:
-          type: string
-          description: Environment module status (running, stopped, error, not_installed, etc..)
-        hostingStatus:
-          $ref: '#/components/schemas/hostingStatus'
-        replicas:
-          type: integer
-          description: Number of replicas
-        location:
-          type: string
-          description: Deployment location
-        clusterInfo:
-          $ref: '#/components/schemas/clusterInfo'
-          description: Cluster information, only returned when hosting_status is Hosted
-      required:
-        - name
-        - version
-        - status
-        - hostingStatus
-        - replicas
-        - location
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment
@@ -21994,6 +22039,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/environmentModule'
+    environmentModuleList:
+      type: array
+      items:
+        $ref: '#/components/schemas/environmentModule'
     podResources:
       type: object
       description: Resource usage information for a pod
@@ -22193,6 +22242,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
+    '429':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Too many requests
     '500':
       content:
         application/json:
