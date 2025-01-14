@@ -12366,8 +12366,16 @@ paths:
                 $ref: '#/components/schemas/environmentModuleInfo'
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
       tags:
@@ -12393,8 +12401,16 @@ paths:
           content: {}
         '400':
           $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
       tags:
@@ -22232,6 +22248,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
+    '429':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Too many requests
     '500':
       content:
         application/json:
