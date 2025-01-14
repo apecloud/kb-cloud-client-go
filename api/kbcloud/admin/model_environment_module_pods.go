@@ -13,11 +13,11 @@ import (
 // EnvironmentModulePods Pods information for an environment module
 type EnvironmentModulePods struct {
 	// Environment name
-	EnvironmentName *string `json:"environment_name,omitempty"`
+	EnvironmentName *string `json:"environmentName,omitempty"`
 	// Environment module name
-	ModuleName *string `json:"module_name,omitempty"`
+	ModuleName *string `json:"moduleName,omitempty"`
 	// Last update time of the data
-	LastUpdated *time.Time `json:"last_updated,omitempty"`
+	LastUpdated *time.Time `json:"lastUpdated,omitempty"`
 	ModulePods  []Pod      `json:"modulePods,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -160,16 +160,16 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	if o.EnvironmentName != nil {
-		toSerialize["environment_name"] = o.EnvironmentName
+		toSerialize["environmentName"] = o.EnvironmentName
 	}
 	if o.ModuleName != nil {
-		toSerialize["module_name"] = o.ModuleName
+		toSerialize["moduleName"] = o.ModuleName
 	}
 	if o.LastUpdated != nil {
 		if o.LastUpdated.Nanosecond() == 0 {
-			toSerialize["last_updated"] = o.LastUpdated.Format("2006-01-02T15:04:05Z07:00")
+			toSerialize["lastUpdated"] = o.LastUpdated.Format("2006-01-02T15:04:05Z07:00")
 		} else {
-			toSerialize["last_updated"] = o.LastUpdated.Format("2006-01-02T15:04:05.000Z07:00")
+			toSerialize["lastUpdated"] = o.LastUpdated.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
 	if o.ModulePods != nil {
@@ -185,9 +185,9 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModulePods) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentName *string    `json:"environment_name,omitempty"`
-		ModuleName      *string    `json:"module_name,omitempty"`
-		LastUpdated     *time.Time `json:"last_updated,omitempty"`
+		EnvironmentName *string    `json:"environmentName,omitempty"`
+		ModuleName      *string    `json:"moduleName,omitempty"`
+		LastUpdated     *time.Time `json:"lastUpdated,omitempty"`
 		ModulePods      []Pod      `json:"modulePods,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -195,7 +195,7 @@ func (o *EnvironmentModulePods) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_name", "module_name", "last_updated", "modulePods"})
+		common.DeleteKeys(additionalProperties, &[]string{"environmentName", "moduleName", "lastUpdated", "modulePods"})
 	} else {
 		return err
 	}

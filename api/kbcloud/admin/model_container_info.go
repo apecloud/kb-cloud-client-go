@@ -15,11 +15,11 @@ type ContainerInfo struct {
 	// Container ready status
 	Ready *bool `json:"ready,omitempty"`
 	// Container restart count
-	RestartCount *int32 `json:"restart_count,omitempty"`
+	RestartCount *int32 `json:"restartCount,omitempty"`
 	// Liveness probe configuration
-	LivenessProbe interface{} `json:"liveness_probe,omitempty"`
+	LivenessProbe interface{} `json:"livenessProbe,omitempty"`
 	// Readiness probe configuration
-	ReadinessProbe interface{} `json:"readiness_probe,omitempty"`
+	ReadinessProbe interface{} `json:"readinessProbe,omitempty"`
 	// Container resource usage
 	Resources interface{} `json:"resources,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -256,13 +256,13 @@ func (o ContainerInfo) MarshalJSON() ([]byte, error) {
 		toSerialize["ready"] = o.Ready
 	}
 	if o.RestartCount != nil {
-		toSerialize["restart_count"] = o.RestartCount
+		toSerialize["restartCount"] = o.RestartCount
 	}
 	if o.LivenessProbe != nil {
-		toSerialize["liveness_probe"] = o.LivenessProbe
+		toSerialize["livenessProbe"] = o.LivenessProbe
 	}
 	if o.ReadinessProbe != nil {
-		toSerialize["readiness_probe"] = o.ReadinessProbe
+		toSerialize["readinessProbe"] = o.ReadinessProbe
 	}
 	if o.Resources != nil {
 		toSerialize["resources"] = o.Resources
@@ -280,9 +280,9 @@ func (o *ContainerInfo) UnmarshalJSON(bytes []byte) (err error) {
 		Name           *string     `json:"name,omitempty"`
 		Image          *string     `json:"image,omitempty"`
 		Ready          *bool       `json:"ready,omitempty"`
-		RestartCount   *int32      `json:"restart_count,omitempty"`
-		LivenessProbe  interface{} `json:"liveness_probe,omitempty"`
-		ReadinessProbe interface{} `json:"readiness_probe,omitempty"`
+		RestartCount   *int32      `json:"restartCount,omitempty"`
+		LivenessProbe  interface{} `json:"livenessProbe,omitempty"`
+		ReadinessProbe interface{} `json:"readinessProbe,omitempty"`
 		Resources      interface{} `json:"resources,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -290,7 +290,7 @@ func (o *ContainerInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "image", "ready", "restart_count", "liveness_probe", "readiness_probe", "resources"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "image", "ready", "restartCount", "livenessProbe", "readinessProbe", "resources"})
 	} else {
 		return err
 	}

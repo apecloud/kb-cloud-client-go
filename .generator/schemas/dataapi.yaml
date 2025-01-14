@@ -1071,7 +1071,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/clusterTask'
+              $ref: '#/components/schemas/ACLUser'
       responses:
         '201':
           description: create redis account success
@@ -1635,6 +1635,88 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - session
+        - rdbms
+  /data/v1/{engineName}/datasources/{id}/datasets:
+    post:
+      description: create a dataset in cluster
+      summary: Create cluster dataset
+      operationId: createDataset
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: id of the datasource
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                dataset:
+                  type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  database:
+                    type: string
+          description: Returned when dataset container-database is created successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataset
+        - rdbms
+    get:
+      description: list available datasets for rdbms engine
+      summary: List available datasets
+      operationId: listAvailableDatasets
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the datasource
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list available datasets success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - dataset
         - rdbms
 components:
   securitySchemes:

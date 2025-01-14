@@ -34,7 +34,7 @@ func (r *CreateRedisAccountOptionalParameters) WithComponent(component string) *
 }
 
 // CreateRedisAccount create redis account.
-func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ClusterTask, o ...CreateRedisAccountOptionalParameters) (*_nethttp.Response, error) {
+func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ACLUser, o ...CreateRedisAccountOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}

@@ -11739,6 +11739,8 @@ components:
           type: string
         clusterTaskId:
           type: string
+        dependentClusterTaskId:
+          type: string
       required:
         - opsRequestName
       type: object
@@ -14081,7 +14083,7 @@ components:
         - resetPassword
         - delete
       properties:
-        'maxSuperUserAccount:':
+        maxSuperUserAccount:
           type: integer
           format: int32
           minimum: 0

@@ -11,6 +11,8 @@
 //   - [databaseApi.createDatabase]
 //   - [databaseApi.deleteDatabase]
 //   - [databaseApi.listDatabases]
+//   - [datasetApi.createDataset]
+//   - [datasetApi.listAvailableDatasets]
 //   - [kafkaApi.batchDeleteKafkaTopics]
 //   - [kafkaApi.createKafkaTopic]
 //   - [kafkaApi.deleteKafkaConsumerGroup]

@@ -15,7 +15,7 @@ type PodOwnerReference struct {
 	// Owner UID
 	Uid *string `json:"uid,omitempty"`
 	// Owner API version
-	ApiVersion *string `json:"api_version,omitempty"`
+	ApiVersion *string `json:"apiVersion,omitempty"`
 	// Whether it is a controller
 	Controller *bool `json:"controller,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -196,7 +196,7 @@ func (o PodOwnerReference) MarshalJSON() ([]byte, error) {
 		toSerialize["uid"] = o.Uid
 	}
 	if o.ApiVersion != nil {
-		toSerialize["api_version"] = o.ApiVersion
+		toSerialize["apiVersion"] = o.ApiVersion
 	}
 	if o.Controller != nil {
 		toSerialize["controller"] = o.Controller
@@ -214,7 +214,7 @@ func (o *PodOwnerReference) UnmarshalJSON(bytes []byte) (err error) {
 		Kind       *string `json:"kind,omitempty"`
 		Name       *string `json:"name,omitempty"`
 		Uid        *string `json:"uid,omitempty"`
-		ApiVersion *string `json:"api_version,omitempty"`
+		ApiVersion *string `json:"apiVersion,omitempty"`
 		Controller *bool   `json:"controller,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -222,7 +222,7 @@ func (o *PodOwnerReference) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"kind", "name", "uid", "api_version", "controller"})
+		common.DeleteKeys(additionalProperties, &[]string{"kind", "name", "uid", "apiVersion", "controller"})
 	} else {
 		return err
 	}
