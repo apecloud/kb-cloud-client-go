@@ -17,7 +17,7 @@ type PodCondition struct {
 	// Condition status
 	Status *string `json:"status,omitempty"`
 	// Last transition time
-	LastTransitionTime *time.Time `json:"last_transition_time,omitempty"`
+	LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
 	// Condition reason
 	Reason *string `json:"reason,omitempty"`
 	// Condition message
@@ -198,9 +198,9 @@ func (o PodCondition) MarshalJSON() ([]byte, error) {
 	}
 	if o.LastTransitionTime != nil {
 		if o.LastTransitionTime.Nanosecond() == 0 {
-			toSerialize["last_transition_time"] = o.LastTransitionTime.Format("2006-01-02T15:04:05Z07:00")
+			toSerialize["lastTransitionTime"] = o.LastTransitionTime.Format("2006-01-02T15:04:05Z07:00")
 		} else {
-			toSerialize["last_transition_time"] = o.LastTransitionTime.Format("2006-01-02T15:04:05.000Z07:00")
+			toSerialize["lastTransitionTime"] = o.LastTransitionTime.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
 	if o.Reason != nil {
@@ -221,7 +221,7 @@ func (o *PodCondition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Type               *string    `json:"type,omitempty"`
 		Status             *string    `json:"status,omitempty"`
-		LastTransitionTime *time.Time `json:"last_transition_time,omitempty"`
+		LastTransitionTime *time.Time `json:"lastTransitionTime,omitempty"`
 		Reason             *string    `json:"reason,omitempty"`
 		Message            *string    `json:"message,omitempty"`
 	}{}
@@ -230,7 +230,7 @@ func (o *PodCondition) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"type", "status", "last_transition_time", "reason", "message"})
+		common.DeleteKeys(additionalProperties, &[]string{"type", "status", "lastTransitionTime", "reason", "message"})
 	} else {
 		return err
 	}

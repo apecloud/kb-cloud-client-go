@@ -5206,7 +5206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/paramTplApplToClusterList'
+                $ref: '#/components/schemas/paramTplApplyToClusterList'
           description: get parameter template applicable to the cluster successfully
         '401':
           $ref: '#/components/responses/401'
@@ -11021,6 +11021,9 @@ components:
           title: Parameter Template Name
           type: string
           description: name of assigned parameter template
+        paramTplID:
+          type: string
+          description: id of parameter template
         paramTplPartition:
           $ref: '#/components/schemas/paramTplPartition'
     paramTpls:
@@ -11738,6 +11741,8 @@ components:
         dependentOpsName:
           type: string
         clusterTaskId:
+          type: string
+        dependentClusterTaskId:
           type: string
       required:
         - opsRequestName
@@ -13225,6 +13230,9 @@ components:
         partition:
           description: the template partition in listParamTpl request
           type: string
+        paramTplID:
+          type: string
+          description: id of parameter template
         updatedAt:
           description: |-
             UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -13234,6 +13242,7 @@ components:
           type: string
       required:
         - description
+        - paramTplID
         - family
         - name
         - partition
@@ -13338,7 +13347,7 @@ components:
           description: Specify parameters list to be updated
           type: object
       type: object
-    paramTplApplToClusterListItem:
+    paramTplApplyToClusterListItem:
       description: parameter template applicable to the cluster information
       properties:
         count:
@@ -13346,6 +13355,9 @@ components:
           type: integer
         name:
           description: Name of parameter template. Name must be unique within an Org
+          type: string
+        id:
+          description: id of parameter template
           type: string
         needRestart:
           description: 'whether to restart after applying this parameter template or not '
@@ -13359,13 +13371,13 @@ components:
         - name
         - partition
       type: object
-    paramTplApplToClusterList:
+    paramTplApplyToClusterList:
       description: paramTplAPPLToClusterList is a list of parameter templates applicable to the cluster
       properties:
         items:
           description: Items is the list of parameter templates applicable to the cluster objects in the list
           items:
-            $ref: '#/components/schemas/paramTplApplToClusterListItem'
+            $ref: '#/components/schemas/paramTplApplyToClusterListItem'
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'
@@ -14083,7 +14095,7 @@ components:
         - resetPassword
         - delete
       properties:
-        'maxSuperUserAccount:':
+        maxSuperUserAccount:
           type: integer
           format: int32
           minimum: 0

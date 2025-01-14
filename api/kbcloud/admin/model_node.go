@@ -35,6 +35,8 @@ type Node struct {
 	Zone *string `json:"zone,omitempty"`
 	// Region of the node
 	Region *string `json:"region,omitempty"`
+	// whether node is under maintenance
+	UnderMaintenance *bool `json:"underMaintenance,omitempty"`
 	// whether node is unschedulable
 	Unschedulable *bool `json:"unschedulable,omitempty"`
 	// Node Group of the node
@@ -333,6 +335,34 @@ func (o *Node) SetRegion(v string) {
 	o.Region = &v
 }
 
+// GetUnderMaintenance returns the UnderMaintenance field value if set, zero value otherwise.
+func (o *Node) GetUnderMaintenance() bool {
+	if o == nil || o.UnderMaintenance == nil {
+		var ret bool
+		return ret
+	}
+	return *o.UnderMaintenance
+}
+
+// GetUnderMaintenanceOk returns a tuple with the UnderMaintenance field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Node) GetUnderMaintenanceOk() (*bool, bool) {
+	if o == nil || o.UnderMaintenance == nil {
+		return nil, false
+	}
+	return o.UnderMaintenance, true
+}
+
+// HasUnderMaintenance returns a boolean if a field has been set.
+func (o *Node) HasUnderMaintenance() bool {
+	return o != nil && o.UnderMaintenance != nil
+}
+
+// SetUnderMaintenance gets a reference to the given bool and assigns it to the UnderMaintenance field.
+func (o *Node) SetUnderMaintenance(v bool) {
+	o.UnderMaintenance = &v
+}
+
 // GetUnschedulable returns the Unschedulable field value if set, zero value otherwise.
 func (o *Node) GetUnschedulable() bool {
 	if o == nil || o.Unschedulable == nil {
@@ -479,6 +509,9 @@ func (o Node) MarshalJSON() ([]byte, error) {
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
 	}
+	if o.UnderMaintenance != nil {
+		toSerialize["underMaintenance"] = o.UnderMaintenance
+	}
 	if o.Unschedulable != nil {
 		toSerialize["unschedulable"] = o.Unschedulable
 	}
@@ -501,20 +534,21 @@ func (o Node) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cpu           *int64         `json:"cpu,omitempty"`
-		CpuStats      *ResourceStats `json:"cpuStats,omitempty"`
-		CreatedAt     *time.Time     `json:"createdAt"`
-		HostName      *string        `json:"hostName"`
-		InstanceType  *string        `json:"instanceType,omitempty"`
-		Ip            *string        `json:"ip"`
-		Memory        *int64         `json:"memory,omitempty"`
-		MemoryStats   *ResourceStats `json:"memoryStats,omitempty"`
-		Zone          *string        `json:"zone,omitempty"`
-		Region        *string        `json:"region,omitempty"`
-		Unschedulable *bool          `json:"unschedulable,omitempty"`
-		NodeGroup     *string        `json:"nodeGroup,omitempty"`
-		ControlPlane  *bool          `json:"controlPlane,omitempty"`
-		DataPlane     *bool          `json:"dataPlane,omitempty"`
+		Cpu              *int64         `json:"cpu,omitempty"`
+		CpuStats         *ResourceStats `json:"cpuStats,omitempty"`
+		CreatedAt        *time.Time     `json:"createdAt"`
+		HostName         *string        `json:"hostName"`
+		InstanceType     *string        `json:"instanceType,omitempty"`
+		Ip               *string        `json:"ip"`
+		Memory           *int64         `json:"memory,omitempty"`
+		MemoryStats      *ResourceStats `json:"memoryStats,omitempty"`
+		Zone             *string        `json:"zone,omitempty"`
+		Region           *string        `json:"region,omitempty"`
+		UnderMaintenance *bool          `json:"underMaintenance,omitempty"`
+		Unschedulable    *bool          `json:"unschedulable,omitempty"`
+		NodeGroup        *string        `json:"nodeGroup,omitempty"`
+		ControlPlane     *bool          `json:"controlPlane,omitempty"`
+		DataPlane        *bool          `json:"dataPlane,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -530,7 +564,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "unschedulable", "nodeGroup", "controlPlane", "dataPlane"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "underMaintenance", "unschedulable", "nodeGroup", "controlPlane", "dataPlane"})
 	} else {
 		return err
 	}
@@ -552,6 +586,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	o.MemoryStats = all.MemoryStats
 	o.Zone = all.Zone
 	o.Region = all.Region
+	o.UnderMaintenance = all.UnderMaintenance
 	o.Unschedulable = all.Unschedulable
 	o.NodeGroup = all.NodeGroup
 	o.ControlPlane = all.ControlPlane

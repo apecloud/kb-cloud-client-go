@@ -2562,7 +2562,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/paramTplApplToClusterList'
+                $ref: '#/components/schemas/paramTplApplyToClusterList'
           description: get parameter template applicable to the cluster successfully
         '401':
           $ref: '#/components/responses/401'
@@ -5327,6 +5327,82 @@ paths:
         '204':
           content: {}
           description: No Content
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
+    patch:
+      description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
+      summary: Set the node to maintenance mode
+      operationId: setNodeMaintenanceMode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/off:
+    patch:
+      description: Remove the node from maintenance mode. This action restores the node to its normal operational state, allowing it to resume handling workloads.
+      summary: Remove the node from maintenance mode
+      operationId: removeNodeMaintenanceMode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+          description: A successful response.
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13131,6 +13207,9 @@ components:
           title: Parameter Template Name
           type: string
           description: name of assigned parameter template
+        paramTplID:
+          type: string
+          description: id of parameter template
         paramTplPartition:
           $ref: '#/components/schemas/paramTplPartition'
     paramTpls:
@@ -14392,6 +14471,9 @@ components:
         partition:
           description: the template partition in listParamTpl request
           type: string
+        paramTplID:
+          type: string
+          description: id of parameter template
         updatedAt:
           description: |-
             UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -14401,6 +14483,7 @@ components:
           type: string
       required:
         - description
+        - paramTplID
         - family
         - name
         - partition
@@ -14505,7 +14588,7 @@ components:
           description: Specify parameters list to be updated
           type: object
       type: object
-    paramTplApplToClusterListItem:
+    paramTplApplyToClusterListItem:
       description: parameter template applicable to the cluster information
       properties:
         count:
@@ -14513,6 +14596,9 @@ components:
           type: integer
         name:
           description: Name of parameter template. Name must be unique within an Org
+          type: string
+        id:
+          description: id of parameter template
           type: string
         needRestart:
           description: 'whether to restart after applying this parameter template or not '
@@ -14526,13 +14612,13 @@ components:
         - name
         - partition
       type: object
-    paramTplApplToClusterList:
+    paramTplApplyToClusterList:
       description: paramTplAPPLToClusterList is a list of parameter templates applicable to the cluster
       properties:
         items:
           description: Items is the list of parameter templates applicable to the cluster objects in the list
           items:
-            $ref: '#/components/schemas/paramTplApplToClusterListItem'
+            $ref: '#/components/schemas/paramTplApplyToClusterListItem'
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'
@@ -15171,6 +15257,8 @@ components:
           type: string
         clusterTaskId:
           type: string
+        dependentClusterTaskId:
+          type: string
       required:
         - opsRequestName
       type: object
@@ -15666,6 +15754,9 @@ components:
         region:
           description: Region of the node
           type: string
+        underMaintenance:
+          description: whether node is under maintenance
+          type: boolean
         unschedulable:
           description: whether node is unschedulable
           type: boolean
@@ -18978,7 +19069,7 @@ components:
         - resetPassword
         - delete
       properties:
-        'maxSuperUserAccount:':
+        maxSuperUserAccount:
           type: integer
           format: int32
           minimum: 0
@@ -21982,13 +22073,13 @@ components:
       type: object
       description: Cluster information
       properties:
-        cluster_name:
+        clusterName:
           type: string
           description: The name of the cluster
-        cluster_definition:
+        clusterDefinition:
           type: string
           description: The definition of the cluster
-        org_name:
+        orgName:
           type: string
           description: The organization name
     environmentModule:
@@ -22004,7 +22095,7 @@ components:
         status:
           type: string
           description: Environment module status (running, stopped, error, not_installed, etc..)
-        hosting_status:
+        hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
@@ -22012,24 +22103,24 @@ components:
         location:
           type: string
           description: Deployment location
-        cluster_info:
+        clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information, only returned when hosting_status is Hosted
       required:
         - name
         - version
         - status
-        - hosting_status
+        - hostingStatus
         - replicas
         - location
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment
       properties:
-        environment_id:
+        environmentId:
           type: string
           description: Environment ID
-        last_updated:
+        lastUpdated:
           type: string
           format: date-time
           description: Last update time of the data
@@ -22063,7 +22154,7 @@ components:
         uid:
           type: string
           description: Owner UID
-        api_version:
+        apiVersion:
           type: string
           description: Owner API version
         controller:
@@ -22082,13 +22173,13 @@ components:
         ready:
           type: boolean
           description: Container ready status
-        restart_count:
+        restartCount:
           type: integer
           description: Container restart count
-        liveness_probe:
+        livenessProbe:
           type: object
           description: Liveness probe configuration
-        readiness_probe:
+        readinessProbe:
           type: object
           description: Readiness probe configuration
         resources:
@@ -22104,7 +22195,7 @@ components:
         status:
           type: string
           description: Condition status
-        last_transition_time:
+        lastTransitionTime:
           type: string
           format: date-time
           description: Last transition time
@@ -22124,7 +22215,7 @@ components:
         namespace:
           type: string
           description: Pod namespace
-        node_name:
+        nodeName:
           type: string
           description: Node name where pod is running
         status:
@@ -22136,13 +22227,13 @@ components:
         ip:
           type: string
           description: Pod IP address
-        creation_timestamp:
+        creationTimestamp:
           type: string
           format: date-time
           description: Pod creation time
         resources:
           $ref: '#/components/schemas/podResources'
-        owner_references:
+        ownerReferences:
           type: array
           items:
             $ref: '#/components/schemas/podOwnerReference'
@@ -22158,13 +22249,13 @@ components:
       type: object
       description: Pods information for an environment module
       properties:
-        environment_name:
+        environmentName:
           type: string
           description: Environment name
-        module_name:
+        moduleName:
           type: string
           description: Environment module name
-        last_updated:
+        lastUpdated:
           type: string
           format: date-time
           description: Last update time of the data
@@ -22183,23 +22274,23 @@ components:
       type: object
       description: Environment module pod logs
       properties:
-        environment_id:
+        environmentId:
           type: string
           description: Environment ID
-        module_name:
+        moduleName:
           type: string
           description: Environment module name
-        pod_name:
+        podName:
           type: string
           description: Pod name
-        container_name:
+        containerName:
           type: string
           description: Container name
         logs:
           type: array
           items:
             $ref: '#/components/schemas/logEntry'
-        next_timestamp:
+        nextTimestamp:
           type: string
           format: date-time
           description: Next timestamp for pagination

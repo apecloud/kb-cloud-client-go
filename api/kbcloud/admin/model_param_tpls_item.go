@@ -11,7 +11,9 @@ type ParamTplsItem struct {
 	// component type, refer to componentDef and support NamePrefix
 	Component *string `json:"component,omitempty"`
 	// name of assigned parameter template
-	ParamTplName      *string            `json:"paramTplName,omitempty"`
+	ParamTplName *string `json:"paramTplName,omitempty"`
+	// id of parameter template
+	ParamTplId        *string            `json:"paramTplID,omitempty"`
 	ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -91,6 +93,34 @@ func (o *ParamTplsItem) SetParamTplName(v string) {
 	o.ParamTplName = &v
 }
 
+// GetParamTplId returns the ParamTplId field value if set, zero value otherwise.
+func (o *ParamTplsItem) GetParamTplId() string {
+	if o == nil || o.ParamTplId == nil {
+		var ret string
+		return ret
+	}
+	return *o.ParamTplId
+}
+
+// GetParamTplIdOk returns a tuple with the ParamTplId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplsItem) GetParamTplIdOk() (*string, bool) {
+	if o == nil || o.ParamTplId == nil {
+		return nil, false
+	}
+	return o.ParamTplId, true
+}
+
+// HasParamTplId returns a boolean if a field has been set.
+func (o *ParamTplsItem) HasParamTplId() bool {
+	return o != nil && o.ParamTplId != nil
+}
+
+// SetParamTplId gets a reference to the given string and assigns it to the ParamTplId field.
+func (o *ParamTplsItem) SetParamTplId(v string) {
+	o.ParamTplId = &v
+}
+
 // GetParamTplPartition returns the ParamTplPartition field value if set, zero value otherwise.
 func (o *ParamTplsItem) GetParamTplPartition() ParamTplPartition {
 	if o == nil || o.ParamTplPartition == nil {
@@ -131,6 +161,9 @@ func (o ParamTplsItem) MarshalJSON() ([]byte, error) {
 	if o.ParamTplName != nil {
 		toSerialize["paramTplName"] = o.ParamTplName
 	}
+	if o.ParamTplId != nil {
+		toSerialize["paramTplID"] = o.ParamTplId
+	}
 	if o.ParamTplPartition != nil {
 		toSerialize["paramTplPartition"] = o.ParamTplPartition
 	}
@@ -146,6 +179,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component         *string            `json:"component,omitempty"`
 		ParamTplName      *string            `json:"paramTplName,omitempty"`
+		ParamTplId        *string            `json:"paramTplID,omitempty"`
 		ParamTplPartition *ParamTplPartition `json:"paramTplPartition,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -153,7 +187,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "paramTplPartition"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "paramTplName", "paramTplID", "paramTplPartition"})
 	} else {
 		return err
 	}
@@ -161,6 +195,7 @@ func (o *ParamTplsItem) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Component = all.Component
 	o.ParamTplName = all.ParamTplName
+	o.ParamTplId = all.ParamTplId
 	if all.ParamTplPartition != nil && !all.ParamTplPartition.IsValid() {
 		hasInvalidField = true
 	} else {
