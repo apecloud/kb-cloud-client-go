@@ -236,11 +236,11 @@ func (r *GetClusterParamTplsOptionalParameters) WithEngineName(engineName string
 }
 
 // GetClusterParamTpls Get cluster configuration templates.
-func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, clusterName string, o ...GetClusterParamTplsOptionalParameters) (ParamTplApplToClusterList, *_nethttp.Response, error) {
+func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, clusterName string, o ...GetClusterParamTplsOptionalParameters) (ParamTplApplyToClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ParamTplApplToClusterList
+		localVarReturnValue ParamTplApplyToClusterList
 		optionalParams      GetClusterParamTplsOptionalParameters
 	)
 

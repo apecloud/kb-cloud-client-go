@@ -14,6 +14,8 @@ type ParamTplUpdate struct {
 	ConfigFile *string `json:"configFile,omitempty"`
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters,omitempty"`
+	// Specify the new name of the parameter template
+	NewParamTplName *string `json:"newParamTplName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -120,6 +122,34 @@ func (o *ParamTplUpdate) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
 
+// GetNewParamTplName returns the NewParamTplName field value if set, zero value otherwise.
+func (o *ParamTplUpdate) GetNewParamTplName() string {
+	if o == nil || o.NewParamTplName == nil {
+		var ret string
+		return ret
+	}
+	return *o.NewParamTplName
+}
+
+// GetNewParamTplNameOk returns a tuple with the NewParamTplName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplUpdate) GetNewParamTplNameOk() (*string, bool) {
+	if o == nil || o.NewParamTplName == nil {
+		return nil, false
+	}
+	return o.NewParamTplName, true
+}
+
+// HasNewParamTplName returns a boolean if a field has been set.
+func (o *ParamTplUpdate) HasNewParamTplName() bool {
+	return o != nil && o.NewParamTplName != nil
+}
+
+// SetNewParamTplName gets a reference to the given string and assigns it to the NewParamTplName field.
+func (o *ParamTplUpdate) SetNewParamTplName(v string) {
+	o.NewParamTplName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -135,6 +165,9 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 	if o.Parameters != nil {
 		toSerialize["parameters"] = o.Parameters
 	}
+	if o.NewParamTplName != nil {
+		toSerialize["newParamTplName"] = o.NewParamTplName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -145,22 +178,24 @@ func (o ParamTplUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SpecName   *string           `json:"specName,omitempty"`
-		ConfigFile *string           `json:"configFile,omitempty"`
-		Parameters map[string]string `json:"parameters,omitempty"`
+		SpecName        *string           `json:"specName,omitempty"`
+		ConfigFile      *string           `json:"configFile,omitempty"`
+		Parameters      map[string]string `json:"parameters,omitempty"`
+		NewParamTplName *string           `json:"newParamTplName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specName", "configFile", "parameters"})
+		common.DeleteKeys(additionalProperties, &[]string{"specName", "configFile", "parameters", "newParamTplName"})
 	} else {
 		return err
 	}
 	o.SpecName = all.SpecName
 	o.ConfigFile = all.ConfigFile
 	o.Parameters = all.Parameters
+	o.NewParamTplName = all.NewParamTplName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
