@@ -13,9 +13,9 @@ import (
 // EnvironmentModuleInfo Environment module information in an environment
 type EnvironmentModuleInfo struct {
 	// Environment ID
-	EnvironmentId *string `json:"environment_id,omitempty"`
+	EnvironmentId *string `json:"environmentId,omitempty"`
 	// Last update time of the data
-	LastUpdated        *time.Time          `json:"last_updated,omitempty"`
+	LastUpdated        *time.Time          `json:"lastUpdated,omitempty"`
 	EnvironmentModules []EnvironmentModule `json:"environmentModules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -130,13 +130,13 @@ func (o EnvironmentModuleInfo) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	if o.EnvironmentId != nil {
-		toSerialize["environment_id"] = o.EnvironmentId
+		toSerialize["environmentId"] = o.EnvironmentId
 	}
 	if o.LastUpdated != nil {
 		if o.LastUpdated.Nanosecond() == 0 {
-			toSerialize["last_updated"] = o.LastUpdated.Format("2006-01-02T15:04:05Z07:00")
+			toSerialize["lastUpdated"] = o.LastUpdated.Format("2006-01-02T15:04:05Z07:00")
 		} else {
-			toSerialize["last_updated"] = o.LastUpdated.Format("2006-01-02T15:04:05.000Z07:00")
+			toSerialize["lastUpdated"] = o.LastUpdated.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
 	if o.EnvironmentModules != nil {
@@ -152,8 +152,8 @@ func (o EnvironmentModuleInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId      *string             `json:"environment_id,omitempty"`
-		LastUpdated        *time.Time          `json:"last_updated,omitempty"`
+		EnvironmentId      *string             `json:"environmentId,omitempty"`
+		LastUpdated        *time.Time          `json:"lastUpdated,omitempty"`
 		EnvironmentModules []EnvironmentModule `json:"environmentModules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -161,7 +161,7 @@ func (o *EnvironmentModuleInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "last_updated", "environmentModules"})
+		common.DeleteKeys(additionalProperties, &[]string{"environmentId", "lastUpdated", "environmentModules"})
 	} else {
 		return err
 	}

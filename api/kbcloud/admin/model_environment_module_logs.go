@@ -13,16 +13,16 @@ import (
 // EnvironmentModuleLogs Environment module pod logs
 type EnvironmentModuleLogs struct {
 	// Environment ID
-	EnvironmentId *string `json:"environment_id,omitempty"`
+	EnvironmentId *string `json:"environmentId,omitempty"`
 	// Environment module name
-	ModuleName *string `json:"module_name,omitempty"`
+	ModuleName *string `json:"moduleName,omitempty"`
 	// Pod name
-	PodName *string `json:"pod_name,omitempty"`
+	PodName *string `json:"podName,omitempty"`
 	// Container name
-	ContainerName *string    `json:"container_name,omitempty"`
+	ContainerName *string    `json:"containerName,omitempty"`
 	Logs          []LogEntry `json:"logs,omitempty"`
 	// Next timestamp for pagination
-	NextTimestamp *time.Time `json:"next_timestamp,omitempty"`
+	NextTimestamp *time.Time `json:"nextTimestamp,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -220,25 +220,25 @@ func (o EnvironmentModuleLogs) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	if o.EnvironmentId != nil {
-		toSerialize["environment_id"] = o.EnvironmentId
+		toSerialize["environmentId"] = o.EnvironmentId
 	}
 	if o.ModuleName != nil {
-		toSerialize["module_name"] = o.ModuleName
+		toSerialize["moduleName"] = o.ModuleName
 	}
 	if o.PodName != nil {
-		toSerialize["pod_name"] = o.PodName
+		toSerialize["podName"] = o.PodName
 	}
 	if o.ContainerName != nil {
-		toSerialize["container_name"] = o.ContainerName
+		toSerialize["containerName"] = o.ContainerName
 	}
 	if o.Logs != nil {
 		toSerialize["logs"] = o.Logs
 	}
 	if o.NextTimestamp != nil {
 		if o.NextTimestamp.Nanosecond() == 0 {
-			toSerialize["next_timestamp"] = o.NextTimestamp.Format("2006-01-02T15:04:05Z07:00")
+			toSerialize["nextTimestamp"] = o.NextTimestamp.Format("2006-01-02T15:04:05Z07:00")
 		} else {
-			toSerialize["next_timestamp"] = o.NextTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
+			toSerialize["nextTimestamp"] = o.NextTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
 
@@ -251,19 +251,19 @@ func (o EnvironmentModuleLogs) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentModuleLogs) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentId *string    `json:"environment_id,omitempty"`
-		ModuleName    *string    `json:"module_name,omitempty"`
-		PodName       *string    `json:"pod_name,omitempty"`
-		ContainerName *string    `json:"container_name,omitempty"`
+		EnvironmentId *string    `json:"environmentId,omitempty"`
+		ModuleName    *string    `json:"moduleName,omitempty"`
+		PodName       *string    `json:"podName,omitempty"`
+		ContainerName *string    `json:"containerName,omitempty"`
 		Logs          []LogEntry `json:"logs,omitempty"`
-		NextTimestamp *time.Time `json:"next_timestamp,omitempty"`
+		NextTimestamp *time.Time `json:"nextTimestamp,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environment_id", "module_name", "pod_name", "container_name", "logs", "next_timestamp"})
+		common.DeleteKeys(additionalProperties, &[]string{"environmentId", "moduleName", "podName", "containerName", "logs", "nextTimestamp"})
 	} else {
 		return err
 	}
