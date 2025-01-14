@@ -16228,17 +16228,20 @@ components:
         version:
           type: string
           description: Environment module version
+          nullable: true
         enable:
           type: boolean
           description: whether environment enable the module
         status:
           type: string
           description: Environment module status (running, stopped, error, not_installed, etc..)
+          nullable: true
         hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
           type: integer
           description: Number of replicas
+          nullable: true
         location:
           type: string
           description: Deployment location
@@ -16247,11 +16250,6 @@ components:
           description: Cluster information, only returned when hosting_status is Hosted
       required:
         - name
-        - version
-        - status
-        - hostingStatus
-        - replicas
-        - location
     provisionConfig:
       title: ProvisionConfig
       description: Configuration to provision infrastructure for this environment
@@ -16260,7 +16258,6 @@ components:
         - register
         - component
         - storage
-        - modules
       properties:
         register:
           $ref: '#/components/schemas/register'
