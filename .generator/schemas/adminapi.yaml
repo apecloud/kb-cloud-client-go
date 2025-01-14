@@ -17938,18 +17938,6 @@ components:
       required:
         - items
       type: object
-    backupCreate:
-      description: BackupCreate is the payload to create a KubeBlocks cluster backup
-      properties:
-        name:
-          description: name of the backup, if not specified, a name will be generated automatically
-          type: string
-        backupMethod:
-          description: specified the backup method
-          type: string
-      type: object
-      required:
-        - backupMethod
     backupType:
       enum:
         - Full
@@ -17958,6 +17946,20 @@ components:
         - Continuous
       type: string
       description: the type of backup
+    backupCreate:
+      description: BackupCreate is the payload to create a KubeBlocks cluster backup
+      properties:
+        name:
+          description: name of the backup, if not specified, a name will be generated automatically
+          type: string
+        backupType:
+          $ref: '#/components/schemas/backupType'
+        backupMethod:
+          description: specified the backup method
+          type: string
+      type: object
+      required:
+        - backupMethod
     backupStatus:
       description: The current status. Valid values are New, InProgress, Completed, Failed.
       enum:
