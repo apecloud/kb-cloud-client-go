@@ -14083,7 +14083,7 @@ components:
         - resetPassword
         - delete
       properties:
-        'maxSuperUserAccount:':
+        maxSuperUserAccount:
           type: integer
           format: int32
           minimum: 0

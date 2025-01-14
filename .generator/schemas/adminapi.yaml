@@ -5340,6 +5340,82 @@ paths:
       tags:
         - environment
       x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on:
+    patch:
+      description: Set the node to maintenance mode. This action temporarily disables the node for maintenance activities, ensuring no new workloads are scheduled on it.
+      summary: Set the node to maintenance mode
+      operationId: setNodeMaintenanceMode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
+  /admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/off:
+    patch:
+      description: Remove the node from maintenance mode. This action restores the node to its normal operational state, allowing it to resume handling workloads.
+      summary: Remove the node from maintenance mode
+      operationId: removeNodeMaintenanceMode
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the environment node
+          in: path
+          name: nodeName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBody'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/nodes/{nodeName}:
     get:
       description: Get specified node info for environment
@@ -15666,6 +15742,9 @@ components:
         region:
           description: Region of the node
           type: string
+        underMaintenance:
+          description: whether node is under maintenance
+          type: boolean
         unschedulable:
           description: whether node is unschedulable
           type: boolean
@@ -18978,7 +19057,7 @@ components:
         - resetPassword
         - delete
       properties:
-        'maxSuperUserAccount:':
+        maxSuperUserAccount:
           type: integer
           format: int32
           minimum: 0
