@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *ClusterAlertSwitchApi) GetClusterAlertDisabled(ctx _context.Context, or
 		localVarPostBody    interface{}
 		localVarReturnValue AlertCluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterAlertSwitch",
+		OperationID: "getClusterAlertDisabled",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/cluster/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterAlertSwitchApi.GetClusterAlertDisabled")
 	if err != nil {
@@ -118,6 +128,15 @@ func (a *ClusterAlertSwitchApi) SetClusterAlertDisabled(ctx _context.Context, or
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterAlertSwitch",
+		OperationID: "setClusterAlertDisabled",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/cluster/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterAlertSwitchApi.SetClusterAlertDisabled")
 	if err != nil {

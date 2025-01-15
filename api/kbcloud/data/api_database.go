@@ -5,6 +5,7 @@
 package data
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *DatabaseApi) CreateDatabase(ctx _context.Context, engineName string, or
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "database",
+		OperationID: "createDatabase",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatabaseApi.CreateDatabase")
 	if err != nil {
@@ -89,6 +99,15 @@ func (a *DatabaseApi) DeleteDatabase(ctx _context.Context, engineName string, or
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "database",
+		OperationID: "deleteDatabase",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatabaseApi.DeleteDatabase")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -152,6 +171,15 @@ func (a *DatabaseApi) ListDatabases(ctx _context.Context, engineName string, org
 		localVarPostBody    interface{}
 		localVarReturnValue DatabaseList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "database",
+		OperationID: "listDatabases",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatabaseApi.ListDatabases")
 	if err != nil {

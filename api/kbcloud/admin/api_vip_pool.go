@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *VipPoolApi) CreateVIPPool(ctx _context.Context, environmentName string,
 		localVarPostBody    interface{}
 		localVarReturnValue VipPool
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "vipPool",
+		OperationID: "createVIPPool",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/vipPool",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".VipPoolApi.CreateVIPPool")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *VipPoolApi) DeleteVIPPool(ctx _context.Context, environmentName string,
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "vipPool",
+		OperationID: "deleteVIPPool",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/vipPool/{poolID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".VipPoolApi.DeleteVIPPool")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -155,6 +174,15 @@ func (a *VipPoolApi) ListVIPPool(ctx _context.Context, environmentName string) (
 		localVarPostBody    interface{}
 		localVarReturnValue VipPoolList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "vipPool",
+		OperationID: "listVIPPool",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/vipPool",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".VipPoolApi.ListVIPPool")
 	if err != nil {

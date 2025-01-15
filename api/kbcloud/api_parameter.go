@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -48,6 +49,15 @@ func (a *ParameterApi) ListConfigurations(ctx _context.Context, orgName string, 
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "parameter",
+		OperationID: "listConfigurations",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/configurations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParameterApi.ListConfigurations")
 	if err != nil {
@@ -147,6 +157,15 @@ func (a *ParameterApi) ListParameterSpecs(ctx _context.Context, orgName string, 
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "parameter",
+		OperationID: "listParameterSpecs",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParameterApi.ListParameterSpecs")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -244,6 +263,15 @@ func (a *ParameterApi) ListParametersHistory(ctx _context.Context, orgName strin
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "parameter",
+		OperationID: "listParametersHistory",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParameterApi.ListParametersHistory")
 	if err != nil {

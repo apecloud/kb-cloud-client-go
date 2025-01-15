@@ -5,6 +5,7 @@
 package data
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, 
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "batchDeleteKafkaTopics",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics/batch-delete",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.BatchDeleteKafkaTopics")
 	if err != nil {
@@ -86,6 +96,15 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 		localVarPostBody    interface{}
 		localVarReturnValue Topic
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "createKafkaTopic",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.CreateKafkaTopic")
 	if err != nil {
@@ -159,6 +178,15 @@ func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "deleteKafkaConsumerGroup",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.DeleteKafkaConsumerGroup")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -220,6 +248,15 @@ func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, cluste
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "deleteKafkaTopic",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.DeleteKafkaTopic")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -280,6 +317,15 @@ func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName stri
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "expandKafkaTopicPartitions",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ExpandKafkaTopicPartitions")
 	if err != nil {
@@ -345,6 +391,15 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 		localVarPostBody    interface{}
 		localVarReturnValue []ConfigEntry
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaBrokerConfigs",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaBrokerConfigs")
 	if err != nil {
@@ -417,6 +472,15 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 		localVarReturnValue []Broker
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaBrokers",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaBrokers")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -486,6 +550,15 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 		localVarPostBody    interface{}
 		localVarReturnValue ConsumerGroupDescribe
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaConsumerGroupDescribe",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaConsumerGroupDescribe")
 	if err != nil {
@@ -558,6 +631,15 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 		localVarReturnValue []Broker
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaTopicBrokers",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/brokers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicBrokers")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -628,6 +710,15 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 		localVarPostBody    interface{}
 		localVarReturnValue [][]ConfigEntry
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaTopicConfig",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicConfig")
 	if err != nil {
@@ -700,6 +791,15 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 		localVarReturnValue TopicDetails
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaTopicInfos",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicInfos")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -770,6 +870,15 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 		localVarPostBody    interface{}
 		localVarReturnValue []Partition
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaTopicPartitions",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopicPartitions")
 	if err != nil {
@@ -874,6 +983,15 @@ func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterN
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "getKafkaTopics",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.GetKafkaTopics")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -975,6 +1093,15 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "listKafkaConsumerGroups",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaConsumerGroups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1048,6 +1175,15 @@ func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName st
 		localVarReturnValue []ConsumerGroup
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "listKafkaTopicConsumerGroups",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicConsumerGroups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1102,6 +1238,15 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 		localVarPostBody    interface{}
 		localVarReturnValue []TopicOffset
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "listKafkaTopicConsumerOffsets",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicConsumerOffsets")
 	if err != nil {
@@ -1213,6 +1358,15 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "listKafkaTopicMessages",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicMessages")
 	if err != nil {
@@ -1335,6 +1489,15 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "listKafkaTopicMessagesLive",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ListKafkaTopicMessagesLive")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1415,6 +1578,15 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 		localVarReturnValue int64
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "produceKafkaTopicMessage",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ProduceKafkaTopicMessage")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1488,6 +1660,15 @@ func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName s
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "resetKafkaTopicConsumerOffset",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.ResetKafkaTopicConsumerOffset")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1553,6 +1734,15 @@ func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "setKafkaTopicConfig",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.SetKafkaTopicConfig")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1616,6 +1806,15 @@ func (a *KafkaApi) UpdateKafkaBrokerConfig(ctx _context.Context, orgName string,
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "kafka",
+		OperationID: "updateKafkaBrokerConfig",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KafkaApi.UpdateKafkaBrokerConfig")
 	if err != nil {

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -48,6 +49,15 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertInhibit",
+		OperationID: "createAlertInhibit",
+		Path:        "/api/v1/organizations/{orgName}/alerts/inhibits",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.CreateAlertInhibit")
 	if err != nil {
@@ -123,6 +133,15 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 		localVarReturnValue interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertInhibit",
+		OperationID: "deleteAlertInhibit",
+		Path:        "/api/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.DeleteAlertInhibit")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -193,6 +212,15 @@ func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, 
 		localVarReturnValue AlertInhibit
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertInhibit",
+		OperationID: "getAlertInhibit",
+		Path:        "/api/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.GetAlertInhibit")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -262,6 +290,15 @@ func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, orgName string
 		localVarPostBody    interface{}
 		localVarReturnValue AlertInhibitList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertInhibit",
+		OperationID: "listAlertInhibits",
+		Path:        "/api/v1/organizations/{orgName}/alerts/inhibits",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.ListAlertInhibits")
 	if err != nil {
@@ -356,6 +393,15 @@ func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertInhibit",
+		OperationID: "patchAlertInhibit",
+		Path:        "/api/v1/organizations/{orgName}/alerts/inhibits",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertInhibitApi.PatchAlertInhibit")
 	if err != nil {

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -48,6 +49,15 @@ func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEng
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineLicense",
+		OperationID: "listEngineLicenses",
+		Path:        "/api/v1/engineLicenses",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.ListEngineLicenses")
 	if err != nil {

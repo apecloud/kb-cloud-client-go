@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *RoleApi) GetRoleByName(ctx _context.Context, orgName string, roleName s
 		localVarPostBody    interface{}
 		localVarReturnValue Role
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "getRoleByName",
+		Path:        "/admin/v1/organizations/{orgName}/roles/{roleName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.GetRoleByName")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *RoleApi) ListPermissions(ctx _context.Context) (PermissionList, *_netht
 		localVarReturnValue PermissionList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "listPermissions",
+		Path:        "/admin/v1/permissions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.ListPermissions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -164,6 +183,15 @@ func (a *RoleApi) ListRolePermissions(ctx _context.Context, orgName string, role
 		localVarPostBody    interface{}
 		localVarReturnValue PermissionList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "listRolePermissions",
+		Path:        "/admin/v1/organizations/{orgName}/roles/{roleName}/permissions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.ListRolePermissions")
 	if err != nil {
@@ -235,6 +263,15 @@ func (a *RoleApi) ListRoles(ctx _context.Context, orgName string) (RoleList, *_n
 		localVarPostBody    interface{}
 		localVarReturnValue RoleList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "listRoles",
+		Path:        "/admin/v1/organizations/{orgName}/roles",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.ListRoles")
 	if err != nil {

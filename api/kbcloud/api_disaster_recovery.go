@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 		localVarPostBody    interface{}
 		localVarReturnValue DisasterRecoveryTask
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "disasterRecovery",
+		OperationID: "createDisasterRecovery",
+		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.CreateDisasterRecovery")
 	if err != nil {
@@ -99,6 +109,15 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clust
 		localVarReturnValue DisasterRecoveryTask
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "disasterRecovery",
+		OperationID: "deleteDisasterRecovery",
+		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.DeleteDisasterRecovery")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -169,6 +188,15 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 		localVarPostBody    interface{}
 		localVarReturnValue DisasterRecoveryHistory
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "disasterRecovery",
+		OperationID: "getDisasterRecoveryHistory",
+		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryHistory")
 	if err != nil {
@@ -241,6 +269,15 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 		localVarReturnValue DisasterRecoveryStatusResponse
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "disasterRecovery",
+		OperationID: "getDisasterRecoveryStatus",
+		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryStatus")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -312,6 +349,15 @@ func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentC
 		localVarReturnValue ClusterList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "disasterRecovery",
+		OperationID: "listDisasterRecovery",
+		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.ListDisasterRecovery")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -382,6 +428,15 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 		localVarPostBody    interface{}
 		localVarReturnValue DisasterRecoveryTask
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "disasterRecovery",
+		OperationID: "promoteDisasterRecovery",
+		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.PromoteDisasterRecovery")
 	if err != nil {

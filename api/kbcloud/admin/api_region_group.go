@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *RegionGroupApi) CreateRegionGroup(ctx _context.Context, providerName st
 		localVarPostBody    interface{}
 		localVarReturnValue RegionGroup
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "regionGroup",
+		OperationID: "createRegionGroup",
+		Path:        "/admin/v1/providers/{providerName}/regionGroups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionGroupApi.CreateRegionGroup")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *RegionGroupApi) DeleteRegionGroup(ctx _context.Context, providerName st
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "regionGroup",
+		OperationID: "deleteRegionGroup",
+		Path:        "/admin/v1/providers/{providerName}/regionGroups/{regionGroupName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionGroupApi.DeleteRegionGroup")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -158,6 +177,15 @@ func (a *RegionGroupApi) ListRegionGroups(ctx _context.Context, providerName str
 		localVarPostBody    interface{}
 		localVarReturnValue RegionGroupList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "regionGroup",
+		OperationID: "listRegionGroups",
+		Path:        "/admin/v1/providers/{providerName}/regionGroups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionGroupApi.ListRegionGroups")
 	if err != nil {
@@ -228,6 +256,15 @@ func (a *RegionGroupApi) UpdateRegionGroup(ctx _context.Context, providerName st
 		localVarPostBody    interface{}
 		localVarReturnValue RegionGroup
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "regionGroup",
+		OperationID: "updateRegionGroup",
+		Path:        "/admin/v1/providers/{providerName}/regionGroups/{regionGroupName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionGroupApi.UpdateRegionGroup")
 	if err != nil {

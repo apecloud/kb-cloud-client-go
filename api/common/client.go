@@ -38,6 +38,17 @@ var (
 	rateLimitResetHeader = "X-Ratelimit-Reset"
 )
 
+// APIInfoCtxKey contains operation information from OpenAPI spec
+var APIInfoCtxKey = contextKey("kbCloudAPIInfo")
+
+// APIInfo holds API operation information from OpenAPI spec
+type APIInfo struct {
+	Tag         string // OpenAPI tag name
+	OperationID string // OpenAPI operationId
+	Path        string // API path
+	Version     string // API version
+}
+
 // APIClient manages communication with the KubeBlocks Cloud API API v1.0.0.
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {

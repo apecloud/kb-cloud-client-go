@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -47,6 +48,15 @@ func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalPar
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "class",
+		OperationID: "createClass",
+		Path:        "/api/v1/classes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.CreateClass")
 	if err != nil {
@@ -121,6 +131,15 @@ func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, 
 		localVarReturnValue interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "class",
+		OperationID: "deleteClass",
+		Path:        "/api/v1/classes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.DeleteClass")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -189,6 +208,15 @@ func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Respons
 		localVarPostBody    interface{}
 		localVarReturnValue []Class
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "class",
+		OperationID: "listClasses",
+		Path:        "/api/v1/classes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.ListClasses")
 	if err != nil {
@@ -282,6 +310,15 @@ func (a *ClassApi) PatchClass(ctx _context.Context, o ...PatchClassOptionalParam
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "class",
+		OperationID: "patchClass",
+		Path:        "/api/v1/classes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassApi.PatchClass")
 	if err != nil {

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string
 		localVarPostBody    interface{}
 		localVarReturnValue Provider
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "getCloudProvider",
+		Path:        "/api/v1/providers/{providerName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.GetCloudProvider")
 	if err != nil {
@@ -94,6 +104,15 @@ func (a *ProviderApi) ListCloudProviders(ctx _context.Context) (ProviderList, *_
 		localVarPostBody    interface{}
 		localVarReturnValue ProviderList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "listCloudProviders",
+		Path:        "/api/v1/providers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.ListCloudProviders")
 	if err != nil {

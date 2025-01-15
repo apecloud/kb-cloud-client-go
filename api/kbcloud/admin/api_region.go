@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *RegionApi) CreateRegion(ctx _context.Context, providerName string, body
 		localVarPostBody    interface{}
 		localVarReturnValue Region
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "createRegion",
+		Path:        "/admin/v1/providers/{providerName}/regions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.CreateRegion")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *RegionApi) DeleteRegion(ctx _context.Context, providerName string, regi
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "deleteRegion",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.DeleteRegion")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -158,6 +177,15 @@ func (a *RegionApi) GetRegion(ctx _context.Context, providerName string, regionN
 		localVarPostBody    interface{}
 		localVarReturnValue Region
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "getRegion",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.GetRegion")
 	if err != nil {
@@ -230,6 +258,15 @@ func (a *RegionApi) ListRegions(ctx _context.Context, providerName string) (Regi
 		localVarReturnValue RegionList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "listRegions",
+		Path:        "/admin/v1/providers/{providerName}/regions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.ListRegions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -299,6 +336,15 @@ func (a *RegionApi) UpdateRegion(ctx _context.Context, providerName string, regi
 		localVarPostBody    interface{}
 		localVarReturnValue Region
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "updateRegion",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.UpdateRegion")
 	if err != nil {

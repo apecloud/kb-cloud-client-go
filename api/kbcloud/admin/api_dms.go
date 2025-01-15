@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_io "io"
 	_nethttp "net/http"
@@ -48,6 +49,15 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "DataExport",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/export",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DataExport")
 	if err != nil {
@@ -115,6 +125,15 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "DataImport",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/import",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DataImport")
 	if err != nil {
@@ -195,6 +214,15 @@ func (a *DmsApi) GetObjectInfo(ctx _context.Context, orgName string, clusterName
 		localVarReturnValue DmsObjectResponse
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "GetObjectInfo",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}/{type}/{objectName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetObjectInfo")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -252,6 +280,15 @@ func (a *DmsApi) GetTaskList(ctx _context.Context, orgName string, clusterName s
 		localVarPostBody    interface{}
 		localVarReturnValue DmsTaskList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "GetTaskList",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/tasks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetTaskList")
 	if err != nil {
@@ -323,6 +360,15 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 		localVarPostBody    interface{}
 		localVarReturnValue DmsTaskInfo
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "GetTaskProgress",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/task",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetTaskProgress")
 	if err != nil {
@@ -396,6 +442,15 @@ func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clu
 		localVarReturnValue []string
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "ListObjectNamesByType",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}/{type}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListObjectNamesByType")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -453,6 +508,15 @@ func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, c
 		localVarReturnValue []DmsObject
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "ListObjectTypesInSchema",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListObjectTypesInSchema")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -508,6 +572,15 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 		localVarPostBody    interface{}
 		localVarReturnValue string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "alterParameter",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}/parameter",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.AlterParameter")
 	if err != nil {
@@ -608,6 +681,15 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "closeSessions",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/session/{session}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CloseSessions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -682,6 +764,15 @@ func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, cluste
 		localVarReturnValue bool
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "createDataSourceV2",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/createDS",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.CreateDataSourceV2")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -737,6 +828,15 @@ func (a *DmsApi) DeleteDataSourceV2(ctx _context.Context, orgName string, cluste
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "deleteDataSourceV2",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.DeleteDataSourceV2")
 	if err != nil {
@@ -825,6 +925,15 @@ func (a *DmsApi) GenerateDDL(ctx _context.Context, orgName string, clusterName s
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "generateDDL",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/generateDDL",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GenerateDDL")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -885,6 +994,15 @@ func (a *DmsApi) GetDataSourceV2(ctx _context.Context, orgName string, clusterNa
 		localVarReturnValue Datasource
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "getDataSourceV2",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetDataSourceV2")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -939,6 +1057,15 @@ func (a *DmsApi) GetSchemaList(ctx _context.Context, orgName string, clusterName
 		localVarPostBody    interface{}
 		localVarReturnValue []string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "getSchemaList",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/schemas",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.GetSchemaList")
 	if err != nil {
@@ -995,6 +1122,15 @@ func (a *DmsApi) ListDataSourceV2(ctx _context.Context, orgName string, clusterN
 		localVarReturnValue []Datasource
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listDataSourceV2",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListDataSourceV2")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1048,6 +1184,15 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 		localVarPostBody    interface{}
 		localVarReturnValue []DmsObParameter
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listParameters",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}/parameters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListParameters")
 	if err != nil {
@@ -1120,6 +1265,15 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 		localVarPostBody    interface{}
 		localVarReturnValue DmsQueryHistory
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listQueryHistory",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/history",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListQueryHistory")
 	if err != nil {
@@ -1201,6 +1355,15 @@ func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName 
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "listSessions",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/sessions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListSessions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1274,6 +1437,15 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 		localVarReturnValue DmsQueryResponse
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "query",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/query",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.Query")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1332,6 +1504,15 @@ func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName stri
 		localVarReturnValue DmsResult
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "showData",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/showData",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ShowData")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1389,6 +1570,15 @@ func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName st
 		localVarPostBody    interface{}
 		localVarReturnValue DmsQueryResponse
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "sqlExplain",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.SqlExplain")
 	if err != nil {
@@ -1473,6 +1663,15 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "tenantParameterHistory",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}/parameterHistory",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.TenantParameterHistory")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1547,6 +1746,15 @@ func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterN
 		localVarReturnValue bool
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "testDataSourceV2",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/testDS",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.TestDataSourceV2")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1603,6 +1811,15 @@ func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, cluste
 		localVarPostBody    interface{}
 		localVarReturnValue bool
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "dms",
+		OperationID: "updateDataSourceV2",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/updateDS",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.UpdateDataSourceV2")
 	if err != nil {

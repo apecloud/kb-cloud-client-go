@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_io "io"
 	_nethttp "net/http"
@@ -24,6 +25,15 @@ func (a *BackupApi) CreateClusterBackup(ctx _context.Context, orgName string, cl
 		localVarPostBody    interface{}
 		localVarReturnValue Backup
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "createClusterBackup",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/backups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.CreateClusterBackup")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *BackupApi) DeleteBackup(ctx _context.Context, orgName string, backupId 
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "deleteBackup",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DeleteBackup")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -158,6 +177,15 @@ func (a *BackupApi) DownloadBackup(ctx _context.Context, orgName string, backupI
 		localVarReturnValue _io.Reader
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "downloadBackup",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}/download",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadBackup")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -198,6 +226,15 @@ func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string,
 		localVarPostBody    interface{}
 		localVarReturnValue _io.Reader
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "downloadMutipleBackups",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}/download",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadMutipleBackups")
 	if err != nil {
@@ -242,6 +279,15 @@ func (a *BackupApi) GetBackup(ctx _context.Context, orgName string, backupId str
 		localVarPostBody    interface{}
 		localVarReturnValue Backup
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "getBackup",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackup")
 	if err != nil {
@@ -313,6 +359,15 @@ func (a *BackupApi) GetBackupLog(ctx _context.Context, orgName string, backupId 
 		localVarReturnValue BackupLog
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "getBackupLog",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}/logs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackupLog")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -382,6 +437,15 @@ func (a *BackupApi) GetBackupStats(ctx _context.Context, orgName string) (Backup
 		localVarPostBody    interface{}
 		localVarReturnValue BackupStats
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "getBackupStats",
+		Path:        "/api/v1/organizations/{orgName}/backupStats",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetBackupStats")
 	if err != nil {
@@ -476,6 +540,15 @@ func (a *BackupApi) GetClusterBackupPolicy(ctx _context.Context, orgName string,
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "getClusterBackupPolicy",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/backupPolicy",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.GetClusterBackupPolicy")
 	if err != nil {
@@ -617,6 +690,15 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "listBackups",
+		Path:        "/api/v1/organizations/{orgName}/backups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.ListBackups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -733,6 +815,15 @@ func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clus
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "patchBackupPolicy",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/backupPolicy",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.PatchBackupPolicy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -833,6 +924,15 @@ func (a *BackupApi) ViewBackup(ctx _context.Context, orgName string, backupId st
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backup",
+		OperationID: "viewBackup",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}/view",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.ViewBackup")
 	if err != nil {

@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *IpWhitelistApi) CreateIPWhitelist(ctx _context.Context, orgName string,
 		localVarPostBody    interface{}
 		localVarReturnValue IpWhitelist
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "ipWhitelist",
+		OperationID: "createIPWhitelist",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/ipWhitelist",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".IpWhitelistApi.CreateIPWhitelist")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *IpWhitelistApi) ListIPWhitelist(ctx _context.Context, orgName string, c
 		localVarReturnValue IpWhitelistList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "ipWhitelist",
+		OperationID: "listIPWhitelist",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/ipWhitelist",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".IpWhitelistApi.ListIPWhitelist")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -166,6 +185,15 @@ func (a *IpWhitelistApi) UpdateIPWhitelist(ctx _context.Context, orgName string,
 		localVarPostBody    interface{}
 		localVarReturnValue IpWhitelist
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "ipWhitelist",
+		OperationID: "updateIPWhitelist",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/ipWhitelist/{ipWhitelistId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".IpWhitelistApi.UpdateIPWhitelist")
 	if err != nil {

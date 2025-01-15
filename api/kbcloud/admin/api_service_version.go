@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -49,6 +50,15 @@ func (a *ServiceVersionApi) ListServiceVersion(ctx _context.Context, environment
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "serviceVersion",
+		OperationID: "ListServiceVersion",
+		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}/serviceVersion",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ServiceVersionApi.ListServiceVersion")
 	if err != nil {

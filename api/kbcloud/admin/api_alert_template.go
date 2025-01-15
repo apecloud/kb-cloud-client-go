@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AlertTemplateApi) CreateAlertTemplate(ctx _context.Context, body AlertT
 		localVarPostBody    interface{}
 		localVarReturnValue AlertTemplate
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertTemplate",
+		OperationID: "createAlertTemplate",
+		Path:        "/admin/v1/alertTemplates",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertTemplateApi.CreateAlertTemplate")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *AlertTemplateApi) DeleteAlertTemplate(ctx _context.Context, templateId 
 		localVarReturnValue interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertTemplate",
+		OperationID: "deleteAlertTemplate",
+		Path:        "/admin/v1/alertTemplates/{templateId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertTemplateApi.DeleteAlertTemplate")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -163,6 +182,15 @@ func (a *AlertTemplateApi) GetAlertTemplate(ctx _context.Context, templateId str
 		localVarPostBody    interface{}
 		localVarReturnValue AlertTemplate
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertTemplate",
+		OperationID: "getAlertTemplate",
+		Path:        "/admin/v1/alertTemplates/{templateId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertTemplateApi.GetAlertTemplate")
 	if err != nil {
@@ -233,6 +261,15 @@ func (a *AlertTemplateApi) ListAlertTemplates(ctx _context.Context) (AlertTempla
 		localVarReturnValue AlertTemplateList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertTemplate",
+		OperationID: "listAlertTemplates",
+		Path:        "/admin/v1/alertTemplates",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertTemplateApi.ListAlertTemplates")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -301,6 +338,15 @@ func (a *AlertTemplateApi) PatchAlertTemplate(ctx _context.Context, templateId s
 		localVarPostBody    interface{}
 		localVarReturnValue AlertTemplate
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertTemplate",
+		OperationID: "patchAlertTemplate",
+		Path:        "/admin/v1/alertTemplates/{templateId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertTemplateApi.PatchAlertTemplate")
 	if err != nil {

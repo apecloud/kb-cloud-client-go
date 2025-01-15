@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *InvitationApi) AcceptInvitation(ctx _context.Context, invitationId stri
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "acceptInvitation",
+		Path:        "/api/v1/invitations/{invitationId}/accept",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.AcceptInvitation")
 	if err != nil {
@@ -84,6 +94,15 @@ func (a *InvitationApi) CreateInvitation(ctx _context.Context, body InvitationCr
 		localVarPostBody    interface{}
 		localVarReturnValue Invitation
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "createInvitation",
+		Path:        "/api/v1/invitations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.CreateInvitation")
 	if err != nil {
@@ -155,6 +174,15 @@ func (a *InvitationApi) DeleteInvitation(ctx _context.Context, invitationId stri
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "deleteInvitation",
+		Path:        "/api/v1/invitations/{invitationId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.DeleteInvitation")
 	if err != nil {
@@ -263,6 +291,15 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "listInvitation",
+		Path:        "/api/v1/invitations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ListInvitation")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -344,6 +381,15 @@ func (a *InvitationApi) ReadInvitation(ctx _context.Context, invitationId string
 		localVarReturnValue Invitation
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "readInvitation",
+		Path:        "/api/v1/invitations/{invitationId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ReadInvitation")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -413,6 +459,15 @@ func (a *InvitationApi) RejectInvitation(ctx _context.Context, invitationId stri
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "rejectInvitation",
+		Path:        "/api/v1/invitations/{invitationId}/reject",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.RejectInvitation")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -472,6 +527,15 @@ func (a *InvitationApi) ResendInvitation(ctx _context.Context, invitationId stri
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "resendInvitation",
+		Path:        "/api/v1/invitations/{invitationId}/resend",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ResendInvitation")
 	if err != nil {

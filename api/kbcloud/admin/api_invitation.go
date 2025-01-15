@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -55,6 +56,15 @@ func (a *InvitationApi) ListInvitation(ctx _context.Context, o ...ListInvitation
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "invitation",
+		OperationID: "listInvitation",
+		Path:        "/admin/v1/invitations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InvitationApi.ListInvitation")
 	if err != nil {

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body 
 		localVarPostBody    interface{}
 		localVarReturnValue ParamTplListItem
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "createParamTpl",
+		Path:        "/api/v1/organizations/{orgName}/paramTpls",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.CreateParamTpl")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName st
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "createParamTplFromCluster",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.CreateParamTplFromCluster")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -157,6 +176,15 @@ func (a *ParamTplApi) DeleteParamTpl(ctx _context.Context, orgName string, param
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "deleteParamTpl",
+		Path:        "/api/v1/organizations/{orgName}/paramTpls/{paramTplName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.DeleteParamTpl")
 	if err != nil {
@@ -250,6 +278,15 @@ func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, 
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "getClusterParamTpls",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.GetClusterParamTpls")
 	if err != nil {
@@ -366,6 +403,15 @@ func (a *ParamTplApi) ListParamTpl(ctx _context.Context, orgName string, o ...Li
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "listParamTpl",
+		Path:        "/api/v1/organizations/{orgName}/paramTpls",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.ListParamTpl")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -444,6 +490,15 @@ func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramT
 		localVarPostBody    interface{}
 		localVarReturnValue ParamTplListItem
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "patchParamTpl",
+		Path:        "/api/v1/organizations/{orgName}/paramTpls/{paramTplName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.PatchParamTpl")
 	if err != nil {
@@ -542,6 +597,15 @@ func (a *ParamTplApi) ReadParamTpl(ctx _context.Context, orgName string, paramTp
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "paramTpl",
+		OperationID: "readParamTpl",
+		Path:        "/api/v1/organizations/{orgName}/paramTpls/{paramTplName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParamTplApi.ReadParamTpl")
 	if err != nil {

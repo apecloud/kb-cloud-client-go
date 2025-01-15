@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *MemberApi) AddOrgMember(ctx _context.Context, orgName string, body OrgM
 		localVarPostBody    interface{}
 		localVarReturnValue OrgMember
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "member",
+		OperationID: "addOrgMember",
+		Path:        "/api/v1/organizations/{orgName}/members",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.AddOrgMember")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *MemberApi) DeleteOrgMember(ctx _context.Context, orgName string, member
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "member",
+		OperationID: "deleteOrgMember",
+		Path:        "/api/v1/organizations/{orgName}/members/{memberId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.DeleteOrgMember")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -158,6 +177,15 @@ func (a *MemberApi) ListOrgMember(ctx _context.Context, orgName string) (OrgMemb
 		localVarPostBody    interface{}
 		localVarReturnValue OrgMemberList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "member",
+		OperationID: "listOrgMember",
+		Path:        "/api/v1/organizations/{orgName}/members",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ListOrgMember")
 	if err != nil {
@@ -228,6 +256,15 @@ func (a *MemberApi) ListOrgMemberPermission(ctx _context.Context, orgName string
 		localVarReturnValue PermissionList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "member",
+		OperationID: "listOrgMemberPermission",
+		Path:        "/api/v1/organizations/{orgName}/permissions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ListOrgMemberPermission")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -297,6 +334,15 @@ func (a *MemberApi) PatchOrgMember(ctx _context.Context, orgName string, memberI
 		localVarPostBody    interface{}
 		localVarReturnValue OrgMember
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "member",
+		OperationID: "patchOrgMember",
+		Path:        "/api/v1/organizations/{orgName}/members/{memberId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.PatchOrgMember")
 	if err != nil {
@@ -371,6 +417,15 @@ func (a *MemberApi) ReadOrgMember(ctx _context.Context, orgName string, memberId
 		localVarPostBody    interface{}
 		localVarReturnValue OrgMember
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "member",
+		OperationID: "readOrgMember",
+		Path:        "/api/v1/organizations/{orgName}/members/{memberId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MemberApi.ReadOrgMember")
 	if err != nil {

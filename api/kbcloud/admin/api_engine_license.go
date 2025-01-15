@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_io "io"
 	_nethttp "net/http"
@@ -24,6 +25,15 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 		localVarPostBody    interface{}
 		localVarReturnValue EngineLicense
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineLicense",
+		OperationID: "createEngineLicense",
+		Path:        "/admin/v1/engineLicense",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.CreateEngineLicense")
 	if err != nil {
@@ -101,6 +111,15 @@ func (a *EngineLicenseApi) DeleteEngineLicense(ctx _context.Context, licenseId i
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineLicense",
+		OperationID: "deleteEngineLicense",
+		Path:        "/admin/v1/engineLicense",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.DeleteEngineLicense")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -161,6 +180,15 @@ func (a *EngineLicenseApi) EngineLicense(ctx _context.Context, licenseId int32) 
 		localVarPostBody    interface{}
 		localVarReturnValue EngineLicense
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineLicense",
+		OperationID: "engineLicense",
+		Path:        "/admin/v1/engineLicense",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.EngineLicense")
 	if err != nil {
@@ -256,6 +284,15 @@ func (a *EngineLicenseApi) ListEngineLicenses(ctx _context.Context, o ...ListEng
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineLicense",
+		OperationID: "listEngineLicenses",
+		Path:        "/admin/v1/engineLicenses",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineLicenseApi.ListEngineLicenses")
 	if err != nil {

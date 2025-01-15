@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *BackupRepoApi) DeleteBackupRepo(ctx _context.Context, environmentName s
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backupRepo",
+		OperationID: "deleteBackupRepo",
+		Path:        "/api/v1/environments/{environmentName}/backupRepo/{backupRepoName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.DeleteBackupRepo")
 	if err != nil {
@@ -109,6 +119,15 @@ func (a *BackupRepoApi) GetBackupRepo(ctx _context.Context, environmentName stri
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backupRepo",
+		OperationID: "getBackupRepo",
+		Path:        "/api/v1/environments/{environmentName}/backupRepo/{backupRepoName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.GetBackupRepo")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -182,6 +201,15 @@ func (a *BackupRepoApi) ListBackupRepos(ctx _context.Context, orgName string) (B
 		localVarReturnValue BackupRepoList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backupRepo",
+		OperationID: "listBackupRepos",
+		Path:        "/api/v1/organizations/{orgName}/backupRepo",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.ListBackupRepos")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -250,6 +278,15 @@ func (a *BackupRepoApi) UpdateBackupRepo(ctx _context.Context, environmentName s
 		localVarPostBody    interface{}
 		localVarReturnValue BackupRepo
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "backupRepo",
+		OperationID: "updateBackupRepo",
+		Path:        "/api/v1/environments/{environmentName}/backupRepo/{backupRepoName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupRepoApi.UpdateBackupRepo")
 	if err != nil {

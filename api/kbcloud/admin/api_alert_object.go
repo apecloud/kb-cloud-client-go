@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -62,6 +63,15 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, o ...ListAlertOb
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertObject",
+		OperationID: "listAlertObjects",
+		Path:        "/admin/v1/alerts/objects",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertObjectApi.ListAlertObjects")
 	if err != nil {
@@ -139,6 +149,15 @@ func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, orgName stri
 		localVarPostBody    interface{}
 		localVarReturnValue AlertObject
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertObject",
+		OperationID: "setAlertObjectStatus",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/objects/{alertId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertObjectApi.SetAlertObjectStatus")
 	if err != nil {
@@ -235,6 +254,15 @@ func (a *AlertObjectApi) SetAlertObjectsStatus(ctx _context.Context, orgName str
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertObject",
+		OperationID: "setAlertObjectsStatus",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/objects",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertObjectApi.SetAlertObjectsStatus")
 	if err != nil {

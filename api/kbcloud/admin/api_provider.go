@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *ProviderApi) CreateCloudProvider(ctx _context.Context, body ProviderCre
 		localVarPostBody    interface{}
 		localVarReturnValue Provider
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "createCloudProvider",
+		Path:        "/admin/v1/providers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.CreateCloudProvider")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *ProviderApi) DeleteCloudProvider(ctx _context.Context, providerName str
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "deleteCloudProvider",
+		Path:        "/admin/v1/providers/{providerName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.DeleteCloudProvider")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -156,6 +175,15 @@ func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string
 		localVarPostBody    interface{}
 		localVarReturnValue Provider
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "getCloudProvider",
+		Path:        "/admin/v1/providers/{providerName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.GetCloudProvider")
 	if err != nil {
@@ -227,6 +255,15 @@ func (a *ProviderApi) ListCloudProviders(ctx _context.Context) (ProviderList, *_
 		localVarReturnValue ProviderList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "listCloudProviders",
+		Path:        "/admin/v1/providers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.ListCloudProviders")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -295,6 +332,15 @@ func (a *ProviderApi) UpdateCloudProvider(ctx _context.Context, providerName str
 		localVarPostBody    interface{}
 		localVarReturnValue Provider
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "provider",
+		OperationID: "updateCloudProvider",
+		Path:        "/admin/v1/providers/{providerName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProviderApi.UpdateCloudProvider")
 	if err != nil {

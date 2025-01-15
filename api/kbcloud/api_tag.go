@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *TagApi) CreateTag(ctx _context.Context, orgName string, body interface{
 		localVarPostBody    interface{}
 		localVarReturnValue TagCreate
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tag",
+		OperationID: "createTag",
+		Path:        "/api/v1/organizations/{orgName}/tags",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.CreateTag")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *TagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) 
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tag",
+		OperationID: "deleteTags",
+		Path:        "/api/v1/organizations/{orgName}/tags/{tagId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.DeleteTags")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -158,6 +177,15 @@ func (a *TagApi) GetTags(ctx _context.Context, orgName string, clusterIds string
 		localVarReturnValue []TagCluster
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tag",
+		OperationID: "getTags",
+		Path:        "/api/v1/organizations/{orgName}/clusterTags",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.GetTags")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -212,6 +240,15 @@ func (a *TagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList,
 		localVarPostBody    interface{}
 		localVarReturnValue OrgTagsList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tag",
+		OperationID: "listOrgTags",
+		Path:        "/api/v1/organizations/{orgName}/tags",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.ListOrgTags")
 	if err != nil {
@@ -282,6 +319,15 @@ func (a *TagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, t
 		localVarPostBody    interface{}
 		localVarReturnValue Tag
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tag",
+		OperationID: "updateTag",
+		Path:        "/api/v1/organizations/{orgName}/tags/{tagId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.UpdateTag")
 	if err != nil {

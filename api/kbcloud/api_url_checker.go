@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *URLCheckerApi) BatchCheckURLConnectivity(ctx _context.Context, body URL
 		localVarPostBody    interface{}
 		localVarReturnValue URLCheck
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "URL Checker",
+		OperationID: "batchCheckURLConnectivity",
+		Path:        "/api/v1/alerts/checkURL",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".URLCheckerApi.BatchCheckURLConnectivity")
 	if err != nil {

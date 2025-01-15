@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkC
 		localVarPostBody    interface{}
 		localVarReturnValue Fault
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "fault",
+		OperationID: "createClusterNetworkChaos",
+		Path:        "/admin/v1/fault/networkChaos",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.CreateClusterNetworkChaos")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (F
 		localVarReturnValue Fault
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "fault",
+		OperationID: "createClusterPodChaos",
+		Path:        "/admin/v1/fault/podChaos",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.CreateClusterPodChaos")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -166,6 +185,15 @@ func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}
 		localVarReturnValue interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "fault",
+		OperationID: "deleteFault",
+		Path:        "/admin/v1/fault",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.DeleteFault")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -236,6 +264,15 @@ func (a *FaultApi) GetChaos(ctx _context.Context, faultId int32) (Fault, *_netht
 		localVarPostBody    interface{}
 		localVarReturnValue Fault
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "fault",
+		OperationID: "getChaos",
+		Path:        "/admin/v1/fault/{faultId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.GetChaos")
 	if err != nil {
@@ -321,6 +358,15 @@ func (a *FaultApi) ListFault(ctx _context.Context, o ...ListFaultOptionalParamet
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "fault",
+		OperationID: "listFault",
+		Path:        "/admin/v1/fault",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FaultApi.ListFault")
 	if err != nil {

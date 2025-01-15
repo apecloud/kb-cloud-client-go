@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *EngineVersionApi) CreateEngineVersion(ctx _context.Context, body Engine
 		localVarPostBody    interface{}
 		localVarReturnValue EngineVersion
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineVersion",
+		OperationID: "createEngineVersion",
+		Path:        "/admin/v1/engineVersions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.CreateEngineVersion")
 	if err != nil {
@@ -120,6 +130,15 @@ func (a *EngineVersionApi) DeleteEngineVersion(ctx _context.Context, o ...Delete
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineVersion",
+		OperationID: "deleteEngineVersion",
+		Path:        "/admin/v1/engineVersions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.DeleteEngineVersion")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -184,6 +203,15 @@ func (a *EngineVersionApi) ListEngineVersions(ctx _context.Context, engineName s
 		localVarPostBody    interface{}
 		localVarReturnValue EngineVersionList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineVersion",
+		OperationID: "listEngineVersions",
+		Path:        "/admin/v1/engineVersions/{engineName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.ListEngineVersions")
 	if err != nil {
@@ -254,6 +282,15 @@ func (a *EngineVersionApi) PatchEngineVersion(ctx _context.Context, body EngineV
 		localVarPostBody    interface{}
 		localVarReturnValue EngineVersion
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineVersion",
+		OperationID: "patchEngineVersion",
+		Path:        "/admin/v1/engineVersions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.PatchEngineVersion")
 	if err != nil {

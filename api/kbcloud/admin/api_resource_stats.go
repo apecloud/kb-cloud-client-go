@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *ResourceStatsApi) GetResourceStats(ctx _context.Context, environmentNam
 		localVarPostBody    interface{}
 		localVarReturnValue EnvironmentResourceStats
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "resourceStats",
+		OperationID: "getResourceStats",
+		Path:        "/admin/v1/environments/{environmentName}/resourceStats",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ResourceStatsApi.GetResourceStats")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *ResourceStatsApi) ListInstancesResourceStats(ctx _context.Context, envi
 		localVarReturnValue InstanceResourceStatsList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "resourceStats",
+		OperationID: "listInstancesResourceStats",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}/instances/resourceStats",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ResourceStatsApi.ListInstancesResourceStats")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -165,6 +184,15 @@ func (a *ResourceStatsApi) ListNodesResourceStats(ctx _context.Context, environm
 		localVarPostBody    interface{}
 		localVarReturnValue NodeResourceStatsList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "resourceStats",
+		OperationID: "listNodesResourceStats",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/resourceStats",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ResourceStatsApi.ListNodesResourceStats")
 	if err != nil {

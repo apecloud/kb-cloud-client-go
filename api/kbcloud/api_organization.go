@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *OrganizationApi) BatchUpdateOrgParameters(ctx _context.Context, orgName
 		localVarPostBody    interface{}
 		localVarReturnValue []OrgParameter
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "batchUpdateOrgParameters",
+		Path:        "/api/v1/organizations/{orgName}/parameters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.BatchUpdateOrgParameters")
 	if err != nil {
@@ -98,6 +108,15 @@ func (a *OrganizationApi) CreateOrg(ctx _context.Context, body OrgCreate) (Org, 
 		localVarReturnValue Org
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "createOrg",
+		Path:        "/api/v1/organizations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.CreateOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -169,6 +188,15 @@ func (a *OrganizationApi) FreezeMember(ctx _context.Context, orgName string, mem
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "freezeMember",
+		Path:        "/api/v1/organizations/{orgName}/members/{memberId}/freeze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.FreezeMember")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -229,6 +257,15 @@ func (a *OrganizationApi) GetOrgParameter(ctx _context.Context, orgName string, 
 		localVarPostBody    interface{}
 		localVarReturnValue OrgParameter
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "getOrgParameter",
+		Path:        "/api/v1/organizations/{orgName}/parameters/{parameterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.GetOrgParameter")
 	if err != nil {
@@ -332,6 +369,15 @@ func (a *OrganizationApi) ListOrg(ctx _context.Context, o ...ListOrgOptionalPara
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "listOrg",
+		Path:        "/api/v1/organizations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.ListOrg")
 	if err != nil {
@@ -439,6 +485,15 @@ func (a *OrganizationApi) ListOrgParameters(ctx _context.Context, orgName string
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "listOrgParameters",
+		Path:        "/api/v1/organizations/{orgName}/parameters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.ListOrgParameters")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -515,6 +570,15 @@ func (a *OrganizationApi) PatchOrg(ctx _context.Context, orgName string, body Or
 		localVarReturnValue Org
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "patchOrg",
+		Path:        "/api/v1/organizations/{orgName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.PatchOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -588,6 +652,15 @@ func (a *OrganizationApi) PatchOrgParameter(ctx _context.Context, orgName string
 		localVarReturnValue OrgParameter
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "patchOrgParameter",
+		Path:        "/api/v1/organizations/{orgName}/parameters/{parameterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.PatchOrgParameter")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -645,6 +718,15 @@ func (a *OrganizationApi) ReadOrg(ctx _context.Context, orgName string) (Org, *_
 		localVarPostBody    interface{}
 		localVarReturnValue Org
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "readOrg",
+		Path:        "/api/v1/organizations/{orgName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.ReadOrg")
 	if err != nil {
@@ -714,6 +796,15 @@ func (a *OrganizationApi) UnfreezeMember(ctx _context.Context, orgName string, m
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "organization",
+		OperationID: "unfreezeMember",
+		Path:        "/api/v1/organizations/{orgName}/members/{memberId}/unfreeze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationApi.UnfreezeMember")
 	if err != nil {

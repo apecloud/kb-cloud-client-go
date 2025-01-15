@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *InspectionApi) CreateAutoInspection(ctx _context.Context, orgName strin
 		localVarPostBody    interface{}
 		localVarReturnValue AutoInspection
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "createAutoInspection",
+		Path:        "/admin/v1/organizations/{orgName}/autoInspection",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.CreateAutoInspection")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *InspectionApi) CreateInspectionScript(ctx _context.Context, orgName str
 		localVarReturnValue InspectionScript
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "createInspectionScript",
+		Path:        "/admin/v1/organizations/{orgName}/inspectionScripts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.CreateInspectionScript")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -168,6 +187,15 @@ func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, orgName str
 		localVarReturnValue InspectionScript
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "deleteInspectionScript",
+		Path:        "/admin/v1/organizations/{orgName}/inspectionScripts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.DeleteInspectionScript")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -239,6 +267,15 @@ func (a *InspectionApi) ListAutoInspection(ctx _context.Context, orgName string)
 		localVarPostBody    interface{}
 		localVarReturnValue AutoInspection
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "listAutoInspection",
+		Path:        "/admin/v1/organizations/{orgName}/autoInspection",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.ListAutoInspection")
 	if err != nil {
@@ -333,6 +370,15 @@ func (a *InspectionApi) ListInspectionScripts(ctx _context.Context, orgName stri
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "listInspectionScripts",
+		Path:        "/admin/v1/organizations/{orgName}/inspectionScripts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.ListInspectionScripts")
 	if err != nil {
@@ -438,6 +484,15 @@ func (a *InspectionApi) ListInspections(ctx _context.Context, orgName string, o 
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "listInspections",
+		Path:        "/admin/v1/organizations/{orgName}/inspections",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.ListInspections")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -513,6 +568,15 @@ func (a *InspectionApi) UpdateAutoInspection(ctx _context.Context, orgName strin
 		localVarReturnValue AutoInspection
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "updateAutoInspection",
+		Path:        "/admin/v1/organizations/{orgName}/autoInspection",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.UpdateAutoInspection")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -585,6 +649,15 @@ func (a *InspectionApi) UpdateInspection(ctx _context.Context, orgName string, b
 		localVarReturnValue Inspection
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "updateInspection",
+		Path:        "/admin/v1/organizations/{orgName}/inspections",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.UpdateInspection")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -656,6 +729,15 @@ func (a *InspectionApi) UpdateInspectionScript(ctx _context.Context, orgName str
 		localVarPostBody    interface{}
 		localVarReturnValue InspectionScript
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "inspection",
+		OperationID: "updateInspectionScript",
+		Path:        "/admin/v1/organizations/{orgName}/inspectionScripts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.UpdateInspectionScript")
 	if err != nil {

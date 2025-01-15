@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *LoadBalancerApi) GetLoadBalancer(ctx _context.Context, orgName string, 
 		localVarPostBody    interface{}
 		localVarReturnValue LoadBalancer
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "loadBalancer",
+		OperationID: "getLoadBalancer",
+		Path:        "/api/v1/organizations/{orgName}/environments/{environmentName}/loadbalancer",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.GetLoadBalancer")
 	if err != nil {

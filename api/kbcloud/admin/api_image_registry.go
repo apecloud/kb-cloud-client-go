@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *ImageRegistryApi) CreateImageRegistry(ctx _context.Context, body ImageR
 		localVarPostBody    interface{}
 		localVarReturnValue ImageRegistry
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "imageRegistry",
+		OperationID: "createImageRegistry",
+		Path:        "/admin/v1/imageRegistries",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.CreateImageRegistry")
 	if err != nil {
@@ -103,6 +113,15 @@ func (a *ImageRegistryApi) DeleteImageRegistry(ctx _context.Context, imageRegist
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "imageRegistry",
+		OperationID: "deleteImageRegistry",
+		Path:        "/admin/v1/imageRegistries/{imageRegistryName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.DeleteImageRegistry")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -167,6 +186,15 @@ func (a *ImageRegistryApi) GetImageRegistry(ctx _context.Context, imageRegistryN
 		localVarPostBody    interface{}
 		localVarReturnValue ImageRegistry
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "imageRegistry",
+		OperationID: "getImageRegistry",
+		Path:        "/admin/v1/imageRegistries/{imageRegistryName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.GetImageRegistry")
 	if err != nil {
@@ -238,6 +266,15 @@ func (a *ImageRegistryApi) ListImageRegistries(ctx _context.Context) (ImageRegis
 		localVarReturnValue ImageRegistryList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "imageRegistry",
+		OperationID: "listImageRegistries",
+		Path:        "/admin/v1/imageRegistries",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.ListImageRegistries")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -290,6 +327,15 @@ func (a *ImageRegistryApi) PatchImageRegistry(ctx _context.Context, imageRegistr
 		localVarPostBody    interface{}
 		localVarReturnValue ImageRegistry
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "imageRegistry",
+		OperationID: "patchImageRegistry",
+		Path:        "/admin/v1/imageRegistries/{imageRegistryName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ImageRegistryApi.PatchImageRegistry")
 	if err != nil {

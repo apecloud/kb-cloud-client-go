@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -48,6 +49,15 @@ func (a *AlertMetricsApi) ListAlertMetrics(ctx _context.Context, orgName string,
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertMetrics",
+		OperationID: "listAlertMetrics",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/metrics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertMetricsApi.ListAlertMetrics")
 	if err != nil {

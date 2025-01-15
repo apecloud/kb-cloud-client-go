@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, orgName string, bod
 		localVarPostBody    interface{}
 		localVarReturnValue AlertRule
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertRule",
+		OperationID: "createAlertRule",
+		Path:        "/api/v1/organizations/{orgName}/alerts/rules",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.CreateAlertRule")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, ale
 		localVarReturnValue interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertRule",
+		OperationID: "deleteAlertRule",
+		Path:        "/api/v1/organizations/{orgName}/alerts/rules/{alertName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.DeleteAlertRule")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -165,6 +184,15 @@ func (a *AlertRuleApi) GetAlertRule(ctx _context.Context, orgName string, alertN
 		localVarPostBody    interface{}
 		localVarReturnValue AlertRule
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertRule",
+		OperationID: "getAlertRule",
+		Path:        "/api/v1/organizations/{orgName}/alerts/rules/{alertName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.GetAlertRule")
 	if err != nil {
@@ -236,6 +264,15 @@ func (a *AlertRuleApi) GetRuleConfig(ctx _context.Context) (string, *_nethttp.Re
 		localVarPostBody    interface{}
 		localVarReturnValue string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertRule",
+		OperationID: "getRuleConfig",
+		Path:        "/api/v1/alerts/rules/config",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.GetRuleConfig")
 	if err != nil {
@@ -330,6 +367,15 @@ func (a *AlertRuleApi) ListAlertRules(ctx _context.Context, orgName string, o ..
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertRule",
+		OperationID: "listAlertRules",
+		Path:        "/api/v1/organizations/{orgName}/alerts/rules",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.ListAlertRules")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -401,6 +447,15 @@ func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, ale
 		localVarPostBody    interface{}
 		localVarReturnValue AlertRule
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertRule",
+		OperationID: "updateAlertRule",
+		Path:        "/api/v1/organizations/{orgName}/alerts/rules/{alertName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.UpdateAlertRule")
 	if err != nil {

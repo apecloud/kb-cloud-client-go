@@ -5,6 +5,7 @@
 package data
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "createAccount",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateAccount")
 	if err != nil {
@@ -88,6 +98,15 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, engineName string, orgN
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "deleteAccount",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.DeleteAccount")
 	if err != nil {
@@ -178,6 +197,15 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgNa
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "listAccounts",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.ListAccounts")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -252,6 +280,15 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, engineName string, orgN
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "updateAccount",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccount")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -317,6 +354,15 @@ func (a *AccountApi) UpdateAccountPrivileges(ctx _context.Context, engineName st
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "updateAccountPrivileges",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccountPrivileges")
 	if err != nil {

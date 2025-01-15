@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, orgName string, cluster
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "createAccount",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateAccount")
 	if err != nil {
@@ -88,6 +98,15 @@ func (a *AccountApi) DeleteAccount(ctx _context.Context, orgName string, cluster
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "deleteAccount",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.DeleteAccount")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -150,6 +169,15 @@ func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName st
 		localVarPostBody    interface{}
 		localVarReturnValue string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "getDSN",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/dsn",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.GetDSN")
 	if err != nil {
@@ -255,6 +283,15 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, orgName string, clusterN
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "listAccounts",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.ListAccounts")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -331,6 +368,15 @@ func (a *AccountApi) UpdateAccount(ctx _context.Context, orgName string, cluster
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "updateAccount",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccount")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -395,6 +441,15 @@ func (a *AccountApi) UpdateAccountPrivileges(ctx _context.Context, orgName strin
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "account",
+		OperationID: "updateAccountPrivileges",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.UpdateAccountPrivileges")
 	if err != nil {

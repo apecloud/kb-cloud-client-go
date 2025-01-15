@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *ProjectApi) ListProjects(ctx _context.Context, environmentName string) 
 		localVarPostBody    interface{}
 		localVarReturnValue ProjectList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "project",
+		OperationID: "listProjects",
+		Path:        "/api/v1/environments/{environmentName}/projects",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProjectApi.ListProjects")
 	if err != nil {

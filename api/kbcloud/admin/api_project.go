@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *ProjectApi) CreateProject(ctx _context.Context, environmentName string,
 		localVarPostBody    interface{}
 		localVarReturnValue Project
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "project",
+		OperationID: "createProject",
+		Path:        "/admin/v1/environments/{environmentName}/projects",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProjectApi.CreateProject")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *ProjectApi) DeleteProject(ctx _context.Context, environmentName string,
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "project",
+		OperationID: "deleteProject",
+		Path:        "/admin/v1/environments/{environmentName}/projects/{projectName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProjectApi.DeleteProject")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -155,6 +174,15 @@ func (a *ProjectApi) ListProjects(ctx _context.Context, environmentName string) 
 		localVarPostBody    interface{}
 		localVarReturnValue ProjectList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "project",
+		OperationID: "listProjects",
+		Path:        "/admin/v1/environments/{environmentName}/projects",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ProjectApi.ListProjects")
 	if err != nil {

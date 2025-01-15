@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body Cl
 		localVarPostBody    interface{}
 		localVarReturnValue Cluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "createCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.CreateCluster")
 	if err != nil {
@@ -121,6 +131,15 @@ func (a *ClusterApi) DeleteCluster(ctx _context.Context, orgName string, cluster
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "deleteCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.DeleteCluster")
 	if err != nil {
@@ -220,6 +239,15 @@ func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName stri
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "describeClusterHaHistory",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/haHistory",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.DescribeClusterHaHistory")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -293,6 +321,15 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 		localVarReturnValue Cluster
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "getCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -362,6 +399,15 @@ func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, cluste
 		localVarPostBody    interface{}
 		localVarReturnValue Cluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "getClusterByID",
+		Path:        "/admin/v1/organizations/{orgName}/clustersWithDelete/{clusterID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetClusterByID")
 	if err != nil {
@@ -480,6 +526,15 @@ func (a *ClusterApi) GetClusterInstanceLog(ctx _context.Context, orgName string,
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "getClusterInstanceLog",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetClusterInstanceLog")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -595,6 +650,15 @@ func (a *ClusterApi) GetClusterManifest(ctx _context.Context, orgName string, cl
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "getClusterManifest",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/manifests/{manifestType}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetClusterManifest")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -671,6 +735,15 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 		localVarPostBody    interface{}
 		localVarReturnValue InstanceMetricsList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "getInstacesMetrics",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.GetInstacesMetrics")
 	if err != nil {
@@ -815,6 +888,15 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "listCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListCluster")
 	if err != nil {
@@ -965,6 +1047,15 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "listClusters",
+		Path:        "/admin/v1/clusters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListClusters")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1074,6 +1165,15 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "listEndpoints",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/endpoints",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListEndpoints")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1150,6 +1250,15 @@ func (a *ClusterApi) ListInstance(ctx _context.Context, orgName string, clusterN
 		localVarReturnValue InstanceList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "listInstance",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/instances",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.ListInstance")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1220,6 +1329,15 @@ func (a *ClusterApi) PatchCluster(ctx _context.Context, orgName string, clusterN
 		localVarPostBody    interface{}
 		localVarReturnValue Cluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "patchCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.PatchCluster")
 	if err != nil {

@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *EngineOptionApi) ListUpgradeableServiceVersion(ctx _context.Context, cl
 		localVarPostBody    interface{}
 		localVarReturnValue EngineServiceVersions
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineOption",
+		OperationID: "ListUpgradeableServiceVersion",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/upgradeableServiceVersion",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.ListUpgradeableServiceVersion")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *EngineOptionApi) CreateEngineOption(ctx _context.Context, body EngineOp
 		localVarPostBody    interface{}
 		localVarReturnValue EngineOption
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineOption",
+		OperationID: "createEngineOption",
+		Path:        "/admin/v1/engineOptions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.CreateEngineOption")
 	if err != nil {
@@ -194,6 +213,15 @@ func (a *EngineOptionApi) GetEngineOption(ctx _context.Context, engineName strin
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineOption",
+		OperationID: "getEngineOption",
+		Path:        "/admin/v1/engineOptions/{engineName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.GetEngineOption")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -266,6 +294,15 @@ func (a *EngineOptionApi) ListEngineOptionHistory(ctx _context.Context, engineNa
 		localVarPostBody    interface{}
 		localVarReturnValue EngineOptionHistoryList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineOption",
+		OperationID: "listEngineOptionHistory",
+		Path:        "/admin/v1/engineOptionHistories",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.ListEngineOptionHistory")
 	if err != nil {
@@ -362,6 +399,15 @@ func (a *EngineOptionApi) ListEngineOptions(ctx _context.Context, o ...ListEngin
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineOption",
+		OperationID: "listEngineOptions",
+		Path:        "/admin/v1/engineOptions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.ListEngineOptions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -433,6 +479,15 @@ func (a *EngineOptionApi) UpdateEngineOption(ctx _context.Context, engineName st
 		localVarPostBody    interface{}
 		localVarReturnValue EngineOption
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engineOption",
+		OperationID: "updateEngineOption",
+		Path:        "/admin/v1/engineOptions/{engineName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineOptionApi.UpdateEngineOption")
 	if err != nil {

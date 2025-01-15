@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *StorageClassApi) GetStorageClassStats(ctx _context.Context, orgName str
 		localVarPostBody    interface{}
 		localVarReturnValue StorageClassList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "getStorageClassStats",
+		Path:        "/api/v1/organizations/{orgName}/environments/{environmentName}/storageClasses",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.GetStorageClassStats")
 	if err != nil {

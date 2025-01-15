@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *RestoreApi) GetRestoreLog(ctx _context.Context, orgName string, cluster
 		localVarPostBody    interface{}
 		localVarReturnValue RestoreLog
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "GetRestoreLog",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/restore/{restoreId}/logs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.GetRestoreLog")
 	if err != nil {
@@ -94,6 +104,15 @@ func (a *RestoreApi) DeleteRestoreObject(ctx _context.Context, orgName string, c
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "deleteRestoreObject",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/restore",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.DeleteRestoreObject")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -155,6 +174,15 @@ func (a *RestoreApi) DoRestore(ctx _context.Context, orgName string, clusterName
 		localVarPostBody    interface{}
 		localVarReturnValue Restore
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "doRestore",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/restore",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.DoRestore")
 	if err != nil {
@@ -229,6 +257,15 @@ func (a *RestoreApi) GetRestoreTimeRange(ctx _context.Context, orgName string, c
 		localVarReturnValue Backup
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "getRestoreTimeRange",
+		Path:        "/admin/v1/organizations/{orgName}/clustersWithDelete/restoreTimeRange",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.GetRestoreTimeRange")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -298,6 +335,15 @@ func (a *RestoreApi) ListClusterRestore(ctx _context.Context, orgName string, cl
 		localVarPostBody    interface{}
 		localVarReturnValue RestoreList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "listClusterRestore",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/restore",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.ListClusterRestore")
 	if err != nil {
@@ -394,6 +440,15 @@ func (a *RestoreApi) ListRestores(ctx _context.Context, o ...ListRestoresOptiona
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "listRestores",
+		Path:        "/admin/v1/restoreTasks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.ListRestores")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -464,6 +519,15 @@ func (a *RestoreApi) RestoreCluster(ctx _context.Context, orgName string, body R
 		localVarPostBody    interface{}
 		localVarReturnValue Cluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "restore",
+		OperationID: "restoreCluster",
+		Path:        "/admin/v1/organizations/{orgName}/restore",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RestoreApi.RestoreCluster")
 	if err != nil {

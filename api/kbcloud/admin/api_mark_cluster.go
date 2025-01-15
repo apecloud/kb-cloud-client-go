@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *MarkClusterApi) MarkClusterRestoreCompleted(ctx _context.Context, orgNa
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "markCluster",
+		OperationID: "markClusterRestoreCompleted",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/markClusterRestoreCompleted",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MarkClusterApi.MarkClusterRestoreCompleted")
 	if err != nil {

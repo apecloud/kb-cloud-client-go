@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterMetrics
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metrics",
+		OperationID: "queryClusterMetrics",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/metrics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.QueryClusterMetrics")
 	if err != nil {

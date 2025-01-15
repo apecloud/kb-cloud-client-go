@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *PlatformParameterApi) GetPlatformParameter(ctx _context.Context, platfo
 		localVarPostBody    interface{}
 		localVarReturnValue PlatformParameter
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "platformParameter",
+		OperationID: "getPlatformParameter",
+		Path:        "/admin/v1/platformParameters/{platformParameterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformParameterApi.GetPlatformParameter")
 	if err != nil {
@@ -92,6 +102,15 @@ func (a *PlatformParameterApi) ListPlatformParameters(ctx _context.Context) (Pla
 		localVarPostBody    interface{}
 		localVarReturnValue PlatformParameterList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "platformParameter",
+		OperationID: "listPlatformParameters",
+		Path:        "/admin/v1/platformParameters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformParameterApi.ListPlatformParameters")
 	if err != nil {
@@ -185,6 +204,15 @@ func (a *PlatformParameterApi) UpdatePlatformParameters(ctx _context.Context, o 
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "platformParameter",
+		OperationID: "updatePlatformParameters",
+		Path:        "/admin/v1/platformParameters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PlatformParameterApi.UpdatePlatformParameters")
 	if err != nil {

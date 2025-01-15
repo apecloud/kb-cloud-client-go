@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *BenchmarkApi) CreatePgbench(ctx _context.Context, orgName string, body 
 		localVarPostBody    interface{}
 		localVarReturnValue Benchmark
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "createPgbench",
+		Path:        "/api/v1/organizations/{orgName}/benchmark/pgbench",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreatePgbench")
 	if err != nil {
@@ -80,6 +90,15 @@ func (a *BenchmarkApi) CreateSysbench(ctx _context.Context, orgName string, body
 		localVarReturnValue Benchmark
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "createSysbench",
+		Path:        "/api/v1/organizations/{orgName}/benchmark/sysbench",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreateSysbench")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -135,6 +154,15 @@ func (a *BenchmarkApi) CreateTpcc(ctx _context.Context, orgName string, body Tpc
 		localVarPostBody    interface{}
 		localVarReturnValue Benchmark
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "createTpcc",
+		Path:        "/api/v1/organizations/{orgName}/benchmark/tpcc",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreateTpcc")
 	if err != nil {
@@ -192,6 +220,15 @@ func (a *BenchmarkApi) CreateYcsb(ctx _context.Context, orgName string, body Ycs
 		localVarReturnValue Benchmark
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "createYcsb",
+		Path:        "/api/v1/organizations/{orgName}/benchmark/ycsb",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.CreateYcsb")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -247,6 +284,15 @@ func (a *BenchmarkApi) DeleteBenchmark(ctx _context.Context, orgName string, bod
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "deleteBenchmark",
+		Path:        "/api/v1/organizations/{orgName}/benchmark",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.DeleteBenchmark")
 	if err != nil {
@@ -319,6 +365,15 @@ func (a *BenchmarkApi) GetBenchmark(ctx _context.Context, orgName string, benchm
 		localVarPostBody    interface{}
 		localVarReturnValue Benchmark
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "getBenchmark",
+		Path:        "/api/v1/organizations/{orgName}/benchmark/{benchmarkId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.GetBenchmark")
 	if err != nil {
@@ -412,6 +467,15 @@ func (a *BenchmarkApi) ListBenchmark(ctx _context.Context, orgName string, o ...
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "benchmark",
+		OperationID: "listBenchmark",
+		Path:        "/api/v1/organizations/{orgName}/benchmark",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BenchmarkApi.ListBenchmark")
 	if err != nil {

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, orgName string, en
 		localVarPostBody    interface{}
 		localVarReturnValue Environment
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironment",
+		Path:        "/api/v1/organizations/{orgName}/environments/{environmentName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironment")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, orgName string, e
 		localVarPostBody    interface{}
 		localVarReturnValue []string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listEnvNodeZone",
+		Path:        "/api/v1/organizations/{orgName}/environments/{environmentName}/availableZones",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvNodeZone")
 	if err != nil {
@@ -199,6 +218,15 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, orgName string, o
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listEnvironment",
+		Path:        "/api/v1/organizations/{orgName}/environments",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvironment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -298,6 +326,15 @@ func (a *EnvironmentApi) ListNodeGroup(ctx _context.Context, environmentName str
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listNodeGroup",
+		Path:        "/api/v1/environments/{environmentName}/nodeGroups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroup")
 	if err != nil {

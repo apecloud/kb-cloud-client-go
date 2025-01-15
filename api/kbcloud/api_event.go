@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -84,6 +85,15 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, star
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "queryClusterEvents",
+		Path:        "/api/v1/organizations/{orgName}/events",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryClusterEvents")
 	if err != nil {
@@ -174,6 +184,15 @@ func (a *EventApi) QueryEventDetail(ctx _context.Context, orgName string, eventI
 		localVarPostBody    interface{}
 		localVarReturnValue Event
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "queryEventDetail",
+		Path:        "/api/v1/organizations/{orgName}/events/{eventID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryEventDetail")
 	if err != nil {

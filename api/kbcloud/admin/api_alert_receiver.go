@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 		localVarPostBody    interface{}
 		localVarReturnValue AlertReceiver
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertReceiver",
+		OperationID: "createAlertReceiver",
+		Path:        "/admin/v1/organizations/{orgName}/receivers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.CreateAlertReceiver")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertReceiver",
+		OperationID: "deleteAlertReceiver",
+		Path:        "/admin/v1/organizations/{orgName}/receivers/{receiverId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.DeleteAlertReceiver")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -156,6 +175,15 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 		localVarPostBody    interface{}
 		localVarReturnValue AlertReceiver
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertReceiver",
+		OperationID: "getAlertReceiver",
+		Path:        "/admin/v1/organizations/{orgName}/receivers/{receiverId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.GetAlertReceiver")
 	if err != nil {
@@ -259,6 +287,15 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertReceiver",
+		OperationID: "listAlertReceivers",
+		Path:        "/admin/v1/alerts/receivers",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.ListAlertReceivers")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -333,6 +370,15 @@ func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName stri
 		localVarPostBody    interface{}
 		localVarReturnValue AlertReceiver
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertReceiver",
+		OperationID: "patchAlertReceiver",
+		Path:        "/admin/v1/organizations/{orgName}/receivers/{receiverId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.PatchAlertReceiver")
 	if err != nil {

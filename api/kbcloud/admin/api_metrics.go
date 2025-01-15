@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 		localVarPostBody    interface{}
 		localVarReturnValue AggregateMetaData
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metrics",
+		OperationID: "getAggregateMetaData",
+		Path:        "/admin/v1/metrics/metaData/aggregate",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetAggregateMetaData")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 		localVarReturnValue EnvironmentStats
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metrics",
+		OperationID: "getEnvironmentStats",
+		Path:        "/admin/v1/metrics/environment/stats",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetEnvironmentStats")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -165,6 +184,15 @@ func (a *MetricsApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterMetrics
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metrics",
+		OperationID: "queryClusterMetrics",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/metrics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.QueryClusterMetrics")
 	if err != nil {

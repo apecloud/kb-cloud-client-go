@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *MonitorDataSinkApi) CreateMonitorDataSink(ctx _context.Context, body Mo
 		localVarPostBody    interface{}
 		localVarReturnValue MonitorDataSink
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "monitorDataSink",
+		OperationID: "createMonitorDataSink",
+		Path:        "/admin/v1/monitorDataSinks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MonitorDataSinkApi.CreateMonitorDataSink")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *MonitorDataSinkApi) DeleteMonitorDataSink(ctx _context.Context, monitor
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "monitorDataSink",
+		OperationID: "deleteMonitorDataSink",
+		Path:        "/admin/v1/monitorDataSinks/{monitorDataSinkID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MonitorDataSinkApi.DeleteMonitorDataSink")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -155,6 +174,15 @@ func (a *MonitorDataSinkApi) ListMonitorDataSinks(ctx _context.Context, environm
 		localVarPostBody    interface{}
 		localVarReturnValue MonitorDataSinkList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "monitorDataSink",
+		OperationID: "listMonitorDataSinks",
+		Path:        "/admin/v1/monitorDataSinks/environments/{environmentName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MonitorDataSinkApi.ListMonitorDataSinks")
 	if err != nil {
@@ -225,6 +253,15 @@ func (a *MonitorDataSinkApi) PatchMonitorDataSink(ctx _context.Context, monitorD
 		localVarPostBody    interface{}
 		localVarReturnValue MonitorDataSink
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "monitorDataSink",
+		OperationID: "patchMonitorDataSink",
+		Path:        "/admin/v1/monitorDataSinks/{monitorDataSinkID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MonitorDataSinkApi.PatchMonitorDataSink")
 	if err != nil {

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *ZoneApi) GetZones(ctx _context.Context, providerName string, regionName
 		localVarPostBody    interface{}
 		localVarReturnValue Zone
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "getZones",
+		Path:        "/api/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.GetZones")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *ZoneApi) ListZones(ctx _context.Context, providerName string, regionNam
 		localVarPostBody    interface{}
 		localVarReturnValue ZoneList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "listZones",
+		Path:        "/api/v1/providers/{providerName}/regions/{regionName}/zones",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.ListZones")
 	if err != nil {

@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, e
 		localVarPostBody    interface{}
 		localVarReturnValue bool
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "engineAction",
+		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.EngineAction")
 	if err != nil {
@@ -97,6 +107,15 @@ func (a *EngineApi) EngineActionInOrg(ctx _context.Context, orgName string, acti
 		localVarReturnValue bool
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "engineActionInOrg",
+		Path:        "/admin/v1/organizations/{orgName}/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.EngineActionInOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -168,6 +187,15 @@ func (a *EngineApi) GetEngineByNameInEnv(ctx _context.Context, environmentName s
 		localVarPostBody    interface{}
 		localVarReturnValue Engine
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "getEngineByNameInEnv",
+		Path:        "/admin/v1/environments/{environmentName}/engines/{engineName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.GetEngineByNameInEnv")
 	if err != nil {
@@ -292,6 +320,15 @@ func (a *EngineApi) ListAllEngines(ctx _context.Context, o ...ListAllEnginesOpti
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "listAllEngines",
+		Path:        "/admin/v1/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListAllEngines")
 	if err != nil {
@@ -429,6 +466,15 @@ func (a *EngineApi) ListEnginesInEnv(ctx _context.Context, environmentName strin
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "listEnginesInEnv",
+		Path:        "/admin/v1/environments/{environmentName}/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEnginesInEnv")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -565,6 +611,15 @@ func (a *EngineApi) ListEnginesInOrg(ctx _context.Context, orgName string, o ...
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "listEnginesInOrg",
+		Path:        "/admin/v1/organizations/{orgName}/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEnginesInOrg")
 	if err != nil {

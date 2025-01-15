@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *RelationApi) CreateRelation(ctx _context.Context, orgName string, clust
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "relation",
+		OperationID: "createRelation",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/relations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RelationApi.CreateRelation")
 	if err != nil {
@@ -84,6 +94,15 @@ func (a *RelationApi) DeleteRelation(ctx _context.Context, orgName string, clust
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "relation",
+		OperationID: "deleteRelation",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/relation/{target}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RelationApi.DeleteRelation")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -145,6 +164,15 @@ func (a *RelationApi) ListAvailableClustersForRelation(ctx _context.Context, org
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "relation",
+		OperationID: "listAvailableClustersForRelation",
+		Path:        "/api/v1/organizations/{orgName}/cluster/{clusterName}/available-relations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RelationApi.ListAvailableClustersForRelation")
 	if err != nil {
@@ -216,6 +244,15 @@ func (a *RelationApi) ListRelatedClusters(ctx _context.Context, orgName string, 
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "relation",
+		OperationID: "listRelatedClusters",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/relations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RelationApi.ListRelatedClusters")
 	if err != nil {

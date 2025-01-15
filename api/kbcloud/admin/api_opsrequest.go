@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName 
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "cancelOps",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/cancel",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.CancelOps")
 	if err != nil {
@@ -86,6 +96,15 @@ func (a *OpsrequestApi) ClusterVolumeExpand(ctx _context.Context, orgName string
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "clusterVolumeExpand",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/volume-expand",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.ClusterVolumeExpand")
 	if err != nil {
@@ -160,6 +179,15 @@ func (a *OpsrequestApi) CustomOps(ctx _context.Context, orgName string, clusterN
 		localVarReturnValue ClusterTask
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "customOps",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/custom-ops",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.CustomOps")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -233,6 +261,15 @@ func (a *OpsrequestApi) DeleteOps(ctx _context.Context, orgName string, opsName 
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "deleteOps",
+		Path:        "/admin/v1/organizations/{orgName}/opsrequests/{opsName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.DeleteOps")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -294,6 +331,15 @@ func (a *OpsrequestApi) ExposeCluster(ctx _context.Context, orgName string, clus
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "exposeCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/expose",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.ExposeCluster")
 	if err != nil {
@@ -369,6 +415,15 @@ func (a *OpsrequestApi) GetOpsRequestStatus(ctx _context.Context, orgName string
 		localVarReturnValue OpsStatus
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "getOpsRequestStatus",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.GetOpsRequestStatus")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -423,6 +478,15 @@ func (a *OpsrequestApi) HorizontalScaleCluster(ctx _context.Context, orgName str
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "horizontalScaleCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/hscale",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.HorizontalScaleCluster")
 	if err != nil {
@@ -497,6 +561,15 @@ func (a *OpsrequestApi) PromoteCluster(ctx _context.Context, orgName string, clu
 		localVarReturnValue OpsRequestName
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "promoteCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/promote",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.PromoteCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -569,6 +642,15 @@ func (a *OpsrequestApi) RebuildInstance(ctx _context.Context, orgName string, cl
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "rebuildInstance",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/rebuildInstance",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.RebuildInstance")
 	if err != nil {
@@ -643,6 +725,15 @@ func (a *OpsrequestApi) ReconfigureCluster(ctx _context.Context, orgName string,
 		localVarReturnValue OpsRequestName
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "reconfigureCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.ReconfigureCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -715,6 +806,15 @@ func (a *OpsrequestApi) RestartCluster(ctx _context.Context, orgName string, clu
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "restartCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/restart",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.RestartCluster")
 	if err != nil {
@@ -789,6 +889,15 @@ func (a *OpsrequestApi) StartCluster(ctx _context.Context, orgName string, clust
 		localVarReturnValue OpsRequestName
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "startCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/start",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.StartCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -859,6 +968,15 @@ func (a *OpsrequestApi) StopCluster(ctx _context.Context, orgName string, cluste
 		localVarReturnValue OpsRequestName
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "stopCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/stop",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.StopCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -928,6 +1046,15 @@ func (a *OpsrequestApi) UpdateClusterLicense(ctx _context.Context, orgName strin
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "updateClusterLicense",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/updateLicense",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.UpdateClusterLicense")
 	if err != nil {
@@ -1002,6 +1129,15 @@ func (a *OpsrequestApi) UpgradeCluster(ctx _context.Context, orgName string, clu
 		localVarReturnValue OpsRequestName
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "upgradeCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/upgrade",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.UpgradeCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1074,6 +1210,15 @@ func (a *OpsrequestApi) VerticalScaleCluster(ctx _context.Context, orgName strin
 		localVarPostBody    interface{}
 		localVarReturnValue OpsRequestName
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "opsrequest",
+		OperationID: "verticalScaleCluster",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/vscale",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OpsrequestApi.VerticalScaleCluster")
 	if err != nil {

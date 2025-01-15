@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 		localVarPostBody    interface{}
 		localVarReturnValue []AutohealingListItem
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "autohealing",
+		OperationID: "getAutohealing",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AutohealingApi.GetAutohealing")
 	if err != nil {

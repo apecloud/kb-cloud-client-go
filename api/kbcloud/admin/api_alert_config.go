@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (A
 		localVarPostBody    interface{}
 		localVarReturnValue AlertConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertConfig",
+		OperationID: "getAlertConfig",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/config",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.GetAlertConfig")
 	if err != nil {
@@ -92,6 +102,15 @@ func (a *AlertConfigApi) GetAlertSMSConfig(ctx _context.Context) (AlertSMSConfig
 		localVarPostBody    interface{}
 		localVarReturnValue AlertSMSConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertConfig",
+		OperationID: "getAlertSMSConfig",
+		Path:        "/admin/v1/alertSMSConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.GetAlertSMSConfig")
 	if err != nil {
@@ -186,6 +205,15 @@ func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o 
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertConfig",
+		OperationID: "setAlertConfig",
+		Path:        "/admin/v1/organizations/{orgName}/alerts/config",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.SetAlertConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -259,6 +287,15 @@ func (a *AlertConfigApi) UpdateAlertSMSConfig(ctx _context.Context, body AlertSM
 		localVarPostBody    interface{}
 		localVarReturnValue AlertSMSConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertConfig",
+		OperationID: "updateAlertSMSConfig",
+		Path:        "/admin/v1/alertSMSConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.UpdateAlertSMSConfig")
 	if err != nil {

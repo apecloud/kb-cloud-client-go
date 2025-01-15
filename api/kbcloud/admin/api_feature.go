@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -49,6 +50,15 @@ func (a *FeatureApi) ListFeature(ctx _context.Context, o ...ListFeatureOptionalP
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "feature",
+		OperationID: "listFeature",
+		Path:        "/admin/v1/features",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FeatureApi.ListFeature")
 	if err != nil {
@@ -122,6 +132,15 @@ func (a *FeatureApi) ListFeatureGroup(ctx _context.Context) ([]string, *_nethttp
 		localVarReturnValue []string
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "feature",
+		OperationID: "listFeatureGroup",
+		Path:        "/admin/v1/featureGroups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FeatureApi.ListFeatureGroup")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -190,6 +209,15 @@ func (a *FeatureApi) ReadFeature(ctx _context.Context, featureName string) (Feat
 		localVarPostBody    interface{}
 		localVarReturnValue Feature
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "feature",
+		OperationID: "readFeature",
+		Path:        "/admin/v1/features/{featureName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".FeatureApi.ReadFeature")
 	if err != nil {

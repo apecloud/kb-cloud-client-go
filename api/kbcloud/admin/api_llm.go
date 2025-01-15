@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *LlmApi) CreateLLM(ctx _context.Context, body interface{}) (Llm, *_netht
 		localVarPostBody    interface{}
 		localVarReturnValue Llm
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "llm",
+		OperationID: "createLLM",
+		Path:        "/admin/v1/llm",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.CreateLLM")
 	if err != nil {
@@ -94,6 +104,15 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "llm",
+		OperationID: "deleteLLM",
+		Path:        "/admin/v1/llm/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.DeleteLLM")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -153,6 +172,15 @@ func (a *LlmApi) ListLLM(ctx _context.Context) (LlmList, *_nethttp.Response, err
 		localVarPostBody    interface{}
 		localVarReturnValue LlmList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "llm",
+		OperationID: "listLLM",
+		Path:        "/admin/v1/llm",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.ListLLM")
 	if err != nil {
@@ -221,6 +249,15 @@ func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (L
 		localVarPostBody    interface{}
 		localVarReturnValue Llm
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "llm",
+		OperationID: "updateLLM",
+		Path:        "/admin/v1/llm/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.UpdateLLM")
 	if err != nil {

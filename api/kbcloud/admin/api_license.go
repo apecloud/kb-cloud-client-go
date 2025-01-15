@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 		localVarPostBody    interface{}
 		localVarReturnValue License
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "license",
+		OperationID: "getLicense",
+		Path:        "/admin/v1/license",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LicenseApi.GetLicense")
 	if err != nil {
@@ -92,6 +102,15 @@ func (a *LicenseApi) UpdateLicense(ctx _context.Context, body LicenseRequest) (L
 		localVarPostBody    interface{}
 		localVarReturnValue License
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "license",
+		OperationID: "updateLicense",
+		Path:        "/admin/v1/license",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LicenseApi.UpdateLicense")
 	if err != nil {

@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -46,6 +47,15 @@ func (a *MetadbApi) DeleteMetadbBackups(ctx _context.Context, all string, o ...D
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "deleteMetadbBackups",
+		Path:        "/admin/v1/metadb/backups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.DeleteMetadbBackups")
 	if err != nil {
@@ -109,6 +119,15 @@ func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_inst
 		localVarPostBody    interface{}
 		localVarReturnValue Metadb_instanceMetricsList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "getMetadbInstancesMetrics",
+		Path:        "/admin/v1/metadb/instancesMetrics",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.GetMetadbInstancesMetrics")
 	if err != nil {
@@ -210,6 +229,15 @@ func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgre
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "getPostgresClusterInfo",
+		Path:        "/admin/v1/metadb/summary",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.GetPostgresClusterInfo")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -284,6 +312,15 @@ func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, 
 		localVarReturnValue Metadb_backupList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "listMetadbBackups",
+		Path:        "/admin/v1/metadb/backups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.ListMetadbBackups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -352,6 +389,15 @@ func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp
 		localVarReturnValue Metadb_backup
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbBackup",
+		Path:        "/admin/v1/metadb/backups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbBackup")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -419,6 +465,15 @@ func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) 
 		localVarPostBody    interface{}
 		localVarReturnValue BackupConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbBackupConfig",
+		Path:        "/admin/v1/metadb/backupConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbBackupConfig")
 	if err != nil {
@@ -491,6 +546,15 @@ func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *
 		localVarReturnValue BackupConfig
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbBackupGetConfig",
+		Path:        "/admin/v1/metadb/backupConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbBackupGetConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -559,6 +623,15 @@ func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceLi
 		localVarReturnValue Metadb_instanceList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbListInstances",
+		Path:        "/admin/v1/metadb/instances",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbListInstances")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -626,6 +699,15 @@ func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Me
 		localVarPostBody    interface{}
 		localVarReturnValue Metadb_restore
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbRestore",
+		Path:        "/admin/v1/metadb/restore",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbRestore")
 	if err != nil {
@@ -698,6 +780,15 @@ func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vsca
 		localVarReturnValue Vscale
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbVerticalScale",
+		Path:        "/admin/v1/metadb/vscale",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbVerticalScale")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -768,6 +859,15 @@ func (a *MetadbApi) MetadbVolumeExpand(ctx _context.Context, body VolumeExpand) 
 		localVarPostBody    interface{}
 		localVarReturnValue VolumeExpand
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "metadb",
+		OperationID: "metadbVolumeExpand",
+		Path:        "/admin/v1/metadb/volumeExpand",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetadbApi.MetadbVolumeExpand")
 	if err != nil {

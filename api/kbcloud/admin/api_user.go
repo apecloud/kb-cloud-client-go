@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *UserApi) CreateUserApikey(ctx _context.Context, body ApikeyCreate) (Api
 		localVarPostBody    interface{}
 		localVarReturnValue ApikeyWithSK
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "createUserApikey",
+		Path:        "/admin/v1/user/apikeys",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.CreateUserApikey")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *UserApi) DeleteApikey(ctx _context.Context, keyName string) (*_nethttp.
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "deleteApikey",
+		Path:        "/admin/v1/user/apikey/{keyName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.DeleteApikey")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -156,6 +175,15 @@ func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyC
 		localVarPostBody    interface{}
 		localVarReturnValue Apikey
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "patchAPIkey",
+		Path:        "/admin/v1/user/apikey/{keyName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.PatchAPIkey")
 	if err != nil {
@@ -230,6 +258,15 @@ func (a *UserApi) ReadUserApikeys(ctx _context.Context) (ApikeyList, *_nethttp.R
 		localVarReturnValue ApikeyList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "readUserApikeys",
+		Path:        "/admin/v1/user/apikeys",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.ReadUserApikeys")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -297,6 +334,15 @@ func (a *UserApi) UpdateAdminUserPassword(ctx _context.Context, body interface{}
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "updateAdminUserPassword",
+		Path:        "/admin/v1/user/password",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.UpdateAdminUserPassword")
 	if err != nil {

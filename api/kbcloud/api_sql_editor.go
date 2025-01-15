@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *SqlEditorApi) RunSQLOnCluster(ctx _context.Context, orgName string, clu
 		localVarPostBody    interface{}
 		localVarReturnValue SqlReqRes
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "sqlEditor",
+		OperationID: "runSQLOnCluster",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/runSQL",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SqlEditorApi.RunSQLOnCluster")
 	if err != nil {

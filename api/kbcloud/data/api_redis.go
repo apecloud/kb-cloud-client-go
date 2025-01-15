@@ -5,6 +5,7 @@
 package data
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -47,6 +48,15 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "redis",
+		OperationID: "createRedisAccount",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.CreateRedisAccount")
 	if err != nil {
@@ -139,6 +149,15 @@ func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clus
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "redis",
+		OperationID: "deleteRedisAccount",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.DeleteRedisAccount")
 	if err != nil {
@@ -239,6 +258,15 @@ func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clust
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "redis",
+		OperationID: "listRedisAccounts",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.ListRedisAccounts")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -335,6 +363,15 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "redis",
+		OperationID: "updateRedisAccount",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.UpdateRedisAccount")
 	if err != nil {

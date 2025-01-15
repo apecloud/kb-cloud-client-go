@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -26,6 +27,15 @@ func (a *EnvironmentApi) AddNodes(ctx _context.Context, environmentName string, 
 		localVarPostBody    interface{}
 		localVarReturnValue []NodePoolNode
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "addNodes",
+		Path:        "/admin/v1/environments/{environmentName}/nodes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.AddNodes")
 	if err != nil {
@@ -100,6 +110,15 @@ func (a *EnvironmentApi) CheckNodeSSHConfig(ctx _context.Context, body SshConfig
 		localVarReturnValue SshConfigCheckResponse
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "checkNodeSSHConfig",
+		Path:        "/admin/v1/environments/checkNodeSSHConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CheckNodeSSHConfig")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -171,6 +190,15 @@ func (a *EnvironmentApi) CordonEnvironmentNode(ctx _context.Context, environment
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "cordonEnvironmentNode",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}/cordon",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CordonEnvironmentNode")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -231,6 +259,15 @@ func (a *EnvironmentApi) CreateEnvironment(ctx _context.Context, body Environmen
 		localVarPostBody    interface{}
 		localVarReturnValue Environment
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "createEnvironment",
+		Path:        "/admin/v1/environments",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateEnvironment")
 	if err != nil {
@@ -302,6 +339,15 @@ func (a *EnvironmentApi) CreateNodeGroup(ctx _context.Context, environmentName s
 		localVarPostBody    interface{}
 		localVarReturnValue NodeGroup
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "createNodeGroup",
+		Path:        "/admin/v1/environments/{environmentName}/nodeGroups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateNodeGroup")
 	if err != nil {
@@ -400,6 +446,15 @@ func (a *EnvironmentApi) CreateWorkflow(ctx _context.Context, environmentName st
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "createWorkflow",
+		Path:        "/admin/v1/environments/{environmentName}/workflow",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.CreateWorkflow")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -482,6 +537,15 @@ func (a *EnvironmentApi) DeleteEnvironment(ctx _context.Context, environmentName
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "deleteEnvironment",
+		Path:        "/admin/v1/environments/{environmentName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.DeleteEnvironment")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -546,6 +610,15 @@ func (a *EnvironmentApi) DeleteNodeGroup(ctx _context.Context, environmentName s
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "deleteNodeGroup",
+		Path:        "/admin/v1/environments/{environmentName}/nodeGroups/{nodeGroupName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.DeleteNodeGroup")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -606,6 +679,15 @@ func (a *EnvironmentApi) GetEnvironment(ctx _context.Context, environmentName st
 		localVarPostBody    interface{}
 		localVarReturnValue Environment
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironment",
+		Path:        "/admin/v1/environments/{environmentName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironment")
 	if err != nil {
@@ -701,6 +783,15 @@ func (a *EnvironmentApi) GetEnvironmentBackupRepo(ctx _context.Context, o ...Get
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentBackupRepo",
+		Path:        "/admin/v1/environmentBackupRepo",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentBackupRepo")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -774,6 +865,15 @@ func (a *EnvironmentApi) GetEnvironmentBootstrapManifests(ctx _context.Context, 
 		localVarReturnValue HttpBody
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentBootstrapManifests",
+		Path:        "/admin/v1/environments/{environmentName}/bootstrapManifests",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentBootstrapManifests")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -842,6 +942,15 @@ func (a *EnvironmentApi) GetEnvironmentKubeconfig(ctx _context.Context, environm
 		localVarPostBody    interface{}
 		localVarReturnValue HttpBody
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentKubeconfig",
+		Path:        "/admin/v1/environments/{environmentName}/kubeconfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentKubeconfig")
 	if err != nil {
@@ -912,6 +1021,15 @@ func (a *EnvironmentApi) GetEnvironmentMetricsMonitorStats(ctx _context.Context,
 		localVarReturnValue map[string]interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentMetricsMonitorStats",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/monitorStatus",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentMetricsMonitorStats")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -980,6 +1098,15 @@ func (a *EnvironmentApi) GetEnvironmentModuleInfo(ctx _context.Context, environm
 		localVarPostBody    interface{}
 		localVarReturnValue EnvironmentModuleInfo
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentModuleInfo",
+		Path:        "/admin/v1/environments/{environmentName}/environment-modules",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentModuleInfo")
 	if err != nil {
@@ -1110,6 +1237,15 @@ func (a *EnvironmentApi) GetEnvironmentModuleLogs(ctx _context.Context, environm
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentModuleLogs",
+		Path:        "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentModuleLogs")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1199,6 +1335,15 @@ func (a *EnvironmentApi) GetEnvironmentModulePods(ctx _context.Context, environm
 		localVarReturnValue EnvironmentModulePods
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentModulePods",
+		Path:        "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentModulePods")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1269,6 +1414,15 @@ func (a *EnvironmentApi) GetEnvironmentProvisioningProgress(ctx _context.Context
 		localVarReturnValue map[string]interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentProvisioningProgress",
+		Path:        "/admin/v1/environments/{environmentName}/progress",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentProvisioningProgress")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1337,6 +1491,15 @@ func (a *EnvironmentApi) GetEnvironmentStatus(ctx _context.Context, environmentN
 		localVarPostBody    interface{}
 		localVarReturnValue EnvironmentStatus
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentStatus",
+		Path:        "/admin/v1/environments/{environmentName}/status",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentStatus")
 	if err != nil {
@@ -1439,6 +1602,15 @@ func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, envir
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getEnvironmentStatusHistory",
+		Path:        "/admin/v1/environments/{environmentName}/statusHistory",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetEnvironmentStatusHistory")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1498,6 +1670,15 @@ func (a *EnvironmentApi) GetLatestEnvModuleVersion(ctx _context.Context) (EnvMod
 		localVarReturnValue EnvModuleVersion
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getLatestEnvModuleVersion",
+		Path:        "/admin/v1/latestEnvModuleVersion",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetLatestEnvModuleVersion")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1550,6 +1731,15 @@ func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, n
 		localVarPostBody    interface{}
 		localVarReturnValue map[string]interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getNode",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetNode")
 	if err != nil {
@@ -1621,6 +1811,15 @@ func (a *EnvironmentApi) GetWorkflow(ctx _context.Context, environmentName strin
 		localVarReturnValue Workflow
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getWorkflow",
+		Path:        "/admin/v1/environments/{environmentName}/workflow/{workflowName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflow")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1675,6 +1874,15 @@ func (a *EnvironmentApi) GetWorkflowList(ctx _context.Context, environmentName s
 		localVarReturnValue WorkflowList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getWorkflowList",
+		Path:        "/admin/v1/environments/{environmentName}/workflow",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflowList")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -1727,6 +1935,15 @@ func (a *EnvironmentApi) GetWorkflowLog(ctx _context.Context, environmentName st
 		localVarPostBody    interface{}
 		localVarReturnValue string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "getWorkflowLog",
+		Path:        "/admin/v1/environments/{environmentName}/workflow/{workflowName}/log",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetWorkflowLog")
 	if err != nil {
@@ -1782,6 +1999,15 @@ func (a *EnvironmentApi) ListEnvNodeZone(ctx _context.Context, environmentName s
 		localVarPostBody    interface{}
 		localVarReturnValue []string
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listEnvNodeZone",
+		Path:        "/admin/v1/environments/{environmentName}/availableZones",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvNodeZone")
 	if err != nil {
@@ -1913,6 +2139,15 @@ func (a *EnvironmentApi) ListEnvironment(ctx _context.Context, o ...ListEnvironm
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listEnvironment",
+		Path:        "/admin/v1/environments",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvironment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -2024,6 +2259,15 @@ func (a *EnvironmentApi) ListEnvironmentObjectStorage(ctx _context.Context, o ..
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listEnvironmentObjectStorage",
+		Path:        "/admin/v1/environmentObjectStorage",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListEnvironmentObjectStorage")
 	if err != nil {
@@ -2138,6 +2382,15 @@ func (a *EnvironmentApi) ListKubernetesNode(ctx _context.Context, body Kubeconfi
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listKubernetesNode",
+		Path:        "/admin/v1/kubernetes/nodes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListKubernetesNode")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -2218,6 +2471,15 @@ func (a *EnvironmentApi) ListKubernetesStorageClass(ctx _context.Context, body K
 		localVarPostBody    interface{}
 		localVarReturnValue StorageClassList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listKubernetesStorageClass",
+		Path:        "/admin/v1/kubernetes/storageclasses",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListKubernetesStorageClass")
 	if err != nil {
@@ -2315,6 +2577,15 @@ func (a *EnvironmentApi) ListNodeGroups(ctx _context.Context, environmentName st
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listNodeGroups",
+		Path:        "/admin/v1/environments/{environmentName}/nodeGroups",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodeGroups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -2395,6 +2666,15 @@ func (a *EnvironmentApi) ListNodePod(ctx _context.Context, environmentName strin
 		localVarPostBody    interface{}
 		localVarReturnValue []map[string]interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listNodePod",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}/pods",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodePod")
 	if err != nil {
@@ -2507,6 +2787,15 @@ func (a *EnvironmentApi) ListNodes(ctx _context.Context, environmentName string,
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "listNodes",
+		Path:        "/admin/v1/environments/{environmentName}/nodes",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ListNodes")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -2586,6 +2875,15 @@ func (a *EnvironmentApi) PatchEnvironment(ctx _context.Context, environmentName 
 		localVarReturnValue Environment
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "patchEnvironment",
+		Path:        "/admin/v1/environments/{environmentName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PatchEnvironment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -2658,6 +2956,15 @@ func (a *EnvironmentApi) PatchNodeGroup(ctx _context.Context, environmentName st
 		localVarPostBody    interface{}
 		localVarReturnValue NodeGroup
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "patchNodeGroup",
+		Path:        "/admin/v1/environments/{environmentName}/nodeGroups/{nodeGroupName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PatchNodeGroup")
 	if err != nil {
@@ -2732,6 +3039,15 @@ func (a *EnvironmentApi) PreflightEnvironment(ctx _context.Context, body Kubecon
 		localVarReturnValue PreflightList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "preflightEnvironment",
+		Path:        "/admin/v1/environments/preflight",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.PreflightEnvironment")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -2787,6 +3103,15 @@ func (a *EnvironmentApi) RemoveNodeMaintenanceMode(ctx _context.Context, environ
 		localVarPostBody    interface{}
 		localVarReturnValue map[string]interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "removeNodeMaintenanceMode",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/off",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.RemoveNodeMaintenanceMode")
 	if err != nil {
@@ -2858,6 +3183,15 @@ func (a *EnvironmentApi) ScaleDownEnvironmentNodes(ctx _context.Context, environ
 		localVarPostBody    interface{}
 		localVarReturnValue Task
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "scaleDownEnvironmentNodes",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/scalein",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ScaleDownEnvironmentNodes")
 	if err != nil {
@@ -2932,6 +3266,15 @@ func (a *EnvironmentApi) ScaleOutEnvironmentNodes(ctx _context.Context, environm
 		localVarReturnValue Task
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "scaleOutEnvironmentNodes",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/scaleout",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.ScaleOutEnvironmentNodes")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -3005,6 +3348,15 @@ func (a *EnvironmentApi) SetNodeMaintenanceMode(ctx _context.Context, environmen
 		localVarReturnValue map[string]interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "setNodeMaintenanceMode",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}/maintenance/on",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.SetNodeMaintenanceMode")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -3074,6 +3426,15 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "uncordonEnvironmentNode",
+		Path:        "/admin/v1/environments/{environmentName}/nodes/{nodeName}/uncordon",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.UncordonEnvironmentNode")
 	if err != nil {
@@ -3159,6 +3520,15 @@ func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environme
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "environment",
+		OperationID: "updateEnvironmentModule",
+		Path:        "/admin/v1/environments/{environmentName}/environment-modules",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.UpdateEnvironmentModule")
 	if err != nil {

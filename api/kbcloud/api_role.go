@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *RoleApi) BatchAddRolePermissions(ctx _context.Context, orgName string, 
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "batchAddRolePermissions",
+		Path:        "/api/v1/organizations/{orgName}/roles/{roleName}/permissions/batch",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.BatchAddRolePermissions")
 	if err != nil {
@@ -88,6 +98,15 @@ func (a *RoleApi) BatchRemoveRolePermissions(ctx _context.Context, orgName strin
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "batchRemoveRolePermissions",
+		Path:        "/api/v1/organizations/{orgName}/roles/{roleName}/permissions/batch",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.BatchRemoveRolePermissions")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -152,6 +171,15 @@ func (a *RoleApi) CreateRole(ctx _context.Context, orgName string, body RoleCrea
 		localVarPostBody    interface{}
 		localVarReturnValue Role
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "createRole",
+		Path:        "/api/v1/organizations/{orgName}/roles",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.CreateRole")
 	if err != nil {
@@ -225,6 +253,15 @@ func (a *RoleApi) DeleteRoleByName(ctx _context.Context, orgName string, roleNam
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "deleteRoleByName",
+		Path:        "/api/v1/organizations/{orgName}/roles/{roleName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.DeleteRoleByName")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -286,6 +323,15 @@ func (a *RoleApi) GetRoleByName(ctx _context.Context, orgName string, roleName s
 		localVarPostBody    interface{}
 		localVarReturnValue Role
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "getRoleByName",
+		Path:        "/api/v1/organizations/{orgName}/roles/{roleName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.GetRoleByName")
 	if err != nil {
@@ -358,6 +404,15 @@ func (a *RoleApi) ListPermissions(ctx _context.Context) (PermissionList, *_netht
 		localVarReturnValue PermissionList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "listPermissions",
+		Path:        "/api/v1/permissions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.ListPermissions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -426,6 +481,15 @@ func (a *RoleApi) ListRolePermissions(ctx _context.Context, orgName string, role
 		localVarPostBody    interface{}
 		localVarReturnValue PermissionList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "listRolePermissions",
+		Path:        "/api/v1/organizations/{orgName}/roles/{roleName}/permissions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.ListRolePermissions")
 	if err != nil {
@@ -498,6 +562,15 @@ func (a *RoleApi) ListRoles(ctx _context.Context, orgName string) (RoleList, *_n
 		localVarReturnValue RoleList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "listRoles",
+		Path:        "/api/v1/organizations/{orgName}/roles",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.ListRoles")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -567,6 +640,15 @@ func (a *RoleApi) UpdateRoleByName(ctx _context.Context, orgName string, roleNam
 		localVarPostBody    interface{}
 		localVarReturnValue Role
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "role",
+		OperationID: "updateRoleByName",
+		Path:        "/api/v1/organizations/{orgName}/roles/{roleName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RoleApi.UpdateRoleByName")
 	if err != nil {

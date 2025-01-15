@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupI
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeBackup",
+		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeBackup")
 	if err != nil {
@@ -119,6 +129,15 @@ func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, c
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeClusterParam",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeClusterParam")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -192,6 +211,15 @@ func (a *AnalyzeApi) AnalyzeClusterRestore(ctx _context.Context, orgName string,
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeClusterRestore",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeClusterRestore")
 	if err != nil {
@@ -310,6 +338,15 @@ func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterNa
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeLogs",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeLogs")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -394,6 +431,15 @@ func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName st
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeOps",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeOps")
 	if err != nil {
@@ -498,6 +544,15 @@ func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, par
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeParam",
+		Path:        "/api/v1/organizations/paramTpls/{paramTplName}/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeParam")
 	if err != nil {
@@ -607,6 +662,15 @@ func (a *AnalyzeApi) AnalyzeService(ctx _context.Context, orgName string, cluste
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeService",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeService")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -710,6 +774,15 @@ func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clust
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeSlowLogs",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeSlowLogs")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -784,6 +857,15 @@ func (a *AnalyzeApi) AnalyzeView(ctx _context.Context, orgName string, clusterNa
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeView",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeView")
 	if err != nil {

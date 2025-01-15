@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *UserApi) CreateUserApikey(ctx _context.Context, body ApikeyCreate) (Api
 		localVarPostBody    interface{}
 		localVarReturnValue ApikeyWithSK
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "createUserApikey",
+		Path:        "/api/v1/user/apikeys",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.CreateUserApikey")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *UserApi) DeleteApikey(ctx _context.Context, keyName string) (*_nethttp.
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "deleteApikey",
+		Path:        "/api/v1/user/apikey/{keyName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.DeleteApikey")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -156,6 +175,15 @@ func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyC
 		localVarPostBody    interface{}
 		localVarReturnValue Apikey
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "patchAPIkey",
+		Path:        "/api/v1/user/apikey/{keyName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.PatchAPIkey")
 	if err != nil {
@@ -229,6 +257,15 @@ func (a *UserApi) PatchUser(ctx _context.Context, body UserUpdate) (*_nethttp.Re
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "patchUser",
+		Path:        "/api/v1/user",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.PatchUser")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -290,6 +327,15 @@ func (a *UserApi) PhoneVerification(ctx _context.Context, body interface{}) (*_n
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "phoneVerification",
+		Path:        "/api/v1/user/phone-verification-code",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.PhoneVerification")
 	if err != nil {
@@ -353,6 +399,15 @@ func (a *UserApi) ReadUser(ctx _context.Context) (User, *_nethttp.Response, erro
 		localVarPostBody    interface{}
 		localVarReturnValue User
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "readUser",
+		Path:        "/api/v1/user",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.ReadUser")
 	if err != nil {
@@ -423,6 +478,15 @@ func (a *UserApi) ReadUserApikeys(ctx _context.Context) (ApikeyList, *_nethttp.R
 		localVarReturnValue ApikeyList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "readUserApikeys",
+		Path:        "/api/v1/user/apikeys",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.ReadUserApikeys")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -491,6 +555,15 @@ func (a *UserApi) SendVerificationEmail(ctx _context.Context) (*_nethttp.Respons
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "sendVerificationEmail",
+		Path:        "/api/v1/user/verificationEmail",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.SendVerificationEmail")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -549,6 +622,15 @@ func (a *UserApi) UpdateUserPassword(ctx _context.Context, body interface{}) (*_
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "user",
+		OperationID: "updateUserPassword",
+		Path:        "/api/v1/user/password",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.UpdateUserPassword")
 	if err != nil {

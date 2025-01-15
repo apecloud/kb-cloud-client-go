@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *ZoneApi) CreateZone(ctx _context.Context, providerName string, regionNa
 		localVarPostBody    interface{}
 		localVarReturnValue Zone
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "createZone",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}/zones",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.CreateZone")
 	if err != nil {
@@ -98,6 +108,15 @@ func (a *ZoneApi) DeleteZone(ctx _context.Context, providerName string, regionNa
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "deleteZone",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.DeleteZone")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -160,6 +179,15 @@ func (a *ZoneApi) GetZones(ctx _context.Context, providerName string, regionName
 		localVarPostBody    interface{}
 		localVarReturnValue Zone
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "getZones",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.GetZones")
 	if err != nil {
@@ -233,6 +261,15 @@ func (a *ZoneApi) ListZones(ctx _context.Context, providerName string, regionNam
 		localVarReturnValue ZoneList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "listZones",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}/zones",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.ListZones")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -303,6 +340,15 @@ func (a *ZoneApi) UpdateZone(ctx _context.Context, providerName string, regionNa
 		localVarPostBody    interface{}
 		localVarReturnValue Zone
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "zone",
+		OperationID: "updateZone",
+		Path:        "/admin/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ZoneApi.UpdateZone")
 	if err != nil {

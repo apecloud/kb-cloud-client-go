@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *StorageClassApi) CreateStorageClass(ctx _context.Context, environmentNa
 		localVarPostBody    interface{}
 		localVarReturnValue StorageClassInfo
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "createStorageClass",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.CreateStorageClass")
 	if err != nil {
@@ -106,6 +116,15 @@ func (a *StorageClassApi) DeleteStorageClass(ctx _context.Context, environmentNa
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "deleteStorageClass",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses/{storageClassName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.DeleteStorageClass")
 	if err != nil {
@@ -212,6 +231,15 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "getStorageClass",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses/{storageClassName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.GetStorageClass")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -295,6 +323,15 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 		localVarReturnValue PersistentVolumeClaimList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "listStorageClassPvcs",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses/{storageClassName}/pvcs",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageClassPvcs")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -377,6 +414,15 @@ func (a *StorageClassApi) ListStorageClasses(ctx _context.Context, environmentNa
 		localVarReturnValue StorageClassList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "listStorageClasses",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageClasses")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -456,6 +502,15 @@ func (a *StorageClassApi) ListStorageProvisioners(ctx _context.Context, environm
 		localVarReturnValue StorageProvisionerList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "listStorageProvisioners",
+		Path:        "/admin/v1/environments/{environmentName}/storageProvisioners",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageProvisioners")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -534,6 +589,15 @@ func (a *StorageClassApi) UpdateStorageClass(ctx _context.Context, environmentNa
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "updateStorageClass",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses/{storageClassName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.UpdateStorageClass")
 	if err != nil {

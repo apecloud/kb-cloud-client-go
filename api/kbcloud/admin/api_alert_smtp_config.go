@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *AlertSMTPConfigApi) GetAlertSMTPConfig(ctx _context.Context) (AlertSMTP
 		localVarPostBody    interface{}
 		localVarReturnValue AlertSMTPConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertSMTPConfig",
+		OperationID: "getAlertSMTPConfig",
+		Path:        "/admin/v1/alertSMTPConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertSMTPConfigApi.GetAlertSMTPConfig")
 	if err != nil {
@@ -90,6 +100,15 @@ func (a *AlertSMTPConfigApi) UpdateAlertSMTPConfig(ctx _context.Context, body Al
 		localVarPostBody    interface{}
 		localVarReturnValue AlertSMTPConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertSMTPConfig",
+		OperationID: "updateAlertSMTPConfig",
+		Path:        "/admin/v1/alertSMTPConfig",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertSMTPConfigApi.UpdateAlertSMTPConfig")
 	if err != nil {

@@ -85,6 +85,19 @@ func (a *{{ classname }}) {{ operationId }}(ctx _context.Context{% for name, par
 	}
 	{%- endif %}
 
+	{%- macro add_api_info() %}
+		// Add api info to context
+		apiInfo := {{ common_package_name }}.APIInfo{
+			Tag:         "{{ operation.tags[0] if operation.tags else classname }}",
+			OperationID: "{{ operation.operationId }}",
+			Path:        "{{ path }}",
+			Version:     "{{ version }}",
+		}
+		ctx = context.WithValue(ctx, {{ common_package_name }}.APIInfoCtxKey, apiInfo)
+	{%- endmacro %}
+
+	{{ add_api_info()|indent(4) }}
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, "{{ version }}.{{ classname }}.{{ operationId }}")
 	if err != nil {
 		return {% if returnType %}localVarReturnValue, {% endif %}nil, {{ common_package_name }}.GenericOpenAPIError{ErrorMessage: err.Error()}

@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *EngineApi) EngineActionInOrg(ctx _context.Context, orgName string, acti
 		localVarPostBody    interface{}
 		localVarReturnValue bool
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "engineActionInOrg",
+		Path:        "/api/v1/organizations/{orgName}/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.EngineActionInOrg")
 	if err != nil {
@@ -148,6 +158,15 @@ func (a *EngineApi) ListEnginesInEnv(ctx _context.Context, environmentName strin
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "listEnginesInEnv",
+		Path:        "/api/v1/environments/{environmentName}/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEnginesInEnv")
 	if err != nil {
@@ -285,6 +304,15 @@ func (a *EngineApi) ListEnginesInOrg(ctx _context.Context, orgName string, o ...
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "listEnginesInOrg",
+		Path:        "/api/v1/organizations/{orgName}/engines",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEnginesInOrg")
 	if err != nil {

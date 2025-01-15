@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -55,6 +56,15 @@ func (a *TaskApi) ListTasksInConsole(ctx _context.Context, orgName string, clust
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "listTasksInConsole",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.ListTasksInConsole")
 	if err != nil {
@@ -132,6 +142,15 @@ func (a *TaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, c
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterTask
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "queryClusterTaskDetail",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.QueryClusterTaskDetail")
 	if err != nil {

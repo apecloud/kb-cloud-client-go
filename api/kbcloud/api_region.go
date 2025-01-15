@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *RegionApi) GetRegion(ctx _context.Context, providerName string, regionN
 		localVarPostBody    interface{}
 		localVarReturnValue Region
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "getRegion",
+		Path:        "/api/v1/providers/{providerName}/regions/{regionName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.GetRegion")
 	if err != nil {
@@ -95,6 +105,15 @@ func (a *RegionApi) ListRegions(ctx _context.Context, providerName string) (Regi
 		localVarPostBody    interface{}
 		localVarReturnValue RegionList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "region",
+		OperationID: "listRegions",
+		Path:        "/api/v1/providers/{providerName}/regions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RegionApi.ListRegions")
 	if err != nil {

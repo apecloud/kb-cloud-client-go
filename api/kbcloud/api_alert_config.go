@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AlertConfigApi) GetAlertConfig(ctx _context.Context, orgName string) (A
 		localVarPostBody    interface{}
 		localVarReturnValue AlertConfig
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertConfig",
+		OperationID: "getAlertConfig",
+		Path:        "/api/v1/organizations/{orgName}/alerts/config",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.GetAlertConfig")
 	if err != nil {
@@ -117,6 +127,15 @@ func (a *AlertConfigApi) SetAlertConfig(ctx _context.Context, orgName string, o 
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertConfig",
+		OperationID: "setAlertConfig",
+		Path:        "/api/v1/organizations/{orgName}/alerts/config",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertConfigApi.SetAlertConfig")
 	if err != nil {

@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *TlsApi) GetTLSCertificate(ctx _context.Context, orgName string, cluster
 		localVarPostBody    interface{}
 		localVarReturnValue []TlsCert
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tls",
+		OperationID: "getTLSCertificate",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tls",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TlsApi.GetTLSCertificate")
 	if err != nil {
@@ -92,6 +102,15 @@ func (a *TlsApi) TlsSwitcher(ctx _context.Context, orgName string, clusterName s
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "tls",
+		OperationID: "tlsSwitcher",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tls",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TlsApi.TlsSwitcher")
 	if err != nil {

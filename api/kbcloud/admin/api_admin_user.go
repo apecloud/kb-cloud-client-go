@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *AdminUserApi) CreateAdminUser(ctx _context.Context, body AdminUserCreat
 		localVarPostBody    interface{}
 		localVarReturnValue AdminUser
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "adminUser",
+		OperationID: "createAdminUser",
+		Path:        "/admin/v1/user",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AdminUserApi.CreateAdminUser")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "adminUser",
+		OperationID: "deleteAdminUser",
+		Path:        "/admin/v1/user/{username}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AdminUserApi.DeleteAdminUser")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -156,6 +175,15 @@ func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) (AdminUserList, *_ne
 		localVarPostBody    interface{}
 		localVarReturnValue AdminUserList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "adminUser",
+		OperationID: "listAdminUsers",
+		Path:        "/admin/v1/users",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AdminUserApi.ListAdminUsers")
 	if err != nil {
@@ -225,6 +253,15 @@ func (a *AdminUserApi) PatchAdminUser(ctx _context.Context, body AdminUserUpdate
 		localVarPostBody    interface{}
 		localVarReturnValue AdminUser
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "adminUser",
+		OperationID: "patchAdminUser",
+		Path:        "/admin/v1/user",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AdminUserApi.PatchAdminUser")
 	if err != nil {
@@ -297,6 +334,15 @@ func (a *AdminUserApi) ReadAdminUser(ctx _context.Context) (AdminUser, *_nethttp
 		localVarPostBody    interface{}
 		localVarReturnValue AdminUser
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "adminUser",
+		OperationID: "readAdminUser",
+		Path:        "/admin/v1/user",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AdminUserApi.ReadAdminUser")
 	if err != nil {

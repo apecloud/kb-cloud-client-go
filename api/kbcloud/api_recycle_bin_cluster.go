@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, org
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "recycleBinCluster",
+		OperationID: "deleteRecycleBinCluster",
+		Path:        "/api/v1/organizations/{orgName}/recycleBin/clusters/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.DeleteRecycleBinCluster")
 	if err != nil {
@@ -84,6 +94,15 @@ func (a *RecycleBinClusterApi) GetRecycleBinCluster(ctx _context.Context, orgNam
 		localVarPostBody    interface{}
 		localVarReturnValue RecycleBinCluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "recycleBinCluster",
+		OperationID: "getRecycleBinCluster",
+		Path:        "/api/v1/organizations/{orgName}/recycleBin/clusters/{clusterName}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.GetRecycleBinCluster")
 	if err != nil {
@@ -155,6 +174,15 @@ func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgNa
 		localVarReturnValue RecycleBinClusterList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "recycleBinCluster",
+		OperationID: "listRecycleBinCluster",
+		Path:        "/api/v1/organizations/{orgName}/recycleBin/clusters",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.ListRecycleBinCluster")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -223,6 +251,15 @@ func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, or
 		localVarPostBody    interface{}
 		localVarReturnValue RecycleBinCluster
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "recycleBinCluster",
+		OperationID: "restoreRecycleBinCluster",
+		Path:        "/api/v1/organizations/{orgName}/recycleBin/clusters/{clusterName}/restore",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RecycleBinClusterApi.RestoreRecycleBinCluster")
 	if err != nil {

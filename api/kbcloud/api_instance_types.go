@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -48,6 +49,15 @@ func (a *InstanceTypesApi) CreateInstanceType(ctx _context.Context, o ...CreateI
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "instanceTypes",
+		OperationID: "createInstanceType",
+		Path:        "/api/v1/instance-types",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.CreateInstanceType")
 	if err != nil {
@@ -121,6 +131,15 @@ func (a *InstanceTypesApi) DeleteInstanceType(ctx _context.Context, id string) (
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "instanceTypes",
+		OperationID: "deleteInstanceType",
+		Path:        "/api/v1/instance-types/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.DeleteInstanceType")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -180,6 +199,15 @@ func (a *InstanceTypesApi) GetInstanceTypeById(ctx _context.Context, id string) 
 		localVarPostBody    interface{}
 		localVarReturnValue InstanceTypes
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "instanceTypes",
+		OperationID: "getInstanceTypeById",
+		Path:        "/api/v1/instance-types/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.GetInstanceTypeById")
 	if err != nil {
@@ -249,6 +277,15 @@ func (a *InstanceTypesApi) GetInstanceTypes(ctx _context.Context) ([]InstanceTyp
 		localVarPostBody    interface{}
 		localVarReturnValue []InstanceTypes
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "instanceTypes",
+		OperationID: "getInstanceTypes",
+		Path:        "/api/v1/instance-types",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.GetInstanceTypes")
 	if err != nil {
@@ -342,6 +379,15 @@ func (a *InstanceTypesApi) UpdateInstanceType(ctx _context.Context, id string, o
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "instanceTypes",
+		OperationID: "updateInstanceType",
+		Path:        "/api/v1/instance-types/{id}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.UpdateInstanceType")
 	if err != nil {

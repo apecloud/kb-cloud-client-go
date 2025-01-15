@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -91,6 +92,15 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, start int64, end int
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "queryClusterEvents",
+		Path:        "/admin/v1/events",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryClusterEvents")
 	if err != nil {
@@ -183,6 +193,15 @@ func (a *EventApi) QueryEventDetail(ctx _context.Context, eventId string) (Event
 		localVarPostBody    interface{}
 		localVarReturnValue Event
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "queryEventDetail",
+		Path:        "/admin/v1/events/{eventID}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryEventDetail")
 	if err != nil {

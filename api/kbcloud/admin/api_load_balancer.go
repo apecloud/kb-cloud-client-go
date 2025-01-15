@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -22,6 +23,15 @@ func (a *LoadBalancerApi) CheckLoadBalancer(ctx _context.Context, environmentNam
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "loadBalancer",
+		OperationID: "checkLoadBalancer",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/check",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.CheckLoadBalancer")
 	if err != nil {
@@ -82,6 +92,15 @@ func (a *LoadBalancerApi) GetLoadBalancer(ctx _context.Context, environmentName 
 		localVarPostBody    interface{}
 		localVarReturnValue LoadBalancer
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "loadBalancer",
+		OperationID: "getLoadBalancer",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.GetLoadBalancer")
 	if err != nil {
@@ -151,6 +170,15 @@ func (a *LoadBalancerApi) InstallLoadBalancer(ctx _context.Context, environmentN
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "loadBalancer",
+		OperationID: "installLoadBalancer",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/install",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.InstallLoadBalancer")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -212,6 +240,15 @@ func (a *LoadBalancerApi) UninstallLoadBalancer(ctx _context.Context, environmen
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "loadBalancer",
+		OperationID: "uninstallLoadBalancer",
+		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/uninstall",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.UninstallLoadBalancer")
 	if err != nil {

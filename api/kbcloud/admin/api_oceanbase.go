@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *OceanbaseApi) GetTenant(ctx _context.Context, orgName string, clusterNa
 		localVarPostBody    interface{}
 		localVarReturnValue Tenant
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "oceanbase",
+		OperationID: "getTenant",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tenant/{tenantId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OceanbaseApi.GetTenant")
 	if err != nil {
@@ -94,6 +104,15 @@ func (a *OceanbaseApi) ListTenants(ctx _context.Context, orgName string, cluster
 		localVarPostBody    interface{}
 		localVarReturnValue []Tenant
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "oceanbase",
+		OperationID: "listTenants",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/tenants",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OceanbaseApi.ListTenants")
 	if err != nil {

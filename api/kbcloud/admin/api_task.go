@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -24,6 +25,15 @@ func (a *TaskApi) GetTask(ctx _context.Context, taskId string) (Task, *_nethttp.
 		localVarPostBody    interface{}
 		localVarReturnValue Task
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "getTask",
+		Path:        "/admin/v1/tasks/{taskId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.GetTask")
 	if err != nil {
@@ -93,6 +103,15 @@ func (a *TaskApi) GetTaskLog(ctx _context.Context, taskId string) (*_nethttp.Res
 		localVarPostBody   interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "getTaskLog",
+		Path:        "/admin/v1/tasks/{taskId}/log",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.GetTaskLog")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -153,6 +172,15 @@ func (a *TaskApi) ListTask(ctx _context.Context) (TaskList, *_nethttp.Response, 
 		localVarPostBody    interface{}
 		localVarReturnValue TaskList
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "listTask",
+		Path:        "/admin/v1/tasks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.ListTask")
 	if err != nil {
@@ -268,6 +296,15 @@ func (a *TaskApi) ListTasks(ctx _context.Context, o ...ListTasksOptionalParamete
 		optionalParams = o[0]
 	}
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "listTasks",
+		Path:        "/admin/v1/clustertasks",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.ListTasks")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -349,6 +386,15 @@ func (a *TaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, c
 		localVarReturnValue ClusterTask
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "queryClusterTaskDetail",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.QueryClusterTaskDetail")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -421,6 +467,15 @@ func (a *TaskApi) RetryTask(ctx _context.Context, taskId string) (Task, *_nethtt
 		localVarReturnValue Task
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "retryTask",
+		Path:        "/admin/v1/tasks/{taskId}/retry",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.RetryTask")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -490,6 +545,15 @@ func (a *TaskApi) StopTask(ctx _context.Context, taskId string) (Task, *_nethttp
 		localVarPostBody    interface{}
 		localVarReturnValue Task
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "task",
+		OperationID: "stopTask",
+		Path:        "/admin/v1/tasks/{taskId}/stop",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.StopTask")
 	if err != nil {

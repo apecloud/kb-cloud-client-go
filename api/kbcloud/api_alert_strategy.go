@@ -5,6 +5,7 @@
 package kbcloud
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -23,6 +24,15 @@ func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, orgName str
 		localVarPostBody    interface{}
 		localVarReturnValue AlertStrategy
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertStrategy",
+		OperationID: "createAlertStrategy",
+		Path:        "/api/v1/organizations/{orgName}/alerts/strategies",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.CreateAlertStrategy")
 	if err != nil {
@@ -96,6 +106,15 @@ func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, orgName str
 		localVarReturnValue interface{}
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertStrategy",
+		OperationID: "deleteAlertStrategy",
+		Path:        "/api/v1/organizations/{orgName}/alerts/strategies/{strategyId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.DeleteAlertStrategy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -166,6 +185,15 @@ func (a *AlertStrategyApi) ListAlertStrategies(ctx _context.Context, orgName str
 		localVarReturnValue AlertStrategyList
 	)
 
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertStrategy",
+		OperationID: "listAlertStrategies",
+		Path:        "/api/v1/organizations/{orgName}/alerts/strategies",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.ListAlertStrategies")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
@@ -234,6 +262,15 @@ func (a *AlertStrategyApi) PatchAlertStrategy(ctx _context.Context, orgName stri
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertStrategy",
+		OperationID: "patchAlertStrategy",
+		Path:        "/api/v1/organizations/{orgName}/alerts/strategies",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.PatchAlertStrategy")
 	if err != nil {
@@ -306,6 +343,15 @@ func (a *AlertStrategyApi) UpdateAlertStrategy(ctx _context.Context, orgName str
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
 	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "alertStrategy",
+		OperationID: "updateAlertStrategy",
+		Path:        "/api/v1/organizations/{orgName}/alerts/strategies/{strategyId}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.UpdateAlertStrategy")
 	if err != nil {

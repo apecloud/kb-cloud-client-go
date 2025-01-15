@@ -5,6 +5,7 @@
 package data
 
 import (
+	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
@@ -48,6 +49,15 @@ func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgNam
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "session",
+		OperationID: "killSession",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SessionApi.KillSession")
 	if err != nil {
@@ -140,6 +150,15 @@ func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgNa
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "session",
+		OperationID: "listSessions",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SessionApi.ListSessions")
 	if err != nil {
