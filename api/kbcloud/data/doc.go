@@ -4,8 +4,11 @@
 
 // List of APIs:
 //   - [accountApi.createAccount]
+//   - [accountApi.createMongoDBAccount]
 //   - [accountApi.deleteAccount]
+//   - [accountApi.deleteMongoDBAccount]
 //   - [accountApi.listAccounts]
+//   - [accountApi.listMongoDBAccounts]
 //   - [accountApi.updateAccount]
 //   - [accountApi.updateAccountPrivileges]
 //   - [databaseApi.createDatabase]
@@ -33,6 +36,9 @@
 //   - [kafkaApi.resetKafkaTopicConsumerOffset]
 //   - [kafkaApi.setKafkaTopicConfig]
 //   - [kafkaApi.updateKafkaBrokerConfig]
+//   - [mongodbApi.ListCollectionsInMongoDB]
+//   - [mongodbApi.ListDocumentsInMongoDB]
+//   - [mongodbApi.listDatabasesInMongoDB]
 //   - [redisApi.createRedisAccount]
 //   - [redisApi.deleteRedisAccount]
 //   - [redisApi.listRedisAccounts]
