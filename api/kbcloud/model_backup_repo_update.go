@@ -80,7 +80,7 @@ func (o *BackupRepoUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		Default *bool `json:"default"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Default == nil {
 		return fmt.Errorf("required field default missing")

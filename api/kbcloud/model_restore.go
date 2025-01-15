@@ -412,7 +412,7 @@ func (o *Restore) UnmarshalJSON(bytes []byte) (err error) {
 		Status        *RestoreStatus    `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.BackupName == nil {
 		return fmt.Errorf("required field backupName missing")

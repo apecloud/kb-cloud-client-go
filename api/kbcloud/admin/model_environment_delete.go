@@ -146,7 +146,7 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 		VictoriaMetrics     *CloudResourceCleanPolicy `json:"victoriaMetrics"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Minio == nil {
 		return fmt.Errorf("required field minio missing")

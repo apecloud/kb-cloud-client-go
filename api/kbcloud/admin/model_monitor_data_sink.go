@@ -209,7 +209,7 @@ func (o *MonitorDataSink) UnmarshalJSON(bytes []byte) (err error) {
 		MonitorDataSinkType *string               `json:"monitorDataSinkType"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Id == nil {
 		return fmt.Errorf("required field id missing")

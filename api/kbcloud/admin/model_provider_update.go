@@ -192,7 +192,7 @@ func (o *ProviderUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		SupportArn *bool   `json:"supportARN"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Logo == nil {
 		return fmt.Errorf("required field logo missing")

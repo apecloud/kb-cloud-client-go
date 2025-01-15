@@ -147,7 +147,7 @@ func (o *ComponentVersion) UnmarshalJSON(bytes []byte) (err error) {
 		Oteld      *string `json:"oteld,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

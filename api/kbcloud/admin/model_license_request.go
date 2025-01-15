@@ -79,7 +79,7 @@ func (o *LicenseRequest) UnmarshalJSON(bytes []byte) (err error) {
 		Key *string `json:"key"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")

@@ -81,7 +81,7 @@ func (o *ServerConfiguration) UnmarshalJSON(bytes []byte) (err error) {
 		ArchitectureType *string `json:"architectureType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

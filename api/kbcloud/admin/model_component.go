@@ -352,7 +352,7 @@ func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 		Namespaces            []string `json:"namespaces,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.DefaultStorageClass == nil {
 		return fmt.Errorf("required field defaultStorageClass missing")

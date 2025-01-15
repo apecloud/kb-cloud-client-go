@@ -139,7 +139,7 @@ func (o *ComponentOptionVersion) UnmarshalJSON(bytes []byte) (err error) {
 		MajorVersion         *ComponentOptionVersionMajorVersion `json:"majorVersion"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ComponentVersionName == nil {
 		return fmt.Errorf("required field componentVersionName missing")

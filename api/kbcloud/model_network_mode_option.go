@@ -78,7 +78,7 @@ func (o *NetworkModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		Supported *[]NetworkMode `json:"supported"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Supported == nil {
 		return fmt.Errorf("required field supported missing")

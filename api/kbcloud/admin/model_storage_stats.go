@@ -80,7 +80,7 @@ func (o *StorageStats) UnmarshalJSON(bytes []byte) (err error) {
 		ProvisionedCapacity *float64 `json:"provisionedCapacity"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ProvisionedCapacity == nil {
 		return fmt.Errorf("required field provisionedCapacity missing")

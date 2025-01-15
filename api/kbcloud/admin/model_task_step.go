@@ -502,7 +502,7 @@ func (o *TaskStep) UnmarshalJSON(bytes []byte) (err error) {
 		CompletionTime *time.Time         `json:"completionTime,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.StepId == nil {
 		return fmt.Errorf("required field stepId missing")

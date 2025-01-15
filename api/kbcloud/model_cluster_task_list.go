@@ -80,7 +80,7 @@ func (o *ClusterTaskList) UnmarshalJSON(bytes []byte) (err error) {
 		Items *[]ClusterTask `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Items == nil {
 		return fmt.Errorf("required field items missing")

@@ -112,7 +112,7 @@ func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 		Component *string `json:"component,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Version == nil {
 		return fmt.Errorf("required field version missing")

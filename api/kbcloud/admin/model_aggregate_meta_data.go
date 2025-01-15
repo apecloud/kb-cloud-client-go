@@ -108,7 +108,7 @@ func (o *AggregateMetaData) UnmarshalJSON(bytes []byte) (err error) {
 		Items *[]SeriesItem `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Total == nil {
 		return fmt.Errorf("required field total missing")

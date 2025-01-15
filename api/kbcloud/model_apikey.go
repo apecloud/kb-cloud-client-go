@@ -179,7 +179,7 @@ func (o *Apikey) UnmarshalJSON(bytes []byte) (err error) {
 		CreateAt    *time.Time `json:"createAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.AccessKey == nil {
 		return fmt.Errorf("required field accessKey missing")

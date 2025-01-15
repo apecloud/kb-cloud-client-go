@@ -139,7 +139,7 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 		ContinuousMethod []BackupMethodOption  `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.DefaultMethod == nil {
 		return fmt.Errorf("required field defaultMethod missing")

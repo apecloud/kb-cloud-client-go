@@ -111,7 +111,7 @@ func (o *OpsRebuildInstanceRequestsItem) UnmarshalJSON(bytes []byte) (err error)
 		Instances  *[]OpsRebuildInstanceInstanceParam `json:"instances"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Instances == nil {
 		return fmt.Errorf("required field instances missing")

@@ -108,7 +108,7 @@ func (o *OrgMemberAdd) UnmarshalJSON(bytes []byte) (err error) {
 		UserId *string `json:"userId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Role == nil {
 		return fmt.Errorf("required field role missing")

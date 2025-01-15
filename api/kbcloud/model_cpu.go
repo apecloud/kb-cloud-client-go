@@ -179,7 +179,7 @@ func (o *CPU) UnmarshalJSON(bytes []byte) (err error) {
 		CpuAssignedMax *string `json:"cpu_assigned_max,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

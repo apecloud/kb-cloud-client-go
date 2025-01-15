@@ -218,7 +218,7 @@ func (o *TlsConfig) UnmarshalJSON(bytes []byte) (err error) {
 		Truststore *string `json:"truststore,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

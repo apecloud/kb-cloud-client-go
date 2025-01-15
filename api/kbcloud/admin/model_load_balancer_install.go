@@ -80,7 +80,7 @@ func (o *LoadBalancerInstall) UnmarshalJSON(bytes []byte) (err error) {
 		Type *LoadBalancerType `json:"type"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")

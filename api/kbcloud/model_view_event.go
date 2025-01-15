@@ -464,7 +464,7 @@ func (o *View_event) UnmarshalJSON(bytes []byte) (err error) {
 		Reason          *string `json:"reason,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Group == nil {
 		return fmt.Errorf("required field group missing")

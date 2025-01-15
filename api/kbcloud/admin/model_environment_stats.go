@@ -164,7 +164,7 @@ func (o *EnvironmentStats) UnmarshalJSON(bytes []byte) (err error) {
 		StorageTotal *float64 `json:"storageTotal"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.EnvTotal == nil {
 		return fmt.Errorf("required field envTotal missing")

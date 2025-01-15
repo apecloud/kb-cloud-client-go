@@ -257,7 +257,7 @@ func (o *Zone) UnmarshalJSON(bytes []byte) (err error) {
 		UpdatedAt *time.Time `json:"updatedAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

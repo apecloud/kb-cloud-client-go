@@ -287,7 +287,7 @@ func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 		SharedSpecParams  []ParameterConfigSharedSpecParamsItem  `json:"sharedSpecParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ConfigName == nil {
 		return fmt.Errorf("required field configName missing")

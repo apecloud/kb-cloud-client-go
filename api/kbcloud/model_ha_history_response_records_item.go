@@ -276,7 +276,7 @@ func (o *HaHistoryResponseRecordsItem) UnmarshalJSON(bytes []byte) (err error) {
 		UserName   *string `json:"UserName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.StartAt == nil {
 		return fmt.Errorf("required field StartAt missing")

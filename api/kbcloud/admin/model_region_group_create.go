@@ -136,7 +136,7 @@ func (o *RegionGroupCreate) UnmarshalJSON(bytes []byte) (err error) {
 		GroupEn *string `json:"groupEN"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Group == nil {
 		return fmt.Errorf("required field group missing")

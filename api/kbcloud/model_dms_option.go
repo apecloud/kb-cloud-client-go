@@ -204,7 +204,7 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 		TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Enabled == nil {
 		return fmt.Errorf("required field enabled missing")

@@ -612,7 +612,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		DefaultStorageClass    *string           `json:"defaultStorageClass"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Provider == nil {
 		return fmt.Errorf("required field provider missing")

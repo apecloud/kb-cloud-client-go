@@ -82,7 +82,7 @@ func (o *EnvironmentStatus) UnmarshalJSON(bytes []byte) (err error) {
 		Conditions []EnvironmentCondition `json:"conditions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

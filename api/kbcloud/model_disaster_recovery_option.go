@@ -148,7 +148,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 		Status        *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Enabled == nil {
 		return fmt.Errorf("required field enabled missing")

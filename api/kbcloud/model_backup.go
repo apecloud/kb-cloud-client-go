@@ -986,7 +986,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		Engine              *string             `json:"engine"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.AutoBackup == nil {
 		return fmt.Errorf("required field autoBackup missing")

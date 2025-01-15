@@ -80,7 +80,7 @@ func (o *VipPoolCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Addresses *string `json:"addresses"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Addresses == nil {
 		return fmt.Errorf("required field addresses missing")

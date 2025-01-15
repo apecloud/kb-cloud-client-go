@@ -186,7 +186,7 @@ func (o *LogOption) UnmarshalJSON(bytes []byte) (err error) {
 		Running   *bool   `json:"running"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")

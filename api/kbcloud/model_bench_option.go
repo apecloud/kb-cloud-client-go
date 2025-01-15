@@ -159,7 +159,7 @@ func (o *BenchOption) UnmarshalJSON(bytes []byte) (err error) {
 		Ycsb     *bool `json:"ycsb"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Pgbench == nil {
 		return fmt.Errorf("required field pgbench missing")

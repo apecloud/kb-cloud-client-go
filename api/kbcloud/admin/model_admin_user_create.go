@@ -176,7 +176,7 @@ func (o *AdminUserCreate) UnmarshalJSON(bytes []byte) (err error) {
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.UserName == nil {
 		return fmt.Errorf("required field userName missing")

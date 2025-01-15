@@ -148,7 +148,7 @@ func (o *Iac) UnmarshalJSON(bytes []byte) (err error) {
 		InstanceType    *string `json:"instanceType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Role == nil {
 		return fmt.Errorf("required field role missing")

@@ -170,7 +170,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		Storage   *StorageConfig `json:"storage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Register == nil {
 		return fmt.Errorf("required field register missing")

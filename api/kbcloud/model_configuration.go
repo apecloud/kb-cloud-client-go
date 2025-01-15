@@ -108,7 +108,7 @@ func (o *Configuration) UnmarshalJSON(bytes []byte) (err error) {
 		Content  *string `json:"content"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.FileName == nil {
 		return fmt.Errorf("required field fileName missing")

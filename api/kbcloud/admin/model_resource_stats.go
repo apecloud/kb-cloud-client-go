@@ -204,7 +204,7 @@ func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		Capacity    *float64 `json:"capacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Limits == nil {
 		return fmt.Errorf("required field limits missing")

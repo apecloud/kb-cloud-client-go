@@ -136,7 +136,7 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		Name        *string        `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.CpuStats == nil {
 		return fmt.Errorf("required field cpuStats missing")

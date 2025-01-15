@@ -199,7 +199,7 @@ func (o *NodeScaleSpec) UnmarshalJSON(bytes []byte) (err error) {
 		Ssh              *SshConfig `json:"ssh,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Ip == nil {
 		return fmt.Errorf("required field ip missing")

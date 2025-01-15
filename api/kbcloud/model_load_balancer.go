@@ -80,7 +80,7 @@ func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 		Available *LoadBalancerAvailableType `json:"available"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Available == nil {
 		return fmt.Errorf("required field available missing")

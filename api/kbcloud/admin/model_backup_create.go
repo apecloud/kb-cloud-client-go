@@ -114,7 +114,7 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 		BackupMethod *string `json:"backupMethod"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.BackupMethod == nil {
 		return fmt.Errorf("required field backupMethod missing")
