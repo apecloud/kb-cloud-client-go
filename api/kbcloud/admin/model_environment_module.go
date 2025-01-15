@@ -16,7 +16,7 @@ type EnvironmentModule struct {
 	Name string `json:"name"`
 	// Environment module version
 	Version *string `json:"version,omitempty"`
-	// Environment module status (running, stopped, error, not_installed, enabled, disabled etc..)
+	// Environment module status (running,updating, error, not_installed and status for cluster)
 	Status string `json:"status"`
 	// Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
 	HostingStatus *HostingStatus `json:"hostingStatus,omitempty"`

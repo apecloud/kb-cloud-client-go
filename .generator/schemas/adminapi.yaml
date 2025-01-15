@@ -16271,7 +16271,7 @@ components:
           description: Environment module version
         status:
           type: string
-          description: Environment module status (running, stopped, error, not_installed, enabled, disabled etc..)
+          description: Environment module status (running,updating, error, not_installed and status for cluster)
         hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
