@@ -14918,6 +14918,7 @@ components:
         component:
           description: component type
           type: string
+          minLength: 1
         configFileName:
           description: config file name
           type: string
@@ -14928,6 +14929,7 @@ components:
           type: object
       required:
         - parameters
+        - component
       type: object
     opsRequestName:
       description: OpsRequestName is the name of a KubeBlocks OpsRequest
@@ -14943,14 +14945,18 @@ components:
       type: object
     opsRestart:
       description: OpsRestart is the payload to restart a KubeBlocks cluster
+      required:
+        - component
       properties:
         component:
           description: component type
           type: string
+          minLength: 1
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
           nullable: true
+          minimum: 0
       type: object
     opsRebuildInstanceInstanceParam:
       description: instance params for RebuildInstance ops
@@ -14977,6 +14983,7 @@ components:
                 type: string
               instances:
                 type: array
+                minItems: 1
                 items:
                   $ref: '#/components/schemas/opsRebuildInstanceInstanceParam'
             required:
@@ -14988,6 +14995,7 @@ components:
       properties:
         version:
           type: string
+          minLength: 1
         component:
           type: string
       required:
@@ -15021,8 +15029,10 @@ components:
       properties:
         component:
           type: string
+          minLength: 1
         volumes:
           type: array
+          minItems: 1
           items:
             type: object
             properties:
@@ -15037,13 +15047,17 @@ components:
               - storage
       required:
         - volumes
+        - component
       type: object
     opsVScale:
       description: OpsVScale is the payload to vertically scale a KubeBlocks cluster
+      required:
+        - component
       properties:
         component:
           description: component type
           type: string
+          minLength: 1
         cpu:
           description: number of cpu
           type: string
@@ -15056,10 +15070,13 @@ components:
       type: object
     opsHScale:
       description: OpsHScale is the payload to horizontally scale a KubeBlocks cluster. It requires specifying either the number of replicas or the number of shards.
+      required:
+        - component
       properties:
         component:
           description: component type
           type: string
+          minLength: 1
         replicas:
           description: number of replicas
           type: integer
@@ -15072,12 +15089,16 @@ components:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
           nullable: true
+          minimum: 0
       type: object
     opsPromote:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
+      required:
+        - componentName
       properties:
         componentName:
           type: string
+          minLength: 1
         instanceName:
           type: string
       type: object
@@ -15099,6 +15120,7 @@ components:
       properties:
         component:
           type: string
+          minLength: 1
         enable:
           type: boolean
         type:
@@ -15117,6 +15139,7 @@ components:
       required:
         - enable
         - type
+        - component
       type: object
     opsLicense:
       description: OpsLicense is the payload to update a KubeBlocks cluster license
@@ -15127,21 +15150,26 @@ components:
         component:
           description: component type
           type: string
+          minLength: 1
         licenseId:
           description: license ID
           type: string
+          minLength: 1
       type: object
     opsCustom:
       description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
       required:
         - opsType
+        - compName
       properties:
         compName:
           description: component name
           type: string
+          minLength: 1
         opsType:
           description: ops definition name.
           type: string
+          minLength: 1
         dependentOnOps:
           description: ops definition name.
           items:
@@ -15278,6 +15306,12 @@ components:
           type: string
         namespace:
           description: Namespace of the task
+          type: string
+        orgName:
+          description: OrgName of the task
+          type: string
+        clusterName:
+          description: ClusterName of the task
           type: string
         status:
           description: status of the task

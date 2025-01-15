@@ -12,7 +12,7 @@ import (
 
 // OpsVolumeExpand OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
 type OpsVolumeExpand struct {
-	Component *string                      `json:"component,omitempty"`
+	Component string                       `json:"component"`
 	Volumes   []OpsVolumeExpandVolumesItem `json:"volumes"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -23,8 +23,9 @@ type OpsVolumeExpand struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsVolumeExpand(volumes []OpsVolumeExpandVolumesItem) *OpsVolumeExpand {
+func NewOpsVolumeExpand(component string, volumes []OpsVolumeExpandVolumesItem) *OpsVolumeExpand {
 	this := OpsVolumeExpand{}
+	this.Component = component
 	this.Volumes = volumes
 	return &this
 }
@@ -37,32 +38,27 @@ func NewOpsVolumeExpandWithDefaults() *OpsVolumeExpand {
 	return &this
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *OpsVolumeExpand) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *OpsVolumeExpand) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *OpsVolumeExpand) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *OpsVolumeExpand) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetVolumes returns the Volumes field value.
@@ -94,9 +90,7 @@ func (o OpsVolumeExpand) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["component"] = o.Component
 	toSerialize["volumes"] = o.Volumes
 
 	for key, value := range o.AdditionalProperties {
@@ -108,11 +102,14 @@ func (o OpsVolumeExpand) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component *string                       `json:"component,omitempty"`
+		Component *string                       `json:"component"`
 		Volumes   *[]OpsVolumeExpandVolumesItem `json:"volumes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
 	}
 	if all.Volumes == nil {
 		return fmt.Errorf("required field volumes missing")
@@ -123,7 +120,7 @@ func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Component = all.Component
+	o.Component = *all.Component
 	o.Volumes = *all.Volumes
 
 	if len(additionalProperties) > 0 {

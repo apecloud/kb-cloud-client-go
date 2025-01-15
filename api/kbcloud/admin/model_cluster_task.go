@@ -19,6 +19,10 @@ type ClusterTask struct {
 	Name string `json:"name"`
 	// Namespace of the task
 	Namespace string `json:"namespace"`
+	// OrgName of the task
+	OrgName *string `json:"orgName,omitempty"`
+	// ClusterName of the task
+	ClusterName *string `json:"clusterName,omitempty"`
 	// status of the task
 	Status string `json:"status"`
 	// task type
@@ -136,6 +140,62 @@ func (o *ClusterTask) GetNamespaceOk() (*string, bool) {
 // SetNamespace sets field value.
 func (o *ClusterTask) SetNamespace(v string) {
 	o.Namespace = v
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *ClusterTask) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterTask) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *ClusterTask) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *ClusterTask) SetOrgName(v string) {
+	o.OrgName = &v
+}
+
+// GetClusterName returns the ClusterName field value if set, zero value otherwise.
+func (o *ClusterTask) GetClusterName() string {
+	if o == nil || o.ClusterName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterName
+}
+
+// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterTask) GetClusterNameOk() (*string, bool) {
+	if o == nil || o.ClusterName == nil {
+		return nil, false
+	}
+	return o.ClusterName, true
+}
+
+// HasClusterName returns a boolean if a field has been set.
+func (o *ClusterTask) HasClusterName() bool {
+	return o != nil && o.ClusterName != nil
+}
+
+// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
+func (o *ClusterTask) SetClusterName(v string) {
+	o.ClusterName = &v
 }
 
 // GetStatus returns the Status field value.
@@ -397,6 +457,12 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["namespace"] = o.Namespace
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
+	if o.ClusterName != nil {
+		toSerialize["clusterName"] = o.ClusterName
+	}
 	toSerialize["status"] = o.Status
 	toSerialize["taskType"] = o.TaskType
 	toSerialize["progress"] = o.Progress
@@ -435,6 +501,8 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 		Id             *string                `json:"id,omitempty"`
 		Name           *string                `json:"name"`
 		Namespace      *string                `json:"namespace"`
+		OrgName        *string                `json:"orgName,omitempty"`
+		ClusterName    *string                `json:"clusterName,omitempty"`
 		Status         *string                `json:"status"`
 		TaskType       *string                `json:"taskType"`
 		Progress       *string                `json:"progress"`
@@ -465,7 +533,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "description", "startTime", "completionTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "orgName", "clusterName", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "description", "startTime", "completionTime"})
 	} else {
 		return err
 	}
@@ -474,6 +542,8 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.Id = all.Id
 	o.Name = *all.Name
 	o.Namespace = *all.Namespace
+	o.OrgName = all.OrgName
+	o.ClusterName = all.ClusterName
 	o.Status = *all.Status
 	o.TaskType = *all.TaskType
 	o.Progress = *all.Progress

@@ -13,7 +13,7 @@ import (
 // ReconfigureCreate ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
 type ReconfigureCreate struct {
 	// component type
-	Component *string `json:"component,omitempty"`
+	Component string `json:"component"`
 	// config file name
 	ConfigFileName *string `json:"configFileName,omitempty"`
 	// Specify parameters list to be updated
@@ -27,8 +27,9 @@ type ReconfigureCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewReconfigureCreate(parameters map[string]string) *ReconfigureCreate {
+func NewReconfigureCreate(component string, parameters map[string]string) *ReconfigureCreate {
 	this := ReconfigureCreate{}
+	this.Component = component
 	this.Parameters = parameters
 	return &this
 }
@@ -41,32 +42,27 @@ func NewReconfigureCreateWithDefaults() *ReconfigureCreate {
 	return &this
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *ReconfigureCreate) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *ReconfigureCreate) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *ReconfigureCreate) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *ReconfigureCreate) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetConfigFileName returns the ConfigFileName field value if set, zero value otherwise.
@@ -126,9 +122,7 @@ func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["component"] = o.Component
 	if o.ConfigFileName != nil {
 		toSerialize["configFileName"] = o.ConfigFileName
 	}
@@ -143,12 +137,15 @@ func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string            `json:"component,omitempty"`
+		Component      *string            `json:"component"`
 		ConfigFileName *string            `json:"configFileName,omitempty"`
 		Parameters     *map[string]string `json:"parameters"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
 	}
 	if all.Parameters == nil {
 		return fmt.Errorf("required field parameters missing")
@@ -159,7 +156,7 @@ func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Component = all.Component
+	o.Component = *all.Component
 	o.ConfigFileName = all.ConfigFileName
 	o.Parameters = *all.Parameters
 
