@@ -14489,6 +14489,9 @@ components:
         content:
           description: The content of the configuration file
           type: string
+        regex:
+          description: The regular expression of the configuration file
+          type: string
     configurationList:
       description: A list of cluster parameters configuration
       properties:

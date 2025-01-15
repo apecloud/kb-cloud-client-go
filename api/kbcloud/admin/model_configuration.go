@@ -16,6 +16,8 @@ type Configuration struct {
 	FileName string `json:"fileName"`
 	// The content of the configuration file
 	Content string `json:"content"`
+	// The regular expression of the configuration file
+	Regex *string `json:"regex,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -86,6 +88,34 @@ func (o *Configuration) SetContent(v string) {
 	o.Content = v
 }
 
+// GetRegex returns the Regex field value if set, zero value otherwise.
+func (o *Configuration) GetRegex() string {
+	if o == nil || o.Regex == nil {
+		var ret string
+		return ret
+	}
+	return *o.Regex
+}
+
+// GetRegexOk returns a tuple with the Regex field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Configuration) GetRegexOk() (*string, bool) {
+	if o == nil || o.Regex == nil {
+		return nil, false
+	}
+	return o.Regex, true
+}
+
+// HasRegex returns a boolean if a field has been set.
+func (o *Configuration) HasRegex() bool {
+	return o != nil && o.Regex != nil
+}
+
+// SetRegex gets a reference to the given string and assigns it to the Regex field.
+func (o *Configuration) SetRegex(v string) {
+	o.Regex = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Configuration) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -94,6 +124,9 @@ func (o Configuration) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["fileName"] = o.FileName
 	toSerialize["content"] = o.Content
+	if o.Regex != nil {
+		toSerialize["regex"] = o.Regex
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -106,6 +139,7 @@ func (o *Configuration) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		FileName *string `json:"fileName"`
 		Content  *string `json:"content"`
+		Regex    *string `json:"regex,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -118,12 +152,13 @@ func (o *Configuration) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"fileName", "content"})
+		common.DeleteKeys(additionalProperties, &[]string{"fileName", "content", "regex"})
 	} else {
 		return err
 	}
 	o.FileName = *all.FileName
 	o.Content = *all.Content
+	o.Regex = all.Regex
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
