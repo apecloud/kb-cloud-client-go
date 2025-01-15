@@ -16239,6 +16239,14 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    environmentModuleStatus:
+      type: string
+      description: Status of environment module
+      enum:
+        - Running
+        - Updating
+        - Error
+        - Disabled
     hostingStatus:
       type: string
       description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
@@ -16270,8 +16278,7 @@ components:
           type: string
           description: Environment module version
         status:
-          type: string
-          description: Environment module status (running,updating, error, disabled and status for cluster)
+          $ref: '#/components/schemas/environmentModuleStatus'
         hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
@@ -19367,8 +19374,23 @@ components:
           type: boolean
           description: indicate whether backup is required when Inplace is true
           default: false
+        backupMethod:
+          type: object
+          description: indicate the backup method when inplace is true
+          properties:
+            full:
+              type: array
+              items:
+                type: string
+              description: full backup methods
+            incremental:
+              type: array
+              description: incremental backup methods
+              items:
+                type: string
         restoreEnv:
           type: array
+          nullable: true
           items:
             type: object
             required:
