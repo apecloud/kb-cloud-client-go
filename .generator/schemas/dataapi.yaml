@@ -1705,9 +1705,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
+                $ref: '#/components/schemas/datasetList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -2611,6 +2609,24 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsSession'
+    dataset:
+      type: object
+      properties:
+        name:
+          type: string
+          description: the name of the dataset
+        description:
+          type: string
+          description: the description of the dataset
+        displayName:
+          type: string
+          description: the display name of the dataset
+        size:
+          type: integer
+    datasetList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataset'
   responses:
     '400':
       content:

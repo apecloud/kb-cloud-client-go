@@ -69,6 +69,10 @@ type Backup struct {
 	EnvironmentName string `json:"environmentName"`
 	// the cluster engine
 	Engine string `json:"engine"`
+	// the parent backup name
+	ParentBackupName *string `json:"parentBackupName,omitempty"`
+	// the base backup name
+	BaseBackupName *string `json:"baseBackupName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -872,6 +876,62 @@ func (o *Backup) SetEngine(v string) {
 	o.Engine = v
 }
 
+// GetParentBackupName returns the ParentBackupName field value if set, zero value otherwise.
+func (o *Backup) GetParentBackupName() string {
+	if o == nil || o.ParentBackupName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ParentBackupName
+}
+
+// GetParentBackupNameOk returns a tuple with the ParentBackupName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetParentBackupNameOk() (*string, bool) {
+	if o == nil || o.ParentBackupName == nil {
+		return nil, false
+	}
+	return o.ParentBackupName, true
+}
+
+// HasParentBackupName returns a boolean if a field has been set.
+func (o *Backup) HasParentBackupName() bool {
+	return o != nil && o.ParentBackupName != nil
+}
+
+// SetParentBackupName gets a reference to the given string and assigns it to the ParentBackupName field.
+func (o *Backup) SetParentBackupName(v string) {
+	o.ParentBackupName = &v
+}
+
+// GetBaseBackupName returns the BaseBackupName field value if set, zero value otherwise.
+func (o *Backup) GetBaseBackupName() string {
+	if o == nil || o.BaseBackupName == nil {
+		var ret string
+		return ret
+	}
+	return *o.BaseBackupName
+}
+
+// GetBaseBackupNameOk returns a tuple with the BaseBackupName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetBaseBackupNameOk() (*string, bool) {
+	if o == nil || o.BaseBackupName == nil {
+		return nil, false
+	}
+	return o.BaseBackupName, true
+}
+
+// HasBaseBackupName returns a boolean if a field has been set.
+func (o *Backup) HasBaseBackupName() bool {
+	return o != nil && o.BaseBackupName != nil
+}
+
+// SetBaseBackupName gets a reference to the given string and assigns it to the BaseBackupName field.
+func (o *Backup) SetBaseBackupName(v string) {
+	o.BaseBackupName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -945,6 +1005,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize["cloudRegion"] = o.CloudRegion
 	toSerialize["environmentName"] = o.EnvironmentName
 	toSerialize["engine"] = o.Engine
+	if o.ParentBackupName != nil {
+		toSerialize["parentBackupName"] = o.ParentBackupName
+	}
+	if o.BaseBackupName != nil {
+		toSerialize["baseBackupName"] = o.BaseBackupName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -984,6 +1050,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		CloudRegion         *string             `json:"cloudRegion"`
 		EnvironmentName     *string             `json:"environmentName"`
 		Engine              *string             `json:"engine"`
+		ParentBackupName    *string             `json:"parentBackupName,omitempty"`
+		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -1038,7 +1106,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName"})
 	} else {
 		return err
 	}
@@ -1081,6 +1149,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.CloudRegion = *all.CloudRegion
 	o.EnvironmentName = *all.EnvironmentName
 	o.Engine = *all.Engine
+	o.ParentBackupName = all.ParentBackupName
+	o.BaseBackupName = all.BaseBackupName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

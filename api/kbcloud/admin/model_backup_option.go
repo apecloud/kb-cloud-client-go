@@ -12,9 +12,10 @@ import (
 
 // BackupOption If present, it must be set defaultMethod and fullMethod
 type BackupOption struct {
-	DefaultMethod    string               `json:"defaultMethod"`
-	FullMethod       []BackupMethodOption `json:"fullMethod"`
-	ContinuousMethod []BackupMethodOption `json:"continuousMethod,omitempty"`
+	DefaultMethod     string               `json:"defaultMethod"`
+	FullMethod        []BackupMethodOption `json:"fullMethod"`
+	IncrementalMethod []BackupMethodOption `json:"incrementalMethod,omitempty"`
+	ContinuousMethod  []BackupMethodOption `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -85,6 +86,34 @@ func (o *BackupOption) SetFullMethod(v []BackupMethodOption) {
 	o.FullMethod = v
 }
 
+// GetIncrementalMethod returns the IncrementalMethod field value if set, zero value otherwise.
+func (o *BackupOption) GetIncrementalMethod() []BackupMethodOption {
+	if o == nil || o.IncrementalMethod == nil {
+		var ret []BackupMethodOption
+		return ret
+	}
+	return o.IncrementalMethod
+}
+
+// GetIncrementalMethodOk returns a tuple with the IncrementalMethod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetIncrementalMethodOk() (*[]BackupMethodOption, bool) {
+	if o == nil || o.IncrementalMethod == nil {
+		return nil, false
+	}
+	return &o.IncrementalMethod, true
+}
+
+// HasIncrementalMethod returns a boolean if a field has been set.
+func (o *BackupOption) HasIncrementalMethod() bool {
+	return o != nil && o.IncrementalMethod != nil
+}
+
+// SetIncrementalMethod gets a reference to the given []BackupMethodOption and assigns it to the IncrementalMethod field.
+func (o *BackupOption) SetIncrementalMethod(v []BackupMethodOption) {
+	o.IncrementalMethod = v
+}
+
 // GetContinuousMethod returns the ContinuousMethod field value if set, zero value otherwise.
 func (o *BackupOption) GetContinuousMethod() []BackupMethodOption {
 	if o == nil || o.ContinuousMethod == nil {
@@ -121,6 +150,9 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["defaultMethod"] = o.DefaultMethod
 	toSerialize["fullMethod"] = o.FullMethod
+	if o.IncrementalMethod != nil {
+		toSerialize["incrementalMethod"] = o.IncrementalMethod
+	}
 	if o.ContinuousMethod != nil {
 		toSerialize["continuousMethod"] = o.ContinuousMethod
 	}
@@ -134,9 +166,10 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultMethod    *string               `json:"defaultMethod"`
-		FullMethod       *[]BackupMethodOption `json:"fullMethod"`
-		ContinuousMethod []BackupMethodOption  `json:"continuousMethod,omitempty"`
+		DefaultMethod     *string               `json:"defaultMethod"`
+		FullMethod        *[]BackupMethodOption `json:"fullMethod"`
+		IncrementalMethod []BackupMethodOption  `json:"incrementalMethod,omitempty"`
+		ContinuousMethod  []BackupMethodOption  `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -149,12 +182,13 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "fullMethod", "continuousMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "fullMethod", "incrementalMethod", "continuousMethod"})
 	} else {
 		return err
 	}
 	o.DefaultMethod = *all.DefaultMethod
 	o.FullMethod = *all.FullMethod
+	o.IncrementalMethod = all.IncrementalMethod
 	o.ContinuousMethod = all.ContinuousMethod
 
 	if len(additionalProperties) > 0 {

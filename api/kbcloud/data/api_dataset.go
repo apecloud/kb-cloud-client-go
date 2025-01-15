@@ -191,11 +191,11 @@ func (a *DatasetApi) DeleteDataset(ctx _context.Context, engineName string, id s
 
 // ListAvailableDatasets List available datasets.
 // list available datasets for rdbms engine
-func (a *DatasetApi) ListAvailableDatasets(ctx _context.Context, engineName string, id string) ([]string, *_nethttp.Response, error) {
+func (a *DatasetApi) ListAvailableDatasets(ctx _context.Context, engineName string, id string) ([]Dataset, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []string
+		localVarReturnValue []Dataset
 	)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatasetApi.ListAvailableDatasets")
