@@ -17816,16 +17816,13 @@ components:
           type: string
           description: failedMessage specifies the message of the backupRepo failure
       required:
-        - backupNums
         - config
         - createdAt
         - default
         - environmentId
         - environmentName
         - name
-        - status
         - storageProvider
-        - totalSize
       type: object
     backupRepoList:
       description: BackupRepoList is a list of backupRepo
