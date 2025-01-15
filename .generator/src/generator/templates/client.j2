@@ -392,36 +392,36 @@ func (c *APIClient) PrepareRequest(
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
 
-		// Set transport TLSClientConfig
-		setTLSClientConfig := func(transport *http.Transport, insecureSkipVerify bool) {
-			if transport.TLSClientConfig == nil {
-				transport.TLSClientConfig = &tls.Config{}
-			}
-			transport.TLSClientConfig.InsecureSkipVerify = insecureSkipVerify
-		}
-
+		// Get base transport
 		transport := c.Cfg.HTTPClient.Transport
 		if transport == nil {
 			transport = http.DefaultTransport
 		}
 
-		// Set insecureSkipVerify
+		// Set transport TLSClientConfig
 		if transport, ok := transport.(*http.Transport); ok {
 			if insecureSkipVerify, ok := ctx.Value(ContextInsecureSkipVerify).(bool); ok {
-				setTLSClientConfig(transport, insecureSkipVerify)
+				if transport.TLSClientConfig == nil {
+					transport.TLSClientConfig = &tls.Config{}
+				}
+				transport.TLSClientConfig.InsecureSkipVerify = insecureSkipVerify
 			}
 		}
 
 		// Digest Authentication
 		if auth, ok := ctx.Value(ContextDigestAuth).(DigestAuth); ok {
-			c.Cfg.HTTPClient.Transport = &digest.Transport{
-				Username:  auth.UserName,
-				Password:  auth.Password,
-				Transport: transport,
+			// Check if transport is already a digest.Transport
+			if _, ok := transport.(*digest.Transport); !ok {
+				transport = &digest.Transport{
+					Username:  auth.UserName,
+					Password:  auth.Password,
+					Transport: transport,
+				}
 			}
-		} else {
-			c.Cfg.HTTPClient.Transport = transport
 		}
+
+		// Set the final transport
+		c.Cfg.HTTPClient.Transport = transport
 	}
 
 	for header, value := range c.Cfg.DefaultHeader {
