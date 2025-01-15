@@ -136,7 +136,7 @@ func (o *StorageConfigBackup) UnmarshalJSON(bytes []byte) (err error) {
 		DefaultBackupRepo *bool   `json:"defaultBackupRepo"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.StorageName == nil {
 		return fmt.Errorf("required field storageName missing")

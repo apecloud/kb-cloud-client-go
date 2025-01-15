@@ -456,7 +456,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		OrgName     *string        `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.AlertName == nil {
 		return fmt.Errorf("required field alertName missing")

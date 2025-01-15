@@ -135,7 +135,7 @@ func (o *Feature) UnmarshalJSON(bytes []byte) (err error) {
 		PreRelease *FeaturePreReleaseType `json:"preRelease"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

@@ -841,7 +841,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		OrgName           *string                `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.CloudProvider == nil {
 		return fmt.Errorf("required field cloudProvider missing")

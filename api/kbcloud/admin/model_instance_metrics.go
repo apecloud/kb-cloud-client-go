@@ -164,7 +164,7 @@ func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 		DiskUsageItems *[]InstanceDiskUsageItem `json:"diskUsageItems"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.InstanceName == nil {
 		return fmt.Errorf("required field instanceName missing")

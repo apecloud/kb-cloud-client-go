@@ -382,7 +382,7 @@ func (o *EngineVersionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		SetImageRegistry    common.NullableBool   `json:"setImageRegistry,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.EngineName == nil {
 		return fmt.Errorf("required field engineName missing")

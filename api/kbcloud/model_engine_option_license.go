@@ -174,7 +174,7 @@ func (o *EngineOptionLicense) UnmarshalJSON(bytes []byte) (err error) {
 		Components []LicenseOption `json:"components,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.SecretName == nil {
 		return fmt.Errorf("required field secretName missing")

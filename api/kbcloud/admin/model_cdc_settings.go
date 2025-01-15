@@ -179,7 +179,7 @@ func (o *CdcSettings) UnmarshalJSON(bytes []byte) (err error) {
 		Lifecycle *CdcLifecycle       `json:"lifecycle,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

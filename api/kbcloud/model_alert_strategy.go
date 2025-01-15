@@ -620,7 +620,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 		MuteTimeInterval *AlertStrategyMuteTimeInterval `json:"muteTimeInterval,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ReceiverIds == nil {
 		return fmt.Errorf("required field receiverIds missing")

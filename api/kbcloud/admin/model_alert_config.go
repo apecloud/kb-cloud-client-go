@@ -79,7 +79,7 @@ func (o *AlertConfig) UnmarshalJSON(bytes []byte) (err error) {
 		TimeZoneOffset *int32 `json:"timeZoneOffset"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.TimeZoneOffset == nil {
 		return fmt.Errorf("required field timeZoneOffset missing")

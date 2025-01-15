@@ -106,7 +106,7 @@ func (o *OpsVolumeExpand) UnmarshalJSON(bytes []byte) (err error) {
 		Volumes   *[]OpsVolumeExpandVolumesItem `json:"volumes"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")

@@ -132,7 +132,7 @@ func (o *CreateTopicRequest) UnmarshalJSON(bytes []byte) (err error) {
 		ReplicationFactor *int32  `json:"replicationFactor"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

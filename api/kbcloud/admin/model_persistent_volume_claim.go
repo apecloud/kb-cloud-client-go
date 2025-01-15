@@ -316,7 +316,7 @@ func (o *PersistentVolumeClaim) UnmarshalJSON(bytes []byte) (err error) {
 		Node       common.NullableString `json:"node,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.NameSpace == nil {
 		return fmt.Errorf("required field nameSpace missing")

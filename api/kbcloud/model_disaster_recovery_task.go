@@ -82,7 +82,7 @@ func (o *DisasterRecoveryTask) UnmarshalJSON(bytes []byte) (err error) {
 		TaskId common.NullableInt32 `json:"taskId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if !all.TaskId.IsSet() {
 		return fmt.Errorf("required field taskId missing")

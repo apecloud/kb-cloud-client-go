@@ -198,7 +198,7 @@ func (o *ParamTplApplyToClusterListItem) UnmarshalJSON(bytes []byte) (err error)
 		Partition   *string `json:"partition"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Count == nil {
 		return fmt.Errorf("required field count missing")

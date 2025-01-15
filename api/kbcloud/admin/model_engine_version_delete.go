@@ -108,7 +108,7 @@ func (o *EngineVersionDelete) UnmarshalJSON(bytes []byte) (err error) {
 		Version    *string `json:"version"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.EngineName == nil {
 		return fmt.Errorf("required field engineName missing")

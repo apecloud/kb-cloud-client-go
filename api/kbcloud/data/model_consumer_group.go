@@ -179,7 +179,7 @@ func (o *ConsumerGroup) UnmarshalJSON(bytes []byte) (err error) {
 		Topics  []string `json:"topics,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

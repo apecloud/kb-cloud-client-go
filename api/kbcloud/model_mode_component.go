@@ -273,7 +273,7 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 		Storages     *[]StorageOption `json:"storages"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")

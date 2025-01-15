@@ -468,7 +468,7 @@ func (o *DisasterRecoveryStatusResponse) UnmarshalJSON(bytes []byte) (err error)
 		CurrentReplicationPoint common.NullableString  `json:"currentReplicationPoint,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ClusterId == nil {
 		return fmt.Errorf("required field clusterId missing")

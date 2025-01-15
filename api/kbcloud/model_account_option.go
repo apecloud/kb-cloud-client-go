@@ -257,7 +257,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		Delete              *bool    `json:"delete"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Enabled == nil {
 		return fmt.Errorf("required field enabled missing")

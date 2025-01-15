@@ -579,7 +579,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 		TimeoutSecond  *int32             `json:"timeoutSecond,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.TaskId == nil {
 		return fmt.Errorf("required field taskId missing")

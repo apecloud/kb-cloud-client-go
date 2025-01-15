@@ -1498,7 +1498,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		NetworkMode            *NetworkMode              `json:"networkMode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.EnvironmentName == nil {
 		return fmt.Errorf("required field environmentName missing")

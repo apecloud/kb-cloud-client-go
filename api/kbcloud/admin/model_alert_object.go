@@ -654,7 +654,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 		PageSize    *int32         `json:"pageSize,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

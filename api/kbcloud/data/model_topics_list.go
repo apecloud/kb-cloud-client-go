@@ -78,7 +78,7 @@ func (o *TopicsList) UnmarshalJSON(bytes []byte) (err error) {
 		Topics *[]Topic `json:"topics"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Topics == nil {
 		return fmt.Errorf("required field topics missing")

@@ -304,7 +304,7 @@ func (o *ParameterSpec) UnmarshalJSON(bytes []byte) (err error) {
 		Enum        *[]map[string]interface{} `json:"enum"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

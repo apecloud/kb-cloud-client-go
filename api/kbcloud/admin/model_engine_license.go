@@ -312,7 +312,7 @@ func (o *EngineLicense) UnmarshalJSON(bytes []byte) (err error) {
 		IdString    *string    `json:"idString,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.EngineName == nil {
 		return fmt.Errorf("required field engineName missing")

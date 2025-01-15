@@ -166,7 +166,7 @@ func (o *AlertMetric) UnmarshalJSON(bytes []byte) (err error) {
 		Category  *string `json:"category,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")

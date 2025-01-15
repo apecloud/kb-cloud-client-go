@@ -79,7 +79,7 @@ func (o *WebhookConfig) UnmarshalJSON(bytes []byte) (err error) {
 		Url *string `json:"url"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Url == nil {
 		return fmt.Errorf("required field url missing")

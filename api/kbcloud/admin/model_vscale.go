@@ -107,7 +107,7 @@ func (o *Vscale) UnmarshalJSON(bytes []byte) (err error) {
 		Memory *string `json:"memory"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Cpu == nil {
 		return fmt.Errorf("required field cpu missing")

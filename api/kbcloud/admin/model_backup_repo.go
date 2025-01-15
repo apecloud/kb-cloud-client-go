@@ -546,7 +546,7 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 		FailedMessage   *string                 `json:"failedMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.BackupNums == nil {
 		return fmt.Errorf("required field backupNums missing")

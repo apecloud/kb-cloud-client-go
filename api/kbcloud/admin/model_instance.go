@@ -512,7 +512,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 		Zone          *string                `json:"zone"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.AccessMode == nil {
 		return fmt.Errorf("required field accessMode missing")

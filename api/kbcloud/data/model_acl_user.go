@@ -351,7 +351,7 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 		PasswordHashesToRemove []string             `json:"password_hashes_to_remove,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

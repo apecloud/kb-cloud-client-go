@@ -398,7 +398,7 @@ func (o *EndpointOption) UnmarshalJSON(bytes []byte) (err error) {
 		FollowNetworkMode *bool                        `json:"followNetworkMode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Title == nil {
 		return fmt.Errorf("required field title missing")

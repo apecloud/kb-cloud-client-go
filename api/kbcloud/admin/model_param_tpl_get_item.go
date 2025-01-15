@@ -136,7 +136,7 @@ func (o *ParamTplGetItem) UnmarshalJSON(bytes []byte) (err error) {
 		ParameterSpec *ParameterSpecListItem  `json:"parameterSpec"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.SpecName == nil {
 		return fmt.Errorf("required field specName missing")

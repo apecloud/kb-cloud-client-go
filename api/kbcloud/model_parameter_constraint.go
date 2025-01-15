@@ -259,7 +259,7 @@ func (o *ParameterConstraint) UnmarshalJSON(bytes []byte) (err error) {
 		ConfigFileName *string  `json:"configFileName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Family == nil {
 		return fmt.Errorf("required field family missing")

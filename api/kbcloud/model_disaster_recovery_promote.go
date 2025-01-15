@@ -82,7 +82,7 @@ func (o *DisasterRecoveryPromote) UnmarshalJSON(bytes []byte) (err error) {
 		Reason *string `json:"reason,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

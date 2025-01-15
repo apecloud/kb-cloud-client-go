@@ -624,7 +624,7 @@ func (o *Pgbench) UnmarshalJSON(bytes []byte) (err error) {
 		ExtraArgs     *string      `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Cluster == nil {
 		return fmt.Errorf("required field cluster missing")

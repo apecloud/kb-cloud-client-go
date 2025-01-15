@@ -164,7 +164,7 @@ func (o *RegionUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		Enabled *bool   `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.NameCn == nil {
 		return fmt.Errorf("required field nameCN missing")

@@ -79,7 +79,7 @@ func (o *Kubeconfig) UnmarshalJSON(bytes []byte) (err error) {
 		Kubeconfig *string `json:"kubeconfig"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Kubeconfig == nil {
 		return fmt.Errorf("required field kubeconfig missing")

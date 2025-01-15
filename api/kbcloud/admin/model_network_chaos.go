@@ -304,7 +304,7 @@ func (o *NetworkChaos) UnmarshalJSON(bytes []byte) (err error) {
 		Loss      *NetworkChaosLoss      `json:"loss,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Mode == nil {
 		return fmt.Errorf("required field mode missing")

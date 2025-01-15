@@ -148,7 +148,7 @@ func (o *ComponentOptionVersionMajorVersion) UnmarshalJSON(bytes []byte) (err er
 		VersionMapping []ComponentOptionVersionMajorVersionVersionMappingItem `json:"versionMapping,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Rule == nil {
 		return fmt.Errorf("required field rule missing")

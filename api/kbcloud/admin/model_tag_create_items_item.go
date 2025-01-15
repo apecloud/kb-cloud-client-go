@@ -138,7 +138,7 @@ func (o *TagCreateItemsItem) UnmarshalJSON(bytes []byte) (err error) {
 		Value *string `json:"value"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")

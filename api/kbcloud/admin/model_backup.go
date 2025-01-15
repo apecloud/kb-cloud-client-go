@@ -1054,7 +1054,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.AutoBackup == nil {
 		return fmt.Errorf("required field autoBackup missing")

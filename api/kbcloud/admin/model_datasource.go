@@ -180,7 +180,7 @@ func (o *Datasource) UnmarshalJSON(bytes []byte) (err error) {
 		Options map[string]interface{} `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")

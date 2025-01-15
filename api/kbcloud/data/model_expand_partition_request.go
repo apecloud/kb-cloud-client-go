@@ -78,7 +78,7 @@ func (o *ExpandPartitionRequest) UnmarshalJSON(bytes []byte) (err error) {
 		NewPartitions *int32 `json:"newPartitions"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.NewPartitions == nil {
 		return fmt.Errorf("required field newPartitions missing")

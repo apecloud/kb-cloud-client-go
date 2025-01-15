@@ -220,7 +220,7 @@ func (o *AutohealingConfig) UnmarshalJSON(bytes []byte) (err error) {
 		RebuildConcurrencyGlobally                *int32 `json:"rebuildConcurrencyGlobally"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.EnableAutoHealing == nil {
 		return fmt.Errorf("required field enableAutoHealing missing")

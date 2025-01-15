@@ -307,7 +307,7 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 		Id                *string    `json:"id,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.UserName == nil {
 		return fmt.Errorf("required field userName missing")

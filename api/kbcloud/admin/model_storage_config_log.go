@@ -80,7 +80,7 @@ func (o *StorageConfigLog) UnmarshalJSON(bytes []byte) (err error) {
 		StorageName *string `json:"storageName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.StorageName == nil {
 		return fmt.Errorf("required field storageName missing")

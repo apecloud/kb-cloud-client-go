@@ -182,7 +182,7 @@ func (o *OpsVScale) UnmarshalJSON(bytes []byte) (err error) {
 		ClassCode *string `json:"classCode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")

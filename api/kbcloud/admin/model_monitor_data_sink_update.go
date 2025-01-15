@@ -369,7 +369,7 @@ func (o *MonitorDataSinkUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		IndexName           common.NullableString `json:"indexName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if !all.MonitorDataSinkType.IsSet() {
 		return fmt.Errorf("required field monitorDataSinkType missing")
