@@ -113,7 +113,7 @@ func (o *AlertRuleGroup) UnmarshalJSON(bytes []byte) (err error) {
 		Rules []AlertRule `json:"rules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

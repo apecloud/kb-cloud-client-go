@@ -136,7 +136,7 @@ func (o *PaginationResult) UnmarshalJSON(bytes []byte) (err error) {
 		Total    *int32 `json:"total"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Page == nil {
 		return fmt.Errorf("required field page missing")

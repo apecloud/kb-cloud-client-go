@@ -148,7 +148,7 @@ func (o *InstanceStatus) UnmarshalJSON(bytes []byte) (err error) {
 		Message *string `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Phase == nil {
 		return fmt.Errorf("required field phase missing")

@@ -81,7 +81,7 @@ func (o *DmsImportFormData) UnmarshalJSON(bytes []byte) (err error) {
 		File *_io.Reader `json:"file"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.File == nil {
 		return fmt.Errorf("required field file missing")

@@ -220,7 +220,7 @@ func (o *Metadb_instance) UnmarshalJSON(bytes []byte) (err error) {
 		Role    *string `json:"role"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Cluster == nil {
 		return fmt.Errorf("required field cluster missing")

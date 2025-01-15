@@ -282,7 +282,7 @@ func (o *BackupRepoCreate) UnmarshalJSON(bytes []byte) (err error) {
 		VolumeCapacity  *string                    `json:"volumeCapacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.StorageId == nil {
 		return fmt.Errorf("required field storageID missing")

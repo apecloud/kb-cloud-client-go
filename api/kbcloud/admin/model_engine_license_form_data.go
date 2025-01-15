@@ -81,7 +81,7 @@ func (o *EngineLicenseFormData) UnmarshalJSON(bytes []byte) (err error) {
 		LicenseFile *_io.Reader `json:"licenseFile"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.LicenseFile == nil {
 		return fmt.Errorf("required field licenseFile missing")

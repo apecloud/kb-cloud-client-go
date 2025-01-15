@@ -176,7 +176,7 @@ func (o *OpsCustom) UnmarshalJSON(bytes []byte) (err error) {
 		Params         []interface{} `json:"params,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.CompName == nil {
 		return fmt.Errorf("required field compName missing")

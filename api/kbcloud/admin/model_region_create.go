@@ -192,7 +192,7 @@ func (o *RegionCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Group   *string `json:"group"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

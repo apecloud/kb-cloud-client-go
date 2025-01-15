@@ -225,7 +225,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt    *time.Time `json:"createdAt"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")

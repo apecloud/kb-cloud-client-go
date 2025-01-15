@@ -148,7 +148,7 @@ func (o *Register) UnmarshalJSON(bytes []byte) (err error) {
 		Kubeconfig *string                  `json:"kubeconfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")

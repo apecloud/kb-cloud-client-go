@@ -105,7 +105,7 @@ func (o *LocalizedDescription) UnmarshalJSON(bytes []byte) (err error) {
 		EnUs *string `json:"en-US"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ZhCn == nil {
 		return fmt.Errorf("required field zh-CN missing")

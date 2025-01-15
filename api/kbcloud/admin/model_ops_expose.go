@@ -205,7 +205,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 		PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")

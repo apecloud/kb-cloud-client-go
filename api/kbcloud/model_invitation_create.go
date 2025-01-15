@@ -136,7 +136,7 @@ func (o *InvitationCreate) UnmarshalJSON(bytes []byte) (err error) {
 		RoleName *string `json:"roleName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Email == nil {
 		return fmt.Errorf("required field email missing")

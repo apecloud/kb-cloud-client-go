@@ -126,7 +126,7 @@ func (o *NodeGroupUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		Nodes       []NodeOperation       `json:"nodes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

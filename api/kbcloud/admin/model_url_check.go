@@ -185,7 +185,7 @@ func (o *URLCheck) UnmarshalJSON(bytes []byte) (err error) {
 		Error         *string `json:"error,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Url == nil {
 		return fmt.Errorf("required field url missing")

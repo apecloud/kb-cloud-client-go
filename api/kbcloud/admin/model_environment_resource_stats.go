@@ -164,7 +164,7 @@ func (o *EnvironmentResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		StorageStats *StorageStats  `json:"storageStats"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.CpuStats == nil {
 		return fmt.Errorf("required field cpuStats missing")

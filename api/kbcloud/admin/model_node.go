@@ -551,7 +551,7 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 		DataPlane        *bool          `json:"dataPlane,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.CreatedAt == nil {
 		return fmt.Errorf("required field createdAt missing")

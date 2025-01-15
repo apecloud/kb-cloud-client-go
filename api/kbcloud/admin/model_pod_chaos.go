@@ -292,7 +292,7 @@ func (o *PodChaos) UnmarshalJSON(bytes []byte) (err error) {
 		Name        *string               `json:"name,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Mode == nil {
 		return fmt.Errorf("required field mode missing")

@@ -169,7 +169,7 @@ func (o *EnvironmentStatusHistory) UnmarshalJSON(bytes []byte) (err error) {
 		Timestamp    *time.Time `json:"Timestamp"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.CurrentState == nil {
 		return fmt.Errorf("required field CurrentState missing")

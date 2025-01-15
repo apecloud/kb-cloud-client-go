@@ -224,7 +224,7 @@ func (o *DmsResultStats) UnmarshalJSON(bytes []byte) (err error) {
 		QueryFinishTime *time.Time `json:"query_finish_time,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

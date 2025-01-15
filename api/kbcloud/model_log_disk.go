@@ -146,7 +146,7 @@ func (o *LogDisk) UnmarshalJSON(bytes []byte) (err error) {
 		LogDiskInUse    *string `json:"log_disk_in_use,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {

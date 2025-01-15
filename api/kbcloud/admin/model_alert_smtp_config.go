@@ -164,7 +164,7 @@ func (o *AlertSMTPConfig) UnmarshalJSON(bytes []byte) (err error) {
 		SmtpSmarthost    *string `json:"smtp_smarthost"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.SmtpAuthPassword == nil {
 		return fmt.Errorf("required field smtp_auth_password missing")

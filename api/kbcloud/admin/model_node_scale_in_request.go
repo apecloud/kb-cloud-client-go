@@ -188,7 +188,7 @@ func (o *NodeScaleInRequest) UnmarshalJSON(bytes []byte) (err error) {
 		Force    *bool            `json:"force,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Nodes == nil {
 		return fmt.Errorf("required field nodes missing")

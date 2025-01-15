@@ -80,7 +80,7 @@ func (o *RestoreList) UnmarshalJSON(bytes []byte) (err error) {
 		Items *[]Restore `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Items == nil {
 		return fmt.Errorf("required field items missing")

@@ -254,7 +254,7 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string                       `json:"description"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Id == nil {
 		return fmt.Errorf("required field id missing")

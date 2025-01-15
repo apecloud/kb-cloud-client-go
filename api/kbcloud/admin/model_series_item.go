@@ -108,7 +108,7 @@ func (o *SeriesItem) UnmarshalJSON(bytes []byte) (err error) {
 		Timestamp *int64   `json:"timestamp"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Value == nil {
 		return fmt.Errorf("required field value missing")

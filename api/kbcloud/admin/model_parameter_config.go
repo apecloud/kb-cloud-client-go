@@ -107,7 +107,7 @@ func (o *ParameterConfig) UnmarshalJSON(bytes []byte) (err error) {
 		TemplateRef    *string `json:"templateRef"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ConfigSpecName == nil {
 		return fmt.Errorf("required field configSpecName missing")

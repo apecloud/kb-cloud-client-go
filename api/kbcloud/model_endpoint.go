@@ -338,7 +338,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 		Mutable     *bool                `json:"mutable"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Title == nil {
 		return fmt.Errorf("required field title missing")

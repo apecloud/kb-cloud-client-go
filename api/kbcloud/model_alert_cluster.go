@@ -78,7 +78,7 @@ func (o *AlertCluster) UnmarshalJSON(bytes []byte) (err error) {
 		Disabled *bool `json:"disabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Disabled == nil {
 		return fmt.Errorf("required field disabled missing")

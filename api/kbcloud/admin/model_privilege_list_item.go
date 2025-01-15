@@ -114,7 +114,7 @@ func (o *PrivilegeListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Privileges   *PrivilegeType `json:"privileges"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Privileges == nil {
 		return fmt.Errorf("required field privileges missing")

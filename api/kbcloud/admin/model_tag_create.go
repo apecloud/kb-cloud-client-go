@@ -108,7 +108,7 @@ func (o *TagCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Items     *[]TagCreateItemsItem `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ClusterId == nil {
 		return fmt.Errorf("required field clusterId missing")

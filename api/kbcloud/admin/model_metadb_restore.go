@@ -425,7 +425,7 @@ func (o *Metadb_restore) UnmarshalJSON(bytes []byte) (err error) {
 		Replicas            *int32     `json:"replicas,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.ClusterName == nil {
 		return fmt.Errorf("required field clusterName missing")

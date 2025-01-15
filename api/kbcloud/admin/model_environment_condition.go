@@ -176,7 +176,7 @@ func (o *EnvironmentCondition) UnmarshalJSON(bytes []byte) (err error) {
 		Type    *string                     `json:"type"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Status == nil {
 		return fmt.Errorf("required field status missing")

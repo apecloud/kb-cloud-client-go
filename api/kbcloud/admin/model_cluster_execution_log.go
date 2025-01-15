@@ -248,7 +248,7 @@ func (o *ClusterExecutionLog) UnmarshalJSON(bytes []byte) (err error) {
 		Extra         *map[string]interface{} `json:"extra"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Timestamp == nil {
 		return fmt.Errorf("required field timestamp missing")

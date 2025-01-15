@@ -146,7 +146,7 @@ func (o *NodeScaleRequest) UnmarshalJSON(bytes []byte) (err error) {
 		DefaultSsh *SshConfig       `json:"defaultSSH,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Nodes == nil {
 		return fmt.Errorf("required field nodes missing")

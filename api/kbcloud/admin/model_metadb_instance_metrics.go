@@ -136,7 +136,7 @@ func (o *Metadb_instanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 		MemoryUsage  *string `json:"memoryUsage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.InstanceName == nil {
 		return fmt.Errorf("required field instanceName missing")

@@ -251,7 +251,7 @@ func (o *IpWhitelist) UnmarshalJSON(bytes []byte) (err error) {
 		UpdatedAt   *time.Time `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	if all.Id == nil {
 		return fmt.Errorf("required field id missing")

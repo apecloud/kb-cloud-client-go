@@ -252,7 +252,7 @@ func (o *RawCluster) UnmarshalJSON(bytes []byte) (err error) {
 		Memory         *float64 `json:"memory,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
+		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
