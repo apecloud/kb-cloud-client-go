@@ -13394,6 +13394,13 @@ components:
           description: snapshotVolumes specifies whether to take snapshots of persistent volumes to back up
           type: boolean
           nullable: true
+        incrementalBackupEnabled:
+          description: specify whether to enable incremental backup
+          default: false
+          type: boolean
+        incrementalCronExpression:
+          description: the crop expression for incremental backup schedule
+          type: string
       type: object
     networkMode:
       enum:
@@ -18042,18 +18049,6 @@ components:
       required:
         - items
       type: object
-    backupCreate:
-      description: BackupCreate is the payload to create a KubeBlocks cluster backup
-      properties:
-        name:
-          description: name of the backup, if not specified, a name will be generated automatically
-          type: string
-        backupMethod:
-          description: specified the backup method
-          type: string
-      type: object
-      required:
-        - backupMethod
     backupType:
       enum:
         - Full
@@ -18062,6 +18057,20 @@ components:
         - Continuous
       type: string
       description: the type of backup
+    backupCreate:
+      description: BackupCreate is the payload to create a KubeBlocks cluster backup
+      properties:
+        name:
+          description: name of the backup, if not specified, a name will be generated automatically
+          type: string
+        backupType:
+          $ref: '#/components/schemas/backupType'
+        backupMethod:
+          description: specified the backup method
+          type: string
+      type: object
+      required:
+        - backupMethod
     backupStatus:
       description: The current status. Valid values are New, InProgress, Completed, Failed.
       enum:
@@ -18170,6 +18179,12 @@ components:
         engine:
           description: the cluster engine
           type: string
+        parentBackupName:
+          description: the parent backup name
+          type: string
+        baseBackupName:
+          description: the base backup name
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -18196,7 +18211,7 @@ components:
           description: specify whether to use auto backup
           type: boolean
         autoBackupMethod:
-          description: the auto backup method
+          description: the auto full backup method
           type: string
         pitrEnabled:
           description: specify whether to enable point-in-time recovery
@@ -18204,6 +18219,13 @@ components:
           type: boolean
         cronExpression:
           description: the crop expression for schedule
+          type: string
+        incrementalBackupEnabled:
+          description: specify whether to enable incremental backup
+          default: false
+          type: boolean
+        incrementalCronExpression:
+          description: the crop expression for incremental backup schedule
           type: string
         retentionPeriod:
           description: specify the retention period
@@ -19223,6 +19245,9 @@ components:
       properties:
         name:
           type: string
+        compatibleMethod:
+          description: The compatible full backup method for incremental backup method
+          type: string
         description:
           $ref: '#/components/schemas/localizedDescription'
     backupOption:
@@ -19235,6 +19260,10 @@ components:
         defaultMethod:
           type: string
         fullMethod:
+          type: array
+          items:
+            $ref: '#/components/schemas/backupMethodOption'
+        incrementalMethod:
           type: array
           items:
             $ref: '#/components/schemas/backupMethodOption'
