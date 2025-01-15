@@ -16283,6 +16283,9 @@ components:
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information, only returned when hosting_status is Hosted
+        description:
+          type: string
+          description: the description of the module
       required:
         - name
         - status
