@@ -19367,8 +19367,23 @@ components:
           type: boolean
           description: indicate whether backup is required when Inplace is true
           default: false
+        backupMethod:
+          type: object
+          description: indicate the backup method when inplace is true
+          properties:
+            full:
+              type: array
+              items:
+                type: string
+              description: full backup methods
+            incremental:
+              type: array
+              description: incremental backup methods
+              items:
+                type: string
         restoreEnv:
           type: array
+          nullable: true
           items:
             type: object
             required:
