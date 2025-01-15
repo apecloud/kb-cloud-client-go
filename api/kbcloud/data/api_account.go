@@ -103,7 +103,7 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "account",
 		OperationID: "createMongoDBAccount",
-		Path:        "/data/v1/mongodb/datasources/{id}/accounts",
+		Path:        "/data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -113,7 +113,7 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/accounts"
+	localVarPath := localBasePath + "/data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -248,7 +248,7 @@ func (a *AccountApi) DeleteMongoDBAccount(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "account",
 		OperationID: "deleteMongoDBAccount",
-		Path:        "/data/v1/mongodb/datasources/{id}/accounts/{accountName}",
+		Path:        "/data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -258,7 +258,7 @@ func (a *AccountApi) DeleteMongoDBAccount(ctx _context.Context, orgName string, 
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/accounts/{accountName}"
+	localVarPath := localBasePath + "/data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
@@ -454,7 +454,7 @@ func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, c
 	apiInfo := common.APIInfo{
 		Tag:         "account",
 		OperationID: "listMongoDBAccounts",
-		Path:        "/data/v1/mongodb/datasources/{id}/accounts",
+		Path:        "/data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -464,7 +464,7 @@ func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, c
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/accounts"
+	localVarPath := localBasePath + "/data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 

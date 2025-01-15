@@ -1766,7 +1766,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /data/v1/mongodb/datasources/{id}/accounts:
+  /data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
       summary: List mongodb accounts
@@ -1846,7 +1846,7 @@ paths:
         - account
         - mongodb
       x-codegen-request-body-name: body
-  /data/v1/mongodb/datasources/{id}/accounts/{accountName}:
+  /data/v1/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     delete:
       description: delete an account in mongodb
       summary: Delete mongodb account
