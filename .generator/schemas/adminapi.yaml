@@ -12522,6 +12522,33 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/environments/option-modules:
+    get:
+      operationId: getOptionEnvironmentModule
+      summary: get option environment module info
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
 components:
   securitySchemes:
     BearerToken:
@@ -17819,16 +17846,13 @@ components:
           type: string
           description: failedMessage specifies the message of the backupRepo failure
       required:
-        - backupNums
         - config
         - createdAt
         - default
         - environmentId
         - environmentName
         - name
-        - status
         - storageProvider
-        - totalSize
       type: object
     backupRepoList:
       description: BackupRepoList is a list of backupRepo
