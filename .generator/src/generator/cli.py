@@ -96,9 +96,6 @@ def cli(specs, output):
         if spec_name == "adminapi":
             env.globals["package_name"] = f"admin"
             resources_dir = output / f"kbcloud" / env.globals["package_name"]
-        elif spec_name == "dataapi":
-            env.globals["package_name"] = f"data"
-            resources_dir = output / f"kbcloud" / env.globals["package_name"]
         resources_dir.mkdir(parents=True, exist_ok=True)
 
         for name, model in models.items():

@@ -60,14 +60,12 @@ jobs:
           cd ./apiserver
           redocly bundle ./api/openapi.yaml > ./openapi-bundle-tmp.yaml
           redocly bundle ./api/adminapi.yaml > ./adminapi-bundle-tmp.yaml
-          redocly bundle ./api/dataapi.yaml > ./dataapi-bundle-tmp.yaml
       - name: update openapi and adminapi
         id: update_client_api
         run: |
           COMMIT_SHA="$(git rev-parse HEAD)"
           cp -r ./apecloud/apiserver/openapi-bundle-tmp.yaml ./.generator/schemas/openapi.yaml
           cp -r ./apecloud/apiserver/adminapi-bundle-tmp.yaml ./.generator/schemas/adminapi.yaml
-          cp -r ./apecloud/apiserver/dataapi-bundle-tmp.yaml ./.generator/schemas/dataapi.yaml
           
           FILE_CHANGES=`git diff --name-only ${COMMIT_SHA}`
           if [[ ! -z "$FILE_CHANGES" ]]; then
