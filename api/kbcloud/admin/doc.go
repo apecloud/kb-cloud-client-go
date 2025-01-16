@@ -85,7 +85,6 @@
 //   - [backupRepoApi.getBackupRepo]
 //   - [backupRepoApi.listBackupRepoStats]
 //   - [backupRepoApi.listBackupRepos]
-//   - [backupRepoApi.listStorageProvidersArchive]
 //   - [backupRepoApi.updateBackupRepo]
 //   - [backupRepoApi.viewBackupRepo]
 //   - [classApi.batchClass]

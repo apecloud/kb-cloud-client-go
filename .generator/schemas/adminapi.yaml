@@ -6852,32 +6852,6 @@ paths:
       tags:
         - imageRegistry
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/storageProvider:
-    get:
-      operationId: listStorageProvidersArchive
-      summary: List storage providers of backup repo
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                type: array
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - backupRepo
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/backups:
     post:
       operationId: createClusterBackup
