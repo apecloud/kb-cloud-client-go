@@ -17,7 +17,7 @@ type Endpoint struct {
 	// Component type name
 	Component string `json:"component"`
 	// Endpoint hosts
-	Hosts []string `json:"hosts"`
+	Hosts []string `json:"hosts,omitempty"`
 	// Endpoint port
 	Port int32 `json:"port"`
 	// Type of endpoint
@@ -41,11 +41,10 @@ type Endpoint struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEndpoint(title string, component string, hosts []string, port int32, typeVar EndpointType, networkType EndpointNetworkType, serviceName string, portName string, mutable bool) *Endpoint {
+func NewEndpoint(title string, component string, port int32, typeVar EndpointType, networkType EndpointNetworkType, serviceName string, portName string, mutable bool) *Endpoint {
 	this := Endpoint{}
 	this.Title = title
 	this.Component = component
-	this.Hosts = hosts
 	this.Port = port
 	this.Type = typeVar
 	this.NetworkType = networkType
@@ -109,25 +108,30 @@ func (o *Endpoint) SetComponent(v string) {
 	o.Component = v
 }
 
-// GetHosts returns the Hosts field value.
+// GetHosts returns the Hosts field value if set, zero value otherwise.
 func (o *Endpoint) GetHosts() []string {
-	if o == nil {
+	if o == nil || o.Hosts == nil {
 		var ret []string
 		return ret
 	}
 	return o.Hosts
 }
 
-// GetHostsOk returns a tuple with the Hosts field value
+// GetHostsOk returns a tuple with the Hosts field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Endpoint) GetHostsOk() (*[]string, bool) {
-	if o == nil {
+	if o == nil || o.Hosts == nil {
 		return nil, false
 	}
 	return &o.Hosts, true
 }
 
-// SetHosts sets field value.
+// HasHosts returns a boolean if a field has been set.
+func (o *Endpoint) HasHosts() bool {
+	return o != nil && o.Hosts != nil
+}
+
+// SetHosts gets a reference to the given []string and assigns it to the Hosts field.
 func (o *Endpoint) SetHosts(v []string) {
 	o.Hosts = v
 }
@@ -306,7 +310,9 @@ func (o Endpoint) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["component"] = o.Component
-	toSerialize["hosts"] = o.Hosts
+	if o.Hosts != nil {
+		toSerialize["hosts"] = o.Hosts
+	}
 	toSerialize["port"] = o.Port
 	toSerialize["type"] = o.Type
 	toSerialize["networkType"] = o.NetworkType
@@ -328,7 +334,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Title       *string              `json:"title"`
 		Component   *string              `json:"component"`
-		Hosts       *[]string            `json:"hosts"`
+		Hosts       []string             `json:"hosts,omitempty"`
 		Port        *int32               `json:"port"`
 		Type        *EndpointType        `json:"type"`
 		NetworkType *EndpointNetworkType `json:"networkType"`
@@ -345,9 +351,6 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
-	}
-	if all.Hosts == nil {
-		return fmt.Errorf("required field hosts missing")
 	}
 	if all.Port == nil {
 		return fmt.Errorf("required field port missing")
@@ -377,7 +380,7 @@ func (o *Endpoint) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Title = *all.Title
 	o.Component = *all.Component
-	o.Hosts = *all.Hosts
+	o.Hosts = all.Hosts
 	o.Port = *all.Port
 	if !all.Type.IsValid() {
 		hasInvalidField = true

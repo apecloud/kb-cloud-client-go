@@ -1726,34 +1726,34 @@ func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListSessionsOldOptionalParameters holds optional parameters for ListSessionsOld.
-type ListSessionsOldOptionalParameters struct {
+// ListSessionsOptionalParameters holds optional parameters for ListSessions.
+type ListSessionsOptionalParameters struct {
 	All *string
 }
 
-// NewListSessionsOldOptionalParameters creates an empty struct for parameters.
-func NewListSessionsOldOptionalParameters() *ListSessionsOldOptionalParameters {
-	this := ListSessionsOldOptionalParameters{}
+// NewListSessionsOptionalParameters creates an empty struct for parameters.
+func NewListSessionsOptionalParameters() *ListSessionsOptionalParameters {
+	this := ListSessionsOptionalParameters{}
 	return &this
 }
 
 // WithAll sets the corresponding parameter name and returns the struct.
-func (r *ListSessionsOldOptionalParameters) WithAll(all string) *ListSessionsOldOptionalParameters {
+func (r *ListSessionsOptionalParameters) WithAll(all string) *ListSessionsOptionalParameters {
 	r.All = &all
 	return r
 }
 
-// ListSessionsOld list all session for the cluster.
-func (a *DmsApi) ListSessionsOld(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOldOptionalParameters) ([]DmsSession, *_nethttp.Response, error) {
+// ListSessions list all session for the cluster.
+func (a *DmsApi) ListSessions(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOptionalParameters) ([]DmsSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []DmsSession
-		optionalParams      ListSessionsOldOptionalParameters
+		optionalParams      ListSessionsOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListSessionsOldOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListSessionsOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -1762,13 +1762,13 @@ func (a *DmsApi) ListSessionsOld(ctx _context.Context, orgName string, clusterNa
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "dms",
-		OperationID: "listSessionsOld",
+		OperationID: "listSessions",
 		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/sessions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListSessionsOld")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DmsApi.ListSessions")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

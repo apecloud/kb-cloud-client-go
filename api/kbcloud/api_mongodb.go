@@ -29,7 +29,7 @@ func (a *MongodbApi) ListCollectionsInMongoDB(ctx _context.Context, id string, d
 	apiInfo := common.APIInfo{
 		Tag:         "mongodb",
 		OperationID: "ListCollectionsInMongoDB",
-		Path:        "/api/v1/data/mongodb/datasources/{id}/databases/{database}/collections",
+		Path:        "/data/v1/mongodb/datasources/{id}/databases/{database}/collections",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,7 @@ func (a *MongodbApi) ListCollectionsInMongoDB(ctx _context.Context, id string, d
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/mongodb/datasources/{id}/databases/{database}/collections"
+	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/databases/{database}/collections"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"database"+"}", _neturl.PathEscape(common.ParameterToString(database, "")), -1)
 
@@ -133,7 +133,7 @@ func (a *MongodbApi) ListDocumentsInMongoDB(ctx _context.Context, id string, dat
 	apiInfo := common.APIInfo{
 		Tag:         "mongodb",
 		OperationID: "ListDocumentsInMongoDB",
-		Path:        "/api/v1/data/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents",
+		Path:        "/data/v1/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -143,7 +143,7 @@ func (a *MongodbApi) ListDocumentsInMongoDB(ctx _context.Context, id string, dat
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents"
+	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"database"+"}", _neturl.PathEscape(common.ParameterToString(database, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"collection"+"}", _neturl.PathEscape(common.ParameterToString(collection, "")), -1)
@@ -218,7 +218,7 @@ func (a *MongodbApi) ListDatabasesInMongoDB(ctx _context.Context, id string) ([]
 	apiInfo := common.APIInfo{
 		Tag:         "mongodb",
 		OperationID: "listDatabasesInMongoDB",
-		Path:        "/api/v1/data/mongodb/datasources/{id}/databases",
+		Path:        "/data/v1/mongodb/datasources/{id}/databases",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -228,7 +228,7 @@ func (a *MongodbApi) ListDatabasesInMongoDB(ctx _context.Context, id string) ([]
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/mongodb/datasources/{id}/databases"
+	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/databases"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

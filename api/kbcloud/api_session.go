@@ -54,7 +54,7 @@ func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgNam
 	apiInfo := common.APIInfo{
 		Tag:         "session",
 		OperationID: "killSession",
-		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -64,7 +64,7 @@ func (a *SessionApi) KillSession(ctx _context.Context, engineName string, orgNam
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}"
+	localVarPath := localBasePath + "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
@@ -155,7 +155,7 @@ func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgNa
 	apiInfo := common.APIInfo{
 		Tag:         "session",
 		OperationID: "listSessions",
-		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions",
+		Path:        "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -165,7 +165,7 @@ func (a *SessionApi) ListSessions(ctx _context.Context, engineName string, orgNa
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions"
+	localVarPath := localBasePath + "/data/v1/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)

@@ -53,7 +53,7 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 	apiInfo := common.APIInfo{
 		Tag:         "redis",
 		OperationID: "createRedisAccount",
-		Path:        "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -63,7 +63,7 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts"
+	localVarPath := localBasePath + "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -154,7 +154,7 @@ func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clus
 	apiInfo := common.APIInfo{
 		Tag:         "redis",
 		OperationID: "deleteRedisAccount",
-		Path:        "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -164,7 +164,7 @@ func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clus
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}"
+	localVarPath := localBasePath + "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
@@ -262,7 +262,7 @@ func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clust
 	apiInfo := common.APIInfo{
 		Tag:         "redis",
 		OperationID: "listRedisAccounts",
-		Path:        "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -272,7 +272,7 @@ func (a *RedisApi) ListRedisAccounts(ctx _context.Context, orgName string, clust
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts"
+	localVarPath := localBasePath + "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -368,7 +368,7 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 	apiInfo := common.APIInfo{
 		Tag:         "redis",
 		OperationID: "updateRedisAccount",
-		Path:        "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
+		Path:        "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -378,7 +378,7 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}"
+	localVarPath := localBasePath + "/data/v1/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)

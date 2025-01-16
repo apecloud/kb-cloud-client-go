@@ -28,7 +28,7 @@ func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "batchDeleteKafkaTopics",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics/batch-delete",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics/batch-delete",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -38,7 +38,7 @@ func (a *KafkaApi) BatchDeleteKafkaTopics(ctx _context.Context, orgName string, 
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics/batch-delete"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics/batch-delete"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -101,7 +101,7 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "createKafkaTopic",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -111,7 +111,7 @@ func (a *KafkaApi) CreateKafkaTopic(ctx _context.Context, orgName string, cluste
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -182,7 +182,7 @@ func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "deleteKafkaConsumerGroup",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -192,7 +192,7 @@ func (a *KafkaApi) DeleteKafkaConsumerGroup(ctx _context.Context, orgName string
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupId"+"}", _neturl.PathEscape(common.ParameterToString(groupId, "")), -1)
@@ -252,7 +252,7 @@ func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, cluste
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "deleteKafkaTopic",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -262,7 +262,7 @@ func (a *KafkaApi) DeleteKafkaTopic(ctx _context.Context, orgName string, cluste
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -322,7 +322,7 @@ func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName stri
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "expandKafkaTopicPartitions",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -332,7 +332,7 @@ func (a *KafkaApi) ExpandKafkaTopicPartitions(ctx _context.Context, orgName stri
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -396,7 +396,7 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaBrokerConfigs",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -406,7 +406,7 @@ func (a *KafkaApi) GetKafkaBrokerConfigs(ctx _context.Context, orgName string, c
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"brokerId"+"}", _neturl.PathEscape(common.ParameterToString(brokerId, "")), -1)
@@ -476,7 +476,7 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaBrokers",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -486,7 +486,7 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -555,7 +555,7 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaConsumerGroupDescribe",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -565,7 +565,7 @@ func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName s
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups/{groupId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"groupId"+"}", _neturl.PathEscape(common.ParameterToString(groupId, "")), -1)
@@ -635,7 +635,7 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaTopicBrokers",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/brokers",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/brokers",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -645,7 +645,7 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/brokers"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/brokers"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -715,7 +715,7 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaTopicConfig",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -725,7 +725,7 @@ func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -795,7 +795,7 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaTopicInfos",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -805,7 +805,7 @@ func (a *KafkaApi) GetKafkaTopicInfos(ctx _context.Context, orgName string, clus
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -875,7 +875,7 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaTopicPartitions",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -885,7 +885,7 @@ func (a *KafkaApi) GetKafkaTopicPartitions(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/partitions"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -987,7 +987,7 @@ func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterN
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "getKafkaTopics",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -997,7 +997,7 @@ func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterN
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topics"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -1097,7 +1097,7 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "listKafkaConsumerGroups",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1107,7 +1107,7 @@ func (a *KafkaApi) ListKafkaConsumerGroups(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -1179,7 +1179,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName st
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "listKafkaTopicConsumerGroups",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1189,7 +1189,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerGroups(ctx _context.Context, orgName st
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1243,7 +1243,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "listKafkaTopicConsumerOffsets",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1253,7 +1253,7 @@ func (a *KafkaApi) ListKafkaTopicConsumerOffsets(ctx _context.Context, orgName s
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1363,7 +1363,7 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "listKafkaTopicMessages",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1373,7 +1373,7 @@ func (a *KafkaApi) ListKafkaTopicMessages(ctx _context.Context, orgName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1493,7 +1493,7 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "listKafkaTopicMessagesLive",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1503,7 +1503,7 @@ func (a *KafkaApi) ListKafkaTopicMessagesLive(ctx _context.Context, orgName stri
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1582,7 +1582,7 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "produceKafkaTopicMessage",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1592,7 +1592,7 @@ func (a *KafkaApi) ProduceKafkaTopicMessage(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1664,7 +1664,7 @@ func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName s
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "resetKafkaTopicConsumerOffset",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1674,7 +1674,7 @@ func (a *KafkaApi) ResetKafkaTopicConsumerOffset(ctx _context.Context, orgName s
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1738,7 +1738,7 @@ func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "setKafkaTopicConfig",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1748,7 +1748,7 @@ func (a *KafkaApi) SetKafkaTopicConfig(ctx _context.Context, orgName string, clu
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/configs"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"topic"+"}", _neturl.PathEscape(common.ParameterToString(topic, "")), -1)
@@ -1811,7 +1811,7 @@ func (a *KafkaApi) UpdateKafkaBrokerConfig(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "kafka",
 		OperationID: "updateKafkaBrokerConfig",
-		Path:        "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs",
+		Path:        "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1821,7 +1821,7 @@ func (a *KafkaApi) UpdateKafkaBrokerConfig(ctx _context.Context, orgName string,
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs"
+	localVarPath := localBasePath + "/data/v1/kafka/organizations/{orgName}/clusters/{clusterName}/brokers/{brokerId}/configs"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"brokerId"+"}", _neturl.PathEscape(common.ParameterToString(brokerId, "")), -1)
