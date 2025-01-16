@@ -39,7 +39,7 @@ var (
 )
 
 // APIInfoCtxKey contains operation information from OpenAPI spec
-var ApiInfoCtxKey = contextKey("kbCloudAPIInfo")
+var APIInfoCtxKey = contextKey("kbCloudAPIInfo")
 
 // APIInfo holds API operation information from OpenAPI spec
 type APIInfo struct {
