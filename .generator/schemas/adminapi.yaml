@@ -19781,8 +19781,6 @@ components:
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'
-      required:
-        - items
       type: object
     backupStatsStatus:
       description: Number of backups for the status

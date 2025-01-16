@@ -14701,8 +14701,6 @@ components:
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'
-      required:
-        - items
       type: object
     backupDownload:
       properties:
