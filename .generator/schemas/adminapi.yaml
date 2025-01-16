@@ -15532,6 +15532,9 @@ components:
         zone:
           description: Available zone for instance
           type: string
+        nodeGroup:
+          description: NodeGroup name
+          type: string
       required:
         - accessMode
         - cloud

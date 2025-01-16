@@ -44,6 +44,8 @@ type Instance struct {
 	Storage []InstanceStorageItem `json:"storage"`
 	// Available zone for instance
 	Zone string `json:"zone"`
+	// NodeGroup name
+	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -458,6 +460,34 @@ func (o *Instance) SetZone(v string) {
 	o.Zone = v
 }
 
+// GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
+func (o *Instance) GetNodeGroup() string {
+	if o == nil || o.NodeGroup == nil {
+		var ret string
+		return ret
+	}
+	return *o.NodeGroup
+}
+
+// GetNodeGroupOk returns a tuple with the NodeGroup field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetNodeGroupOk() (*string, bool) {
+	if o == nil || o.NodeGroup == nil {
+		return nil, false
+	}
+	return o.NodeGroup, true
+}
+
+// HasNodeGroup returns a boolean if a field has been set.
+func (o *Instance) HasNodeGroup() bool {
+	return o != nil && o.NodeGroup != nil
+}
+
+// SetNodeGroup gets a reference to the given string and assigns it to the NodeGroup field.
+func (o *Instance) SetNodeGroup(v string) {
+	o.NodeGroup = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Instance) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -484,6 +514,9 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	toSerialize["status"] = o.Status
 	toSerialize["storage"] = o.Storage
 	toSerialize["zone"] = o.Zone
+	if o.NodeGroup != nil {
+		toSerialize["nodeGroup"] = o.NodeGroup
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -510,6 +543,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 		Status        *InstanceStatus        `json:"status"`
 		Storage       *[]InstanceStorageItem `json:"storage"`
 		Zone          *string                `json:"zone"`
+		NodeGroup     *string                `json:"nodeGroup,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -558,7 +592,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone", "nodeGroup"})
 	} else {
 		return err
 	}
@@ -583,6 +617,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	o.Status = *all.Status
 	o.Storage = *all.Storage
 	o.Zone = *all.Zone
+	o.NodeGroup = all.NodeGroup
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
