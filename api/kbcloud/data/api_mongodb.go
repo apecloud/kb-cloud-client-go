@@ -13,27 +13,25 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DatasetApi service type
-type DatasetApi common.Service
+// MongodbApi service type
+type MongodbApi common.Service
 
-// DeleteDemo Delete cluster demo dataset.
-// delete a created demo dataset in cluster
-func (a *DatasetApi) DeleteDemo(ctx _context.Context, engineName string, id string, datasetName string) (ClusterTask, *_nethttp.Response, error) {
+// ListCollectionsInMongoDB List collections in mongodb.
+func (a *MongodbApi) ListCollectionsInMongoDB(ctx _context.Context, id string, database string) ([]string, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
+		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
+		localVarReturnValue []string
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatasetApi.DeleteDemo")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MongodbApi.ListCollectionsInMongoDB")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/{engineName}/datasources/{id}/demo/{datasetName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/databases/{database}/collections"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"datasetName"+"}", _neturl.PathEscape(common.ParameterToString(datasetName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"database"+"}", _neturl.PathEscape(common.ParameterToString(database, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -88,59 +86,59 @@ func (a *DatasetApi) DeleteDemo(ctx _context.Context, engineName string, id stri
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ImportDemoOptionalParameters holds optional parameters for ImportDemo.
-type ImportDemoOptionalParameters struct {
-	Body *interface{}
+// ListDocumentsInMongoDBOptionalParameters holds optional parameters for ListDocumentsInMongoDB.
+type ListDocumentsInMongoDBOptionalParameters struct {
+	Filter *string
 }
 
-// NewImportDemoOptionalParameters creates an empty struct for parameters.
-func NewImportDemoOptionalParameters() *ImportDemoOptionalParameters {
-	this := ImportDemoOptionalParameters{}
+// NewListDocumentsInMongoDBOptionalParameters creates an empty struct for parameters.
+func NewListDocumentsInMongoDBOptionalParameters() *ListDocumentsInMongoDBOptionalParameters {
+	this := ListDocumentsInMongoDBOptionalParameters{}
 	return &this
 }
 
-// WithBody sets the corresponding parameter name and returns the struct.
-func (r *ImportDemoOptionalParameters) WithBody(body interface{}) *ImportDemoOptionalParameters {
-	r.Body = &body
+// WithFilter sets the corresponding parameter name and returns the struct.
+func (r *ListDocumentsInMongoDBOptionalParameters) WithFilter(filter string) *ListDocumentsInMongoDBOptionalParameters {
+	r.Filter = &filter
 	return r
 }
 
-// ImportDemo Import demo dataset.
-// import a demo dataset into cluster
-func (a *DatasetApi) ImportDemo(ctx _context.Context, engineName string, id string, o ...ImportDemoOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
+// ListDocumentsInMongoDB List documents in mongodb.
+func (a *MongodbApi) ListDocumentsInMongoDB(ctx _context.Context, id string, database string, collection string, page int32, size int32, o ...ListDocumentsInMongoDBOptionalParameters) (DocumentList, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
-		optionalParams      ImportDemoOptionalParameters
+		localVarReturnValue DocumentList
+		optionalParams      ListDocumentsInMongoDBOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ImportDemoOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListDocumentsInMongoDBOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
 	}
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatasetApi.ImportDemo")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MongodbApi.ListDocumentsInMongoDB")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/{engineName}/datasources/{id}/demo"
-	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"database"+"}", _neturl.PathEscape(common.ParameterToString(database, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"collection"+"}", _neturl.PathEscape(common.ParameterToString(collection, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarQueryParams.Add("page", common.ParameterToString(page, ""))
+	localVarQueryParams.Add("size", common.ParameterToString(size, ""))
+	if optionalParams.Filter != nil {
+		localVarQueryParams.Add("filter", common.ParameterToString(*optionalParams.Filter, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.Body
-	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -189,22 +187,20 @@ func (a *DatasetApi) ImportDemo(ctx _context.Context, engineName string, id stri
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAvailableDemos List available demo datasets.
-// list available demo datasets for rdbms engine
-func (a *DatasetApi) ListAvailableDemos(ctx _context.Context, engineName string, id string) ([]Dataset, *_nethttp.Response, error) {
+// ListDatabasesInMongoDB list databases for mongodb.
+func (a *MongodbApi) ListDatabasesInMongoDB(ctx _context.Context, id string) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []Dataset
+		localVarReturnValue []string
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DatasetApi.ListAvailableDemos")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MongodbApi.ListDatabasesInMongoDB")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/data/v1/{engineName}/datasources/{id}/demo"
-	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath := localBasePath + "/data/v1/mongodb/datasources/{id}/databases"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -237,7 +233,7 @@ func (a *DatasetApi) ListAvailableDemos(ctx _context.Context, engineName string,
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -260,9 +256,9 @@ func (a *DatasetApi) ListAvailableDemos(ctx _context.Context, engineName string,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewDatasetApi Returns NewDatasetApi.
-func NewDatasetApi(client *common.APIClient) *DatasetApi {
-	return &DatasetApi{
+// NewMongodbApi Returns NewMongodbApi.
+func NewMongodbApi(client *common.APIClient) *MongodbApi {
+	return &MongodbApi{
 		Client: client,
 	}
 }
