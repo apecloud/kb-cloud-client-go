@@ -12346,7 +12346,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/environments/{environmentName}/environment-modules:
+  /admin/v1/environments/{environmentName}/modules:
     get:
       operationId: getEnvironmentModuleInfo
       summary: Get environment module information in an environment
@@ -12415,7 +12415,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods:
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/pods:
     get:
       operationId: getEnvironmentModulePods
       summary: Get pods information for an environment module
@@ -12447,7 +12447,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs:
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/pods/{podName}/logs:
     get:
       operationId: getEnvironmentModuleLogs
       summary: Get logs for an environment module pod. When no parameters other than containerName and search are provided, start streaming logs in real-time.
