@@ -14384,6 +14384,33 @@ paths:
       tags:
         - account
         - mongodb
+  /admin/v1/environments/optional-modules:
+    get:
+      operationId: getOptionalEnvironmentModules
+      summary: get option environment module info
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
 components:
   securitySchemes:
     BearerToken:
@@ -18152,6 +18179,9 @@ components:
         clusterInfo:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information, only returned when hosting_status is Hosted
+        description:
+          type: string
+          description: the description of the module
       required:
         - name
         - status

@@ -183,6 +183,7 @@
 //   - [environmentApi.getEnvironmentStatusHistory]
 //   - [environmentApi.getLatestEnvModuleVersion]
 //   - [environmentApi.getNode]
+//   - [environmentApi.getOptionalEnvironmentModules]
 //   - [environmentApi.getWorkflow]
 //   - [environmentApi.getWorkflowList]
 //   - [environmentApi.getWorkflowLog]
