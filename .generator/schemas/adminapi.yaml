@@ -3358,7 +3358,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DmsQueryHistory'
+                $ref: '#/components/schemas/DMSQueryHistoryList'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain:
     post:
       tags:
@@ -16647,7 +16647,7 @@ components:
           description: error message set of query
           items:
             type: string
-          nullable: true
+            nullable: true
     DmsImportFormData:
       description: the data of the import task
       type: object
@@ -16711,7 +16711,8 @@ components:
     DmsObjectNameList:
       type: array
       items:
-        type: string
+        type: object
+        additionalProperties: true
     DmsObjectResponse:
       type: object
       properties:
@@ -16742,6 +16743,11 @@ components:
           title: duration
           type: integer
           description: sql executed duration
+    DMSQueryHistoryList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DmsQueryHistory'
+        nullable: true
     DmsGenerateDdlOperationType:
       type: string
       description: operation type

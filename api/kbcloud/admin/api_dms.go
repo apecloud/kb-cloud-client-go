@@ -435,11 +435,11 @@ func (a *DmsApi) GetTaskProgress(ctx _context.Context, orgName string, clusterNa
 }
 
 // ListObjectNamesByType list the all name for the specified object type.
-func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string) ([]string, *_nethttp.Response, error) {
+func (a *DmsApi) ListObjectNamesByType(ctx _context.Context, orgName string, clusterName string, id string, schema string, typeVar string) ([]map[string]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []string
+		localVarReturnValue []map[string]interface{}
 	)
 
 	// Add api info to context
@@ -1259,11 +1259,11 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 }
 
 // ListQueryHistory list the query History.
-func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) (DmsQueryHistory, *_nethttp.Response, error) {
+func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) ([]DmsQueryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DmsQueryHistory
+		localVarReturnValue []DmsQueryHistory
 	)
 
 	// Add api info to context
