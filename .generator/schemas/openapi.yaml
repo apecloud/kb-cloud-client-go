@@ -17489,6 +17489,8 @@ components:
         description:
           description: The description of the role
           type: string
+      required:
+        - name
     roleUpdate:
       description: Role update
       type: object
