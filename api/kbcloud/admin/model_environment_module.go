@@ -26,6 +26,8 @@ type EnvironmentModule struct {
 	Location *string `json:"location,omitempty"`
 	// Cluster information
 	ClusterInfo *ClusterInfo `json:"clusterInfo,omitempty"`
+	// the description of the module
+	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -236,6 +238,34 @@ func (o *EnvironmentModule) SetClusterInfo(v ClusterInfo) {
 	o.ClusterInfo = &v
 }
 
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasDescription() bool {
+	return o != nil && o.Description != nil
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *EnvironmentModule) SetDescription(v string) {
+	o.Description = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -259,6 +289,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.ClusterInfo != nil {
 		toSerialize["clusterInfo"] = o.ClusterInfo
 	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -276,6 +309,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		Replicas      *int32         `json:"replicas,omitempty"`
 		Location      *string        `json:"location,omitempty"`
 		ClusterInfo   *ClusterInfo   `json:"clusterInfo,omitempty"`
+		Description   *string        `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -288,7 +322,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hostingStatus", "replicas", "location", "clusterInfo"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hostingStatus", "replicas", "location", "clusterInfo", "description"})
 	} else {
 		return err
 	}
@@ -308,6 +342,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ClusterInfo = all.ClusterInfo
+	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
