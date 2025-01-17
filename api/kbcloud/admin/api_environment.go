@@ -1613,20 +1613,20 @@ func (a *EnvironmentApi) GetNode(ctx _context.Context, environmentName string, n
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetOptionEnvironmentModule get option environment module info.
-func (a *EnvironmentApi) GetOptionEnvironmentModule(ctx _context.Context) ([]EnvironmentModule, *_nethttp.Response, error) {
+// GetOptionalEnvironmentModules get option environment module info.
+func (a *EnvironmentApi) GetOptionalEnvironmentModules(ctx _context.Context) ([]EnvironmentModule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []EnvironmentModule
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetOptionEnvironmentModule")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.GetOptionalEnvironmentModules")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/option-modules"
+	localVarPath := localBasePath + "/admin/v1/environments/optional-modules"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
