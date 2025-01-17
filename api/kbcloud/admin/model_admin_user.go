@@ -15,6 +15,8 @@ import (
 type AdminUser struct {
 	// The name of the user, is unique
 	UserName string `json:"userName"`
+	// The display name of the user
+	DisplayName string `json:"displayName"`
 	// The email for the user
 	Email *string `json:"email,omitempty"`
 	// The phonenumber for the user.
@@ -34,9 +36,10 @@ type AdminUser struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUser(userName string, createdAt time.Time, updatedAt time.Time) *AdminUser {
+func NewAdminUser(userName string, displayName string, createdAt time.Time, updatedAt time.Time) *AdminUser {
 	this := AdminUser{}
 	this.UserName = userName
+	this.DisplayName = displayName
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
 	return &this
@@ -71,6 +74,29 @@ func (o *AdminUser) GetUserNameOk() (*string, bool) {
 // SetUserName sets field value.
 func (o *AdminUser) SetUserName(v string) {
 	o.UserName = v
+}
+
+// GetDisplayName returns the DisplayName field value.
+func (o *AdminUser) GetDisplayName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value
+// and a boolean to check if the value has been set.
+func (o *AdminUser) GetDisplayNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.DisplayName, true
+}
+
+// SetDisplayName sets field value.
+func (o *AdminUser) SetDisplayName(v string) {
+	o.DisplayName = v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
@@ -238,6 +264,7 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["userName"] = o.UserName
+	toSerialize["displayName"] = o.DisplayName
 	if o.Email != nil {
 		toSerialize["email"] = o.Email
 	}
@@ -271,6 +298,7 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		UserName          *string    `json:"userName"`
+		DisplayName       *string    `json:"displayName"`
 		Email             *string    `json:"email,omitempty"`
 		PhoneNumber       *string    `json:"phoneNumber,omitempty"`
 		CreatedAt         *time.Time `json:"createdAt"`
@@ -284,6 +312,9 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UserName == nil {
 		return fmt.Errorf("required field userName missing")
 	}
+	if all.DisplayName == nil {
+		return fmt.Errorf("required field displayName missing")
+	}
 	if all.CreatedAt == nil {
 		return fmt.Errorf("required field createdAt missing")
 	}
@@ -292,11 +323,12 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword", "id"})
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "displayName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword", "id"})
 	} else {
 		return err
 	}
 	o.UserName = *all.UserName
+	o.DisplayName = *all.DisplayName
 	o.Email = all.Email
 	o.PhoneNumber = all.PhoneNumber
 	o.CreatedAt = *all.CreatedAt

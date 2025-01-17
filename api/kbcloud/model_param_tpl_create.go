@@ -19,7 +19,8 @@ type ParamTplCreate struct {
 	// Name of parameter template. Name must be unique within an Org
 	Name string `json:"name"`
 	// Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
-	CustomName *string `json:"customName,omitempty"`
+	CustomName   *string            `json:"customName,omitempty"`
+	OriPartition *ParamTplPartition `json:"oriPartition,omitempty"`
 	// Determines whether the user can see this parameter template
 	IsPrivate *bool `json:"isPrivate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -144,6 +145,34 @@ func (o *ParamTplCreate) SetCustomName(v string) {
 	o.CustomName = &v
 }
 
+// GetOriPartition returns the OriPartition field value if set, zero value otherwise.
+func (o *ParamTplCreate) GetOriPartition() ParamTplPartition {
+	if o == nil || o.OriPartition == nil {
+		var ret ParamTplPartition
+		return ret
+	}
+	return *o.OriPartition
+}
+
+// GetOriPartitionOk returns a tuple with the OriPartition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplCreate) GetOriPartitionOk() (*ParamTplPartition, bool) {
+	if o == nil || o.OriPartition == nil {
+		return nil, false
+	}
+	return o.OriPartition, true
+}
+
+// HasOriPartition returns a boolean if a field has been set.
+func (o *ParamTplCreate) HasOriPartition() bool {
+	return o != nil && o.OriPartition != nil
+}
+
+// SetOriPartition gets a reference to the given ParamTplPartition and assigns it to the OriPartition field.
+func (o *ParamTplCreate) SetOriPartition(v ParamTplPartition) {
+	o.OriPartition = &v
+}
+
 // GetIsPrivate returns the IsPrivate field value if set, zero value otherwise.
 func (o *ParamTplCreate) GetIsPrivate() bool {
 	if o == nil || o.IsPrivate == nil {
@@ -184,6 +213,9 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 	if o.CustomName != nil {
 		toSerialize["customName"] = o.CustomName
 	}
+	if o.OriPartition != nil {
+		toSerialize["oriPartition"] = o.OriPartition
+	}
 	if o.IsPrivate != nil {
 		toSerialize["isPrivate"] = o.IsPrivate
 	}
@@ -197,11 +229,12 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description *string `json:"description"`
-		Family      *string `json:"family"`
-		Name        *string `json:"name"`
-		CustomName  *string `json:"customName,omitempty"`
-		IsPrivate   *bool   `json:"isPrivate,omitempty"`
+		Description  *string            `json:"description"`
+		Family       *string            `json:"family"`
+		Name         *string            `json:"name"`
+		CustomName   *string            `json:"customName,omitempty"`
+		OriPartition *ParamTplPartition `json:"oriPartition,omitempty"`
+		IsPrivate    *bool              `json:"isPrivate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -217,18 +250,29 @@ func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "family", "name", "customName", "isPrivate"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "family", "name", "customName", "oriPartition", "isPrivate"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Description = *all.Description
 	o.Family = *all.Family
 	o.Name = *all.Name
 	o.CustomName = all.CustomName
+	if all.OriPartition != nil && !all.OriPartition.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.OriPartition = all.OriPartition
+	}
 	o.IsPrivate = all.IsPrivate
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

@@ -19,7 +19,7 @@ type BackupRepo struct {
 	// the id of backup repo
 	Id *string `json:"id,omitempty"`
 	// backupNums specifies the number of backups in the backupRepo
-	BackupNums int32 `json:"backupNums"`
+	BackupNums *int32 `json:"backupNums,omitempty"`
 	// config specifies the configuration of the backupRepo
 	Config map[string]string `json:"config"`
 	// createdAt specifies the creation time of the backupRepo
@@ -33,7 +33,7 @@ type BackupRepo struct {
 	// name of the backupRepo
 	Name string `json:"name"`
 	// status specifies the status of the backupRepo
-	Status string `json:"status"`
+	Status *string `json:"status,omitempty"`
 	// the name of storage used by backup repo
 	StorageName *string `json:"storageName,omitempty"`
 	// the id of storage used by backup repo
@@ -41,7 +41,7 @@ type BackupRepo struct {
 	// storageProvider specifies the storage provider of the backupRepo
 	StorageProvider string `json:"storageProvider"`
 	// totalSize specifies the total size of backups in the backupRepo
-	TotalSize string `json:"totalSize"`
+	TotalSize *string `json:"totalSize,omitempty"`
 	// failedReason specifies the reason of the backupRepo failure
 	FailedReason *string `json:"failedReason,omitempty"`
 	// failedMessage specifies the message of the backupRepo failure
@@ -55,20 +55,17 @@ type BackupRepo struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupRepo(backupNums int32, config map[string]string, createdAt time.Time, defaultVar bool, environmentId uuid.UUID, environmentName string, name string, status string, storageProvider string, totalSize string) *BackupRepo {
+func NewBackupRepo(config map[string]string, createdAt time.Time, defaultVar bool, environmentId uuid.UUID, environmentName string, name string, storageProvider string) *BackupRepo {
 	this := BackupRepo{}
 	var accessMethod BackupRepoAccessMethod = BackupRepoAccessMethodTool
 	this.AccessMethod = &accessMethod
-	this.BackupNums = backupNums
 	this.Config = config
 	this.CreatedAt = createdAt
 	this.Default = defaultVar
 	this.EnvironmentId = environmentId
 	this.EnvironmentName = environmentName
 	this.Name = name
-	this.Status = status
 	this.StorageProvider = storageProvider
-	this.TotalSize = totalSize
 	return &this
 }
 
@@ -138,27 +135,32 @@ func (o *BackupRepo) SetId(v string) {
 	o.Id = &v
 }
 
-// GetBackupNums returns the BackupNums field value.
+// GetBackupNums returns the BackupNums field value if set, zero value otherwise.
 func (o *BackupRepo) GetBackupNums() int32 {
-	if o == nil {
+	if o == nil || o.BackupNums == nil {
 		var ret int32
 		return ret
 	}
-	return o.BackupNums
+	return *o.BackupNums
 }
 
-// GetBackupNumsOk returns a tuple with the BackupNums field value
+// GetBackupNumsOk returns a tuple with the BackupNums field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupRepo) GetBackupNumsOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.BackupNums == nil {
 		return nil, false
 	}
-	return &o.BackupNums, true
+	return o.BackupNums, true
 }
 
-// SetBackupNums sets field value.
+// HasBackupNums returns a boolean if a field has been set.
+func (o *BackupRepo) HasBackupNums() bool {
+	return o != nil && o.BackupNums != nil
+}
+
+// SetBackupNums gets a reference to the given int32 and assigns it to the BackupNums field.
 func (o *BackupRepo) SetBackupNums(v int32) {
-	o.BackupNums = v
+	o.BackupNums = &v
 }
 
 // GetConfig returns the Config field value.
@@ -299,27 +301,32 @@ func (o *BackupRepo) SetName(v string) {
 	o.Name = v
 }
 
-// GetStatus returns the Status field value.
+// GetStatus returns the Status field value if set, zero value otherwise.
 func (o *BackupRepo) GetStatus() string {
-	if o == nil {
+	if o == nil || o.Status == nil {
 		var ret string
 		return ret
 	}
-	return o.Status
+	return *o.Status
 }
 
-// GetStatusOk returns a tuple with the Status field value
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupRepo) GetStatusOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Status == nil {
 		return nil, false
 	}
-	return &o.Status, true
+	return o.Status, true
 }
 
-// SetStatus sets field value.
+// HasStatus returns a boolean if a field has been set.
+func (o *BackupRepo) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given string and assigns it to the Status field.
 func (o *BackupRepo) SetStatus(v string) {
-	o.Status = v
+	o.Status = &v
 }
 
 // GetStorageName returns the StorageName field value if set, zero value otherwise.
@@ -401,27 +408,32 @@ func (o *BackupRepo) SetStorageProvider(v string) {
 	o.StorageProvider = v
 }
 
-// GetTotalSize returns the TotalSize field value.
+// GetTotalSize returns the TotalSize field value if set, zero value otherwise.
 func (o *BackupRepo) GetTotalSize() string {
-	if o == nil {
+	if o == nil || o.TotalSize == nil {
 		var ret string
 		return ret
 	}
-	return o.TotalSize
+	return *o.TotalSize
 }
 
-// GetTotalSizeOk returns a tuple with the TotalSize field value
+// GetTotalSizeOk returns a tuple with the TotalSize field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *BackupRepo) GetTotalSizeOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.TotalSize == nil {
 		return nil, false
 	}
-	return &o.TotalSize, true
+	return o.TotalSize, true
 }
 
-// SetTotalSize sets field value.
+// HasTotalSize returns a boolean if a field has been set.
+func (o *BackupRepo) HasTotalSize() bool {
+	return o != nil && o.TotalSize != nil
+}
+
+// SetTotalSize gets a reference to the given string and assigns it to the TotalSize field.
 func (o *BackupRepo) SetTotalSize(v string) {
-	o.TotalSize = v
+	o.TotalSize = &v
 }
 
 // GetFailedReason returns the FailedReason field value if set, zero value otherwise.
@@ -492,7 +504,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
 	}
-	toSerialize["backupNums"] = o.BackupNums
+	if o.BackupNums != nil {
+		toSerialize["backupNums"] = o.BackupNums
+	}
 	toSerialize["config"] = o.Config
 	if o.CreatedAt.Nanosecond() == 0 {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -503,7 +517,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 	toSerialize["environmentId"] = o.EnvironmentId
 	toSerialize["environmentName"] = o.EnvironmentName
 	toSerialize["name"] = o.Name
-	toSerialize["status"] = o.Status
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 	if o.StorageName != nil {
 		toSerialize["storageName"] = o.StorageName
 	}
@@ -511,7 +527,9 @@ func (o BackupRepo) MarshalJSON() ([]byte, error) {
 		toSerialize["storageID"] = o.StorageId
 	}
 	toSerialize["storageProvider"] = o.StorageProvider
-	toSerialize["totalSize"] = o.TotalSize
+	if o.TotalSize != nil {
+		toSerialize["totalSize"] = o.TotalSize
+	}
 	if o.FailedReason != nil {
 		toSerialize["failedReason"] = o.FailedReason
 	}
@@ -530,26 +548,23 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		AccessMethod    *BackupRepoAccessMethod `json:"accessMethod,omitempty"`
 		Id              *string                 `json:"id,omitempty"`
-		BackupNums      *int32                  `json:"backupNums"`
+		BackupNums      *int32                  `json:"backupNums,omitempty"`
 		Config          *map[string]string      `json:"config"`
 		CreatedAt       *time.Time              `json:"createdAt"`
 		Default         *bool                   `json:"default"`
 		EnvironmentId   *uuid.UUID              `json:"environmentId"`
 		EnvironmentName *string                 `json:"environmentName"`
 		Name            *string                 `json:"name"`
-		Status          *string                 `json:"status"`
+		Status          *string                 `json:"status,omitempty"`
 		StorageName     *string                 `json:"storageName,omitempty"`
 		StorageId       *string                 `json:"storageID,omitempty"`
 		StorageProvider *string                 `json:"storageProvider"`
-		TotalSize       *string                 `json:"totalSize"`
+		TotalSize       *string                 `json:"totalSize,omitempty"`
 		FailedReason    *string                 `json:"failedReason,omitempty"`
 		FailedMessage   *string                 `json:"failedMessage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
-	}
-	if all.BackupNums == nil {
-		return fmt.Errorf("required field backupNums missing")
 	}
 	if all.Config == nil {
 		return fmt.Errorf("required field config missing")
@@ -569,14 +584,8 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
-	if all.Status == nil {
-		return fmt.Errorf("required field status missing")
-	}
 	if all.StorageProvider == nil {
 		return fmt.Errorf("required field storageProvider missing")
-	}
-	if all.TotalSize == nil {
-		return fmt.Errorf("required field totalSize missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -592,18 +601,18 @@ func (o *BackupRepo) UnmarshalJSON(bytes []byte) (err error) {
 		o.AccessMethod = all.AccessMethod
 	}
 	o.Id = all.Id
-	o.BackupNums = *all.BackupNums
+	o.BackupNums = all.BackupNums
 	o.Config = *all.Config
 	o.CreatedAt = *all.CreatedAt
 	o.Default = *all.Default
 	o.EnvironmentId = *all.EnvironmentId
 	o.EnvironmentName = *all.EnvironmentName
 	o.Name = *all.Name
-	o.Status = *all.Status
+	o.Status = all.Status
 	o.StorageName = all.StorageName
 	o.StorageId = all.StorageId
 	o.StorageProvider = *all.StorageProvider
-	o.TotalSize = *all.TotalSize
+	o.TotalSize = all.TotalSize
 	o.FailedReason = all.FailedReason
 	o.FailedMessage = all.FailedMessage
 
