@@ -17,12 +17,37 @@ import (
 // RecycleBinClusterApi service type
 type RecycleBinClusterApi common.Service
 
+// DeleteRecycleBinClusterOptionalParameters holds optional parameters for DeleteRecycleBinCluster.
+type DeleteRecycleBinClusterOptionalParameters struct {
+	Force *bool
+}
+
+// NewDeleteRecycleBinClusterOptionalParameters creates an empty struct for parameters.
+func NewDeleteRecycleBinClusterOptionalParameters() *DeleteRecycleBinClusterOptionalParameters {
+	this := DeleteRecycleBinClusterOptionalParameters{}
+	return &this
+}
+
+// WithForce sets the corresponding parameter name and returns the struct.
+func (r *DeleteRecycleBinClusterOptionalParameters) WithForce(force bool) *DeleteRecycleBinClusterOptionalParameters {
+	r.Force = &force
+	return r
+}
+
 // DeleteRecycleBinCluster Delete cluster from the Recycle Bin of the Org.
-func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, orgName string, clusterName string, isDeleteBackup bool) (*_nethttp.Response, error) {
+func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, orgName string, clusterName string, o ...DeleteRecycleBinClusterOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
+		optionalParams     DeleteRecycleBinClusterOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type DeleteRecycleBinClusterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -45,7 +70,9 @@ func (a *RecycleBinClusterApi) DeleteRecycleBinCluster(ctx _context.Context, org
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("isDeleteBackup", common.ParameterToString(isDeleteBackup, ""))
+	if optionalParams.Force != nil {
+		localVarQueryParams.Add("force", common.ParameterToString(*optionalParams.Force, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
