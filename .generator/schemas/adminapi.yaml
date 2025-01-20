@@ -6649,6 +6649,16 @@ paths:
           description: get the backups belong to the component
           schema:
             type: string
+        - name: page
+          in: query
+          description: page number
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -11955,7 +11965,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/environments/{environmentName}/environment-modules:
+  /admin/v1/environments/{environmentName}/modules:
     get:
       operationId: getEnvironmentModuleInfo
       summary: Get environment module information in an environment
@@ -12024,7 +12034,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods:
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/pods:
     get:
       operationId: getEnvironmentModulePods
       summary: Get pods information for an environment module
@@ -12056,7 +12066,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs:
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/pods/{podName}/logs:
     get:
       operationId: getEnvironmentModuleLogs
       summary: Get logs for an environment module pod. When no parameters other than containerName and search are provided, start streaming logs in real-time.
@@ -17677,6 +17687,14 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    environmentModuleStatus:
+      type: string
+      description: Status of environment module
+      enum:
+        - Running
+        - Updating
+        - Error
+        - Disabled
     hostingStatus:
       type: string
       description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
@@ -17708,8 +17726,7 @@ components:
           type: string
           description: Environment module version
         status:
-          type: string
-          description: Environment module status (running, stopped, error, not_installed, enabled, disabled etc..)
+          $ref: '#/components/schemas/environmentModuleStatus'
         hostingStatus:
           $ref: '#/components/schemas/hostingStatus'
         replicas:
