@@ -17094,8 +17094,6 @@ components:
           format: double
           type: number
       required:
-        - limits
-        - requests
         - usage
       type: object
     node:
@@ -18086,6 +18084,8 @@ components:
         cpuStats:
           $ref: '#/components/schemas/resourceStats'
         memoryStats:
+          $ref: '#/components/schemas/resourceStats'
+        filesystemStats:
           $ref: '#/components/schemas/resourceStats'
         name:
           description: Name of the node.
