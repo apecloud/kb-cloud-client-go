@@ -15,9 +15,9 @@ type ResourceStats struct {
 	// The amount of CPU or Memory resources that are available on the node. Unit is GiB for memory and Cores for CPU.
 	Allocatable *float64 `json:"allocatable,omitempty"`
 	// The maximum number of CPU or Memory resources pods are allowed to use on the node.  Unit is GiB for memory and Cores for CPU
-	Limits float64 `json:"limits"`
+	Limits *float64 `json:"limits,omitempty"`
 	// The number of CPU or Memory resources requested by pods running on the node. Unit is GiB for memory and Cores for CPU.
-	Requests float64 `json:"requests"`
+	Requests *float64 `json:"requests,omitempty"`
 	// The amount of CPU or Memory resources that are already used on the node. Unit is GiB for memory and Cores for CPU.
 	Usage float64 `json:"usage"`
 	// The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
@@ -31,10 +31,8 @@ type ResourceStats struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewResourceStats(limits float64, requests float64, usage float64) *ResourceStats {
+func NewResourceStats(usage float64) *ResourceStats {
 	this := ResourceStats{}
-	this.Limits = limits
-	this.Requests = requests
 	this.Usage = usage
 	return &this
 }
@@ -75,50 +73,60 @@ func (o *ResourceStats) SetAllocatable(v float64) {
 	o.Allocatable = &v
 }
 
-// GetLimits returns the Limits field value.
+// GetLimits returns the Limits field value if set, zero value otherwise.
 func (o *ResourceStats) GetLimits() float64 {
-	if o == nil {
+	if o == nil || o.Limits == nil {
 		var ret float64
 		return ret
 	}
-	return o.Limits
+	return *o.Limits
 }
 
-// GetLimitsOk returns a tuple with the Limits field value
+// GetLimitsOk returns a tuple with the Limits field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ResourceStats) GetLimitsOk() (*float64, bool) {
-	if o == nil {
+	if o == nil || o.Limits == nil {
 		return nil, false
 	}
-	return &o.Limits, true
+	return o.Limits, true
 }
 
-// SetLimits sets field value.
+// HasLimits returns a boolean if a field has been set.
+func (o *ResourceStats) HasLimits() bool {
+	return o != nil && o.Limits != nil
+}
+
+// SetLimits gets a reference to the given float64 and assigns it to the Limits field.
 func (o *ResourceStats) SetLimits(v float64) {
-	o.Limits = v
+	o.Limits = &v
 }
 
-// GetRequests returns the Requests field value.
+// GetRequests returns the Requests field value if set, zero value otherwise.
 func (o *ResourceStats) GetRequests() float64 {
-	if o == nil {
+	if o == nil || o.Requests == nil {
 		var ret float64
 		return ret
 	}
-	return o.Requests
+	return *o.Requests
 }
 
-// GetRequestsOk returns a tuple with the Requests field value
+// GetRequestsOk returns a tuple with the Requests field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ResourceStats) GetRequestsOk() (*float64, bool) {
-	if o == nil {
+	if o == nil || o.Requests == nil {
 		return nil, false
 	}
-	return &o.Requests, true
+	return o.Requests, true
 }
 
-// SetRequests sets field value.
+// HasRequests returns a boolean if a field has been set.
+func (o *ResourceStats) HasRequests() bool {
+	return o != nil && o.Requests != nil
+}
+
+// SetRequests gets a reference to the given float64 and assigns it to the Requests field.
 func (o *ResourceStats) SetRequests(v float64) {
-	o.Requests = v
+	o.Requests = &v
 }
 
 // GetUsage returns the Usage field value.
@@ -181,8 +189,12 @@ func (o ResourceStats) MarshalJSON() ([]byte, error) {
 	if o.Allocatable != nil {
 		toSerialize["allocatable"] = o.Allocatable
 	}
-	toSerialize["limits"] = o.Limits
-	toSerialize["requests"] = o.Requests
+	if o.Limits != nil {
+		toSerialize["limits"] = o.Limits
+	}
+	if o.Requests != nil {
+		toSerialize["requests"] = o.Requests
+	}
 	toSerialize["usage"] = o.Usage
 	if o.Capacity != nil {
 		toSerialize["capacity"] = o.Capacity
@@ -198,19 +210,13 @@ func (o ResourceStats) MarshalJSON() ([]byte, error) {
 func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Allocatable *float64 `json:"allocatable,omitempty"`
-		Limits      *float64 `json:"limits"`
-		Requests    *float64 `json:"requests"`
+		Limits      *float64 `json:"limits,omitempty"`
+		Requests    *float64 `json:"requests,omitempty"`
 		Usage       *float64 `json:"usage"`
 		Capacity    *float64 `json:"capacity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.Limits == nil {
-		return fmt.Errorf("required field limits missing")
-	}
-	if all.Requests == nil {
-		return fmt.Errorf("required field requests missing")
 	}
 	if all.Usage == nil {
 		return fmt.Errorf("required field usage missing")
@@ -222,8 +228,8 @@ func (o *ResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.Allocatable = all.Allocatable
-	o.Limits = *all.Limits
-	o.Requests = *all.Requests
+	o.Limits = all.Limits
+	o.Requests = all.Requests
 	o.Usage = *all.Usage
 	o.Capacity = all.Capacity
 
