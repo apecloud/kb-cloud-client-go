@@ -1103,7 +1103,7 @@ func (a *EnvironmentApi) GetEnvironmentModuleInfo(ctx _context.Context, environm
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
 		OperationID: "getEnvironmentModuleInfo",
-		Path:        "/admin/v1/environments/{environmentName}/environment-modules",
+		Path:        "/admin/v1/environments/{environmentName}/modules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1113,7 +1113,7 @@ func (a *EnvironmentApi) GetEnvironmentModuleInfo(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/modules"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -1241,7 +1241,7 @@ func (a *EnvironmentApi) GetEnvironmentModuleLogs(ctx _context.Context, environm
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
 		OperationID: "getEnvironmentModuleLogs",
-		Path:        "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs",
+		Path:        "/admin/v1/environments/{environmentName}/modules/{moduleName}/pods/{podName}/logs",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1251,7 +1251,7 @@ func (a *EnvironmentApi) GetEnvironmentModuleLogs(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods/{podName}/logs"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/modules/{moduleName}/pods/{podName}/logs"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"moduleName"+"}", _neturl.PathEscape(common.ParameterToString(moduleName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"podName"+"}", _neturl.PathEscape(common.ParameterToString(podName, "")), -1)
@@ -1339,7 +1339,7 @@ func (a *EnvironmentApi) GetEnvironmentModulePods(ctx _context.Context, environm
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
 		OperationID: "getEnvironmentModulePods",
-		Path:        "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods",
+		Path:        "/admin/v1/environments/{environmentName}/modules/{moduleName}/pods",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1349,7 +1349,7 @@ func (a *EnvironmentApi) GetEnvironmentModulePods(ctx _context.Context, environm
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules/{moduleName}/pods"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/modules/{moduleName}/pods"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"moduleName"+"}", _neturl.PathEscape(common.ParameterToString(moduleName, "")), -1)
 
@@ -3602,7 +3602,7 @@ func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environme
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
 		OperationID: "updateEnvironmentModule",
-		Path:        "/admin/v1/environments/{environmentName}/environment-modules",
+		Path:        "/admin/v1/environments/{environmentName}/modules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -3612,7 +3612,7 @@ func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environme
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/environment-modules"
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/modules"
 	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
