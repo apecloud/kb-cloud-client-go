@@ -17600,6 +17600,9 @@ components:
         version:
           type: string
           description: Environment module version
+        action:
+          type: string
+          description: the action for modules
         status:
           $ref: '#/components/schemas/environmentModuleStatus'
         hostingStatus:
