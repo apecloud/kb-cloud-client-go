@@ -624,6 +624,8 @@ type ListBackupsOptionalParameters struct {
 	WithDeletedBackups      *bool
 	BackupType              *string
 	ComponentName           *string
+	Page                    *int32
+	PageSize                *int32
 }
 
 // NewListBackupsOptionalParameters creates an empty struct for parameters.
@@ -671,6 +673,18 @@ func (r *ListBackupsOptionalParameters) WithBackupType(backupType string) *ListB
 // WithComponentName sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithComponentName(componentName string) *ListBackupsOptionalParameters {
 	r.ComponentName = &componentName
+	return r
+}
+
+// WithPage sets the corresponding parameter name and returns the struct.
+func (r *ListBackupsOptionalParameters) WithPage(page int32) *ListBackupsOptionalParameters {
+	r.Page = &page
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListBackupsOptionalParameters) WithPageSize(pageSize int32) *ListBackupsOptionalParameters {
+	r.PageSize = &pageSize
 	return r
 }
 
@@ -730,6 +744,12 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	}
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
+	}
+	if optionalParams.Page != nil {
+		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

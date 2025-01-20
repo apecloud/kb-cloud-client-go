@@ -6649,6 +6649,16 @@ paths:
           description: get the backups belong to the component
           schema:
             type: string
+        - name: page
+          in: query
+          description: page number
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          description: page size
+          schema:
+            type: integer
       responses:
         '200':
           content:
