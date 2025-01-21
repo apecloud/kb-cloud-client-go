@@ -19,6 +19,7 @@ const (
 	EnvironmentModuleStatusUpdating EnvironmentModuleStatus = "Updating"
 	EnvironmentModuleStatusError    EnvironmentModuleStatus = "Error"
 	EnvironmentModuleStatusDisabled EnvironmentModuleStatus = "Disabled"
+	EnvironmentModuleStatusEnabled  EnvironmentModuleStatus = "Enabled"
 )
 
 var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
@@ -26,6 +27,7 @@ var allowedEnvironmentModuleStatusEnumValues = []EnvironmentModuleStatus{
 	EnvironmentModuleStatusUpdating,
 	EnvironmentModuleStatusError,
 	EnvironmentModuleStatusDisabled,
+	EnvironmentModuleStatusEnabled,
 }
 
 // GetAllowedValues returns the list of possible values.
