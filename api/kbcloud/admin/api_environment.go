@@ -3568,7 +3568,7 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 
 // UpdateEnvironmentModuleOptionalParameters holds optional parameters for UpdateEnvironmentModule.
 type UpdateEnvironmentModuleOptionalParameters struct {
-	Body *[]EnvironmentModule
+	Body *EnvironmentModule
 }
 
 // NewUpdateEnvironmentModuleOptionalParameters creates an empty struct for parameters.
@@ -3578,21 +3578,22 @@ func NewUpdateEnvironmentModuleOptionalParameters() *UpdateEnvironmentModuleOpti
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body []EnvironmentModule) *UpdateEnvironmentModuleOptionalParameters {
+func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body EnvironmentModule) *UpdateEnvironmentModuleOptionalParameters {
 	r.Body = &body
 	return r
 }
 
 // UpdateEnvironmentModule update environment module.
-func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (*_nethttp.Response, error) {
+func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environmentName string, o ...UpdateEnvironmentModuleOptionalParameters) (Workflow, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPatch
-		localVarPostBody   interface{}
-		optionalParams     UpdateEnvironmentModuleOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue Workflow
+		optionalParams      UpdateEnvironmentModuleOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type UpdateEnvironmentModuleOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateEnvironmentModuleOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -3609,7 +3610,7 @@ func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environme
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EnvironmentApi.UpdateEnvironmentModule")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/modules"
@@ -3632,17 +3633,17 @@ func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environme
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -3654,14 +3655,23 @@ func (a *EnvironmentApi) UpdateEnvironmentModule(ctx _context.Context, environme
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // NewEnvironmentApi Returns NewEnvironmentApi.
