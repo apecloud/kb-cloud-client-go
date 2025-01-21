@@ -25,9 +25,10 @@ type EnvironmentModule struct {
 	// Deployment location
 	Location *string `json:"location,omitempty"`
 	// Cluster information
-	ClusterInfo *ClusterInfo `json:"clusterInfo,omitempty"`
-	// the description of the module
-	Description *string `json:"description,omitempty"`
+	ClusterInfo *ClusterInfo          `json:"clusterInfo,omitempty"`
+	Description *LocalizedDescription `json:"description,omitempty"`
+	// specify module is optional
+	Optional *bool `json:"optional,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -239,9 +240,9 @@ func (o *EnvironmentModule) SetClusterInfo(v ClusterInfo) {
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *EnvironmentModule) GetDescription() string {
+func (o *EnvironmentModule) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Description
@@ -249,7 +250,7 @@ func (o *EnvironmentModule) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModule) GetDescriptionOk() (*string, bool) {
+func (o *EnvironmentModule) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -261,9 +262,37 @@ func (o *EnvironmentModule) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *EnvironmentModule) SetDescription(v string) {
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *EnvironmentModule) SetDescription(v LocalizedDescription) {
 	o.Description = &v
+}
+
+// GetOptional returns the Optional field value if set, zero value otherwise.
+func (o *EnvironmentModule) GetOptional() bool {
+	if o == nil || o.Optional == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Optional
+}
+
+// GetOptionalOk returns a tuple with the Optional field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EnvironmentModule) GetOptionalOk() (*bool, bool) {
+	if o == nil || o.Optional == nil {
+		return nil, false
+	}
+	return o.Optional, true
+}
+
+// HasOptional returns a boolean if a field has been set.
+func (o *EnvironmentModule) HasOptional() bool {
+	return o != nil && o.Optional != nil
+}
+
+// SetOptional gets a reference to the given bool and assigns it to the Optional field.
+func (o *EnvironmentModule) SetOptional(v bool) {
+	o.Optional = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -292,6 +321,9 @@ func (o EnvironmentModule) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
+	if o.Optional != nil {
+		toSerialize["optional"] = o.Optional
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -309,7 +341,8 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		Replicas      *int32                   `json:"replicas,omitempty"`
 		Location      *string                  `json:"location,omitempty"`
 		ClusterInfo   *ClusterInfo             `json:"clusterInfo,omitempty"`
-		Description   *string                  `json:"description,omitempty"`
+		Description   *LocalizedDescription    `json:"description,omitempty"`
+		Optional      *bool                    `json:"optional,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -322,7 +355,7 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hostingStatus", "replicas", "location", "clusterInfo", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "version", "status", "hostingStatus", "replicas", "location", "clusterInfo", "description", "optional"})
 	} else {
 		return err
 	}
@@ -346,7 +379,11 @@ func (o *EnvironmentModule) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ClusterInfo = all.ClusterInfo
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = all.Description
+	o.Optional = all.Optional
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
