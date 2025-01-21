@@ -56,6 +56,8 @@ type ClusterListItem struct {
 	Storage *string `json:"storage,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
+	// Cluster main component storageClass
+	StorageClass *string `json:"storageClass,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -715,6 +717,34 @@ func (o *ClusterListItem) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
 
+// GetStorageClass returns the StorageClass field value if set, zero value otherwise.
+func (o *ClusterListItem) GetStorageClass() string {
+	if o == nil || o.StorageClass == nil {
+		var ret string
+		return ret
+	}
+	return *o.StorageClass
+}
+
+// GetStorageClassOk returns a tuple with the StorageClass field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetStorageClassOk() (*string, bool) {
+	if o == nil || o.StorageClass == nil {
+		return nil, false
+	}
+	return o.StorageClass, true
+}
+
+// HasStorageClass returns a boolean if a field has been set.
+func (o *ClusterListItem) HasStorageClass() bool {
+	return o != nil && o.StorageClass != nil
+}
+
+// SetStorageClass gets a reference to the given string and assigns it to the StorageClass field.
+func (o *ClusterListItem) SetStorageClass(v string) {
+	o.StorageClass = &v
+}
+
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *ClusterListItem) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
@@ -803,6 +833,9 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.CodeShort != nil {
 		toSerialize["codeShort"] = o.CodeShort
 	}
+	if o.StorageClass != nil {
+		toSerialize["storageClass"] = o.StorageClass
+	}
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
@@ -838,6 +871,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		ClassCode         *string                `json:"classCode,omitempty"`
 		Storage           *string                `json:"storage,omitempty"`
 		CodeShort         *string                `json:"codeShort,omitempty"`
+		StorageClass      *string                `json:"storageClass,omitempty"`
 		OrgName           *string                `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -875,7 +909,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "storageClass", "orgName"})
 	} else {
 		return err
 	}
@@ -907,6 +941,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.ClassCode = all.ClassCode
 	o.Storage = all.Storage
 	o.CodeShort = all.CodeShort
+	o.StorageClass = all.StorageClass
 	o.OrgName = all.OrgName
 
 	if len(additionalProperties) > 0 {

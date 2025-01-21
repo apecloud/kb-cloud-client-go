@@ -15094,6 +15094,9 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
+        storageClass:
+          description: Cluster main component storageClass
+          type: string
         orgName:
           description: Org Name
           type: string
