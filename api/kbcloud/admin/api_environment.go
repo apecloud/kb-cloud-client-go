@@ -3568,7 +3568,7 @@ func (a *EnvironmentApi) UncordonEnvironmentNode(ctx _context.Context, environme
 
 // UpdateEnvironmentModuleOptionalParameters holds optional parameters for UpdateEnvironmentModule.
 type UpdateEnvironmentModuleOptionalParameters struct {
-	Body *EnvironmentModule
+	Body *EnvironmentModuleUpdate
 }
 
 // NewUpdateEnvironmentModuleOptionalParameters creates an empty struct for parameters.
@@ -3578,7 +3578,7 @@ func NewUpdateEnvironmentModuleOptionalParameters() *UpdateEnvironmentModuleOpti
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body EnvironmentModule) *UpdateEnvironmentModuleOptionalParameters {
+func (r *UpdateEnvironmentModuleOptionalParameters) WithBody(body EnvironmentModuleUpdate) *UpdateEnvironmentModuleOptionalParameters {
 	r.Body = &body
 	return r
 }

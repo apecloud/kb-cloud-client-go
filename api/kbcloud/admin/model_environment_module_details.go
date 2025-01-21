@@ -10,15 +10,16 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentModuleDetails details information for an environment module
+// EnvironmentModuleDetails Detailed information about a specific environment module, including its configuration, status and associated pods
 type EnvironmentModuleDetails struct {
-	// Environment name
+	// Name of the environment where the module is deployed
 	EnvironmentName *string `json:"environmentName,omitempty"`
 	// Single environment module information
 	ModuleInfo *EnvironmentModule `json:"moduleInfo,omitempty"`
-	// Last update time of the data
+	// Timestamp of when the module information was last updated
 	LastUpdated *time.Time `json:"lastUpdated,omitempty"`
-	ModulePods  []Pod      `json:"modulePods,omitempty"`
+	// List of pods that belong to this environment module
+	ModulePods []Pod `json:"modulePods,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`

@@ -27,7 +27,7 @@ type EnvironmentModule struct {
 	// Cluster information
 	ClusterInfo *ClusterInfo          `json:"clusterInfo,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
-	// specify module is optional
+	// indicate module is optional
 	Optional *bool `json:"optional,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

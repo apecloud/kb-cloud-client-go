@@ -35,15 +35,16 @@ func (r *CreateRedisAccountOptionalParameters) WithComponent(component string) *
 }
 
 // CreateRedisAccount create redis account.
-func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ACLUser, o ...CreateRedisAccountOptionalParameters) (*_nethttp.Response, error) {
+func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ACLUser, o ...CreateRedisAccountOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
-		optionalParams     CreateRedisAccountOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterTask
+		optionalParams      CreateRedisAccountOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type CreateRedisAccountOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateRedisAccountOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -60,7 +61,7 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.CreateRedisAccount")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts"
@@ -74,7 +75,7 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
 	localVarPostBody = &body
@@ -85,17 +86,17 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -107,14 +108,23 @@ func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clus
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // DeleteRedisAccountOptionalParameters holds optional parameters for DeleteRedisAccount.
@@ -350,15 +360,16 @@ func (r *UpdateRedisAccountOptionalParameters) WithComponent(component string) *
 }
 
 // UpdateRedisAccount update redis account.
-func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body ClusterTask, o ...UpdateRedisAccountOptionalParameters) (*_nethttp.Response, error) {
+func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body ACLUser, o ...UpdateRedisAccountOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPatch
-		localVarPostBody   interface{}
-		optionalParams     UpdateRedisAccountOptionalParameters
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue ClusterTask
+		optionalParams      UpdateRedisAccountOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type UpdateRedisAccountOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateRedisAccountOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -375,7 +386,7 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".RedisApi.UpdateRedisAccount")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}"
@@ -390,7 +401,7 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
 	localVarPostBody = &body
@@ -401,17 +412,17 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -423,14 +434,23 @@ func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clus
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // NewRedisApi Returns NewRedisApi.

@@ -12386,7 +12386,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/environmentModule'
+              $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
           description: Success
@@ -13571,6 +13571,10 @@ paths:
       responses:
         '201':
           description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13664,10 +13668,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/clusterTask'
+              $ref: '#/components/schemas/ACLUser'
       responses:
         '200':
           description: update redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -18187,7 +18195,7 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         optional:
           type: boolean
-          description: specify module is optional
+          description: indicate module is optional
       required:
         - name
         - status
@@ -24078,6 +24086,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/environmentModule'
+    environmentModuleAction:
+      type: string
+      description: |
+        Action to perform on the environment module:
+        - Enable: Enable the module
+        - Disable: Disable the module 
+        - Upgrade: Upgrade the module to specified version
+      enum:
+        - Enable
+        - Disable
+        - Upgrade
+    environmentModuleUpdate:
+      type: object
+      description: Update information for an environment module
+      properties:
+        name:
+          type: string
+          description: Name of the environment module to update
+        action:
+          $ref: '#/components/schemas/environmentModuleAction'
+        version:
+          type: string
+          description: Version of the environment module to upgrade to
+      required:
+        - name
+        - action
     podResources:
       type: object
       description: Resource usage information for a pod
@@ -24197,21 +24231,22 @@ components:
             $ref: '#/components/schemas/podCondition'
     environmentModuleDetails:
       type: object
-      description: details information for an environment module
+      description: Detailed information about a specific environment module, including its configuration, status and associated pods
       properties:
         environmentName:
           type: string
-          description: Environment name
+          description: Name of the environment where the module is deployed
         moduleInfo:
           $ref: '#/components/schemas/environmentModule'
         lastUpdated:
           type: string
           format: date-time
-          description: Last update time of the data
+          description: Timestamp of when the module information was last updated
         modulePods:
           type: array
           items:
             $ref: '#/components/schemas/pod'
+          description: List of pods that belong to this environment module
     logEntry:
       type: object
       description: Single log entry
