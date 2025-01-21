@@ -2196,6 +2196,8 @@ paths:
             type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/timeOrder'
+        - $ref: '#/components/parameters/sortDesc'
       responses:
         '200':
           content:
@@ -16186,6 +16188,12 @@ components:
               - StartAt
           type: array
       type: object
+    timeOrderBy:
+      type: string
+      description: Specifies the order of the time range for the query.
+      enum:
+        - start
+        - end
     eventResourceType:
       description: Type of the resource
       type: string
@@ -24834,6 +24842,21 @@ components:
         format: int64
       required: true
       example: 1711354295
+    timeOrder:
+      name: timeOrder
+      in: query
+      description: Specifies the time range ordering (e.g., start or end).
+      required: false
+      schema:
+        $ref: '#/components/schemas/timeOrderBy'
+      default: end
+    sortDesc:
+      name: sortDesc
+      in: query
+      description: Specifies the sorting direction. `true` for descending, `false` for ascending.
+      type: boolean
+      required: false
+      default: true
 x-tagGroup:
   - name: User
     tags:
