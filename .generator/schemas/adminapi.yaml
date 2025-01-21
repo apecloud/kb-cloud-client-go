@@ -18152,6 +18152,7 @@ components:
         - Updating
         - Error
         - Disabled
+        - Enabled
     hostingStatus:
       type: string
       description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
