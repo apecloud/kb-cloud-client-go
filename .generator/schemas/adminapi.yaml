@@ -13594,6 +13594,10 @@ paths:
       responses:
         '201':
           description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13687,10 +13691,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/clusterTask'
+              $ref: '#/components/schemas/ACLUser'
       responses:
         '200':
           description: update redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
