@@ -249,6 +249,7 @@
 //   - [paramTplApi.patchParamTpl]
 //   - [paramTplApi.readParamTpl]
 //   - [parameterApi.listConfigurations]
+//   - [parameterApi.listParameterProps]
 //   - [parameterApi.listParameterSpecs]
 //   - [parameterApi.listParametersHistory]
 //   - [projectApi.listProjects]

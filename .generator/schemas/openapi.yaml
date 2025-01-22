@@ -5015,6 +5015,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterProps:
+    get:
+      operationId: listParameterProps
+      summary: List parameter properties of the cluster
+      tags:
+        - parameter
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterPropList'
+          description: get configuration of the cluster successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/paramTpls:
     get:
       operationId: listParamTpl
@@ -15113,6 +15153,64 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/configuration'
+    parameterPropItem:
+      type: object
+      required:
+        - name
+        - description
+        - type
+        - value
+        - needRestart
+        - immutable
+        - maximum
+        - minimum
+        - enum
+      properties:
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          description: The type of the parameter value
+          type: string
+        value:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+          additionalProperties: true
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        maximum:
+          description: The maximum value of the parameter
+          format: double
+          type: number
+        minimum:
+          description: The minimum value of the parameter
+          format: double
+          type: number
+        enum:
+          description: The value options of the parameter
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    parameterPropList:
+      type: object
+      description: With the list of parameters and the configuration file name
+      properties:
+        specs:
+          type: array
+          description: The list of parameters properties
+          items:
+            $ref: '#/components/schemas/parameterPropItem'
+        fileName:
+          description: The name of the configuration file
+          type: string
     paramTplListItem:
       description: parameter template information
       properties:
