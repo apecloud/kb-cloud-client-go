@@ -4,31 +4,14 @@
 
 package admin
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
+// ParameterPropItem With the list of parameter properties and the configuration file name
 type ParameterPropItem struct {
-	// The name of the parameter
-	Name string `json:"name"`
-	// The description of the parameter
-	Description string `json:"description"`
-	// The type of the parameter value
-	Type string `json:"type"`
-	// The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
-	Value map[string]interface{} `json:"value"`
-	// Whether the parameter requires a restart to take effect
-	NeedRestart bool `json:"needRestart"`
-	// Whether the parameter is an immutable parameter, immutable parameters cannot be modified
-	Immutable bool `json:"immutable"`
-	// The maximum value of the parameter
-	Maximum float64 `json:"maximum"`
-	// The minimum value of the parameter
-	Minimum float64 `json:"minimum"`
-	// The value options of the parameter
-	Enum []map[string]interface{} `json:"enum"`
+	// The list of parameters properties
+	Prop []ParameterProp `json:"prop,omitempty"`
+	// The name of the configuration file
+	FileName *string `json:"fileName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -38,17 +21,8 @@ type ParameterPropItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterPropItem(name string, description string, typeVar string, value map[string]interface{}, needRestart bool, immutable bool, maximum float64, minimum float64, enum []map[string]interface{}) *ParameterPropItem {
+func NewParameterPropItem() *ParameterPropItem {
 	this := ParameterPropItem{}
-	this.Name = name
-	this.Description = description
-	this.Type = typeVar
-	this.Value = value
-	this.NeedRestart = needRestart
-	this.Immutable = immutable
-	this.Maximum = maximum
-	this.Minimum = minimum
-	this.Enum = enum
 	return &this
 }
 
@@ -60,211 +34,60 @@ func NewParameterPropItemWithDefaults() *ParameterPropItem {
 	return &this
 }
 
-// GetName returns the Name field value.
-func (o *ParameterPropItem) GetName() string {
-	if o == nil {
+// GetProp returns the Prop field value if set, zero value otherwise.
+func (o *ParameterPropItem) GetProp() []ParameterProp {
+	if o == nil || o.Prop == nil {
+		var ret []ParameterProp
+		return ret
+	}
+	return o.Prop
+}
+
+// GetPropOk returns a tuple with the Prop field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterPropItem) GetPropOk() (*[]ParameterProp, bool) {
+	if o == nil || o.Prop == nil {
+		return nil, false
+	}
+	return &o.Prop, true
+}
+
+// HasProp returns a boolean if a field has been set.
+func (o *ParameterPropItem) HasProp() bool {
+	return o != nil && o.Prop != nil
+}
+
+// SetProp gets a reference to the given []ParameterProp and assigns it to the Prop field.
+func (o *ParameterPropItem) SetProp(v []ParameterProp) {
+	o.Prop = v
+}
+
+// GetFileName returns the FileName field value if set, zero value otherwise.
+func (o *ParameterPropItem) GetFileName() string {
+	if o == nil || o.FileName == nil {
 		var ret string
 		return ret
 	}
-	return o.Name
+	return *o.FileName
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetFileNameOk returns a tuple with the FileName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetNameOk() (*string, bool) {
-	if o == nil {
+func (o *ParameterPropItem) GetFileNameOk() (*string, bool) {
+	if o == nil || o.FileName == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.FileName, true
 }
 
-// SetName sets field value.
-func (o *ParameterPropItem) SetName(v string) {
-	o.Name = v
+// HasFileName returns a boolean if a field has been set.
+func (o *ParameterPropItem) HasFileName() bool {
+	return o != nil && o.FileName != nil
 }
 
-// GetDescription returns the Description field value.
-func (o *ParameterPropItem) GetDescription() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Description
-}
-
-// GetDescriptionOk returns a tuple with the Description field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetDescriptionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Description, true
-}
-
-// SetDescription sets field value.
-func (o *ParameterPropItem) SetDescription(v string) {
-	o.Description = v
-}
-
-// GetType returns the Type field value.
-func (o *ParameterPropItem) GetType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value.
-func (o *ParameterPropItem) SetType(v string) {
-	o.Type = v
-}
-
-// GetValue returns the Value field value.
-func (o *ParameterPropItem) GetValue() map[string]interface{} {
-	if o == nil {
-		var ret map[string]interface{}
-		return ret
-	}
-	return o.Value
-}
-
-// GetValueOk returns a tuple with the Value field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetValueOk() (*map[string]interface{}, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Value, true
-}
-
-// SetValue sets field value.
-func (o *ParameterPropItem) SetValue(v map[string]interface{}) {
-	o.Value = v
-}
-
-// GetNeedRestart returns the NeedRestart field value.
-func (o *ParameterPropItem) GetNeedRestart() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.NeedRestart
-}
-
-// GetNeedRestartOk returns a tuple with the NeedRestart field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetNeedRestartOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.NeedRestart, true
-}
-
-// SetNeedRestart sets field value.
-func (o *ParameterPropItem) SetNeedRestart(v bool) {
-	o.NeedRestart = v
-}
-
-// GetImmutable returns the Immutable field value.
-func (o *ParameterPropItem) GetImmutable() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-	return o.Immutable
-}
-
-// GetImmutableOk returns a tuple with the Immutable field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetImmutableOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Immutable, true
-}
-
-// SetImmutable sets field value.
-func (o *ParameterPropItem) SetImmutable(v bool) {
-	o.Immutable = v
-}
-
-// GetMaximum returns the Maximum field value.
-func (o *ParameterPropItem) GetMaximum() float64 {
-	if o == nil {
-		var ret float64
-		return ret
-	}
-	return o.Maximum
-}
-
-// GetMaximumOk returns a tuple with the Maximum field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetMaximumOk() (*float64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Maximum, true
-}
-
-// SetMaximum sets field value.
-func (o *ParameterPropItem) SetMaximum(v float64) {
-	o.Maximum = v
-}
-
-// GetMinimum returns the Minimum field value.
-func (o *ParameterPropItem) GetMinimum() float64 {
-	if o == nil {
-		var ret float64
-		return ret
-	}
-	return o.Minimum
-}
-
-// GetMinimumOk returns a tuple with the Minimum field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetMinimumOk() (*float64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Minimum, true
-}
-
-// SetMinimum sets field value.
-func (o *ParameterPropItem) SetMinimum(v float64) {
-	o.Minimum = v
-}
-
-// GetEnum returns the Enum field value.
-func (o *ParameterPropItem) GetEnum() []map[string]interface{} {
-	if o == nil {
-		var ret []map[string]interface{}
-		return ret
-	}
-	return o.Enum
-}
-
-// GetEnumOk returns a tuple with the Enum field value
-// and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetEnumOk() (*[]map[string]interface{}, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Enum, true
-}
-
-// SetEnum sets field value.
-func (o *ParameterPropItem) SetEnum(v []map[string]interface{}) {
-	o.Enum = v
+// SetFileName gets a reference to the given string and assigns it to the FileName field.
+func (o *ParameterPropItem) SetFileName(v string) {
+	o.FileName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -273,15 +96,12 @@ func (o ParameterPropItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["name"] = o.Name
-	toSerialize["description"] = o.Description
-	toSerialize["type"] = o.Type
-	toSerialize["value"] = o.Value
-	toSerialize["needRestart"] = o.NeedRestart
-	toSerialize["immutable"] = o.Immutable
-	toSerialize["maximum"] = o.Maximum
-	toSerialize["minimum"] = o.Minimum
-	toSerialize["enum"] = o.Enum
+	if o.Prop != nil {
+		toSerialize["prop"] = o.Prop
+	}
+	if o.FileName != nil {
+		toSerialize["fileName"] = o.FileName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -292,61 +112,20 @@ func (o ParameterPropItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterPropItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                   `json:"name"`
-		Description *string                   `json:"description"`
-		Type        *string                   `json:"type"`
-		Value       *map[string]interface{}   `json:"value"`
-		NeedRestart *bool                     `json:"needRestart"`
-		Immutable   *bool                     `json:"immutable"`
-		Maximum     *float64                  `json:"maximum"`
-		Minimum     *float64                  `json:"minimum"`
-		Enum        *[]map[string]interface{} `json:"enum"`
+		Prop     []ParameterProp `json:"prop,omitempty"`
+		FileName *string         `json:"fileName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Name == nil {
-		return fmt.Errorf("required field name missing")
-	}
-	if all.Description == nil {
-		return fmt.Errorf("required field description missing")
-	}
-	if all.Type == nil {
-		return fmt.Errorf("required field type missing")
-	}
-	if all.Value == nil {
-		return fmt.Errorf("required field value missing")
-	}
-	if all.NeedRestart == nil {
-		return fmt.Errorf("required field needRestart missing")
-	}
-	if all.Immutable == nil {
-		return fmt.Errorf("required field immutable missing")
-	}
-	if all.Maximum == nil {
-		return fmt.Errorf("required field maximum missing")
-	}
-	if all.Minimum == nil {
-		return fmt.Errorf("required field minimum missing")
-	}
-	if all.Enum == nil {
-		return fmt.Errorf("required field enum missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "type", "value", "needRestart", "immutable", "maximum", "minimum", "enum"})
+		common.DeleteKeys(additionalProperties, &[]string{"prop", "fileName"})
 	} else {
 		return err
 	}
-	o.Name = *all.Name
-	o.Description = *all.Description
-	o.Type = *all.Type
-	o.Value = *all.Value
-	o.NeedRestart = *all.NeedRestart
-	o.Immutable = *all.Immutable
-	o.Maximum = *all.Maximum
-	o.Minimum = *all.Minimum
-	o.Enum = *all.Enum
+	o.Prop = all.Prop
+	o.FileName = all.FileName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

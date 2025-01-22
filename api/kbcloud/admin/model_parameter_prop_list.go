@@ -6,12 +6,9 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ParameterPropList With the list of parameters and the configuration file name
+// ParameterPropList A list of cluster parameter properties
 type ParameterPropList struct {
-	// The list of parameters properties
-	Specs []ParameterPropItem `json:"specs,omitempty"`
-	// The name of the configuration file
-	FileName *string `json:"fileName,omitempty"`
+	Items []ParameterPropItem `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -34,60 +31,32 @@ func NewParameterPropListWithDefaults() *ParameterPropList {
 	return &this
 }
 
-// GetSpecs returns the Specs field value if set, zero value otherwise.
-func (o *ParameterPropList) GetSpecs() []ParameterPropItem {
-	if o == nil || o.Specs == nil {
+// GetItems returns the Items field value if set, zero value otherwise.
+func (o *ParameterPropList) GetItems() []ParameterPropItem {
+	if o == nil || o.Items == nil {
 		var ret []ParameterPropItem
 		return ret
 	}
-	return o.Specs
+	return o.Items
 }
 
-// GetSpecsOk returns a tuple with the Specs field value if set, nil otherwise
+// GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterPropList) GetSpecsOk() (*[]ParameterPropItem, bool) {
-	if o == nil || o.Specs == nil {
+func (o *ParameterPropList) GetItemsOk() (*[]ParameterPropItem, bool) {
+	if o == nil || o.Items == nil {
 		return nil, false
 	}
-	return &o.Specs, true
+	return &o.Items, true
 }
 
-// HasSpecs returns a boolean if a field has been set.
-func (o *ParameterPropList) HasSpecs() bool {
-	return o != nil && o.Specs != nil
+// HasItems returns a boolean if a field has been set.
+func (o *ParameterPropList) HasItems() bool {
+	return o != nil && o.Items != nil
 }
 
-// SetSpecs gets a reference to the given []ParameterPropItem and assigns it to the Specs field.
-func (o *ParameterPropList) SetSpecs(v []ParameterPropItem) {
-	o.Specs = v
-}
-
-// GetFileName returns the FileName field value if set, zero value otherwise.
-func (o *ParameterPropList) GetFileName() string {
-	if o == nil || o.FileName == nil {
-		var ret string
-		return ret
-	}
-	return *o.FileName
-}
-
-// GetFileNameOk returns a tuple with the FileName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterPropList) GetFileNameOk() (*string, bool) {
-	if o == nil || o.FileName == nil {
-		return nil, false
-	}
-	return o.FileName, true
-}
-
-// HasFileName returns a boolean if a field has been set.
-func (o *ParameterPropList) HasFileName() bool {
-	return o != nil && o.FileName != nil
-}
-
-// SetFileName gets a reference to the given string and assigns it to the FileName field.
-func (o *ParameterPropList) SetFileName(v string) {
-	o.FileName = &v
+// SetItems gets a reference to the given []ParameterPropItem and assigns it to the Items field.
+func (o *ParameterPropList) SetItems(v []ParameterPropItem) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -96,11 +65,8 @@ func (o ParameterPropList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Specs != nil {
-		toSerialize["specs"] = o.Specs
-	}
-	if o.FileName != nil {
-		toSerialize["fileName"] = o.FileName
+	if o.Items != nil {
+		toSerialize["items"] = o.Items
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -112,20 +78,18 @@ func (o ParameterPropList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterPropList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Specs    []ParameterPropItem `json:"specs,omitempty"`
-		FileName *string             `json:"fileName,omitempty"`
+		Items []ParameterPropItem `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"specs", "fileName"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.Specs = all.Specs
-	o.FileName = all.FileName
+	o.Items = all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

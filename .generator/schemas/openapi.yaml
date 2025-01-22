@@ -15153,7 +15153,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/configuration'
-    parameterPropItem:
+    parameterProp:
       type: object
       required:
         - name
@@ -15199,18 +15199,25 @@ components:
           items:
             type: object
             additionalProperties: true
-    parameterPropList:
+    parameterPropItem:
       type: object
-      description: With the list of parameters and the configuration file name
+      description: With the list of parameter properties and the configuration file name
       properties:
-        specs:
+        prop:
           type: array
           description: The list of parameters properties
           items:
-            $ref: '#/components/schemas/parameterPropItem'
+            $ref: '#/components/schemas/parameterProp'
         fileName:
           description: The name of the configuration file
           type: string
+    parameterPropList:
+      description: A list of cluster parameter properties
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/parameterPropItem'
     paramTplListItem:
       description: parameter template information
       properties:
