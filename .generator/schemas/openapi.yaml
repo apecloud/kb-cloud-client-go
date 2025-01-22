@@ -15881,6 +15881,10 @@ components:
           description: Main component flag
           type: boolean
           x-nullable: false
+        customSecret:
+          type: boolean
+          description: whether the component supports custom secret
+          x-nullable: false
     integerOption:
       type: object
       required:
