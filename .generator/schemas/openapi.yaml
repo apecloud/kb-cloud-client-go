@@ -12271,6 +12271,9 @@ components:
         clusterID:
           type: string
           description: the cluster id
+        command:
+          type: string
+          description: the actual command executed during the benchmark run stage
         database:
           type: string
           description: the database name
