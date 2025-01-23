@@ -12,7 +12,7 @@ import (
 
 type ACLUser struct {
 	// The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
-	Role *AccountListRoleType `json:"role,omitempty"`
+	Role AccountListRoleType `json:"role"`
 	// Redis user privileges
 	Privileges *RedisPrivilegeType `json:"privileges,omitempty"`
 	// ACL user name
@@ -38,8 +38,9 @@ type ACLUser struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewACLUser(name string) *ACLUser {
+func NewACLUser(role AccountListRoleType, name string) *ACLUser {
 	this := ACLUser{}
+	this.Role = role
 	this.Name = name
 	return &this
 }
@@ -52,32 +53,27 @@ func NewACLUserWithDefaults() *ACLUser {
 	return &this
 }
 
-// GetRole returns the Role field value if set, zero value otherwise.
+// GetRole returns the Role field value.
 func (o *ACLUser) GetRole() AccountListRoleType {
-	if o == nil || o.Role == nil {
+	if o == nil {
 		var ret AccountListRoleType
 		return ret
 	}
-	return *o.Role
+	return o.Role
 }
 
-// GetRoleOk returns a tuple with the Role field value if set, nil otherwise
+// GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
 func (o *ACLUser) GetRoleOk() (*AccountListRoleType, bool) {
-	if o == nil || o.Role == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Role, true
+	return &o.Role, true
 }
 
-// HasRole returns a boolean if a field has been set.
-func (o *ACLUser) HasRole() bool {
-	return o != nil && o.Role != nil
-}
-
-// SetRole gets a reference to the given AccountListRoleType and assigns it to the Role field.
+// SetRole sets field value.
 func (o *ACLUser) SetRole(v AccountListRoleType) {
-	o.Role = &v
+	o.Role = v
 }
 
 // GetPrivileges returns the Privileges field value if set, zero value otherwise.
@@ -305,9 +301,7 @@ func (o ACLUser) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Role != nil {
-		toSerialize["role"] = o.Role
-	}
+	toSerialize["role"] = o.Role
 	if o.Privileges != nil {
 		toSerialize["privileges"] = o.Privileges
 	}
@@ -340,7 +334,7 @@ func (o ACLUser) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Role                   *AccountListRoleType `json:"role,omitempty"`
+		Role                   *AccountListRoleType `json:"role"`
 		Privileges             *RedisPrivilegeType  `json:"privileges,omitempty"`
 		Name                   *string              `json:"name"`
 		Enabled                *bool                `json:"enabled,omitempty"`
@@ -353,6 +347,9 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Role == nil {
+		return fmt.Errorf("required field role missing")
+	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
@@ -364,10 +361,10 @@ func (o *ACLUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	if all.Role != nil && !all.Role.IsValid() {
+	if !all.Role.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Role = all.Role
+		o.Role = *all.Role
 	}
 	if all.Privileges != nil && !all.Privileges.IsValid() {
 		hasInvalidField = true
