@@ -18961,6 +18961,7 @@ components:
           description: List of password hashes to be removed
       required:
         - name
+        - role
     ACLUserResponse:
       x-go-name: RedisACLUserResponse
       type: object
