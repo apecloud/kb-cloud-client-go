@@ -13,8 +13,6 @@ info:
     Our API has predictable resource-oriented URLs, accepts `JSON-encoded` request bodies, returns `JSON-encoded` responses, and uses standard HTTP response codes, authentication, and verbs.
 
     We use standard HTTP authentication and provide API keys to identify who you are. Your API keys carry many privileges, so be sure to keep them secret! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
-
-    All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
   contact:
     email: support@apecloud.com
     name: ApeCloud Support
@@ -43,14 +41,14 @@ tags:
     description: Cluster APIs
   - name: clusterLog
     description: Cluster Log APIs
+  - name: clusterTask
+    description: Cluster task APIS
   - name: account
     description: Cluster Account APIs
   - name: opsrequest
     description: Cluster Ops APIs
-  - name: tag
+  - name: clusterTag
     description: Cluster Tag APIs
-  - name: metrics
-    description: Cluster Metrics APIs
   - name: analyze
     description: Analyze APIs
   - name: tls
@@ -70,7 +68,7 @@ tags:
   - name: event
     description: Operation Events
   - name: dms
-    description: Database Management System APIs
+    description: Data Management System APIs
   - name: database
     description: Cluster Database APIs
   - name: parameter
@@ -81,6 +79,8 @@ tags:
     description: Cloud Provider region APIs
   - name: zone
     description: Cloud Provider Zone APIs
+  - name: alert
+    description: Alert APIs
   - name: alertReceiver
     description: Alert Receiver APIs
   - name: alertRule
@@ -3379,7 +3379,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - task
+        - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
     get:
       operationId: listTasksInConsole
@@ -3419,7 +3419,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - task
+        - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
     get:
       tags:
@@ -3483,7 +3483,7 @@ paths:
   /api/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
-        - tag
+        - clusterTag
       operationId: getTags
       summary: Get cluster tags
       parameters:
@@ -3509,8 +3509,8 @@ paths:
   /api/v1/organizations/{orgName}/tags/{tagId}:
     delete:
       tags:
-        - tag
-      description: delete tag
+        - clusterTag
+      description: delete cluster tag
       summary: Delete tag
       operationId: deleteTags
       parameters:
@@ -3536,8 +3536,8 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - tag
-      description: Update tags
+        - clusterTag
+      description: Update cluster tags
       operationId: updateTag
       parameters:
         - name: orgName
@@ -3573,7 +3573,7 @@ paths:
   /api/v1/organizations/{orgName}/tags:
     get:
       tags:
-        - tag
+        - clusterTag
       description: List tags by organization name.
       operationId: listOrgTags
       summary: List tags by organization name
@@ -3599,7 +3599,7 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - tag
+        - clusterTag
       description: create tag
       summary: Create cluster tags
       operationId: createTag
@@ -3731,7 +3731,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - metrics
+        - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics:
     get:
       operationId: getInstacesMetrics
@@ -4680,7 +4680,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - serviceVersion
+        - engine
   /api/v1/organizations/{orgName}/backupRepo:
     get:
       operationId: listBackupRepos
@@ -5432,7 +5432,7 @@ paths:
       description: Tests multiple URLs for connectivity in parallel
       operationId: batchCheckURLConnectivity
       tags:
-        - URL Checker
+        - alert
       requestBody:
         required: true
         content:
@@ -5458,7 +5458,7 @@ paths:
       description: alert statistic
       operationId: alertStatistic
       tags:
-        - statistic
+        - alert
       parameters:
         - name: orgName
           in: query
@@ -6454,7 +6454,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engineLicense
+        - engine
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -18961,6 +18961,7 @@ x-tagGroups:
       - database
       - classes
       - recycleBinCluster
+      - clusterTask
   - name: Backup & Restore
     tags:
       - backup
@@ -18974,6 +18975,7 @@ x-tagGroups:
       - event
   - name: Alert
     tags:
+      - alert
       - alertConfig
       - alertReceiver
       - alertRule
@@ -19002,10 +19004,6 @@ x-tagGroups:
   - name: Feature
     tags:
       - feature
-  - name: fault
-    tags:
-      - fault
   - name: disasterRecovery
     tags:
       - disasterRecovery
-x-original-swagger-version: '2.0'

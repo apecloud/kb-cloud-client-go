@@ -31,6 +31,8 @@ tags:
     description: Environment APIs
   - name: cluster
     description: Cluster APIs
+  - name: clusterTask
+    description: Cluster Task APIs
   - name: vipPool
     description: VIP Pool APIs
   - name: resourceStats
@@ -55,6 +57,10 @@ tags:
     description: Project APIs
   - name: task
     description: Task APIs
+  - name: fault
+    description: Fault inject APIs
+  - name: engine
+    description: Engine APIs
 paths:
   /admin/v1/user:
     post:
@@ -1202,7 +1208,7 @@ paths:
   /admin/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
-        - tag
+        - clusterTag
       operationId: getTags
       summary: Get cluster tags
       parameters:
@@ -1228,8 +1234,8 @@ paths:
   /admin/v1/organizations/{orgName}/tags/{tagId}:
     delete:
       tags:
-        - tag
-      description: delete tag
+        - clusterTag
+      description: delete cluster tag
       summary: Delete tag
       operationId: deleteTags
       parameters:
@@ -1255,8 +1261,8 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - tag
-      description: Update tags
+        - clusterTag
+      description: Update cluster tags
       operationId: updateTag
       parameters:
         - name: orgName
@@ -1292,7 +1298,7 @@ paths:
   /admin/v1/organizations/{orgName}/tags:
     get:
       tags:
-        - tag
+        - clusterTag
       description: List tags by organization name.
       operationId: listOrgTags
       summary: List tags by organization name
@@ -1318,7 +1324,7 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - tag
+        - clusterTag
       description: create tag
       summary: Create cluster tags
       operationId: createTag
@@ -1785,7 +1791,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - metrics
+        - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics:
     get:
       operationId: getInstacesMetrics
@@ -7281,7 +7287,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - serviceVersion
+        - engine
   /admin/v1/organizations/{orgName}/clustersWithDelete/restoreTimeRange:
     get:
       operationId: getRestoreTimeRange
@@ -7843,7 +7849,7 @@ paths:
       description: Tests multiple URLs for connectivity in parallel
       operationId: batchCheckURLConnectivity
       tags:
-        - URL Checker
+        - alert
       requestBody:
         required: true
         content:
@@ -7869,7 +7875,7 @@ paths:
       description: alert statistic
       operationId: alertStatistic
       tags:
-        - statistic
+        - alert
       parameters:
         - name: orgName
           in: query
@@ -8940,7 +8946,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engineLicense
+        - engine
   /admin/v1/engineLicense:
     get:
       description: Get a engineLicense detail
@@ -9010,7 +9016,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engineLicense
+        - engine
       x-codegen-request-body-name: body
     delete:
       description: delete an engine license
@@ -9034,7 +9040,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engineLicense
+        - engine
   /admin/v1/organizations/{orgName}/engines:
     get:
       tags:
@@ -10445,7 +10451,7 @@ paths:
   /admin/v1/engineVersions:
     post:
       tags:
-        - engineVersion
+        - engine
       summary: Create engine version
       description: Create engine version
       operationId: createEngineVersion
@@ -10470,7 +10476,7 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - engineVersion
+        - engine
       operationId: deleteEngineVersion
       requestBody:
         content:
@@ -10489,7 +10495,7 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - engineVersion
+        - engine
       description: Update the specified engine version
       summary: Update the specified engine version
       operationId: patchEngineVersion
@@ -10515,7 +10521,7 @@ paths:
   /admin/v1/engineVersions/{engineName}:
     get:
       tags:
-        - engineVersion
+        - engine
       summary: Get engine version list
       description: Get engine version list
       operationId: listEngineVersions
@@ -12119,7 +12125,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - task
+        - clusterTask
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
       description: Query task detail of clusters
@@ -12158,7 +12164,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - task
+        - clusterTask
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
@@ -24780,7 +24786,7 @@ x-tagGroup:
   - name: cluster
     tags:
       - cluster
-      - clusterlog
+      - clusterLog
       - account
       - database
       - opsrequest
@@ -24792,6 +24798,7 @@ x-tagGroup:
       - database
       - recycleBinCluster
       - relation
+      - clusterTask
   - name: License
     tags:
       - license
@@ -24807,3 +24814,9 @@ x-tagGroup:
   - name: task
     tags:
       - task
+  - name: fault
+    tags:
+      - fault
+  - name: engine
+    tags:
+      - engine

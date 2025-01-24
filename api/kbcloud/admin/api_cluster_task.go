@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"context"
@@ -14,44 +14,58 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// TaskApi service type
-type TaskApi common.Service
+// ClusterTaskApi service type
+type ClusterTaskApi common.Service
 
-// ListTasksInConsoleOptionalParameters holds optional parameters for ListTasksInConsole.
-type ListTasksInConsoleOptionalParameters struct {
-	Status          *OpsStatus
+// ListTasksOptionalParameters holds optional parameters for ListTasks.
+type ListTasksOptionalParameters struct {
+	OrgName         *string
+	ClusterName     *string
+	Status          *Cluster_opsStatus
 	ClusterTaskType *OpsType
 }
 
-// NewListTasksInConsoleOptionalParameters creates an empty struct for parameters.
-func NewListTasksInConsoleOptionalParameters() *ListTasksInConsoleOptionalParameters {
-	this := ListTasksInConsoleOptionalParameters{}
+// NewListTasksOptionalParameters creates an empty struct for parameters.
+func NewListTasksOptionalParameters() *ListTasksOptionalParameters {
+	this := ListTasksOptionalParameters{}
 	return &this
 }
 
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListTasksOptionalParameters) WithOrgName(orgName string) *ListTasksOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListTasksOptionalParameters) WithClusterName(clusterName string) *ListTasksOptionalParameters {
+	r.ClusterName = &clusterName
+	return r
+}
+
 // WithStatus sets the corresponding parameter name and returns the struct.
-func (r *ListTasksInConsoleOptionalParameters) WithStatus(status OpsStatus) *ListTasksInConsoleOptionalParameters {
+func (r *ListTasksOptionalParameters) WithStatus(status Cluster_opsStatus) *ListTasksOptionalParameters {
 	r.Status = &status
 	return r
 }
 
 // WithClusterTaskType sets the corresponding parameter name and returns the struct.
-func (r *ListTasksInConsoleOptionalParameters) WithClusterTaskType(clusterTaskType OpsType) *ListTasksInConsoleOptionalParameters {
+func (r *ListTasksOptionalParameters) WithClusterTaskType(clusterTaskType OpsType) *ListTasksOptionalParameters {
 	r.ClusterTaskType = &clusterTaskType
 	return r
 }
 
-// ListTasksInConsole List cluster tasks in console.
-func (a *TaskApi) ListTasksInConsole(ctx _context.Context, orgName string, clusterName string, o ...ListTasksInConsoleOptionalParameters) (ClusterTaskList, *_nethttp.Response, error) {
+// ListTasks List cluster tasks.
+func (a *ClusterTaskApi) ListTasks(ctx _context.Context, o ...ListTasksOptionalParameters) (ClusterTaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterTaskList
-		optionalParams      ListTasksInConsoleOptionalParameters
+		optionalParams      ListTasksOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListTasksInConsoleOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListTasksOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -59,25 +73,29 @@ func (a *TaskApi) ListTasksInConsole(ctx _context.Context, orgName string, clust
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "task",
-		OperationID: "listTasksInConsole",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks",
+		Tag:         "clusterTask",
+		OperationID: "listTasks",
+		Path:        "/admin/v1/clustertasks",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.ListTasksInConsole")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.ListTasks")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/clustertasks"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
+	}
 	if optionalParams.Status != nil {
 		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
 	}
@@ -136,7 +154,7 @@ func (a *TaskApi) ListTasksInConsole(ctx _context.Context, orgName string, clust
 
 // QueryClusterTaskDetail Query operation task detail.
 // Query task detail of clusters
-func (a *TaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, clusterName string, taskId string) (ClusterTask, *_nethttp.Response, error) {
+func (a *ClusterTaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, clusterName string, taskId string) (ClusterTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -145,19 +163,19 @@ func (a *TaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, c
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "task",
+		Tag:         "clusterTask",
 		OperationID: "queryClusterTaskDetail",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TaskApi.QueryClusterTaskDetail")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.QueryClusterTaskDetail")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
@@ -215,9 +233,9 @@ func (a *TaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, c
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewTaskApi Returns NewTaskApi.
-func NewTaskApi(client *common.APIClient) *TaskApi {
-	return &TaskApi{
+// NewClusterTaskApi Returns NewClusterTaskApi.
+func NewClusterTaskApi(client *common.APIClient) *ClusterTaskApi {
+	return &ClusterTaskApi{
 		Client: client,
 	}
 }

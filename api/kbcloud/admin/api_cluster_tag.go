@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"context"
@@ -14,12 +14,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// TagApi service type
-type TagApi common.Service
+// ClusterTagApi service type
+type ClusterTagApi common.Service
 
 // CreateTag Create cluster tags.
 // create tag
-func (a *TagApi) CreateTag(ctx _context.Context, orgName string, body interface{}) (TagCreate, *_nethttp.Response, error) {
+func (a *ClusterTagApi) CreateTag(ctx _context.Context, orgName string, body interface{}) (TagCreate, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -28,19 +28,19 @@ func (a *TagApi) CreateTag(ctx _context.Context, orgName string, body interface{
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "tag",
+		Tag:         "clusterTag",
 		OperationID: "createTag",
-		Path:        "/api/v1/organizations/{orgName}/tags",
+		Path:        "/admin/v1/organizations/{orgName}/tags",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.CreateTag")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.CreateTag")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/tags"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -100,8 +100,8 @@ func (a *TagApi) CreateTag(ctx _context.Context, orgName string, body interface{
 }
 
 // DeleteTags Delete tag.
-// delete tag
-func (a *TagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) (*_nethttp.Response, error) {
+// delete cluster tag
+func (a *ClusterTagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -109,19 +109,19 @@ func (a *TagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) 
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "tag",
+		Tag:         "clusterTag",
 		OperationID: "deleteTags",
-		Path:        "/api/v1/organizations/{orgName}/tags/{tagId}",
+		Path:        "/admin/v1/organizations/{orgName}/tags/{tagId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.DeleteTags")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.DeleteTags")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/tags/{tagId}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags/{tagId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"tagId"+"}", _neturl.PathEscape(common.ParameterToString(tagId, "")), -1)
 
@@ -170,7 +170,7 @@ func (a *TagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) 
 }
 
 // GetTags Get cluster tags.
-func (a *TagApi) GetTags(ctx _context.Context, orgName string, clusterIds string) ([]TagCluster, *_nethttp.Response, error) {
+func (a *ClusterTagApi) GetTags(ctx _context.Context, orgName string, clusterIds string) ([]TagCluster, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -179,19 +179,19 @@ func (a *TagApi) GetTags(ctx _context.Context, orgName string, clusterIds string
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "tag",
+		Tag:         "clusterTag",
 		OperationID: "getTags",
-		Path:        "/api/v1/organizations/{orgName}/clusterTags",
+		Path:        "/admin/v1/organizations/{orgName}/clusterTags",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.GetTags")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.GetTags")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusterTags"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusterTags"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -234,7 +234,7 @@ func (a *TagApi) GetTags(ctx _context.Context, orgName string, clusterIds string
 
 // ListOrgTags List tags by organization name.
 // List tags by organization name.
-func (a *TagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList, *_nethttp.Response, error) {
+func (a *ClusterTagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -243,19 +243,19 @@ func (a *TagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList,
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "tag",
+		Tag:         "clusterTag",
 		OperationID: "listOrgTags",
-		Path:        "/api/v1/organizations/{orgName}/tags",
+		Path:        "/admin/v1/organizations/{orgName}/tags",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.ListOrgTags")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.ListOrgTags")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/tags"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -312,8 +312,8 @@ func (a *TagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList,
 }
 
 // UpdateTag .
-// Update tags
-func (a *TagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, tagUpdate TagUpdate) (Tag, *_nethttp.Response, error) {
+// Update cluster tags
+func (a *ClusterTagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, tagUpdate TagUpdate) (Tag, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -322,19 +322,19 @@ func (a *TagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, t
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "tag",
+		Tag:         "clusterTag",
 		OperationID: "updateTag",
-		Path:        "/api/v1/organizations/{orgName}/tags/{tagId}",
+		Path:        "/admin/v1/organizations/{orgName}/tags/{tagId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".TagApi.UpdateTag")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.UpdateTag")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/tags/{tagId}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags/{tagId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"tagId"+"}", _neturl.PathEscape(common.ParameterToString(tagId, "")), -1)
 
@@ -394,9 +394,9 @@ func (a *TagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, t
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewTagApi Returns NewTagApi.
-func NewTagApi(client *common.APIClient) *TagApi {
-	return &TagApi{
+// NewClusterTagApi Returns NewClusterTagApi.
+func NewClusterTagApi(client *common.APIClient) *ClusterTagApi {
+	return &ClusterTagApi{
 		Client: client,
 	}
 }
