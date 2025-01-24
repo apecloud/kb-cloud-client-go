@@ -1107,52 +1107,6 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - cluster
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/manifests/{manifestType}:
-    get:
-      operationId: getClusterManifest
-      summary: Get cluster manifests of kubernetes
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Kubernetes manifest kind
-          in: path
-          name: manifestType
-          required: true
-          schema:
-            $ref: '#/components/schemas/manifestType'
-        - description: name of the Kubernetes manifest kind
-          in: query
-          name: opsType
-          schema:
-            $ref: '#/components/schemas/opsType'
-        - description: name of the component
-          in: query
-          name: component
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/kubernetesManifestList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
     get:
       operationId: analyzeService
@@ -2114,7 +2068,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - whitelist
+        - ipWhitelist
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/haHistory:
     get:
       operationId: describeClusterHaHistory
@@ -4686,7 +4640,8 @@ paths:
     get:
       tags:
         - opsrequest
-      description: get a OpsRequest status
+      deprecated: true
+      description: get a OpsRequest status, deprecated, instead use cluster task api
       summary: Get OpsRequest Status
       operationId: getOpsRequestStatus
       parameters:
@@ -15589,47 +15544,6 @@ components:
       required:
         - items
       type: object
-    manifestType:
-      enum:
-        - service
-        - configmap
-        - secret
-        - event
-        - opsrequest
-        - configconstraint
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-      type: string
-    kubernetesManifests:
-      description: Items is the list of Kubernetes objects in the list
-      items:
-        additionalProperties:
-          properties: {}
-          type: object
-        type: object
-      minItems: 1
-      type: array
-    kubernetesManifestList:
-      description: KubernetesManifestList is the list of Kubernetes objects in the list
-      properties:
-        kubernetesManifests:
-          $ref: '#/components/schemas/kubernetesManifests'
-      type: object
     analysisResult:
       properties:
         explanation:
@@ -24062,6 +23976,23 @@ components:
         - Failed
         - Aborted
       type: string
+    opsType:
+      enum:
+        - VerticalScaling
+        - HorizontalScaling
+        - VolumeExpansion
+        - Upgrade
+        - Reconfiguring
+        - Switchover
+        - Restart
+        - Stop
+        - Start
+        - Expose
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
+      type: string
     clusterTaskList:
       description: TaskList is a list of operation task objects
       properties:
@@ -24857,7 +24788,6 @@ x-tagGroup:
       - tag
       - metrics
       - service
-      - sqlEditor
       - tls
       - database
       - recycleBinCluster

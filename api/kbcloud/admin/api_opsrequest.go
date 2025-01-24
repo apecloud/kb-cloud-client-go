@@ -407,7 +407,8 @@ func (a *OpsrequestApi) ExposeCluster(ctx _context.Context, orgName string, clus
 }
 
 // GetOpsRequestStatus Get OpsRequest Status.
-// get a OpsRequest status
+// get a OpsRequest status, deprecated, instead use cluster task api
+// Deprecated: This API is deprecated.
 func (a *OpsrequestApi) GetOpsRequestStatus(ctx _context.Context, orgName string, clusterName string, opsName string) (OpsStatus, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

@@ -35,14 +35,10 @@ tags:
     description: Role Management APIs
   - name: invitation
     description: Invitation APIs
-  - name: authorization
-    description: Authorization APIs
   - name: environment
     description: Environment APIs
   - name: benchmark
     description: Benchmark APIs
-  - name: fault
-    description: Fault Injection APIs
   - name: cluster
     description: Cluster APIs
   - name: clusterLog
@@ -57,12 +53,10 @@ tags:
     description: Cluster Metrics APIs
   - name: analyze
     description: Analyze APIs
-  - name: sqlEditor
-    description: Cluster SQL APIs
   - name: tls
     description: Cluster TLS APIs
-  - name: whitelist
-    description: Cluster whitelist APIs
+  - name: ipWhitelist
+    description: Cluster IP Whitelist APIs
   - name: backup
     description: Backup APIs
   - name: restore
@@ -1815,52 +1809,6 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - cluster
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/manifests/{manifestType}:
-    get:
-      operationId: getClusterManifest
-      summary: Get cluster manifests of kubernetes
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Kubernetes manifest kind
-          in: path
-          name: manifestType
-          required: true
-          schema:
-            $ref: '#/components/schemas/manifestType'
-        - description: name of the Kubernetes manifest kind
-          in: query
-          name: opsType
-          schema:
-            $ref: '#/components/schemas/opsType'
-        - description: name of the component
-          in: query
-          name: component
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/kubernetesManifestList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/haHistory:
     get:
       operationId: describeClusterHaHistory
@@ -3476,7 +3424,8 @@ paths:
     get:
       tags:
         - opsrequest
-      description: get a OpsRequest status
+      deprecated: true
+      description: get a OpsRequest status, deprecated, instead use cluster task api
       summary: Get OpsRequest Status
       operationId: getOpsRequestStatus
       parameters:
@@ -3817,48 +3766,6 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - cluster
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/runSQL:
-    post:
-      operationId: runSQLOnCluster
-      summary: Connect and run command on cluster
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/sqlReqRes'
-        description: SQL to run
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/sqlReqRes'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - sqlEditor
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tls:
     get:
       operationId: getTLSCertificate
@@ -7820,7 +7727,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - whitelist
+        - ipWhitelist
   /api/v1/permissions:
     get:
       tags:
@@ -13356,47 +13263,6 @@ components:
       required:
         - items
       type: object
-    manifestType:
-      enum:
-        - service
-        - configmap
-        - secret
-        - event
-        - opsrequest
-        - configconstraint
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-      type: string
-    kubernetesManifests:
-      description: Items is the list of Kubernetes objects in the list
-      items:
-        additionalProperties:
-          properties: {}
-          type: object
-        type: object
-      minItems: 1
-      type: array
-    kubernetesManifestList:
-      description: KubernetesManifestList is the list of Kubernetes objects in the list
-      properties:
-        kubernetesManifests:
-          $ref: '#/components/schemas/kubernetesManifests'
-      type: object
     haHistoryResponse:
       description: hahistory is the payload to get ha history of a KubeBlocks cluster
       properties:
@@ -14057,6 +13923,23 @@ components:
         - Failed
         - Aborted
       type: string
+    opsType:
+      enum:
+        - VerticalScaling
+        - HorizontalScaling
+        - VolumeExpansion
+        - Upgrade
+        - Reconfiguring
+        - Switchover
+        - Restart
+        - Stop
+        - Start
+        - Expose
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
+      type: string
     clusterTaskList:
       description: TaskList is a list of operation task objects
       properties:
@@ -14342,12 +14225,6 @@ components:
             $ref: '#/components/schemas/instanceMetrics'
       required:
         - items
-      type: object
-    sqlReqRes:
-      properties:
-        body:
-          description: SQL request or response body
-          type: string
       type: object
     tlsConfig:
       description: Configuration for TLS including all certificates and keys
@@ -19079,7 +18956,6 @@ x-tagGroups:
       - tag
       - metrics
       - service
-      - sqlEditor
       - tls
       - whitelist
       - database
