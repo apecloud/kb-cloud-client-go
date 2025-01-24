@@ -11,8 +11,10 @@ import (
 )
 
 type BackupMethodOption struct {
-	Name        string                `json:"name"`
-	Description *LocalizedDescription `json:"description,omitempty"`
+	Name string `json:"name"`
+	// The compatible full backup method for incremental backup method
+	CompatibleMethod *string               `json:"compatibleMethod,omitempty"`
+	Description      *LocalizedDescription `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -59,6 +61,34 @@ func (o *BackupMethodOption) SetName(v string) {
 	o.Name = v
 }
 
+// GetCompatibleMethod returns the CompatibleMethod field value if set, zero value otherwise.
+func (o *BackupMethodOption) GetCompatibleMethod() string {
+	if o == nil || o.CompatibleMethod == nil {
+		var ret string
+		return ret
+	}
+	return *o.CompatibleMethod
+}
+
+// GetCompatibleMethodOk returns a tuple with the CompatibleMethod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupMethodOption) GetCompatibleMethodOk() (*string, bool) {
+	if o == nil || o.CompatibleMethod == nil {
+		return nil, false
+	}
+	return o.CompatibleMethod, true
+}
+
+// HasCompatibleMethod returns a boolean if a field has been set.
+func (o *BackupMethodOption) HasCompatibleMethod() bool {
+	return o != nil && o.CompatibleMethod != nil
+}
+
+// SetCompatibleMethod gets a reference to the given string and assigns it to the CompatibleMethod field.
+func (o *BackupMethodOption) SetCompatibleMethod(v string) {
+	o.CompatibleMethod = &v
+}
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *BackupMethodOption) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
@@ -94,6 +124,9 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	if o.CompatibleMethod != nil {
+		toSerialize["compatibleMethod"] = o.CompatibleMethod
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -107,8 +140,9 @@ func (o BackupMethodOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string               `json:"name"`
-		Description *LocalizedDescription `json:"description,omitempty"`
+		Name             *string               `json:"name"`
+		CompatibleMethod *string               `json:"compatibleMethod,omitempty"`
+		Description      *LocalizedDescription `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -118,13 +152,14 @@ func (o *BackupMethodOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "compatibleMethod", "description"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Name = *all.Name
+	o.CompatibleMethod = all.CompatibleMethod
 	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
