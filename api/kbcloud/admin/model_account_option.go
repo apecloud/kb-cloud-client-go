@@ -12,13 +12,13 @@ import (
 
 type AccountOption struct {
 	// number of super user accounts cloud create
-	MaxSuperUserAccount *int32   `json:"maxSuperUserAccount,omitempty"`
-	Enabled             bool     `json:"enabled"`
-	Privileges          []string `json:"privileges,omitempty"`
-	AccountNamePattern  string   `json:"accountNamePattern"`
-	Create              bool     `json:"create"`
-	ResetPassword       bool     `json:"resetPassword"`
-	Delete              bool     `json:"delete"`
+	MaxSuperUserAccount common.NullableInt32 `json:"maxSuperUserAccount,omitempty"`
+	Enabled             bool                 `json:"enabled"`
+	Privileges          []string             `json:"privileges,omitempty"`
+	AccountNamePattern  string               `json:"accountNamePattern"`
+	Create              bool                 `json:"create"`
+	ResetPassword       bool                 `json:"resetPassword"`
+	Delete              bool                 `json:"delete"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,7 +31,7 @@ type AccountOption struct {
 func NewAccountOption(enabled bool, accountNamePattern string, create bool, resetPassword bool, delete bool) *AccountOption {
 	this := AccountOption{}
 	var maxSuperUserAccount int32 = 2
-	this.MaxSuperUserAccount = &maxSuperUserAccount
+	this.MaxSuperUserAccount = *common.NewNullableInt32(&maxSuperUserAccount)
 	this.Enabled = enabled
 	this.AccountNamePattern = accountNamePattern
 	this.Create = create
@@ -46,36 +46,47 @@ func NewAccountOption(enabled bool, accountNamePattern string, create bool, rese
 func NewAccountOptionWithDefaults() *AccountOption {
 	this := AccountOption{}
 	var maxSuperUserAccount int32 = 2
-	this.MaxSuperUserAccount = &maxSuperUserAccount
+	this.MaxSuperUserAccount = *common.NewNullableInt32(&maxSuperUserAccount)
 	return &this
 }
 
-// GetMaxSuperUserAccount returns the MaxSuperUserAccount field value if set, zero value otherwise.
+// GetMaxSuperUserAccount returns the MaxSuperUserAccount field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *AccountOption) GetMaxSuperUserAccount() int32 {
-	if o == nil || o.MaxSuperUserAccount == nil {
+	if o == nil || o.MaxSuperUserAccount.Get() == nil {
 		var ret int32
 		return ret
 	}
-	return *o.MaxSuperUserAccount
+	return *o.MaxSuperUserAccount.Get()
 }
 
 // GetMaxSuperUserAccountOk returns a tuple with the MaxSuperUserAccount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *AccountOption) GetMaxSuperUserAccountOk() (*int32, bool) {
-	if o == nil || o.MaxSuperUserAccount == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.MaxSuperUserAccount, true
+	return o.MaxSuperUserAccount.Get(), o.MaxSuperUserAccount.IsSet()
 }
 
 // HasMaxSuperUserAccount returns a boolean if a field has been set.
 func (o *AccountOption) HasMaxSuperUserAccount() bool {
-	return o != nil && o.MaxSuperUserAccount != nil
+	return o != nil && o.MaxSuperUserAccount.IsSet()
 }
 
-// SetMaxSuperUserAccount gets a reference to the given int32 and assigns it to the MaxSuperUserAccount field.
+// SetMaxSuperUserAccount gets a reference to the given common.NullableInt32 and assigns it to the MaxSuperUserAccount field.
 func (o *AccountOption) SetMaxSuperUserAccount(v int32) {
-	o.MaxSuperUserAccount = &v
+	o.MaxSuperUserAccount.Set(&v)
+}
+
+// SetMaxSuperUserAccountNil sets the value for MaxSuperUserAccount to be an explicit nil.
+func (o *AccountOption) SetMaxSuperUserAccountNil() {
+	o.MaxSuperUserAccount.Set(nil)
+}
+
+// UnsetMaxSuperUserAccount ensures that no value is present for MaxSuperUserAccount, not even an explicit nil.
+func (o *AccountOption) UnsetMaxSuperUserAccount() {
+	o.MaxSuperUserAccount.Unset()
 }
 
 // GetEnabled returns the Enabled field value.
@@ -227,8 +238,8 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.MaxSuperUserAccount != nil {
-		toSerialize["maxSuperUserAccount"] = o.MaxSuperUserAccount
+	if o.MaxSuperUserAccount.IsSet() {
+		toSerialize["maxSuperUserAccount"] = o.MaxSuperUserAccount.Get()
 	}
 	toSerialize["enabled"] = o.Enabled
 	if o.Privileges != nil {
@@ -248,13 +259,13 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		MaxSuperUserAccount *int32   `json:"maxSuperUserAccount,omitempty"`
-		Enabled             *bool    `json:"enabled"`
-		Privileges          []string `json:"privileges,omitempty"`
-		AccountNamePattern  *string  `json:"accountNamePattern"`
-		Create              *bool    `json:"create"`
-		ResetPassword       *bool    `json:"resetPassword"`
-		Delete              *bool    `json:"delete"`
+		MaxSuperUserAccount common.NullableInt32 `json:"maxSuperUserAccount,omitempty"`
+		Enabled             *bool                `json:"enabled"`
+		Privileges          []string             `json:"privileges,omitempty"`
+		AccountNamePattern  *string              `json:"accountNamePattern"`
+		Create              *bool                `json:"create"`
+		ResetPassword       *bool                `json:"resetPassword"`
+		Delete              *bool                `json:"delete"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
