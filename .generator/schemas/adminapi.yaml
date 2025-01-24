@@ -890,7 +890,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -12128,9 +12127,9 @@ paths:
         - clusterTask
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
-      description: Query task detail of clusters
-      summary: Query operation task detail
-      operationId: queryClusterTaskDetail
+      description: Get cluster task
+      summary: Get cluster task
+      operationId: getClusterTask
       parameters:
         - description: Organization Name
           in: path
