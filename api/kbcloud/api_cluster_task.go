@@ -2,51 +2,88 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// MetricsApi service type
-type MetricsApi common.Service
+// ClusterTaskApi service type
+type ClusterTaskApi common.Service
 
-// GetAggregateMetaData Get aggregate meta data.
-// Get aggregate meta data including total count and time series
-func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData AggregateMetaDataType, start int64, end int64) (AggregateMetaData, *_nethttp.Response, error) {
+// ListTasksInConsoleOptionalParameters holds optional parameters for ListTasksInConsole.
+type ListTasksInConsoleOptionalParameters struct {
+	Status          *OpsStatus
+	ClusterTaskType *OpsType
+}
+
+// NewListTasksInConsoleOptionalParameters creates an empty struct for parameters.
+func NewListTasksInConsoleOptionalParameters() *ListTasksInConsoleOptionalParameters {
+	this := ListTasksInConsoleOptionalParameters{}
+	return &this
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListTasksInConsoleOptionalParameters) WithStatus(status OpsStatus) *ListTasksInConsoleOptionalParameters {
+	r.Status = &status
+	return r
+}
+
+// WithClusterTaskType sets the corresponding parameter name and returns the struct.
+func (r *ListTasksInConsoleOptionalParameters) WithClusterTaskType(clusterTaskType OpsType) *ListTasksInConsoleOptionalParameters {
+	r.ClusterTaskType = &clusterTaskType
+	return r
+}
+
+// ListTasksInConsole List cluster tasks in console.
+func (a *ClusterTaskApi) ListTasksInConsole(ctx _context.Context, orgName string, clusterName string, o ...ListTasksInConsoleOptionalParameters) (ClusterTaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue AggregateMetaData
+		localVarReturnValue ClusterTaskList
+		optionalParams      ListTasksInConsoleOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListTasksInConsoleOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "metrics",
-		OperationID: "getAggregateMetaData",
-		Path:        "/admin/v1/metrics/metaData/aggregate",
+		Tag:         "clusterTask",
+		OperationID: "listTasksInConsole",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetAggregateMetaData")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.ListTasksInConsole")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/metrics/metaData/aggregate"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("metaData", common.ParameterToString(metaData, ""))
-	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
-	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
+	}
+	if optionalParams.ClusterTaskType != nil {
+		localVarQueryParams.Add("clusterTaskType", common.ParameterToString(*optionalParams.ClusterTaskType, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -97,30 +134,33 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetEnvironmentStats Get environment stats.
-// Get environment current stats
-func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats, *_nethttp.Response, error) {
+// QueryClusterTaskDetail Query operation task detail.
+// Query task detail of clusters
+func (a *ClusterTaskApi) QueryClusterTaskDetail(ctx _context.Context, orgName string, clusterName string, taskId string) (ClusterTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EnvironmentStats
+		localVarReturnValue ClusterTask
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "metrics",
-		OperationID: "getEnvironmentStats",
-		Path:        "/admin/v1/metrics/environment/stats",
+		Tag:         "clusterTask",
+		OperationID: "queryClusterTaskDetail",
+		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetEnvironmentStats")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.QueryClusterTaskDetail")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/metrics/environment/stats"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -152,7 +192,7 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -175,9 +215,9 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewMetricsApi Returns NewMetricsApi.
-func NewMetricsApi(client *common.APIClient) *MetricsApi {
-	return &MetricsApi{
+// NewClusterTaskApi Returns NewClusterTaskApi.
+func NewClusterTaskApi(client *common.APIClient) *ClusterTaskApi {
+	return &ClusterTaskApi{
 		Client: client,
 	}
 }
