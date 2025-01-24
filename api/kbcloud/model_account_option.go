@@ -11,7 +11,10 @@ import (
 )
 
 type AccountOption struct {
-	// number of super user accounts cloud create
+	// number of super user accounts cloud create.
+	// If not set, use default value.
+	// If set to 0, it means not allowed to create super user account.
+	//
 	MaxSuperUserAccount common.NullableInt32 `json:"maxSuperUserAccount,omitempty"`
 	Enabled             bool                 `json:"enabled"`
 	Privileges          []string             `json:"privileges,omitempty"`
