@@ -14,6 +14,8 @@ import (
 type BackupCreate struct {
 	// name of the backup, if not specified, a name will be generated automatically
 	Name *string `json:"name,omitempty"`
+	// the type of backup
+	BackupType *BackupType `json:"backupType,omitempty"`
 	// specified the backup method
 	BackupMethod string `json:"backupMethod"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -67,6 +69,34 @@ func (o *BackupCreate) SetName(v string) {
 	o.Name = &v
 }
 
+// GetBackupType returns the BackupType field value if set, zero value otherwise.
+func (o *BackupCreate) GetBackupType() BackupType {
+	if o == nil || o.BackupType == nil {
+		var ret BackupType
+		return ret
+	}
+	return *o.BackupType
+}
+
+// GetBackupTypeOk returns a tuple with the BackupType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupCreate) GetBackupTypeOk() (*BackupType, bool) {
+	if o == nil || o.BackupType == nil {
+		return nil, false
+	}
+	return o.BackupType, true
+}
+
+// HasBackupType returns a boolean if a field has been set.
+func (o *BackupCreate) HasBackupType() bool {
+	return o != nil && o.BackupType != nil
+}
+
+// SetBackupType gets a reference to the given BackupType and assigns it to the BackupType field.
+func (o *BackupCreate) SetBackupType(v BackupType) {
+	o.BackupType = &v
+}
+
 // GetBackupMethod returns the BackupMethod field value.
 func (o *BackupCreate) GetBackupMethod() string {
 	if o == nil {
@@ -99,6 +129,9 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
+	if o.BackupType != nil {
+		toSerialize["backupType"] = o.BackupType
+	}
 	toSerialize["backupMethod"] = o.BackupMethod
 
 	for key, value := range o.AdditionalProperties {
@@ -110,8 +143,9 @@ func (o BackupCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string `json:"name,omitempty"`
-		BackupMethod *string `json:"backupMethod"`
+		Name         *string     `json:"name,omitempty"`
+		BackupType   *BackupType `json:"backupType,omitempty"`
+		BackupMethod *string     `json:"backupMethod"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -121,15 +155,26 @@ func (o *BackupCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "backupMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "backupType", "backupMethod"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
+	if all.BackupType != nil && !all.BackupType.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.BackupType = all.BackupType
+	}
 	o.BackupMethod = *all.BackupMethod
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

@@ -27,6 +27,8 @@ type ComponentItem struct {
 	Volumes      []ComponentVolumeItem `json:"volumes,omitempty"`
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
+	// The name of the secret that contains the system account credentials
+	SystemAccountSecretName *string `json:"systemAccountSecretName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -357,6 +359,34 @@ func (o *ComponentItem) SetCodeShort(v string) {
 	o.CodeShort = &v
 }
 
+// GetSystemAccountSecretName returns the SystemAccountSecretName field value if set, zero value otherwise.
+func (o *ComponentItem) GetSystemAccountSecretName() string {
+	if o == nil || o.SystemAccountSecretName == nil {
+		var ret string
+		return ret
+	}
+	return *o.SystemAccountSecretName
+}
+
+// GetSystemAccountSecretNameOk returns a tuple with the SystemAccountSecretName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentItem) GetSystemAccountSecretNameOk() (*string, bool) {
+	if o == nil || o.SystemAccountSecretName == nil {
+		return nil, false
+	}
+	return o.SystemAccountSecretName, true
+}
+
+// HasSystemAccountSecretName returns a boolean if a field has been set.
+func (o *ComponentItem) HasSystemAccountSecretName() bool {
+	return o != nil && o.SystemAccountSecretName != nil
+}
+
+// SetSystemAccountSecretName gets a reference to the given string and assigns it to the SystemAccountSecretName field.
+func (o *ComponentItem) SetSystemAccountSecretName(v string) {
+	o.SystemAccountSecretName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -396,6 +426,9 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.CodeShort != nil {
 		toSerialize["codeShort"] = o.CodeShort
 	}
+	if o.SystemAccountSecretName != nil {
+		toSerialize["systemAccountSecretName"] = o.SystemAccountSecretName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -406,24 +439,25 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string               `json:"name,omitempty"`
-		Component    *string               `json:"component,omitempty"`
-		CompNum      *int32                `json:"compNum,omitempty"`
-		Replicas     *int32                `json:"replicas,omitempty"`
-		ClassCode    *string               `json:"classCode,omitempty"`
-		ClassSeries  *string               `json:"classSeries,omitempty"`
-		Cpu          *float64              `json:"cpu,omitempty"`
-		Memory       *float64              `json:"memory,omitempty"`
-		StorageClass *string               `json:"storageClass,omitempty"`
-		Volumes      []ComponentVolumeItem `json:"volumes,omitempty"`
-		CodeShort    *string               `json:"codeShort,omitempty"`
+		Name                    *string               `json:"name,omitempty"`
+		Component               *string               `json:"component,omitempty"`
+		CompNum                 *int32                `json:"compNum,omitempty"`
+		Replicas                *int32                `json:"replicas,omitempty"`
+		ClassCode               *string               `json:"classCode,omitempty"`
+		ClassSeries             *string               `json:"classSeries,omitempty"`
+		Cpu                     *float64              `json:"cpu,omitempty"`
+		Memory                  *float64              `json:"memory,omitempty"`
+		StorageClass            *string               `json:"storageClass,omitempty"`
+		Volumes                 []ComponentVolumeItem `json:"volumes,omitempty"`
+		CodeShort               *string               `json:"codeShort,omitempty"`
+		SystemAccountSecretName *string               `json:"systemAccountSecretName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "classSeries", "cpu", "memory", "storageClass", "volumes", "codeShort"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "classSeries", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName"})
 	} else {
 		return err
 	}
@@ -438,6 +472,7 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.StorageClass = all.StorageClass
 	o.Volumes = all.Volumes
 	o.CodeShort = all.CodeShort
+	o.SystemAccountSecretName = all.SystemAccountSecretName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -34,6 +34,8 @@ type Benchmark struct {
 	Cluster *string `json:"cluster,omitempty"`
 	// the cluster id
 	ClusterId *string `json:"clusterID,omitempty"`
+	// the actual command executed during the benchmark run stage
+	Command *string `json:"command,omitempty"`
 	// the database name
 	Database *string `json:"database,omitempty"`
 	// the completion timestamp of benchmark
@@ -372,6 +374,34 @@ func (o *Benchmark) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
+// GetCommand returns the Command field value if set, zero value otherwise.
+func (o *Benchmark) GetCommand() string {
+	if o == nil || o.Command == nil {
+		var ret string
+		return ret
+	}
+	return *o.Command
+}
+
+// GetCommandOk returns a tuple with the Command field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Benchmark) GetCommandOk() (*string, bool) {
+	if o == nil || o.Command == nil {
+		return nil, false
+	}
+	return o.Command, true
+}
+
+// HasCommand returns a boolean if a field has been set.
+func (o *Benchmark) HasCommand() bool {
+	return o != nil && o.Command != nil
+}
+
+// SetCommand gets a reference to the given string and assigns it to the Command field.
+func (o *Benchmark) SetCommand(v string) {
+	o.Command = &v
+}
+
 // GetDatabase returns the Database field value if set, zero value otherwise.
 func (o *Benchmark) GetDatabase() string {
 	if o == nil || o.Database == nil {
@@ -523,6 +553,9 @@ func (o Benchmark) MarshalJSON() ([]byte, error) {
 	if o.ClusterId != nil {
 		toSerialize["clusterID"] = o.ClusterId
 	}
+	if o.Command != nil {
+		toSerialize["command"] = o.Command
+	}
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
@@ -564,6 +597,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 		Message             *string          `json:"message,omitempty"`
 		Cluster             *string          `json:"cluster,omitempty"`
 		ClusterId           *string          `json:"clusterID,omitempty"`
+		Command             *string          `json:"command,omitempty"`
 		Database            *string          `json:"database,omitempty"`
 		CompletionTimestamp *time.Time       `json:"completionTimestamp,omitempty"`
 		CreatedAt           *time.Time       `json:"createdAt,omitempty"`
@@ -574,7 +608,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "config", "prepareLog", "runLog", "cleanupLog", "result", "message", "cluster", "clusterID", "database", "completionTimestamp", "createdAt", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "type", "config", "prepareLog", "runLog", "cleanupLog", "result", "message", "cluster", "clusterID", "command", "database", "completionTimestamp", "createdAt", "status"})
 	} else {
 		return err
 	}
@@ -595,6 +629,7 @@ func (o *Benchmark) UnmarshalJSON(bytes []byte) (err error) {
 	o.Message = all.Message
 	o.Cluster = all.Cluster
 	o.ClusterId = all.ClusterId
+	o.Command = all.Command
 	o.Database = all.Database
 	o.CompletionTimestamp = all.CompletionTimestamp
 	o.CreatedAt = all.CreatedAt

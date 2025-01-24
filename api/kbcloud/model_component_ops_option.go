@@ -16,9 +16,11 @@ type ComponentOpsOption struct {
 	// parameter for rebuild instance ops
 	InPlace *bool `json:"inPlace,omitempty"`
 	// indicate whether backup is required when Inplace is true
-	NeedBackupWhenInPlace *bool                                 `json:"needBackupWhenInPlace,omitempty"`
-	RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
-	DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
+	NeedBackupWhenInPlace *bool `json:"needBackupWhenInPlace,omitempty"`
+	// indicate the backup method when inplace is true
+	BackupMethod       *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
+	RestoreEnv         []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
+	DependentCustomOps *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -161,9 +163,37 @@ func (o *ComponentOpsOption) SetNeedBackupWhenInPlace(v bool) {
 	o.NeedBackupWhenInPlace = &v
 }
 
-// GetRestoreEnv returns the RestoreEnv field value if set, zero value otherwise.
+// GetBackupMethod returns the BackupMethod field value if set, zero value otherwise.
+func (o *ComponentOpsOption) GetBackupMethod() ComponentOpsOptionBackupMethod {
+	if o == nil || o.BackupMethod == nil {
+		var ret ComponentOpsOptionBackupMethod
+		return ret
+	}
+	return *o.BackupMethod
+}
+
+// GetBackupMethodOk returns a tuple with the BackupMethod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOpsOption) GetBackupMethodOk() (*ComponentOpsOptionBackupMethod, bool) {
+	if o == nil || o.BackupMethod == nil {
+		return nil, false
+	}
+	return o.BackupMethod, true
+}
+
+// HasBackupMethod returns a boolean if a field has been set.
+func (o *ComponentOpsOption) HasBackupMethod() bool {
+	return o != nil && o.BackupMethod != nil
+}
+
+// SetBackupMethod gets a reference to the given ComponentOpsOptionBackupMethod and assigns it to the BackupMethod field.
+func (o *ComponentOpsOption) SetBackupMethod(v ComponentOpsOptionBackupMethod) {
+	o.BackupMethod = &v
+}
+
+// GetRestoreEnv returns the RestoreEnv field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ComponentOpsOption) GetRestoreEnv() []ComponentOpsOptionRestoreEnvItem {
-	if o == nil || o.RestoreEnv == nil {
+	if o == nil {
 		var ret []ComponentOpsOptionRestoreEnvItem
 		return ret
 	}
@@ -172,6 +202,7 @@ func (o *ComponentOpsOption) GetRestoreEnv() []ComponentOpsOptionRestoreEnvItem 
 
 // GetRestoreEnvOk returns a tuple with the RestoreEnv field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ComponentOpsOption) GetRestoreEnvOk() (*[]ComponentOpsOptionRestoreEnvItem, bool) {
 	if o == nil || o.RestoreEnv == nil {
 		return nil, false
@@ -233,6 +264,9 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 	if o.NeedBackupWhenInPlace != nil {
 		toSerialize["needBackupWhenInPlace"] = o.NeedBackupWhenInPlace
 	}
+	if o.BackupMethod != nil {
+		toSerialize["backupMethod"] = o.BackupMethod
+	}
 	if o.RestoreEnv != nil {
 		toSerialize["restoreEnv"] = o.RestoreEnv
 	}
@@ -253,6 +287,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 		DisableHa             *bool                                 `json:"disableHA,omitempty"`
 		InPlace               *bool                                 `json:"inPlace,omitempty"`
 		NeedBackupWhenInPlace *bool                                 `json:"needBackupWhenInPlace,omitempty"`
+		BackupMethod          *ComponentOpsOptionBackupMethod       `json:"backupMethod,omitempty"`
 		RestoreEnv            []ComponentOpsOptionRestoreEnvItem    `json:"restoreEnv,omitempty"`
 		DependentCustomOps    *ComponentOpsOptionDependentCustomOps `json:"dependentCustomOps,omitempty"`
 	}{}
@@ -264,7 +299,7 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "disableHA", "inPlace", "needBackupWhenInPlace", "restoreEnv", "dependentCustomOps"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupMethod", "restoreEnv", "dependentCustomOps"})
 	} else {
 		return err
 	}
@@ -274,6 +309,10 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.DisableHa = all.DisableHa
 	o.InPlace = all.InPlace
 	o.NeedBackupWhenInPlace = all.NeedBackupWhenInPlace
+	if all.BackupMethod != nil && all.BackupMethod.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.BackupMethod = all.BackupMethod
 	o.RestoreEnv = all.RestoreEnv
 	if all.DependentCustomOps != nil && all.DependentCustomOps.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

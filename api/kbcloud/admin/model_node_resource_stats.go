@@ -16,6 +16,8 @@ type NodeResourceStats struct {
 	CpuStats ResourceStats `json:"cpuStats"`
 	// ResourceStats holds the requests, limits, and available stats for a resource.
 	MemoryStats ResourceStats `json:"memoryStats"`
+	// ResourceStats holds the requests, limits, and available stats for a resource.
+	FilesystemStats *ResourceStats `json:"filesystemStats,omitempty"`
 	// Name of the node.
 	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -89,6 +91,34 @@ func (o *NodeResourceStats) SetMemoryStats(v ResourceStats) {
 	o.MemoryStats = v
 }
 
+// GetFilesystemStats returns the FilesystemStats field value if set, zero value otherwise.
+func (o *NodeResourceStats) GetFilesystemStats() ResourceStats {
+	if o == nil || o.FilesystemStats == nil {
+		var ret ResourceStats
+		return ret
+	}
+	return *o.FilesystemStats
+}
+
+// GetFilesystemStatsOk returns a tuple with the FilesystemStats field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NodeResourceStats) GetFilesystemStatsOk() (*ResourceStats, bool) {
+	if o == nil || o.FilesystemStats == nil {
+		return nil, false
+	}
+	return o.FilesystemStats, true
+}
+
+// HasFilesystemStats returns a boolean if a field has been set.
+func (o *NodeResourceStats) HasFilesystemStats() bool {
+	return o != nil && o.FilesystemStats != nil
+}
+
+// SetFilesystemStats gets a reference to the given ResourceStats and assigns it to the FilesystemStats field.
+func (o *NodeResourceStats) SetFilesystemStats(v ResourceStats) {
+	o.FilesystemStats = &v
+}
+
 // GetName returns the Name field value.
 func (o *NodeResourceStats) GetName() string {
 	if o == nil {
@@ -120,6 +150,9 @@ func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["cpuStats"] = o.CpuStats
 	toSerialize["memoryStats"] = o.MemoryStats
+	if o.FilesystemStats != nil {
+		toSerialize["filesystemStats"] = o.FilesystemStats
+	}
 	toSerialize["name"] = o.Name
 
 	for key, value := range o.AdditionalProperties {
@@ -131,9 +164,10 @@ func (o NodeResourceStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CpuStats    *ResourceStats `json:"cpuStats"`
-		MemoryStats *ResourceStats `json:"memoryStats"`
-		Name        *string        `json:"name"`
+		CpuStats        *ResourceStats `json:"cpuStats"`
+		MemoryStats     *ResourceStats `json:"memoryStats"`
+		FilesystemStats *ResourceStats `json:"filesystemStats,omitempty"`
+		Name            *string        `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
@@ -149,7 +183,7 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpuStats", "memoryStats", "filesystemStats", "name"})
 	} else {
 		return err
 	}
@@ -163,6 +197,10 @@ func (o *NodeResourceStats) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.MemoryStats = *all.MemoryStats
+	if all.FilesystemStats != nil && all.FilesystemStats.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.FilesystemStats = all.FilesystemStats
 	o.Name = *all.Name
 
 	if len(additionalProperties) > 0 {

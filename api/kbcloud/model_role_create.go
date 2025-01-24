@@ -4,12 +4,16 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // RoleCreate Role create
 type RoleCreate struct {
 	// The name of the role
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name"`
 	// The description of the role
 	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,8 +25,9 @@ type RoleCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewRoleCreate() *RoleCreate {
+func NewRoleCreate(name string) *RoleCreate {
 	this := RoleCreate{}
+	this.Name = name
 	return &this
 }
 
@@ -34,32 +39,27 @@ func NewRoleCreateWithDefaults() *RoleCreate {
 	return &this
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value.
 func (o *RoleCreate) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return o.Name
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *RoleCreate) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return &o.Name, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *RoleCreate) HasName() bool {
-	return o != nil && o.Name != nil
-}
-
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName sets field value.
 func (o *RoleCreate) SetName(v string) {
-	o.Name = &v
+	o.Name = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -96,9 +96,7 @@ func (o RoleCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
-	}
+	toSerialize["name"] = o.Name
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -112,11 +110,14 @@ func (o RoleCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string `json:"name,omitempty"`
+		Name        *string `json:"name"`
 		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
+	}
+	if all.Name == nil {
+		return fmt.Errorf("required field name missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -124,7 +125,7 @@ func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Name = all.Name
+	o.Name = *all.Name
 	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
