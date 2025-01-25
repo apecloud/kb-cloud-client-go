@@ -236,6 +236,7 @@
 //   - [inspectionApi.updateAutoInspection]
 //   - [inspectionApi.updateInspection]
 //   - [inspectionApi.updateInspectionScript]
+//   - [instanceApi.listInstances]
 //   - [instanceTypesApi.createInstanceType]
 //   - [instanceTypesApi.deleteInstanceType]
 //   - [instanceTypesApi.getInstanceTypeById]
