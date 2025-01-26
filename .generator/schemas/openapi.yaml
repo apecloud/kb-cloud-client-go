@@ -689,9 +689,9 @@ paths:
         - role
   /api/v1/organizations/{orgName}/events:
     get:
-      description: Query events of clusters
-      summary: Query operation events
-      operationId: queryClusterEvents
+      description: list events
+      summary: list events
+      operationId: listEvents
       parameters:
         - description: Organization Name
           in: path
@@ -749,8 +749,8 @@ paths:
   /api/v1/organizations/{orgName}/events/{eventID}:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
-      summary: Query event detail by Event ID
-      operationId: queryEventDetail
+      summary: get event by eventID
+      operationId: getEvent
       parameters:
         - description: Organization Name
           in: path
@@ -1586,7 +1586,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -3343,9 +3342,9 @@ paths:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
-      description: Query task detail of clusters
-      summary: Query operation task detail
-      operationId: queryClusterTaskDetail
+      description: Get cluster task
+      summary: Get cluster task
+      operationId: getClusterTask
       parameters:
         - description: Organization Name
           in: path
@@ -3382,7 +3381,7 @@ paths:
         - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
     get:
-      operationId: listTasksInConsole
+      operationId: listClusterTasks
       summary: List cluster tasks in console
       parameters:
         - description: name of the Org
@@ -13176,6 +13175,9 @@ components:
       properties:
         accessMode:
           description: Access mode for instance
+          type: string
+        orgName:
+          description: Org name
           type: string
         cloud:
           description: Cloud for instance

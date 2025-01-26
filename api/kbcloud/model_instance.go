@@ -14,6 +14,8 @@ import (
 type Instance struct {
 	// Access mode for instance
 	AccessMode string `json:"accessMode"`
+	// Org name
+	OrgName *string `json:"orgName,omitempty"`
 	// Cloud for instance
 	Cloud string `json:"cloud"`
 	// Cluster name
@@ -101,6 +103,34 @@ func (o *Instance) GetAccessModeOk() (*string, bool) {
 // SetAccessMode sets field value.
 func (o *Instance) SetAccessMode(v string) {
 	o.AccessMode = v
+}
+
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
+func (o *Instance) GetOrgName() string {
+	if o == nil || o.OrgName == nil {
+		var ret string
+		return ret
+	}
+	return *o.OrgName
+}
+
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Instance) GetOrgNameOk() (*string, bool) {
+	if o == nil || o.OrgName == nil {
+		return nil, false
+	}
+	return o.OrgName, true
+}
+
+// HasOrgName returns a boolean if a field has been set.
+func (o *Instance) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+func (o *Instance) SetOrgName(v string) {
+	o.OrgName = &v
 }
 
 // GetCloud returns the Cloud field value.
@@ -465,6 +495,9 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["accessMode"] = o.AccessMode
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 	toSerialize["cloud"] = o.Cloud
 	toSerialize["cluster"] = o.Cluster
 	if o.ComponentName != nil {
@@ -495,6 +528,7 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		AccessMode    *string                `json:"accessMode"`
+		OrgName       *string                `json:"orgName,omitempty"`
 		Cloud         *string                `json:"cloud"`
 		Cluster       *string                `json:"cluster"`
 		ComponentName *string                `json:"componentName,omitempty"`
@@ -558,13 +592,14 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone"})
+		common.DeleteKeys(additionalProperties, &[]string{"accessMode", "orgName", "cloud", "cluster", "componentName", "componentDef", "component", "cpu", "createdAt", "memory", "name", "node", "region", "role", "status", "storage", "zone"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.AccessMode = *all.AccessMode
+	o.OrgName = all.OrgName
 	o.Cloud = *all.Cloud
 	o.Cluster = *all.Cluster
 	o.ComponentName = all.ComponentName

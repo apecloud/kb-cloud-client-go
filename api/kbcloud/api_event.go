@@ -16,106 +16,27 @@ import (
 // EventApi service type
 type EventApi common.Service
 
-// QueryClusterEventsOptionalParameters holds optional parameters for QueryClusterEvents.
-type QueryClusterEventsOptionalParameters struct {
-	ResourceId   *int32
-	ResourceType *string
-	EventName    *string
-	OperatorId   *int32
-	PageNumber   *int32
-	PageSize     *int32
-}
-
-// NewQueryClusterEventsOptionalParameters creates an empty struct for parameters.
-func NewQueryClusterEventsOptionalParameters() *QueryClusterEventsOptionalParameters {
-	this := QueryClusterEventsOptionalParameters{}
-	return &this
-}
-
-// WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithResourceId(resourceId int32) *QueryClusterEventsOptionalParameters {
-	r.ResourceId = &resourceId
-	return r
-}
-
-// WithResourceType sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithResourceType(resourceType string) *QueryClusterEventsOptionalParameters {
-	r.ResourceType = &resourceType
-	return r
-}
-
-// WithEventName sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithEventName(eventName string) *QueryClusterEventsOptionalParameters {
-	r.EventName = &eventName
-	return r
-}
-
-// WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithOperatorId(operatorId int32) *QueryClusterEventsOptionalParameters {
-	r.OperatorId = &operatorId
-	return r
-}
-
-// WithPageNumber sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithPageNumber(pageNumber int32) *QueryClusterEventsOptionalParameters {
-	r.PageNumber = &pageNumber
-	return r
-}
-
-// WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *QueryClusterEventsOptionalParameters) WithPageSize(pageSize int32) *QueryClusterEventsOptionalParameters {
-	r.PageSize = &pageSize
-	return r
-}
-
-// QueryClusterEvents Query operation events.
-// Query events of clusters
-func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, start int64, end int64, o ...QueryClusterEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
+// GetEvent get event by eventID.
+// Retrieves detailed information about an event based on the provided Event ID.
+func (a *EventApi) GetEvent(ctx _context.Context, orgName string, eventId string) (Event, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EventList
-		optionalParams      QueryClusterEventsOptionalParameters
+		localVarReturnValue Event
 	)
 
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type QueryClusterEventsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryClusterEvents")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.GetEvent")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/events"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/events/{eventID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"eventID"+"}", _neturl.PathEscape(common.ParameterToString(eventId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
-	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
-	if optionalParams.ResourceId != nil {
-		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
-	}
-	if optionalParams.ResourceType != nil {
-		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
-	}
-	if optionalParams.EventName != nil {
-		localVarQueryParams.Add("eventName", common.ParameterToString(*optionalParams.EventName, ""))
-	}
-	if optionalParams.OperatorId != nil {
-		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
-	}
-	if optionalParams.PageNumber != nil {
-		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
-	}
-	if optionalParams.PageSize != nil {
-		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -166,27 +87,106 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, orgName string, star
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// QueryEventDetail Query event detail by Event ID.
-// Retrieves detailed information about an event based on the provided Event ID.
-func (a *EventApi) QueryEventDetail(ctx _context.Context, orgName string, eventId string) (Event, *_nethttp.Response, error) {
+// ListEventsOptionalParameters holds optional parameters for ListEvents.
+type ListEventsOptionalParameters struct {
+	ResourceId   *int32
+	ResourceType *string
+	EventName    *string
+	OperatorId   *int32
+	PageNumber   *int32
+	PageSize     *int32
+}
+
+// NewListEventsOptionalParameters creates an empty struct for parameters.
+func NewListEventsOptionalParameters() *ListEventsOptionalParameters {
+	this := ListEventsOptionalParameters{}
+	return &this
+}
+
+// WithResourceId sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithResourceId(resourceId int32) *ListEventsOptionalParameters {
+	r.ResourceId = &resourceId
+	return r
+}
+
+// WithResourceType sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithResourceType(resourceType string) *ListEventsOptionalParameters {
+	r.ResourceType = &resourceType
+	return r
+}
+
+// WithEventName sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEventsOptionalParameters {
+	r.EventName = &eventName
+	return r
+}
+
+// WithOperatorId sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
+	r.OperatorId = &operatorId
+	return r
+}
+
+// WithPageNumber sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListEventsOptionalParameters {
+	r.PageNumber = &pageNumber
+	return r
+}
+
+// WithPageSize sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithPageSize(pageSize int32) *ListEventsOptionalParameters {
+	r.PageSize = &pageSize
+	return r
+}
+
+// ListEvents list events.
+// list events
+func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64, end int64, o ...ListEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue Event
+		localVarReturnValue EventList
+		optionalParams      ListEventsOptionalParameters
 	)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryEventDetail")
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEventsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.ListEvents")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/events/{eventID}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/events"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"eventID"+"}", _neturl.PathEscape(common.ParameterToString(eventId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.ResourceId != nil {
+		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
+	}
+	if optionalParams.ResourceType != nil {
+		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
+	}
+	if optionalParams.EventName != nil {
+		localVarQueryParams.Add("eventName", common.ParameterToString(*optionalParams.EventName, ""))
+	}
+	if optionalParams.OperatorId != nil {
+		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
+	}
+	if optionalParams.PageNumber != nil {
+		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
+	}
+	if optionalParams.PageSize != nil {
+		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
