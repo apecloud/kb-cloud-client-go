@@ -13170,6 +13170,9 @@ components:
         accessMode:
           description: Access mode for instance
           type: string
+        orgName:
+          description: Org name
+          type: string
         cloud:
           description: Cloud for instance
           type: string
