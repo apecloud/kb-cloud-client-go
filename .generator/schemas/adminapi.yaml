@@ -23,44 +23,46 @@ security:
 tags:
   - name: user
     description: User APIs
-  - name: metrics
-    description: Meta data metrics APIs
+  - name: invitation
+    description: Invitation APIs
+  - name: role
+    description: Role Management APIs
   - name: organization
     description: Organization APIs
   - name: environment
     description: Environment APIs
+  - name: project
+    description: Project APIs
   - name: cluster
     description: Cluster APIs
   - name: clusterTask
     description: Cluster Task APIs
+  - name: instance
+    description: Cluster instance APIs
+  - name: imageRegistry
+    description: imageRegistry APIs
   - name: vipPool
     description: VIP Pool APIs
   - name: resourceStats
     description: Resource Stats APIs
-  - name: license
-    description: License APIs
   - name: monitorDataSink
     description: External Endpoint APIs
-  - name: imageRegistry
-    description: imageRegistry APIs
-  - name: feature
-    description: Feature APIs
-  - name: role
-    description: Role Management APIs
-  - name: invitation
-    description: Invitation APIs
   - name: platformParameter
     description: Platform Parameter APIs
   - name: recycleBinCluster
     description: Recycle Bin Cluster APIs
-  - name: project
-    description: Project APIs
   - name: task
     description: Task APIs
   - name: fault
     description: Fault inject APIs
   - name: engine
     description: Engine APIs
+  - name: metrics
+    description: Meta data metrics APIs
+  - name: feature
+    description: Feature APIs
+  - name: license
+    description: License APIs
 paths:
   /admin/v1/user:
     post:
@@ -11474,6 +11476,51 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/instances:
+    get:
+      summary: List cluster instances
+      description: List instances based on query parameters with constraints.
+      operationId: listInstances
+      parameters:
+        - name: envName
+          in: query
+          description: Name of the environment (optional, required when querying by nodeName).
+          schema:
+            type: string
+        - name: nodeName
+          in: query
+          description: Name of the node (optional, required when querying by envName).
+          schema:
+            type: string
+        - name: orgName
+          in: query
+          description: Name of the organization (optional, required when querying by clusterName).
+          schema:
+            type: string
+        - name: clusterName
+          in: query
+          description: Name of the cluster (optional).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - instance
   /admin/v1/metadb/summary:
     get:
       tags:
@@ -24779,6 +24826,8 @@ x-tagGroup:
     tags:
       - cluster
       - clusterLog
+      - instance
+      - clusterlog
       - account
       - database
       - opsrequest
