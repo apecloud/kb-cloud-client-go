@@ -3504,7 +3504,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/tagList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/clusterTags'
   /api/v1/organizations/{orgName}/tags/{tagId}:
     delete:
       tags:
@@ -14024,7 +14026,7 @@ components:
       required:
         - id
       type: object
-    tagCluster:
+    clusterTags:
       properties:
         clusterId:
           description: The cluster id corresponding to the tag
@@ -14034,10 +14036,6 @@ components:
             $ref: '#/components/schemas/tag'
           type: array
       type: object
-    tagList:
-      items:
-        $ref: '#/components/schemas/tagCluster'
-      type: array
     tagUpdate:
       description: Tag update
       properties:

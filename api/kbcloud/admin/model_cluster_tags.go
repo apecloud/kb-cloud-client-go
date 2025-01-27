@@ -2,11 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type TagCluster struct {
+type ClusterTags struct {
 	// The cluster id corresponding to the tag
 	ClusterId *string `json:"clusterId,omitempty"`
 	Tags      []Tag   `json:"tags,omitempty"`
@@ -15,25 +15,25 @@ type TagCluster struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewTagCluster instantiates a new TagCluster object.
+// NewClusterTags instantiates a new ClusterTags object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTagCluster() *TagCluster {
-	this := TagCluster{}
+func NewClusterTags() *ClusterTags {
+	this := ClusterTags{}
 	return &this
 }
 
-// NewTagClusterWithDefaults instantiates a new TagCluster object.
+// NewClusterTagsWithDefaults instantiates a new ClusterTags object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewTagClusterWithDefaults() *TagCluster {
-	this := TagCluster{}
+func NewClusterTagsWithDefaults() *ClusterTags {
+	this := ClusterTags{}
 	return &this
 }
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
-func (o *TagCluster) GetClusterId() string {
+func (o *ClusterTags) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
 		var ret string
 		return ret
@@ -43,7 +43,7 @@ func (o *TagCluster) GetClusterId() string {
 
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TagCluster) GetClusterIdOk() (*string, bool) {
+func (o *ClusterTags) GetClusterIdOk() (*string, bool) {
 	if o == nil || o.ClusterId == nil {
 		return nil, false
 	}
@@ -51,17 +51,17 @@ func (o *TagCluster) GetClusterIdOk() (*string, bool) {
 }
 
 // HasClusterId returns a boolean if a field has been set.
-func (o *TagCluster) HasClusterId() bool {
+func (o *ClusterTags) HasClusterId() bool {
 	return o != nil && o.ClusterId != nil
 }
 
 // SetClusterId gets a reference to the given string and assigns it to the ClusterId field.
-func (o *TagCluster) SetClusterId(v string) {
+func (o *ClusterTags) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
 // GetTags returns the Tags field value if set, zero value otherwise.
-func (o *TagCluster) GetTags() []Tag {
+func (o *ClusterTags) GetTags() []Tag {
 	if o == nil || o.Tags == nil {
 		var ret []Tag
 		return ret
@@ -71,7 +71,7 @@ func (o *TagCluster) GetTags() []Tag {
 
 // GetTagsOk returns a tuple with the Tags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TagCluster) GetTagsOk() (*[]Tag, bool) {
+func (o *ClusterTags) GetTagsOk() (*[]Tag, bool) {
 	if o == nil || o.Tags == nil {
 		return nil, false
 	}
@@ -79,17 +79,17 @@ func (o *TagCluster) GetTagsOk() (*[]Tag, bool) {
 }
 
 // HasTags returns a boolean if a field has been set.
-func (o *TagCluster) HasTags() bool {
+func (o *ClusterTags) HasTags() bool {
 	return o != nil && o.Tags != nil
 }
 
 // SetTags gets a reference to the given []Tag and assigns it to the Tags field.
-func (o *TagCluster) SetTags(v []Tag) {
+func (o *ClusterTags) SetTags(v []Tag) {
 	o.Tags = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o TagCluster) MarshalJSON() ([]byte, error) {
+func (o ClusterTags) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -108,7 +108,7 @@ func (o TagCluster) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *TagCluster) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterTags) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ClusterId *string `json:"clusterId,omitempty"`
 		Tags      []Tag   `json:"tags,omitempty"`
