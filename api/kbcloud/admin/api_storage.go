@@ -326,7 +326,7 @@ func (a *StorageApi) GetStorage(ctx _context.Context, environmentName string, st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ImportBackup import backuprecords from storage.
+// ImportBackup scan and import backup records from storage.
 func (a *StorageApi) ImportBackup(ctx _context.Context, environmentName string, storageName string, body ImportBackup) (BackupList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

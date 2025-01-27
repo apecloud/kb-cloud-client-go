@@ -11109,7 +11109,7 @@ paths:
   /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
     post:
       operationId: importBackup
-      summary: import backuprecords from storage
+      summary: scan and import backup records from storage
       parameters:
         - description: name of the environment
           in: path
@@ -23153,7 +23153,7 @@ components:
           type: string
           description: the error msg
     importBackup:
-      description: import backuprecords from storage
+      description: scan and import backup records from storage
       type: object
       properties:
         bucket:
