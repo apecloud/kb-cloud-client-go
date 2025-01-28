@@ -170,11 +170,11 @@ func (a *ClusterTagApi) DeleteTags(ctx _context.Context, orgName string, tagId s
 }
 
 // GetTags Get cluster tags.
-func (a *ClusterTagApi) GetTags(ctx _context.Context, orgName string, clusterIds string) ([]TagCluster, *_nethttp.Response, error) {
+func (a *ClusterTagApi) GetTags(ctx _context.Context, orgName string, clusterIds string) ([]ClusterTags, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []TagCluster
+		localVarReturnValue []ClusterTags
 	)
 
 	// Add api info to context
