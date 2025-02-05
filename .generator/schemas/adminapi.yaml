@@ -20934,6 +20934,10 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+        customMasterName:
+          type: boolean
+          description: whether the component supports custom master name
+          x-nullable: false
     integerOption:
       type: object
       required:

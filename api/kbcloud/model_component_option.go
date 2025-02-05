@@ -25,6 +25,8 @@ type ComponentOption struct {
 	Main *bool `json:"main,omitempty"`
 	// whether the component supports custom secret
 	CustomSecret *bool `json:"customSecret,omitempty"`
+	// whether the component supports custom master name
+	CustomMasterName *bool `json:"customMasterName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -259,6 +261,34 @@ func (o *ComponentOption) SetCustomSecret(v bool) {
 	o.CustomSecret = &v
 }
 
+// GetCustomMasterName returns the CustomMasterName field value if set, zero value otherwise.
+func (o *ComponentOption) GetCustomMasterName() bool {
+	if o == nil || o.CustomMasterName == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CustomMasterName
+}
+
+// GetCustomMasterNameOk returns a tuple with the CustomMasterName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOption) GetCustomMasterNameOk() (*bool, bool) {
+	if o == nil || o.CustomMasterName == nil {
+		return nil, false
+	}
+	return o.CustomMasterName, true
+}
+
+// HasCustomMasterName returns a boolean if a field has been set.
+func (o *ComponentOption) HasCustomMasterName() bool {
+	return o != nil && o.CustomMasterName != nil
+}
+
+// SetCustomMasterName gets a reference to the given bool and assigns it to the CustomMasterName field.
+func (o *ComponentOption) SetCustomMasterName(v bool) {
+	o.CustomMasterName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -283,6 +313,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	if o.CustomSecret != nil {
 		toSerialize["customSecret"] = o.CustomSecret
 	}
+	if o.CustomMasterName != nil {
+		toSerialize["customMasterName"] = o.CustomMasterName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -293,14 +326,15 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name         *string                 `json:"name"`
-		MatchRegex   *string                 `json:"matchRegex,omitempty"`
-		Title        *LocalizedDescription   `json:"title"`
-		Order        *int32                  `json:"order"`
-		RoleOrder    []string                `json:"roleOrder,omitempty"`
-		Version      *ComponentOptionVersion `json:"version,omitempty"`
-		Main         *bool                   `json:"main,omitempty"`
-		CustomSecret *bool                   `json:"customSecret,omitempty"`
+		Name             *string                 `json:"name"`
+		MatchRegex       *string                 `json:"matchRegex,omitempty"`
+		Title            *LocalizedDescription   `json:"title"`
+		Order            *int32                  `json:"order"`
+		RoleOrder        []string                `json:"roleOrder,omitempty"`
+		Version          *ComponentOptionVersion `json:"version,omitempty"`
+		Main             *bool                   `json:"main,omitempty"`
+		CustomSecret     *bool                   `json:"customSecret,omitempty"`
+		CustomMasterName *bool                   `json:"customMasterName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -316,7 +350,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "matchRegex", "title", "order", "roleOrder", "version", "main", "customSecret"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "matchRegex", "title", "order", "roleOrder", "version", "main", "customSecret", "customMasterName"})
 	} else {
 		return err
 	}
@@ -336,6 +370,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Version = all.Version
 	o.Main = all.Main
 	o.CustomSecret = all.CustomSecret
+	o.CustomMasterName = all.CustomMasterName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
