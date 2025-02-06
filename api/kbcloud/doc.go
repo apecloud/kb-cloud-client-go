@@ -59,7 +59,7 @@
 //   - [backupApi.createClusterBackup]
 //   - [backupApi.deleteBackup]
 //   - [backupApi.downloadBackup]
-//   - [backupApi.downloadMutipleBackups]
+//   - [backupApi.downloadMultipleBackups]
 //   - [backupApi.getBackup]
 //   - [backupApi.getBackupLog]
 //   - [backupApi.getBackupStats]

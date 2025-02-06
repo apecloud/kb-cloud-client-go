@@ -219,8 +219,8 @@ func (a *BackupApi) DownloadBackup(ctx _context.Context, orgName string, backupI
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DownloadMutipleBackups Download mutiple backup files.
-func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string, backupId string, body BackupDownload) (_io.Reader, *_nethttp.Response, error) {
+// DownloadMultipleBackups Download multiple backup files.
+func (a *BackupApi) DownloadMultipleBackups(ctx _context.Context, orgName string, backupId string, body BackupDownload) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -230,13 +230,13 @@ func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string,
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
-		OperationID: "downloadMutipleBackups",
+		OperationID: "downloadMultipleBackups",
 		Path:        "/admin/v1/organizations/{orgName}/backups/{backupId}/download",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadMutipleBackups")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadMultipleBackups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
