@@ -3999,7 +3999,7 @@ paths:
     patch:
       description: partially update the specified Backup Policy
       summary: Update backup policy
-      operationId: patchBackupPolicy
+      operationId: updateBackupPolicy
       parameters:
         - description: name of the Org
           in: path

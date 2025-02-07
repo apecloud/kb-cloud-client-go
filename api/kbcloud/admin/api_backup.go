@@ -809,35 +809,35 @@ func (a *BackupApi) ListBackups(ctx _context.Context, o ...ListBackupsOptionalPa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PatchBackupPolicyOptionalParameters holds optional parameters for PatchBackupPolicy.
-type PatchBackupPolicyOptionalParameters struct {
+// UpdateBackupPolicyOptionalParameters holds optional parameters for UpdateBackupPolicy.
+type UpdateBackupPolicyOptionalParameters struct {
 	UseVolumeSnapshot *bool
 }
 
-// NewPatchBackupPolicyOptionalParameters creates an empty struct for parameters.
-func NewPatchBackupPolicyOptionalParameters() *PatchBackupPolicyOptionalParameters {
-	this := PatchBackupPolicyOptionalParameters{}
+// NewUpdateBackupPolicyOptionalParameters creates an empty struct for parameters.
+func NewUpdateBackupPolicyOptionalParameters() *UpdateBackupPolicyOptionalParameters {
+	this := UpdateBackupPolicyOptionalParameters{}
 	return &this
 }
 
 // WithUseVolumeSnapshot sets the corresponding parameter name and returns the struct.
-func (r *PatchBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSnapshot bool) *PatchBackupPolicyOptionalParameters {
+func (r *UpdateBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSnapshot bool) *UpdateBackupPolicyOptionalParameters {
 	r.UseVolumeSnapshot = &useVolumeSnapshot
 	return r
 }
 
-// PatchBackupPolicy Update backup policy.
+// UpdateBackupPolicy Update backup policy.
 // partially update the specified Backup Policy
-func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clusterName string, body BackupPolicy, o ...PatchBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
+func (a *BackupApi) UpdateBackupPolicy(ctx _context.Context, orgName string, clusterName string, body BackupPolicy, o ...UpdateBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue BackupPolicy
-		optionalParams      PatchBackupPolicyOptionalParameters
+		optionalParams      UpdateBackupPolicyOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type PatchBackupPolicyOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateBackupPolicyOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -846,13 +846,13 @@ func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clus
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
-		OperationID: "patchBackupPolicy",
+		OperationID: "updateBackupPolicy",
 		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/backupPolicy",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.PatchBackupPolicy")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.UpdateBackupPolicy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

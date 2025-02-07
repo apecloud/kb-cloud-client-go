@@ -6902,7 +6902,7 @@ paths:
     patch:
       description: partially update the specified Backup Policy
       summary: Update backup policy
-      operationId: patchBackupPolicy
+      operationId: updateBackupPolicy
       parameters:
         - description: name of the Org
           in: path
@@ -22789,6 +22789,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
           description: Primary Key for the EngineVersionRecord
         engineName:
           type: string
