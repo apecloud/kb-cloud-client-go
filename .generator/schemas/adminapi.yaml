@@ -15261,6 +15261,9 @@ components:
           default: false
           description: PITREnabled or not
           type: boolean
+        continuousBackupMethod:
+          description: continuous backup method for pitr
+          type: string
         autoBackup:
           default: false
           description: autoBackup or not
@@ -22777,6 +22780,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
           description: Primary Key for the EngineVersionRecord
         engineName:
           type: string

@@ -67,6 +67,7 @@
 //   - [backupApi.listBackups]
 //   - [backupApi.patchBackupPolicy]
 //   - [backupApi.viewBackup]
+//   - [backupMethodApi.getBackupMethod]
 //   - [backupRepoApi.deleteBackupRepo]
 //   - [backupRepoApi.getBackupRepo]
 //   - [backupRepoApi.listBackupRepos]
