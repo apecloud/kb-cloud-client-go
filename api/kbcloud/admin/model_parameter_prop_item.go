@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // ParameterPropItem With the list of parameter properties and the configuration file name
 type ParameterPropItem struct {
 	// The list of parameters properties
-	Prop []ParameterProp `json:"prop,omitempty"`
+	Props []ParameterProp `json:"props,omitempty"`
 	// The name of the configuration file
 	FileName *string `json:"fileName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -34,32 +34,32 @@ func NewParameterPropItemWithDefaults() *ParameterPropItem {
 	return &this
 }
 
-// GetProp returns the Prop field value if set, zero value otherwise.
-func (o *ParameterPropItem) GetProp() []ParameterProp {
-	if o == nil || o.Prop == nil {
+// GetProps returns the Props field value if set, zero value otherwise.
+func (o *ParameterPropItem) GetProps() []ParameterProp {
+	if o == nil || o.Props == nil {
 		var ret []ParameterProp
 		return ret
 	}
-	return o.Prop
+	return o.Props
 }
 
-// GetPropOk returns a tuple with the Prop field value if set, nil otherwise
+// GetPropsOk returns a tuple with the Props field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetPropOk() (*[]ParameterProp, bool) {
-	if o == nil || o.Prop == nil {
+func (o *ParameterPropItem) GetPropsOk() (*[]ParameterProp, bool) {
+	if o == nil || o.Props == nil {
 		return nil, false
 	}
-	return &o.Prop, true
+	return &o.Props, true
 }
 
-// HasProp returns a boolean if a field has been set.
-func (o *ParameterPropItem) HasProp() bool {
-	return o != nil && o.Prop != nil
+// HasProps returns a boolean if a field has been set.
+func (o *ParameterPropItem) HasProps() bool {
+	return o != nil && o.Props != nil
 }
 
-// SetProp gets a reference to the given []ParameterProp and assigns it to the Prop field.
-func (o *ParameterPropItem) SetProp(v []ParameterProp) {
-	o.Prop = v
+// SetProps gets a reference to the given []ParameterProp and assigns it to the Props field.
+func (o *ParameterPropItem) SetProps(v []ParameterProp) {
+	o.Props = v
 }
 
 // GetFileName returns the FileName field value if set, zero value otherwise.
@@ -96,8 +96,8 @@ func (o ParameterPropItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Prop != nil {
-		toSerialize["prop"] = o.Prop
+	if o.Props != nil {
+		toSerialize["props"] = o.Props
 	}
 	if o.FileName != nil {
 		toSerialize["fileName"] = o.FileName
@@ -112,7 +112,7 @@ func (o ParameterPropItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterPropItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Prop     []ParameterProp `json:"prop,omitempty"`
+		Props    []ParameterProp `json:"props,omitempty"`
 		FileName *string         `json:"fileName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -120,11 +120,11 @@ func (o *ParameterPropItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"prop", "fileName"})
+		common.DeleteKeys(additionalProperties, &[]string{"props", "fileName"})
 	} else {
 		return err
 	}
-	o.Prop = all.Prop
+	o.Props = all.Props
 	o.FileName = all.FileName
 
 	if len(additionalProperties) > 0 {

@@ -15150,7 +15150,7 @@ components:
       type: object
       description: With the list of parameter properties and the configuration file name
       properties:
-        prop:
+        props:
           type: array
           description: The list of parameters properties
           items:
