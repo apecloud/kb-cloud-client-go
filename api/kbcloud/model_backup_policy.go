@@ -18,6 +18,8 @@ type BackupPolicy struct {
 	AutoBackupMethod *string `json:"autoBackupMethod,omitempty"`
 	// specify whether to enable point-in-time recovery
 	PitrEnabled *bool `json:"pitrEnabled,omitempty"`
+	// continuous backup method for pitr
+	ContinuousBackupMethod *string `json:"continuousBackupMethod,omitempty"`
 	// the crop expression for schedule
 	CronExpression *string `json:"cronExpression,omitempty"`
 	// specify whether to enable incremental backup
@@ -148,6 +150,34 @@ func (o *BackupPolicy) HasPitrEnabled() bool {
 // SetPitrEnabled gets a reference to the given bool and assigns it to the PitrEnabled field.
 func (o *BackupPolicy) SetPitrEnabled(v bool) {
 	o.PitrEnabled = &v
+}
+
+// GetContinuousBackupMethod returns the ContinuousBackupMethod field value if set, zero value otherwise.
+func (o *BackupPolicy) GetContinuousBackupMethod() string {
+	if o == nil || o.ContinuousBackupMethod == nil {
+		var ret string
+		return ret
+	}
+	return *o.ContinuousBackupMethod
+}
+
+// GetContinuousBackupMethodOk returns a tuple with the ContinuousBackupMethod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupPolicy) GetContinuousBackupMethodOk() (*string, bool) {
+	if o == nil || o.ContinuousBackupMethod == nil {
+		return nil, false
+	}
+	return o.ContinuousBackupMethod, true
+}
+
+// HasContinuousBackupMethod returns a boolean if a field has been set.
+func (o *BackupPolicy) HasContinuousBackupMethod() bool {
+	return o != nil && o.ContinuousBackupMethod != nil
+}
+
+// SetContinuousBackupMethod gets a reference to the given string and assigns it to the ContinuousBackupMethod field.
+func (o *BackupPolicy) SetContinuousBackupMethod(v string) {
+	o.ContinuousBackupMethod = &v
 }
 
 // GetCronExpression returns the CronExpression field value if set, zero value otherwise.
@@ -372,6 +402,9 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	if o.PitrEnabled != nil {
 		toSerialize["pitrEnabled"] = o.PitrEnabled
 	}
+	if o.ContinuousBackupMethod != nil {
+		toSerialize["continuousBackupMethod"] = o.ContinuousBackupMethod
+	}
 	if o.CronExpression != nil {
 		toSerialize["cronExpression"] = o.CronExpression
 	}
@@ -406,6 +439,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		AutoBackup                *bool                  `json:"autoBackup,omitempty"`
 		AutoBackupMethod          *string                `json:"autoBackupMethod,omitempty"`
 		PitrEnabled               *bool                  `json:"pitrEnabled,omitempty"`
+		ContinuousBackupMethod    *string                `json:"continuousBackupMethod,omitempty"`
 		CronExpression            *string                `json:"cronExpression,omitempty"`
 		IncrementalBackupEnabled  *bool                  `json:"incrementalBackupEnabled,omitempty"`
 		IncrementalCronExpression *string                `json:"incrementalCronExpression,omitempty"`
@@ -419,7 +453,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "continuousBackupMethod", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime"})
 	} else {
 		return err
 	}
@@ -428,6 +462,7 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	o.AutoBackup = all.AutoBackup
 	o.AutoBackupMethod = all.AutoBackupMethod
 	o.PitrEnabled = all.PitrEnabled
+	o.ContinuousBackupMethod = all.ContinuousBackupMethod
 	o.CronExpression = all.CronExpression
 	o.IncrementalBackupEnabled = all.IncrementalBackupEnabled
 	o.IncrementalCronExpression = all.IncrementalCronExpression
