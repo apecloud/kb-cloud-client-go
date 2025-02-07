@@ -9462,9 +9462,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Broker'
+                $ref: '#/components/schemas/BrokerList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9506,7 +9504,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Config'
+                $ref: '#/components/schemas/ConfigList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9921,9 +9919,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Config'
+                $ref: '#/components/schemas/ConfigList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -10008,9 +10004,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ConsumerGroup'
+                $ref: '#/components/schemas/ConsumerGroupList'
   /api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets:
     get:
       summary: List consumer offsets of topic
@@ -10048,9 +10042,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TopicOffset'
+                $ref: '#/components/schemas/TopicOffsetList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -10170,9 +10162,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TopicMessage'
+                $ref: '#/components/schemas/TopicMessageList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -10323,9 +10313,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ConsumerGroup'
+                $ref: '#/components/schemas/ConsumerGroupList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -10367,7 +10355,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConsumerGroupDescribe'
+                $ref: '#/components/schemas/ConsumerGroupDescribeResponse'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -18381,6 +18369,12 @@ components:
           type: array
           items:
             type: integer
+    BrokerList:
+      x-go-name: KafkaBrokerList
+      type: array
+      items:
+        $ref: '#/components/schemas/Broker'
+        nullable: true
     ConfigEntry:
       x-go-name: KafkaConfigEntry
       type: object
@@ -18400,8 +18394,8 @@ components:
         sensitive:
           type: boolean
           x-omitempty: false
-    Config:
-      x-go-name: KafkaConfig
+    ConfigList:
+      x-go-name: KafkaConfigList
       type: array
       items:
         $ref: '#/components/schemas/ConfigEntry'
@@ -18444,16 +18438,11 @@ components:
           description: show if the topic is internal topic
           x-omitempty: false
     TopicsList:
-      x-go-name: KafkaTopicsResponse
-      type: object
-      properties:
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/Topic'
-            nullable: true
-      required:
-        - topics
+      x-go-name: KafkaTopicsList
+      type: array
+      items:
+        $ref: '#/components/schemas/Topic'
+        nullable: true
     CreateTopicRequest:
       x-go-name: KafkaTopicCreation
       type: object
@@ -18616,6 +18605,12 @@ components:
           items:
             type: string
           x-omitempty: false
+    ConsumerGroupList:
+      x-go-name: KafkaConsumerGroupList
+      type: array
+      items:
+        $ref: '#/components/schemas/ConsumerGroup'
+        nullable: true
     TopicOffset:
       type: object
       x-nullable: true
@@ -18647,6 +18642,12 @@ components:
           type: string
           description: 消费者组ID
           x-omitempty: false
+    TopicOffsetList:
+      x-go-name: KafkaTopicOffsetList
+      type: array
+      items:
+        $ref: '#/components/schemas/TopicOffset'
+        nullable: true
     OffsetResetStrategy:
       type: string
       enum:
@@ -18703,6 +18704,12 @@ components:
           type: string
           description: 消息的内容
           x-omitempty: false
+    TopicMessageList:
+      x-go-name: KafkaTopicMessageList
+      type: array
+      items:
+        $ref: '#/components/schemas/TopicMessage'
+        nullable: true
     TopicMessageRequest:
       type: object
       x-go-name: KafkaTopicMessageRequest
@@ -18782,6 +18789,12 @@ components:
           type: string
           description: Consumer client ID
           x-omitempty: false
+    ConsumerGroupDescribeResponse:
+      x-go-name: KafkaConsumerGroupDescribeResponse
+      type: array
+      items:
+        $ref: '#/components/schemas/ConsumerGroupDescribe'
+        nullable: true
     redisPrivilegeType:
       description: Redis user privileges
       enum:
