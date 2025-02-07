@@ -20076,6 +20076,9 @@ components:
           description: specify whether to enable point-in-time recovery
           default: false
           type: boolean
+        continuousBackupMethod:
+          description: continuous backup method for pitr
+          type: string
         cronExpression:
           description: the crop expression for schedule
           type: string
