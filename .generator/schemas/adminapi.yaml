@@ -6902,7 +6902,7 @@ paths:
     patch:
       description: partially update the specified Backup Policy
       summary: Update backup policy
-      operationId: patchBackupPolicy
+      operationId: updateBackupPolicy
       parameters:
         - description: name of the Org
           in: path
@@ -7217,8 +7217,8 @@ paths:
     post:
       tags:
         - backup
-      operationId: downloadMutipleBackups
-      summary: Download mutiple backup files
+      operationId: downloadMultipleBackups
+      summary: Download multiple backup files
       parameters:
         - name: orgName
           in: path
