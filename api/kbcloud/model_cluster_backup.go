@@ -10,6 +10,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type ClusterBackup struct {
 	// PITREnabled or not
 	PitrEnabled *bool `json:"pitrEnabled,omitempty"`
+	// continuous backup method for pitr
+	ContinuousBackupMethod *string `json:"continuousBackupMethod,omitempty"`
 	// autoBackup or not
 	AutoBackup *bool `json:"autoBackup,omitempty"`
 	// name of the backup method
@@ -88,6 +90,34 @@ func (o *ClusterBackup) HasPitrEnabled() bool {
 // SetPitrEnabled gets a reference to the given bool and assigns it to the PitrEnabled field.
 func (o *ClusterBackup) SetPitrEnabled(v bool) {
 	o.PitrEnabled = &v
+}
+
+// GetContinuousBackupMethod returns the ContinuousBackupMethod field value if set, zero value otherwise.
+func (o *ClusterBackup) GetContinuousBackupMethod() string {
+	if o == nil || o.ContinuousBackupMethod == nil {
+		var ret string
+		return ret
+	}
+	return *o.ContinuousBackupMethod
+}
+
+// GetContinuousBackupMethodOk returns a tuple with the ContinuousBackupMethod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterBackup) GetContinuousBackupMethodOk() (*string, bool) {
+	if o == nil || o.ContinuousBackupMethod == nil {
+		return nil, false
+	}
+	return o.ContinuousBackupMethod, true
+}
+
+// HasContinuousBackupMethod returns a boolean if a field has been set.
+func (o *ClusterBackup) HasContinuousBackupMethod() bool {
+	return o != nil && o.ContinuousBackupMethod != nil
+}
+
+// SetContinuousBackupMethod gets a reference to the given string and assigns it to the ContinuousBackupMethod field.
+func (o *ClusterBackup) SetContinuousBackupMethod(v string) {
+	o.ContinuousBackupMethod = &v
 }
 
 // GetAutoBackup returns the AutoBackup field value if set, zero value otherwise.
@@ -362,6 +392,9 @@ func (o ClusterBackup) MarshalJSON() ([]byte, error) {
 	if o.PitrEnabled != nil {
 		toSerialize["pitrEnabled"] = o.PitrEnabled
 	}
+	if o.ContinuousBackupMethod != nil {
+		toSerialize["continuousBackupMethod"] = o.ContinuousBackupMethod
+	}
 	if o.AutoBackup != nil {
 		toSerialize["autoBackup"] = o.AutoBackup
 	}
@@ -400,6 +433,7 @@ func (o ClusterBackup) MarshalJSON() ([]byte, error) {
 func (o *ClusterBackup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		PitrEnabled               *bool                  `json:"pitrEnabled,omitempty"`
+		ContinuousBackupMethod    *string                `json:"continuousBackupMethod,omitempty"`
 		AutoBackup                *bool                  `json:"autoBackup,omitempty"`
 		AutoBackupMethod          *string                `json:"autoBackupMethod,omitempty"`
 		BackupRepo                *string                `json:"backupRepo,omitempty"`
@@ -415,13 +449,14 @@ func (o *ClusterBackup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"pitrEnabled", "autoBackup", "autoBackupMethod", "backupRepo", "cronExpression", "retentionPeriod", "retentionPolicy", "snapshotVolumes", "incrementalBackupEnabled", "incrementalCronExpression"})
+		common.DeleteKeys(additionalProperties, &[]string{"pitrEnabled", "continuousBackupMethod", "autoBackup", "autoBackupMethod", "backupRepo", "cronExpression", "retentionPeriod", "retentionPolicy", "snapshotVolumes", "incrementalBackupEnabled", "incrementalCronExpression"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.PitrEnabled = all.PitrEnabled
+	o.ContinuousBackupMethod = all.ContinuousBackupMethod
 	o.AutoBackup = all.AutoBackup
 	o.AutoBackupMethod = all.AutoBackupMethod
 	o.BackupRepo = all.BackupRepo

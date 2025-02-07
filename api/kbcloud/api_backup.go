@@ -623,6 +623,7 @@ type ListBackupsOptionalParameters struct {
 	FetchWithDeletedCluster *bool
 	WithDeletedBackups      *bool
 	BackupType              *string
+	WithRebuildInstance     *bool
 	ComponentName           *string
 	Page                    *int32
 	PageSize                *int32
@@ -667,6 +668,12 @@ func (r *ListBackupsOptionalParameters) WithWithDeletedBackups(withDeletedBackup
 // WithBackupType sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithBackupType(backupType string) *ListBackupsOptionalParameters {
 	r.BackupType = &backupType
+	return r
+}
+
+// WithWithRebuildInstance sets the corresponding parameter name and returns the struct.
+func (r *ListBackupsOptionalParameters) WithWithRebuildInstance(withRebuildInstance bool) *ListBackupsOptionalParameters {
+	r.WithRebuildInstance = &withRebuildInstance
 	return r
 }
 
@@ -741,6 +748,9 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	}
 	if optionalParams.BackupType != nil {
 		localVarQueryParams.Add("backupType", common.ParameterToString(*optionalParams.BackupType, ""))
+	}
+	if optionalParams.WithRebuildInstance != nil {
+		localVarQueryParams.Add("withRebuildInstance", common.ParameterToString(*optionalParams.WithRebuildInstance, ""))
 	}
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
