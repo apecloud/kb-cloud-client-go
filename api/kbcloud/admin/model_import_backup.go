@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ImportBackup import backuprecords from storage
+// ImportBackup scan and import backup records from storage
 type ImportBackup struct {
 	// the name of bucket
 	Bucket *string `json:"bucket,omitempty"`

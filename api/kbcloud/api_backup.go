@@ -219,8 +219,8 @@ func (a *BackupApi) DownloadBackup(ctx _context.Context, orgName string, backupI
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DownloadMutipleBackups Download mutiple backup files.
-func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string, backupId string, body BackupDownload) (_io.Reader, *_nethttp.Response, error) {
+// DownloadMultipleBackups Download multiple backup files.
+func (a *BackupApi) DownloadMultipleBackups(ctx _context.Context, orgName string, backupId string, body BackupDownload) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -230,13 +230,13 @@ func (a *BackupApi) DownloadMutipleBackups(ctx _context.Context, orgName string,
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
-		OperationID: "downloadMutipleBackups",
+		OperationID: "downloadMultipleBackups",
 		Path:        "/api/v1/organizations/{orgName}/backups/{backupId}/download",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadMutipleBackups")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.DownloadMultipleBackups")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -623,6 +623,7 @@ type ListBackupsOptionalParameters struct {
 	FetchWithDeletedCluster *bool
 	WithDeletedBackups      *bool
 	BackupType              *string
+	WithRebuildInstance     *bool
 	ComponentName           *string
 	Page                    *int32
 	PageSize                *int32
@@ -667,6 +668,12 @@ func (r *ListBackupsOptionalParameters) WithWithDeletedBackups(withDeletedBackup
 // WithBackupType sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithBackupType(backupType string) *ListBackupsOptionalParameters {
 	r.BackupType = &backupType
+	return r
+}
+
+// WithWithRebuildInstance sets the corresponding parameter name and returns the struct.
+func (r *ListBackupsOptionalParameters) WithWithRebuildInstance(withRebuildInstance bool) *ListBackupsOptionalParameters {
+	r.WithRebuildInstance = &withRebuildInstance
 	return r
 }
 
@@ -742,6 +749,9 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	if optionalParams.BackupType != nil {
 		localVarQueryParams.Add("backupType", common.ParameterToString(*optionalParams.BackupType, ""))
 	}
+	if optionalParams.WithRebuildInstance != nil {
+		localVarQueryParams.Add("withRebuildInstance", common.ParameterToString(*optionalParams.WithRebuildInstance, ""))
+	}
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))
 	}
@@ -801,35 +811,35 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PatchBackupPolicyOptionalParameters holds optional parameters for PatchBackupPolicy.
-type PatchBackupPolicyOptionalParameters struct {
+// UpdateBackupPolicyOptionalParameters holds optional parameters for UpdateBackupPolicy.
+type UpdateBackupPolicyOptionalParameters struct {
 	UseVolumeSnapshot *bool
 }
 
-// NewPatchBackupPolicyOptionalParameters creates an empty struct for parameters.
-func NewPatchBackupPolicyOptionalParameters() *PatchBackupPolicyOptionalParameters {
-	this := PatchBackupPolicyOptionalParameters{}
+// NewUpdateBackupPolicyOptionalParameters creates an empty struct for parameters.
+func NewUpdateBackupPolicyOptionalParameters() *UpdateBackupPolicyOptionalParameters {
+	this := UpdateBackupPolicyOptionalParameters{}
 	return &this
 }
 
 // WithUseVolumeSnapshot sets the corresponding parameter name and returns the struct.
-func (r *PatchBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSnapshot bool) *PatchBackupPolicyOptionalParameters {
+func (r *UpdateBackupPolicyOptionalParameters) WithUseVolumeSnapshot(useVolumeSnapshot bool) *UpdateBackupPolicyOptionalParameters {
 	r.UseVolumeSnapshot = &useVolumeSnapshot
 	return r
 }
 
-// PatchBackupPolicy Update backup policy.
+// UpdateBackupPolicy Update backup policy.
 // partially update the specified Backup Policy
-func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clusterName string, body BackupPolicy, o ...PatchBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
+func (a *BackupApi) UpdateBackupPolicy(ctx _context.Context, orgName string, clusterName string, body BackupPolicy, o ...UpdateBackupPolicyOptionalParameters) (BackupPolicy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue BackupPolicy
-		optionalParams      PatchBackupPolicyOptionalParameters
+		optionalParams      UpdateBackupPolicyOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type PatchBackupPolicyOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateBackupPolicyOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -838,13 +848,13 @@ func (a *BackupApi) PatchBackupPolicy(ctx _context.Context, orgName string, clus
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "backup",
-		OperationID: "patchBackupPolicy",
+		OperationID: "updateBackupPolicy",
 		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/backupPolicy",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.PatchBackupPolicy")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupApi.UpdateBackupPolicy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

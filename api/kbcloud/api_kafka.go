@@ -544,11 +544,11 @@ func (a *KafkaApi) GetKafkaBrokers(ctx _context.Context, orgName string, cluster
 }
 
 // GetKafkaConsumerGroupDescribe Get consumer group describe.
-func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName string, clusterName string, groupId string) (ConsumerGroupDescribe, *_nethttp.Response, error) {
+func (a *KafkaApi) GetKafkaConsumerGroupDescribe(ctx _context.Context, orgName string, clusterName string, groupId string) ([]ConsumerGroupDescribe, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ConsumerGroupDescribe
+		localVarReturnValue []ConsumerGroupDescribe
 	)
 
 	// Add api info to context
@@ -704,11 +704,11 @@ func (a *KafkaApi) GetKafkaTopicBrokers(ctx _context.Context, orgName string, cl
 }
 
 // GetKafkaTopicConfig Get topic configuration.
-func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clusterName string, topic string) ([][]ConfigEntry, *_nethttp.Response, error) {
+func (a *KafkaApi) GetKafkaTopicConfig(ctx _context.Context, orgName string, clusterName string, topic string) ([]ConfigEntry, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue [][]ConfigEntry
+		localVarReturnValue []ConfigEntry
 	)
 
 	// Add api info to context
@@ -968,11 +968,11 @@ func (r *GetKafkaTopicsOptionalParameters) WithOnlyNames(onlyNames bool) *GetKaf
 }
 
 // GetKafkaTopics Get all topics in cluster.
-func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterName string, o ...GetKafkaTopicsOptionalParameters) (TopicsList, *_nethttp.Response, error) {
+func (a *KafkaApi) GetKafkaTopics(ctx _context.Context, orgName string, clusterName string, o ...GetKafkaTopicsOptionalParameters) ([]Topic, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue TopicsList
+		localVarReturnValue []Topic
 		optionalParams      GetKafkaTopicsOptionalParameters
 	)
 
