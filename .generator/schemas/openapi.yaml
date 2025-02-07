@@ -13,8 +13,6 @@ info:
     Our API has predictable resource-oriented URLs, accepts `JSON-encoded` request bodies, returns `JSON-encoded` responses, and uses standard HTTP response codes, authentication, and verbs.
 
     We use standard HTTP authentication and provide API keys to identify who you are. Your API keys carry many privileges, so be sure to keep them secret! Do not share your secret API keys in publicly accessible areas such as GitHub, client-side code, and so forth.
-
-    All API requests must be made over HTTPS. Calls made over plain HTTP will fail. API requests without authentication will also fail.
   contact:
     email: support@apecloud.com
     name: ApeCloud Support
@@ -35,34 +33,28 @@ tags:
     description: Role Management APIs
   - name: invitation
     description: Invitation APIs
-  - name: authorization
-    description: Authorization APIs
   - name: environment
     description: Environment APIs
   - name: benchmark
     description: Benchmark APIs
-  - name: fault
-    description: Fault Injection APIs
   - name: cluster
     description: Cluster APIs
   - name: clusterLog
     description: Cluster Log APIs
+  - name: clusterTask
+    description: Cluster task APIS
   - name: account
     description: Cluster Account APIs
   - name: opsrequest
     description: Cluster Ops APIs
-  - name: tag
+  - name: clusterTag
     description: Cluster Tag APIs
-  - name: metrics
-    description: Cluster Metrics APIs
   - name: analyze
     description: Analyze APIs
-  - name: sqlEditor
-    description: Cluster SQL APIs
   - name: tls
     description: Cluster TLS APIs
-  - name: whitelist
-    description: Cluster whitelist APIs
+  - name: ipWhitelist
+    description: Cluster IP Whitelist APIs
   - name: backup
     description: Backup APIs
   - name: restore
@@ -76,7 +68,7 @@ tags:
   - name: event
     description: Operation Events
   - name: dms
-    description: Database Management System APIs
+    description: Data Management System APIs
   - name: database
     description: Cluster Database APIs
   - name: parameter
@@ -87,6 +79,8 @@ tags:
     description: Cloud Provider region APIs
   - name: zone
     description: Cloud Provider Zone APIs
+  - name: alert
+    description: Alert APIs
   - name: alertReceiver
     description: Alert Receiver APIs
   - name: alertRule
@@ -695,9 +689,9 @@ paths:
         - role
   /api/v1/organizations/{orgName}/events:
     get:
-      description: Query events of clusters
-      summary: Query operation events
-      operationId: queryClusterEvents
+      description: list events
+      summary: list events
+      operationId: listEvents
       parameters:
         - description: Organization Name
           in: path
@@ -755,8 +749,8 @@ paths:
   /api/v1/organizations/{orgName}/events/{eventID}:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
-      summary: Query event detail by Event ID
-      operationId: queryEventDetail
+      summary: get event by eventID
+      operationId: getEvent
       parameters:
         - description: Organization Name
           in: path
@@ -1592,7 +1586,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -1813,52 +1806,6 @@ paths:
           description: OK
         '401':
           $ref: '#/components/responses/401'
-      tags:
-        - cluster
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/manifests/{manifestType}:
-    get:
-      operationId: getClusterManifest
-      summary: Get cluster manifests of kubernetes
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Kubernetes manifest kind
-          in: path
-          name: manifestType
-          required: true
-          schema:
-            $ref: '#/components/schemas/manifestType'
-        - description: name of the Kubernetes manifest kind
-          in: query
-          name: opsType
-          schema:
-            $ref: '#/components/schemas/opsType'
-        - description: name of the component
-          in: query
-          name: component
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/kubernetesManifestList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/haHistory:
@@ -3395,9 +3342,9 @@ paths:
         - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
-      description: Query task detail of clusters
-      summary: Query operation task detail
-      operationId: queryClusterTaskDetail
+      description: Get cluster task
+      summary: Get cluster task
+      operationId: getClusterTask
       parameters:
         - description: Organization Name
           in: path
@@ -3431,10 +3378,10 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - task
+        - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks:
     get:
-      operationId: listTasksInConsole
+      operationId: listClusterTasks
       summary: List cluster tasks in console
       parameters:
         - description: name of the Org
@@ -3471,12 +3418,13 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - task
+        - clusterTask
   /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
     get:
       tags:
         - opsrequest
-      description: get a OpsRequest status
+      deprecated: true
+      description: get a OpsRequest status, deprecated, instead use cluster task api
       summary: Get OpsRequest Status
       operationId: getOpsRequestStatus
       parameters:
@@ -3534,7 +3482,7 @@ paths:
   /api/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
-        - tag
+        - clusterTag
       operationId: getTags
       summary: Get cluster tags
       parameters:
@@ -3556,12 +3504,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/tagList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/clusterTags'
   /api/v1/organizations/{orgName}/tags/{tagId}:
     delete:
       tags:
-        - tag
-      description: delete tag
+        - clusterTag
+      description: delete cluster tag
       summary: Delete tag
       operationId: deleteTags
       parameters:
@@ -3587,8 +3537,8 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - tag
-      description: Update tags
+        - clusterTag
+      description: Update cluster tags
       operationId: updateTag
       parameters:
         - name: orgName
@@ -3624,7 +3574,7 @@ paths:
   /api/v1/organizations/{orgName}/tags:
     get:
       tags:
-        - tag
+        - clusterTag
       description: List tags by organization name.
       operationId: listOrgTags
       summary: List tags by organization name
@@ -3650,7 +3600,7 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - tag
+        - clusterTag
       description: create tag
       summary: Create cluster tags
       operationId: createTag
@@ -3782,7 +3732,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - metrics
+        - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics:
     get:
       operationId: getInstacesMetrics
@@ -3817,48 +3767,6 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - cluster
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/runSQL:
-    post:
-      operationId: runSQLOnCluster
-      summary: Connect and run command on cluster
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/sqlReqRes'
-        description: SQL to run
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/sqlReqRes'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - sqlEditor
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/tls:
     get:
       operationId: getTLSCertificate
@@ -4773,7 +4681,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - serviceVersion
+        - engine
   /api/v1/organizations/{orgName}/backupRepo:
     get:
       operationId: listBackupRepos
@@ -5525,7 +5433,7 @@ paths:
       description: Tests multiple URLs for connectivity in parallel
       operationId: batchCheckURLConnectivity
       tags:
-        - URL Checker
+        - alert
       requestBody:
         required: true
         content:
@@ -5551,7 +5459,7 @@ paths:
       description: alert statistic
       operationId: alertStatistic
       tags:
-        - statistic
+        - alert
       parameters:
         - name: orgName
           in: query
@@ -6547,7 +6455,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engineLicense
+        - engine
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -7820,7 +7728,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - whitelist
+        - ipWhitelist
   /api/v1/permissions:
     get:
       tags:
@@ -12271,6 +12179,9 @@ components:
         clusterID:
           type: string
           description: the cluster id
+        command:
+          type: string
+          description: the actual command executed during the benchmark run stage
         database:
           type: string
           description: the database name
@@ -12993,6 +12904,9 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
+        systemAccountSecretName:
+          description: The name of the secret that contains the system account credentials
+          type: string
     components:
       type: array
       description: Components is the list of components
@@ -13264,6 +13178,9 @@ components:
         accessMode:
           description: Access mode for instance
           type: string
+        orgName:
+          description: Org name
+          type: string
         cloud:
           description: Cloud for instance
           type: string
@@ -13349,47 +13266,6 @@ components:
           type: array
       required:
         - items
-      type: object
-    manifestType:
-      enum:
-        - service
-        - configmap
-        - secret
-        - event
-        - opsrequest
-        - configconstraint
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-      type: string
-    kubernetesManifests:
-      description: Items is the list of Kubernetes objects in the list
-      items:
-        additionalProperties:
-          properties: {}
-          type: object
-        type: object
-      minItems: 1
-      type: array
-    kubernetesManifestList:
-      description: KubernetesManifestList is the list of Kubernetes objects in the list
-      properties:
-        kubernetesManifests:
-          $ref: '#/components/schemas/kubernetesManifests'
       type: object
     haHistoryResponse:
       description: hahistory is the payload to get ha history of a KubeBlocks cluster
@@ -14051,6 +13927,23 @@ components:
         - Failed
         - Aborted
       type: string
+    opsType:
+      enum:
+        - VerticalScaling
+        - HorizontalScaling
+        - VolumeExpansion
+        - Upgrade
+        - Reconfiguring
+        - Switchover
+        - Restart
+        - Stop
+        - Start
+        - Expose
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
+      type: string
     clusterTaskList:
       description: TaskList is a list of operation task objects
       properties:
@@ -14133,7 +14026,7 @@ components:
       required:
         - id
       type: object
-    tagCluster:
+    clusterTags:
       properties:
         clusterId:
           description: The cluster id corresponding to the tag
@@ -14143,10 +14036,6 @@ components:
             $ref: '#/components/schemas/tag'
           type: array
       type: object
-    tagList:
-      items:
-        $ref: '#/components/schemas/tagCluster'
-      type: array
     tagUpdate:
       description: Tag update
       properties:
@@ -14336,12 +14225,6 @@ components:
             $ref: '#/components/schemas/instanceMetrics'
       required:
         - items
-      type: object
-    sqlReqRes:
-      properties:
-        body:
-          description: SQL request or response body
-          type: string
       type: object
     tlsConfig:
       description: Configuration for TLS including all certificates and keys
@@ -15877,6 +15760,10 @@ components:
         main:
           description: Main component flag
           type: boolean
+          x-nullable: false
+        customSecret:
+          type: boolean
+          description: whether the component supports custom secret
           x-nullable: false
     integerOption:
       type: object
@@ -18954,6 +18841,7 @@ components:
           description: List of password hashes to be removed
       required:
         - name
+        - role
     ACLUserResponse:
       x-go-name: RedisACLUserResponse
       type: object
@@ -19068,12 +18956,12 @@ x-tagGroups:
       - tag
       - metrics
       - service
-      - sqlEditor
       - tls
       - whitelist
       - database
       - classes
       - recycleBinCluster
+      - clusterTask
   - name: Backup & Restore
     tags:
       - backup
@@ -19087,6 +18975,7 @@ x-tagGroups:
       - event
   - name: Alert
     tags:
+      - alert
       - alertConfig
       - alertReceiver
       - alertRule
@@ -19115,10 +19004,6 @@ x-tagGroups:
   - name: Feature
     tags:
       - feature
-  - name: fault
-    tags:
-      - fault
   - name: disasterRecovery
     tags:
       - disasterRecovery
-x-original-swagger-version: '2.0'

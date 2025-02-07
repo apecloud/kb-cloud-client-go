@@ -23,6 +23,8 @@ type ComponentOption struct {
 	Version    *ComponentOptionVersion `json:"version,omitempty"`
 	// Main component flag
 	Main *bool `json:"main,omitempty"`
+	// whether the component supports custom secret
+	CustomSecret *bool `json:"customSecret,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -229,6 +231,34 @@ func (o *ComponentOption) SetMain(v bool) {
 	o.Main = &v
 }
 
+// GetCustomSecret returns the CustomSecret field value if set, zero value otherwise.
+func (o *ComponentOption) GetCustomSecret() bool {
+	if o == nil || o.CustomSecret == nil {
+		var ret bool
+		return ret
+	}
+	return *o.CustomSecret
+}
+
+// GetCustomSecretOk returns a tuple with the CustomSecret field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOption) GetCustomSecretOk() (*bool, bool) {
+	if o == nil || o.CustomSecret == nil {
+		return nil, false
+	}
+	return o.CustomSecret, true
+}
+
+// HasCustomSecret returns a boolean if a field has been set.
+func (o *ComponentOption) HasCustomSecret() bool {
+	return o != nil && o.CustomSecret != nil
+}
+
+// SetCustomSecret gets a reference to the given bool and assigns it to the CustomSecret field.
+func (o *ComponentOption) SetCustomSecret(v bool) {
+	o.CustomSecret = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -250,6 +280,9 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 	if o.Main != nil {
 		toSerialize["main"] = o.Main
 	}
+	if o.CustomSecret != nil {
+		toSerialize["customSecret"] = o.CustomSecret
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -260,13 +293,14 @@ func (o ComponentOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name       *string                 `json:"name"`
-		MatchRegex *string                 `json:"matchRegex,omitempty"`
-		Title      *LocalizedDescription   `json:"title"`
-		Order      *int32                  `json:"order"`
-		RoleOrder  []string                `json:"roleOrder,omitempty"`
-		Version    *ComponentOptionVersion `json:"version,omitempty"`
-		Main       *bool                   `json:"main,omitempty"`
+		Name         *string                 `json:"name"`
+		MatchRegex   *string                 `json:"matchRegex,omitempty"`
+		Title        *LocalizedDescription   `json:"title"`
+		Order        *int32                  `json:"order"`
+		RoleOrder    []string                `json:"roleOrder,omitempty"`
+		Version      *ComponentOptionVersion `json:"version,omitempty"`
+		Main         *bool                   `json:"main,omitempty"`
+		CustomSecret *bool                   `json:"customSecret,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -282,7 +316,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "matchRegex", "title", "order", "roleOrder", "version", "main"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "matchRegex", "title", "order", "roleOrder", "version", "main", "customSecret"})
 	} else {
 		return err
 	}
@@ -301,6 +335,7 @@ func (o *ComponentOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Version = all.Version
 	o.Main = all.Main
+	o.CustomSecret = all.CustomSecret
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

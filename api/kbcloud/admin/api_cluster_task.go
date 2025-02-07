@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"context"
@@ -14,35 +14,36 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EventApi service type
-type EventApi common.Service
+// ClusterTaskApi service type
+type ClusterTaskApi common.Service
 
-// GetEvent get event by eventID.
-// Retrieves detailed information about an event based on the provided Event ID.
-func (a *EventApi) GetEvent(ctx _context.Context, orgName string, eventId string) (Event, *_nethttp.Response, error) {
+// GetClusterTask Get cluster task.
+// Get cluster task
+func (a *ClusterTaskApi) GetClusterTask(ctx _context.Context, orgName string, clusterName string, taskId string) (ClusterTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue Event
+		localVarReturnValue ClusterTask
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "event",
-		OperationID: "getEvent",
-		Path:        "/api/v1/organizations/{orgName}/events/{eventID}",
+		Tag:         "clusterTask",
+		OperationID: "getClusterTask",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.GetEvent")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.GetClusterTask")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/events/{eventID}"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"eventID"+"}", _neturl.PathEscape(common.ParameterToString(eventId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"taskId"+"}", _neturl.PathEscape(common.ParameterToString(taskId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -97,70 +98,55 @@ func (a *EventApi) GetEvent(ctx _context.Context, orgName string, eventId string
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListEventsOptionalParameters holds optional parameters for ListEvents.
-type ListEventsOptionalParameters struct {
-	ResourceId   *int32
-	ResourceType *string
-	EventName    *string
-	OperatorId   *int32
-	PageNumber   *int32
-	PageSize     *int32
+// ListTasksOptionalParameters holds optional parameters for ListTasks.
+type ListTasksOptionalParameters struct {
+	OrgName         *string
+	ClusterName     *string
+	Status          *Cluster_opsStatus
+	ClusterTaskType *OpsType
 }
 
-// NewListEventsOptionalParameters creates an empty struct for parameters.
-func NewListEventsOptionalParameters() *ListEventsOptionalParameters {
-	this := ListEventsOptionalParameters{}
+// NewListTasksOptionalParameters creates an empty struct for parameters.
+func NewListTasksOptionalParameters() *ListTasksOptionalParameters {
+	this := ListTasksOptionalParameters{}
 	return &this
 }
 
-// WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId int32) *ListEventsOptionalParameters {
-	r.ResourceId = &resourceId
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListTasksOptionalParameters) WithOrgName(orgName string) *ListTasksOptionalParameters {
+	r.OrgName = &orgName
 	return r
 }
 
-// WithResourceType sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceType(resourceType string) *ListEventsOptionalParameters {
-	r.ResourceType = &resourceType
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListTasksOptionalParameters) WithClusterName(clusterName string) *ListTasksOptionalParameters {
+	r.ClusterName = &clusterName
 	return r
 }
 
-// WithEventName sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEventsOptionalParameters {
-	r.EventName = &eventName
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *ListTasksOptionalParameters) WithStatus(status Cluster_opsStatus) *ListTasksOptionalParameters {
+	r.Status = &status
 	return r
 }
 
-// WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
-	r.OperatorId = &operatorId
+// WithClusterTaskType sets the corresponding parameter name and returns the struct.
+func (r *ListTasksOptionalParameters) WithClusterTaskType(clusterTaskType OpsType) *ListTasksOptionalParameters {
+	r.ClusterTaskType = &clusterTaskType
 	return r
 }
 
-// WithPageNumber sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListEventsOptionalParameters {
-	r.PageNumber = &pageNumber
-	return r
-}
-
-// WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageSize(pageSize int32) *ListEventsOptionalParameters {
-	r.PageSize = &pageSize
-	return r
-}
-
-// ListEvents list events.
-// list events
-func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64, end int64, o ...ListEventsOptionalParameters) (EventList, *_nethttp.Response, error) {
+// ListTasks List cluster tasks.
+func (a *ClusterTaskApi) ListTasks(ctx _context.Context, o ...ListTasksOptionalParameters) (ClusterTaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EventList
-		optionalParams      ListEventsOptionalParameters
+		localVarReturnValue ClusterTaskList
+		optionalParams      ListTasksOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEventsOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListTasksOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -168,43 +154,34 @@ func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64,
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "event",
-		OperationID: "listEvents",
-		Path:        "/api/v1/organizations/{orgName}/events",
+		Tag:         "clusterTask",
+		OperationID: "listTasks",
+		Path:        "/admin/v1/clustertasks",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.ListEvents")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.ListTasks")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/events"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/clustertasks"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
-	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
-	if optionalParams.ResourceId != nil {
-		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
-	if optionalParams.ResourceType != nil {
-		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
 	}
-	if optionalParams.EventName != nil {
-		localVarQueryParams.Add("eventName", common.ParameterToString(*optionalParams.EventName, ""))
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
 	}
-	if optionalParams.OperatorId != nil {
-		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
-	}
-	if optionalParams.PageNumber != nil {
-		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
-	}
-	if optionalParams.PageSize != nil {
-		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	if optionalParams.ClusterTaskType != nil {
+		localVarQueryParams.Add("clusterTaskType", common.ParameterToString(*optionalParams.ClusterTaskType, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -233,7 +210,7 @@ func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64,
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -256,9 +233,9 @@ func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewEventApi Returns NewEventApi.
-func NewEventApi(client *common.APIClient) *EventApi {
-	return &EventApi{
+// NewClusterTaskApi Returns NewClusterTaskApi.
+func NewClusterTaskApi(client *common.APIClient) *ClusterTaskApi {
+	return &ClusterTaskApi{
 		Client: client,
 	}
 }

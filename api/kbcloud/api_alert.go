@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -13,40 +13,65 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// MetricsApi service type
-type MetricsApi common.Service
+// AlertApi service type
+type AlertApi common.Service
 
-// GetAggregateMetaData Get aggregate meta data.
-// Get aggregate meta data including total count and time series
-func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData AggregateMetaDataType, start int64, end int64) (AggregateMetaData, *_nethttp.Response, error) {
+// AlertStatisticOptionalParameters holds optional parameters for AlertStatistic.
+type AlertStatisticOptionalParameters struct {
+	OrgName *string
+}
+
+// NewAlertStatisticOptionalParameters creates an empty struct for parameters.
+func NewAlertStatisticOptionalParameters() *AlertStatisticOptionalParameters {
+	this := AlertStatisticOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *AlertStatisticOptionalParameters) WithOrgName(orgName string) *AlertStatisticOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// AlertStatistic alert statistic.
+// alert statistic
+func (a *AlertApi) AlertStatistic(ctx _context.Context, o ...AlertStatisticOptionalParameters) (AlertStatistic, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue AggregateMetaData
+		localVarReturnValue AlertStatistic
+		optionalParams      AlertStatisticOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AlertStatisticOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "metrics",
-		OperationID: "getAggregateMetaData",
-		Path:        "/admin/v1/metrics/metaData/aggregate",
+		Tag:         "alert",
+		OperationID: "alertStatistic",
+		Path:        "/api/v1/alerts/statistic",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetAggregateMetaData")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertApi.AlertStatistic")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/metrics/metaData/aggregate"
+	localVarPath := localBasePath + "/api/v1/alerts/statistic"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("metaData", common.ParameterToString(metaData, ""))
-	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
-	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -74,7 +99,7 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -97,36 +122,39 @@ func (a *MetricsApi) GetAggregateMetaData(ctx _context.Context, metaData Aggrega
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetEnvironmentStats Get environment stats.
-// Get environment current stats
-func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats, *_nethttp.Response, error) {
+// BatchCheckURLConnectivity Batch check URLs connectivity.
+// Tests multiple URLs for connectivity in parallel
+func (a *AlertApi) BatchCheckURLConnectivity(ctx _context.Context, body URLCheck) (URLCheck, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue EnvironmentStats
+		localVarReturnValue URLCheck
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "metrics",
-		OperationID: "getEnvironmentStats",
-		Path:        "/admin/v1/metrics/environment/stats",
+		Tag:         "alert",
+		OperationID: "batchCheckURLConnectivity",
+		Path:        "/api/v1/alerts/checkURL",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".MetricsApi.GetEnvironmentStats")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertApi.BatchCheckURLConnectivity")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/metrics/environment/stats"
+	localVarPath := localBasePath + "/api/v1/alerts/checkURL"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -152,7 +180,7 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -175,9 +203,9 @@ func (a *MetricsApi) GetEnvironmentStats(ctx _context.Context) (EnvironmentStats
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewMetricsApi Returns NewMetricsApi.
-func NewMetricsApi(client *common.APIClient) *MetricsApi {
-	return &MetricsApi{
+// NewAlertApi Returns NewAlertApi.
+func NewAlertApi(client *common.APIClient) *AlertApi {
+	return &AlertApi{
 		Client: client,
 	}
 }
