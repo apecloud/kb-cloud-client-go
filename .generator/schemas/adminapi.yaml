@@ -22789,6 +22789,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
           description: Primary Key for the EngineVersionRecord
         engineName:
           type: string
