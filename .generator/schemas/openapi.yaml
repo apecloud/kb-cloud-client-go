@@ -5195,6 +5195,108 @@ paths:
       tags:
         - paramTpl
       x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/paramTplsV2/{paramTplName}:
+    delete:
+      operationId: deleteParamTplV2
+      summary: Delete configuration template
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: paramTplName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - paramTpl
+    get:
+      operationId: readParamTplV2
+      summary: Get configuration template details
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: paramTplName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read paramTpl request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterPropList'
+          description: read parameter template successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - paramTpl
+    patch:
+      description: partially update the parameter template
+      summary: Update configuration template
+      operationId: patchParamTplV2
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: paramTplName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paramTplUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paramTplListItem'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - paramTpl
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls:
     get:
       operationId: getClusterParamTpls
