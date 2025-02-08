@@ -15258,6 +15258,9 @@ components:
           default: false
           description: PITREnabled or not
           type: boolean
+        continuousBackupMethod:
+          description: continuous backup method for pitr
+          type: string
         autoBackup:
           default: false
           description: autoBackup or not
@@ -20070,6 +20073,9 @@ components:
           description: specify whether to enable point-in-time recovery
           default: false
           type: boolean
+        continuousBackupMethod:
+          description: continuous backup method for pitr
+          type: string
         cronExpression:
           description: the crop expression for schedule
           type: string
