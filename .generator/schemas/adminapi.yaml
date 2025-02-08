@@ -7222,6 +7222,58 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - serviceVersion
+  /admin/v1/organizations/{orgName}/{engineName}/clusterBackupMethod:
+    get:
+      operationId: getBackupMethod
+      summary: get backup method
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - description: clusterID is required when you want to get the backup method of a existing cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - name: enablePITR
+          in: query
+          description: define whether to enable PITR (Point-In-Time Recovery). This setting is required when clusterId is not empty.
+          schema:
+            type: boolean
+        - name: withRebuildInstance
+          in: query
+          description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
+        - name: component
+          in: query
+          description: The component type is required when withRebuildInstance is true.
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/clusterBackupMethod'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backupMethod
   /admin/v1/organizations/{orgName}/clustersWithDelete/restoreTimeRange:
     get:
       operationId: getRestoreTimeRange
@@ -17904,6 +17956,19 @@ components:
           type: array
           items:
             type: string
+    clusterBackupMethod:
+      description: the backup method for cluster
+      properties:
+        full:
+          description: full backup method
+          type: string
+        incremental:
+          description: incremental backup method
+          type: string
+        continuous:
+          description: continuous backup method
+          type: string
+      type: object
     restore:
       description: create a KubeBlocks restore API
       properties:
