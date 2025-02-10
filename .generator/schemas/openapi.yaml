@@ -731,7 +731,7 @@ paths:
             type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
-        - $ref: '#/components/parameters/timeOrder'
+        - $ref: '#/components/parameters/orderBy'
         - $ref: '#/components/parameters/sortDesc'
       responses:
         '200':
@@ -11691,12 +11691,6 @@ components:
       required:
         - items
       type: object
-    timeOrderBy:
-      type: string
-      description: Specifies the order of the time range for the query.
-      enum:
-        - start
-        - end
     eventResourceType:
       description: Type of the resource
       type: string
@@ -19042,14 +19036,14 @@ components:
         format: int64
       required: true
       example: 1711354295
-    timeOrder:
-      name: timeOrder
+    orderBy:
+      name: orderBy
       in: query
-      description: Specifies the time range ordering (e.g., start or end).
+      description: |
+        A generic orderBy construct used to specify which field to sort by in the interface. (e.g., startTime or endTime).  The validity of this field is verified by the apiserver,  and it is not required in the YAML.
       required: false
       schema:
-        $ref: '#/components/schemas/timeOrderBy'
-      default: end
+        type: string
     sortDesc:
       name: sortDesc
       in: query
