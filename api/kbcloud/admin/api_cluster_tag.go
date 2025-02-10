@@ -14,33 +14,34 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EngineVersionApi service type
-type EngineVersionApi common.Service
+// ClusterTagApi service type
+type ClusterTagApi common.Service
 
-// CreateEngineVersion Create engine version.
-// Create engine version
-func (a *EngineVersionApi) CreateEngineVersion(ctx _context.Context, body EngineVersionCreate) (EngineVersion, *_nethttp.Response, error) {
+// CreateTag Create cluster tags.
+// create tag
+func (a *ClusterTagApi) CreateTag(ctx _context.Context, orgName string, body interface{}) (TagCreate, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue EngineVersion
+		localVarReturnValue TagCreate
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "engineVersion",
-		OperationID: "createEngineVersion",
-		Path:        "/admin/v1/engineVersions",
+		Tag:         "clusterTag",
+		OperationID: "createTag",
+		Path:        "/admin/v1/organizations/{orgName}/tags",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.CreateEngineVersion")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.CreateTag")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineVersions"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -98,64 +99,37 @@ func (a *EngineVersionApi) CreateEngineVersion(ctx _context.Context, body Engine
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteEngineVersionOptionalParameters holds optional parameters for DeleteEngineVersion.
-type DeleteEngineVersionOptionalParameters struct {
-	Body *EngineVersionDelete
-}
-
-// NewDeleteEngineVersionOptionalParameters creates an empty struct for parameters.
-func NewDeleteEngineVersionOptionalParameters() *DeleteEngineVersionOptionalParameters {
-	this := DeleteEngineVersionOptionalParameters{}
-	return &this
-}
-
-// WithBody sets the corresponding parameter name and returns the struct.
-func (r *DeleteEngineVersionOptionalParameters) WithBody(body EngineVersionDelete) *DeleteEngineVersionOptionalParameters {
-	r.Body = &body
-	return r
-}
-
-// DeleteEngineVersion Delete engine version.
-func (a *EngineVersionApi) DeleteEngineVersion(ctx _context.Context, o ...DeleteEngineVersionOptionalParameters) (*_nethttp.Response, error) {
+// DeleteTags Delete tag.
+// delete cluster tag
+func (a *ClusterTagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
-		optionalParams     DeleteEngineVersionOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return nil, common.ReportError("only one argument of type DeleteEngineVersionOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "engineVersion",
-		OperationID: "deleteEngineVersion",
-		Path:        "/admin/v1/engineVersions",
+		Tag:         "clusterTag",
+		OperationID: "deleteTags",
+		Path:        "/admin/v1/organizations/{orgName}/tags/{tagId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.DeleteEngineVersion")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.DeleteTags")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineVersions"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags/{tagId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"tagId"+"}", _neturl.PathEscape(common.ParameterToString(tagId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.Body
-	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -195,31 +169,94 @@ func (a *EngineVersionApi) DeleteEngineVersion(ctx _context.Context, o ...Delete
 	return localVarHTTPResponse, nil
 }
 
-// ListEngineVersions Get engine version list.
-// Get engine version list
-func (a *EngineVersionApi) ListEngineVersions(ctx _context.Context, engineName string) (EngineVersionList, *_nethttp.Response, error) {
+// GetTags Get cluster tags.
+func (a *ClusterTagApi) GetTags(ctx _context.Context, orgName string, clusterIds string) ([]ClusterTags, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EngineVersionList
+		localVarReturnValue []ClusterTags
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "engineVersion",
-		OperationID: "listEngineVersions",
-		Path:        "/admin/v1/engineVersions/{engineName}",
+		Tag:         "clusterTag",
+		OperationID: "getTags",
+		Path:        "/admin/v1/organizations/{orgName}/clusterTags",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.ListEngineVersions")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.GetTags")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineVersions/{engineName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusterTags"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("clusterIds", common.ParameterToString(clusterIds, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListOrgTags List tags by organization name.
+// List tags by organization name.
+func (a *ClusterTagApi) ListOrgTags(ctx _context.Context, orgName string) (OrgTagsList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue OrgTagsList
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "clusterTag",
+		OperationID: "listOrgTags",
+		Path:        "/admin/v1/organizations/{orgName}/tags",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.ListOrgTags")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -274,30 +311,32 @@ func (a *EngineVersionApi) ListEngineVersions(ctx _context.Context, engineName s
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PatchEngineVersion Update the specified engine version.
-// Update the specified engine version
-func (a *EngineVersionApi) PatchEngineVersion(ctx _context.Context, body EngineVersionUpdate) (EngineVersion, *_nethttp.Response, error) {
+// UpdateTag .
+// Update cluster tags
+func (a *ClusterTagApi) UpdateTag(ctx _context.Context, orgName string, tagId string, tagUpdate TagUpdate) (Tag, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue EngineVersion
+		localVarReturnValue Tag
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "engineVersion",
-		OperationID: "patchEngineVersion",
-		Path:        "/admin/v1/engineVersions",
+		Tag:         "clusterTag",
+		OperationID: "updateTag",
+		Path:        "/admin/v1/organizations/{orgName}/tags/{tagId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineVersionApi.PatchEngineVersion")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.UpdateTag")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engineVersions"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/tags/{tagId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"tagId"+"}", _neturl.PathEscape(common.ParameterToString(tagId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -306,7 +345,7 @@ func (a *EngineVersionApi) PatchEngineVersion(ctx _context.Context, body EngineV
 	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
-	localVarPostBody = &body
+	localVarPostBody = &tagUpdate
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -355,9 +394,9 @@ func (a *EngineVersionApi) PatchEngineVersion(ctx _context.Context, body EngineV
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewEngineVersionApi Returns NewEngineVersionApi.
-func NewEngineVersionApi(client *common.APIClient) *EngineVersionApi {
-	return &EngineVersionApi{
+// NewClusterTagApi Returns NewClusterTagApi.
+func NewClusterTagApi(client *common.APIClient) *ClusterTagApi {
+	return &ClusterTagApi{
 		Client: client,
 	}
 }

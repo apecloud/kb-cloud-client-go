@@ -14,7 +14,7 @@ import (
 // EngineVersion EngineVersionRecord
 type EngineVersion struct {
 	// Primary Key for the EngineVersionRecord
-	Id int32 `json:"id"`
+	Id int64 `json:"id"`
 	// Name of the engine
 	EngineName string `json:"engineName"`
 	// Version of the engine
@@ -44,7 +44,7 @@ type EngineVersion struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineVersion(id int32, engineName string, version string, kbVersionConstraint string, chartUrl string) *EngineVersion {
+func NewEngineVersion(id int64, engineName string, version string, kbVersionConstraint string, chartUrl string) *EngineVersion {
 	this := EngineVersion{}
 	this.Id = id
 	this.EngineName = engineName
@@ -67,9 +67,9 @@ func NewEngineVersionWithDefaults() *EngineVersion {
 }
 
 // GetId returns the Id field value.
-func (o *EngineVersion) GetId() int32 {
+func (o *EngineVersion) GetId() int64 {
 	if o == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 	return o.Id
@@ -77,7 +77,7 @@ func (o *EngineVersion) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *EngineVersion) GetIdOk() (*int32, bool) {
+func (o *EngineVersion) GetIdOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -85,7 +85,7 @@ func (o *EngineVersion) GetIdOk() (*int32, bool) {
 }
 
 // SetId sets field value.
-func (o *EngineVersion) SetId(v int32) {
+func (o *EngineVersion) SetId(v int64) {
 	o.Id = v
 }
 
@@ -454,7 +454,7 @@ func (o EngineVersion) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *int32                `json:"id"`
+		Id                  *int64                `json:"id"`
 		EngineName          *string               `json:"engineName"`
 		Version             *string               `json:"version"`
 		KbVersionConstraint *string               `json:"kbVersionConstraint"`

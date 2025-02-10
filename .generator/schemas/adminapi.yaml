@@ -23,38 +23,46 @@ security:
 tags:
   - name: user
     description: User APIs
-  - name: metrics
-    description: Meta data metrics APIs
+  - name: invitation
+    description: Invitation APIs
+  - name: role
+    description: Role Management APIs
   - name: organization
     description: Organization APIs
   - name: environment
     description: Environment APIs
+  - name: project
+    description: Project APIs
   - name: cluster
     description: Cluster APIs
+  - name: clusterTask
+    description: Cluster Task APIs
+  - name: instance
+    description: Cluster instance APIs
+  - name: imageRegistry
+    description: imageRegistry APIs
   - name: vipPool
     description: VIP Pool APIs
   - name: resourceStats
     description: Resource Stats APIs
-  - name: license
-    description: License APIs
   - name: monitorDataSink
     description: External Endpoint APIs
-  - name: imageRegistry
-    description: imageRegistry APIs
-  - name: feature
-    description: Feature APIs
-  - name: role
-    description: Role Management APIs
-  - name: invitation
-    description: Invitation APIs
   - name: platformParameter
     description: Platform Parameter APIs
   - name: recycleBinCluster
     description: Recycle Bin Cluster APIs
-  - name: project
-    description: Project APIs
   - name: task
     description: Task APIs
+  - name: fault
+    description: Fault inject APIs
+  - name: engine
+    description: Engine APIs
+  - name: metrics
+    description: Meta data metrics APIs
+  - name: feature
+    description: Feature APIs
+  - name: license
+    description: License APIs
 paths:
   /admin/v1/user:
     post:
@@ -884,7 +892,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -1107,52 +1114,6 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - cluster
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/manifests/{manifestType}:
-    get:
-      operationId: getClusterManifest
-      summary: Get cluster manifests of kubernetes
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Kubernetes manifest kind
-          in: path
-          name: manifestType
-          required: true
-          schema:
-            $ref: '#/components/schemas/manifestType'
-        - description: name of the Kubernetes manifest kind
-          in: query
-          name: opsType
-          schema:
-            $ref: '#/components/schemas/opsType'
-        - description: name of the component
-          in: query
-          name: component
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/kubernetesManifestList'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
     get:
       operationId: analyzeService
@@ -1248,7 +1209,7 @@ paths:
   /admin/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
-        - tag
+        - clusterTag
       operationId: getTags
       summary: Get cluster tags
       parameters:
@@ -1270,12 +1231,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/tagList'
+                type: array
+                items:
+                  $ref: '#/components/schemas/clusterTags'
   /admin/v1/organizations/{orgName}/tags/{tagId}:
     delete:
       tags:
-        - tag
-      description: delete tag
+        - clusterTag
+      description: delete cluster tag
       summary: Delete tag
       operationId: deleteTags
       parameters:
@@ -1301,8 +1264,8 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - tag
-      description: Update tags
+        - clusterTag
+      description: Update cluster tags
       operationId: updateTag
       parameters:
         - name: orgName
@@ -1338,7 +1301,7 @@ paths:
   /admin/v1/organizations/{orgName}/tags:
     get:
       tags:
-        - tag
+        - clusterTag
       description: List tags by organization name.
       operationId: listOrgTags
       summary: List tags by organization name
@@ -1364,7 +1327,7 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - tag
+        - clusterTag
       description: create tag
       summary: Create cluster tags
       operationId: createTag
@@ -1831,7 +1794,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - metrics
+        - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics:
     get:
       operationId: getInstacesMetrics
@@ -2114,7 +2077,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - whitelist
+        - ipWhitelist
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/haHistory:
     get:
       operationId: describeClusterHaHistory
@@ -4688,7 +4651,8 @@ paths:
     get:
       tags:
         - opsrequest
-      description: get a OpsRequest status
+      deprecated: true
+      description: get a OpsRequest status, deprecated, instead use cluster task api
       summary: Get OpsRequest Status
       operationId: getOpsRequestStatus
       parameters:
@@ -6862,32 +6826,6 @@ paths:
       tags:
         - imageRegistry
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/storageProvider:
-    get:
-      operationId: listStorageProvidersArchive
-      summary: List storage providers of backup repo
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                type: array
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - backupRepo
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/backups:
     post:
       operationId: createClusterBackup
@@ -6966,7 +6904,7 @@ paths:
     patch:
       description: partially update the specified Backup Policy
       summary: Update backup policy
-      operationId: patchBackupPolicy
+      operationId: updateBackupPolicy
       parameters:
         - description: name of the Org
           in: path
@@ -7281,8 +7219,8 @@ paths:
     post:
       tags:
         - backup
-      operationId: downloadMutipleBackups
-      summary: Download mutiple backup files
+      operationId: downloadMultipleBackups
+      summary: Download multiple backup files
       parameters:
         - name: orgName
           in: path
@@ -7354,7 +7292,59 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - serviceVersion
+        - engine
+  /admin/v1/organizations/{orgName}/{engineName}/clusterBackupMethod:
+    get:
+      operationId: getBackupMethod
+      summary: get backup method
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the org
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: path
+          description: engine name
+          required: true
+          schema:
+            type: string
+        - description: clusterID is required when you want to get the backup method of a existing cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - name: enablePITR
+          in: query
+          description: define whether to enable PITR (Point-In-Time Recovery). This setting is required when clusterId is not empty.
+          schema:
+            type: boolean
+        - name: withRebuildInstance
+          in: query
+          description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
+        - name: component
+          in: query
+          description: The component type is required when withRebuildInstance is true.
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/clusterBackupMethod'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - backupMethod
   /admin/v1/organizations/{orgName}/clustersWithDelete/restoreTimeRange:
     get:
       operationId: getRestoreTimeRange
@@ -7916,7 +7906,7 @@ paths:
       description: Tests multiple URLs for connectivity in parallel
       operationId: batchCheckURLConnectivity
       tags:
-        - URL Checker
+        - alert
       requestBody:
         required: true
         content:
@@ -7942,7 +7932,7 @@ paths:
       description: alert statistic
       operationId: alertStatistic
       tags:
-        - statistic
+        - alert
       parameters:
         - name: orgName
           in: query
@@ -9013,7 +9003,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engineLicense
+        - engine
   /admin/v1/engineLicense:
     get:
       description: Get a engineLicense detail
@@ -9083,7 +9073,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engineLicense
+        - engine
       x-codegen-request-body-name: body
     delete:
       description: delete an engine license
@@ -9107,7 +9097,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engineLicense
+        - engine
   /admin/v1/organizations/{orgName}/engines:
     get:
       tags:
@@ -10518,7 +10508,7 @@ paths:
   /admin/v1/engineVersions:
     post:
       tags:
-        - engineVersion
+        - engine
       summary: Create engine version
       description: Create engine version
       operationId: createEngineVersion
@@ -10543,7 +10533,7 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - engineVersion
+        - engine
       operationId: deleteEngineVersion
       requestBody:
         content:
@@ -10562,7 +10552,7 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - engineVersion
+        - engine
       description: Update the specified engine version
       summary: Update the specified engine version
       operationId: patchEngineVersion
@@ -10588,7 +10578,7 @@ paths:
   /admin/v1/engineVersions/{engineName}:
     get:
       tags:
-        - engineVersion
+        - engine
       summary: Get engine version list
       description: Get engine version list
       operationId: listEngineVersions
@@ -11173,7 +11163,7 @@ paths:
   /admin/v1/environments/{environmentName}/storages/{storageName}/importbackup:
     post:
       operationId: importBackup
-      summary: import backuprecords from storage
+      summary: scan and import backup records from storage
       parameters:
         - description: name of the environment
           in: path
@@ -11542,6 +11532,51 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/instances:
+    get:
+      summary: List cluster instances
+      description: List instances based on query parameters with constraints.
+      operationId: listInstances
+      parameters:
+        - name: envName
+          in: query
+          description: Name of the environment (optional, required when querying by nodeName).
+          schema:
+            type: string
+        - name: nodeName
+          in: query
+          description: Name of the node (optional, required when querying by envName).
+          schema:
+            type: string
+        - name: orgName
+          in: query
+          description: Name of the organization (optional, required when querying by clusterName).
+          schema:
+            type: string
+        - name: clusterName
+          in: query
+          description: Name of the cluster (optional).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - instance
   /admin/v1/metadb/summary:
     get:
       tags:
@@ -12192,12 +12227,12 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - task
+        - clusterTask
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
-      description: Query task detail of clusters
-      summary: Query operation task detail
-      operationId: queryClusterTaskDetail
+      description: Get cluster task
+      summary: Get cluster task
+      operationId: getClusterTask
       parameters:
         - description: Organization Name
           in: path
@@ -12231,7 +12266,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - task
+        - clusterTask
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
@@ -12567,9 +12602,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Broker'
+                $ref: '#/components/schemas/BrokerList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -12611,7 +12644,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Config'
+                $ref: '#/components/schemas/ConfigList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13026,9 +13059,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Config'
+                $ref: '#/components/schemas/ConfigList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13113,9 +13144,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ConsumerGroup'
+                $ref: '#/components/schemas/ConsumerGroupList'
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/consumer-groups/{groupId}/offsets:
     get:
       summary: List consumer offsets of topic
@@ -13153,9 +13182,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TopicOffset'
+                $ref: '#/components/schemas/TopicOffsetList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13275,9 +13302,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TopicMessage'
+                $ref: '#/components/schemas/TopicMessageList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13428,9 +13453,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ConsumerGroup'
+                $ref: '#/components/schemas/ConsumerGroupList'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13472,7 +13495,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConsumerGroupDescribe'
+                $ref: '#/components/schemas/ConsumerGroupDescribeResponse'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13596,6 +13619,10 @@ paths:
       responses:
         '201':
           description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13689,10 +13716,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/clusterTask'
+              $ref: '#/components/schemas/ACLUser'
       responses:
         '200':
           description: update redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -15243,6 +15274,9 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
+        systemAccountSecretName:
+          description: The name of the secret that contains the system account credentials
+          type: string
     components:
       type: array
       description: Components is the list of components
@@ -15281,6 +15315,9 @@ components:
           default: false
           description: PITREnabled or not
           type: boolean
+        continuousBackupMethod:
+          description: continuous backup method for pitr
+          type: string
         autoBackup:
           default: false
           description: autoBackup or not
@@ -15520,6 +15557,9 @@ components:
         accessMode:
           description: Access mode for instance
           type: string
+        orgName:
+          description: Org name
+          type: string
         cloud:
           description: Cloud for instance
           type: string
@@ -15605,47 +15645,6 @@ components:
           type: array
       required:
         - items
-      type: object
-    manifestType:
-      enum:
-        - service
-        - configmap
-        - secret
-        - event
-        - opsrequest
-        - configconstraint
-      type: string
-    opsType:
-      enum:
-        - VerticalScaling
-        - HorizontalScaling
-        - VolumeExpansion
-        - Upgrade
-        - Reconfiguring
-        - Switchover
-        - Restart
-        - Stop
-        - Start
-        - Expose
-        - Backup
-        - Restore
-        - RebuildInstance
-        - Custom
-      type: string
-    kubernetesManifests:
-      description: Items is the list of Kubernetes objects in the list
-      items:
-        additionalProperties:
-          properties: {}
-          type: object
-        type: object
-      minItems: 1
-      type: array
-    kubernetesManifestList:
-      description: KubernetesManifestList is the list of Kubernetes objects in the list
-      properties:
-        kubernetesManifests:
-          $ref: '#/components/schemas/kubernetesManifests'
       type: object
     analysisResult:
       properties:
@@ -15742,7 +15741,7 @@ components:
       required:
         - id
       type: object
-    tagCluster:
+    clusterTags:
       properties:
         clusterId:
           description: The cluster id corresponding to the tag
@@ -15752,10 +15751,6 @@ components:
             $ref: '#/components/schemas/tag'
           type: array
       type: object
-    tagList:
-      items:
-        $ref: '#/components/schemas/tagCluster'
-      type: array
     tagUpdate:
       description: Tag update
       properties:
@@ -18160,6 +18155,7 @@ components:
         - Updating
         - Error
         - Disabled
+        - Enabled
     hostingStatus:
       type: string
       description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
@@ -20140,6 +20136,9 @@ components:
           description: specify whether to enable point-in-time recovery
           default: false
           type: boolean
+        continuousBackupMethod:
+          description: continuous backup method for pitr
+          type: string
         cronExpression:
           description: the crop expression for schedule
           type: string
@@ -20245,6 +20244,19 @@ components:
           type: array
           items:
             type: string
+    clusterBackupMethod:
+      description: the backup method for cluster
+      properties:
+        full:
+          description: full backup method
+          type: string
+        incremental:
+          description: incremental backup method
+          type: string
+        continuous:
+          description: continuous backup method
+          type: string
+      type: object
     restore:
       description: create a KubeBlocks restore API
       properties:
@@ -20984,6 +20996,10 @@ components:
         main:
           description: Main component flag
           type: boolean
+          x-nullable: false
+        customSecret:
+          type: boolean
+          description: whether the component supports custom secret
           x-nullable: false
     integerOption:
       type: object
@@ -22840,6 +22856,7 @@ components:
       properties:
         id:
           type: integer
+          format: int64
           description: Primary Key for the EngineVersionRecord
         engineName:
           type: string
@@ -23204,7 +23221,7 @@ components:
           type: string
           description: the error msg
     importBackup:
-      description: import backuprecords from storage
+      description: scan and import backup records from storage
       type: object
       properties:
         bucket:
@@ -24080,6 +24097,23 @@ components:
         - Failed
         - Aborted
       type: string
+    opsType:
+      enum:
+        - VerticalScaling
+        - HorizontalScaling
+        - VolumeExpansion
+        - Upgrade
+        - Reconfiguring
+        - Switchover
+        - Restart
+        - Stop
+        - Start
+        - Expose
+        - Backup
+        - Restore
+        - RebuildInstance
+        - Custom
+      type: string
     clusterTaskList:
       description: TaskList is a list of operation task objects
       properties:
@@ -24297,6 +24331,12 @@ components:
           type: array
           items:
             type: integer
+    BrokerList:
+      x-go-name: KafkaBrokerList
+      type: array
+      items:
+        $ref: '#/components/schemas/Broker'
+        nullable: true
     ConfigEntry:
       x-go-name: KafkaConfigEntry
       type: object
@@ -24307,17 +24347,33 @@ components:
         value:
           type: string
           x-omitempty: false
-        default:
+        isDefault:
           type: boolean
+          description: Whether the configuration is the default value
           x-omitempty: false
         readOnly:
           type: boolean
           x-omitempty: false
         sensitive:
           type: boolean
+          description: Whether the configuration is sensitive
           x-omitempty: false
-    Config:
-      x-go-name: KafkaConfig
+        description:
+          type: string
+          description: Configuration description
+          x-omitempty: false
+        validValues:
+          type: array
+          items:
+            type: string
+          description: Valid values for the configuration
+          x-omitempty: true
+        type:
+          type: string
+          description: Configuration type
+          x-omitempty: true
+    ConfigList:
+      x-go-name: KafkaConfigList
       type: array
       items:
         $ref: '#/components/schemas/ConfigEntry'
@@ -24360,16 +24416,11 @@ components:
           description: show if the topic is internal topic
           x-omitempty: false
     TopicsList:
-      x-go-name: KafkaTopicsResponse
-      type: object
-      properties:
-        topics:
-          type: array
-          items:
-            $ref: '#/components/schemas/Topic'
-            nullable: true
-      required:
-        - topics
+      x-go-name: KafkaTopicsList
+      type: array
+      items:
+        $ref: '#/components/schemas/Topic'
+        nullable: true
     CreateTopicRequest:
       x-go-name: KafkaTopicCreation
       type: object
@@ -24532,6 +24583,12 @@ components:
           items:
             type: string
           x-omitempty: false
+    ConsumerGroupList:
+      x-go-name: KafkaConsumerGroupList
+      type: array
+      items:
+        $ref: '#/components/schemas/ConsumerGroup'
+        nullable: true
     TopicOffset:
       type: object
       x-nullable: true
@@ -24563,6 +24620,12 @@ components:
           type: string
           description: 消费者组ID
           x-omitempty: false
+    TopicOffsetList:
+      x-go-name: KafkaTopicOffsetList
+      type: array
+      items:
+        $ref: '#/components/schemas/TopicOffset'
+        nullable: true
     OffsetResetStrategy:
       type: string
       enum:
@@ -24619,6 +24682,12 @@ components:
           type: string
           description: 消息的内容
           x-omitempty: false
+    TopicMessageList:
+      x-go-name: KafkaTopicMessageList
+      type: array
+      items:
+        $ref: '#/components/schemas/TopicMessage'
+        nullable: true
     TopicMessageRequest:
       type: object
       x-go-name: KafkaTopicMessageRequest
@@ -24698,6 +24767,12 @@ components:
           type: string
           description: Consumer client ID
           x-omitempty: false
+    ConsumerGroupDescribeResponse:
+      x-go-name: KafkaConsumerGroupDescribeResponse
+      type: array
+      items:
+        $ref: '#/components/schemas/ConsumerGroupDescribe'
+        nullable: true
     redisPrivilegeType:
       description: Redis user privileges
       enum:
@@ -24747,6 +24822,7 @@ components:
           description: List of password hashes to be removed
       required:
         - name
+        - role
     ACLUserResponse:
       x-go-name: RedisACLUserResponse
       type: object
@@ -24881,6 +24957,8 @@ x-tagGroup:
   - name: cluster
     tags:
       - cluster
+      - clusterLog
+      - instance
       - clusterlog
       - account
       - database
@@ -24889,11 +24967,11 @@ x-tagGroup:
       - tag
       - metrics
       - service
-      - sqlEditor
       - tls
       - database
       - recycleBinCluster
       - relation
+      - clusterTask
   - name: License
     tags:
       - license
@@ -24909,3 +24987,9 @@ x-tagGroup:
   - name: task
     tags:
       - task
+  - name: fault
+    tags:
+      - fault
+  - name: engine
+    tags:
+      - engine

@@ -14,38 +14,58 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ServiceVersionApi service type
-type ServiceVersionApi common.Service
+// BackupMethodApi service type
+type BackupMethodApi common.Service
 
-// ListServiceVersionOptionalParameters holds optional parameters for ListServiceVersion.
-type ListServiceVersionOptionalParameters struct {
-	Component *string
+// GetBackupMethodOptionalParameters holds optional parameters for GetBackupMethod.
+type GetBackupMethodOptionalParameters struct {
+	ClusterId           *string
+	EnablePitr          *bool
+	WithRebuildInstance *bool
+	Component           *string
 }
 
-// NewListServiceVersionOptionalParameters creates an empty struct for parameters.
-func NewListServiceVersionOptionalParameters() *ListServiceVersionOptionalParameters {
-	this := ListServiceVersionOptionalParameters{}
+// NewGetBackupMethodOptionalParameters creates an empty struct for parameters.
+func NewGetBackupMethodOptionalParameters() *GetBackupMethodOptionalParameters {
+	this := GetBackupMethodOptionalParameters{}
 	return &this
 }
 
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *GetBackupMethodOptionalParameters) WithClusterId(clusterId string) *GetBackupMethodOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
+// WithEnablePitr sets the corresponding parameter name and returns the struct.
+func (r *GetBackupMethodOptionalParameters) WithEnablePitr(enablePitr bool) *GetBackupMethodOptionalParameters {
+	r.EnablePitr = &enablePitr
+	return r
+}
+
+// WithWithRebuildInstance sets the corresponding parameter name and returns the struct.
+func (r *GetBackupMethodOptionalParameters) WithWithRebuildInstance(withRebuildInstance bool) *GetBackupMethodOptionalParameters {
+	r.WithRebuildInstance = &withRebuildInstance
+	return r
+}
+
 // WithComponent sets the corresponding parameter name and returns the struct.
-func (r *ListServiceVersionOptionalParameters) WithComponent(component string) *ListServiceVersionOptionalParameters {
+func (r *GetBackupMethodOptionalParameters) WithComponent(component string) *GetBackupMethodOptionalParameters {
 	r.Component = &component
 	return r
 }
 
-// ListServiceVersion list the service version of the engine.
-// list the service version of the engine
-func (a *ServiceVersionApi) ListServiceVersion(ctx _context.Context, environmentName string, engineName string, engineMode string, o ...ListServiceVersionOptionalParameters) (EngineServiceVersions, *_nethttp.Response, error) {
+// GetBackupMethod get backup method.
+func (a *BackupMethodApi) GetBackupMethod(ctx _context.Context, orgName string, engineName string, o ...GetBackupMethodOptionalParameters) (ClusterBackupMethod, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EngineServiceVersions
-		optionalParams      ListServiceVersionOptionalParameters
+		localVarReturnValue ClusterBackupMethod
+		optionalParams      GetBackupMethodOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListServiceVersionOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetBackupMethodOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -53,26 +73,34 @@ func (a *ServiceVersionApi) ListServiceVersion(ctx _context.Context, environment
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "serviceVersion",
-		OperationID: "ListServiceVersion",
-		Path:        "/api/v1/environments/{environmentName}/engines/{engineName}/serviceVersion",
+		Tag:         "backupMethod",
+		OperationID: "getBackupMethod",
+		Path:        "/api/v1/organizations/{orgName}/{engineName}/clusterBackupMethod",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ServiceVersionApi.ListServiceVersion")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".BackupMethodApi.GetBackupMethod")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/environments/{environmentName}/engines/{engineName}/serviceVersion"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/{engineName}/clusterBackupMethod"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("engineMode", common.ParameterToString(engineMode, ""))
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
+	if optionalParams.EnablePitr != nil {
+		localVarQueryParams.Add("enablePITR", common.ParameterToString(*optionalParams.EnablePitr, ""))
+	}
+	if optionalParams.WithRebuildInstance != nil {
+		localVarQueryParams.Add("withRebuildInstance", common.ParameterToString(*optionalParams.WithRebuildInstance, ""))
+	}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
@@ -126,9 +154,9 @@ func (a *ServiceVersionApi) ListServiceVersion(ctx _context.Context, environment
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewServiceVersionApi Returns NewServiceVersionApi.
-func NewServiceVersionApi(client *common.APIClient) *ServiceVersionApi {
-	return &ServiceVersionApi{
+// NewBackupMethodApi Returns NewBackupMethodApi.
+func NewBackupMethodApi(client *common.APIClient) *BackupMethodApi {
+	return &BackupMethodApi{
 		Client: client,
 	}
 }
