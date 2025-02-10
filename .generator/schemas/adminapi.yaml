@@ -23504,8 +23504,7 @@ components:
           type: array
           x-omitempty: false
           items:
-            type: object
-            additionalProperties: true
+            type: string
         maximum:
           description: The maximum value of the parameter
           format: double

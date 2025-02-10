@@ -20,7 +20,7 @@ type DmsObParameter struct {
 	// The description of the parameter
 	Description string `json:"description"`
 	// The value options of the parameter
-	Enum []map[string]interface{} `json:"enum,omitempty"`
+	Enum []string `json:"enum,omitempty"`
 	// The maximum value of the parameter
 	Maximum *float64 `json:"maximum,omitempty"`
 	// The minimum value of the parameter
@@ -156,9 +156,9 @@ func (o *DmsObParameter) SetDescription(v string) {
 }
 
 // GetEnum returns the Enum field value if set, zero value otherwise.
-func (o *DmsObParameter) GetEnum() []map[string]interface{} {
+func (o *DmsObParameter) GetEnum() []string {
 	if o == nil || o.Enum == nil {
-		var ret []map[string]interface{}
+		var ret []string
 		return ret
 	}
 	return o.Enum
@@ -166,7 +166,7 @@ func (o *DmsObParameter) GetEnum() []map[string]interface{} {
 
 // GetEnumOk returns a tuple with the Enum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsObParameter) GetEnumOk() (*[]map[string]interface{}, bool) {
+func (o *DmsObParameter) GetEnumOk() (*[]string, bool) {
 	if o == nil || o.Enum == nil {
 		return nil, false
 	}
@@ -178,8 +178,8 @@ func (o *DmsObParameter) HasEnum() bool {
 	return o != nil && o.Enum != nil
 }
 
-// SetEnum gets a reference to the given []map[string]interface{} and assigns it to the Enum field.
-func (o *DmsObParameter) SetEnum(v []map[string]interface{}) {
+// SetEnum gets a reference to the given []string and assigns it to the Enum field.
+func (o *DmsObParameter) SetEnum(v []string) {
 	o.Enum = v
 }
 
@@ -394,17 +394,17 @@ func (o DmsObParameter) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsObParameter) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                  `json:"name"`
-		Value       *string                  `json:"value"`
-		DataType    *string                  `json:"dataType,omitempty"`
-		Description *string                  `json:"description"`
-		Enum        []map[string]interface{} `json:"enum,omitempty"`
-		Maximum     *float64                 `json:"maximum,omitempty"`
-		Minimum     *float64                 `json:"minimum,omitempty"`
-		Immutable   *bool                    `json:"immutable,omitempty"`
-		IsVariable  *bool                    `json:"isVariable,omitempty"`
-		EditLevel   *string                  `json:"editLevel,omitempty"`
-		ReadOnly    *bool                    `json:"readOnly,omitempty"`
+		Name        *string  `json:"name"`
+		Value       *string  `json:"value"`
+		DataType    *string  `json:"dataType,omitempty"`
+		Description *string  `json:"description"`
+		Enum        []string `json:"enum,omitempty"`
+		Maximum     *float64 `json:"maximum,omitempty"`
+		Minimum     *float64 `json:"minimum,omitempty"`
+		Immutable   *bool    `json:"immutable,omitempty"`
+		IsVariable  *bool    `json:"isVariable,omitempty"`
+		EditLevel   *string  `json:"editLevel,omitempty"`
+		ReadOnly    *bool    `json:"readOnly,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
