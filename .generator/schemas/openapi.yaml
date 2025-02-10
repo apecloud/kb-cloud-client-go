@@ -14243,19 +14243,19 @@ components:
         cpuUsage:
           description: cpu with uint cores.
           type: string
+          nullable: true
         memoryUsage:
           description: memory with uint Gi.
           type: string
+          nullable: true
         diskUsageItems:
           description: disk usage items
           type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/instanceDiskUsageItem'
       required:
         - instanceName
-        - cpuUsage
-        - memoryUsage
-        - diskUsageItems
       type: object
     instanceMetricsList:
       description: instance metrics list
