@@ -80,6 +80,7 @@
 //   - [backupApi.listBackups]
 //   - [backupApi.updateBackupPolicy]
 //   - [backupApi.viewBackup]
+//   - [backupMethodApi.getBackupMethod]
 //   - [backupRepoApi.checkBackupRepo]
 //   - [backupRepoApi.createBackupRepo]
 //   - [backupRepoApi.deleteBackupRepo]
