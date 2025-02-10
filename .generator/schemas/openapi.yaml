@@ -17992,6 +17992,7 @@ components:
           type: array
           x-omitempty: false
           items:
+            type: object
             additionalProperties: true
         maximum:
           description: The maximum value of the parameter
