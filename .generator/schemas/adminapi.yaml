@@ -2159,6 +2159,8 @@ paths:
             type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/orderBy'
+        - $ref: '#/components/parameters/sortDesc'
       responses:
         '200':
           content:
@@ -24910,6 +24912,21 @@ components:
         format: int64
       required: true
       example: 1711354295
+    orderBy:
+      name: orderBy
+      in: query
+      description: |
+        A generic orderBy construct used to specify which field to sort by in the interface. (e.g., startTime or endTime).  The validity of this field is verified by the apiserver,  and it is not required in the YAML.
+      required: false
+      schema:
+        type: string
+    sortDesc:
+      name: sortDesc
+      in: query
+      description: Specifies the sorting direction. `true` for descending, `false` for ascending.
+      type: boolean
+      required: false
+      default: true
 x-tagGroup:
   - name: User
     tags:

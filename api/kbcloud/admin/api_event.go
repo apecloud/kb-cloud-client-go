@@ -26,6 +26,7 @@ type QueryClusterEventsOptionalParameters struct {
 	OperatorId   *int32
 	PageNumber   *int32
 	PageSize     *int32
+	OrderBy      *string
 }
 
 // NewQueryClusterEventsOptionalParameters creates an empty struct for parameters.
@@ -73,6 +74,12 @@ func (r *QueryClusterEventsOptionalParameters) WithPageNumber(pageNumber int32) 
 // WithPageSize sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithPageSize(pageSize int32) *QueryClusterEventsOptionalParameters {
 	r.PageSize = &pageSize
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *QueryClusterEventsOptionalParameters) WithOrderBy(orderBy string) *QueryClusterEventsOptionalParameters {
+	r.OrderBy = &orderBy
 	return r
 }
 
@@ -134,6 +141,9 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, start int64, end int
 	}
 	if optionalParams.PageSize != nil {
 		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
