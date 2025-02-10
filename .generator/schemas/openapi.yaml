@@ -18461,15 +18461,31 @@ components:
         value:
           type: string
           x-omitempty: false
-        default:
+        isDefault:
           type: boolean
+          description: Whether the configuration is the default value
           x-omitempty: false
         readOnly:
           type: boolean
           x-omitempty: false
         sensitive:
           type: boolean
+          description: Whether the configuration is sensitive
           x-omitempty: false
+        description:
+          type: string
+          description: Configuration description
+          x-omitempty: false
+        validValues:
+          type: array
+          items:
+            type: string
+          description: Valid values for the configuration
+          x-omitempty: true
+        type:
+          type: string
+          description: Configuration type
+          x-omitempty: true
     ConfigList:
       x-go-name: KafkaConfigList
       type: array
