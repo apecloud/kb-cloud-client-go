@@ -7180,7 +7180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DmsQueryHistory'
+                $ref: '#/components/schemas/DmsQueryHistoryList'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain:
     post:
       tags:
@@ -16995,6 +16995,10 @@ components:
           title: duration
           type: integer
           description: sql executed duration
+    DmsQueryHistoryList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DmsQueryHistory'
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
