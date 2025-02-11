@@ -15275,6 +15275,9 @@ components:
         codeShort:
           description: Cluster main component codeShort
           type: string
+        systemAccountSecretName:
+          description: The name of the secret that contains the system account credentials
+          type: string
     components:
       type: array
       description: Components is the list of components
@@ -20988,6 +20991,10 @@ components:
         main:
           description: Main component flag
           type: boolean
+          x-nullable: false
+        customSecret:
+          type: boolean
+          description: whether the component supports custom secret
           x-nullable: false
     integerOption:
       type: object
