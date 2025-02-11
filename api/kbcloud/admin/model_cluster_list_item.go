@@ -29,6 +29,8 @@ type ClusterListItem struct {
 	Mode *string `json:"mode,omitempty"`
 	// Environment Name
 	EnvironmentName string `json:"environmentName"`
+	// Environment Display Name
+	EnvironmentDisplayName *string `json:"environmentDisplayName,omitempty"`
 	// ID of cluster
 	Id string `json:"id"`
 	// Name of cluster. Name must be unique within an Org
@@ -296,6 +298,34 @@ func (o *ClusterListItem) GetEnvironmentNameOk() (*string, bool) {
 // SetEnvironmentName sets field value.
 func (o *ClusterListItem) SetEnvironmentName(v string) {
 	o.EnvironmentName = v
+}
+
+// GetEnvironmentDisplayName returns the EnvironmentDisplayName field value if set, zero value otherwise.
+func (o *ClusterListItem) GetEnvironmentDisplayName() string {
+	if o == nil || o.EnvironmentDisplayName == nil {
+		var ret string
+		return ret
+	}
+	return *o.EnvironmentDisplayName
+}
+
+// GetEnvironmentDisplayNameOk returns a tuple with the EnvironmentDisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetEnvironmentDisplayNameOk() (*string, bool) {
+	if o == nil || o.EnvironmentDisplayName == nil {
+		return nil, false
+	}
+	return o.EnvironmentDisplayName, true
+}
+
+// HasEnvironmentDisplayName returns a boolean if a field has been set.
+func (o *ClusterListItem) HasEnvironmentDisplayName() bool {
+	return o != nil && o.EnvironmentDisplayName != nil
+}
+
+// SetEnvironmentDisplayName gets a reference to the given string and assigns it to the EnvironmentDisplayName field.
+func (o *ClusterListItem) SetEnvironmentDisplayName(v string) {
+	o.EnvironmentDisplayName = &v
 }
 
 // GetId returns the Id field value.
@@ -769,6 +799,9 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 		toSerialize["mode"] = o.Mode
 	}
 	toSerialize["environmentName"] = o.EnvironmentName
+	if o.EnvironmentDisplayName != nil {
+		toSerialize["environmentDisplayName"] = o.EnvironmentDisplayName
+	}
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
 	if o.ParentId.IsSet() {
@@ -816,29 +849,30 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CloudProvider     *string                `json:"cloudProvider"`
-		CloudRegion       *string                `json:"cloudRegion,omitempty"`
-		AvailabilityZones []string               `json:"availabilityZones,omitempty"`
-		CreatedAt         *time.Time             `json:"createdAt"`
-		DisplayName       *string                `json:"displayName,omitempty"`
-		Engine            *string                `json:"engine"`
-		Mode              *string                `json:"mode,omitempty"`
-		EnvironmentName   *string                `json:"environmentName"`
-		Id                *string                `json:"id"`
-		Name              *string                `json:"name"`
-		ParentId          common.NullableInt64   `json:"parentId,omitempty"`
-		ParentName        common.NullableString  `json:"parentName,omitempty"`
-		ParentDisplayName common.NullableString  `json:"parentDisplayName,omitempty"`
-		ClusterType       NullableClusterType    `json:"clusterType,omitempty"`
-		Delay             common.NullableFloat64 `json:"delay,omitempty"`
-		Status            *string                `json:"status"`
-		TerminationPolicy *string                `json:"terminationPolicy"`
-		UpdatedAt         *time.Time             `json:"updatedAt"`
-		Version           *string                `json:"version"`
-		ClassCode         *string                `json:"classCode,omitempty"`
-		Storage           *string                `json:"storage,omitempty"`
-		CodeShort         *string                `json:"codeShort,omitempty"`
-		OrgName           *string                `json:"orgName,omitempty"`
+		CloudProvider          *string                `json:"cloudProvider"`
+		CloudRegion            *string                `json:"cloudRegion,omitempty"`
+		AvailabilityZones      []string               `json:"availabilityZones,omitempty"`
+		CreatedAt              *time.Time             `json:"createdAt"`
+		DisplayName            *string                `json:"displayName,omitempty"`
+		Engine                 *string                `json:"engine"`
+		Mode                   *string                `json:"mode,omitempty"`
+		EnvironmentName        *string                `json:"environmentName"`
+		EnvironmentDisplayName *string                `json:"environmentDisplayName,omitempty"`
+		Id                     *string                `json:"id"`
+		Name                   *string                `json:"name"`
+		ParentId               common.NullableInt64   `json:"parentId,omitempty"`
+		ParentName             common.NullableString  `json:"parentName,omitempty"`
+		ParentDisplayName      common.NullableString  `json:"parentDisplayName,omitempty"`
+		ClusterType            NullableClusterType    `json:"clusterType,omitempty"`
+		Delay                  common.NullableFloat64 `json:"delay,omitempty"`
+		Status                 *string                `json:"status"`
+		TerminationPolicy      *string                `json:"terminationPolicy"`
+		UpdatedAt              *time.Time             `json:"updatedAt"`
+		Version                *string                `json:"version"`
+		ClassCode              *string                `json:"classCode,omitempty"`
+		Storage                *string                `json:"storage,omitempty"`
+		CodeShort              *string                `json:"codeShort,omitempty"`
+		OrgName                *string                `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -875,7 +909,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
 	} else {
 		return err
 	}
@@ -889,6 +923,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Engine = *all.Engine
 	o.Mode = all.Mode
 	o.EnvironmentName = *all.EnvironmentName
+	o.EnvironmentDisplayName = all.EnvironmentDisplayName
 	o.Id = *all.Id
 	o.Name = *all.Name
 	o.ParentId = all.ParentId

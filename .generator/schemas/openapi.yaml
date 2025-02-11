@@ -12754,6 +12754,9 @@ components:
         environmentName:
           description: Environment Name
           type: string
+        environmentDisplayName:
+          description: Environment Display Name
+          type: string
         id:
           description: ID of cluster
           type: string
