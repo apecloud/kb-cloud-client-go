@@ -12449,11 +12449,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/environmentModuleList'
+              $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
           description: Success
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/workflow'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -12470,10 +12473,10 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/modules/{moduleName}/pods:
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/details:
     get:
-      operationId: getEnvironmentModulePods
-      summary: Get pods information for an environment module
+      operationId: getEnvironmentModuleDetails
+      summary: Get details information for an environment module
       parameters:
         - name: environmentName
           in: path
@@ -12493,7 +12496,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentModulePods'
+                $ref: '#/components/schemas/environmentModuleDetails'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -18170,6 +18173,16 @@ components:
         orgName:
           type: string
           description: The organization name
+    localizedDescription:
+      type: object
+      required:
+        - zh-CN
+        - en-US
+      properties:
+        zh-CN:
+          type: string
+        en-US:
+          type: string
     environmentModule:
       type: object
       description: Single environment module information
@@ -18194,8 +18207,10 @@ components:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information, only returned when hosting_status is Hosted
         description:
-          type: string
-          description: the description of the module
+          $ref: '#/components/schemas/localizedDescription'
+        optional:
+          type: boolean
+          description: indicate module is optional
       required:
         - name
         - status
@@ -20909,16 +20924,6 @@ components:
       enum:
         - current
         - original
-    localizedDescription:
-      type: object
-      required:
-        - zh-CN
-        - en-US
-      properties:
-        zh-CN:
-          type: string
-        en-US:
-          type: string
     componentOption:
       type: object
       required:
@@ -24134,10 +24139,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/environmentModule'
-    environmentModuleList:
-      type: array
-      items:
-        $ref: '#/components/schemas/environmentModule'
+    environmentModuleAction:
+      type: string
+      description: |
+        Action to perform on the environment module:
+        - Enable: Enable the module
+        - Disable: Disable the module 
+        - Upgrade: Upgrade the module to specified version
+      enum:
+        - Enable
+        - Disable
+        - Upgrade
+    environmentModuleUpdate:
+      type: object
+      description: Update information for an environment module
+      properties:
+        name:
+          type: string
+          description: Name of the environment module to update
+        action:
+          $ref: '#/components/schemas/environmentModuleAction'
+        version:
+          type: string
+          description: Version of the environment module to upgrade to
+      required:
+        - name
+        - action
     podResources:
       type: object
       description: Resource usage information for a pod
@@ -24255,24 +24282,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/podCondition'
-    environmentModulePods:
+    environmentModuleDetails:
       type: object
-      description: Pods information for an environment module
+      description: Detailed information about a specific environment module, including its configuration, status and associated pods
       properties:
         environmentName:
           type: string
-          description: Environment name
-        moduleName:
-          type: string
-          description: Environment module name
+          description: Name of the environment where the module is deployed
+        moduleInfo:
+          $ref: '#/components/schemas/environmentModule'
         lastUpdated:
           type: string
           format: date-time
-          description: Last update time of the data
+          description: Timestamp of when the module information was last updated
         modulePods:
           type: array
           items:
             $ref: '#/components/schemas/pod'
+          description: List of pods that belong to this environment module
     logEntry:
       type: object
       description: Single log entry
@@ -24848,6 +24875,10 @@ components:
         total:
           type: integer
           x-omitempty: false
+    environmentModuleList:
+      type: array
+      items:
+        $ref: '#/components/schemas/environmentModule'
   responses:
     '204':
       description: No Content
