@@ -257,7 +257,6 @@
 //   - [paramTplApi.getClusterParamTpls]
 //   - [paramTplApi.listParamTpl]
 //   - [paramTplApi.patchParamTpl]
-//   - [paramTplApi.patchParamTplV2]
 //   - [paramTplApi.readParamTpl]
 //   - [paramTplApi.readParamTplV2]
 //   - [parameterApi.listConfigurations]

@@ -5234,45 +5234,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - paramTpl
-    patch:
-      description: partially update the parameter template
-      summary: Update configuration template
-      operationId: patchParamTplV2
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/paramTplListItem'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls:
     get:
       operationId: getClusterParamTpls

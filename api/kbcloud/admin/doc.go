@@ -335,7 +335,6 @@
 //   - [paramTplApi.getClusterParamTpls]
 //   - [paramTplApi.listParamTpls]
 //   - [paramTplApi.patchParamTpl]
-//   - [paramTplApi.patchParamTplV2]
 //   - [paramTplApi.readParamTpl]
 //   - [paramTplApi.readParamTplV2]
 //   - [parameterApi.listConfigurations]
