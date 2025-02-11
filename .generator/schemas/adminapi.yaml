@@ -2821,7 +2821,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/datasource'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/updateDS:
     post:
       tags:
@@ -2853,7 +2853,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/datasource'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/query:
     post:
       tags:
