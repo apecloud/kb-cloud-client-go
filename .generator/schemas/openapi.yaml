@@ -17991,8 +17991,7 @@ components:
           description: The value options of the parameter
           type: array
           x-omitempty: false
-          items:
-            type: string
+          items: {}
         maximum:
           description: The maximum value of the parameter
           format: double
