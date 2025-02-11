@@ -15,11 +15,11 @@ type InstanceMetrics struct {
 	// the name of the instance
 	InstanceName string `json:"instanceName"`
 	// cpu with uint cores.
-	CpuUsage string `json:"cpuUsage"`
+	CpuUsage common.NullableString `json:"cpuUsage,omitempty"`
 	// memory with uint Gi.
-	MemoryUsage string `json:"memoryUsage"`
+	MemoryUsage common.NullableString `json:"memoryUsage,omitempty"`
 	// disk usage items
-	DiskUsageItems []InstanceDiskUsageItem `json:"diskUsageItems"`
+	DiskUsageItems []InstanceDiskUsageItem `json:"diskUsageItems,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,12 +29,9 @@ type InstanceMetrics struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstanceMetrics(instanceName string, cpuUsage string, memoryUsage string, diskUsageItems []InstanceDiskUsageItem) *InstanceMetrics {
+func NewInstanceMetrics(instanceName string) *InstanceMetrics {
 	this := InstanceMetrics{}
 	this.InstanceName = instanceName
-	this.CpuUsage = cpuUsage
-	this.MemoryUsage = memoryUsage
-	this.DiskUsageItems = diskUsageItems
 	return &this
 }
 
@@ -69,53 +66,85 @@ func (o *InstanceMetrics) SetInstanceName(v string) {
 	o.InstanceName = v
 }
 
-// GetCpuUsage returns the CpuUsage field value.
+// GetCpuUsage returns the CpuUsage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *InstanceMetrics) GetCpuUsage() string {
-	if o == nil {
+	if o == nil || o.CpuUsage.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.CpuUsage
+	return *o.CpuUsage.Get()
 }
 
-// GetCpuUsageOk returns a tuple with the CpuUsage field value
+// GetCpuUsageOk returns a tuple with the CpuUsage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *InstanceMetrics) GetCpuUsageOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CpuUsage, true
+	return o.CpuUsage.Get(), o.CpuUsage.IsSet()
 }
 
-// SetCpuUsage sets field value.
+// HasCpuUsage returns a boolean if a field has been set.
+func (o *InstanceMetrics) HasCpuUsage() bool {
+	return o != nil && o.CpuUsage.IsSet()
+}
+
+// SetCpuUsage gets a reference to the given common.NullableString and assigns it to the CpuUsage field.
 func (o *InstanceMetrics) SetCpuUsage(v string) {
-	o.CpuUsage = v
+	o.CpuUsage.Set(&v)
 }
 
-// GetMemoryUsage returns the MemoryUsage field value.
+// SetCpuUsageNil sets the value for CpuUsage to be an explicit nil.
+func (o *InstanceMetrics) SetCpuUsageNil() {
+	o.CpuUsage.Set(nil)
+}
+
+// UnsetCpuUsage ensures that no value is present for CpuUsage, not even an explicit nil.
+func (o *InstanceMetrics) UnsetCpuUsage() {
+	o.CpuUsage.Unset()
+}
+
+// GetMemoryUsage returns the MemoryUsage field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *InstanceMetrics) GetMemoryUsage() string {
-	if o == nil {
+	if o == nil || o.MemoryUsage.Get() == nil {
 		var ret string
 		return ret
 	}
-	return o.MemoryUsage
+	return *o.MemoryUsage.Get()
 }
 
-// GetMemoryUsageOk returns a tuple with the MemoryUsage field value
+// GetMemoryUsageOk returns a tuple with the MemoryUsage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *InstanceMetrics) GetMemoryUsageOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.MemoryUsage, true
+	return o.MemoryUsage.Get(), o.MemoryUsage.IsSet()
 }
 
-// SetMemoryUsage sets field value.
+// HasMemoryUsage returns a boolean if a field has been set.
+func (o *InstanceMetrics) HasMemoryUsage() bool {
+	return o != nil && o.MemoryUsage.IsSet()
+}
+
+// SetMemoryUsage gets a reference to the given common.NullableString and assigns it to the MemoryUsage field.
 func (o *InstanceMetrics) SetMemoryUsage(v string) {
-	o.MemoryUsage = v
+	o.MemoryUsage.Set(&v)
 }
 
-// GetDiskUsageItems returns the DiskUsageItems field value.
+// SetMemoryUsageNil sets the value for MemoryUsage to be an explicit nil.
+func (o *InstanceMetrics) SetMemoryUsageNil() {
+	o.MemoryUsage.Set(nil)
+}
+
+// UnsetMemoryUsage ensures that no value is present for MemoryUsage, not even an explicit nil.
+func (o *InstanceMetrics) UnsetMemoryUsage() {
+	o.MemoryUsage.Unset()
+}
+
+// GetDiskUsageItems returns the DiskUsageItems field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *InstanceMetrics) GetDiskUsageItems() []InstanceDiskUsageItem {
 	if o == nil {
 		var ret []InstanceDiskUsageItem
@@ -124,16 +153,22 @@ func (o *InstanceMetrics) GetDiskUsageItems() []InstanceDiskUsageItem {
 	return o.DiskUsageItems
 }
 
-// GetDiskUsageItemsOk returns a tuple with the DiskUsageItems field value
+// GetDiskUsageItemsOk returns a tuple with the DiskUsageItems field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *InstanceMetrics) GetDiskUsageItemsOk() (*[]InstanceDiskUsageItem, bool) {
-	if o == nil {
+	if o == nil || o.DiskUsageItems == nil {
 		return nil, false
 	}
 	return &o.DiskUsageItems, true
 }
 
-// SetDiskUsageItems sets field value.
+// HasDiskUsageItems returns a boolean if a field has been set.
+func (o *InstanceMetrics) HasDiskUsageItems() bool {
+	return o != nil && o.DiskUsageItems != nil
+}
+
+// SetDiskUsageItems gets a reference to the given []InstanceDiskUsageItem and assigns it to the DiskUsageItems field.
 func (o *InstanceMetrics) SetDiskUsageItems(v []InstanceDiskUsageItem) {
 	o.DiskUsageItems = v
 }
@@ -145,9 +180,15 @@ func (o InstanceMetrics) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["instanceName"] = o.InstanceName
-	toSerialize["cpuUsage"] = o.CpuUsage
-	toSerialize["memoryUsage"] = o.MemoryUsage
-	toSerialize["diskUsageItems"] = o.DiskUsageItems
+	if o.CpuUsage.IsSet() {
+		toSerialize["cpuUsage"] = o.CpuUsage.Get()
+	}
+	if o.MemoryUsage.IsSet() {
+		toSerialize["memoryUsage"] = o.MemoryUsage.Get()
+	}
+	if o.DiskUsageItems != nil {
+		toSerialize["diskUsageItems"] = o.DiskUsageItems
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -158,25 +199,16 @@ func (o InstanceMetrics) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		InstanceName   *string                  `json:"instanceName"`
-		CpuUsage       *string                  `json:"cpuUsage"`
-		MemoryUsage    *string                  `json:"memoryUsage"`
-		DiskUsageItems *[]InstanceDiskUsageItem `json:"diskUsageItems"`
+		InstanceName   *string                 `json:"instanceName"`
+		CpuUsage       common.NullableString   `json:"cpuUsage,omitempty"`
+		MemoryUsage    common.NullableString   `json:"memoryUsage,omitempty"`
+		DiskUsageItems []InstanceDiskUsageItem `json:"diskUsageItems,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.InstanceName == nil {
 		return fmt.Errorf("required field instanceName missing")
-	}
-	if all.CpuUsage == nil {
-		return fmt.Errorf("required field cpuUsage missing")
-	}
-	if all.MemoryUsage == nil {
-		return fmt.Errorf("required field memoryUsage missing")
-	}
-	if all.DiskUsageItems == nil {
-		return fmt.Errorf("required field diskUsageItems missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -185,9 +217,9 @@ func (o *InstanceMetrics) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.InstanceName = *all.InstanceName
-	o.CpuUsage = *all.CpuUsage
-	o.MemoryUsage = *all.MemoryUsage
-	o.DiskUsageItems = *all.DiskUsageItems
+	o.CpuUsage = all.CpuUsage
+	o.MemoryUsage = all.MemoryUsage
+	o.DiskUsageItems = all.DiskUsageItems
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

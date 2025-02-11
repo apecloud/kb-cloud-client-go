@@ -2159,6 +2159,8 @@ paths:
             type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/orderBy'
+        - $ref: '#/components/parameters/sortDesc'
       responses:
         '200':
           content:
@@ -2540,32 +2542,6 @@ paths:
         - paramTpl
       x-codegen-request-body-name: body
   /admin/v1/paramTplsV2/{paramTplName}:
-    delete:
-      operationId: deleteParamTplV2
-      summary: Delete configuration template
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
     get:
       operationId: readParamTplV2
       summary: Get parameter template details
@@ -2961,7 +2937,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/datasource'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/updateDS:
     post:
       tags:
@@ -2993,7 +2969,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/datasource'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/query:
     post:
       tags:
@@ -12589,11 +12565,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/environmentModuleList'
+              $ref: '#/components/schemas/environmentModuleUpdate'
       responses:
         '200':
           description: Success
-          content: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/workflow'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -12610,10 +12589,10 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/environments/{environmentName}/modules/{moduleName}/pods:
+  /admin/v1/environments/{environmentName}/modules/{moduleName}/details:
     get:
-      operationId: getEnvironmentModulePods
-      summary: Get pods information for an environment module
+      operationId: getEnvironmentModuleDetails
+      summary: Get details information for an environment module
       parameters:
         - name: environmentName
           in: path
@@ -12633,7 +12612,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentModulePods'
+                $ref: '#/components/schemas/environmentModuleDetails'
         '400':
           $ref: '#/components/responses/400'
         '404':
@@ -15216,6 +15195,9 @@ components:
         environmentName:
           description: Environment Name
           type: string
+        environmentDisplayName:
+          description: Environment Display Name
+          type: string
         id:
           description: ID of cluster
           type: string
@@ -16168,19 +16150,19 @@ components:
         cpuUsage:
           description: cpu with uint cores.
           type: string
+          nullable: true
         memoryUsage:
           description: memory with uint Gi.
           type: string
+          nullable: true
         diskUsageItems:
           description: disk usage items
           type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/instanceDiskUsageItem'
       required:
         - instanceName
-        - cpuUsage
-        - memoryUsage
-        - diskUsageItems
       type: object
     instanceMetricsList:
       description: instance metrics list
@@ -18375,6 +18357,16 @@ components:
         orgName:
           type: string
           description: The organization name
+    localizedDescription:
+      type: object
+      required:
+        - zh-CN
+        - en-US
+      properties:
+        zh-CN:
+          type: string
+        en-US:
+          type: string
     environmentModule:
       type: object
       description: Single environment module information
@@ -18399,8 +18391,10 @@ components:
           $ref: '#/components/schemas/clusterInfo'
           description: Cluster information, only returned when hosting_status is Hosted
         description:
-          type: string
-          description: the description of the module
+          $ref: '#/components/schemas/localizedDescription'
+        optional:
+          type: boolean
+          description: indicate module is optional
       required:
         - name
         - status
@@ -21114,16 +21108,6 @@ components:
       enum:
         - current
         - original
-    localizedDescription:
-      type: object
-      required:
-        - zh-CN
-        - en-US
-      properties:
-        zh-CN:
-          type: string
-        en-US:
-          type: string
     componentOption:
       type: object
       required:
@@ -24339,10 +24323,32 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/environmentModule'
-    environmentModuleList:
-      type: array
-      items:
-        $ref: '#/components/schemas/environmentModule'
+    environmentModuleAction:
+      type: string
+      description: |
+        Action to perform on the environment module:
+        - Enable: Enable the module
+        - Disable: Disable the module 
+        - Upgrade: Upgrade the module to specified version
+      enum:
+        - Enable
+        - Disable
+        - Upgrade
+    environmentModuleUpdate:
+      type: object
+      description: Update information for an environment module
+      properties:
+        name:
+          type: string
+          description: Name of the environment module to update
+        action:
+          $ref: '#/components/schemas/environmentModuleAction'
+        version:
+          type: string
+          description: Version of the environment module to upgrade to
+      required:
+        - name
+        - action
     podResources:
       type: object
       description: Resource usage information for a pod
@@ -24460,24 +24466,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/podCondition'
-    environmentModulePods:
+    environmentModuleDetails:
       type: object
-      description: Pods information for an environment module
+      description: Detailed information about a specific environment module, including its configuration, status and associated pods
       properties:
         environmentName:
           type: string
-          description: Environment name
-        moduleName:
-          type: string
-          description: Environment module name
+          description: Name of the environment where the module is deployed
+        moduleInfo:
+          $ref: '#/components/schemas/environmentModule'
         lastUpdated:
           type: string
           format: date-time
-          description: Last update time of the data
+          description: Timestamp of when the module information was last updated
         modulePods:
           type: array
           items:
             $ref: '#/components/schemas/pod'
+          description: List of pods that belong to this environment module
     logEntry:
       type: object
       description: Single log entry
@@ -25053,6 +25059,10 @@ components:
         total:
           type: integer
           x-omitempty: false
+    environmentModuleList:
+      type: array
+      items:
+        $ref: '#/components/schemas/environmentModule'
   responses:
     '204':
       description: No Content
@@ -25117,6 +25127,21 @@ components:
         format: int64
       required: true
       example: 1711354295
+    orderBy:
+      name: orderBy
+      in: query
+      description: |
+        A generic orderBy construct used to specify which field to sort by in the interface. (e.g., startTime or endTime).  The validity of this field is verified by the apiserver,  and it is not required in the YAML.
+      required: false
+      schema:
+        type: string
+    sortDesc:
+      name: sortDesc
+      in: query
+      description: Specifies the sorting direction. `true` for descending, `false` for ascending.
+      type: boolean
+      required: false
+      default: true
 x-tagGroup:
   - name: User
     tags:

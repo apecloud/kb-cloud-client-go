@@ -254,7 +254,6 @@
 //   - [paramTplApi.createParamTpl]
 //   - [paramTplApi.createParamTplFromCluster]
 //   - [paramTplApi.deleteParamTpl]
-//   - [paramTplApi.deleteParamTplV2]
 //   - [paramTplApi.getClusterParamTpls]
 //   - [paramTplApi.listParamTpl]
 //   - [paramTplApi.patchParamTpl]

@@ -731,6 +731,8 @@ paths:
             type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/orderBy'
+        - $ref: '#/components/parameters/sortDesc'
       responses:
         '200':
           content:
@@ -5196,32 +5198,6 @@ paths:
         - paramTpl
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/paramTplsV2/{paramTplName}:
-    delete:
-      operationId: deleteParamTplV2
-      summary: Delete configuration template
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
     get:
       operationId: readParamTplV2
       summary: Get configuration template details
@@ -6810,7 +6786,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/datasource'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/updateDS:
     post:
       tags:
@@ -6842,7 +6818,7 @@ paths:
           content:
             application/json:
               schema:
-                type: boolean
+                $ref: '#/components/schemas/datasource'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/query:
     post:
       tags:
@@ -12899,6 +12875,9 @@ components:
         environmentName:
           description: Environment Name
           type: string
+        environmentDisplayName:
+          description: Environment Display Name
+          type: string
         id:
           description: ID of cluster
           type: string
@@ -14391,19 +14370,19 @@ components:
         cpuUsage:
           description: cpu with uint cores.
           type: string
+          nullable: true
         memoryUsage:
           description: memory with uint Gi.
           type: string
+          nullable: true
         diskUsageItems:
           description: disk usage items
           type: array
+          nullable: true
           items:
             $ref: '#/components/schemas/instanceDiskUsageItem'
       required:
         - instanceName
-        - cpuUsage
-        - memoryUsage
-        - diskUsageItems
       type: object
     instanceMetricsList:
       description: instance metrics list
@@ -19241,6 +19220,21 @@ components:
         format: int64
       required: true
       example: 1711354295
+    orderBy:
+      name: orderBy
+      in: query
+      description: |
+        A generic orderBy construct used to specify which field to sort by in the interface. (e.g., startTime or endTime).  The validity of this field is verified by the apiserver,  and it is not required in the YAML.
+      required: false
+      schema:
+        type: string
+    sortDesc:
+      name: sortDesc
+      in: query
+      description: Specifies the sorting direction. `true` for descending, `false` for ascending.
+      type: boolean
+      required: false
+      default: true
 x-tagGroups:
   - name: User
     tags:
