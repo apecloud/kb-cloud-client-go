@@ -9003,7 +9003,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engine
+        - engineLicense
   /admin/v1/engineLicense:
     get:
       description: Get a engineLicense detail
@@ -9073,8 +9073,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engine
-      x-codegen-request-body-name: body
+        - engineLicense
     delete:
       description: delete an engine license
       summary: Delete engine license
@@ -9097,7 +9096,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engine
+        - engineLicense
   /admin/v1/organizations/{orgName}/engines:
     get:
       tags:
@@ -16776,19 +16775,23 @@ components:
         sql:
           title: SQL
           type: string
+          x-nullable: true
           description: executed sql statements
-        errMassage:
+        err_msg:
           title: errMassage
           type: string
+          x-nullable: true
           description: sql executed massage
-        createdAt:
+        created_at:
           title: time
           type: string
           format: date-time
+          x-go-type: time.Time
           description: sql executed time
         duration:
           title: duration
           type: integer
+          x-nullable: true
           description: sql executed duration
     DmsQueryHistoryList:
       type: array
