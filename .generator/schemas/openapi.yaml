@@ -9006,7 +9006,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '500':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/recycleBin/clusters:
     get:
       tags:

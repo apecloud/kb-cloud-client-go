@@ -11538,7 +11538,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '500':
-          $ref: '#/components/responses/404'
+          $ref: '#/components/responses/500'
   /admin/v1/instances:
     get:
       summary: List cluster instances
