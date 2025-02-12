@@ -21,6 +21,7 @@ type {{ classname }} {{ common_package_name }}.Service
 {%- set httpMethod = method.upper() %}
 {%- set returnType = operation|return_type %}
 {%- set formParameter = operation|form_parameter %}
+{%- set needBodyParameter = operation|need_body_parameter %}
 {%- set operationId = operation.operationId|upperfirst %}
 
 {%- for name, parameter in operation|parameters if not parameter.required and parameter.in != "path" %}
@@ -238,7 +239,7 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 	}
 	{%- endif %}
 
-	{%- if operation.requestBody is defined and not formParameter %}
+	{%- if operation.requestBody is defined and needBodyParameter %}
     {%- set isBodyOptional = False if "required" in operation.requestBody and operation.requestBody.required else True %}
 
 	// body params
