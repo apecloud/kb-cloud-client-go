@@ -2,12 +2,12 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ParameterPropItem With the list of parameter properties and the configuration file name
-type ParameterPropItem struct {
+// ParameterItem With the list of parameter properties and the configuration file name
+type ParameterItem struct {
 	// The list of parameters properties
 	Props []ParameterProp `json:"props,omitempty"`
 	// The name of the configuration file
@@ -17,25 +17,25 @@ type ParameterPropItem struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewParameterPropItem instantiates a new ParameterPropItem object.
+// NewParameterItem instantiates a new ParameterItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterPropItem() *ParameterPropItem {
-	this := ParameterPropItem{}
+func NewParameterItem() *ParameterItem {
+	this := ParameterItem{}
 	return &this
 }
 
-// NewParameterPropItemWithDefaults instantiates a new ParameterPropItem object.
+// NewParameterItemWithDefaults instantiates a new ParameterItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewParameterPropItemWithDefaults() *ParameterPropItem {
-	this := ParameterPropItem{}
+func NewParameterItemWithDefaults() *ParameterItem {
+	this := ParameterItem{}
 	return &this
 }
 
 // GetProps returns the Props field value if set, zero value otherwise.
-func (o *ParameterPropItem) GetProps() []ParameterProp {
+func (o *ParameterItem) GetProps() []ParameterProp {
 	if o == nil || o.Props == nil {
 		var ret []ParameterProp
 		return ret
@@ -45,7 +45,7 @@ func (o *ParameterPropItem) GetProps() []ParameterProp {
 
 // GetPropsOk returns a tuple with the Props field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetPropsOk() (*[]ParameterProp, bool) {
+func (o *ParameterItem) GetPropsOk() (*[]ParameterProp, bool) {
 	if o == nil || o.Props == nil {
 		return nil, false
 	}
@@ -53,17 +53,17 @@ func (o *ParameterPropItem) GetPropsOk() (*[]ParameterProp, bool) {
 }
 
 // HasProps returns a boolean if a field has been set.
-func (o *ParameterPropItem) HasProps() bool {
+func (o *ParameterItem) HasProps() bool {
 	return o != nil && o.Props != nil
 }
 
 // SetProps gets a reference to the given []ParameterProp and assigns it to the Props field.
-func (o *ParameterPropItem) SetProps(v []ParameterProp) {
+func (o *ParameterItem) SetProps(v []ParameterProp) {
 	o.Props = v
 }
 
 // GetFileName returns the FileName field value if set, zero value otherwise.
-func (o *ParameterPropItem) GetFileName() string {
+func (o *ParameterItem) GetFileName() string {
 	if o == nil || o.FileName == nil {
 		var ret string
 		return ret
@@ -73,7 +73,7 @@ func (o *ParameterPropItem) GetFileName() string {
 
 // GetFileNameOk returns a tuple with the FileName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterPropItem) GetFileNameOk() (*string, bool) {
+func (o *ParameterItem) GetFileNameOk() (*string, bool) {
 	if o == nil || o.FileName == nil {
 		return nil, false
 	}
@@ -81,17 +81,17 @@ func (o *ParameterPropItem) GetFileNameOk() (*string, bool) {
 }
 
 // HasFileName returns a boolean if a field has been set.
-func (o *ParameterPropItem) HasFileName() bool {
+func (o *ParameterItem) HasFileName() bool {
 	return o != nil && o.FileName != nil
 }
 
 // SetFileName gets a reference to the given string and assigns it to the FileName field.
-func (o *ParameterPropItem) SetFileName(v string) {
+func (o *ParameterItem) SetFileName(v string) {
 	o.FileName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ParameterPropItem) MarshalJSON() ([]byte, error) {
+func (o ParameterItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -110,7 +110,7 @@ func (o ParameterPropItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ParameterPropItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Props    []ParameterProp `json:"props,omitempty"`
 		FileName *string         `json:"fileName,omitempty"`

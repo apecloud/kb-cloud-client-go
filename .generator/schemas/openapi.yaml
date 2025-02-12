@@ -4904,6 +4904,8 @@ paths:
         - parameter
   /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs:
     get:
+      deprecated: true
+      description: get parameter specs, deprecated, instead use listParameterProps
       operationId: listParameterSpecs
       summary: List parameter specs of the cluster
       tags:
@@ -4944,6 +4946,8 @@ paths:
           $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/configurations:
     get:
+      deprecated: true
+      description: get parameter configurations, deprecated, instead use listParameterProps
       operationId: listConfigurations
       summary: List configurations of the cluster
       tags:
@@ -4982,7 +4986,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterProps:
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
     get:
       operationId: listParameterProps
       summary: List parameter properties of the cluster
@@ -5012,7 +5016,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/parameterPropList'
+                $ref: '#/components/schemas/parameterList'
           description: get configuration of the cluster successfully
         '400':
           $ref: '#/components/responses/400'
@@ -5024,6 +5028,8 @@ paths:
           $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/paramTpls:
     get:
+      deprecated: true
+      description: list parameter templates, deprecated, instead use listParameterTemplates
       operationId: listParamTpl
       summary: List configuration templates in an Org
       parameters:
@@ -5064,6 +5070,8 @@ paths:
       tags:
         - paramTpl
     post:
+      deprecated: true
+      description: create parameter template, deprecated, instead use createParameterTemplate
       operationId: createParamTpl
       summary: Create configuration template
       parameters:
@@ -5097,6 +5105,8 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/paramTpls/{paramTplName}:
     delete:
+      deprecated: true
+      description: delete parameter template, deprecated, instead use deleteParameterTemplate
       operationId: deleteParamTpl
       summary: Delete configuration template
       parameters:
@@ -5123,6 +5133,8 @@ paths:
       tags:
         - paramTpl
     get:
+      deprecated: true
+      description: get parameter template, deprecated, instead use getParameterTemplate
       operationId: readParamTpl
       summary: Get configuration template details
       parameters:
@@ -5159,7 +5171,8 @@ paths:
       tags:
         - paramTpl
     patch:
-      description: partially update the parameter template
+      deprecated: true
+      description: update parameter template, deprecated, instead use patchParameterTemplate
       summary: Update configuration template
       operationId: patchParamTpl
       parameters:
@@ -5224,7 +5237,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/parameterPropList'
+                $ref: '#/components/schemas/parameterList'
           description: read parameter template successfully
         '401':
           $ref: '#/components/responses/401'
@@ -5236,6 +5249,8 @@ paths:
         - paramTpl
   /api/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls:
     get:
+      deprecated: true
+      description: get cluster parameter template, deprecated, instead use getClusterParameterTemplate
       operationId: getClusterParamTpls
       summary: Get cluster configuration templates
       parameters:
@@ -5279,6 +5294,8 @@ paths:
       tags:
         - paramTpl
     post:
+      deprecated: true
+      description: export parameter template from cluster, deprecated, instead use exportParameterTemplateFromCluster
       operationId: createParamTplFromCluster
       summary: Export configuration template from cluster
       parameters:
@@ -5315,6 +5332,8 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/paramTpls/{paramTplName}/analyze:
     get:
+      deprecated: true
+      description: analyze parameter, deprecated, instead use analyzeParameter
       operationId: analyzeParam
       summary: Analyze parameter
       parameters:
@@ -15188,7 +15207,7 @@ components:
           items:
             type: object
             additionalProperties: true
-    parameterPropItem:
+    parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
       properties:
@@ -15200,13 +15219,13 @@ components:
         fileName:
           description: The name of the configuration file
           type: string
-    parameterPropList:
-      description: A list of cluster parameter properties
+    parameterList:
+      description: A list of cluster parameter
       properties:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/parameterPropItem'
+            $ref: '#/components/schemas/parameterItem'
     paramTplListItem:
       description: parameter template information
       properties:

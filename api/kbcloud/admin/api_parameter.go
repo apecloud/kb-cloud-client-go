@@ -35,6 +35,8 @@ func (r *ListConfigurationsOptionalParameters) WithComponent(component string) *
 }
 
 // ListConfigurations List configurations of the cluster.
+// get parameter configurations, deprecated, instead use listParameterProps
+// Deprecated: This API is deprecated.
 func (a *ParameterApi) ListConfigurations(ctx _context.Context, orgName string, clusterName string, o ...ListConfigurationsOptionalParameters) (ConfigurationList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -142,11 +144,11 @@ func (r *ListParameterPropsOptionalParameters) WithComponent(component string) *
 }
 
 // ListParameterProps List parameter properties of the cluster.
-func (a *ParameterApi) ListParameterProps(ctx _context.Context, orgName string, clusterName string, o ...ListParameterPropsOptionalParameters) (ParameterPropList, *_nethttp.Response, error) {
+func (a *ParameterApi) ListParameterProps(ctx _context.Context, orgName string, clusterName string, o ...ListParameterPropsOptionalParameters) (ParameterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ParameterPropList
+		localVarReturnValue ParameterList
 		optionalParams      ListParameterPropsOptionalParameters
 	)
 
@@ -161,7 +163,7 @@ func (a *ParameterApi) ListParameterProps(ctx _context.Context, orgName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "parameter",
 		OperationID: "listParameterProps",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterProps",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -171,7 +173,7 @@ func (a *ParameterApi) ListParameterProps(ctx _context.Context, orgName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterProps"
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -249,6 +251,8 @@ func (r *ListParameterSpecsOptionalParameters) WithComponent(component string) *
 }
 
 // ListParameterSpecs List parameter specs of the cluster.
+// get parameter specs, deprecated, instead use listParameterProps
+// Deprecated: This API is deprecated.
 func (a *ParameterApi) ListParameterSpecs(ctx _context.Context, orgName string, clusterName string, o ...ListParameterSpecsOptionalParameters) (ParameterSpecList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

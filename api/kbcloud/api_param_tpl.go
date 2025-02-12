@@ -18,6 +18,8 @@ import (
 type ParamTplApi common.Service
 
 // CreateParamTpl Create configuration template.
+// create parameter template, deprecated, instead use createParameterTemplate
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body ParamTplCreate) (ParamTplListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -99,6 +101,8 @@ func (a *ParamTplApi) CreateParamTpl(ctx _context.Context, orgName string, body 
 }
 
 // CreateParamTplFromCluster Export configuration template from cluster.
+// export parameter template from cluster, deprecated, instead use exportParameterTemplateFromCluster
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName string, clusterName string, body ParamTplCreateFromCluster) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -171,6 +175,8 @@ func (a *ParamTplApi) CreateParamTplFromCluster(ctx _context.Context, orgName st
 }
 
 // DeleteParamTpl Delete configuration template.
+// delete parameter template, deprecated, instead use deleteParameterTemplate
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) DeleteParamTpl(ctx _context.Context, orgName string, paramTplName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -264,6 +270,8 @@ func (r *GetClusterParamTplsOptionalParameters) WithEngineName(engineName string
 }
 
 // GetClusterParamTpls Get cluster configuration templates.
+// get cluster parameter template, deprecated, instead use getClusterParameterTemplate
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) GetClusterParamTpls(ctx _context.Context, orgName string, clusterName string, o ...GetClusterParamTplsOptionalParameters) (ParamTplApplyToClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -388,6 +396,8 @@ func (r *ListParamTplOptionalParameters) WithComponent(component string) *ListPa
 }
 
 // ListParamTpl List configuration templates in an Org.
+// list parameter templates, deprecated, instead use listParameterTemplates
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) ListParamTpl(ctx _context.Context, orgName string, o ...ListParamTplOptionalParameters) (ParamTplList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -483,7 +493,8 @@ func (a *ParamTplApi) ListParamTpl(ctx _context.Context, orgName string, o ...Li
 }
 
 // PatchParamTpl Update configuration template.
-// partially update the parameter template
+// update parameter template, deprecated, instead use patchParameterTemplate
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) PatchParamTpl(ctx _context.Context, orgName string, paramTplName string, body ParamTplUpdate) (ParamTplListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -583,6 +594,8 @@ func (r *ReadParamTplOptionalParameters) WithPartition(partition ParamTplPartiti
 }
 
 // ReadParamTpl Get configuration template details.
+// get parameter template, deprecated, instead use getParameterTemplate
+// Deprecated: This API is deprecated.
 func (a *ParamTplApi) ReadParamTpl(ctx _context.Context, orgName string, paramTplName string, o ...ReadParamTplOptionalParameters) (ParamTplGet, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -690,11 +703,11 @@ func (r *ReadParamTplV2OptionalParameters) WithPartition(partition ParamTplParti
 }
 
 // ReadParamTplV2 Get configuration template details.
-func (a *ParamTplApi) ReadParamTplV2(ctx _context.Context, orgName string, paramTplName string, o ...ReadParamTplV2OptionalParameters) (ParameterPropList, *_nethttp.Response, error) {
+func (a *ParamTplApi) ReadParamTplV2(ctx _context.Context, orgName string, paramTplName string, o ...ReadParamTplV2OptionalParameters) (ParameterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ParameterPropList
+		localVarReturnValue ParameterList
 		optionalParams      ReadParamTplV2OptionalParameters
 	)
 

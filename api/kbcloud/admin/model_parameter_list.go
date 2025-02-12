@@ -6,35 +6,35 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ParameterPropList A list of cluster parameter properties
-type ParameterPropList struct {
-	Items []ParameterPropItem `json:"items,omitempty"`
+// ParameterList A list of cluster parameter
+type ParameterList struct {
+	Items []ParameterItem `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewParameterPropList instantiates a new ParameterPropList object.
+// NewParameterList instantiates a new ParameterList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterPropList() *ParameterPropList {
-	this := ParameterPropList{}
+func NewParameterList() *ParameterList {
+	this := ParameterList{}
 	return &this
 }
 
-// NewParameterPropListWithDefaults instantiates a new ParameterPropList object.
+// NewParameterListWithDefaults instantiates a new ParameterList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewParameterPropListWithDefaults() *ParameterPropList {
-	this := ParameterPropList{}
+func NewParameterListWithDefaults() *ParameterList {
+	this := ParameterList{}
 	return &this
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
-func (o *ParameterPropList) GetItems() []ParameterPropItem {
+func (o *ParameterList) GetItems() []ParameterItem {
 	if o == nil || o.Items == nil {
-		var ret []ParameterPropItem
+		var ret []ParameterItem
 		return ret
 	}
 	return o.Items
@@ -42,7 +42,7 @@ func (o *ParameterPropList) GetItems() []ParameterPropItem {
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParameterPropList) GetItemsOk() (*[]ParameterPropItem, bool) {
+func (o *ParameterList) GetItemsOk() (*[]ParameterItem, bool) {
 	if o == nil || o.Items == nil {
 		return nil, false
 	}
@@ -50,17 +50,17 @@ func (o *ParameterPropList) GetItemsOk() (*[]ParameterPropItem, bool) {
 }
 
 // HasItems returns a boolean if a field has been set.
-func (o *ParameterPropList) HasItems() bool {
+func (o *ParameterList) HasItems() bool {
 	return o != nil && o.Items != nil
 }
 
-// SetItems gets a reference to the given []ParameterPropItem and assigns it to the Items field.
-func (o *ParameterPropList) SetItems(v []ParameterPropItem) {
+// SetItems gets a reference to the given []ParameterItem and assigns it to the Items field.
+func (o *ParameterList) SetItems(v []ParameterItem) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ParameterPropList) MarshalJSON() ([]byte, error) {
+func (o ParameterList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -76,9 +76,9 @@ func (o ParameterPropList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ParameterPropList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ParameterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []ParameterPropItem `json:"items,omitempty"`
+		Items []ParameterItem `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

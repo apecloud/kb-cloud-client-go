@@ -530,6 +530,8 @@ func (r *AnalyzeParamOptionalParameters) WithPartition(partition ParamTplPartiti
 }
 
 // AnalyzeParam Analyze parameter.
+// analyze parameter, deprecated, instead use analyzeParameter
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, parameterName string, o ...AnalyzeParamOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
