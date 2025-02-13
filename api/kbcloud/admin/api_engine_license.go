@@ -56,8 +56,10 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body Engine
 		formFile.FileBytes = fbs
 	}
 
-	// body params
-	localVarPostBody = &body
+	localVarFormParams, err = common.BuildFormParams(body)
+	if err != nil {
+		return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
