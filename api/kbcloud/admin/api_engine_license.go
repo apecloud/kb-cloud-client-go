@@ -19,7 +19,7 @@ type EngineLicenseApi common.Service
 
 // CreateEngineLicense Create engineLicense.
 // Create a new engineLicense
-func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile _io.Reader) (EngineLicense, *_nethttp.Response, error) {
+func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, body EngineLicenseCreate, licenseFile _io.Reader) (EngineLicense, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -55,6 +55,9 @@ func (a *EngineLicenseApi) CreateEngineLicense(ctx _context.Context, licenseFile
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
+
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

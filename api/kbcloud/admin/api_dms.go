@@ -119,7 +119,7 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 }
 
 // DataImport Data Import.
-func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, file _io.Reader) (interface{}, *_nethttp.Response, error) {
+func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, body interface{}, file _io.Reader) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -158,6 +158,9 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
 	}
+
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

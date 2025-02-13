@@ -9038,24 +9038,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: Name of the engine license
-                engineName:
-                  type: string
-                  description: Name of the engine
-                description:
-                  type: string
-                  description: Description of the engine license
-                expiredAt:
-                  type: string
-                  format: date-time
-                  description: Expiration date and time of the license (optional)
-              required:
-                - name
-                - engineName
+              $ref: '#/components/schemas/engineLicenseCreate'
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/engineLicenseFormData'
@@ -22015,6 +21998,25 @@ components:
           description: Items is the list of engineLicense objects in the list
           items:
             $ref: '#/components/schemas/engineLicense'
+    engineLicenseCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the engine license
+        engineName:
+          type: string
+          description: Name of the engine
+        description:
+          type: string
+          description: Description of the engine license
+        expiredAt:
+          type: string
+          format: date-time
+          description: Expiration date and time of the license (optional)
+      required:
+        - name
+        - engineName
     engineLicenseFormData:
       description: the data of the engine license
       type: object
