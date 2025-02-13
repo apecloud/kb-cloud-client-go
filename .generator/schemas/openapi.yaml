@@ -18449,12 +18449,7 @@ components:
       required:
         - name
         - value
-        - dataType
-        - enum
-        - maximum
-        - minimum
         - description
-        - readOnly
       properties:
         name:
           description: The name of the parameter
@@ -18465,23 +18460,25 @@ components:
         dataType:
           description: The type of the parameter value
           type: string
+          x-omitempty: false
         description:
           description: The description of the parameter
           type: string
         enum:
           description: The value options of the parameter
           type: array
-          items:
-            type: object
-            additionalProperties: true
+          x-omitempty: false
+          items: {}
         maximum:
           description: The maximum value of the parameter
           format: double
           type: number
+          x-omitempty: false
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          x-omitempty: false
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -18494,6 +18491,7 @@ components:
         readOnly:
           description: Whether the parameter is read-only
           type: boolean
+          x-omitempty: false
     DmsParameterList:
       type: array
       items:
