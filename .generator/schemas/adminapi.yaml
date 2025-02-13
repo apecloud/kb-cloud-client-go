@@ -18141,6 +18141,14 @@ components:
       required:
         - usage
       type: object
+    nodeStatus:
+      type: string
+      description: Status of the node
+      enum:
+        - Ready
+        - Warning
+        - UnderMaintenance
+        - Unschedulable
     node:
       description: node info
       properties:
@@ -18178,12 +18186,6 @@ components:
         region:
           description: Region of the node
           type: string
-        underMaintenance:
-          description: whether node is under maintenance
-          type: boolean
-        unschedulable:
-          description: whether node is unschedulable
-          type: boolean
         nodeGroup:
           description: Node Group of the node
           type: string
@@ -18193,10 +18195,14 @@ components:
         dataPlane:
           description: node is in data plane
           type: boolean
+        status:
+          $ref: '#/components/schemas/nodeStatus'
+          description: Node status
       required:
         - createdAt
         - hostName
         - ip
+        - status
       type: object
     nodeList:
       description: nodeList is a list of nodes
