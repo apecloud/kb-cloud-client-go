@@ -14,9 +14,9 @@ type DmsQueryHistory struct {
 	// executed sql statements
 	Sql *string `json:"sql,omitempty"`
 	// sql executed massage
-	ErrMsg *string `json:"err_msg,omitempty"`
+	ErrMassage *string `json:"errMassage,omitempty"`
 	// sql executed time
-	CreatedAt *time.Time `json:"created_at,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// sql executed duration
 	Duration *int32 `json:"duration,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -69,32 +69,32 @@ func (o *DmsQueryHistory) SetSql(v string) {
 	o.Sql = &v
 }
 
-// GetErrMsg returns the ErrMsg field value if set, zero value otherwise.
-func (o *DmsQueryHistory) GetErrMsg() string {
-	if o == nil || o.ErrMsg == nil {
+// GetErrMassage returns the ErrMassage field value if set, zero value otherwise.
+func (o *DmsQueryHistory) GetErrMassage() string {
+	if o == nil || o.ErrMassage == nil {
 		var ret string
 		return ret
 	}
-	return *o.ErrMsg
+	return *o.ErrMassage
 }
 
-// GetErrMsgOk returns a tuple with the ErrMsg field value if set, nil otherwise
+// GetErrMassageOk returns a tuple with the ErrMassage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsQueryHistory) GetErrMsgOk() (*string, bool) {
-	if o == nil || o.ErrMsg == nil {
+func (o *DmsQueryHistory) GetErrMassageOk() (*string, bool) {
+	if o == nil || o.ErrMassage == nil {
 		return nil, false
 	}
-	return o.ErrMsg, true
+	return o.ErrMassage, true
 }
 
-// HasErrMsg returns a boolean if a field has been set.
-func (o *DmsQueryHistory) HasErrMsg() bool {
-	return o != nil && o.ErrMsg != nil
+// HasErrMassage returns a boolean if a field has been set.
+func (o *DmsQueryHistory) HasErrMassage() bool {
+	return o != nil && o.ErrMassage != nil
 }
 
-// SetErrMsg gets a reference to the given string and assigns it to the ErrMsg field.
-func (o *DmsQueryHistory) SetErrMsg(v string) {
-	o.ErrMsg = &v
+// SetErrMassage gets a reference to the given string and assigns it to the ErrMassage field.
+func (o *DmsQueryHistory) SetErrMassage(v string) {
+	o.ErrMassage = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -162,14 +162,14 @@ func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 	if o.Sql != nil {
 		toSerialize["sql"] = o.Sql
 	}
-	if o.ErrMsg != nil {
-		toSerialize["err_msg"] = o.ErrMsg
+	if o.ErrMassage != nil {
+		toSerialize["errMassage"] = o.ErrMassage
 	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
-			toSerialize["created_at"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
+			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
 		} else {
-			toSerialize["created_at"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
+			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
 	if o.Duration != nil {
@@ -185,22 +185,22 @@ func (o DmsQueryHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsQueryHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Sql       *string    `json:"sql,omitempty"`
-		ErrMsg    *string    `json:"err_msg,omitempty"`
-		CreatedAt *time.Time `json:"created_at,omitempty"`
-		Duration  *int32     `json:"duration,omitempty"`
+		Sql        *string    `json:"sql,omitempty"`
+		ErrMassage *string    `json:"errMassage,omitempty"`
+		CreatedAt  *time.Time `json:"createdAt,omitempty"`
+		Duration   *int32     `json:"duration,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"sql", "err_msg", "created_at", "duration"})
+		common.DeleteKeys(additionalProperties, &[]string{"sql", "errMassage", "createdAt", "duration"})
 	} else {
 		return err
 	}
 	o.Sql = all.Sql
-	o.ErrMsg = all.ErrMsg
+	o.ErrMassage = all.ErrMassage
 	o.CreatedAt = all.CreatedAt
 	o.Duration = all.Duration
 
