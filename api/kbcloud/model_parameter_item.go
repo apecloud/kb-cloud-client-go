@@ -12,6 +12,8 @@ type ParameterItem struct {
 	Props []ParameterProp `json:"props,omitempty"`
 	// The name of the configuration file
 	FileName *string `json:"fileName,omitempty"`
+	// The name of the config spec
+	SpecName *string `json:"specName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -90,6 +92,34 @@ func (o *ParameterItem) SetFileName(v string) {
 	o.FileName = &v
 }
 
+// GetSpecName returns the SpecName field value if set, zero value otherwise.
+func (o *ParameterItem) GetSpecName() string {
+	if o == nil || o.SpecName == nil {
+		var ret string
+		return ret
+	}
+	return *o.SpecName
+}
+
+// GetSpecNameOk returns a tuple with the SpecName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterItem) GetSpecNameOk() (*string, bool) {
+	if o == nil || o.SpecName == nil {
+		return nil, false
+	}
+	return o.SpecName, true
+}
+
+// HasSpecName returns a boolean if a field has been set.
+func (o *ParameterItem) HasSpecName() bool {
+	return o != nil && o.SpecName != nil
+}
+
+// SetSpecName gets a reference to the given string and assigns it to the SpecName field.
+func (o *ParameterItem) SetSpecName(v string) {
+	o.SpecName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -101,6 +131,9 @@ func (o ParameterItem) MarshalJSON() ([]byte, error) {
 	}
 	if o.FileName != nil {
 		toSerialize["fileName"] = o.FileName
+	}
+	if o.SpecName != nil {
+		toSerialize["specName"] = o.SpecName
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -114,18 +147,20 @@ func (o *ParameterItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Props    []ParameterProp `json:"props,omitempty"`
 		FileName *string         `json:"fileName,omitempty"`
+		SpecName *string         `json:"specName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"props", "fileName"})
+		common.DeleteKeys(additionalProperties, &[]string{"props", "fileName", "specName"})
 	} else {
 		return err
 	}
 	o.Props = all.Props
 	o.FileName = all.FileName
+	o.SpecName = all.SpecName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

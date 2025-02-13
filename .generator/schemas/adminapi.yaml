@@ -11815,6 +11815,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsParameterList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11871,6 +11873,8 @@ paths:
             text/plain:
               schema:
                 type: string
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11915,12 +11919,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/parameterHistoryList'
           description: get parameters history of the cluster successfully
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/instances:
     get:
       summary: List cluster instances
@@ -17033,6 +17041,9 @@ components:
             $ref: '#/components/schemas/parameterProp'
         fileName:
           description: The name of the configuration file
+          type: string
+        specName:
+          description: The name of the config spec
           type: string
     parameterList:
       description: A list of cluster parameter
