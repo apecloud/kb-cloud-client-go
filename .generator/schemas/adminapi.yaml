@@ -9001,7 +9001,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engine
+        - engineLicense
   /admin/v1/engineLicense:
     get:
       description: Get a engineLicense detail
@@ -9071,8 +9071,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engine
-      x-codegen-request-body-name: body
+        - engineLicense
     delete:
       description: delete an engine license
       summary: Delete engine license
@@ -9095,7 +9094,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - engine
+        - engineLicense
   /admin/v1/organizations/{orgName}/engines:
     get:
       tags:
