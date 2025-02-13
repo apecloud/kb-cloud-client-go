@@ -17048,6 +17048,9 @@ components:
     parameterList:
       description: A list of cluster parameter
       properties:
+        family:
+          type: string
+          description: family of parameter template
         items:
           type: array
           items:
