@@ -619,7 +619,7 @@ func BuildFormParams(body interface{}) (url.Values, error) {
 		case string:
 			localVarFormParams.Add(tagValue, val)
 		case time.Time:
-			localVarFormParams.Add(tagValue, val.Format(time.RFC3339))
+			localVarFormParams.Add(tagValue, val.Format(time.DateTime))
 		default:
 			// For other types, you might want to implement custom handling or convert to string
 			localVarFormParams.Add(tagValue, fmt.Sprint(val))
