@@ -1262,11 +1262,11 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 }
 
 // ListQueryHistory list the query History.
-func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) (DmsQueryHistory, *_nethttp.Response, error) {
+func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) ([]DmsQueryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DmsQueryHistory
+		localVarReturnValue []DmsQueryHistory
 	)
 
 	// Add api info to context
