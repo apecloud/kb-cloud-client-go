@@ -35,14 +35,14 @@ type Node struct {
 	Zone *string `json:"zone,omitempty"`
 	// Region of the node
 	Region *string `json:"region,omitempty"`
-	// whether node is unschedulable
-	Unschedulable *bool `json:"unschedulable,omitempty"`
 	// Node Group of the node
 	NodeGroup *string `json:"nodeGroup,omitempty"`
 	// node is in control plane
 	ControlPlane *bool `json:"controlPlane,omitempty"`
 	// node is in data plane
 	DataPlane *bool `json:"dataPlane,omitempty"`
+	// Status of the node
+	Status NodeStatus `json:"status"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -52,11 +52,12 @@ type Node struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewNode(createdAt time.Time, hostName string, ip string) *Node {
+func NewNode(createdAt time.Time, hostName string, ip string, status NodeStatus) *Node {
 	this := Node{}
 	this.CreatedAt = createdAt
 	this.HostName = hostName
 	this.Ip = ip
+	this.Status = status
 	return &this
 }
 
@@ -333,34 +334,6 @@ func (o *Node) SetRegion(v string) {
 	o.Region = &v
 }
 
-// GetUnschedulable returns the Unschedulable field value if set, zero value otherwise.
-func (o *Node) GetUnschedulable() bool {
-	if o == nil || o.Unschedulable == nil {
-		var ret bool
-		return ret
-	}
-	return *o.Unschedulable
-}
-
-// GetUnschedulableOk returns a tuple with the Unschedulable field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Node) GetUnschedulableOk() (*bool, bool) {
-	if o == nil || o.Unschedulable == nil {
-		return nil, false
-	}
-	return o.Unschedulable, true
-}
-
-// HasUnschedulable returns a boolean if a field has been set.
-func (o *Node) HasUnschedulable() bool {
-	return o != nil && o.Unschedulable != nil
-}
-
-// SetUnschedulable gets a reference to the given bool and assigns it to the Unschedulable field.
-func (o *Node) SetUnschedulable(v bool) {
-	o.Unschedulable = &v
-}
-
 // GetNodeGroup returns the NodeGroup field value if set, zero value otherwise.
 func (o *Node) GetNodeGroup() string {
 	if o == nil || o.NodeGroup == nil {
@@ -445,6 +418,29 @@ func (o *Node) SetDataPlane(v bool) {
 	o.DataPlane = &v
 }
 
+// GetStatus returns the Status field value.
+func (o *Node) GetStatus() NodeStatus {
+	if o == nil {
+		var ret NodeStatus
+		return ret
+	}
+	return o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value
+// and a boolean to check if the value has been set.
+func (o *Node) GetStatusOk() (*NodeStatus, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Status, true
+}
+
+// SetStatus sets field value.
+func (o *Node) SetStatus(v NodeStatus) {
+	o.Status = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Node) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -479,9 +475,6 @@ func (o Node) MarshalJSON() ([]byte, error) {
 	if o.Region != nil {
 		toSerialize["region"] = o.Region
 	}
-	if o.Unschedulable != nil {
-		toSerialize["unschedulable"] = o.Unschedulable
-	}
 	if o.NodeGroup != nil {
 		toSerialize["nodeGroup"] = o.NodeGroup
 	}
@@ -491,6 +484,7 @@ func (o Node) MarshalJSON() ([]byte, error) {
 	if o.DataPlane != nil {
 		toSerialize["dataPlane"] = o.DataPlane
 	}
+	toSerialize["status"] = o.Status
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -501,20 +495,20 @@ func (o Node) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cpu           *int64         `json:"cpu,omitempty"`
-		CpuStats      *ResourceStats `json:"cpuStats,omitempty"`
-		CreatedAt     *time.Time     `json:"createdAt"`
-		HostName      *string        `json:"hostName"`
-		InstanceType  *string        `json:"instanceType,omitempty"`
-		Ip            *string        `json:"ip"`
-		Memory        *int64         `json:"memory,omitempty"`
-		MemoryStats   *ResourceStats `json:"memoryStats,omitempty"`
-		Zone          *string        `json:"zone,omitempty"`
-		Region        *string        `json:"region,omitempty"`
-		Unschedulable *bool          `json:"unschedulable,omitempty"`
-		NodeGroup     *string        `json:"nodeGroup,omitempty"`
-		ControlPlane  *bool          `json:"controlPlane,omitempty"`
-		DataPlane     *bool          `json:"dataPlane,omitempty"`
+		Cpu          *int64         `json:"cpu,omitempty"`
+		CpuStats     *ResourceStats `json:"cpuStats,omitempty"`
+		CreatedAt    *time.Time     `json:"createdAt"`
+		HostName     *string        `json:"hostName"`
+		InstanceType *string        `json:"instanceType,omitempty"`
+		Ip           *string        `json:"ip"`
+		Memory       *int64         `json:"memory,omitempty"`
+		MemoryStats  *ResourceStats `json:"memoryStats,omitempty"`
+		Zone         *string        `json:"zone,omitempty"`
+		Region       *string        `json:"region,omitempty"`
+		NodeGroup    *string        `json:"nodeGroup,omitempty"`
+		ControlPlane *bool          `json:"controlPlane,omitempty"`
+		DataPlane    *bool          `json:"dataPlane,omitempty"`
+		Status       *NodeStatus    `json:"status"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -528,9 +522,12 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Ip == nil {
 		return fmt.Errorf("required field ip missing")
 	}
+	if all.Status == nil {
+		return fmt.Errorf("required field status missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "unschedulable", "nodeGroup", "controlPlane", "dataPlane"})
+		common.DeleteKeys(additionalProperties, &[]string{"cpu", "cpuStats", "createdAt", "hostName", "instanceType", "ip", "memory", "memoryStats", "zone", "region", "nodeGroup", "controlPlane", "dataPlane", "status"})
 	} else {
 		return err
 	}
@@ -552,10 +549,14 @@ func (o *Node) UnmarshalJSON(bytes []byte) (err error) {
 	o.MemoryStats = all.MemoryStats
 	o.Zone = all.Zone
 	o.Region = all.Region
-	o.Unschedulable = all.Unschedulable
 	o.NodeGroup = all.NodeGroup
 	o.ControlPlane = all.ControlPlane
 	o.DataPlane = all.DataPlane
+	if !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = *all.Status
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
