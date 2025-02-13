@@ -2203,44 +2203,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories:
-    get:
-      operationId: listParametersHistory
-      summary: List parameters history of the cluster
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter
-          in: query
-          name: parameterName
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/parameterHistoryList'
-          description: get parameters history of the cluster successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - parameter
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs:
     get:
       deprecated: true
@@ -2316,46 +2278,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/configurationList'
-          description: get configuration of the cluster successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
-    get:
-      operationId: listParameterProps
-      summary: List parameter properties of the cluster
-      tags:
-        - parameter
-      parameters:
-        - description: name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: component type
-          in: query
-          name: component
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/parameterList'
           description: get configuration of the cluster successfully
         '400':
           $ref: '#/components/responses/400'
@@ -2554,43 +2476,6 @@ paths:
       tags:
         - paramTpl
       x-codegen-request-body-name: body
-  /admin/v1/paramTplsV2/{paramTplName}:
-    get:
-      operationId: readParamTplV2
-      summary: Get parameter template details
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in read paramTpl request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/parameterList'
-          description: read parameter template successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls:
     get:
       deprecated: true
@@ -2721,7 +2606,431 @@ paths:
         - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
     get:
+      deprecated: true
+      description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
       operationId: analyzeClusterParam
+      summary: Analyze cluster parameter
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter name in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter value of an item
+          in: query
+          name: parameterValue
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
+    get:
+      operationId: listParameterProps
+      summary: List parameter properties of the cluster
+      tags:
+        - parameter
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterList'
+          description: get configuration of the cluster successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories:
+    get:
+      operationId: listParametersHistory
+      summary: List parameters history of the cluster
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter
+          in: query
+          name: parameterName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterHistoryList'
+          description: get parameters history of the cluster successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameter
+  /admin/v1/parameterTemplates:
+    get:
+      operationId: listParameterTemplates
+      summary: List parameter templates
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: the template partition in listParameterTemplates request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+        - description: Cluster Application Version
+          in: query
+          name: version
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          schema:
+            type: string
+        - description: engine Name
+          in: query
+          name: engineName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paramTplList'
+          description: list parameter templates successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+    post:
+      operationId: createParameterTemplate
+      summary: Create parameter template
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paramTplCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paramTplListItem'
+          description: create parameter template successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+      x-codegen-request-body-name: body
+  /admin/v1/parameterTemplate/{parameterTemplateName}:
+    get:
+      operationId: readParameterTemplate
+      summary: Get parameter template details
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read paramTpl request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/parameterList'
+          description: read parameter template successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+    delete:
+      operationId: deleteParameterTemplate
+      summary: Delete parameter template
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+    patch:
+      summary: Update parameter template
+      operationId: patchParameterTemplate
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paramTplUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paramTplListItem'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterTemplate:
+    get:
+      operationId: getClusterParameterTemplate
+      summary: Get cluster parameter template
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+        - description: engine name
+          in: query
+          name: engineName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/paramTplApplyToClusterList'
+          description: get parameter template applicable to the cluster successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+    post:
+      operationId: exportParameterTemplateFromCluster
+      summary: Export parameter template from cluster
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paramTplCreateFromCluster'
+        required: true
+      responses:
+        '200':
+          content: {}
+          description: export parameter template from cluster successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze:
+    get:
+      operationId: analyzeParameter
+      summary: Analyze parameter
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read parameter template request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+        - description: the parameter item in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze:
+    get:
+      operationId: analyzeClusterParameter
       summary: Analyze cluster parameter
       parameters:
         - description: name of the Org
@@ -9134,24 +9443,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: Name of the engine license
-                engineName:
-                  type: string
-                  description: Name of the engine
-                description:
-                  type: string
-                  description: Description of the engine license
-                expiredAt:
-                  type: string
-                  format: date-time
-                  description: Expiration date and time of the license (optional)
-              required:
-                - name
-                - engineName
+              $ref: '#/components/schemas/engineLicenseCreate'
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/engineLicenseFormData'
@@ -16387,35 +16679,6 @@ components:
       required:
         - items
       type: object
-    parameterHistory:
-      description: The history of a parameter
-      type: object
-      required:
-        - parameterName
-        - oldValue
-        - newValue
-        - updatedAt
-      properties:
-        parameterName:
-          description: The name of the parameter
-          type: string
-        oldValue:
-          description: The old value of the parameter
-          type: string
-        newValue:
-          description: The new value of the parameter
-          type: string
-        updatedAt:
-          description: The date and time the parameter was last updated
-          format: date-time
-          type: string
-    parameterHistoryList:
-      description: A list of parameter history
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/parameterHistory'
     parameterSpec:
       description: Cluster parameter specification
       type: object
@@ -16504,71 +16767,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/configuration'
-    parameterProp:
-      type: object
-      required:
-        - name
-        - description
-        - type
-        - value
-        - needRestart
-        - immutable
-        - maximum
-        - minimum
-        - enum
-      properties:
-        name:
-          description: The name of the parameter
-          type: string
-        description:
-          description: The description of the parameter
-          type: string
-        type:
-          description: The type of the parameter value
-          type: string
-        value:
-          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
-          type: object
-          additionalProperties: true
-        needRestart:
-          description: Whether the parameter requires a restart to take effect
-          type: boolean
-        immutable:
-          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
-          type: boolean
-        maximum:
-          description: The maximum value of the parameter
-          format: double
-          type: number
-        minimum:
-          description: The minimum value of the parameter
-          format: double
-          type: number
-        enum:
-          description: The value options of the parameter
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-    parameterItem:
-      type: object
-      description: With the list of parameter properties and the configuration file name
-      properties:
-        props:
-          type: array
-          description: The list of parameters properties
-          items:
-            $ref: '#/components/schemas/parameterProp'
-        fileName:
-          description: The name of the configuration file
-          type: string
-    parameterList:
-      description: A list of cluster parameter
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/parameterItem'
     paramTplListItem:
       description: parameter template information
       properties:
@@ -16775,6 +16973,100 @@ components:
         - description
         - name
       type: object
+    parameterProp:
+      type: object
+      required:
+        - name
+        - description
+        - type
+        - value
+        - needRestart
+        - immutable
+        - maximum
+        - minimum
+        - enum
+      properties:
+        name:
+          description: The name of the parameter
+          type: string
+        description:
+          description: The description of the parameter
+          type: string
+        type:
+          description: The type of the parameter value
+          type: string
+        value:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+          additionalProperties: true
+        needRestart:
+          description: Whether the parameter requires a restart to take effect
+          type: boolean
+        immutable:
+          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
+          type: boolean
+        maximum:
+          description: The maximum value of the parameter
+          format: double
+          type: number
+        minimum:
+          description: The minimum value of the parameter
+          format: double
+          type: number
+        enum:
+          description: The value options of the parameter
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    parameterItem:
+      type: object
+      description: With the list of parameter properties and the configuration file name
+      properties:
+        props:
+          type: array
+          description: The list of parameters properties
+          items:
+            $ref: '#/components/schemas/parameterProp'
+        fileName:
+          description: The name of the configuration file
+          type: string
+    parameterList:
+      description: A list of cluster parameter
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/parameterItem'
+    parameterHistory:
+      description: The history of a parameter
+      type: object
+      required:
+        - parameterName
+        - oldValue
+        - newValue
+        - updatedAt
+      properties:
+        parameterName:
+          description: The name of the parameter
+          type: string
+        oldValue:
+          description: The old value of the parameter
+          type: string
+        newValue:
+          description: The new value of the parameter
+          type: string
+        updatedAt:
+          description: The date and time the parameter was last updated
+          format: date-time
+          type: string
+    parameterHistoryList:
+      description: A list of parameter history
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/parameterHistory'
     datasource:
       required:
         - type
@@ -22176,6 +22468,25 @@ components:
           description: Items is the list of engineLicense objects in the list
           items:
             $ref: '#/components/schemas/engineLicense'
+    engineLicenseCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the engine license
+        engineName:
+          type: string
+          description: Name of the engine
+        description:
+          type: string
+          description: Description of the engine license
+        expiredAt:
+          type: string
+          format: date-time
+          description: Expiration date and time of the license (optional)
+      required:
+        - name
+        - engineName
     engineLicenseFormData:
       description: the data of the engine license
       type: object

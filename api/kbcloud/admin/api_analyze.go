@@ -114,6 +114,8 @@ func (r *AnalyzeClusterParamOptionalParameters) WithParameterValue(parameterValu
 }
 
 // AnalyzeClusterParam Analyze cluster parameter.
+// analyze cluster parameter, deprecated, instead use analyzeClusterParameter
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParamOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -144,6 +146,114 @@ func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, c
 	}
 
 	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("parameterName", common.ParameterToString(parameterName, ""))
+	if optionalParams.ParameterValue != nil {
+		localVarQueryParams.Add("parameterValue", common.ParameterToString(*optionalParams.ParameterValue, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// AnalyzeClusterParameterOptionalParameters holds optional parameters for AnalyzeClusterParameter.
+type AnalyzeClusterParameterOptionalParameters struct {
+	ParameterValue *string
+}
+
+// NewAnalyzeClusterParameterOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeClusterParameterOptionalParameters() *AnalyzeClusterParameterOptionalParameters {
+	this := AnalyzeClusterParameterOptionalParameters{}
+	return &this
+}
+
+// WithParameterValue sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeClusterParameterOptionalParameters) WithParameterValue(parameterValue string) *AnalyzeClusterParameterOptionalParameters {
+	r.ParameterValue = &parameterValue
+	return r
+}
+
+// AnalyzeClusterParameter Analyze cluster parameter.
+func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue AnalysisResult
+		optionalParams      AnalyzeClusterParameterOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeClusterParameterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeClusterParameter",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeClusterParameter")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 
@@ -563,6 +673,123 @@ func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, par
 
 	localVarPath := localBasePath + "/admin/v1/organizations/paramTpls/{paramTplName}/analyze"
 	localVarPath = strings.Replace(localVarPath, "{"+"paramTplName"+"}", _neturl.PathEscape(common.ParameterToString(paramTplName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("parameterName", common.ParameterToString(parameterName, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.Partition != nil {
+		localVarQueryParams.Add("partition", common.ParameterToString(*optionalParams.Partition, ""))
+	}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// AnalyzeParameterOptionalParameters holds optional parameters for AnalyzeParameter.
+type AnalyzeParameterOptionalParameters struct {
+	OrgName   *string
+	Partition *ParamTplPartition
+}
+
+// NewAnalyzeParameterOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeParameterOptionalParameters() *AnalyzeParameterOptionalParameters {
+	this := AnalyzeParameterOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeParameterOptionalParameters) WithOrgName(orgName string) *AnalyzeParameterOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithPartition sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeParameterOptionalParameters) WithPartition(partition ParamTplPartition) *AnalyzeParameterOptionalParameters {
+	r.Partition = &partition
+	return r
+}
+
+// AnalyzeParameter Analyze parameter.
+func (a *AnalyzeApi) AnalyzeParameter(ctx _context.Context, parameterTemplateName string, parameterName string, o ...AnalyzeParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue AnalysisResult
+		optionalParams      AnalyzeParameterOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeParameterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "analyze",
+		OperationID: "analyzeParameter",
+		Path:        "/admin/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeParameter")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze"
+	localVarPath = strings.Replace(localVarPath, "{"+"parameterTemplateName"+"}", _neturl.PathEscape(common.ParameterToString(parameterTemplateName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
