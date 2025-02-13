@@ -215,6 +215,7 @@
 //   - [environmentApi.updateEnvironmentModule]
 //   - [eventApi.queryClusterEvents]
 //   - [eventApi.queryEventDetail]
+//   - [eventApi.queryEventFilter]
 //   - [faultApi.createClusterNetworkChaos]
 //   - [faultApi.createClusterPodChaos]
 //   - [faultApi.deleteFault]

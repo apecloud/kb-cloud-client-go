@@ -24,6 +24,7 @@ type QueryClusterEventsOptionalParameters struct {
 	ResourceType *string
 	EventName    *string
 	OperatorId   *int32
+	Status       *EventResultStatus
 	PageNumber   *int32
 	PageSize     *int32
 	OrderBy      *string
@@ -62,6 +63,12 @@ func (r *QueryClusterEventsOptionalParameters) WithEventName(eventName string) *
 // WithOperatorId sets the corresponding parameter name and returns the struct.
 func (r *QueryClusterEventsOptionalParameters) WithOperatorId(operatorId int32) *QueryClusterEventsOptionalParameters {
 	r.OperatorId = &operatorId
+	return r
+}
+
+// WithStatus sets the corresponding parameter name and returns the struct.
+func (r *QueryClusterEventsOptionalParameters) WithStatus(status EventResultStatus) *QueryClusterEventsOptionalParameters {
+	r.Status = &status
 	return r
 }
 
@@ -135,6 +142,9 @@ func (a *EventApi) QueryClusterEvents(ctx _context.Context, start int64, end int
 	}
 	if optionalParams.OperatorId != nil {
 		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
+	}
+	if optionalParams.Status != nil {
+		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
 	}
 	if optionalParams.PageNumber != nil {
 		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))
@@ -224,6 +234,86 @@ func (a *EventApi) QueryEventDetail(ctx _context.Context, eventId string) (Event
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// QueryEventFilter Query available filters for event listing.
+func (a *EventApi) QueryEventFilter(ctx _context.Context, filterType EventQueryFilterType, start int64, end int64) (EventQueryFilterOptionList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EventQueryFilterOptionList
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "queryEventFilter",
+		Path:        "/admin/v1/eventqueryfilter",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryEventFilter")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/eventqueryfilter"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("filterType", common.ParameterToString(filterType, ""))
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

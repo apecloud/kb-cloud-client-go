@@ -687,11 +687,42 @@ paths:
       tags:
         - member
         - role
+  /api/v1/organizations/{orgName}/eventqueryfilter:
+    get:
+      summary: Query available filters for event listing
+      operationId: queryEventFilter
+      parameters:
+        - description: The orgName
+          in: path
+          name: orgName
+          required: true
+          type: string
+        - description: The event filter field you want to obtain. Console do not support orgName and operator.
+          in: query
+          name: filterType
+          required: true
+          schema:
+            $ref: '#/components/schemas/eventQueryFilterType'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventQueryFilterOptionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /api/v1/organizations/{orgName}/events:
     get:
-      description: list events
-      summary: list events
-      operationId: listEvents
+      description: Query events of clusters
+      summary: Query operation events
+      operationId: queryClusterEvents
       parameters:
         - description: Organization Name
           in: path
@@ -719,6 +750,11 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
         - description: the pageNumber of the query
           in: query
           name: pageNumber
@@ -751,8 +787,8 @@ paths:
   /api/v1/organizations/{orgName}/events/{eventID}:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
-      summary: get event by eventID
-      operationId: getEvent
+      summary: Query event detail by Event ID
+      operationId: queryEventDetail
       parameters:
         - description: Organization Name
           in: path
@@ -11691,18 +11727,48 @@ components:
       required:
         - items
       type: object
-    eventResourceType:
-      description: Type of the resource
+    eventQueryFilterType:
+      description: Console do not support orgName and operator.
       type: string
       enum:
-        - cluster
-        - role
+        - orgName
+        - operator
+        - eventName
+        - resourceName
+        - resourceType
+    eventQueryFilterOption:
+      description: Represents a single filter result item.
+      properties:
+        id:
+          description: ID of the parameter, some parameters may not have an ID.
+          type: string
+        text:
+          description: Text representation of the parameter.
+          type: string
+      required:
+        - text
+    eventQueryFilterOptionList:
+      description: A collection of filter results.
+      properties:
+        items:
+          description: An array containing individual filter result items.
+          type: array
+          items:
+            $ref: '#/components/schemas/eventQueryFilterOption'
+      required:
+        - items
     eventResultStatus:
       description: result status of the operation event
       enum:
         - success
         - failed
       type: string
+    eventResourceType:
+      description: Type of the resource
+      type: string
+      enum:
+        - cluster
+        - role
     eventSource:
       description: event source
       enum:

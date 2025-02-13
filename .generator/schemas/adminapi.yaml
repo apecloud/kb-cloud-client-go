@@ -2116,6 +2116,34 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
+  /admin/v1/eventqueryfilter:
+    get:
+      summary: Query available filters for event listing
+      operationId: queryEventFilter
+      parameters:
+        - description: The event filter field you want to obtain.
+          in: query
+          name: filterType
+          required: true
+          schema:
+            $ref: '#/components/schemas/eventQueryFilterType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventQueryFilterOptionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /admin/v1/events:
     get:
       description: Query events of clusters
@@ -2147,6 +2175,11 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
         - description: the pageNumber of the query
           in: query
           name: pageNumber
@@ -16171,18 +16204,48 @@ components:
               - StartAt
           type: array
       type: object
-    eventResourceType:
-      description: Type of the resource
+    eventQueryFilterType:
+      description: Console do not support orgName and operator.
       type: string
       enum:
-        - cluster
-        - role
+        - orgName
+        - operator
+        - eventName
+        - resourceName
+        - resourceType
+    eventQueryFilterOption:
+      description: Represents a single filter result item.
+      properties:
+        id:
+          description: ID of the parameter, some parameters may not have an ID.
+          type: string
+        text:
+          description: Text representation of the parameter.
+          type: string
+      required:
+        - text
+    eventQueryFilterOptionList:
+      description: A collection of filter results.
+      properties:
+        items:
+          description: An array containing individual filter result items.
+          type: array
+          items:
+            $ref: '#/components/schemas/eventQueryFilterOption'
+      required:
+        - items
     eventResultStatus:
       description: result status of the operation event
       enum:
         - success
         - failed
       type: string
+    eventResourceType:
+      description: Type of the resource
+      type: string
+      enum:
+        - cluster
+        - role
     eventSource:
       description: event source
       enum:
