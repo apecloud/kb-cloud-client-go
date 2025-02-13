@@ -9419,6 +9419,7 @@ paths:
           in: query
           name: licenseId
           required: true
+          format: int64
           schema:
             type: integer
             format: int64
@@ -9472,6 +9473,7 @@ paths:
           in: query
           name: licenseId
           required: true
+          format: int64
           schema:
             type: integer
             format: int64
