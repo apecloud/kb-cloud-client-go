@@ -9419,9 +9419,9 @@ paths:
           in: query
           name: licenseId
           required: true
-          format: int64
           schema:
             type: integer
+            format: int64
       responses:
         '200':
           content:
@@ -9472,9 +9472,9 @@ paths:
           in: query
           name: licenseId
           required: true
-          format: int64
           schema:
             type: integer
+            format: int64
       responses:
         '204':
           content: {}
