@@ -238,7 +238,7 @@ localVarQueryParams.Add("{{ parameter.name }}", {{ common_package_name }}.Parame
 		formFile.FileBytes = fbs
 	}
     {% if needBodyParameter %}
-    localVarFormParams, err = {{ common_package_name }}.BuildFormParams(&{{ operation.get("x-codegen-request-body-name", "body")|variable_name }})
+    localVarFormParams, err = {{ common_package_name }}.BuildFormParams({{ operation.get("x-codegen-request-body-name", "body")|variable_name }})
 	if err != nil {
 		return {% if returnType %}localVarReturnValue, {% endif %}nil, {{ common_package_name }}.ReportError("Failed to build form params: %s", err.Error())
 	}

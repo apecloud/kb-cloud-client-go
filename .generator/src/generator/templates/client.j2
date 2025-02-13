@@ -613,7 +613,7 @@ func BuildFormParams(body interface{}) (url.Values, error) {
 		if actualValue == nil || actualValue == "" {
 			continue // Skip empty values
 		}
-
+	    tagValue = strings.Split(tagValue, ",")[0]
 		// Add to form params
 		switch val := actualValue.(type) {
 		case string:
