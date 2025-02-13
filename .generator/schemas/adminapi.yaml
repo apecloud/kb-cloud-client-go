@@ -3329,7 +3329,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DmsQueryHistory'
+                $ref: '#/components/schemas/DmsQueryHistoryList'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain:
     post:
       tags:
@@ -16753,20 +16753,28 @@ components:
         sql:
           title: SQL
           type: string
+          x-nullable: true
           description: executed sql statements
         errMassage:
           title: errMassage
           type: string
+          x-nullable: true
           description: sql executed massage
         createdAt:
           title: time
           type: string
           format: date-time
+          x-go-type: time.Time
           description: sql executed time
         duration:
           title: duration
           type: integer
+          x-nullable: true
           description: sql executed duration
+    DmsQueryHistoryList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DmsQueryHistory'
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
