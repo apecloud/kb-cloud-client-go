@@ -17038,6 +17038,9 @@ components:
         fileName:
           description: The name of the configuration file
           type: string
+        specName:
+          description: The name of the config spec
+          type: string
     parameterList:
       description: A list of cluster parameter
       properties:
