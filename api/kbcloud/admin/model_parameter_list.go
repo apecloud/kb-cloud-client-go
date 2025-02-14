@@ -8,7 +8,9 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // ParameterList A list of cluster parameter
 type ParameterList struct {
-	Items []ParameterItem `json:"items,omitempty"`
+	// family of parameter template
+	Family *string         `json:"family,omitempty"`
+	Items  []ParameterItem `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,6 +31,34 @@ func NewParameterList() *ParameterList {
 func NewParameterListWithDefaults() *ParameterList {
 	this := ParameterList{}
 	return &this
+}
+
+// GetFamily returns the Family field value if set, zero value otherwise.
+func (o *ParameterList) GetFamily() string {
+	if o == nil || o.Family == nil {
+		var ret string
+		return ret
+	}
+	return *o.Family
+}
+
+// GetFamilyOk returns a tuple with the Family field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterList) GetFamilyOk() (*string, bool) {
+	if o == nil || o.Family == nil {
+		return nil, false
+	}
+	return o.Family, true
+}
+
+// HasFamily returns a boolean if a field has been set.
+func (o *ParameterList) HasFamily() bool {
+	return o != nil && o.Family != nil
+}
+
+// SetFamily gets a reference to the given string and assigns it to the Family field.
+func (o *ParameterList) SetFamily(v string) {
+	o.Family = &v
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
@@ -65,6 +95,9 @@ func (o ParameterList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Family != nil {
+		toSerialize["family"] = o.Family
+	}
 	if o.Items != nil {
 		toSerialize["items"] = o.Items
 	}
@@ -78,17 +111,19 @@ func (o ParameterList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []ParameterItem `json:"items,omitempty"`
+		Family *string         `json:"family,omitempty"`
+		Items  []ParameterItem `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"family", "items"})
 	} else {
 		return err
 	}
+	o.Family = all.Family
 	o.Items = all.Items
 
 	if len(additionalProperties) > 0 {

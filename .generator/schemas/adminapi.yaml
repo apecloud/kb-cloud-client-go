@@ -17044,6 +17044,9 @@ components:
     parameterList:
       description: A list of cluster parameter
       properties:
+        family:
+          type: string
+          description: family of parameter template
         items:
           type: array
           items:
@@ -21610,8 +21613,11 @@ components:
           format: int32
           minimum: 0
           default: 2
-          description: number of super user accounts cloud create
-          x-nullable: false
+          description: |
+            number of super user accounts cloud create.
+            If not set, use default value.
+            If set to 0, it means not allowed to create super user account.
+          nullable: true
         enabled:
           type: boolean
         privileges:
