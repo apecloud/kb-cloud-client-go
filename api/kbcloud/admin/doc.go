@@ -250,7 +250,6 @@
 //   - [ipWhitelistApi.deleteIPWhiteList]
 //   - [ipWhitelistApi.listIPWhitelist]
 //   - [ipWhitelistApi.updateIPWhitelist]
-//   - [kafkaApi.batchDeleteKafkaTopics]
 //   - [kafkaApi.createKafkaTopic]
 //   - [kafkaApi.deleteKafkaConsumerGroup]
 //   - [kafkaApi.deleteKafkaTopic]

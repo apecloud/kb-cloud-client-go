@@ -13188,44 +13188,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topics/batch-delete:
-    post:
-      summary: Batch delete topics
-      operationId: batchDeleteKafkaTopics
-      tags:
-        - kafka
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of organization
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of cluster
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BatchDeleteKafkaTopicsRequest'
-      responses:
-        '200':
-          description: OK
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}:
     get:
       summary: Get topic Infos
@@ -24954,21 +24916,15 @@ components:
         partitions:
           type: integer
           format: int32
+          minimum: 1
         replicationFactor:
           type: integer
           format: int32
+          minimum: 1
       required:
         - name
         - partitions
         - replicationFactor
-    BatchDeleteKafkaTopicsRequest:
-      x-go-name: BatchDeleteKafkaTopics
-      type: object
-      properties:
-        topicNames:
-          type: array
-          items:
-            type: string
     PartitionInfo:
       x-go-name: KafkaPartitionInfo
       type: object
