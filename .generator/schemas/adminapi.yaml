@@ -3882,6 +3882,7 @@ paths:
                 $ref: '#/components/schemas/DmsResult'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
+      deprecated: true
       tags:
         - dms
       summary: list all session for the cluster
@@ -3920,6 +3921,7 @@ paths:
           $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/session/{session}:
     delete:
+      deprecated: true
       tags:
         - dms
       summary: close the session for the cluster
