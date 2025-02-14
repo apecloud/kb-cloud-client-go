@@ -885,6 +885,7 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 type ListEndpointsOptionalParameters struct {
 	NodePortHostCount *int32
 	IncludeClusterIp  *bool
+	ReturnLen         *int32
 }
 
 // NewListEndpointsOptionalParameters creates an empty struct for parameters.
@@ -902,6 +903,12 @@ func (r *ListEndpointsOptionalParameters) WithNodePortHostCount(nodePortHostCoun
 // WithIncludeClusterIp sets the corresponding parameter name and returns the struct.
 func (r *ListEndpointsOptionalParameters) WithIncludeClusterIp(includeClusterIp bool) *ListEndpointsOptionalParameters {
 	r.IncludeClusterIp = &includeClusterIp
+	return r
+}
+
+// WithReturnLen sets the corresponding parameter name and returns the struct.
+func (r *ListEndpointsOptionalParameters) WithReturnLen(returnLen int32) *ListEndpointsOptionalParameters {
+	r.ReturnLen = &returnLen
 	return r
 }
 
@@ -947,6 +954,9 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 	}
 	if optionalParams.IncludeClusterIp != nil {
 		localVarQueryParams.Add("includeClusterIP", common.ParameterToString(*optionalParams.IncludeClusterIp, ""))
+	}
+	if optionalParams.ReturnLen != nil {
+		localVarQueryParams.Add("returnLen", common.ParameterToString(*optionalParams.ReturnLen, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
