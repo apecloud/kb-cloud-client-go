@@ -7929,6 +7929,7 @@ paths:
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
+      deprecated: true
       tags:
         - dms
       summary: list all session for the cluster
@@ -7967,6 +7968,7 @@ paths:
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/session/{session}:
     delete:
+      deprecated: true
       tags:
         - dms
       summary: close the session for the cluster
@@ -9330,20 +9332,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                parameter:
-                  type: string
-                oldValue:
-                  type: string
-                newValue:
-                  type: string
-                tenantName:
-                  type: string
-                mode:
-                  type: string
-                isVariable:
-                  type: boolean
+              $ref: '#/components/schemas/DmsObAlterParameter'
       responses:
         '200':
           description: close the session success
@@ -18510,6 +18499,33 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsObParameter'
+    DmsObAlterParameter:
+      type: object
+      required:
+        - parameter
+        - isVariable
+        - tenantName
+        - newValue
+        - oldValue
+      properties:
+        parameter:
+          type: string
+          description: parameter to alter
+        oldValue:
+          type: string
+          description: old value of parameter
+        newValue:
+          type: string
+          description: old value of parameter
+        mode:
+          type: string
+          description: tenant mode, need if isVariable is true
+        tenantName:
+          type: string
+          description: tenant name
+        isVariable:
+          type: boolean
+          description: whether the param is tenant variable or not
     recycleBinClusterListItem:
       description: information of kubeblocks cluster in recycle bin
       required:

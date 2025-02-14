@@ -975,7 +975,7 @@ func (a *DmsApi) SetDefaultVolumes(ctx _context.Context, orgName string, cluster
 }
 
 // AlterParameter alter cluster parameter.
-func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterName string, tenantId string, body interface{}) (string, *_nethttp.Response, error) {
+func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterName string, tenantId string, body DmsObAlterParameter) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1075,6 +1075,7 @@ func (r *CloseSessionsOptionalParameters) WithKeep(keep string) *CloseSessionsOp
 }
 
 // CloseSessions close the session for the cluster.
+// Deprecated: This API is deprecated.
 func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName string, session string, o ...CloseSessionsOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -1749,6 +1750,7 @@ func (r *ListSessionsOldOptionalParameters) WithAll(all string) *ListSessionsOld
 }
 
 // ListSessionsOld list all session for the cluster.
+// Deprecated: This API is deprecated.
 func (a *DmsApi) ListSessionsOld(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOldOptionalParameters) ([]DmsSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
