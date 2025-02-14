@@ -14914,18 +14914,23 @@ components:
     adminUserUpdate:
       description: Admin user update
       properties:
-        userName:
-          description: The name of the user, is unique
-          type: string
-        email:
-          description: The email for the user
+        modifiedUserEmail:
+          description: The current email for the user who will be modified
           type: string
           format: email
-        phoneNumber:
+        newUserName:
+          description: The new username of the user who will be modified, it should be unique
+          type: string
+        newEmail:
+          description: The new email for the user who will be modified
+          type: string
+          format: email
+        newPhoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
-        - userName
-        - email
+        - modifiedUserEmail
+        - newUserName
+        - newEmail
       type: object
     adminUserList:
       description: Admin user list
