@@ -18727,10 +18727,11 @@ components:
         - name
         - createdAt
         - clusterTotal
+        - status
       properties:
         name:
           type: string
-          description: The namee of the project.
+          description: The name of the project.
         clusterTotal:
           type: integer
           description: The total number of clusters in the project.
@@ -18738,6 +18739,9 @@ components:
           type: string
           format: date-time
           description: The time the project was created.
+        status:
+          type: string
+          description: The status of project.
     projectList:
       description: Project list.
       type: object
