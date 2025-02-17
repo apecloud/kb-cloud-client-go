@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -55,7 +55,7 @@ func (a *RdbmsApi) ListAvailableCharsets(ctx _context.Context, engineName string
 	apiInfo := common.APIInfo{
 		Tag:         "rdbms",
 		OperationID: "listAvailableCharsets",
-		Path:        "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/charsets",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/charsets",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -65,7 +65,7 @@ func (a *RdbmsApi) ListAvailableCharsets(ctx _context.Context, engineName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/charsets"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/charsets"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
@@ -164,7 +164,7 @@ func (a *RdbmsApi) ListAvailableCollates(ctx _context.Context, engineName string
 	apiInfo := common.APIInfo{
 		Tag:         "rdbms",
 		OperationID: "listAvailableCollates",
-		Path:        "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/collates",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/collates",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -174,7 +174,7 @@ func (a *RdbmsApi) ListAvailableCollates(ctx _context.Context, engineName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/collates"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/collates"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
@@ -274,7 +274,7 @@ func (a *RdbmsApi) ListAvailableCtypes(ctx _context.Context, engineName string, 
 	apiInfo := common.APIInfo{
 		Tag:         "rdbms",
 		OperationID: "listAvailableCtypes",
-		Path:        "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/ctypes",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/ctypes",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -284,7 +284,7 @@ func (a *RdbmsApi) ListAvailableCtypes(ctx _context.Context, engineName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/ctypes"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/ctypes"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)

@@ -571,7 +571,7 @@ func (a *DmsApi) ListObjectTypesInSchema(ctx _context.Context, orgName string, c
 }
 
 // AlterParameter alter cluster parameter.
-func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterName string, tenantId string, body interface{}) (string, *_nethttp.Response, error) {
+func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterName string, tenantId string, body DmsObAlterParameter) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}

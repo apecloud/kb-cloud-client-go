@@ -9338,20 +9338,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                parameter:
-                  type: string
-                oldValue:
-                  type: string
-                newValue:
-                  type: string
-                tenantName:
-                  type: string
-                mode:
-                  type: string
-                isVariable:
-                  type: boolean
+              $ref: '#/components/schemas/DmsObAlterParameter'
       responses:
         '200':
           description: close the session success
@@ -11732,6 +11719,162 @@ paths:
       tags:
         - account
         - mongodb
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/charsets:
+    get:
+      description: list all available charsets in cluster
+      summary: List cluster charsets
+      operationId: listAvailableCharsets
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: charsets filter keyword
+          in: query
+          name: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list all available charsets in cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsCharset'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - rdbms
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/collates:
+    get:
+      description: list all available collates in cluster
+      summary: List cluster collates
+      operationId: listAvailableCollates
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: charset
+          in: query
+          required: true
+          description: charset name
+          schema:
+            type: string
+        - description: collates filter keyword
+          in: query
+          name: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list all available collates in cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsCollate'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - rdbms
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/ctypes:
+    get:
+      description: list all available ctypes in cluster
+      summary: List cluster ctypes
+      operationId: listAvailableCtypes
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: charset
+          in: query
+          required: true
+          description: charset name
+          schema:
+            type: string
+        - description: ctypes filter keyword
+          in: query
+          name: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: list all available ctypes in cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsCtype'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - rdbms
 components:
   securitySchemes:
     BearerToken:
@@ -15459,14 +15602,9 @@ components:
       type: object
       required:
         - name
-        - description
         - type
-        - value
         - needRestart
         - immutable
-        - maximum
-        - minimum
-        - enum
       properties:
         name:
           description: The name of the parameter
@@ -15480,7 +15618,6 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
-          additionalProperties: true
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -15498,9 +15635,7 @@ components:
         enum:
           description: The value options of the parameter
           type: array
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
@@ -18463,6 +18598,8 @@ components:
         - name
         - value
         - description
+        - maximum
+        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -18486,12 +18623,10 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
-          x-omitempty: false
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
-          x-omitempty: false
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -18509,6 +18644,34 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsObParameter'
+    DmsObAlterParameter:
+      type: object
+      required:
+        - parameter
+        - isVariable
+        - tenantName
+        - mode
+        - newValue
+        - oldValue
+      properties:
+        parameter:
+          type: string
+          description: parameter to alter
+        oldValue:
+          type: string
+          description: old value of parameter
+        newValue:
+          type: string
+          description: old value of parameter
+        mode:
+          type: string
+          description: tenant mode
+        tenantName:
+          type: string
+          description: tenant name
+        isVariable:
+          type: boolean
+          description: whether the param is tenant variable or param
     recycleBinClusterListItem:
       description: information of kubeblocks cluster in recycle bin
       required:
@@ -19462,6 +19625,21 @@ components:
         total:
           type: integer
           x-omitempty: false
+    DmsCharset:
+      type: array
+      items:
+        type: string
+        description: The name of the charset
+    DmsCollate:
+      type: array
+      items:
+        type: string
+        description: The name of the collate
+    DmsCtype:
+      type: array
+      items:
+        type: string
+        description: The name of the ctype
   responses:
     '400':
       content:
