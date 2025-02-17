@@ -731,6 +731,8 @@ paths:
             type: integer
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/orderBy'
+        - $ref: '#/components/parameters/sortDesc'
       responses:
         '200':
           content:
@@ -15423,14 +15425,9 @@ components:
       type: object
       required:
         - name
-        - description
         - type
-        - value
         - needRestart
         - immutable
-        - maximum
-        - minimum
-        - enum
       properties:
         name:
           description: The name of the parameter
@@ -15444,7 +15441,6 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
-          nullable: true
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -15463,7 +15459,6 @@ components:
           description: The value options of the parameter
           type: array
           items: {}
-          nullable: true
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
@@ -19494,6 +19489,21 @@ components:
         format: int64
       required: true
       example: 1711354295
+    orderBy:
+      name: orderBy
+      in: query
+      description: |
+        A generic orderBy construct used to specify which field to sort by in the interface. (e.g., startTime or endTime).  The validity of this field is verified by the apiserver,  and it is not required in the YAML.
+      required: false
+      schema:
+        type: string
+    sortDesc:
+      name: sortDesc
+      in: query
+      description: Specifies the sorting direction. `true` for descending, `false` for ascending.
+      type: boolean
+      required: false
+      default: true
 x-tagGroups:
   - name: User
     tags:

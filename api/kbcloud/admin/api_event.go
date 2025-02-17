@@ -105,6 +105,7 @@ type ListEventsOptionalParameters struct {
 	OperatorId   *int32
 	PageNumber   *int32
 	PageSize     *int32
+	OrderBy      *string
 }
 
 // NewListEventsOptionalParameters creates an empty struct for parameters.
@@ -152,6 +153,12 @@ func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListEve
 // WithPageSize sets the corresponding parameter name and returns the struct.
 func (r *ListEventsOptionalParameters) WithPageSize(pageSize int32) *ListEventsOptionalParameters {
 	r.PageSize = &pageSize
+	return r
+}
+
+// WithOrderBy sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithOrderBy(orderBy string) *ListEventsOptionalParameters {
+	r.OrderBy = &orderBy
 	return r
 }
 
@@ -213,6 +220,9 @@ func (a *EventApi) ListEvents(ctx _context.Context, start int64, end int64, o ..
 	}
 	if optionalParams.PageSize != nil {
 		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	}
+	if optionalParams.OrderBy != nil {
+		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
