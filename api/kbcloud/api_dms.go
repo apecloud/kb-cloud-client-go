@@ -1032,7 +1032,7 @@ func (a *DmsApi) AlterParameter(ctx _context.Context, orgName string, clusterNam
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1073,6 +1073,7 @@ func (r *CloseSessionsOptionalParameters) WithKeep(keep string) *CloseSessionsOp
 }
 
 // CloseSessions close the session for the cluster.
+// Deprecated: This API is deprecated.
 func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName string, session string, o ...CloseSessionsOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -1642,7 +1643,7 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1666,11 +1667,11 @@ func (a *DmsApi) ListParameters(ctx _context.Context, orgName string, clusterNam
 }
 
 // ListQueryHistory list the query History.
-func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) (DmsQueryHistory, *_nethttp.Response, error) {
+func (a *DmsApi) ListQueryHistory(ctx _context.Context, orgName string, clusterName string, id string) ([]DmsQueryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DmsQueryHistory
+		localVarReturnValue []DmsQueryHistory
 	)
 
 	// Add api info to context
@@ -1747,6 +1748,7 @@ func (r *ListSessionsOldOptionalParameters) WithAll(all string) *ListSessionsOld
 }
 
 // ListSessionsOld list all session for the cluster.
+// Deprecated: This API is deprecated.
 func (a *DmsApi) ListSessionsOld(ctx _context.Context, orgName string, clusterName string, o ...ListSessionsOldOptionalParameters) ([]DmsSession, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -2122,7 +2124,7 @@ func (a *DmsApi) TenantParameterHistory(ctx _context.Context, orgName string, cl
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

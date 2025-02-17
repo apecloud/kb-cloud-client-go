@@ -11,7 +11,7 @@ type ClusterUpdate struct {
 	// The termination policy of cluster.
 	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 	// Display name of cluster.
-	DisplayName *string `json:"displayName,omitempty"`
+	DisplayName common.NullableString `json:"displayName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -66,32 +66,43 @@ func (o *ClusterUpdate) SetTerminationPolicy(v ClusterTerminationPolicy) {
 	o.TerminationPolicy = &v
 }
 
-// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterUpdate) GetDisplayName() string {
-	if o == nil || o.DisplayName == nil {
+	if o == nil || o.DisplayName.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.DisplayName
+	return *o.DisplayName.Get()
 }
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterUpdate) GetDisplayNameOk() (*string, bool) {
-	if o == nil || o.DisplayName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.DisplayName, true
+	return o.DisplayName.Get(), o.DisplayName.IsSet()
 }
 
 // HasDisplayName returns a boolean if a field has been set.
 func (o *ClusterUpdate) HasDisplayName() bool {
-	return o != nil && o.DisplayName != nil
+	return o != nil && o.DisplayName.IsSet()
 }
 
-// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+// SetDisplayName gets a reference to the given common.NullableString and assigns it to the DisplayName field.
 func (o *ClusterUpdate) SetDisplayName(v string) {
-	o.DisplayName = &v
+	o.DisplayName.Set(&v)
+}
+
+// SetDisplayNameNil sets the value for DisplayName to be an explicit nil.
+func (o *ClusterUpdate) SetDisplayNameNil() {
+	o.DisplayName.Set(nil)
+}
+
+// UnsetDisplayName ensures that no value is present for DisplayName, not even an explicit nil.
+func (o *ClusterUpdate) UnsetDisplayName() {
+	o.DisplayName.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -103,8 +114,8 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	if o.TerminationPolicy != nil {
 		toSerialize["terminationPolicy"] = o.TerminationPolicy
 	}
-	if o.DisplayName != nil {
-		toSerialize["displayName"] = o.DisplayName
+	if o.DisplayName.IsSet() {
+		toSerialize["displayName"] = o.DisplayName.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -117,7 +128,7 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		DisplayName       *string                   `json:"displayName,omitempty"`
+		DisplayName       common.NullableString     `json:"displayName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

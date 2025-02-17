@@ -277,7 +277,7 @@ func (a *EventApi) QueryEventDetail(ctx _context.Context, orgName string, eventI
 }
 
 // QueryEventFilter Query available filters for event listing.
-func (a *EventApi) QueryEventFilter(ctx _context.Context, filterType EventQueryFilterType) (EventQueryFilterOptionList, *_nethttp.Response, error) {
+func (a *EventApi) QueryEventFilter(ctx _context.Context, filterType EventQueryFilterType, start int64, end int64) (EventQueryFilterOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -304,6 +304,8 @@ func (a *EventApi) QueryEventFilter(ctx _context.Context, filterType EventQueryF
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("filterType", common.ParameterToString(filterType, ""))
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
