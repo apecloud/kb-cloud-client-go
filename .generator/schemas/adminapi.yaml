@@ -2124,9 +2124,9 @@ paths:
       x-codegen-request-body-name: body
   /admin/v1/events:
     get:
-      description: Query events of clusters
-      summary: Query operation events
-      operationId: queryClusterEvents
+      description: List events
+      summary: List events
+      operationId: listEvents
       parameters:
         - description: Organization Name
           in: query
@@ -2186,7 +2186,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: queryEventDetail
+      operationId: getEvent
       parameters:
         - description: Unique identifier for the event.
           in: path
