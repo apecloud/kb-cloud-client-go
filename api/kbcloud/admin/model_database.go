@@ -19,7 +19,11 @@ type Database struct {
 	// Specify account name who can manage this database
 	AccountName *string `json:"accountName,omitempty"`
 	// Specify charsetName of database.
-	Charset *string `json:"charset,omitempty"`
+	Charset common.NullableString `json:"charset,omitempty"`
+	// Specify collateName of database.
+	Collate common.NullableString `json:"collate,omitempty"`
+	// Specify ctypeName of database.
+	Ctype common.NullableString `json:"ctype,omitempty"`
 	// Description of the database.
 	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -124,32 +128,121 @@ func (o *Database) SetAccountName(v string) {
 	o.AccountName = &v
 }
 
-// GetCharset returns the Charset field value if set, zero value otherwise.
+// GetCharset returns the Charset field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Database) GetCharset() string {
-	if o == nil || o.Charset == nil {
+	if o == nil || o.Charset.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Charset
+	return *o.Charset.Get()
 }
 
 // GetCharsetOk returns a tuple with the Charset field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Database) GetCharsetOk() (*string, bool) {
-	if o == nil || o.Charset == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Charset, true
+	return o.Charset.Get(), o.Charset.IsSet()
 }
 
 // HasCharset returns a boolean if a field has been set.
 func (o *Database) HasCharset() bool {
-	return o != nil && o.Charset != nil
+	return o != nil && o.Charset.IsSet()
 }
 
-// SetCharset gets a reference to the given string and assigns it to the Charset field.
+// SetCharset gets a reference to the given common.NullableString and assigns it to the Charset field.
 func (o *Database) SetCharset(v string) {
-	o.Charset = &v
+	o.Charset.Set(&v)
+}
+
+// SetCharsetNil sets the value for Charset to be an explicit nil.
+func (o *Database) SetCharsetNil() {
+	o.Charset.Set(nil)
+}
+
+// UnsetCharset ensures that no value is present for Charset, not even an explicit nil.
+func (o *Database) UnsetCharset() {
+	o.Charset.Unset()
+}
+
+// GetCollate returns the Collate field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Database) GetCollate() string {
+	if o == nil || o.Collate.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Collate.Get()
+}
+
+// GetCollateOk returns a tuple with the Collate field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Database) GetCollateOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Collate.Get(), o.Collate.IsSet()
+}
+
+// HasCollate returns a boolean if a field has been set.
+func (o *Database) HasCollate() bool {
+	return o != nil && o.Collate.IsSet()
+}
+
+// SetCollate gets a reference to the given common.NullableString and assigns it to the Collate field.
+func (o *Database) SetCollate(v string) {
+	o.Collate.Set(&v)
+}
+
+// SetCollateNil sets the value for Collate to be an explicit nil.
+func (o *Database) SetCollateNil() {
+	o.Collate.Set(nil)
+}
+
+// UnsetCollate ensures that no value is present for Collate, not even an explicit nil.
+func (o *Database) UnsetCollate() {
+	o.Collate.Unset()
+}
+
+// GetCtype returns the Ctype field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Database) GetCtype() string {
+	if o == nil || o.Ctype.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Ctype.Get()
+}
+
+// GetCtypeOk returns a tuple with the Ctype field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Database) GetCtypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Ctype.Get(), o.Ctype.IsSet()
+}
+
+// HasCtype returns a boolean if a field has been set.
+func (o *Database) HasCtype() bool {
+	return o != nil && o.Ctype.IsSet()
+}
+
+// SetCtype gets a reference to the given common.NullableString and assigns it to the Ctype field.
+func (o *Database) SetCtype(v string) {
+	o.Ctype.Set(&v)
+}
+
+// SetCtypeNil sets the value for Ctype to be an explicit nil.
+func (o *Database) SetCtypeNil() {
+	o.Ctype.Set(nil)
+}
+
+// UnsetCtype ensures that no value is present for Ctype, not even an explicit nil.
+func (o *Database) UnsetCtype() {
+	o.Ctype.Unset()
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -193,8 +286,14 @@ func (o Database) MarshalJSON() ([]byte, error) {
 	if o.AccountName != nil {
 		toSerialize["accountName"] = o.AccountName
 	}
-	if o.Charset != nil {
-		toSerialize["charset"] = o.Charset
+	if o.Charset.IsSet() {
+		toSerialize["charset"] = o.Charset.Get()
+	}
+	if o.Collate.IsSet() {
+		toSerialize["collate"] = o.Collate.Get()
+	}
+	if o.Ctype.IsSet() {
+		toSerialize["ctype"] = o.Ctype.Get()
 	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
@@ -209,11 +308,13 @@ func (o Database) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component   *string `json:"component,omitempty"`
-		Name        *string `json:"name"`
-		AccountName *string `json:"accountName,omitempty"`
-		Charset     *string `json:"charset,omitempty"`
-		Description *string `json:"description,omitempty"`
+		Component   *string               `json:"component,omitempty"`
+		Name        *string               `json:"name"`
+		AccountName *string               `json:"accountName,omitempty"`
+		Charset     common.NullableString `json:"charset,omitempty"`
+		Collate     common.NullableString `json:"collate,omitempty"`
+		Ctype       common.NullableString `json:"ctype,omitempty"`
+		Description *string               `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -223,7 +324,7 @@ func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "name", "accountName", "charset", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "name", "accountName", "charset", "collate", "ctype", "description"})
 	} else {
 		return err
 	}
@@ -231,6 +332,8 @@ func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.AccountName = all.AccountName
 	o.Charset = all.Charset
+	o.Collate = all.Collate
+	o.Ctype = all.Ctype
 	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {

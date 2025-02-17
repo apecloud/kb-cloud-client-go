@@ -13910,6 +13910,17 @@ components:
           description: Specify charsetName of database.
           title: charsetName
           type: string
+          nullable: true
+        collate:
+          description: Specify collateName of database.
+          title: collateName
+          type: string
+          nullable: true
+        ctype:
+          description: Specify ctypeName of database.
+          title: ctypeName
+          type: string
+          nullable: true
         description:
           description: Description of the database.
           title: description
@@ -16443,6 +16454,21 @@ components:
       properties:
         enabled:
           type: boolean
+        createOptions:
+          type: array
+          items:
+            type: object
+            properties:
+              enableCharset:
+                type: boolean
+              enableCollate:
+                type: boolean
+              enableCtype:
+                type: boolean
+              mode:
+                type: string
+                description: |
+                  适用的数据库模式, 用于区分特殊的数据库模式, 如oceanbase的mysql模式
     dmsOption:
       type: object
       required:
