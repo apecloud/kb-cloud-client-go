@@ -15474,7 +15474,6 @@ components:
           description: The value options of the parameter
           type: array
           items: {}
-          nullable: true
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
