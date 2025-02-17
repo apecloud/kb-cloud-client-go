@@ -16945,14 +16945,9 @@ components:
       type: object
       required:
         - name
-        - description
         - type
-        - value
         - needRestart
         - immutable
-        - maximum
-        - minimum
-        - enum
       properties:
         name:
           description: The name of the parameter
@@ -16966,7 +16961,6 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
-          nullable: true
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -16985,7 +16979,6 @@ components:
           description: The value options of the parameter
           type: array
           items: {}
-          nullable: true
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
