@@ -1193,6 +1193,12 @@ paths:
           schema:
             type: boolean
             default: false
+        - description: |
+            The total number of returned endpoints,  If the total number of endpoints is less than returnLen, then return the actual available endpoints.
+          in: query
+          name: returnLen
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -24001,6 +24007,7 @@ components:
         - parameter
         - isVariable
         - tenantName
+        - mode
         - newValue
         - oldValue
       properties:
@@ -24015,13 +24022,13 @@ components:
           description: old value of parameter
         mode:
           type: string
-          description: tenant mode, need if isVariable is true
+          description: tenant mode
         tenantName:
           type: string
           description: tenant name
         isVariable:
           type: boolean
-          description: whether the param is tenant variable or not
+          description: whether the param is tenant variable or param
     summary:
       type: object
       properties:

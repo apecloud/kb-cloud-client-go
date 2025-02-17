@@ -17,11 +17,11 @@ type DmsObAlterParameter struct {
 	OldValue string `json:"oldValue"`
 	// old value of parameter
 	NewValue string `json:"newValue"`
-	// tenant mode, need if isVariable is true
-	Mode *string `json:"mode,omitempty"`
+	// tenant mode
+	Mode string `json:"mode"`
 	// tenant name
 	TenantName string `json:"tenantName"`
-	// whether the param is tenant variable or not
+	// whether the param is tenant variable or param
 	IsVariable bool `json:"isVariable"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -32,11 +32,12 @@ type DmsObAlterParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmsObAlterParameter(parameter string, oldValue string, newValue string, tenantName string, isVariable bool) *DmsObAlterParameter {
+func NewDmsObAlterParameter(parameter string, oldValue string, newValue string, mode string, tenantName string, isVariable bool) *DmsObAlterParameter {
 	this := DmsObAlterParameter{}
 	this.Parameter = parameter
 	this.OldValue = oldValue
 	this.NewValue = newValue
+	this.Mode = mode
 	this.TenantName = tenantName
 	this.IsVariable = isVariable
 	return &this
@@ -119,32 +120,27 @@ func (o *DmsObAlterParameter) SetNewValue(v string) {
 	o.NewValue = v
 }
 
-// GetMode returns the Mode field value if set, zero value otherwise.
+// GetMode returns the Mode field value.
 func (o *DmsObAlterParameter) GetMode() string {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Mode
+	return o.Mode
 }
 
-// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
 func (o *DmsObAlterParameter) GetModeOk() (*string, bool) {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Mode, true
+	return &o.Mode, true
 }
 
-// HasMode returns a boolean if a field has been set.
-func (o *DmsObAlterParameter) HasMode() bool {
-	return o != nil && o.Mode != nil
-}
-
-// SetMode gets a reference to the given string and assigns it to the Mode field.
+// SetMode sets field value.
 func (o *DmsObAlterParameter) SetMode(v string) {
-	o.Mode = &v
+	o.Mode = v
 }
 
 // GetTenantName returns the TenantName field value.
@@ -202,9 +198,7 @@ func (o DmsObAlterParameter) MarshalJSON() ([]byte, error) {
 	toSerialize["parameter"] = o.Parameter
 	toSerialize["oldValue"] = o.OldValue
 	toSerialize["newValue"] = o.NewValue
-	if o.Mode != nil {
-		toSerialize["mode"] = o.Mode
-	}
+	toSerialize["mode"] = o.Mode
 	toSerialize["tenantName"] = o.TenantName
 	toSerialize["isVariable"] = o.IsVariable
 
@@ -220,7 +214,7 @@ func (o *DmsObAlterParameter) UnmarshalJSON(bytes []byte) (err error) {
 		Parameter  *string `json:"parameter"`
 		OldValue   *string `json:"oldValue"`
 		NewValue   *string `json:"newValue"`
-		Mode       *string `json:"mode,omitempty"`
+		Mode       *string `json:"mode"`
 		TenantName *string `json:"tenantName"`
 		IsVariable *bool   `json:"isVariable"`
 	}{}
@@ -235,6 +229,9 @@ func (o *DmsObAlterParameter) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.NewValue == nil {
 		return fmt.Errorf("required field newValue missing")
+	}
+	if all.Mode == nil {
+		return fmt.Errorf("required field mode missing")
 	}
 	if all.TenantName == nil {
 		return fmt.Errorf("required field tenantName missing")
@@ -251,7 +248,7 @@ func (o *DmsObAlterParameter) UnmarshalJSON(bytes []byte) (err error) {
 	o.Parameter = *all.Parameter
 	o.OldValue = *all.OldValue
 	o.NewValue = *all.NewValue
-	o.Mode = all.Mode
+	o.Mode = *all.Mode
 	o.TenantName = *all.TenantName
 	o.IsVariable = *all.IsVariable
 
