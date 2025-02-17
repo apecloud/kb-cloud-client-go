@@ -15435,14 +15435,9 @@ components:
       type: object
       required:
         - name
-        - description
         - type
-        - value
         - needRestart
         - immutable
-        - maximum
-        - minimum
-        - enum
       properties:
         name:
           description: The name of the parameter
