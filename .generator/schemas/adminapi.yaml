@@ -16979,7 +16979,7 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
-          additionalProperties: true
+          nullable: true
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -16997,9 +16997,8 @@ components:
         enum:
           description: The value options of the parameter
           type: array
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
+          nullable: true
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name

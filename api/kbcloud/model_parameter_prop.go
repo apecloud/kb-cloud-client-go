@@ -18,7 +18,7 @@ type ParameterProp struct {
 	// The type of the parameter value
 	Type string `json:"type"`
 	// The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
-	Value map[string]interface{} `json:"value"`
+	Value interface{} `json:"value"`
 	// Whether the parameter requires a restart to take effect
 	NeedRestart bool `json:"needRestart"`
 	// Whether the parameter is an immutable parameter, immutable parameters cannot be modified
@@ -28,7 +28,7 @@ type ParameterProp struct {
 	// The minimum value of the parameter
 	Minimum float64 `json:"minimum"`
 	// The value options of the parameter
-	Enum []map[string]interface{} `json:"enum"`
+	Enum []interface{} `json:"enum"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -38,7 +38,7 @@ type ParameterProp struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterProp(name string, description string, typeVar string, value map[string]interface{}, needRestart bool, immutable bool, maximum float64, minimum float64, enum []map[string]interface{}) *ParameterProp {
+func NewParameterProp(name string, description string, typeVar string, value interface{}, needRestart bool, immutable bool, maximum float64, minimum float64, enum []interface{}) *ParameterProp {
 	this := ParameterProp{}
 	this.Name = name
 	this.Description = description
@@ -130,26 +130,28 @@ func (o *ParameterProp) SetType(v string) {
 }
 
 // GetValue returns the Value field value.
-func (o *ParameterProp) GetValue() map[string]interface{} {
-	if o == nil {
-		var ret map[string]interface{}
+// If the value is explicit nil, the zero value for interface{} will be returned.
+func (o *ParameterProp) GetValue() interface{} {
+	if o == nil || o.Value.Get() == nil {
+		var ret interface{}
 		return ret
 	}
-	return o.Value
+	return *o.Value.Get()
 }
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *ParameterProp) GetValueOk() (*map[string]interface{}, bool) {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ParameterProp) GetValueOk() (*interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Value, true
+	return o.Value.Get(), o.Value.IsSet()
 }
 
 // SetValue sets field value.
-func (o *ParameterProp) SetValue(v map[string]interface{}) {
-	o.Value = v
+func (o *ParameterProp) SetValue(v interface{}) {
+	o.Value.Set(&v)
 }
 
 // GetNeedRestart returns the NeedRestart field value.
@@ -245,9 +247,10 @@ func (o *ParameterProp) SetMinimum(v float64) {
 }
 
 // GetEnum returns the Enum field value.
-func (o *ParameterProp) GetEnum() []map[string]interface{} {
+// If the value is explicit nil, the zero value for []interface{} will be returned.
+func (o *ParameterProp) GetEnum() []interface{} {
 	if o == nil {
-		var ret []map[string]interface{}
+		var ret []interface{}
 		return ret
 	}
 	return o.Enum
@@ -255,15 +258,16 @@ func (o *ParameterProp) GetEnum() []map[string]interface{} {
 
 // GetEnumOk returns a tuple with the Enum field value
 // and a boolean to check if the value has been set.
-func (o *ParameterProp) GetEnumOk() (*[]map[string]interface{}, bool) {
-	if o == nil {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ParameterProp) GetEnumOk() (*[]interface{}, bool) {
+	if o == nil || o.Enum == nil {
 		return nil, false
 	}
 	return &o.Enum, true
 }
 
 // SetEnum sets field value.
-func (o *ParameterProp) SetEnum(v []map[string]interface{}) {
+func (o *ParameterProp) SetEnum(v []interface{}) {
 	o.Enum = v
 }
 
@@ -276,12 +280,14 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["description"] = o.Description
 	toSerialize["type"] = o.Type
-	toSerialize["value"] = o.Value
+	toSerialize["value"] = o.Value.Get()
 	toSerialize["needRestart"] = o.NeedRestart
 	toSerialize["immutable"] = o.Immutable
 	toSerialize["maximum"] = o.Maximum
 	toSerialize["minimum"] = o.Minimum
-	toSerialize["enum"] = o.Enum
+	if o.Enum != nil {
+		toSerialize["enum"] = o.Enum
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -292,15 +298,15 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                   `json:"name"`
-		Description *string                   `json:"description"`
-		Type        *string                   `json:"type"`
-		Value       *map[string]interface{}   `json:"value"`
-		NeedRestart *bool                     `json:"needRestart"`
-		Immutable   *bool                     `json:"immutable"`
-		Maximum     *float64                  `json:"maximum"`
-		Minimum     *float64                  `json:"minimum"`
-		Enum        *[]map[string]interface{} `json:"enum"`
+		Name        *string       `json:"name"`
+		Description *string       `json:"description"`
+		Type        *string       `json:"type"`
+		Value       interface{}   `json:"value"`
+		NeedRestart *bool         `json:"needRestart"`
+		Immutable   *bool         `json:"immutable"`
+		Maximum     *float64      `json:"maximum"`
+		Minimum     *float64      `json:"minimum"`
+		Enum        []interface{} `json:"enum"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -314,7 +320,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")
 	}
-	if all.Value == nil {
+	if !all.Value.IsSet() {
 		return fmt.Errorf("required field value missing")
 	}
 	if all.NeedRestart == nil {
@@ -329,7 +335,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Minimum == nil {
 		return fmt.Errorf("required field minimum missing")
 	}
-	if all.Enum == nil {
+	if !all.Enum.IsSet() {
 		return fmt.Errorf("required field enum missing")
 	}
 	additionalProperties := make(map[string]interface{})
@@ -341,12 +347,12 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.Description = *all.Description
 	o.Type = *all.Type
-	o.Value = *all.Value
+	o.Value = all.Value
 	o.NeedRestart = *all.NeedRestart
 	o.Immutable = *all.Immutable
 	o.Maximum = *all.Maximum
 	o.Minimum = *all.Minimum
-	o.Enum = *all.Enum
+	o.Enum = all.Enum
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
