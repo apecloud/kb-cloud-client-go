@@ -130,28 +130,26 @@ func (o *ParameterProp) SetType(v string) {
 }
 
 // GetValue returns the Value field value.
-// If the value is explicit nil, the zero value for interface{} will be returned.
 func (o *ParameterProp) GetValue() interface{} {
-	if o == nil || o.Value.Get() == nil {
+	if o == nil {
 		var ret interface{}
 		return ret
 	}
-	return *o.Value.Get()
+	return o.Value
 }
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ParameterProp) GetValueOk() (*interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Value.Get(), o.Value.IsSet()
+	return &o.Value, true
 }
 
 // SetValue sets field value.
 func (o *ParameterProp) SetValue(v interface{}) {
-	o.Value.Set(&v)
+	o.Value = v
 }
 
 // GetNeedRestart returns the NeedRestart field value.
@@ -280,7 +278,7 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["description"] = o.Description
 	toSerialize["type"] = o.Type
-	toSerialize["value"] = o.Value.Get()
+	toSerialize["value"] = o.Value
 	toSerialize["needRestart"] = o.NeedRestart
 	toSerialize["immutable"] = o.Immutable
 	toSerialize["maximum"] = o.Maximum
@@ -301,7 +299,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 		Name        *string       `json:"name"`
 		Description *string       `json:"description"`
 		Type        *string       `json:"type"`
-		Value       interface{}   `json:"value"`
+		Value       *interface{}  `json:"value"`
 		NeedRestart *bool         `json:"needRestart"`
 		Immutable   *bool         `json:"immutable"`
 		Maximum     *float64      `json:"maximum"`
@@ -320,7 +318,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")
 	}
-	if !all.Value.IsSet() {
+	if all.Value == nil {
 		return fmt.Errorf("required field value missing")
 	}
 	if all.NeedRestart == nil {
@@ -347,7 +345,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.Description = *all.Description
 	o.Type = *all.Type
-	o.Value = all.Value
+	o.Value = *all.Value
 	o.NeedRestart = *all.NeedRestart
 	o.Immutable = *all.Immutable
 	o.Maximum = *all.Maximum
