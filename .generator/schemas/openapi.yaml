@@ -18416,8 +18416,6 @@ components:
         - name
         - value
         - description
-        - maximum
-        - minimum
       properties:
         name:
           description: The name of the parameter
