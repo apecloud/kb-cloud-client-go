@@ -23745,8 +23745,6 @@ components:
         - name
         - value
         - description
-        - maximum
-        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -23770,10 +23768,12 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
