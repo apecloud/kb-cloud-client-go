@@ -16971,10 +16971,12 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         enum:
           description: The value options of the parameter
           type: array
