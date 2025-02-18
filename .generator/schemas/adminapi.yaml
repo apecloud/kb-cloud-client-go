@@ -339,13 +339,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                newPassword:
-                  description: The new password for the admin user.
-                  type: string
-              required:
-                - newPassword
-              type: object
+              $ref: '#/components/schemas/adminUsersPassword'
         required: true
       responses:
         '204':
@@ -15084,6 +15078,15 @@ components:
         - userName
         - password
         - email
+      type: object
+    adminUsersPassword:
+      description: Admin user password
+      properties:
+        newPassword:
+          description: The new password for the admin user.
+          type: string
+      required:
+        - newPassword
       type: object
     aggregateMetaDataType:
       type: string

@@ -559,7 +559,7 @@ func (a *AdminUserApi) UpdateAdminUserPassword(ctx _context.Context, body interf
 
 // UpdateAdminUsersPassword Update admin user password.
 // Update admin user password
-func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, username string, body interface{}) (*_nethttp.Response, error) {
+func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, username string, body AdminUsersPassword) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
