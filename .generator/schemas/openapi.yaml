@@ -8431,12 +8431,16 @@ paths:
         '204':
           description: Returned when permissions are added successfully.
           content: {}
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
     delete:
       tags:
         - role
