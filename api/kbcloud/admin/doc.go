@@ -266,7 +266,6 @@
 //   - [kafkaApi.listKafkaTopicConsumerGroups]
 //   - [kafkaApi.listKafkaTopicConsumerOffsets]
 //   - [kafkaApi.listKafkaTopicMessages]
-//   - [kafkaApi.listKafkaTopicMessagesLive]
 //   - [kafkaApi.produceKafkaTopicMessage]
 //   - [kafkaApi.resetKafkaTopicConsumerOffset]
 //   - [kafkaApi.setKafkaTopicConfig]

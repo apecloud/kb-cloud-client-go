@@ -13718,67 +13718,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live:
-    get:
-      summary: List live messages of topic
-      operationId: listKafkaTopicMessagesLive
-      tags:
-        - kafka
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of organization
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of cluster
-        - name: topic
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of topic
-        - name: partition
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 0
-          description: 分区号
-        - name: keyFilter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: 消息 key 的过滤条件（大小写不敏感）
-        - name: valueFilter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: 消息内容的过滤条件（大小写不敏感）
-      responses:
-        '200':
-          description: OK
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/LiveMessage'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups:
     get:
       summary: List all consumer groups
@@ -25075,17 +25014,6 @@ components:
         value:
           type: string
           description: 消息的实际内容
-          x-omitempty: false
-    LiveMessage:
-      x-go-name: KafkaLiveMessage
-      type: object
-      properties:
-        id:
-          type: string
-          description: 消息ID
-          x-omitempty: false
-        message:
-          $ref: '#/components/schemas/TopicMessage'
           x-omitempty: false
     ConsumerGroupDescribe:
       x-go-name: KafkaConsumerGroupDescribe
