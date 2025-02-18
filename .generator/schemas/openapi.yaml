@@ -7730,209 +7730,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsResult'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/volumes:
-    get:
-      tags:
-        - dms
-      summary: List all Storage Volumes
-      operationId: ListVolumes
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: list starrocks storage volumes success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DmsVolumeList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/createVolume:
-    post:
-      tags:
-        - dms
-      summary: Create the Storage Volume
-      operationId: CreateVolumes
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                volume:
-                  type: string
-                volumeType:
-                  type: string
-                volumeLocation:
-                  type: string
-                comment:
-                  type: string
-                volumeProperties:
-                  type: string
-      responses:
-        '200':
-          description: create starrocks storage volume success
-          content:
-            text/plain:
-              schema:
-                type: string
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/volume/{volumeName}:
-    post:
-      tags:
-        - dms
-      summary: Alter the Storage Volume
-      operationId: AlterVolumes
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: volumeName
-          in: path
-          description: name of the storage volume
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                volumeProperties:
-                  type: string
-      responses:
-        '200':
-          description: alter starrocks storage volume success
-          content:
-            text/plain:
-              schema:
-                type: string
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-    delete:
-      tags:
-        - dms
-      summary: Drop the Storage Volume
-      operationId: DropVolumes
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: volumeName
-          in: path
-          description: name of the storage volume
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: drop starrocks storage volume success
-          content:
-            text/plain:
-              schema:
-                type: string
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/volume/{volumeName}/setDefault:
-    post:
-      tags:
-        - dms
-      summary: Set the Default Storage Volume
-      operationId: SetDefaultVolumes
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: volumeName
-          in: path
-          description: name of the storage volume
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: set default starrocks storage volume success
-          content:
-            text/plain:
-              schema:
-                type: string
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       deprecated: true
@@ -8431,12 +8228,16 @@ paths:
         '204':
           description: Returned when permissions are added successfully.
           content: {}
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
     delete:
       tags:
         - role
@@ -8498,7 +8299,8 @@ paths:
       tags:
         - class
       operationId: createClass
-      summary: Create class
+      summary: Create class (deprecated, use admin api instead)
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -8521,7 +8323,8 @@ paths:
       tags:
         - class
       operationId: patchClass
-      summary: Patch class
+      summary: Patch class (deprecated, use admin api instead)
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -8544,7 +8347,8 @@ paths:
       tags:
         - class
       operationId: deleteClass
-      summary: Delete class
+      summary: Delete class (deprecated, use admin api instead)
+      deprecated: true
       parameters:
         - name: code
           in: query
@@ -10645,67 +10449,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live:
-    get:
-      summary: List live messages of topic
-      operationId: listKafkaTopicMessagesLive
-      tags:
-        - kafka
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of organization
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of cluster
-        - name: topic
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of topic
-        - name: partition
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 0
-          description: 分区号
-        - name: keyFilter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: 消息 key 的过滤条件（大小写不敏感）
-        - name: valueFilter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: 消息内容的过滤条件（大小写不敏感）
-      responses:
-        '200':
-          description: OK
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/LiveMessage'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups:
     get:
       summary: List all consumer groups
@@ -11472,136 +11215,6 @@ paths:
       tags:
         - session
         - rdbms
-  /api/v1/data/mongodb/datasources/{id}/databases:
-    get:
-      summary: list databases for mongodb
-      operationId: listDatabasesInMongoDB
-      tags:
-        - mongodb
-      parameters:
-        - name: id
-          in: path
-          description: the id of datasource
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success list databases
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/data/mongodb/datasources/{id}/databases/{database}/collections:
-    get:
-      tags:
-        - mongodb
-      summary: List collections in mongodb
-      operationId: ListCollectionsInMongoDB
-      parameters:
-        - name: id
-          in: path
-          description: the id of datasource
-          required: true
-          schema:
-            type: string
-        - name: database
-          in: path
-          description: the name of database
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success list collections
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /api/v1/data/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents:
-    get:
-      tags:
-        - mongodb
-      summary: List documents in mongodb
-      operationId: ListDocumentsInMongoDB
-      parameters:
-        - name: id
-          in: path
-          description: the id of datasource
-          required: true
-          schema:
-            type: string
-        - name: database
-          in: path
-          description: the name of database
-          required: true
-          schema:
-            type: string
-        - name: collection
-          in: path
-          description: the name of collection
-          required: true
-          schema:
-            type: string
-        - name: page
-          in: query
-          required: true
-          description: page
-          schema:
-            type: integer
-        - name: size
-          in: query
-          required: true
-          description: page size
-          schema:
-            type: integer
-        - name: filter
-          in: query
-          required: false
-          description: filter
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success list documents
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DocumentList'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -17760,26 +17373,6 @@ components:
           type: string
           description: The SQL statement defining the view
           nullable: true
-    DmsVolume:
-      type: object
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-        isDefault:
-          type: string
-        location:
-          type: string
-        params:
-          type: string
-        comment:
-          type: string
-    DmsVolumeList:
-      type: array
-      description: List of Storage Volume
-      items:
-        $ref: '#/components/schemas/DmsVolume'
     DmsSession:
       type: object
       properties:
@@ -18722,10 +18315,11 @@ components:
         - name
         - createdAt
         - clusterTotal
+        - status
       properties:
         name:
           type: string
-          description: The namee of the project.
+          description: The name of the project.
         clusterTotal:
           type: integer
           description: The total number of clusters in the project.
@@ -18733,6 +18327,9 @@ components:
           type: string
           format: date-time
           description: The time the project was created.
+        status:
+          type: string
+          description: The status of project.
     projectList:
       description: Project list.
       type: object
@@ -19297,17 +18894,6 @@ components:
           type: string
           description: 消息的实际内容
           x-omitempty: false
-    LiveMessage:
-      x-go-name: KafkaLiveMessage
-      type: object
-      properties:
-        id:
-          type: string
-          description: 消息ID
-          x-omitempty: false
-        message:
-          $ref: '#/components/schemas/TopicMessage'
-          x-omitempty: false
     ConsumerGroupDescribe:
       x-go-name: KafkaConsumerGroupDescribe
       x-nullable: true
@@ -19432,19 +19018,6 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
-    DocumentList:
-      x-go-name: MongoDocumentList
-      type: object
-      properties:
-        documents:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              type: object
-        total:
-          type: integer
-          x-omitempty: false
   responses:
     '400':
       content:
