@@ -65,31 +65,6 @@ tags:
     description: License APIs
 paths:
   /admin/v1/user:
-    post:
-      description: Create a new admin user
-      summary: Create a new admin user
-      operationId: createAdminUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/adminUserCreate'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminUser'
-          description: Created
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - adminUser
     get:
       description: Get authenticated login admin user info
       summary: Get authenticated admin user
@@ -106,7 +81,7 @@ paths:
       tags:
         - adminUser
     patch:
-      description: Update the current Admin User info
+      description: Update authenticated login admin user info
       operationId: patchAdminUser
       summary: Update admin user information
       requestBody:
@@ -130,26 +105,10 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
-  /admin/v1/users:
-    get:
-      description: Get all admin users
-      summary: Get all admin users
-      operationId: listAdminUsers
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminUserList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-      tags:
-        - adminUser
   /admin/v1/user/password:
     patch:
-      description: Update admin user password
-      summary: Update admin user password
+      description: Update authenticated login admin user password
+      summary: Update authenticated login admin user password
       operationId: updateAdminUserPassword
       requestBody:
         content:
@@ -174,7 +133,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - user
+        - adminUser
       x-codegen-request-body-name: body
   /admin/v1/user/apikey/{keyName}:
     patch:
@@ -267,7 +226,80 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
-  /admin/v1/user/{username}:
+  /admin/v1/users:
+    post:
+      description: Create a new admin user
+      summary: Create a new admin user
+      operationId: createAdminUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUserCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUser'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - adminUser
+    get:
+      description: list admin users
+      summary: list admin users
+      operationId: listAdminUsers
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUserList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - adminUser
+  /admin/v1/users/{username}:
+    patch:
+      description: Update the information of the specified admin user
+      operationId: patchAdminUsersProfile
+      summary: Update the information of the specified admin user
+      parameters:
+        - in: path
+          name: username
+          description: Name of the admin user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUserUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUser'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - adminUser
     delete:
       description: delete admin user
       operationId: deleteAdminUser
@@ -291,6 +323,43 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
+  /admin/v1/users/{username}/password:
+    patch:
+      description: Update admin user password
+      operationId: updateAdminUsersPassword
+      summary: Update admin user password
+      parameters:
+        - in: path
+          name: username
+          description: Name of the admin user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                newPassword:
+                  description: The new password for the admin user.
+                  type: string
+              required:
+                - newPassword
+              type: object
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Password updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - adminUser
+      x-codegen-request-body-name: body
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -2124,9 +2193,9 @@ paths:
       x-codegen-request-body-name: body
   /admin/v1/events:
     get:
-      description: Query events of clusters
-      summary: Query operation events
-      operationId: queryClusterEvents
+      description: List events
+      summary: List events
+      operationId: listEvents
       parameters:
         - description: Organization Name
           in: query
@@ -2186,7 +2255,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: queryEventDetail
+      operationId: getEvent
       parameters:
         - description: Unique identifier for the event.
           in: path
@@ -11860,20 +11929,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                parameter:
-                  type: string
-                oldValue:
-                  type: string
-                newValue:
-                  type: string
-                tenantName:
-                  type: string
-                mode:
-                  type: string
-                isVariable:
-                  type: boolean
+              $ref: '#/components/schemas/DmsObAlterParameter'
       responses:
         '200':
           description: close the session success
@@ -14891,58 +14947,17 @@ components:
       required:
         - code
       type: object
-    adminUserCreate:
-      description: Admin user create
+    adminUserUpdate:
+      description: Admin user update
       properties:
         userName:
           description: The name of the user, is unique
           type: string
-        password:
-          description: The password of the admin user
-          type: string
-        email:
-          description: The email for the user
-          type: string
-          format: email
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
-        - password
-        - email
       type: object
-    adminUserUpdate:
-      description: Admin user update
-      properties:
-        modifiedUserEmail:
-          description: The current email for the user who will be modified
-          type: string
-          format: email
-        newUserName:
-          description: The new username of the user who will be modified, it should be unique
-          type: string
-        newEmail:
-          description: The new email for the user who will be modified
-          type: string
-          format: email
-        newPhoneNumber:
-          $ref: '#/components/schemas/phoneNumber'
-      required:
-        - modifiedUserEmail
-        - newUserName
-        - newEmail
-      type: object
-    adminUserList:
-      description: Admin user list
-      type: object
-      properties:
-        items:
-          description: Items is the list of admin user objects in the list
-          items:
-            $ref: '#/components/schemas/adminUser'
-          type: array
-      required:
-        - items
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
       properties:
@@ -15038,6 +15053,37 @@ components:
         - secretKey
         - description
         - createAt
+      type: object
+    adminUserList:
+      description: Admin user list
+      type: object
+      properties:
+        items:
+          description: Items is the list of admin user objects in the list
+          items:
+            $ref: '#/components/schemas/adminUser'
+          type: array
+      required:
+        - items
+    adminUserCreate:
+      description: Admin user create
+      properties:
+        userName:
+          description: The name of the user, is unique
+          type: string
+        password:
+          description: The password of the admin user
+          type: string
+        email:
+          description: The email for the user
+          type: string
+          format: email
+        phoneNumber:
+          $ref: '#/components/schemas/phoneNumber'
+      required:
+        - userName
+        - password
+        - email
       type: object
     aggregateMetaDataType:
       type: string
@@ -16963,14 +17009,9 @@ components:
       type: object
       required:
         - name
-        - description
         - type
-        - value
         - needRestart
         - immutable
-        - maximum
-        - minimum
-        - enum
       properties:
         name:
           description: The name of the parameter
@@ -16984,7 +17025,6 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
-          additionalProperties: true
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -16995,16 +17035,16 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         enum:
           description: The value options of the parameter
           type: array
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
@@ -23973,6 +24013,8 @@ components:
         - name
         - value
         - description
+        - maximum
+        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -23996,12 +24038,10 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
-          x-omitempty: false
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
-          x-omitempty: false
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -24019,6 +24059,34 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsObParameter'
+    DmsObAlterParameter:
+      type: object
+      required:
+        - parameter
+        - isVariable
+        - tenantName
+        - mode
+        - newValue
+        - oldValue
+      properties:
+        parameter:
+          type: string
+          description: parameter to alter
+        oldValue:
+          type: string
+          description: old value of parameter
+        newValue:
+          type: string
+          description: old value of parameter
+        mode:
+          type: string
+          description: tenant mode
+        tenantName:
+          type: string
+          description: tenant name
+        isVariable:
+          type: boolean
+          description: whether the param is tenant variable or param
     summary:
       type: object
       properties:

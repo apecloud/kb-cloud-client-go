@@ -9338,20 +9338,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                parameter:
-                  type: string
-                oldValue:
-                  type: string
-                newValue:
-                  type: string
-                tenantName:
-                  type: string
-                mode:
-                  type: string
-                isVariable:
-                  type: boolean
+              $ref: '#/components/schemas/DmsObAlterParameter'
       responses:
         '200':
           description: close the session success
@@ -15448,14 +15435,9 @@ components:
       type: object
       required:
         - name
-        - description
         - type
-        - value
         - needRestart
         - immutable
-        - maximum
-        - minimum
-        - enum
       properties:
         name:
           description: The name of the parameter
@@ -15469,7 +15451,6 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
-          additionalProperties: true
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -15480,16 +15461,16 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         enum:
           description: The value options of the parameter
           type: array
-          items:
-            type: object
-            additionalProperties: true
+          items: {}
     parameterItem:
       type: object
       description: With the list of parameter properties and the configuration file name
@@ -18437,6 +18418,8 @@ components:
         - name
         - value
         - description
+        - maximum
+        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -18460,12 +18443,10 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
-          x-omitempty: false
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
-          x-omitempty: false
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -18483,6 +18464,34 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsObParameter'
+    DmsObAlterParameter:
+      type: object
+      required:
+        - parameter
+        - isVariable
+        - tenantName
+        - mode
+        - newValue
+        - oldValue
+      properties:
+        parameter:
+          type: string
+          description: parameter to alter
+        oldValue:
+          type: string
+          description: old value of parameter
+        newValue:
+          type: string
+          description: old value of parameter
+        mode:
+          type: string
+          description: tenant mode
+        tenantName:
+          type: string
+          description: tenant name
+        isVariable:
+          type: boolean
+          description: whether the param is tenant variable or param
     recycleBinClusterListItem:
       description: information of kubeblocks cluster in recycle bin
       required:

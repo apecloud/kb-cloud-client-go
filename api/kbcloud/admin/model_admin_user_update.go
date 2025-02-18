@@ -12,14 +12,10 @@ import (
 
 // AdminUserUpdate Admin user update
 type AdminUserUpdate struct {
-	// The current email for the user who will be modified
-	ModifiedUserEmail string `json:"modifiedUserEmail"`
-	// The new username of the user who will be modified, it should be unique
-	NewUserName string `json:"newUserName"`
-	// The new email for the user who will be modified
-	NewEmail string `json:"newEmail"`
+	// The name of the user, is unique
+	UserName string `json:"userName"`
 	// The phonenumber for the user.
-	NewPhoneNumber *string `json:"newPhoneNumber,omitempty"`
+	PhoneNumber *string `json:"phoneNumber,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,11 +25,9 @@ type AdminUserUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUserUpdate(modifiedUserEmail string, newUserName string, newEmail string) *AdminUserUpdate {
+func NewAdminUserUpdate(userName string) *AdminUserUpdate {
 	this := AdminUserUpdate{}
-	this.ModifiedUserEmail = modifiedUserEmail
-	this.NewUserName = newUserName
-	this.NewEmail = newEmail
+	this.UserName = userName
 	return &this
 }
 
@@ -45,101 +39,55 @@ func NewAdminUserUpdateWithDefaults() *AdminUserUpdate {
 	return &this
 }
 
-// GetModifiedUserEmail returns the ModifiedUserEmail field value.
-func (o *AdminUserUpdate) GetModifiedUserEmail() string {
+// GetUserName returns the UserName field value.
+func (o *AdminUserUpdate) GetUserName() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.ModifiedUserEmail
+	return o.UserName
 }
 
-// GetModifiedUserEmailOk returns a tuple with the ModifiedUserEmail field value
+// GetUserNameOk returns a tuple with the UserName field value
 // and a boolean to check if the value has been set.
-func (o *AdminUserUpdate) GetModifiedUserEmailOk() (*string, bool) {
+func (o *AdminUserUpdate) GetUserNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ModifiedUserEmail, true
+	return &o.UserName, true
 }
 
-// SetModifiedUserEmail sets field value.
-func (o *AdminUserUpdate) SetModifiedUserEmail(v string) {
-	o.ModifiedUserEmail = v
+// SetUserName sets field value.
+func (o *AdminUserUpdate) SetUserName(v string) {
+	o.UserName = v
 }
 
-// GetNewUserName returns the NewUserName field value.
-func (o *AdminUserUpdate) GetNewUserName() string {
-	if o == nil {
+// GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
+func (o *AdminUserUpdate) GetPhoneNumber() string {
+	if o == nil || o.PhoneNumber == nil {
 		var ret string
 		return ret
 	}
-	return o.NewUserName
+	return *o.PhoneNumber
 }
 
-// GetNewUserNameOk returns a tuple with the NewUserName field value
+// GetPhoneNumberOk returns a tuple with the PhoneNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdminUserUpdate) GetNewUserNameOk() (*string, bool) {
-	if o == nil {
+func (o *AdminUserUpdate) GetPhoneNumberOk() (*string, bool) {
+	if o == nil || o.PhoneNumber == nil {
 		return nil, false
 	}
-	return &o.NewUserName, true
+	return o.PhoneNumber, true
 }
 
-// SetNewUserName sets field value.
-func (o *AdminUserUpdate) SetNewUserName(v string) {
-	o.NewUserName = v
+// HasPhoneNumber returns a boolean if a field has been set.
+func (o *AdminUserUpdate) HasPhoneNumber() bool {
+	return o != nil && o.PhoneNumber != nil
 }
 
-// GetNewEmail returns the NewEmail field value.
-func (o *AdminUserUpdate) GetNewEmail() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.NewEmail
-}
-
-// GetNewEmailOk returns a tuple with the NewEmail field value
-// and a boolean to check if the value has been set.
-func (o *AdminUserUpdate) GetNewEmailOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.NewEmail, true
-}
-
-// SetNewEmail sets field value.
-func (o *AdminUserUpdate) SetNewEmail(v string) {
-	o.NewEmail = v
-}
-
-// GetNewPhoneNumber returns the NewPhoneNumber field value if set, zero value otherwise.
-func (o *AdminUserUpdate) GetNewPhoneNumber() string {
-	if o == nil || o.NewPhoneNumber == nil {
-		var ret string
-		return ret
-	}
-	return *o.NewPhoneNumber
-}
-
-// GetNewPhoneNumberOk returns a tuple with the NewPhoneNumber field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdminUserUpdate) GetNewPhoneNumberOk() (*string, bool) {
-	if o == nil || o.NewPhoneNumber == nil {
-		return nil, false
-	}
-	return o.NewPhoneNumber, true
-}
-
-// HasNewPhoneNumber returns a boolean if a field has been set.
-func (o *AdminUserUpdate) HasNewPhoneNumber() bool {
-	return o != nil && o.NewPhoneNumber != nil
-}
-
-// SetNewPhoneNumber gets a reference to the given string and assigns it to the NewPhoneNumber field.
-func (o *AdminUserUpdate) SetNewPhoneNumber(v string) {
-	o.NewPhoneNumber = &v
+// SetPhoneNumber gets a reference to the given string and assigns it to the PhoneNumber field.
+func (o *AdminUserUpdate) SetPhoneNumber(v string) {
+	o.PhoneNumber = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -148,11 +96,9 @@ func (o AdminUserUpdate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["modifiedUserEmail"] = o.ModifiedUserEmail
-	toSerialize["newUserName"] = o.NewUserName
-	toSerialize["newEmail"] = o.NewEmail
-	if o.NewPhoneNumber != nil {
-		toSerialize["newPhoneNumber"] = o.NewPhoneNumber
+	toSerialize["userName"] = o.UserName
+	if o.PhoneNumber != nil {
+		toSerialize["phoneNumber"] = o.PhoneNumber
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -164,33 +110,23 @@ func (o AdminUserUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AdminUserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ModifiedUserEmail *string `json:"modifiedUserEmail"`
-		NewUserName       *string `json:"newUserName"`
-		NewEmail          *string `json:"newEmail"`
-		NewPhoneNumber    *string `json:"newPhoneNumber,omitempty"`
+		UserName    *string `json:"userName"`
+		PhoneNumber *string `json:"phoneNumber,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.ModifiedUserEmail == nil {
-		return fmt.Errorf("required field modifiedUserEmail missing")
-	}
-	if all.NewUserName == nil {
-		return fmt.Errorf("required field newUserName missing")
-	}
-	if all.NewEmail == nil {
-		return fmt.Errorf("required field newEmail missing")
+	if all.UserName == nil {
+		return fmt.Errorf("required field userName missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"modifiedUserEmail", "newUserName", "newEmail", "newPhoneNumber"})
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "phoneNumber"})
 	} else {
 		return err
 	}
-	o.ModifiedUserEmail = *all.ModifiedUserEmail
-	o.NewUserName = *all.NewUserName
-	o.NewEmail = *all.NewEmail
-	o.NewPhoneNumber = all.NewPhoneNumber
+	o.UserName = *all.UserName
+	o.PhoneNumber = all.PhoneNumber
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

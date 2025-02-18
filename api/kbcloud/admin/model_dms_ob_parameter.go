@@ -22,9 +22,9 @@ type DmsObParameter struct {
 	// The value options of the parameter
 	Enum []interface{} `json:"enum,omitempty"`
 	// The maximum value of the parameter
-	Maximum *float64 `json:"maximum,omitempty"`
+	Maximum float64 `json:"maximum"`
 	// The minimum value of the parameter
-	Minimum *float64 `json:"minimum,omitempty"`
+	Minimum float64 `json:"minimum"`
 	// Whether the parameter is an immutable parameter, immutable parameters cannot be modified
 	Immutable *bool `json:"immutable,omitempty"`
 	// Whether the parameter is variable or a parameter
@@ -42,11 +42,13 @@ type DmsObParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmsObParameter(name string, value string, description string) *DmsObParameter {
+func NewDmsObParameter(name string, value string, description string, maximum float64, minimum float64) *DmsObParameter {
 	this := DmsObParameter{}
 	this.Name = name
 	this.Value = value
 	this.Description = description
+	this.Maximum = maximum
+	this.Minimum = minimum
 	return &this
 }
 
@@ -183,60 +185,50 @@ func (o *DmsObParameter) SetEnum(v []interface{}) {
 	o.Enum = v
 }
 
-// GetMaximum returns the Maximum field value if set, zero value otherwise.
+// GetMaximum returns the Maximum field value.
 func (o *DmsObParameter) GetMaximum() float64 {
-	if o == nil || o.Maximum == nil {
+	if o == nil {
 		var ret float64
 		return ret
 	}
-	return *o.Maximum
+	return o.Maximum
 }
 
-// GetMaximumOk returns a tuple with the Maximum field value if set, nil otherwise
+// GetMaximumOk returns a tuple with the Maximum field value
 // and a boolean to check if the value has been set.
 func (o *DmsObParameter) GetMaximumOk() (*float64, bool) {
-	if o == nil || o.Maximum == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Maximum, true
+	return &o.Maximum, true
 }
 
-// HasMaximum returns a boolean if a field has been set.
-func (o *DmsObParameter) HasMaximum() bool {
-	return o != nil && o.Maximum != nil
-}
-
-// SetMaximum gets a reference to the given float64 and assigns it to the Maximum field.
+// SetMaximum sets field value.
 func (o *DmsObParameter) SetMaximum(v float64) {
-	o.Maximum = &v
+	o.Maximum = v
 }
 
-// GetMinimum returns the Minimum field value if set, zero value otherwise.
+// GetMinimum returns the Minimum field value.
 func (o *DmsObParameter) GetMinimum() float64 {
-	if o == nil || o.Minimum == nil {
+	if o == nil {
 		var ret float64
 		return ret
 	}
-	return *o.Minimum
+	return o.Minimum
 }
 
-// GetMinimumOk returns a tuple with the Minimum field value if set, nil otherwise
+// GetMinimumOk returns a tuple with the Minimum field value
 // and a boolean to check if the value has been set.
 func (o *DmsObParameter) GetMinimumOk() (*float64, bool) {
-	if o == nil || o.Minimum == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Minimum, true
+	return &o.Minimum, true
 }
 
-// HasMinimum returns a boolean if a field has been set.
-func (o *DmsObParameter) HasMinimum() bool {
-	return o != nil && o.Minimum != nil
-}
-
-// SetMinimum gets a reference to the given float64 and assigns it to the Minimum field.
+// SetMinimum sets field value.
 func (o *DmsObParameter) SetMinimum(v float64) {
-	o.Minimum = &v
+	o.Minimum = v
 }
 
 // GetImmutable returns the Immutable field value if set, zero value otherwise.
@@ -366,12 +358,8 @@ func (o DmsObParameter) MarshalJSON() ([]byte, error) {
 	if o.Enum != nil {
 		toSerialize["enum"] = o.Enum
 	}
-	if o.Maximum != nil {
-		toSerialize["maximum"] = o.Maximum
-	}
-	if o.Minimum != nil {
-		toSerialize["minimum"] = o.Minimum
-	}
+	toSerialize["maximum"] = o.Maximum
+	toSerialize["minimum"] = o.Minimum
 	if o.Immutable != nil {
 		toSerialize["immutable"] = o.Immutable
 	}
@@ -399,8 +387,8 @@ func (o *DmsObParameter) UnmarshalJSON(bytes []byte) (err error) {
 		DataType    *string       `json:"dataType,omitempty"`
 		Description *string       `json:"description"`
 		Enum        []interface{} `json:"enum,omitempty"`
-		Maximum     *float64      `json:"maximum,omitempty"`
-		Minimum     *float64      `json:"minimum,omitempty"`
+		Maximum     *float64      `json:"maximum"`
+		Minimum     *float64      `json:"minimum"`
 		Immutable   *bool         `json:"immutable,omitempty"`
 		IsVariable  *bool         `json:"isVariable,omitempty"`
 		EditLevel   *string       `json:"editLevel,omitempty"`
@@ -418,6 +406,12 @@ func (o *DmsObParameter) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
+	if all.Maximum == nil {
+		return fmt.Errorf("required field maximum missing")
+	}
+	if all.Minimum == nil {
+		return fmt.Errorf("required field minimum missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"name", "value", "dataType", "description", "enum", "maximum", "minimum", "immutable", "isVariable", "editLevel", "readOnly"})
@@ -429,8 +423,8 @@ func (o *DmsObParameter) UnmarshalJSON(bytes []byte) (err error) {
 	o.DataType = all.DataType
 	o.Description = *all.Description
 	o.Enum = all.Enum
-	o.Maximum = all.Maximum
-	o.Minimum = all.Minimum
+	o.Maximum = *all.Maximum
+	o.Minimum = *all.Minimum
 	o.Immutable = all.Immutable
 	o.IsVariable = all.IsVariable
 	o.EditLevel = all.EditLevel
