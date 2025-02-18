@@ -18011,8 +18011,6 @@ components:
         - name
         - value
         - description
-        - maximum
-        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -18036,10 +18034,12 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -18315,10 +18315,11 @@ components:
         - name
         - createdAt
         - clusterTotal
+        - status
       properties:
         name:
           type: string
-          description: The namee of the project.
+          description: The name of the project.
         clusterTotal:
           type: integer
           description: The total number of clusters in the project.
@@ -18326,6 +18327,9 @@ components:
           type: string
           format: date-time
           description: The time the project was created.
+        status:
+          type: string
+          description: The status of project.
     projectList:
       description: Project list.
       type: object
