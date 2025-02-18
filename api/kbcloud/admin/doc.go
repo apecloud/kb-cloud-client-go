@@ -360,8 +360,6 @@
 //   - [providerApi.listCloudProviders]
 //   - [providerApi.updateCloudProvider]
 //   - [rdbmsApi.listAvailableCharsets]
-//   - [rdbmsApi.listAvailableCollates]
-//   - [rdbmsApi.listAvailableCtypes]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]
 //   - [recycleBinClusterApi.getRecycleBinCluster]
 //   - [recycleBinClusterApi.listRecycleBinCluster]
