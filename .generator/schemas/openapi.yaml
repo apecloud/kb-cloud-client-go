@@ -8295,7 +8295,8 @@ paths:
       tags:
         - class
       operationId: createClass
-      summary: Create class
+      summary: Create class (deprecated, use admin api instead)
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -8318,7 +8319,8 @@ paths:
       tags:
         - class
       operationId: patchClass
-      summary: Patch class
+      summary: Patch class (deprecated, use admin api instead)
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -8341,7 +8343,8 @@ paths:
       tags:
         - class
       operationId: deleteClass
-      summary: Delete class
+      summary: Delete class (deprecated, use admin api instead)
+      deprecated: true
       parameters:
         - name: code
           in: query

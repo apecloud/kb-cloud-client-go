@@ -33,7 +33,8 @@ func (r *CreateClassOptionalParameters) WithBody(body Class) *CreateClassOptiona
 	return r
 }
 
-// CreateClass Create class.
+// CreateClass Create class (deprecated, use admin api instead).
+// Deprecated: This API is deprecated.
 func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalParameters) (Class, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -123,7 +124,8 @@ func (a *ClassApi) CreateClass(ctx _context.Context, o ...CreateClassOptionalPar
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteClass Delete class.
+// DeleteClass Delete class (deprecated, use admin api instead).
+// Deprecated: This API is deprecated.
 func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -295,7 +297,8 @@ func (r *PatchClassOptionalParameters) WithBody(body Class) *PatchClassOptionalP
 	return r
 }
 
-// PatchClass Patch class.
+// PatchClass Patch class (deprecated, use admin api instead).
+// Deprecated: This API is deprecated.
 func (a *ClassApi) PatchClass(ctx _context.Context, o ...PatchClassOptionalParameters) (Class, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
