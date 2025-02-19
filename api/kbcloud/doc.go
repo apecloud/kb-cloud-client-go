@@ -269,6 +269,7 @@
 //   - [recycleBinClusterApi.restoreRecycleBinCluster]
 //   - [redisApi.createRedisAccount]
 //   - [redisApi.deleteRedisAccount]
+//   - [redisApi.enableRedisInsight]
 //   - [redisApi.listRedisAccounts]
 //   - [redisApi.updateRedisAccount]
 //   - [regionApi.getRegion]
