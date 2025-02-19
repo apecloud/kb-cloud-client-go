@@ -2530,49 +2530,6 @@ paths:
       tags:
         - account
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/dsn:
-    get:
-      description: get dsn by username
-      summary: Get cluster dsn
-      operationId: getDSN
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the ClusterAccount
-          in: path
-          name: accountName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: string
-          description: Success
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - account
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/{accountName}:
     patch:
       deprecated: true

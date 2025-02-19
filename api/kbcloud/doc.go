@@ -9,7 +9,6 @@
 //   - [accountApi.deleteAccount]
 //   - [accountApi.deleteAccountOld]
 //   - [accountApi.deleteMongoDBAccount]
-//   - [accountApi.getDSN]
 //   - [accountApi.listAccounts]
 //   - [accountApi.listAccountsOld]
 //   - [accountApi.listMongoDBAccounts]
