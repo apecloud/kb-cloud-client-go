@@ -65,31 +65,6 @@ tags:
     description: License APIs
 paths:
   /admin/v1/user:
-    post:
-      description: Create a new admin user
-      summary: Create a new admin user
-      operationId: createAdminUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/adminUserCreate'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminUser'
-          description: Created
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - adminUser
     get:
       description: Get authenticated login admin user info
       summary: Get authenticated admin user
@@ -106,7 +81,7 @@ paths:
       tags:
         - adminUser
     patch:
-      description: Update the current Admin User info
+      description: Update authenticated login admin user info
       operationId: patchAdminUser
       summary: Update admin user information
       requestBody:
@@ -130,26 +105,10 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
-  /admin/v1/users:
-    get:
-      description: Get all admin users
-      summary: Get all admin users
-      operationId: listAdminUsers
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminUserList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-      tags:
-        - adminUser
   /admin/v1/user/password:
     patch:
-      description: Update admin user password
-      summary: Update admin user password
+      description: Update authenticated login admin user password
+      summary: Update authenticated login admin user password
       operationId: updateAdminUserPassword
       requestBody:
         content:
@@ -174,7 +133,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - user
+        - adminUser
       x-codegen-request-body-name: body
   /admin/v1/user/apikey/{keyName}:
     patch:
@@ -267,14 +226,87 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
-  /admin/v1/user/{username}:
+  /admin/v1/users:
+    post:
+      description: Create a new admin user
+      summary: Create a new admin user
+      operationId: createAdminUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUserCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUser'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - adminUser
+    get:
+      description: list admin users
+      summary: list admin users
+      operationId: listAdminUsers
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUserList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - adminUser
+  /admin/v1/users/{userID}:
+    patch:
+      description: Update the information of the specified admin user
+      operationId: patchAdminUsersProfile
+      summary: Update the information of the specified admin user
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the admin user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUserUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUser'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - adminUser
     delete:
       description: delete admin user
       operationId: deleteAdminUser
       summary: delete admin user
       parameters:
         - in: path
-          name: username
+          name: userID
           description: Name of the admin user
           required: true
           schema:
@@ -291,6 +323,37 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
+  /admin/v1/users/{userID}/password:
+    patch:
+      description: Update admin user password
+      operationId: updateAdminUsersPassword
+      summary: Update admin user password
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the admin user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUsersPassword'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Password updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - adminUser
+      x-codegen-request-body-name: body
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -14687,53 +14750,22 @@ components:
       required:
         - code
       type: object
-    adminUserCreate:
-      description: Admin user create
-      properties:
-        userName:
-          description: The name of the user, is unique
-          type: string
-        password:
-          description: The password of the admin user
-          type: string
-        email:
-          description: The email for the user
-          type: string
-          format: email
-        phoneNumber:
-          $ref: '#/components/schemas/phoneNumber'
-      required:
-        - userName
-        - password
-        - email
-      type: object
     adminUserUpdate:
       description: Admin user update
       properties:
         userName:
           description: The name of the user, is unique
           type: string
+        phoneNumber:
+          $ref: '#/components/schemas/phoneNumber'
         email:
           description: The email for the user
           type: string
           format: email
-        phoneNumber:
-          $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
         - email
       type: object
-    adminUserList:
-      description: Admin user list
-      type: object
-      properties:
-        items:
-          description: Items is the list of admin user objects in the list
-          items:
-            $ref: '#/components/schemas/adminUser'
-          type: array
-      required:
-        - items
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
       properties:
@@ -14829,6 +14861,46 @@ components:
         - secretKey
         - description
         - createAt
+      type: object
+    adminUserList:
+      description: Admin user list
+      type: object
+      properties:
+        items:
+          description: Items is the list of admin user objects in the list
+          items:
+            $ref: '#/components/schemas/adminUser'
+          type: array
+      required:
+        - items
+    adminUserCreate:
+      description: Admin user create
+      properties:
+        userName:
+          description: The name of the user, is unique
+          type: string
+        password:
+          description: The password of the admin user
+          type: string
+        email:
+          description: The email for the user
+          type: string
+          format: email
+        phoneNumber:
+          $ref: '#/components/schemas/phoneNumber'
+      required:
+        - userName
+        - password
+        - email
+      type: object
+    adminUsersPassword:
+      description: Admin user password
+      properties:
+        newPassword:
+          description: The new password for the admin user.
+          type: string
+      required:
+        - newPassword
       type: object
     aggregateMetaDataType:
       type: string
