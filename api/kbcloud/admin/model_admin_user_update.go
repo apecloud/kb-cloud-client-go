@@ -16,6 +16,8 @@ type AdminUserUpdate struct {
 	UserName string `json:"userName"`
 	// The phonenumber for the user.
 	PhoneNumber *string `json:"phoneNumber,omitempty"`
+	// The email for the user
+	Email string `json:"email"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,9 +27,10 @@ type AdminUserUpdate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUserUpdate(userName string) *AdminUserUpdate {
+func NewAdminUserUpdate(userName string, email string) *AdminUserUpdate {
 	this := AdminUserUpdate{}
 	this.UserName = userName
+	this.Email = email
 	return &this
 }
 
@@ -90,6 +93,29 @@ func (o *AdminUserUpdate) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
+// GetEmail returns the Email field value.
+func (o *AdminUserUpdate) GetEmail() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Email
+}
+
+// GetEmailOk returns a tuple with the Email field value
+// and a boolean to check if the value has been set.
+func (o *AdminUserUpdate) GetEmailOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Email, true
+}
+
+// SetEmail sets field value.
+func (o *AdminUserUpdate) SetEmail(v string) {
+	o.Email = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AdminUserUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -100,6 +126,7 @@ func (o AdminUserUpdate) MarshalJSON() ([]byte, error) {
 	if o.PhoneNumber != nil {
 		toSerialize["phoneNumber"] = o.PhoneNumber
 	}
+	toSerialize["email"] = o.Email
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -112,6 +139,7 @@ func (o *AdminUserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		UserName    *string `json:"userName"`
 		PhoneNumber *string `json:"phoneNumber,omitempty"`
+		Email       *string `json:"email"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -119,14 +147,18 @@ func (o *AdminUserUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.UserName == nil {
 		return fmt.Errorf("required field userName missing")
 	}
+	if all.Email == nil {
+		return fmt.Errorf("required field email missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "phoneNumber"})
+		common.DeleteKeys(additionalProperties, &[]string{"userName", "phoneNumber", "email"})
 	} else {
 		return err
 	}
 	o.UserName = *all.UserName
 	o.PhoneNumber = all.PhoneNumber
+	o.Email = *all.Email
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

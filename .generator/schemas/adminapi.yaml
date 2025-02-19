@@ -267,15 +267,15 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - adminUser
-  /admin/v1/users/{username}:
+  /admin/v1/users/{userID}:
     patch:
       description: Update the information of the specified admin user
       operationId: patchAdminUsersProfile
       summary: Update the information of the specified admin user
       parameters:
         - in: path
-          name: username
-          description: Name of the admin user
+          name: userID
+          description: ID of the admin user
           required: true
           schema:
             type: string
@@ -306,7 +306,7 @@ paths:
       summary: delete admin user
       parameters:
         - in: path
-          name: username
+          name: userID
           description: Name of the admin user
           required: true
           schema:
@@ -323,15 +323,15 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
-  /admin/v1/users/{username}/password:
+  /admin/v1/users/{userID}/password:
     patch:
       description: Update admin user password
       operationId: updateAdminUsersPassword
       summary: Update admin user password
       parameters:
         - in: path
-          name: username
-          description: Name of the admin user
+          name: userID
+          description: ID of the admin user
           required: true
           schema:
             type: string
@@ -13781,67 +13781,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/topic/{topic}/messages/live:
-    get:
-      summary: List live messages of topic
-      operationId: listKafkaTopicMessagesLive
-      tags:
-        - kafka
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of organization
-        - name: clusterName
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of cluster
-        - name: topic
-          in: path
-          required: true
-          schema:
-            type: string
-          description: The name of topic
-        - name: partition
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 0
-          description: 分区号
-        - name: keyFilter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: 消息 key 的过滤条件（大小写不敏感）
-        - name: valueFilter
-          in: query
-          required: false
-          schema:
-            type: string
-          description: 消息内容的过滤条件（大小写不敏感）
-      responses:
-        '200':
-          description: OK
-          content:
-            text/event-stream:
-              schema:
-                $ref: '#/components/schemas/LiveMessage'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/consumer-groups:
     get:
       summary: List all consumer groups
@@ -14608,136 +14547,6 @@ paths:
       tags:
         - session
         - rdbms
-  /admin/v1/data/mongodb/datasources/{id}/databases:
-    get:
-      summary: list databases for mongodb
-      operationId: listDatabasesInMongoDB
-      tags:
-        - mongodb
-      parameters:
-        - name: id
-          in: path
-          description: the id of datasource
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success list databases
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/data/mongodb/datasources/{id}/databases/{database}/collections:
-    get:
-      tags:
-        - mongodb
-      summary: List collections in mongodb
-      operationId: ListCollectionsInMongoDB
-      parameters:
-        - name: id
-          in: path
-          description: the id of datasource
-          required: true
-          schema:
-            type: string
-        - name: database
-          in: path
-          description: the name of database
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success list collections
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-  /admin/v1/data/mongodb/datasources/{id}/databases/{database}/collections/{collection}/documents:
-    get:
-      tags:
-        - mongodb
-      summary: List documents in mongodb
-      operationId: ListDocumentsInMongoDB
-      parameters:
-        - name: id
-          in: path
-          description: the id of datasource
-          required: true
-          schema:
-            type: string
-        - name: database
-          in: path
-          description: the name of database
-          required: true
-          schema:
-            type: string
-        - name: collection
-          in: path
-          description: the name of collection
-          required: true
-          schema:
-            type: string
-        - name: page
-          in: query
-          required: true
-          description: page
-          schema:
-            type: integer
-        - name: size
-          in: query
-          required: true
-          description: page size
-          schema:
-            type: integer
-        - name: filter
-          in: query
-          required: false
-          description: filter
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success list documents
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DocumentList'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -14949,8 +14758,13 @@ components:
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
+        email:
+          description: The email for the user
+          type: string
+          format: email
       required:
         - userName
+        - email
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -20141,10 +19955,11 @@ components:
         - name
         - createdAt
         - clusterTotal
+        - status
       properties:
         name:
           type: string
-          description: The namee of the project.
+          description: The name of the project.
         clusterTotal:
           type: integer
           description: The total number of clusters in the project.
@@ -20152,6 +19967,9 @@ components:
           type: string
           format: date-time
           description: The time the project was created.
+        status:
+          type: string
+          description: The status of project.
     projectList:
       description: Project list.
       type: object
@@ -24016,8 +23834,6 @@ components:
         - name
         - value
         - description
-        - maximum
-        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -24041,10 +23857,12 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -25273,17 +25091,6 @@ components:
           type: string
           description: 消息的实际内容
           x-omitempty: false
-    LiveMessage:
-      x-go-name: KafkaLiveMessage
-      type: object
-      properties:
-        id:
-          type: string
-          description: 消息ID
-          x-omitempty: false
-        message:
-          $ref: '#/components/schemas/TopicMessage'
-          x-omitempty: false
     ConsumerGroupDescribe:
       x-go-name: KafkaConsumerGroupDescribe
       x-nullable: true
@@ -25408,19 +25215,6 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
-    DocumentList:
-      x-go-name: MongoDocumentList
-      type: object
-      properties:
-        documents:
-          type: array
-          items:
-            type: object
-            additionalProperties:
-              type: object
-        total:
-          type: integer
-          x-omitempty: false
     environmentModuleList:
       type: array
       items:

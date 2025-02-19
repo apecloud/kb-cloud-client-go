@@ -100,7 +100,7 @@ func (a *AdminUserApi) CreateAdminUser(ctx _context.Context, body AdminUserCreat
 
 // DeleteAdminUser delete admin user.
 // delete admin user
-func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*_nethttp.Response, error) {
+func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, userId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -110,7 +110,7 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "deleteAdminUser",
-		Path:        "/admin/v1/users/{username}",
+		Path:        "/admin/v1/users/{userID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -120,8 +120,8 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, username string) (*
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/users/{userID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -328,7 +328,7 @@ func (a *AdminUserApi) PatchAdminUser(ctx _context.Context, body AdminUserUpdate
 
 // PatchAdminUsersProfile Update the information of the specified admin user.
 // Update the information of the specified admin user
-func (a *AdminUserApi) PatchAdminUsersProfile(ctx _context.Context, username string, body AdminUserUpdate) (AdminUser, *_nethttp.Response, error) {
+func (a *AdminUserApi) PatchAdminUsersProfile(ctx _context.Context, userId string, body AdminUserUpdate) (AdminUser, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -339,7 +339,7 @@ func (a *AdminUserApi) PatchAdminUsersProfile(ctx _context.Context, username str
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "patchAdminUsersProfile",
-		Path:        "/admin/v1/users/{username}",
+		Path:        "/admin/v1/users/{userID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -349,8 +349,8 @@ func (a *AdminUserApi) PatchAdminUsersProfile(ctx _context.Context, username str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/users/{userID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -559,7 +559,7 @@ func (a *AdminUserApi) UpdateAdminUserPassword(ctx _context.Context, body interf
 
 // UpdateAdminUsersPassword Update admin user password.
 // Update admin user password
-func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, username string, body AdminUsersPassword) (*_nethttp.Response, error) {
+func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, userId string, body AdminUsersPassword) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPatch
 		localVarPostBody   interface{}
@@ -569,7 +569,7 @@ func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, username s
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "updateAdminUsersPassword",
-		Path:        "/admin/v1/users/{username}/password",
+		Path:        "/admin/v1/users/{userID}/password",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -579,8 +579,8 @@ func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, username s
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users/{username}/password"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(common.ParameterToString(username, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/users/{userID}/password"
+	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
