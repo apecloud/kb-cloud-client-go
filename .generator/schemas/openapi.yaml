@@ -2384,11 +2384,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
         - description: component type
           in: query
           name: component
@@ -10862,11 +10857,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -11187,11 +11177,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
