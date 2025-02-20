@@ -13941,8 +13941,6 @@ components:
           items:
             $ref: '#/components/schemas/clusterTask'
           type: array
-      required:
-        - items
       type: object
     ops_opsStatus:
       type: object
@@ -15374,8 +15372,6 @@ components:
     alertMetric:
       required:
         - key
-        - threshold
-        - notation
       type: object
       properties:
         key:
