@@ -9775,8 +9775,7 @@ paths:
                 id:
                   type: string
                   description: The engine id to action
-              required:
-                - action
+        required: true
       responses:
         '200':
           description: Operation completed successfully
