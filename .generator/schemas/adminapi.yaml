@@ -16941,6 +16941,7 @@ components:
         name:
           type: string
           description: the name of datasource
+          nullable: true
         type:
           type: string
           description: the database type
