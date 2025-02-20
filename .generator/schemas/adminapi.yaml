@@ -9769,14 +9769,9 @@ paths:
               properties:
                 version:
                   type: string
-                  description: Version of the engine, required for upgrade action
+                  description: Version of the engine, required for upgrade/enable/disable action
                 action:
-                  type: string
-                  description: Action to perform on the engine (enable, disable, upgrade)
-                  enum:
-                    - enable
-                    - disable
-                    - upgrade
+                  $ref: '#/components/schemas/engineActionType'
                 id:
                   type: string
                   description: The engine id to action
@@ -22469,6 +22464,13 @@ components:
       enum:
         - enable
         - disable
+    engineActionType:
+      type: string
+      description: engine action type
+      enum:
+        - enable
+        - disable
+        - upgrade
     license:
       description: License info
       type: object
