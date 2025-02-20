@@ -2201,6 +2201,7 @@ paths:
           name: resourceId
           schema:
             type: integer
+            format: int64
         - description: resource type
           in: query
           name: resourceType
@@ -2216,16 +2217,19 @@ paths:
           name: operatorId
           schema:
             type: integer
+            format: int64
         - description: the pageNumber of the query
           in: query
           name: pageNumber
           schema:
             type: integer
+            format: int64
         - description: the pageSize of the query
           in: query
           name: pageSize
           schema:
             type: integer
+            format: int64
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
         - $ref: '#/components/parameters/orderBy'
@@ -9757,7 +9761,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: enable,disable and upgrade engine version
+        description: Request body for engine operations
         content:
           application/json:
             schema:
@@ -9765,20 +9769,25 @@ paths:
               properties:
                 version:
                   type: string
-                  description: enable,disable and upgrade version
+                  description: Version of the engine, required for upgrade/enable/disable action
                 action:
                   $ref: '#/components/schemas/engineActionType'
                 id:
                   type: string
-                  description: the engine id to action
-        required: true
+                  description: The engine id to action
+              required:
+                - action
       responses:
         '200':
-          description: A successful response.
+          description: Operation completed successfully
           content:
             application/json:
               schema:
-                type: boolean
+                type: string
+                example: enable succeeded
+                description: Success message indicating the operation result
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
