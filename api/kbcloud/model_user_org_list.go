@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OrgList OrgList is a list of Orgs
-type OrgList struct {
-	// Items is the list of Org objects in the list
-	Items []Org `json:"items"`
+// UserOrgList UserOrgList is a list of UserOrgs
+type UserOrgList struct {
+	// Items is the list of UserOrg objects in the list
+	Items []UserOrg `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,28 +21,28 @@ type OrgList struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOrgList instantiates a new OrgList object.
+// NewUserOrgList instantiates a new UserOrgList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgList(items []Org) *OrgList {
-	this := OrgList{}
+func NewUserOrgList(items []UserOrg) *UserOrgList {
+	this := UserOrgList{}
 	this.Items = items
 	return &this
 }
 
-// NewOrgListWithDefaults instantiates a new OrgList object.
+// NewUserOrgListWithDefaults instantiates a new UserOrgList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOrgListWithDefaults() *OrgList {
-	this := OrgList{}
+func NewUserOrgListWithDefaults() *UserOrgList {
+	this := UserOrgList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *OrgList) GetItems() []Org {
+func (o *UserOrgList) GetItems() []UserOrg {
 	if o == nil {
-		var ret []Org
+		var ret []UserOrg
 		return ret
 	}
 	return o.Items
@@ -50,7 +50,7 @@ func (o *OrgList) GetItems() []Org {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *OrgList) GetItemsOk() (*[]Org, bool) {
+func (o *UserOrgList) GetItemsOk() (*[]UserOrg, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,12 +58,12 @@ func (o *OrgList) GetItemsOk() (*[]Org, bool) {
 }
 
 // SetItems sets field value.
-func (o *OrgList) SetItems(v []Org) {
+func (o *UserOrgList) SetItems(v []UserOrg) {
 	o.Items = v
 }
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
-func (o *OrgList) GetPageResult() PageResult {
+func (o *UserOrgList) GetPageResult() PageResult {
 	if o == nil || o.PageResult == nil {
 		var ret PageResult
 		return ret
@@ -73,7 +73,7 @@ func (o *OrgList) GetPageResult() PageResult {
 
 // GetPageResultOk returns a tuple with the PageResult field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OrgList) GetPageResultOk() (*PageResult, bool) {
+func (o *UserOrgList) GetPageResultOk() (*PageResult, bool) {
 	if o == nil || o.PageResult == nil {
 		return nil, false
 	}
@@ -81,17 +81,17 @@ func (o *OrgList) GetPageResultOk() (*PageResult, bool) {
 }
 
 // HasPageResult returns a boolean if a field has been set.
-func (o *OrgList) HasPageResult() bool {
+func (o *UserOrgList) HasPageResult() bool {
 	return o != nil && o.PageResult != nil
 }
 
 // SetPageResult gets a reference to the given PageResult and assigns it to the PageResult field.
-func (o *OrgList) SetPageResult(v PageResult) {
+func (o *UserOrgList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o OrgList) MarshalJSON() ([]byte, error) {
+func (o UserOrgList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -108,9 +108,9 @@ func (o OrgList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OrgList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *UserOrgList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Org      `json:"items"`
+		Items      *[]UserOrg  `json:"items"`
 		PageResult *PageResult `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
