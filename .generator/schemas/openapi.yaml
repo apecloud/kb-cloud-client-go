@@ -314,7 +314,7 @@ paths:
   /api/v1/organizations:
     get:
       description: List organizations of current user
-      summary: List joined organizations
+      summary: List organizations of current user
       operationId: listOrg
       parameters:
         - description: The pagination token in the List request
@@ -332,7 +332,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/orgList'
+                $ref: '#/components/schemas/userOrgList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -10965,9 +10965,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11281,9 +11284,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11506,6 +11512,61 @@ components:
         - description
         - createAt
       type: object
+    userOrg:
+      description: UserOrg is the payload for user organization
+      properties:
+        orgId:
+          description: The ID of the organization
+          type: string
+        role:
+          description: The role of the user in the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The name of the organization
+          type: string
+        description:
+          description: The description of the organization
+          type: string
+      required:
+        - orgId
+        - role
+        - name
+      type: object
+    userOrgList:
+      description: UserOrgList is a list of UserOrgs
+      properties:
+        items:
+          description: Items is the list of UserOrg objects in the list
+          items:
+            $ref: '#/components/schemas/userOrg'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    orgCreate:
+      description: OrgCreate is the payload for organization creation
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        creator:
+          description: The id of the creator of the organization
+          type: integer
+          format: int64
+      required:
+        - name
+      type: object
     org:
       description: Org info
       properties:
@@ -11543,38 +11604,6 @@ components:
         - name
         - updatedAt
         - enabled
-      type: object
-    orgList:
-      description: OrgList is a list of Orgs
-      properties:
-        items:
-          description: Items is the list of Org objects in the list
-          items:
-            $ref: '#/components/schemas/org'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    orgCreate:
-      description: OrgCreate is the payload for organization creation
-      properties:
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-        name:
-          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
-          type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
-      required:
-        - name
       type: object
     orgUpdate:
       description: Organization update
@@ -13624,6 +13653,8 @@ components:
             properties:
               default:
                 type: boolean
+              defaultMinorVersion:
+                type: string
               majorVersion:
                 type: string
               minorVersions:
@@ -15416,8 +15447,6 @@ components:
     alertMetric:
       required:
         - key
-        - threshold
-        - notation
       type: object
       properties:
         key:
@@ -15836,6 +15865,9 @@ components:
             minorVersion:
               type: object
               properties:
+                default:
+                  type: string
+                  description: default version.
                 rollback:
                   type: boolean
                   description: determine whether minor version can be rolled back.
@@ -19022,12 +19054,21 @@ components:
       enum:
         - PRIVATE
         - PUBLIC
+    RedisInsightSvcType:
+      type: string
+      enum:
+        - ClusterIP
+        - LoadBalancer
+        - NodePort
     RedisInsightEnableOpt:
       type: object
       properties:
         networkMode:
           $ref: '#/components/schemas/RedisInsightNetMode'
           description: network mode of redis insight
+        serviceType:
+          $ref: '#/components/schemas/RedisInsightSvcType'
+          description: service type of redis insight
     RedisInsight:
       type: object
       properties:

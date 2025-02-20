@@ -99,12 +99,12 @@ func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_neth
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
 	OrgName      *string
-	ResourceId   *int32
+	ResourceId   *int64
 	ResourceType *string
 	EventName    *string
-	OperatorId   *int32
-	PageNumber   *int32
-	PageSize     *int32
+	OperatorId   *int64
+	PageNumber   *int64
+	PageSize     *int64
 	OrderBy      *string
 }
 
@@ -121,7 +121,7 @@ func (r *ListEventsOptionalParameters) WithOrgName(orgName string) *ListEventsOp
 }
 
 // WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithResourceId(resourceId int64) *ListEventsOptionalParameters {
 	r.ResourceId = &resourceId
 	return r
 }
@@ -139,19 +139,19 @@ func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEven
 }
 
 // WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int64) *ListEventsOptionalParameters {
 	r.OperatorId = &operatorId
 	return r
 }
 
 // WithPageNumber sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int64) *ListEventsOptionalParameters {
 	r.PageNumber = &pageNumber
 	return r
 }
 
 // WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageSize(pageSize int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithPageSize(pageSize int64) *ListEventsOptionalParameters {
 	r.PageSize = &pageSize
 	return r
 }
