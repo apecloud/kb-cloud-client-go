@@ -13,8 +13,8 @@ import (
 // AlertMetric Alert metric information
 type AlertMetric struct {
 	Key       string  `json:"key"`
-	Threshold int32   `json:"threshold"`
-	Notation  string  `json:"notation"`
+	Threshold *int32  `json:"threshold,omitempty"`
+	Notation  *string `json:"notation,omitempty"`
 	Category  *string `json:"category,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -25,11 +25,9 @@ type AlertMetric struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertMetric(key string, threshold int32, notation string) *AlertMetric {
+func NewAlertMetric(key string) *AlertMetric {
 	this := AlertMetric{}
 	this.Key = key
-	this.Threshold = threshold
-	this.Notation = notation
 	return &this
 }
 
@@ -64,50 +62,60 @@ func (o *AlertMetric) SetKey(v string) {
 	o.Key = v
 }
 
-// GetThreshold returns the Threshold field value.
+// GetThreshold returns the Threshold field value if set, zero value otherwise.
 func (o *AlertMetric) GetThreshold() int32 {
-	if o == nil {
+	if o == nil || o.Threshold == nil {
 		var ret int32
 		return ret
 	}
-	return o.Threshold
+	return *o.Threshold
 }
 
-// GetThresholdOk returns a tuple with the Threshold field value
+// GetThresholdOk returns a tuple with the Threshold field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AlertMetric) GetThresholdOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Threshold == nil {
 		return nil, false
 	}
-	return &o.Threshold, true
+	return o.Threshold, true
 }
 
-// SetThreshold sets field value.
+// HasThreshold returns a boolean if a field has been set.
+func (o *AlertMetric) HasThreshold() bool {
+	return o != nil && o.Threshold != nil
+}
+
+// SetThreshold gets a reference to the given int32 and assigns it to the Threshold field.
 func (o *AlertMetric) SetThreshold(v int32) {
-	o.Threshold = v
+	o.Threshold = &v
 }
 
-// GetNotation returns the Notation field value.
+// GetNotation returns the Notation field value if set, zero value otherwise.
 func (o *AlertMetric) GetNotation() string {
-	if o == nil {
+	if o == nil || o.Notation == nil {
 		var ret string
 		return ret
 	}
-	return o.Notation
+	return *o.Notation
 }
 
-// GetNotationOk returns a tuple with the Notation field value
+// GetNotationOk returns a tuple with the Notation field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AlertMetric) GetNotationOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Notation == nil {
 		return nil, false
 	}
-	return &o.Notation, true
+	return o.Notation, true
 }
 
-// SetNotation sets field value.
+// HasNotation returns a boolean if a field has been set.
+func (o *AlertMetric) HasNotation() bool {
+	return o != nil && o.Notation != nil
+}
+
+// SetNotation gets a reference to the given string and assigns it to the Notation field.
 func (o *AlertMetric) SetNotation(v string) {
-	o.Notation = v
+	o.Notation = &v
 }
 
 // GetCategory returns the Category field value if set, zero value otherwise.
@@ -145,8 +153,12 @@ func (o AlertMetric) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["key"] = o.Key
-	toSerialize["threshold"] = o.Threshold
-	toSerialize["notation"] = o.Notation
+	if o.Threshold != nil {
+		toSerialize["threshold"] = o.Threshold
+	}
+	if o.Notation != nil {
+		toSerialize["notation"] = o.Notation
+	}
 	if o.Category != nil {
 		toSerialize["category"] = o.Category
 	}
@@ -161,8 +173,8 @@ func (o AlertMetric) MarshalJSON() ([]byte, error) {
 func (o *AlertMetric) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Key       *string `json:"key"`
-		Threshold *int32  `json:"threshold"`
-		Notation  *string `json:"notation"`
+		Threshold *int32  `json:"threshold,omitempty"`
+		Notation  *string `json:"notation,omitempty"`
 		Category  *string `json:"category,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -171,12 +183,6 @@ func (o *AlertMetric) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Key == nil {
 		return fmt.Errorf("required field key missing")
 	}
-	if all.Threshold == nil {
-		return fmt.Errorf("required field threshold missing")
-	}
-	if all.Notation == nil {
-		return fmt.Errorf("required field notation missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"key", "threshold", "notation", "category"})
@@ -184,8 +190,8 @@ func (o *AlertMetric) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.Key = *all.Key
-	o.Threshold = *all.Threshold
-	o.Notation = *all.Notation
+	o.Threshold = all.Threshold
+	o.Notation = all.Notation
 	o.Category = all.Category
 
 	if len(additionalProperties) > 0 {
