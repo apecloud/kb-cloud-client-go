@@ -473,39 +473,14 @@ func (a *AccountApi) DeleteMongoDBAccount(ctx _context.Context, orgName string, 
 	return localVarHTTPResponse, nil
 }
 
-// ListAccountsOptionalParameters holds optional parameters for ListAccounts.
-type ListAccountsOptionalParameters struct {
-	IncludeRoot *bool
-}
-
-// NewListAccountsOptionalParameters creates an empty struct for parameters.
-func NewListAccountsOptionalParameters() *ListAccountsOptionalParameters {
-	this := ListAccountsOptionalParameters{}
-	return &this
-}
-
-// WithIncludeRoot sets the corresponding parameter name and returns the struct.
-func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOptionalParameters {
-	r.IncludeRoot = &includeRoot
-	return r
-}
-
 // ListAccounts List cluster accounts.
 // list accounts in cluster
-func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgName string, clusterName string, o ...ListAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
+func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgName string, clusterName string) ([]AccountListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []AccountListItem
-		optionalParams      ListAccountsOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAccountsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -529,9 +504,6 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgNa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.IncludeRoot != nil {
-		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -584,20 +556,13 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgNa
 
 // ListAccountsOldOptionalParameters holds optional parameters for ListAccountsOld.
 type ListAccountsOldOptionalParameters struct {
-	IncludeRoot *bool
-	Component   *string
+	Component *string
 }
 
 // NewListAccountsOldOptionalParameters creates an empty struct for parameters.
 func NewListAccountsOldOptionalParameters() *ListAccountsOldOptionalParameters {
 	this := ListAccountsOldOptionalParameters{}
 	return &this
-}
-
-// WithIncludeRoot sets the corresponding parameter name and returns the struct.
-func (r *ListAccountsOldOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOldOptionalParameters {
-	r.IncludeRoot = &includeRoot
-	return r
 }
 
 // WithComponent sets the corresponding parameter name and returns the struct.
@@ -645,9 +610,6 @@ func (a *AccountApi) ListAccountsOld(ctx _context.Context, orgName string, clust
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.IncludeRoot != nil {
-		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
-	}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
@@ -701,39 +663,14 @@ func (a *AccountApi) ListAccountsOld(ctx _context.Context, orgName string, clust
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListMongoDBAccountsOptionalParameters holds optional parameters for ListMongoDBAccounts.
-type ListMongoDBAccountsOptionalParameters struct {
-	IncludeRoot *bool
-}
-
-// NewListMongoDBAccountsOptionalParameters creates an empty struct for parameters.
-func NewListMongoDBAccountsOptionalParameters() *ListMongoDBAccountsOptionalParameters {
-	this := ListMongoDBAccountsOptionalParameters{}
-	return &this
-}
-
-// WithIncludeRoot sets the corresponding parameter name and returns the struct.
-func (r *ListMongoDBAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *ListMongoDBAccountsOptionalParameters {
-	r.IncludeRoot = &includeRoot
-	return r
-}
-
 // ListMongoDBAccounts List mongodb accounts.
 // list accounts in mongodb
-func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListMongoDBAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
+func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, clusterName string) ([]AccountListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []AccountListItem
-		optionalParams      ListMongoDBAccountsOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListMongoDBAccountsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -756,9 +693,6 @@ func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, c
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.IncludeRoot != nil {
-		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
