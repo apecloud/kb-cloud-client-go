@@ -304,38 +304,13 @@ func (a *EngineApi) DeleteEngineVersion(ctx _context.Context, o ...DeleteEngineV
 	return localVarHTTPResponse, nil
 }
 
-// EngineActionOptionalParameters holds optional parameters for EngineAction.
-type EngineActionOptionalParameters struct {
-	ActionInfo *interface{}
-}
-
-// NewEngineActionOptionalParameters creates an empty struct for parameters.
-func NewEngineActionOptionalParameters() *EngineActionOptionalParameters {
-	this := EngineActionOptionalParameters{}
-	return &this
-}
-
-// WithActionInfo sets the corresponding parameter name and returns the struct.
-func (r *EngineActionOptionalParameters) WithActionInfo(actionInfo interface{}) *EngineActionOptionalParameters {
-	r.ActionInfo = &actionInfo
-	return r
-}
-
 // EngineAction Manage engine in environment.
-func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, engineName string, o ...EngineActionOptionalParameters) (string, *_nethttp.Response, error) {
+func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, engineName string, actionInfo interface{}) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue string
-		optionalParams      EngineActionOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type EngineActionOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -362,9 +337,7 @@ func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, e
 	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
-	if optionalParams.Body != nil {
-		localVarPostBody = &optionalParams.ActionInfo
-	}
+	localVarPostBody = &actionInfo
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
