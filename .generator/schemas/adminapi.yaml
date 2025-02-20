@@ -20854,8 +20854,6 @@ components:
     alertMetric:
       required:
         - key
-        - threshold
-        - notation
       type: object
       properties:
         key:
