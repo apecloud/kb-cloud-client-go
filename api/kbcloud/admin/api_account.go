@@ -19,10 +19,11 @@ type AccountApi common.Service
 
 // CreateAccount Create cluster account.
 // create an account in cluster
-func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
+func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgName string, clusterName string, body Account) (Account, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Account
 	)
 
 	// Add api info to context
@@ -36,7 +37,7 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateAccount")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts"
@@ -59,17 +60,17 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -81,14 +82,23 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // CreateAccountOld Create cluster account.
@@ -167,10 +177,11 @@ func (a *AccountApi) CreateAccountOld(ctx _context.Context, orgName string, clus
 
 // CreateMongoDBAccount Create mongodb account.
 // create an account in mongodb
-func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
+func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, clusterName string, body Account) (Account, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Account
 	)
 
 	// Add api info to context
@@ -184,7 +195,7 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateMongoDBAccount")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts"
@@ -206,17 +217,17 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -228,14 +239,23 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // DeleteAccount Delete cluster account.
