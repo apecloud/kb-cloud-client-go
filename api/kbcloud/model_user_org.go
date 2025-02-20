@@ -18,7 +18,7 @@ type UserOrg struct {
 	Role string `json:"role"`
 	// The display name of the organization
 	DisplayName *string `json:"displayName,omitempty"`
-	// The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+	// The name of the organization
 	Name string `json:"name"`
 	// The description of the organization
 	Description *string `json:"description,omitempty"`

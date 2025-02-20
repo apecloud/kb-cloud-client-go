@@ -11484,7 +11484,7 @@ components:
           description: The display name of the organization
           type: string
         name:
-          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          description: The name of the organization
           type: string
         description:
           description: The description of the organization
