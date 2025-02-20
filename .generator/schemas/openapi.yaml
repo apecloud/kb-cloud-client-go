@@ -314,7 +314,7 @@ paths:
   /api/v1/organizations:
     get:
       description: List organizations of current user
-      summary: List joined organizations
+      summary: List organizations of current user
       operationId: listOrg
       parameters:
         - description: The pagination token in the List request
@@ -332,7 +332,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/orgList'
+                $ref: '#/components/schemas/userOrgList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -11470,6 +11470,62 @@ components:
         - description
         - createAt
       type: object
+    userOrg:
+      description: UserOrg is the payload for user organization
+      properties:
+        orgId:
+          description: The ID of the organization
+          type: string
+          format: int64
+        role:
+          description: The role of the user in the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        description:
+          description: The description of the organization
+          type: string
+      required:
+        - orgId
+        - role
+        - name
+      type: object
+    userOrgList:
+      description: UserOrgList is a list of UserOrgs
+      properties:
+        items:
+          description: Items is the list of UserOrg objects in the list
+          items:
+            $ref: '#/components/schemas/userOrg'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    orgCreate:
+      description: OrgCreate is the payload for organization creation
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        creator:
+          description: The id of the creator of the organization
+          type: integer
+          format: int64
+      required:
+        - name
+      type: object
     org:
       description: Org info
       properties:
@@ -11507,38 +11563,6 @@ components:
         - name
         - updatedAt
         - enabled
-      type: object
-    orgList:
-      description: OrgList is a list of Orgs
-      properties:
-        items:
-          description: Items is the list of Org objects in the list
-          items:
-            $ref: '#/components/schemas/org'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    orgCreate:
-      description: OrgCreate is the payload for organization creation
-      properties:
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-        name:
-          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
-          type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
-      required:
-        - name
       type: object
     orgUpdate:
       description: Organization update
