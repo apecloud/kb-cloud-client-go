@@ -10923,9 +10923,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11239,9 +11242,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
