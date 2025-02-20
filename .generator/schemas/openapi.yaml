@@ -13578,6 +13578,8 @@ components:
             properties:
               default:
                 type: boolean
+              defaultMinorVersion:
+                type: string
               majorVersion:
                 type: string
               minorVersions:
@@ -15790,6 +15792,9 @@ components:
             minorVersion:
               type: object
               properties:
+                default:
+                  type: string
+                  description: default version.
                 rollback:
                   type: boolean
                   description: determine whether minor version can be rolled back.
