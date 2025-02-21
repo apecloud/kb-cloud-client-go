@@ -16042,6 +16042,14 @@ components:
       properties:
         defaultMethod:
           type: string
+        restoreOption:
+          type: object
+          properties:
+            crossModeRecovery:
+              type: array
+              description: cross mode recovery options
+              items:
+                type: string
         fullMethod:
           type: array
           items:
