@@ -353,13 +353,13 @@ func (r *ListOrgOptionalParameters) WithPageSize(pageSize string) *ListOrgOption
 	return r
 }
 
-// ListOrg List joined organizations.
+// ListOrg List organizations of current user.
 // List organizations of current user
-func (a *OrganizationApi) ListOrg(ctx _context.Context, o ...ListOrgOptionalParameters) (OrgList, *_nethttp.Response, error) {
+func (a *OrganizationApi) ListOrg(ctx _context.Context, o ...ListOrgOptionalParameters) (UserOrgList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue OrgList
+		localVarReturnValue UserOrgList
 		optionalParams      ListOrgOptionalParameters
 	)
 
