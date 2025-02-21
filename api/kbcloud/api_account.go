@@ -511,7 +511,7 @@ func (a *AccountApi) GetRootAccountPassword(ctx _context.Context, engineName str
 	apiInfo := common.APIInfo{
 		Tag:         "account",
 		OperationID: "getRootAccountPassword",
-		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/password",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -521,15 +521,15 @@ func (a *AccountApi) GetRootAccountPassword(ctx _context.Context, engineName str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/password"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("accountName", common.ParameterToString(accountName, ""))
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}

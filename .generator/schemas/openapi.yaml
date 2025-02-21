@@ -11026,7 +11026,7 @@ paths:
         - account
         - rdbms
       x-codegen-request-body-name: body
-  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/password:
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password:
     get:
       description: get root account password
       summary: get root account password
@@ -11051,7 +11051,7 @@ paths:
           schema:
             type: string
         - description: name of the account
-          in: path
+          in: query
           name: accountName
           required: true
           schema:
