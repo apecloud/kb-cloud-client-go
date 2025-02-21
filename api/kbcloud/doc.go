@@ -9,6 +9,7 @@
 //   - [accountApi.deleteAccount]
 //   - [accountApi.deleteAccountOld]
 //   - [accountApi.deleteMongoDBAccount]
+//   - [accountApi.getRootAccountPassword]
 //   - [accountApi.listAccounts]
 //   - [accountApi.listAccountsOld]
 //   - [accountApi.listMongoDBAccounts]
