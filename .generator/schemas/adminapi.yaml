@@ -3361,23 +3361,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: the sql string
-                limit:
-                  type: integer
-                  description: the query limit
-                  default: 200
-                database:
-                  type: string
-                  description: the database for executing SQL queries
-                  default: ''
-                noRecord:
-                  type: boolean
-                  description: if noRecord is true, the query(s) will not be added to query history
-                  nullable: true
+              $ref: '#/components/schemas/DmsQueryRequest'
         required: true
       responses:
         '200':
@@ -3415,23 +3399,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: the sql string
-                limit:
-                  type: integer
-                  description: the query limit
-                  default: 200
-                database:
-                  type: string
-                  description: the database for executing SQL queries
-                  default: ''
-                format:
-                  type: string
-                  description: the file format for export data
-                  default: csv
+              $ref: '#/components/schemas/DmsExportRequest'
       responses:
         '200':
           description: data in format
@@ -3471,47 +3439,7 @@ paths:
         content:
           application/json:
             schema:
-              description: the data of the import task
-              type: object
-              required:
-                - fileType
-                - tableName
-                - database
-              properties:
-                firstLineColumn:
-                  type: boolean
-                  description: whether the first line of the file is column name
-                  default: true
-                fieldsTerminalBy:
-                  type: string
-                  description: the delimiter of fields
-                  default: ','
-                fieldNames:
-                  type: array
-                  description: the field names
-                  items:
-                    type: string
-                  nullable: true
-                ignoreForeignKey:
-                  type: boolean
-                  description: whether ignore foreign key when import data or not
-                  default: false
-                fileType:
-                  type: string
-                file:
-                  type: string
-                  format: binary
-                  description: the data file, csv or other format
-                tableName:
-                  type: string
-                  description: the target table name
-                database:
-                  type: string
-                  description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
-                skipNull:
-                  type: boolean
-                  description: whether skip the row which has null value when import data
-                  default: true
+              $ref: '#/components/schemas/DmsImportRequest'
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DmsImportFormData'
@@ -3839,15 +3767,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: the sql string
-                database:
-                  type: string
-                  description: the database for explaining the SQL
-                  default: ''
+              $ref: '#/components/schemas/DmsExplainRequest'
         required: true
       responses:
         '200':
@@ -3885,16 +3805,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                type:
-                  $ref: '#/components/schemas/DmsGenerateDdlOperationType'
-                tableMetadata:
-                  $ref: '#/components/schemas/DmsTableMetadata'
-                viewMetadata:
-                  $ref: '#/components/schemas/DmsViewMetadata'
-              required:
-                - type
+              $ref: '#/components/schemas/DmsGenerateDDLRequest'
       responses:
         '200':
           description: A successful response.
@@ -3932,19 +3843,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                database:
-                  type: string
-                  description: the database of the table or view
-                  default: ''
-                table:
-                  type: string
-                  description: the target table or view name
-                limit:
-                  type: integer
-                  description: return limited number of data
-                  default: 200
+              $ref: '#/components/schemas/DmsQueryBaseRequest'
         required: true
       responses:
         '200':
@@ -16997,6 +16896,30 @@ components:
       items:
         $ref: '#/components/schemas/datasource'
       type: array
+    DmsQueryBaseRequest:
+      type: object
+      properties:
+        database:
+          type: string
+          description: the database of the table or view
+          default: ''
+        table:
+          type: string
+          description: the target table or view name
+        limit:
+          type: integer
+          description: return limited number of data
+          default: 200
+    DmsQueryRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DmsQueryBaseRequest'
+        - type: object
+          properties:
+            noRecord:
+              type: boolean
+              description: if noRecord is true, the query(s) will not be added to query history
+              nullable: true
     DmsPagination:
       type: object
       properties:
@@ -17056,6 +16979,60 @@ components:
           items:
             type: string
           nullable: true
+    DmsExportFormat:
+      type: string
+      description: the file format for export data
+      enum:
+        - csv
+        - json
+        - xml
+    DmsExportRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DmsQueryBaseRequest'
+        - $ref: '#/components/schemas/DmsExportFormat'
+    DmsImportRequest:
+      description: the data of the import task
+      type: object
+      required:
+        - fileType
+        - tableName
+        - database
+      properties:
+        firstLineColumn:
+          type: boolean
+          description: whether the first line of the file is column name
+          default: true
+        fieldsTerminalBy:
+          type: string
+          description: the delimiter of fields
+          default: ','
+        fieldNames:
+          type: array
+          description: the field names
+          items:
+            type: string
+          nullable: true
+        ignoreForeignKey:
+          type: boolean
+          description: whether ignore foreign key when import data or not
+          default: false
+        fileType:
+          type: string
+        file:
+          type: string
+          format: binary
+          description: the data file, csv or other format
+        tableName:
+          type: string
+          description: the target table name
+        database:
+          type: string
+          description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
+        skipNull:
+          type: boolean
+          description: whether skip the row which has null value when import data
+          default: true
     DmsImportFormData:
       description: the data of the import task
       type: object
@@ -17158,6 +17135,16 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsQueryHistory'
+    DmsExplainRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: the sql string
+        database:
+          type: string
+          description: the database for explaining the SQL
+          default: ''
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
@@ -17481,6 +17468,17 @@ components:
           type: string
           description: The SQL statement defining the view
           nullable: true
+    DmsGenerateDDLRequest:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/DmsGenerateDdlOperationType'
+        tableMetadata:
+          $ref: '#/components/schemas/DmsTableMetadata'
+        viewMetadata:
+          $ref: '#/components/schemas/DmsViewMetadata'
     DmsSession:
       type: object
       properties:

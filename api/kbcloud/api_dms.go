@@ -20,7 +20,7 @@ type DmsApi common.Service
 
 // DataExportOptionalParameters holds optional parameters for DataExport.
 type DataExportOptionalParameters struct {
-	Body *interface{}
+	Body *DmsExportRequest
 }
 
 // NewDataExportOptionalParameters creates an empty struct for parameters.
@@ -30,7 +30,7 @@ func NewDataExportOptionalParameters() *DataExportOptionalParameters {
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *DataExportOptionalParameters) WithBody(body interface{}) *DataExportOptionalParameters {
+func (r *DataExportOptionalParameters) WithBody(body DmsExportRequest) *DataExportOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -119,7 +119,7 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 }
 
 // DataImport Data Import.
-func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, body interface{}, file _io.Reader) (interface{}, *_nethttp.Response, error) {
+func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, body DmsImportRequest, file _io.Reader) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -900,7 +900,7 @@ func (a *DmsApi) DeleteDataSourceV2(ctx _context.Context, orgName string, cluste
 
 // GenerateDDLOptionalParameters holds optional parameters for GenerateDDL.
 type GenerateDDLOptionalParameters struct {
-	Body *interface{}
+	Body *DmsGenerateDDLRequest
 }
 
 // NewGenerateDDLOptionalParameters creates an empty struct for parameters.
@@ -910,7 +910,7 @@ func NewGenerateDDLOptionalParameters() *GenerateDDLOptionalParameters {
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *GenerateDDLOptionalParameters) WithBody(body interface{}) *GenerateDDLOptionalParameters {
+func (r *GenerateDDLOptionalParameters) WithBody(body DmsGenerateDDLRequest) *GenerateDDLOptionalParameters {
 	r.Body = &body
 	return r
 }
@@ -1437,7 +1437,7 @@ func (a *DmsApi) ListSessionsOld(ctx _context.Context, orgName string, clusterNa
 }
 
 // Query create a SQL query.
-func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (DmsQueryResponse, *_nethttp.Response, error) {
+func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string, id string, body DmsQueryRequest) (DmsQueryResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1504,7 +1504,7 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 }
 
 // ShowData read data of table or view.
-func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (DmsResult, *_nethttp.Response, error) {
+func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body DmsQueryBaseRequest) (DmsResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -1571,7 +1571,7 @@ func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName stri
 }
 
 // SqlExplain explain a SQL.
-func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName string, id string, body interface{}) (DmsQueryResponse, *_nethttp.Response, error) {
+func (a *DmsApi) SqlExplain(ctx _context.Context, orgName string, clusterName string, id string, body DmsExplainRequest) (DmsQueryResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
