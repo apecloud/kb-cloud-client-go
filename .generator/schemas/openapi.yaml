@@ -14017,8 +14017,6 @@ components:
           items:
             $ref: '#/components/schemas/clusterTask'
           type: array
-      required:
-        - items
       type: object
     ops_opsStatus:
       type: object
