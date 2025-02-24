@@ -12,10 +12,11 @@ import (
 
 // BackupOption If present, it must be set defaultMethod and fullMethod
 type BackupOption struct {
-	DefaultMethod     string               `json:"defaultMethod"`
-	FullMethod        []BackupMethodOption `json:"fullMethod"`
-	IncrementalMethod []BackupMethodOption `json:"incrementalMethod,omitempty"`
-	ContinuousMethod  []BackupMethodOption `json:"continuousMethod,omitempty"`
+	DefaultMethod     string                     `json:"defaultMethod"`
+	RestoreOption     *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
+	FullMethod        []BackupMethodOption       `json:"fullMethod"`
+	IncrementalMethod []BackupMethodOption       `json:"incrementalMethod,omitempty"`
+	ContinuousMethod  []BackupMethodOption       `json:"continuousMethod,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -61,6 +62,34 @@ func (o *BackupOption) GetDefaultMethodOk() (*string, bool) {
 // SetDefaultMethod sets field value.
 func (o *BackupOption) SetDefaultMethod(v string) {
 	o.DefaultMethod = v
+}
+
+// GetRestoreOption returns the RestoreOption field value if set, zero value otherwise.
+func (o *BackupOption) GetRestoreOption() BackupOptionRestoreOption {
+	if o == nil || o.RestoreOption == nil {
+		var ret BackupOptionRestoreOption
+		return ret
+	}
+	return *o.RestoreOption
+}
+
+// GetRestoreOptionOk returns a tuple with the RestoreOption field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetRestoreOptionOk() (*BackupOptionRestoreOption, bool) {
+	if o == nil || o.RestoreOption == nil {
+		return nil, false
+	}
+	return o.RestoreOption, true
+}
+
+// HasRestoreOption returns a boolean if a field has been set.
+func (o *BackupOption) HasRestoreOption() bool {
+	return o != nil && o.RestoreOption != nil
+}
+
+// SetRestoreOption gets a reference to the given BackupOptionRestoreOption and assigns it to the RestoreOption field.
+func (o *BackupOption) SetRestoreOption(v BackupOptionRestoreOption) {
+	o.RestoreOption = &v
 }
 
 // GetFullMethod returns the FullMethod field value.
@@ -149,6 +178,9 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["defaultMethod"] = o.DefaultMethod
+	if o.RestoreOption != nil {
+		toSerialize["restoreOption"] = o.RestoreOption
+	}
 	toSerialize["fullMethod"] = o.FullMethod
 	if o.IncrementalMethod != nil {
 		toSerialize["incrementalMethod"] = o.IncrementalMethod
@@ -166,10 +198,11 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefaultMethod     *string               `json:"defaultMethod"`
-		FullMethod        *[]BackupMethodOption `json:"fullMethod"`
-		IncrementalMethod []BackupMethodOption  `json:"incrementalMethod,omitempty"`
-		ContinuousMethod  []BackupMethodOption  `json:"continuousMethod,omitempty"`
+		DefaultMethod     *string                    `json:"defaultMethod"`
+		RestoreOption     *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
+		FullMethod        *[]BackupMethodOption      `json:"fullMethod"`
+		IncrementalMethod []BackupMethodOption       `json:"incrementalMethod,omitempty"`
+		ContinuousMethod  []BackupMethodOption       `json:"continuousMethod,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -182,17 +215,27 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "fullMethod", "incrementalMethod", "continuousMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "restoreOption", "fullMethod", "incrementalMethod", "continuousMethod"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.DefaultMethod = *all.DefaultMethod
+	if all.RestoreOption != nil && all.RestoreOption.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.RestoreOption = all.RestoreOption
 	o.FullMethod = *all.FullMethod
 	o.IncrementalMethod = all.IncrementalMethod
 	o.ContinuousMethod = all.ContinuousMethod
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

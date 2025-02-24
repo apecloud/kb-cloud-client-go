@@ -1493,16 +1493,16 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
         - description: component type
           in: query
           name: component
           schema:
             type: string
+        - description: include root account
+          in: query
+          name: includeRoot
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -2201,6 +2201,7 @@ paths:
           name: resourceId
           schema:
             type: integer
+            format: int64
         - description: resource type
           in: query
           name: resourceType
@@ -2216,16 +2217,19 @@ paths:
           name: operatorId
           schema:
             type: integer
+            format: int64
         - description: the pageNumber of the query
           in: query
           name: pageNumber
           schema:
             type: integer
+            format: int64
         - description: the pageSize of the query
           in: query
           name: pageSize
           schema:
             type: integer
+            format: int64
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
         - $ref: '#/components/parameters/orderBy'
@@ -9757,7 +9761,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: enable,disable and upgrade engine version
+        description: Request body for engine operations
         content:
           application/json:
             schema:
@@ -9765,20 +9769,24 @@ paths:
               properties:
                 version:
                   type: string
-                  description: enable,disable and upgrade version
+                  description: Version of the engine, required for upgrade/enable/disable action
                 action:
                   $ref: '#/components/schemas/engineActionType'
                 id:
                   type: string
-                  description: the engine id to action
+                  description: The engine id to action
         required: true
       responses:
         '200':
-          description: A successful response.
+          description: Operation completed successfully
           content:
             application/json:
               schema:
-                type: boolean
+                type: string
+                example: enable succeeded
+                description: Success message indicating the operation result
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14243,11 +14251,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -14298,9 +14301,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14403,6 +14409,61 @@ paths:
         - account
         - rdbms
       x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password:
+    get:
+      description: get root account password
+      summary: get root account password
+      operationId: getRootAccountPassword
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - description: name of the component
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get root account password success
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -14565,11 +14626,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -14614,9 +14670,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17612,6 +17671,8 @@ components:
             properties:
               default:
                 type: boolean
+              defaultMinorVersion:
+                type: string
               majorVersion:
                 type: string
               minorVersions:
@@ -20940,8 +21001,6 @@ components:
     alertMetric:
       required:
         - key
-        - threshold
-        - notation
       type: object
       properties:
         key:
@@ -21281,6 +21340,9 @@ components:
             minorVersion:
               type: object
               properties:
+                default:
+                  type: string
+                  description: default version.
                 rollback:
                   type: boolean
                   description: determine whether minor version can be rolled back.
@@ -21474,6 +21536,9 @@ components:
           type: boolean
         delete:
           type: boolean
+        displayRootAccount:
+          type: boolean
+          x-omitempty: false
     databaseOption:
       type: object
       required:
@@ -21522,6 +21587,14 @@ components:
       properties:
         defaultMethod:
           type: string
+        restoreOption:
+          type: object
+          properties:
+            crossModeRecovery:
+              type: array
+              description: cross mode recovery options
+              items:
+                type: string
         fullMethod:
           type: array
           items:

@@ -314,7 +314,7 @@ paths:
   /api/v1/organizations:
     get:
       description: List organizations of current user
-      summary: List joined organizations
+      summary: List organizations of current user
       operationId: listOrg
       parameters:
         - description: The pagination token in the List request
@@ -332,7 +332,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/orgList'
+                $ref: '#/components/schemas/userOrgList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
@@ -2384,16 +2384,16 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
         - description: component type
           in: query
           name: component
           schema:
             type: string
+        - description: include root account
+          in: query
+          name: includeRoot
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -10868,11 +10868,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -10923,9 +10918,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11028,6 +11026,61 @@ paths:
         - account
         - rdbms
       x-codegen-request-body-name: body
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password:
+    get:
+      description: get root account password
+      summary: get root account password
+      operationId: getRootAccountPassword
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - description: name of the component
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get root account password success
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -11190,11 +11243,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -11239,9 +11287,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11464,6 +11515,61 @@ components:
         - description
         - createAt
       type: object
+    userOrg:
+      description: UserOrg is the payload for user organization
+      properties:
+        orgId:
+          description: The ID of the organization
+          type: string
+        role:
+          description: The role of the user in the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The name of the organization
+          type: string
+        description:
+          description: The description of the organization
+          type: string
+      required:
+        - orgId
+        - role
+        - name
+      type: object
+    userOrgList:
+      description: UserOrgList is a list of UserOrgs
+      properties:
+        items:
+          description: Items is the list of UserOrg objects in the list
+          items:
+            $ref: '#/components/schemas/userOrg'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    orgCreate:
+      description: OrgCreate is the payload for organization creation
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        creator:
+          description: The id of the creator of the organization
+          type: integer
+          format: int64
+      required:
+        - name
+      type: object
     org:
       description: Org info
       properties:
@@ -11501,38 +11607,6 @@ components:
         - name
         - updatedAt
         - enabled
-      type: object
-    orgList:
-      description: OrgList is a list of Orgs
-      properties:
-        items:
-          description: Items is the list of Org objects in the list
-          items:
-            $ref: '#/components/schemas/org'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    orgCreate:
-      description: OrgCreate is the payload for organization creation
-      properties:
-        description:
-          description: The description of the organization
-          type: string
-        displayName:
-          description: The display name of the organization
-          type: string
-        name:
-          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
-          type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
-      required:
-        - name
       type: object
     orgUpdate:
       description: Organization update
@@ -13582,6 +13656,8 @@ components:
             properties:
               default:
                 type: boolean
+              defaultMinorVersion:
+                type: string
               majorVersion:
                 type: string
               minorVersions:
@@ -15374,8 +15450,6 @@ components:
     alertMetric:
       required:
         - key
-        - threshold
-        - notation
       type: object
       properties:
         key:
@@ -15794,6 +15868,9 @@ components:
             minorVersion:
               type: object
               properties:
+                default:
+                  type: string
+                  description: default version.
                 rollback:
                   type: boolean
                   description: determine whether minor version can be rolled back.
@@ -15987,6 +16064,9 @@ components:
           type: boolean
         delete:
           type: boolean
+        displayRootAccount:
+          type: boolean
+          x-omitempty: false
     databaseOption:
       type: object
       required:
@@ -16035,6 +16115,14 @@ components:
       properties:
         defaultMethod:
           type: string
+        restoreOption:
+          type: object
+          properties:
+            crossModeRecovery:
+              type: array
+              description: cross mode recovery options
+              items:
+                type: string
         fullMethod:
           type: array
           items:
