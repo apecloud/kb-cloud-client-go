@@ -18598,7 +18598,6 @@ components:
       required:
         - register
         - component
-        - storage
       properties:
         register:
           $ref: '#/components/schemas/register'
