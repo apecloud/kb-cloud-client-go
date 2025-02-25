@@ -18,6 +18,7 @@ import (
 type AnalyzeApi common.Service
 
 // AnalyzeBackup Analyze backup.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupId string) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -224,6 +225,7 @@ func (r *AnalyzeClusterParameterOptionalParameters) WithParameterValue(parameter
 }
 
 // AnalyzeClusterParameter Analyze cluster parameter.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -315,6 +317,7 @@ func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName strin
 }
 
 // AnalyzeClusterRestore Analyze cluster restore tasks.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterRestore(ctx _context.Context, orgName string, clusterName string) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -433,6 +436,7 @@ func (r *AnalyzeLogsOptionalParameters) WithSortType(sortType SortType) *Analyze
 
 // AnalyzeLogs Analyze cluster error logs.
 // Analyze error logs of a cluster
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AnalyzeLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -535,6 +539,7 @@ func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterNa
 
 // AnalyzeOps Analyze OpsRequest.
 // analyze a OpsRequest
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -759,6 +764,7 @@ func (r *AnalyzeParameterOptionalParameters) WithPartition(partition ParamTplPar
 }
 
 // AnalyzeParameter Analyze parameter.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeParameter(ctx _context.Context, parameterTemplateName string, parameterName string, o ...AnalyzeParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -876,6 +882,7 @@ func (r *AnalyzeServiceOptionalParameters) WithEndpoints(endpoints string) *Anal
 }
 
 // AnalyzeService Analyze service.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeService(ctx _context.Context, orgName string, clusterName string, serviceName string, o ...AnalyzeServiceOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -988,6 +995,7 @@ func (r *AnalyzeSlowLogsOptionalParameters) WithBody(body ClusterExecutionLog) *
 
 // AnalyzeSlowLogs Analyze cluster slow logs.
 // Analyze slow logs of a cluster
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clusterName string, o ...AnalyzeSlowLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -1057,85 +1065,6 @@ func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clust
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// AnalyzeView Analyze cluster view.
-func (a *AnalyzeApi) AnalyzeView(ctx _context.Context, orgName string, clusterName string) (AnalysisResult, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AnalysisResult
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "analyze",
-		OperationID: "analyzeView",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AnalyzeApi.AnalyzeView")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
