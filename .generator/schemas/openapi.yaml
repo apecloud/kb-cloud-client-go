@@ -7115,7 +7115,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DmsQueryBaseRequest'
+              $ref: '#/components/schemas/ShowDataRequest'
         required: true
       responses:
         '200':
@@ -16769,9 +16769,9 @@ components:
           type: string
           description: the database of the table or view
           default: ''
-        table:
+        query:
           type: string
-          description: the target table or view name
+          description: the sql string
         limit:
           type: integer
           description: return limited number of data
@@ -16856,7 +16856,10 @@ components:
       type: object
       allOf:
         - $ref: '#/components/schemas/DmsQueryBaseRequest'
-        - $ref: '#/components/schemas/DmsExportFormat'
+        - type: object
+          properties:
+            format:
+              $ref: '#/components/schemas/DmsExportFormat'
     DmsImportRequest:
       description: the data of the import task
       type: object
@@ -17345,6 +17348,20 @@ components:
           $ref: '#/components/schemas/DmsTableMetadata'
         viewMetadata:
           $ref: '#/components/schemas/DmsViewMetadata'
+    ShowDataRequest:
+      type: object
+      properties:
+        database:
+          type: string
+          description: the database of the table or view
+          default: ''
+        table:
+          type: string
+          description: the target table or view name
+        limit:
+          type: integer
+          description: return limited number of data
+          nullable: true
     DmsSession:
       type: object
       properties:
