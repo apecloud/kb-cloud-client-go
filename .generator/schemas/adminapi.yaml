@@ -3176,6 +3176,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasource'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
     delete:
       tags:
         - dms
@@ -3210,6 +3216,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource:
     get:
       tags:
@@ -3236,6 +3244,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasourceList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/testDS:
     post:
       tags:
@@ -3268,6 +3282,12 @@ paths:
             application/json:
               schema:
                 type: boolean
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/createDS:
     post:
       tags:
@@ -3300,6 +3320,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasource'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/updateDS:
     post:
       tags:
@@ -3332,6 +3358,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/datasource'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/query:
     post:
       tags:
@@ -3370,6 +3402,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsQueryResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/export:
     post:
       tags:
@@ -3449,11 +3487,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  taskId:
-                    type: string
-                    description: the task id
+                $ref: '#/components/schemas/DmsImportResponse'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -3574,6 +3608,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsSchemaList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}:
     get:
       tags:
@@ -3612,6 +3652,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsObjectList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}/{type}:
     get:
       tags:
@@ -3656,6 +3702,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsObjectNameList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/{schema}/{type}/{objectName}:
     get:
       tags:
@@ -3706,6 +3758,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsObjectResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/history:
     get:
       tags:
@@ -3738,6 +3796,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsQueryHistoryList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/sqlExplain:
     post:
       tags:
@@ -3776,6 +3840,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsQueryResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/generateDDL:
     post:
       tags:
@@ -3814,6 +3884,12 @@ paths:
               schema:
                 type: string
                 description: operation executed successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/showData:
     post:
       tags:
@@ -3852,6 +3928,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsResult'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       deprecated: true
@@ -17043,6 +17125,14 @@ components:
           type: string
           format: binary
           description: the data file, csv or other format
+    DmsImportResponse:
+      type: object
+      required:
+        - taskId
+      properties:
+        taskId:
+          type: string
+          description: the task id
     DmsTaskInfo:
       type: object
       properties:
