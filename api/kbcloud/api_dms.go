@@ -1504,7 +1504,7 @@ func (a *DmsApi) Query(ctx _context.Context, orgName string, clusterName string,
 }
 
 // ShowData read data of table or view.
-func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body DmsQueryBaseRequest) (DmsResult, *_nethttp.Response, error) {
+func (a *DmsApi) ShowData(ctx _context.Context, orgName string, clusterName string, id string, body ShowDataRequest) (DmsResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
