@@ -1,0 +1,60 @@
+{%- if model.description %}
+// {{ name }} {{ model.description|block_comment(prefix="//", first_line=False) }}
+{%- endif %} {% if model.deprecated %}
+//
+// Deprecated: This model is deprecated.{% endif %}
+type {{ name }} struct {
+{%- for subschema in model.allOf %}
+{%- for attr, schema in subschema.get("properties", {}).items() %}
+{%- set propertyName = attr|attribute_name %}
+{%- set dataType = get_type(schema, alternative_name=name + propertyName, render_nullable=True) %}
+{%- if schema.description %}
+    // {{ schema.description|block_comment(prefix="//", first_line=False)|indent("\t") }}
+{%- endif %}
+{%- if schema.deprecated %}
+    // Deprecated
+{%- endif %}
+    {{ propertyName }} {% if model|is_reference(attr) %}*{% endif %}{{ dataType }} `json:"{{ attr }}{% if attr not in model.get("required", []) %},omitempty{% endif %}"`
+{%- endfor %}
+{%- endfor %}
+    // UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
+    UnparsedObject map[string]interface{} `json:"-"`
+{%- if model.additionalProperties is not false %}
+    AdditionalProperties map[string]{{ get_type(model.get("additionalProperties", True)) }} `json:"-"`
+{%- endif %}
+}
+
+// New{{ name }} instantiates a new {{ name }} object.
+// This constructor will assign default values to properties that have it defined,
+// and makes sure properties required by API are set, but the set of arguments
+// will change when the set of required properties is changed.
+func New{{ name }}({%- for subschema in model.allOf %}{%- for attr, spec in subschema.get("properties", {}).items() if attr in model.get("required", []) %}{{ attr|variable_name }} {{ get_type(spec, alternative_name=name + attr|attribute_name, render_nullable=True) }}{% if not loop.last %}, {% endif %}{% endfor %}{% endfor %}) *{{ name }} {
+    this := {{ name }}{}
+{%- for subschema in model.allOf %}
+{%- for attr, spec in subschema.get("properties", {}).items() %}
+{%- if attr in model.get("required", []) %}
+    this.{{ attr|attribute_name }} = {{ attr|variable_name }}
+{%- elif spec.default is defined and spec.get("type", "object") != "object" and spec.type != "array" and not spec.get("readOnly", False) %}
+    {%- set dataType = get_type(spec, alternative_name=name + attr|attribute_name, render_nullable=True) %}
+    {%- set newDataType = get_type(spec, alternative_name=name + attr|attribute_name, render_nullable=True, render_new=True) %}
+    {%- set baseType = get_type(spec, alternative_name=name + attr|attribute_name) %}
+    {%- if spec.nullable %}
+    {%- if spec.default == None %}
+    this.{{ attr|attribute_name }} = *{{ newDataType }}(nil)
+    {%- else %}
+    var {{ attr|variable_name }} {{ baseType }} = {{ spec.default|format_value(schema=spec) }}
+    this.{{ attr|attribute_name }} = *{{ newDataType }}(&{{ attr|variable_name }})
+    {%- endif %}
+    {%- else %}
+    this.{{ attr|attribute_name }} = {{ spec.default|format_value(schema=spec) }}
+    {%- endif %}
+{%- endif %}
+{%- endfor %}
+{%- endfor %}
+    return &this
+}
+
+
+{%- if model.get("nullable") %}
+{% include "nullable_model.j2" %}
+{%- endif %}

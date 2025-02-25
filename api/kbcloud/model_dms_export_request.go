@@ -4,9 +4,13 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
-
 type DmsExportRequest struct {
+	// the database of the table or view
+	Database string `json:"database,omitempty"`
+	// the target table or view name
+	Table string `json:"table,omitempty"`
+	// return limited number of data
+	Limit int32 `json:"limit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -18,47 +22,7 @@ type DmsExportRequest struct {
 // will change when the set of required properties is changed.
 func NewDmsExportRequest() *DmsExportRequest {
 	this := DmsExportRequest{}
+	this.Database = ""
+	this.Limit = 200
 	return &this
-}
-
-// NewDmsExportRequestWithDefaults instantiates a new DmsExportRequest object.
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set.
-func NewDmsExportRequestWithDefaults() *DmsExportRequest {
-	this := DmsExportRequest{}
-	return &this
-}
-
-// MarshalJSON serializes the struct using spec logic.
-func (o DmsExportRequest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.UnparsedObject != nil {
-		return common.Marshal(o.UnparsedObject)
-	}
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
-	return common.Marshal(toSerialize)
-}
-
-// UnmarshalJSON deserializes the given payload.
-func (o *DmsExportRequest) UnmarshalJSON(bytes []byte) (err error) {
-	all := struct {
-	}{}
-	if err = common.Unmarshal(bytes, &all); err != nil {
-		return err
-	}
-	additionalProperties := make(map[string]interface{})
-	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{})
-	} else {
-		return err
-	}
-
-	if len(additionalProperties) > 0 {
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return nil
 }
