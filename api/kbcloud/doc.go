@@ -56,7 +56,6 @@
 //   - [analyzeApi.analyzeParameter]
 //   - [analyzeApi.analyzeService]
 //   - [analyzeApi.analyzeSlowLogs]
-//   - [analyzeApi.analyzeView]
 //   - [autohealingApi.getAutohealing]
 //   - [backupApi.createClusterBackup]
 //   - [backupApi.deleteBackup]

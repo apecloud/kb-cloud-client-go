@@ -2272,99 +2272,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterLog
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
-    get:
-      description: Analyze error logs of a cluster
-      summary: Analyze cluster error logs
-      operationId: analyzeLogs
-      parameters:
-        - in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: componentName
-          schema:
-            type: string
-        - in: query
-          name: instanceName
-          schema:
-            type: string
-        - in: query
-          name: startTime
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: endTime
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: limit
-          schema:
-            type: string
-        - in: query
-          name: sortType
-          schema:
-            $ref: '#/components/schemas/sortType'
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze:
-    post:
-      description: Analyze slow logs of a cluster
-      summary: Analyze cluster slow logs
-      operationId: analyzeSlowLogs
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClusterExecutionLog'
-      parameters:
-        - in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       deprecated: true
@@ -3254,51 +3161,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/analyze:
-    get:
-      description: analyze a OpsRequest
-      summary: Analyze OpsRequest
-      operationId: analyzeOps
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: type of the OpsRequest
-          in: query
-          name: opsType
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: Successful analysis
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
       description: Get cluster task
@@ -3802,90 +3664,6 @@ paths:
       tags:
         - tls
       x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
-    get:
-      operationId: analyzeService
-      summary: Analyze service
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Service
-          in: path
-          name: serviceName
-          required: true
-          schema:
-            type: string
-        - description: name of the Port
-          in: query
-          name: portName
-          schema:
-            type: string
-        - description: endpoints to be analyzed
-          in: query
-          name: endpoints
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - analyze
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze:
-    get:
-      operationId: analyzeView
-      summary: Analyze cluster view
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - analyze
   /api/v1/organizations/{orgName}/{engineName}/clusterBackupMethod:
     get:
       operationId: getBackupMethod
@@ -4244,38 +4022,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backup
-  /api/v1/organizations/{orgName}/backups/{backupId}/analyze:
-    get:
-      operationId: analyzeBackup
-      summary: Analyze backup
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: id of the Backup
-          in: path
-          name: backupId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /api/v1/organizations/{orgName}/backups/{backupId}/view:
     post:
       tags:
@@ -4627,38 +4373,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze:
-    get:
-      operationId: analyzeClusterRestore
-      summary: Analyze cluster restore tasks
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /api/v1/environments/{environmentName}/engines/{engineName}/serviceVersion:
     get:
       description: list the service version of the engine
@@ -5256,96 +4970,6 @@ paths:
       tags:
         - paramTpl
       x-codegen-request-body-name: body
-  /api/v1/organizations/paramTpls/{paramTplName}/analyze:
-    get:
-      deprecated: true
-      description: analyze parameter, deprecated, instead use analyzeParameter
-      operationId: analyzeParam
-      summary: Analyze parameter
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: false
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in read paramTpl request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-        - description: the parameter item in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
-    get:
-      deprecated: true
-      description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
-      operationId: analyzeClusterParam
-      summary: Analyze cluster parameter
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter name in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter value of an item
-          in: query
-          name: parameterValue
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /api/v1/organizations/{orgName}/parameterTemplates:
     get:
       operationId: listParameterTemplates
@@ -5599,92 +5223,6 @@ paths:
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
-  /api/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze:
-    get:
-      operationId: analyzeParameter
-      summary: Analyze parameter
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: false
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: parameterTemplateName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in read parameter template request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-        - description: the parameter item in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze:
-    get:
-      operationId: analyzeClusterParameter
-      summary: Analyze cluster parameter
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter name in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter value of an item
-          in: query
-          name: parameterValue
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /api/v1/organizations/{orgName}/receivers:
     get:
       tags:
@@ -11239,6 +10777,442 @@ paths:
       tags:
         - account
         - mongodb
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
+    get:
+      description: Analyze error logs of a cluster
+      summary: Analyze cluster error logs
+      operationId: analyzeLogs
+      deprecated: true
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze:
+    post:
+      description: Analyze slow logs of a cluster
+      summary: Analyze cluster slow logs
+      operationId: analyzeSlowLogs
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterExecutionLog'
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/analyze:
+    get:
+      description: analyze a OpsRequest
+      summary: Analyze OpsRequest
+      operationId: analyzeOps
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: type of the OpsRequest
+          in: query
+          name: opsType
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: Successful analysis
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
+    get:
+      operationId: analyzeService
+      summary: Analyze service
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Service
+          in: path
+          name: serviceName
+          required: true
+          schema:
+            type: string
+        - description: name of the Port
+          in: query
+          name: portName
+          schema:
+            type: string
+        - description: endpoints to be analyzed
+          in: query
+          name: endpoints
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze:
+    get:
+      operationId: analyzeClusterRestore
+      summary: Analyze cluster restore tasks
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/backups/{backupId}/analyze:
+    get:
+      operationId: analyzeBackup
+      summary: Analyze backup
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: id of the Backup
+          in: path
+          name: backupId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/paramTpls/{paramTplName}/analyze:
+    get:
+      deprecated: true
+      description: analyze parameter, deprecated, instead use analyzeParameter
+      operationId: analyzeParam
+      summary: Analyze parameter
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: paramTplName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read paramTpl request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+        - description: the parameter item in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
+    get:
+      deprecated: true
+      description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
+      operationId: analyzeClusterParam
+      summary: Analyze cluster parameter
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter name in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter value of an item
+          in: query
+          name: parameterValue
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze:
+    get:
+      operationId: analyzeParameter
+      summary: Analyze parameter
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read parameter template request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+        - description: the parameter item in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze:
+    get:
+      operationId: analyzeClusterParameter
+      summary: Analyze cluster parameter
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter name in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter value of an item
+          in: query
+          name: parameterValue
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
 components:
   securitySchemes:
     BearerToken:
@@ -13261,49 +13235,6 @@ components:
         - asc
         - desc
       type: string
-    analysisResult:
-      properties:
-        explanation:
-          type: string
-        error:
-          type: string
-      type: object
-    ClusterExecutionLog:
-      type: object
-      description: Log entry for cluster execution
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-          description: Timestamp of the execution
-        client:
-          type: string
-          description: Client identifier
-        dbName:
-          type: string
-          description: Database name
-        user:
-          type: string
-          description: User who executed the command
-        executionTime:
-          type: number
-          description: Time taken for execution
-          format: double
-        command:
-          type: string
-          description: Command that was executed
-        extra:
-          type: object
-          description: Additional information
-          additionalProperties: true
-      required:
-        - timestamp
-        - client
-        - dbName
-        - user
-        - executionTime
-        - command
-        - extra
     accountListRoleType:
       description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
       enum:
@@ -19059,6 +18990,49 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    analysisResult:
+      properties:
+        explanation:
+          type: string
+        error:
+          type: string
+      type: object
+    ClusterExecutionLog:
+      type: object
+      description: Log entry for cluster execution
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the execution
+        client:
+          type: string
+          description: Client identifier
+        dbName:
+          type: string
+          description: Database name
+        user:
+          type: string
+          description: User who executed the command
+        executionTime:
+          type: number
+          description: Time taken for execution
+          format: double
+        command:
+          type: string
+          description: Command that was executed
+        extra:
+          type: object
+          description: Additional information
+          additionalProperties: true
+      required:
+        - timestamp
+        - client
+        - dbName
+        - user
+        - executionTime
+        - command
+        - extra
   responses:
     '400':
       content:
