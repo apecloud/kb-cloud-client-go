@@ -98,55 +98,55 @@ func (a *ClusterTaskApi) GetClusterTask(ctx _context.Context, orgName string, cl
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListTasksOptionalParameters holds optional parameters for ListTasks.
-type ListTasksOptionalParameters struct {
+// ListClusterTasksOptionalParameters holds optional parameters for ListClusterTasks.
+type ListClusterTasksOptionalParameters struct {
 	OrgName         *string
 	ClusterName     *string
 	Status          *Cluster_opsStatus
 	ClusterTaskType *OpsType
 }
 
-// NewListTasksOptionalParameters creates an empty struct for parameters.
-func NewListTasksOptionalParameters() *ListTasksOptionalParameters {
-	this := ListTasksOptionalParameters{}
+// NewListClusterTasksOptionalParameters creates an empty struct for parameters.
+func NewListClusterTasksOptionalParameters() *ListClusterTasksOptionalParameters {
+	this := ListClusterTasksOptionalParameters{}
 	return &this
 }
 
 // WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListTasksOptionalParameters) WithOrgName(orgName string) *ListTasksOptionalParameters {
+func (r *ListClusterTasksOptionalParameters) WithOrgName(orgName string) *ListClusterTasksOptionalParameters {
 	r.OrgName = &orgName
 	return r
 }
 
 // WithClusterName sets the corresponding parameter name and returns the struct.
-func (r *ListTasksOptionalParameters) WithClusterName(clusterName string) *ListTasksOptionalParameters {
+func (r *ListClusterTasksOptionalParameters) WithClusterName(clusterName string) *ListClusterTasksOptionalParameters {
 	r.ClusterName = &clusterName
 	return r
 }
 
 // WithStatus sets the corresponding parameter name and returns the struct.
-func (r *ListTasksOptionalParameters) WithStatus(status Cluster_opsStatus) *ListTasksOptionalParameters {
+func (r *ListClusterTasksOptionalParameters) WithStatus(status Cluster_opsStatus) *ListClusterTasksOptionalParameters {
 	r.Status = &status
 	return r
 }
 
 // WithClusterTaskType sets the corresponding parameter name and returns the struct.
-func (r *ListTasksOptionalParameters) WithClusterTaskType(clusterTaskType OpsType) *ListTasksOptionalParameters {
+func (r *ListClusterTasksOptionalParameters) WithClusterTaskType(clusterTaskType OpsType) *ListClusterTasksOptionalParameters {
 	r.ClusterTaskType = &clusterTaskType
 	return r
 }
 
-// ListTasks List cluster tasks.
-func (a *ClusterTaskApi) ListTasks(ctx _context.Context, o ...ListTasksOptionalParameters) (ClusterTaskList, *_nethttp.Response, error) {
+// ListClusterTasks List cluster tasks.
+func (a *ClusterTaskApi) ListClusterTasks(ctx _context.Context, o ...ListClusterTasksOptionalParameters) (ClusterTaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue ClusterTaskList
-		optionalParams      ListTasksOptionalParameters
+		optionalParams      ListClusterTasksOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListTasksOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListClusterTasksOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -155,13 +155,13 @@ func (a *ClusterTaskApi) ListTasks(ctx _context.Context, o ...ListTasksOptionalP
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "clusterTask",
-		OperationID: "listTasks",
+		OperationID: "listClusterTasks",
 		Path:        "/admin/v1/clustertasks",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.ListTasks")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTaskApi.ListClusterTasks")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

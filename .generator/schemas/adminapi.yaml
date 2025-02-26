@@ -12087,7 +12087,7 @@ paths:
           $ref: '#/components/responses/500'
   /admin/v1/clustertasks:
     get:
-      operationId: listTasks
+      operationId: listClusterTasks
       summary: List cluster tasks
       parameters:
         - description: name of the Org
