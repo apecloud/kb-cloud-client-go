@@ -19910,16 +19910,11 @@ components:
           format: double
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
