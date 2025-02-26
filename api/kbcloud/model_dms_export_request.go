@@ -14,7 +14,7 @@ type DmsExportRequest struct {
 	// return limited number of data
 	Limit *int32 `json:"limit,omitempty"`
 	// the file format for export data
-	Format *DmsExportFormat `json:"format,omitempty"`
+	Format *string `json:"format,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -118,9 +118,9 @@ func (o *DmsExportRequest) SetLimit(v int32) {
 }
 
 // GetFormat returns the Format field value if set, zero value otherwise.
-func (o *DmsExportRequest) GetFormat() DmsExportFormat {
+func (o *DmsExportRequest) GetFormat() string {
 	if o == nil || o.Format == nil {
-		var ret DmsExportFormat
+		var ret string
 		return ret
 	}
 	return *o.Format
@@ -128,7 +128,7 @@ func (o *DmsExportRequest) GetFormat() DmsExportFormat {
 
 // GetFormatOk returns a tuple with the Format field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsExportRequest) GetFormatOk() (*DmsExportFormat, bool) {
+func (o *DmsExportRequest) GetFormatOk() (*string, bool) {
 	if o == nil || o.Format == nil {
 		return nil, false
 	}
@@ -140,8 +140,8 @@ func (o *DmsExportRequest) HasFormat() bool {
 	return o != nil && o.Format != nil
 }
 
-// SetFormat gets a reference to the given DmsExportFormat and assigns it to the Format field.
-func (o *DmsExportRequest) SetFormat(v DmsExportFormat) {
+// SetFormat gets a reference to the given string and assigns it to the Format field.
+func (o *DmsExportRequest) SetFormat(v string) {
 	o.Format = &v
 }
 
@@ -173,10 +173,10 @@ func (o DmsExportRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsExportRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Database *string          `json:"database,omitempty"`
-		Query    *string          `json:"query,omitempty"`
-		Limit    *int32           `json:"limit,omitempty"`
-		Format   *DmsExportFormat `json:"format,omitempty"`
+		Database *string `json:"database,omitempty"`
+		Query    *string `json:"query,omitempty"`
+		Limit    *int32  `json:"limit,omitempty"`
+		Format   *string `json:"format,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -187,20 +187,12 @@ func (o *DmsExportRequest) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	hasInvalidField := false
 	o.Database = all.Database
 	o.Query = all.Query
 	o.Limit = all.Limit
-	if all.Format != nil && !all.Format.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Format = all.Format
-	}
+	o.Format = all.Format
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
