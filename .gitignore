@@ -7,6 +7,9 @@ coverage.txt
 __pycache__
 .idea/
 
+#vscode
+.vscode/
+
 # Created by https://www.toptal.com/developers/gitignore/api/go,python,vim,linux,macos,windows,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=go,python,vim,linux,macos,windows,visualstudiocode
 
