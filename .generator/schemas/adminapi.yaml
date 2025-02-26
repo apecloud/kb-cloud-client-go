@@ -17046,6 +17046,7 @@ components:
         type: string
     DmsObject:
       type: object
+      x-nullable: true
       properties:
         type:
           type: string
