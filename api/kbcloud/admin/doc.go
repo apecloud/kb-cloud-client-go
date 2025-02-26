@@ -124,7 +124,7 @@
 //   - [clusterTagApi.listOrgTags]
 //   - [clusterTagApi.updateTag]
 //   - [clusterTaskApi.getClusterTask]
-//   - [clusterTaskApi.listTasks]
+//   - [clusterTaskApi.listClusterTasks]
 //   - [databaseApi.createDatabase]
 //   - [databaseApi.createDatabaseOld]
 //   - [databaseApi.deleteDatabase]
