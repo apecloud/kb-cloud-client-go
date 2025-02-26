@@ -7674,6 +7674,13 @@ paths:
         - class
       operationId: listClasses
       summary: List classes
+      parameters:
+        - name: engineName
+          in: query
+          description: code
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -17504,26 +17511,35 @@ components:
         cpu:
           type: number
           multipleOf: 0.1
+          minimum: 0.1
           format: double
         cpuRequest:
           type: number
           multipleOf: 0.1
+          minimum: 0.1
           format: double
         cpuLimit:
           type: number
           multipleOf: 0.1
+          minimum: 0.1
           format: double
         memory:
           type: number
           multipleOf: 0.1
+          description: memory, unit is Gi
+          minimum: 0.05
           format: double
         memoryRequest:
           type: number
           multipleOf: 0.1
+          description: memory request, unit is Gi
+          minimum: 0.05
           format: double
         memoryLimit:
           type: number
           multipleOf: 0.1
+          description: memory limit, unit is Gi
+          minimum: 0.05
           format: double
         component:
           type: string
