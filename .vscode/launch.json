@@ -16,6 +16,15 @@
             ],
             "envFile": "${workspaceFolder}/.env",
             "showLog": false,
+        },
+        {
+            "name": "example",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${workspaceFolder}/examples/main.go",
+            // "envFile": "${workspaceFolder}/apiserver/.demoenv",
+            "envFile": "${workspaceFolder}/examples/.env",
         }
     ]
 }

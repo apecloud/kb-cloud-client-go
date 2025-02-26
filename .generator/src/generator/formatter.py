@@ -177,6 +177,11 @@ def is_reference(schema, attribute):
 
     attribute_schema = schema.get("properties", {}).get(attribute, {})
 
+    if attribute_schema == {} and schema.get("allOf") is not None:
+        for obj in schema["allOf"]:
+            if attribute in obj.get("properties", {}):
+                return is_reference(obj, attribute)
+
     is_nullable = attribute_schema.get("nullable", False)
     if is_nullable:
         return False
