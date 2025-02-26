@@ -9,10 +9,12 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type DmsExportRequest struct {
 	// the database of the table or view
 	Database *string `json:"database,omitempty"`
-	// the target table or view name
-	Table *string `json:"table,omitempty"`
+	// the sql string
+	Query *string `json:"query,omitempty"`
 	// return limited number of data
 	Limit *int32 `json:"limit,omitempty"`
+	// the file format for export data
+	Format *DmsExportFormat `json:"format,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -59,32 +61,32 @@ func (o *DmsExportRequest) SetDatabase(v string) {
 	o.Database = &v
 }
 
-// GetTable returns the Table field value if set, zero value otherwise.
-func (o *DmsExportRequest) GetTable() string {
-	if o == nil || o.Table == nil {
+// GetQuery returns the Query field value if set, zero value otherwise.
+func (o *DmsExportRequest) GetQuery() string {
+	if o == nil || o.Query == nil {
 		var ret string
 		return ret
 	}
-	return *o.Table
+	return *o.Query
 }
 
-// GetTableOk returns a tuple with the Table field value if set, nil otherwise
+// GetQueryOk returns a tuple with the Query field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsExportRequest) GetTableOk() (*string, bool) {
-	if o == nil || o.Table == nil {
+func (o *DmsExportRequest) GetQueryOk() (*string, bool) {
+	if o == nil || o.Query == nil {
 		return nil, false
 	}
-	return o.Table, true
+	return o.Query, true
 }
 
-// HasTable returns a boolean if a field has been set.
-func (o *DmsExportRequest) HasTable() bool {
-	return o != nil && o.Table != nil
+// HasQuery returns a boolean if a field has been set.
+func (o *DmsExportRequest) HasQuery() bool {
+	return o != nil && o.Query != nil
 }
 
-// SetTable gets a reference to the given string and assigns it to the Table field.
-func (o *DmsExportRequest) SetTable(v string) {
-	o.Table = &v
+// SetQuery gets a reference to the given string and assigns it to the Query field.
+func (o *DmsExportRequest) SetQuery(v string) {
+	o.Query = &v
 }
 
 // GetLimit returns the Limit field value if set, zero value otherwise.
@@ -115,6 +117,34 @@ func (o *DmsExportRequest) SetLimit(v int32) {
 	o.Limit = &v
 }
 
+// GetFormat returns the Format field value if set, zero value otherwise.
+func (o *DmsExportRequest) GetFormat() DmsExportFormat {
+	if o == nil || o.Format == nil {
+		var ret DmsExportFormat
+		return ret
+	}
+	return *o.Format
+}
+
+// GetFormatOk returns a tuple with the Format field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsExportRequest) GetFormatOk() (*DmsExportFormat, bool) {
+	if o == nil || o.Format == nil {
+		return nil, false
+	}
+	return o.Format, true
+}
+
+// HasFormat returns a boolean if a field has been set.
+func (o *DmsExportRequest) HasFormat() bool {
+	return o != nil && o.Format != nil
+}
+
+// SetFormat gets a reference to the given DmsExportFormat and assigns it to the Format field.
+func (o *DmsExportRequest) SetFormat(v DmsExportFormat) {
+	o.Format = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DmsExportRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -124,11 +154,14 @@ func (o DmsExportRequest) MarshalJSON() ([]byte, error) {
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
-	if o.Table != nil {
-		toSerialize["table"] = o.Table
+	if o.Query != nil {
+		toSerialize["query"] = o.Query
 	}
 	if o.Limit != nil {
 		toSerialize["limit"] = o.Limit
+	}
+	if o.Format != nil {
+		toSerialize["format"] = o.Format
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -140,24 +173,34 @@ func (o DmsExportRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsExportRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Database *string `json:"database,omitempty"`
-		Table    *string `json:"table,omitempty"`
-		Limit    *int32  `json:"limit,omitempty"`
+		Database *string          `json:"database,omitempty"`
+		Query    *string          `json:"query,omitempty"`
+		Limit    *int32           `json:"limit,omitempty"`
+		Format   *DmsExportFormat `json:"format,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"database", "table", "limit"})
+		common.DeleteKeys(additionalProperties, &[]string{"database", "query", "limit", "format"})
 	} else {
 		return err
 	}
+	hasInvalidField := false
 	o.Database = all.Database
-	o.Table = all.Table
+	o.Query = all.Query
 	o.Limit = all.Limit
+	if all.Format != nil && !all.Format.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Format = all.Format
+	}
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
