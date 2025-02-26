@@ -15384,7 +15384,6 @@ components:
           description: volume name
         storage:
           title: Storage(Gi)
-          maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
@@ -18382,7 +18381,6 @@ components:
           description: the number of replicas
         storage:
           title: Storage(Gi)
-          maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
@@ -19882,16 +19880,11 @@ components:
           format: double
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
@@ -24104,18 +24097,12 @@ components:
           format: date-time
           type: string
         cpu:
-          multipleOf: 0.5
-          maximum: 256
-          minimum: 0.5
           type: number
           format: double
         memory:
-          maximum: 1000
-          minimum: 0.5
           type: number
           format: double
         storage:
-          maximum: 10000
           minimum: 1
           type: number
           format: double
@@ -24369,28 +24356,20 @@ components:
           description: Cluster Application Version
         replicas:
           title: Replicas
-          maximum: 5
-          minimum: 1
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
         storage:
           title: Storage(Gi)
-          maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
