@@ -15405,8 +15405,6 @@ components:
           description: number of components
         replicas:
           title: Replicas
-          maximum: 5
-          minimum: 1
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         classCode:
@@ -15415,16 +15413,11 @@ components:
           type: string
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
