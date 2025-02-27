@@ -13,9 +13,7 @@ import (
 type DmsObAlterParameter struct {
 	// parameter to alter
 	Parameter string `json:"parameter"`
-	// old value of parameter
-	OldValue string `json:"oldValue"`
-	// old value of parameter
+	// new value of parameter
 	NewValue string `json:"newValue"`
 	// tenant mode
 	Mode string `json:"mode"`
@@ -32,10 +30,9 @@ type DmsObAlterParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmsObAlterParameter(parameter string, oldValue string, newValue string, mode string, tenantName string, isVariable bool) *DmsObAlterParameter {
+func NewDmsObAlterParameter(parameter string, newValue string, mode string, tenantName string, isVariable bool) *DmsObAlterParameter {
 	this := DmsObAlterParameter{}
 	this.Parameter = parameter
-	this.OldValue = oldValue
 	this.NewValue = newValue
 	this.Mode = mode
 	this.TenantName = tenantName
@@ -72,29 +69,6 @@ func (o *DmsObAlterParameter) GetParameterOk() (*string, bool) {
 // SetParameter sets field value.
 func (o *DmsObAlterParameter) SetParameter(v string) {
 	o.Parameter = v
-}
-
-// GetOldValue returns the OldValue field value.
-func (o *DmsObAlterParameter) GetOldValue() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.OldValue
-}
-
-// GetOldValueOk returns a tuple with the OldValue field value
-// and a boolean to check if the value has been set.
-func (o *DmsObAlterParameter) GetOldValueOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.OldValue, true
-}
-
-// SetOldValue sets field value.
-func (o *DmsObAlterParameter) SetOldValue(v string) {
-	o.OldValue = v
 }
 
 // GetNewValue returns the NewValue field value.
@@ -196,7 +170,6 @@ func (o DmsObAlterParameter) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["parameter"] = o.Parameter
-	toSerialize["oldValue"] = o.OldValue
 	toSerialize["newValue"] = o.NewValue
 	toSerialize["mode"] = o.Mode
 	toSerialize["tenantName"] = o.TenantName
@@ -212,7 +185,6 @@ func (o DmsObAlterParameter) MarshalJSON() ([]byte, error) {
 func (o *DmsObAlterParameter) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Parameter  *string `json:"parameter"`
-		OldValue   *string `json:"oldValue"`
 		NewValue   *string `json:"newValue"`
 		Mode       *string `json:"mode"`
 		TenantName *string `json:"tenantName"`
@@ -223,9 +195,6 @@ func (o *DmsObAlterParameter) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Parameter == nil {
 		return fmt.Errorf("required field parameter missing")
-	}
-	if all.OldValue == nil {
-		return fmt.Errorf("required field oldValue missing")
 	}
 	if all.NewValue == nil {
 		return fmt.Errorf("required field newValue missing")
@@ -241,12 +210,11 @@ func (o *DmsObAlterParameter) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parameter", "oldValue", "newValue", "mode", "tenantName", "isVariable"})
+		common.DeleteKeys(additionalProperties, &[]string{"parameter", "newValue", "mode", "tenantName", "isVariable"})
 	} else {
 		return err
 	}
 	o.Parameter = *all.Parameter
-	o.OldValue = *all.OldValue
 	o.NewValue = *all.NewValue
 	o.Mode = *all.Mode
 	o.TenantName = *all.TenantName
