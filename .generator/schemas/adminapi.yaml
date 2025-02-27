@@ -23905,17 +23905,13 @@ components:
         - tenantName
         - mode
         - newValue
-        - oldValue
       properties:
         parameter:
           type: string
           description: parameter to alter
-        oldValue:
-          type: string
-          description: old value of parameter
         newValue:
           type: string
-          description: old value of parameter
+          description: new value of parameter
         mode:
           type: string
           description: tenant mode
