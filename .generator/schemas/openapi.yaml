@@ -6202,96 +6202,6 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/organizations/{orgName}/engines:
-    get:
-      tags:
-        - engine
-      operationId: listEnginesInOrg
-      summary: List engines in organization
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: environmentName
-          in: query
-          description: name of the EnvironmentName
-          schema:
-            type: string
-        - name: name
-          in: query
-          description: engine name
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: engine Type
-          schema:
-            $ref: '#/components/schemas/engineType'
-        - name: version
-          in: query
-          description: engine version
-          schema:
-            type: string
-        - name: provider
-          in: query
-          description: engine provider
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/engineList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - engine
-      operationId: engineActionInOrg
-      summary: Manage engine in organization
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: enable or disable an engine for an organization
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                engine:
-                  type: string
-                  description: the engine name
-                action:
-                  $ref: '#/components/schemas/orgEngineActionType'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                type: boolean
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: actionInfo
   /api/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -15644,12 +15554,6 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
-    orgEngineActionType:
-      type: string
-      description: organization engine action type
-      enum:
-        - enable
-        - disable
     localizedDescription:
       type: object
       required:
