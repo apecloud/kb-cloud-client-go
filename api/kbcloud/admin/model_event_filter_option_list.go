@@ -10,37 +10,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EventQueryFilterOptionList A collection of filter results.
-type EventQueryFilterOptionList struct {
+// EventFilterOptionList A collection of filter results.
+type EventFilterOptionList struct {
 	// An array containing individual filter result items.
-	Items []EventQueryFilterOption `json:"items"`
+	Items []EventFilterOption `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEventQueryFilterOptionList instantiates a new EventQueryFilterOptionList object.
+// NewEventFilterOptionList instantiates a new EventFilterOptionList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEventQueryFilterOptionList(items []EventQueryFilterOption) *EventQueryFilterOptionList {
-	this := EventQueryFilterOptionList{}
+func NewEventFilterOptionList(items []EventFilterOption) *EventFilterOptionList {
+	this := EventFilterOptionList{}
 	this.Items = items
 	return &this
 }
 
-// NewEventQueryFilterOptionListWithDefaults instantiates a new EventQueryFilterOptionList object.
+// NewEventFilterOptionListWithDefaults instantiates a new EventFilterOptionList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEventQueryFilterOptionListWithDefaults() *EventQueryFilterOptionList {
-	this := EventQueryFilterOptionList{}
+func NewEventFilterOptionListWithDefaults() *EventFilterOptionList {
+	this := EventFilterOptionList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *EventQueryFilterOptionList) GetItems() []EventQueryFilterOption {
+func (o *EventFilterOptionList) GetItems() []EventFilterOption {
 	if o == nil {
-		var ret []EventQueryFilterOption
+		var ret []EventFilterOption
 		return ret
 	}
 	return o.Items
@@ -48,7 +48,7 @@ func (o *EventQueryFilterOptionList) GetItems() []EventQueryFilterOption {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *EventQueryFilterOptionList) GetItemsOk() (*[]EventQueryFilterOption, bool) {
+func (o *EventFilterOptionList) GetItemsOk() (*[]EventFilterOption, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *EventQueryFilterOptionList) GetItemsOk() (*[]EventQueryFilterOption, bo
 }
 
 // SetItems sets field value.
-func (o *EventQueryFilterOptionList) SetItems(v []EventQueryFilterOption) {
+func (o *EventFilterOptionList) SetItems(v []EventFilterOption) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EventQueryFilterOptionList) MarshalJSON() ([]byte, error) {
+func (o EventFilterOptionList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -75,9 +75,9 @@ func (o EventQueryFilterOptionList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EventQueryFilterOptionList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EventFilterOptionList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]EventQueryFilterOption `json:"items"`
+		Items *[]EventFilterOption `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

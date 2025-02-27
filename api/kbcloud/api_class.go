@@ -203,13 +203,38 @@ func (a *ClassApi) DeleteClass(ctx _context.Context, code string) (interface{}, 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListClassesOptionalParameters holds optional parameters for ListClasses.
+type ListClassesOptionalParameters struct {
+	EngineName *string
+}
+
+// NewListClassesOptionalParameters creates an empty struct for parameters.
+func NewListClassesOptionalParameters() *ListClassesOptionalParameters {
+	this := ListClassesOptionalParameters{}
+	return &this
+}
+
+// WithEngineName sets the corresponding parameter name and returns the struct.
+func (r *ListClassesOptionalParameters) WithEngineName(engineName string) *ListClassesOptionalParameters {
+	r.EngineName = &engineName
+	return r
+}
+
 // ListClasses List classes.
-func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Response, error) {
+func (a *ClassApi) ListClasses(ctx _context.Context, o ...ListClassesOptionalParameters) ([]Class, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []Class
+		optionalParams      ListClassesOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListClassesOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -230,6 +255,9 @@ func (a *ClassApi) ListClasses(ctx _context.Context) ([]Class, *_nethttp.Respons
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.EngineName != nil {
+		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

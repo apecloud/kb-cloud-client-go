@@ -7,9 +7,10 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type EngineServiceVersionsVersionsItem struct {
-	Default       *bool    `json:"default,omitempty"`
-	MajorVersion  *string  `json:"majorVersion,omitempty"`
-	MinorVersions []string `json:"minorVersions,omitempty"`
+	Default             *bool    `json:"default,omitempty"`
+	DefaultMinorVersion *string  `json:"defaultMinorVersion,omitempty"`
+	MajorVersion        *string  `json:"majorVersion,omitempty"`
+	MinorVersions       []string `json:"minorVersions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -58,6 +59,34 @@ func (o *EngineServiceVersionsVersionsItem) HasDefault() bool {
 // SetDefault gets a reference to the given bool and assigns it to the Default field.
 func (o *EngineServiceVersionsVersionsItem) SetDefault(v bool) {
 	o.Default = &v
+}
+
+// GetDefaultMinorVersion returns the DefaultMinorVersion field value if set, zero value otherwise.
+func (o *EngineServiceVersionsVersionsItem) GetDefaultMinorVersion() string {
+	if o == nil || o.DefaultMinorVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefaultMinorVersion
+}
+
+// GetDefaultMinorVersionOk returns a tuple with the DefaultMinorVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineServiceVersionsVersionsItem) GetDefaultMinorVersionOk() (*string, bool) {
+	if o == nil || o.DefaultMinorVersion == nil {
+		return nil, false
+	}
+	return o.DefaultMinorVersion, true
+}
+
+// HasDefaultMinorVersion returns a boolean if a field has been set.
+func (o *EngineServiceVersionsVersionsItem) HasDefaultMinorVersion() bool {
+	return o != nil && o.DefaultMinorVersion != nil
+}
+
+// SetDefaultMinorVersion gets a reference to the given string and assigns it to the DefaultMinorVersion field.
+func (o *EngineServiceVersionsVersionsItem) SetDefaultMinorVersion(v string) {
+	o.DefaultMinorVersion = &v
 }
 
 // GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
@@ -125,6 +154,9 @@ func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
 	if o.Default != nil {
 		toSerialize["default"] = o.Default
 	}
+	if o.DefaultMinorVersion != nil {
+		toSerialize["defaultMinorVersion"] = o.DefaultMinorVersion
+	}
 	if o.MajorVersion != nil {
 		toSerialize["majorVersion"] = o.MajorVersion
 	}
@@ -141,20 +173,22 @@ func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineServiceVersionsVersionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Default       *bool    `json:"default,omitempty"`
-		MajorVersion  *string  `json:"majorVersion,omitempty"`
-		MinorVersions []string `json:"minorVersions,omitempty"`
+		Default             *bool    `json:"default,omitempty"`
+		DefaultMinorVersion *string  `json:"defaultMinorVersion,omitempty"`
+		MajorVersion        *string  `json:"majorVersion,omitempty"`
+		MinorVersions       []string `json:"minorVersions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"default", "majorVersion", "minorVersions"})
+		common.DeleteKeys(additionalProperties, &[]string{"default", "defaultMinorVersion", "majorVersion", "minorVersions"})
 	} else {
 		return err
 	}
 	o.Default = all.Default
+	o.DefaultMinorVersion = all.DefaultMinorVersion
 	o.MajorVersion = all.MajorVersion
 	o.MinorVersions = all.MinorVersions
 

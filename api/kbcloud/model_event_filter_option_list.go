@@ -10,39 +10,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// OrgList OrgList is a list of Orgs
-type OrgList struct {
-	// Items is the list of Org objects in the list
-	Items []Org `json:"items"`
-	// PageResult info
-	PageResult *PageResult `json:"pageResult,omitempty"`
+// EventFilterOptionList A collection of filter results.
+type EventFilterOptionList struct {
+	// An array containing individual filter result items.
+	Items []EventFilterOption `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOrgList instantiates a new OrgList object.
+// NewEventFilterOptionList instantiates a new EventFilterOptionList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgList(items []Org) *OrgList {
-	this := OrgList{}
+func NewEventFilterOptionList(items []EventFilterOption) *EventFilterOptionList {
+	this := EventFilterOptionList{}
 	this.Items = items
 	return &this
 }
 
-// NewOrgListWithDefaults instantiates a new OrgList object.
+// NewEventFilterOptionListWithDefaults instantiates a new EventFilterOptionList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOrgListWithDefaults() *OrgList {
-	this := OrgList{}
+func NewEventFilterOptionListWithDefaults() *EventFilterOptionList {
+	this := EventFilterOptionList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *OrgList) GetItems() []Org {
+func (o *EventFilterOptionList) GetItems() []EventFilterOption {
 	if o == nil {
-		var ret []Org
+		var ret []EventFilterOption
 		return ret
 	}
 	return o.Items
@@ -50,7 +48,7 @@ func (o *OrgList) GetItems() []Org {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *OrgList) GetItemsOk() (*[]Org, bool) {
+func (o *EventFilterOptionList) GetItemsOk() (*[]EventFilterOption, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,48 +56,17 @@ func (o *OrgList) GetItemsOk() (*[]Org, bool) {
 }
 
 // SetItems sets field value.
-func (o *OrgList) SetItems(v []Org) {
+func (o *EventFilterOptionList) SetItems(v []EventFilterOption) {
 	o.Items = v
 }
 
-// GetPageResult returns the PageResult field value if set, zero value otherwise.
-func (o *OrgList) GetPageResult() PageResult {
-	if o == nil || o.PageResult == nil {
-		var ret PageResult
-		return ret
-	}
-	return *o.PageResult
-}
-
-// GetPageResultOk returns a tuple with the PageResult field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OrgList) GetPageResultOk() (*PageResult, bool) {
-	if o == nil || o.PageResult == nil {
-		return nil, false
-	}
-	return o.PageResult, true
-}
-
-// HasPageResult returns a boolean if a field has been set.
-func (o *OrgList) HasPageResult() bool {
-	return o != nil && o.PageResult != nil
-}
-
-// SetPageResult gets a reference to the given PageResult and assigns it to the PageResult field.
-func (o *OrgList) SetPageResult(v PageResult) {
-	o.PageResult = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
-func (o OrgList) MarshalJSON() ([]byte, error) {
+func (o EventFilterOptionList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["items"] = o.Items
-	if o.PageResult != nil {
-		toSerialize["pageResult"] = o.PageResult
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -108,10 +75,9 @@ func (o OrgList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OrgList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EventFilterOptionList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]Org      `json:"items"`
-		PageResult *PageResult `json:"pageResult,omitempty"`
+		Items *[]EventFilterOption `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -121,24 +87,14 @@ func (o *OrgList) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "pageResult"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Items = *all.Items
-	if all.PageResult != nil && all.PageResult.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.PageResult = all.PageResult
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

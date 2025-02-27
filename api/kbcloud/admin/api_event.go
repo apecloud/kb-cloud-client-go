@@ -17,6 +17,87 @@ import (
 // EventApi service type
 type EventApi common.Service
 
+// EventFilter Query available filters for event listing.
+func (a *EventApi) EventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue EventFilterOptionList
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "event",
+		OperationID: "eventFilter",
+		Path:        "/admin/v1/eventfilter/{filterType}",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.EventFilter")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/eventfilter/{filterType}"
+	localVarPath = strings.Replace(localVarPath, "{"+"filterType"+"}", _neturl.PathEscape(common.ParameterToString(filterType, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("source", common.ParameterToString(source, ""))
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // GetEvent Query event detail by Event ID.
 // Retrieves detailed information about an event based on the provided Event ID.
 func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_nethttp.Response, error) {
@@ -99,13 +180,13 @@ func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_neth
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
 	OrgName      *string
-	ResourceId   *int32
+	ResourceId   *int64
 	ResourceType *string
 	EventName    *string
-	OperatorId   *int32
+	OperatorId   *int64
 	Status       *EventResultStatus
-	PageNumber   *int32
-	PageSize     *int32
+	PageNumber   *int64
+	PageSize     *int64
 	OrderBy      *string
 }
 
@@ -122,7 +203,7 @@ func (r *ListEventsOptionalParameters) WithOrgName(orgName string) *ListEventsOp
 }
 
 // WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithResourceId(resourceId int64) *ListEventsOptionalParameters {
 	r.ResourceId = &resourceId
 	return r
 }
@@ -140,7 +221,7 @@ func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEven
 }
 
 // WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int64) *ListEventsOptionalParameters {
 	r.OperatorId = &operatorId
 	return r
 }
@@ -152,13 +233,13 @@ func (r *ListEventsOptionalParameters) WithStatus(status EventResultStatus) *Lis
 }
 
 // WithPageNumber sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int64) *ListEventsOptionalParameters {
 	r.PageNumber = &pageNumber
 	return r
 }
 
 // WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageSize(pageSize int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithPageSize(pageSize int64) *ListEventsOptionalParameters {
 	r.PageSize = &pageSize
 	return r
 }
@@ -234,87 +315,6 @@ func (a *EventApi) ListEvents(ctx _context.Context, start int64, end int64, o ..
 	if optionalParams.OrderBy != nil {
 		localVarQueryParams.Add("orderBy", common.ParameterToString(*optionalParams.OrderBy, ""))
 	}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// QueryEventFilter Query available filters for event listing.
-func (a *EventApi) QueryEventFilter(ctx _context.Context, filterType EventQueryFilterType, source string, start int64, end int64) (EventQueryFilterOptionList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue EventQueryFilterOptionList
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "event",
-		OperationID: "queryEventFilter",
-		Path:        "/admin/v1/eventqueryfilter",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.QueryEventFilter")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/eventqueryfilter"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("filterType", common.ParameterToString(filterType, ""))
-	localVarQueryParams.Add("source", common.ParameterToString(source, ""))
-	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
-	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

@@ -305,11 +305,11 @@ func (a *EngineApi) DeleteEngineVersion(ctx _context.Context, o ...DeleteEngineV
 }
 
 // EngineAction Manage engine in environment.
-func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, engineName string, actionInfo interface{}) (bool, *_nethttp.Response, error) {
+func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, engineName string, actionInfo interface{}) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarReturnValue string
 	)
 
 	// Add api info to context
@@ -363,7 +363,7 @@ func (a *EngineApi) EngineAction(ctx _context.Context, environmentName string, e
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

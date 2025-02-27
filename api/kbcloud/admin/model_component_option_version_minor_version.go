@@ -7,6 +7,8 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ComponentOptionVersionMinorVersion struct {
+	// default version.
+	Default *string `json:"default,omitempty"`
 	// determine whether minor version can be rolled back.
 	Rollback *bool `json:"rollback,omitempty"`
 	// disable roll back the preRelease minor version.
@@ -31,6 +33,34 @@ func NewComponentOptionVersionMinorVersion() *ComponentOptionVersionMinorVersion
 func NewComponentOptionVersionMinorVersionWithDefaults() *ComponentOptionVersionMinorVersion {
 	this := ComponentOptionVersionMinorVersion{}
 	return &this
+}
+
+// GetDefault returns the Default field value if set, zero value otherwise.
+func (o *ComponentOptionVersionMinorVersion) GetDefault() string {
+	if o == nil || o.Default == nil {
+		var ret string
+		return ret
+	}
+	return *o.Default
+}
+
+// GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOptionVersionMinorVersion) GetDefaultOk() (*string, bool) {
+	if o == nil || o.Default == nil {
+		return nil, false
+	}
+	return o.Default, true
+}
+
+// HasDefault returns a boolean if a field has been set.
+func (o *ComponentOptionVersionMinorVersion) HasDefault() bool {
+	return o != nil && o.Default != nil
+}
+
+// SetDefault gets a reference to the given string and assigns it to the Default field.
+func (o *ComponentOptionVersionMinorVersion) SetDefault(v string) {
+	o.Default = &v
 }
 
 // GetRollback returns the Rollback field value if set, zero value otherwise.
@@ -95,6 +125,9 @@ func (o ComponentOptionVersionMinorVersion) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Default != nil {
+		toSerialize["default"] = o.Default
+	}
 	if o.Rollback != nil {
 		toSerialize["rollback"] = o.Rollback
 	}
@@ -111,18 +144,20 @@ func (o ComponentOptionVersionMinorVersion) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOptionVersionMinorVersion) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Rollback                  *bool `json:"rollback,omitempty"`
-		DisableRollbackPreRelease *bool `json:"disableRollbackPreRelease,omitempty"`
+		Default                   *string `json:"default,omitempty"`
+		Rollback                  *bool   `json:"rollback,omitempty"`
+		DisableRollbackPreRelease *bool   `json:"disableRollbackPreRelease,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"rollback", "disableRollbackPreRelease"})
+		common.DeleteKeys(additionalProperties, &[]string{"default", "rollback", "disableRollbackPreRelease"})
 	} else {
 		return err
 	}
+	o.Default = all.Default
 	o.Rollback = all.Rollback
 	o.DisableRollbackPreRelease = all.DisableRollbackPreRelease
 

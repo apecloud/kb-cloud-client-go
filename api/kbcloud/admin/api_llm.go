@@ -18,6 +18,7 @@ import (
 type LlmApi common.Service
 
 // CreateLLM Create LLM.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) CreateLLM(ctx _context.Context, body interface{}) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -98,6 +99,7 @@ func (a *LlmApi) CreateLLM(ctx _context.Context, body interface{}) (Llm, *_netht
 }
 
 // DeleteLLM Delete LLM.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -166,6 +168,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 }
 
 // ListLLM List LLM.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) ListLLM(ctx _context.Context) (LlmList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -243,6 +246,7 @@ func (a *LlmApi) ListLLM(ctx _context.Context) (LlmList, *_nethttp.Response, err
 }
 
 // UpdateLLM Update LLM.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

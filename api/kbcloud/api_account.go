@@ -19,10 +19,11 @@ type AccountApi common.Service
 
 // CreateAccount Create cluster account.
 // create an account in cluster
-func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
+func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgName string, clusterName string, body Account) (Account, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Account
 	)
 
 	// Add api info to context
@@ -36,7 +37,7 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateAccount")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts"
@@ -59,17 +60,17 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -81,14 +82,23 @@ func (a *AccountApi) CreateAccount(ctx _context.Context, engineName string, orgN
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // CreateAccountOld Create cluster account.
@@ -167,10 +177,11 @@ func (a *AccountApi) CreateAccountOld(ctx _context.Context, orgName string, clus
 
 // CreateMongoDBAccount Create mongodb account.
 // create an account in mongodb
-func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, clusterName string, body Account) (*_nethttp.Response, error) {
+func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, clusterName string, body Account) (Account, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPost
-		localVarPostBody   interface{}
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue Account
 	)
 
 	// Add api info to context
@@ -184,7 +195,7 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.CreateMongoDBAccount")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts"
@@ -206,17 +217,17 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -228,14 +239,23 @@ func (a *AccountApi) CreateMongoDBAccount(ctx _context.Context, orgName string, 
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // DeleteAccount Delete cluster account.
@@ -453,37 +473,66 @@ func (a *AccountApi) DeleteMongoDBAccount(ctx _context.Context, orgName string, 
 	return localVarHTTPResponse, nil
 }
 
-// GetDSN Get cluster dsn.
-// get dsn by username
-func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName string, accountName string) (string, *_nethttp.Response, error) {
+// GetRootAccountPasswordOptionalParameters holds optional parameters for GetRootAccountPassword.
+type GetRootAccountPasswordOptionalParameters struct {
+	Component *string
+}
+
+// NewGetRootAccountPasswordOptionalParameters creates an empty struct for parameters.
+func NewGetRootAccountPasswordOptionalParameters() *GetRootAccountPasswordOptionalParameters {
+	this := GetRootAccountPasswordOptionalParameters{}
+	return &this
+}
+
+// WithComponent sets the corresponding parameter name and returns the struct.
+func (r *GetRootAccountPasswordOptionalParameters) WithComponent(component string) *GetRootAccountPasswordOptionalParameters {
+	r.Component = &component
+	return r
+}
+
+// GetRootAccountPassword get root account password.
+// get root account password
+func (a *AccountApi) GetRootAccountPassword(ctx _context.Context, engineName string, orgName string, clusterName string, accountName string, o ...GetRootAccountPasswordOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue string
+		optionalParams      GetRootAccountPasswordOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetRootAccountPasswordOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "account",
-		OperationID: "getDSN",
-		Path:        "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/dsn",
+		OperationID: "getRootAccountPassword",
+		Path:        "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.GetDSN")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AccountApi.GetRootAccountPassword")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/dsn"
+	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"accountName"+"}", _neturl.PathEscape(common.ParameterToString(accountName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("accountName", common.ParameterToString(accountName, ""))
+	if optionalParams.Component != nil {
+		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -511,7 +560,7 @@ func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName st
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -534,39 +583,14 @@ func (a *AccountApi) GetDSN(ctx _context.Context, orgName string, clusterName st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAccountsOptionalParameters holds optional parameters for ListAccounts.
-type ListAccountsOptionalParameters struct {
-	IncludeRoot *bool
-}
-
-// NewListAccountsOptionalParameters creates an empty struct for parameters.
-func NewListAccountsOptionalParameters() *ListAccountsOptionalParameters {
-	this := ListAccountsOptionalParameters{}
-	return &this
-}
-
-// WithIncludeRoot sets the corresponding parameter name and returns the struct.
-func (r *ListAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOptionalParameters {
-	r.IncludeRoot = &includeRoot
-	return r
-}
-
 // ListAccounts List cluster accounts.
 // list accounts in cluster
-func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgName string, clusterName string, o ...ListAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
+func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgName string, clusterName string) ([]AccountListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []AccountListItem
-		optionalParams      ListAccountsOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAccountsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -590,9 +614,6 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgNa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.IncludeRoot != nil {
-		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -645,8 +666,8 @@ func (a *AccountApi) ListAccounts(ctx _context.Context, engineName string, orgNa
 
 // ListAccountsOldOptionalParameters holds optional parameters for ListAccountsOld.
 type ListAccountsOldOptionalParameters struct {
-	IncludeRoot *bool
 	Component   *string
+	IncludeRoot *bool
 }
 
 // NewListAccountsOldOptionalParameters creates an empty struct for parameters.
@@ -655,15 +676,15 @@ func NewListAccountsOldOptionalParameters() *ListAccountsOldOptionalParameters {
 	return &this
 }
 
-// WithIncludeRoot sets the corresponding parameter name and returns the struct.
-func (r *ListAccountsOldOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOldOptionalParameters {
-	r.IncludeRoot = &includeRoot
-	return r
-}
-
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *ListAccountsOldOptionalParameters) WithComponent(component string) *ListAccountsOldOptionalParameters {
 	r.Component = &component
+	return r
+}
+
+// WithIncludeRoot sets the corresponding parameter name and returns the struct.
+func (r *ListAccountsOldOptionalParameters) WithIncludeRoot(includeRoot bool) *ListAccountsOldOptionalParameters {
+	r.IncludeRoot = &includeRoot
 	return r
 }
 
@@ -706,11 +727,11 @@ func (a *AccountApi) ListAccountsOld(ctx _context.Context, orgName string, clust
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.IncludeRoot != nil {
-		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
-	}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
+	if optionalParams.IncludeRoot != nil {
+		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -762,39 +783,14 @@ func (a *AccountApi) ListAccountsOld(ctx _context.Context, orgName string, clust
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListMongoDBAccountsOptionalParameters holds optional parameters for ListMongoDBAccounts.
-type ListMongoDBAccountsOptionalParameters struct {
-	IncludeRoot *bool
-}
-
-// NewListMongoDBAccountsOptionalParameters creates an empty struct for parameters.
-func NewListMongoDBAccountsOptionalParameters() *ListMongoDBAccountsOptionalParameters {
-	this := ListMongoDBAccountsOptionalParameters{}
-	return &this
-}
-
-// WithIncludeRoot sets the corresponding parameter name and returns the struct.
-func (r *ListMongoDBAccountsOptionalParameters) WithIncludeRoot(includeRoot bool) *ListMongoDBAccountsOptionalParameters {
-	r.IncludeRoot = &includeRoot
-	return r
-}
-
 // ListMongoDBAccounts List mongodb accounts.
 // list accounts in mongodb
-func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, clusterName string, o ...ListMongoDBAccountsOptionalParameters) ([]AccountListItem, *_nethttp.Response, error) {
+func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, clusterName string) ([]AccountListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue []AccountListItem
-		optionalParams      ListMongoDBAccountsOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListMongoDBAccountsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -817,9 +813,6 @@ func (a *AccountApi) ListMongoDBAccounts(ctx _context.Context, orgName string, c
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.IncludeRoot != nil {
-		localVarQueryParams.Add("includeRoot", common.ParameterToString(*optionalParams.IncludeRoot, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

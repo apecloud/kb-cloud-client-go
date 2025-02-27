@@ -19,7 +19,7 @@ type ProvisionConfig struct {
 	// Create your node plan, and the selected nodes will be used for pod scheduling
 	NodePool []NodePoolNode `json:"nodePool,omitempty"`
 	// Storage config for environment
-	Storage StorageConfig `json:"storage"`
+	Storage *StorageConfig `json:"storage,omitempty"`
 	// option modules of environment
 	Modules []EnvironmentModule `json:"modules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -31,11 +31,10 @@ type ProvisionConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewProvisionConfig(register Register, component Component, storage StorageConfig) *ProvisionConfig {
+func NewProvisionConfig(register Register, component Component) *ProvisionConfig {
 	this := ProvisionConfig{}
 	this.Register = register
 	this.Component = component
-	this.Storage = storage
 	return &this
 }
 
@@ -121,27 +120,32 @@ func (o *ProvisionConfig) SetNodePool(v []NodePoolNode) {
 	o.NodePool = v
 }
 
-// GetStorage returns the Storage field value.
+// GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *ProvisionConfig) GetStorage() StorageConfig {
-	if o == nil {
+	if o == nil || o.Storage == nil {
 		var ret StorageConfig
 		return ret
 	}
-	return o.Storage
+	return *o.Storage
 }
 
-// GetStorageOk returns a tuple with the Storage field value
+// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ProvisionConfig) GetStorageOk() (*StorageConfig, bool) {
-	if o == nil {
+	if o == nil || o.Storage == nil {
 		return nil, false
 	}
-	return &o.Storage, true
+	return o.Storage, true
 }
 
-// SetStorage sets field value.
+// HasStorage returns a boolean if a field has been set.
+func (o *ProvisionConfig) HasStorage() bool {
+	return o != nil && o.Storage != nil
+}
+
+// SetStorage gets a reference to the given StorageConfig and assigns it to the Storage field.
 func (o *ProvisionConfig) SetStorage(v StorageConfig) {
-	o.Storage = v
+	o.Storage = &v
 }
 
 // GetModules returns the Modules field value if set, zero value otherwise.
@@ -183,7 +187,9 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 	if o.NodePool != nil {
 		toSerialize["nodePool"] = o.NodePool
 	}
-	toSerialize["storage"] = o.Storage
+	if o.Storage != nil {
+		toSerialize["storage"] = o.Storage
+	}
 	if o.Modules != nil {
 		toSerialize["modules"] = o.Modules
 	}
@@ -200,7 +206,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 		Register  *Register           `json:"register"`
 		Component *Component          `json:"component"`
 		NodePool  []NodePoolNode      `json:"nodePool,omitempty"`
-		Storage   *StorageConfig      `json:"storage"`
+		Storage   *StorageConfig      `json:"storage,omitempty"`
 		Modules   []EnvironmentModule `json:"modules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -211,9 +217,6 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
-	}
-	if all.Storage == nil {
-		return fmt.Errorf("required field storage missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -232,10 +235,10 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Component = *all.Component
 	o.NodePool = all.NodePool
-	if all.Storage.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Storage != nil && all.Storage.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Storage = *all.Storage
+	o.Storage = all.Storage
 	o.Modules = all.Modules
 
 	if len(additionalProperties) > 0 {
