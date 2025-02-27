@@ -10,39 +10,40 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentModulePods Pods information for an environment module
-type EnvironmentModulePods struct {
-	// Environment name
+// EnvironmentModuleDetails Detailed information about a specific environment module, including its configuration, status and associated pods
+type EnvironmentModuleDetails struct {
+	// Name of the environment where the module is deployed
 	EnvironmentName *string `json:"environmentName,omitempty"`
-	// Environment module name
-	ModuleName *string `json:"moduleName,omitempty"`
-	// Last update time of the data
+	// Single environment module information
+	ModuleInfo *EnvironmentModule `json:"moduleInfo,omitempty"`
+	// Timestamp of when the module information was last updated
 	LastUpdated *time.Time `json:"lastUpdated,omitempty"`
-	ModulePods  []Pod      `json:"modulePods,omitempty"`
+	// List of pods that belong to this environment module
+	ModulePods []Pod `json:"modulePods,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEnvironmentModulePods instantiates a new EnvironmentModulePods object.
+// NewEnvironmentModuleDetails instantiates a new EnvironmentModuleDetails object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentModulePods() *EnvironmentModulePods {
-	this := EnvironmentModulePods{}
+func NewEnvironmentModuleDetails() *EnvironmentModuleDetails {
+	this := EnvironmentModuleDetails{}
 	return &this
 }
 
-// NewEnvironmentModulePodsWithDefaults instantiates a new EnvironmentModulePods object.
+// NewEnvironmentModuleDetailsWithDefaults instantiates a new EnvironmentModuleDetails object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEnvironmentModulePodsWithDefaults() *EnvironmentModulePods {
-	this := EnvironmentModulePods{}
+func NewEnvironmentModuleDetailsWithDefaults() *EnvironmentModuleDetails {
+	this := EnvironmentModuleDetails{}
 	return &this
 }
 
 // GetEnvironmentName returns the EnvironmentName field value if set, zero value otherwise.
-func (o *EnvironmentModulePods) GetEnvironmentName() string {
+func (o *EnvironmentModuleDetails) GetEnvironmentName() string {
 	if o == nil || o.EnvironmentName == nil {
 		var ret string
 		return ret
@@ -52,7 +53,7 @@ func (o *EnvironmentModulePods) GetEnvironmentName() string {
 
 // GetEnvironmentNameOk returns a tuple with the EnvironmentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePods) GetEnvironmentNameOk() (*string, bool) {
+func (o *EnvironmentModuleDetails) GetEnvironmentNameOk() (*string, bool) {
 	if o == nil || o.EnvironmentName == nil {
 		return nil, false
 	}
@@ -60,45 +61,45 @@ func (o *EnvironmentModulePods) GetEnvironmentNameOk() (*string, bool) {
 }
 
 // HasEnvironmentName returns a boolean if a field has been set.
-func (o *EnvironmentModulePods) HasEnvironmentName() bool {
+func (o *EnvironmentModuleDetails) HasEnvironmentName() bool {
 	return o != nil && o.EnvironmentName != nil
 }
 
 // SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
-func (o *EnvironmentModulePods) SetEnvironmentName(v string) {
+func (o *EnvironmentModuleDetails) SetEnvironmentName(v string) {
 	o.EnvironmentName = &v
 }
 
-// GetModuleName returns the ModuleName field value if set, zero value otherwise.
-func (o *EnvironmentModulePods) GetModuleName() string {
-	if o == nil || o.ModuleName == nil {
-		var ret string
+// GetModuleInfo returns the ModuleInfo field value if set, zero value otherwise.
+func (o *EnvironmentModuleDetails) GetModuleInfo() EnvironmentModule {
+	if o == nil || o.ModuleInfo == nil {
+		var ret EnvironmentModule
 		return ret
 	}
-	return *o.ModuleName
+	return *o.ModuleInfo
 }
 
-// GetModuleNameOk returns a tuple with the ModuleName field value if set, nil otherwise
+// GetModuleInfoOk returns a tuple with the ModuleInfo field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePods) GetModuleNameOk() (*string, bool) {
-	if o == nil || o.ModuleName == nil {
+func (o *EnvironmentModuleDetails) GetModuleInfoOk() (*EnvironmentModule, bool) {
+	if o == nil || o.ModuleInfo == nil {
 		return nil, false
 	}
-	return o.ModuleName, true
+	return o.ModuleInfo, true
 }
 
-// HasModuleName returns a boolean if a field has been set.
-func (o *EnvironmentModulePods) HasModuleName() bool {
-	return o != nil && o.ModuleName != nil
+// HasModuleInfo returns a boolean if a field has been set.
+func (o *EnvironmentModuleDetails) HasModuleInfo() bool {
+	return o != nil && o.ModuleInfo != nil
 }
 
-// SetModuleName gets a reference to the given string and assigns it to the ModuleName field.
-func (o *EnvironmentModulePods) SetModuleName(v string) {
-	o.ModuleName = &v
+// SetModuleInfo gets a reference to the given EnvironmentModule and assigns it to the ModuleInfo field.
+func (o *EnvironmentModuleDetails) SetModuleInfo(v EnvironmentModule) {
+	o.ModuleInfo = &v
 }
 
 // GetLastUpdated returns the LastUpdated field value if set, zero value otherwise.
-func (o *EnvironmentModulePods) GetLastUpdated() time.Time {
+func (o *EnvironmentModuleDetails) GetLastUpdated() time.Time {
 	if o == nil || o.LastUpdated == nil {
 		var ret time.Time
 		return ret
@@ -108,7 +109,7 @@ func (o *EnvironmentModulePods) GetLastUpdated() time.Time {
 
 // GetLastUpdatedOk returns a tuple with the LastUpdated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePods) GetLastUpdatedOk() (*time.Time, bool) {
+func (o *EnvironmentModuleDetails) GetLastUpdatedOk() (*time.Time, bool) {
 	if o == nil || o.LastUpdated == nil {
 		return nil, false
 	}
@@ -116,17 +117,17 @@ func (o *EnvironmentModulePods) GetLastUpdatedOk() (*time.Time, bool) {
 }
 
 // HasLastUpdated returns a boolean if a field has been set.
-func (o *EnvironmentModulePods) HasLastUpdated() bool {
+func (o *EnvironmentModuleDetails) HasLastUpdated() bool {
 	return o != nil && o.LastUpdated != nil
 }
 
 // SetLastUpdated gets a reference to the given time.Time and assigns it to the LastUpdated field.
-func (o *EnvironmentModulePods) SetLastUpdated(v time.Time) {
+func (o *EnvironmentModuleDetails) SetLastUpdated(v time.Time) {
 	o.LastUpdated = &v
 }
 
 // GetModulePods returns the ModulePods field value if set, zero value otherwise.
-func (o *EnvironmentModulePods) GetModulePods() []Pod {
+func (o *EnvironmentModuleDetails) GetModulePods() []Pod {
 	if o == nil || o.ModulePods == nil {
 		var ret []Pod
 		return ret
@@ -136,7 +137,7 @@ func (o *EnvironmentModulePods) GetModulePods() []Pod {
 
 // GetModulePodsOk returns a tuple with the ModulePods field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnvironmentModulePods) GetModulePodsOk() (*[]Pod, bool) {
+func (o *EnvironmentModuleDetails) GetModulePodsOk() (*[]Pod, bool) {
 	if o == nil || o.ModulePods == nil {
 		return nil, false
 	}
@@ -144,17 +145,17 @@ func (o *EnvironmentModulePods) GetModulePodsOk() (*[]Pod, bool) {
 }
 
 // HasModulePods returns a boolean if a field has been set.
-func (o *EnvironmentModulePods) HasModulePods() bool {
+func (o *EnvironmentModuleDetails) HasModulePods() bool {
 	return o != nil && o.ModulePods != nil
 }
 
 // SetModulePods gets a reference to the given []Pod and assigns it to the ModulePods field.
-func (o *EnvironmentModulePods) SetModulePods(v []Pod) {
+func (o *EnvironmentModuleDetails) SetModulePods(v []Pod) {
 	o.ModulePods = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
+func (o EnvironmentModuleDetails) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -162,8 +163,8 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 	if o.EnvironmentName != nil {
 		toSerialize["environmentName"] = o.EnvironmentName
 	}
-	if o.ModuleName != nil {
-		toSerialize["moduleName"] = o.ModuleName
+	if o.ModuleInfo != nil {
+		toSerialize["moduleInfo"] = o.ModuleInfo
 	}
 	if o.LastUpdated != nil {
 		if o.LastUpdated.Nanosecond() == 0 {
@@ -183,29 +184,38 @@ func (o EnvironmentModulePods) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EnvironmentModulePods) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnvironmentModuleDetails) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EnvironmentName *string    `json:"environmentName,omitempty"`
-		ModuleName      *string    `json:"moduleName,omitempty"`
-		LastUpdated     *time.Time `json:"lastUpdated,omitempty"`
-		ModulePods      []Pod      `json:"modulePods,omitempty"`
+		EnvironmentName *string            `json:"environmentName,omitempty"`
+		ModuleInfo      *EnvironmentModule `json:"moduleInfo,omitempty"`
+		LastUpdated     *time.Time         `json:"lastUpdated,omitempty"`
+		ModulePods      []Pod              `json:"modulePods,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"environmentName", "moduleName", "lastUpdated", "modulePods"})
+		common.DeleteKeys(additionalProperties, &[]string{"environmentName", "moduleInfo", "lastUpdated", "modulePods"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.EnvironmentName = all.EnvironmentName
-	o.ModuleName = all.ModuleName
+	if all.ModuleInfo != nil && all.ModuleInfo.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ModuleInfo = all.ModuleInfo
 	o.LastUpdated = all.LastUpdated
 	o.ModulePods = all.ModulePods
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
