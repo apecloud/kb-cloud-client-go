@@ -10162,6 +10162,48 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/redisInsight:
+    post:
+      tags:
+        - redis
+      summary: enable redisInsight plugin
+      operationId: enableRedisInsight
+      parameters:
+        - name: orgName
+          in: path
+          description: the name of organization
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: the name of cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisInsightEnableOpt'
+      responses:
+        '200':
+          description: enable redisInsight success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisInsight'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -18998,6 +19040,32 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    RedisInsightNetMode:
+      type: string
+      enum:
+        - PRIVATE
+        - PUBLIC
+    RedisInsightSvcType:
+      type: string
+      enum:
+        - ClusterIP
+        - LoadBalancer
+        - NodePort
+    RedisInsightEnableOpt:
+      type: object
+      properties:
+        networkMode:
+          $ref: '#/components/schemas/RedisInsightNetMode'
+          description: network mode of redis insight
+        serviceType:
+          $ref: '#/components/schemas/RedisInsightSvcType'
+          description: service type of redis insight
+    RedisInsight:
+      type: object
+      properties:
+        host:
+          type: string
+          description: redis insight host
     analysisResult:
       properties:
         explanation:
