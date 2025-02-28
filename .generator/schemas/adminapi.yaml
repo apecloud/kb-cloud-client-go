@@ -17356,40 +17356,55 @@ components:
           nullable: true
     DmsSession:
       type: object
+      required:
+        - id
+        - user
+        - host
       properties:
         id:
-          type: string
-          description: session id
+          type: integer
+          description: session ID
+          format: int64
         user:
           type: string
           description: user name
         tenant:
           type: string
           description: tenant name
+          nullable: true
         host:
           type: string
-          description: host name
+          description: client host information
         db:
           type: string
           description: database name
+          nullable: true
         command:
           type: string
-          description: command
+          description: current command
+          nullable: true
         time:
-          type: string
-          description: time
+          type: integer
+          description: session duration time
+          format: int64
+          nullable: true
         state:
           type: string
-          description: state
+          description: session state
+          nullable: true
         info:
           type: string
-          description: info
+          description: additional session information
+          nullable: true
         ip:
           type: string
-          description: ip
+          description: server ip
+          nullable: true
         port:
-          type: string
-          description: port
+          type: integer
+          description: server port
+          format: int64
+          nullable: true
     DmsSessionList:
       type: array
       items:
