@@ -8999,96 +8999,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineLicense
-  /admin/v1/organizations/{orgName}/engines:
-    get:
-      tags:
-        - engine
-      operationId: listEnginesInOrg
-      summary: List engines in organization
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: environmentName
-          in: query
-          description: name of the EnvironmentName
-          schema:
-            type: string
-        - name: name
-          in: query
-          description: engine name
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: engine Type
-          schema:
-            $ref: '#/components/schemas/engineType'
-        - name: version
-          in: query
-          description: engine version
-          schema:
-            type: string
-        - name: provider
-          in: query
-          description: engine provider
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/engineList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - engine
-      operationId: engineActionInOrg
-      summary: Manage engine in organization
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: enable or disable an engine for an organization
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                engine:
-                  type: string
-                  description: the engine name
-                action:
-                  $ref: '#/components/schemas/orgEngineActionType'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                type: boolean
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: actionInfo
   /admin/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -12204,7 +12114,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/availableClusterList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12236,7 +12146,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/relatedClusterList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -17461,40 +17371,55 @@ components:
           nullable: true
     DmsSession:
       type: object
+      required:
+        - id
+        - user
+        - host
       properties:
         id:
-          type: string
-          description: session id
+          type: integer
+          description: session ID
+          format: int64
         user:
           type: string
           description: user name
         tenant:
           type: string
           description: tenant name
+          nullable: true
         host:
           type: string
-          description: host name
+          description: client host information
         db:
           type: string
           description: database name
+          nullable: true
         command:
           type: string
-          description: command
+          description: current command
+          nullable: true
         time:
-          type: string
-          description: time
+          type: integer
+          description: session duration time
+          format: int64
+          nullable: true
         state:
           type: string
-          description: state
+          description: session state
+          nullable: true
         info:
           type: string
-          description: info
+          description: additional session information
+          nullable: true
         ip:
           type: string
-          description: ip
+          description: server ip
+          nullable: true
         port:
-          type: string
-          description: port
+          type: integer
+          description: server port
+          format: int64
+          nullable: true
     DmsSessionList:
       type: array
       items:
@@ -22457,12 +22382,6 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
-    orgEngineActionType:
-      type: string
-      description: organization engine action type
-      enum:
-        - enable
-        - disable
     engineActionType:
       type: string
       description: engine action type
@@ -24491,6 +24410,69 @@ components:
             $ref: '#/components/schemas/clusterTask'
           type: array
       type: object
+    availableClusterList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: ID of the cluster
+          name:
+            type: string
+            description: Name of the cluster
+          displayName:
+            type: string
+            description: Display name of the cluster
+          clusterType:
+            type: string
+    relatedClusterListItem:
+      type: object
+      x-nullable: true
+      description: the simplified cluster info for relation
+      required:
+        - id
+        - name
+        - clusterDefinition
+        - version
+        - mode
+        - status
+        - environmentName
+        - resource
+        - storage
+        - createdAt
+      properties:
+        id:
+          type: string
+          description: ID of the cluster
+        name:
+          type: string
+          description: Name of the cluster
+        clusterDefinition:
+          type: string
+          description: Type of the cluster
+        version:
+          type: string
+        mode:
+          type: string
+        status:
+          type: string
+        environmentName:
+          type: string
+          description: Name of the environment
+        resource:
+          type: string
+          description: Resource of the cluster
+        storage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the cluster was created
+    relatedClusterList:
+      type: array
+      items:
+        $ref: '#/components/schemas/relatedClusterListItem'
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment
