@@ -158,11 +158,11 @@ func (a *RelationApi) DeleteRelation(ctx _context.Context, orgName string, clust
 }
 
 // ListAvailableClustersForRelation list the available clusters for the organization to create the a relation.
-func (a *RelationApi) ListAvailableClustersForRelation(ctx _context.Context, orgName string, clusterName string, targetType string) (ClusterList, *_nethttp.Response, error) {
+func (a *RelationApi) ListAvailableClustersForRelation(ctx _context.Context, orgName string, clusterName string, targetType string) ([]AvailableClusterListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterList
+		localVarReturnValue []AvailableClusterListItem
 	)
 
 	// Add api info to context
@@ -238,11 +238,11 @@ func (a *RelationApi) ListAvailableClustersForRelation(ctx _context.Context, org
 }
 
 // ListRelatedClusters list the clusters that have built a relation to the specified cluster.
-func (a *RelationApi) ListRelatedClusters(ctx _context.Context, orgName string, clusterName string) (ClusterList, *_nethttp.Response, error) {
+func (a *RelationApi) ListRelatedClusters(ctx _context.Context, orgName string, clusterName string) ([]RelatedClusterListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterList
+		localVarReturnValue []RelatedClusterListItem
 	)
 
 	// Add api info to context
