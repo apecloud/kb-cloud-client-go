@@ -22,6 +22,7 @@ type AccountOption struct {
 	Create              bool                 `json:"create"`
 	ResetPassword       bool                 `json:"resetPassword"`
 	Delete              bool                 `json:"delete"`
+	DisplayRootAccount  *bool                `json:"displayRootAccount,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -235,6 +236,34 @@ func (o *AccountOption) SetDelete(v bool) {
 	o.Delete = v
 }
 
+// GetDisplayRootAccount returns the DisplayRootAccount field value if set, zero value otherwise.
+func (o *AccountOption) GetDisplayRootAccount() bool {
+	if o == nil || o.DisplayRootAccount == nil {
+		var ret bool
+		return ret
+	}
+	return *o.DisplayRootAccount
+}
+
+// GetDisplayRootAccountOk returns a tuple with the DisplayRootAccount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetDisplayRootAccountOk() (*bool, bool) {
+	if o == nil || o.DisplayRootAccount == nil {
+		return nil, false
+	}
+	return o.DisplayRootAccount, true
+}
+
+// HasDisplayRootAccount returns a boolean if a field has been set.
+func (o *AccountOption) HasDisplayRootAccount() bool {
+	return o != nil && o.DisplayRootAccount != nil
+}
+
+// SetDisplayRootAccount gets a reference to the given bool and assigns it to the DisplayRootAccount field.
+func (o *AccountOption) SetDisplayRootAccount(v bool) {
+	o.DisplayRootAccount = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -252,6 +281,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize["create"] = o.Create
 	toSerialize["resetPassword"] = o.ResetPassword
 	toSerialize["delete"] = o.Delete
+	if o.DisplayRootAccount != nil {
+		toSerialize["displayRootAccount"] = o.DisplayRootAccount
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -269,6 +301,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		Create              *bool                `json:"create"`
 		ResetPassword       *bool                `json:"resetPassword"`
 		Delete              *bool                `json:"delete"`
+		DisplayRootAccount  *bool                `json:"displayRootAccount,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -290,7 +323,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount"})
 	} else {
 		return err
 	}
@@ -301,6 +334,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Create = *all.Create
 	o.ResetPassword = *all.ResetPassword
 	o.Delete = *all.Delete
+	o.DisplayRootAccount = all.DisplayRootAccount
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

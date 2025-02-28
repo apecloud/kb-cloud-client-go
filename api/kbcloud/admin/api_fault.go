@@ -18,6 +18,7 @@ import (
 type FaultApi common.Service
 
 // CreateClusterNetworkChaos Create a network chaos for cluster.
+// Deprecated: This API is deprecated.
 func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkChaos) (Fault, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -98,6 +99,7 @@ func (a *FaultApi) CreateClusterNetworkChaos(ctx _context.Context, body NetworkC
 }
 
 // CreateClusterPodChaos Create a pod chaos for cluster.
+// Deprecated: This API is deprecated.
 func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (Fault, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -178,6 +180,7 @@ func (a *FaultApi) CreateClusterPodChaos(ctx _context.Context, body PodChaos) (F
 }
 
 // DeleteFault Delete faults.
+// Deprecated: This API is deprecated.
 func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -258,6 +261,7 @@ func (a *FaultApi) DeleteFault(ctx _context.Context, body []string) (interface{}
 }
 
 // GetChaos Get chaos.
+// Deprecated: This API is deprecated.
 func (a *FaultApi) GetChaos(ctx _context.Context, faultId int32) (Fault, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -344,6 +348,7 @@ func (r *ListFaultOptionalParameters) WithType(typeVar FaultType) *ListFaultOpti
 }
 
 // ListFault List faults.
+// Deprecated: This API is deprecated.
 func (a *FaultApi) ListFault(ctx _context.Context, o ...ListFaultOptionalParameters) (FaultList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

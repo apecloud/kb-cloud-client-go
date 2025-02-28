@@ -98,19 +98,15 @@ func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_neth
 
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
-	OrgName       *string
-	ResourceId    *int32
-	ResourceType  *string
-	EventName     *string
-	OperatorId    *int32
-	OrgNames      *[]string
-	ResourceIds   *[]string
-	ResourceTypes *[]string
-	EventNames    *[]string
-	OperatorIds   *[]int32
-	PageNumber    *int32
-	PageSize      *int32
-	OrderBy       *string
+	OrgName      *string
+	ResourceId   *int64
+	ResourceType *string
+	EventName    *string
+	OperatorId   *int64
+	CustomQuery  *string
+	PageNumber   *int64
+	PageSize     *int64
+	OrderBy      *string
 }
 
 // NewListEventsOptionalParameters creates an empty struct for parameters.
@@ -126,7 +122,7 @@ func (r *ListEventsOptionalParameters) WithOrgName(orgName string) *ListEventsOp
 }
 
 // WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithResourceId(resourceId int64) *ListEventsOptionalParameters {
 	r.ResourceId = &resourceId
 	return r
 }
@@ -144,49 +140,25 @@ func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEven
 }
 
 // WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int64) *ListEventsOptionalParameters {
 	r.OperatorId = &operatorId
 	return r
 }
 
-// WithOrgNames sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOrgNames(orgNames []string) *ListEventsOptionalParameters {
-	r.OrgNames = &orgNames
-	return r
-}
-
-// WithResourceIds sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceIds(resourceIds []string) *ListEventsOptionalParameters {
-	r.ResourceIds = &resourceIds
-	return r
-}
-
-// WithResourceTypes sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceTypes(resourceTypes []string) *ListEventsOptionalParameters {
-	r.ResourceTypes = &resourceTypes
-	return r
-}
-
-// WithEventNames sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithEventNames(eventNames []string) *ListEventsOptionalParameters {
-	r.EventNames = &eventNames
-	return r
-}
-
-// WithOperatorIds sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorIds(operatorIds []int32) *ListEventsOptionalParameters {
-	r.OperatorIds = &operatorIds
+// WithCustomQuery sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithCustomQuery(customQuery string) *ListEventsOptionalParameters {
+	r.CustomQuery = &customQuery
 	return r
 }
 
 // WithPageNumber sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithPageNumber(pageNumber int64) *ListEventsOptionalParameters {
 	r.PageNumber = &pageNumber
 	return r
 }
 
 // WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithPageSize(pageSize int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithPageSize(pageSize int64) *ListEventsOptionalParameters {
 	r.PageSize = &pageSize
 	return r
 }
@@ -250,20 +222,8 @@ func (a *EventApi) ListEvents(ctx _context.Context, start int64, end int64, o ..
 	if optionalParams.OperatorId != nil {
 		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
 	}
-	if optionalParams.OrgNames != nil {
-		localVarQueryParams.Add("orgNames", common.ParameterToString(*optionalParams.OrgNames, "csv"))
-	}
-	if optionalParams.ResourceIds != nil {
-		localVarQueryParams.Add("resourceIds", common.ParameterToString(*optionalParams.ResourceIds, "csv"))
-	}
-	if optionalParams.ResourceTypes != nil {
-		localVarQueryParams.Add("resourceTypes", common.ParameterToString(*optionalParams.ResourceTypes, "csv"))
-	}
-	if optionalParams.EventNames != nil {
-		localVarQueryParams.Add("eventNames", common.ParameterToString(*optionalParams.EventNames, "csv"))
-	}
-	if optionalParams.OperatorIds != nil {
-		localVarQueryParams.Add("operatorIds", common.ParameterToString(*optionalParams.OperatorIds, "csv"))
+	if optionalParams.CustomQuery != nil {
+		localVarQueryParams.Add("customQuery", common.ParameterToString(*optionalParams.CustomQuery, ""))
 	}
 	if optionalParams.PageNumber != nil {
 		localVarQueryParams.Add("pageNumber", common.ParameterToString(*optionalParams.PageNumber, ""))

@@ -65,31 +65,6 @@ tags:
     description: License APIs
 paths:
   /admin/v1/user:
-    post:
-      description: Create a new admin user
-      summary: Create a new admin user
-      operationId: createAdminUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/adminUserCreate'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminUser'
-          description: Created
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - adminUser
     get:
       description: Get authenticated login admin user info
       summary: Get authenticated admin user
@@ -106,7 +81,7 @@ paths:
       tags:
         - adminUser
     patch:
-      description: Update the current Admin User info
+      description: Update authenticated login admin user info
       operationId: patchAdminUser
       summary: Update admin user information
       requestBody:
@@ -130,26 +105,10 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
-  /admin/v1/users:
-    get:
-      description: Get all admin users
-      summary: Get all admin users
-      operationId: listAdminUsers
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/adminUserList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-      tags:
-        - adminUser
   /admin/v1/user/password:
     patch:
-      description: Update admin user password
-      summary: Update admin user password
+      description: Update authenticated login admin user password
+      summary: Update authenticated login admin user password
       operationId: updateAdminUserPassword
       requestBody:
         content:
@@ -174,7 +133,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - user
+        - adminUser
       x-codegen-request-body-name: body
   /admin/v1/user/apikey/{keyName}:
     patch:
@@ -267,14 +226,87 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
-  /admin/v1/user/{username}:
+  /admin/v1/users:
+    post:
+      description: Create a new admin user
+      summary: Create a new admin user
+      operationId: createAdminUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUserCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUser'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - adminUser
+    get:
+      description: list admin users
+      summary: list admin users
+      operationId: listAdminUsers
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUserList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - adminUser
+  /admin/v1/users/{userID}:
+    patch:
+      description: Update the information of the specified admin user
+      operationId: patchAdminUsersProfile
+      summary: Update the information of the specified admin user
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the admin user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUserUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/adminUser'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - adminUser
     delete:
       description: delete admin user
       operationId: deleteAdminUser
       summary: delete admin user
       parameters:
         - in: path
-          name: username
+          name: userID
           description: Name of the admin user
           required: true
           schema:
@@ -291,6 +323,37 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - adminUser
+  /admin/v1/users/{userID}/password:
+    patch:
+      description: Update admin user password
+      operationId: updateAdminUsersPassword
+      summary: Update admin user password
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the admin user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/adminUsersPassword'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Password updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - adminUser
+      x-codegen-request-body-name: body
   /admin/v1/metrics/metaData/aggregate:
     get:
       description: Get aggregate meta data including total count and time series
@@ -1114,56 +1177,6 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - cluster
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
-    get:
-      operationId: analyzeService
-      summary: Analyze service
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the Service
-          in: path
-          name: serviceName
-          required: true
-          schema:
-            type: string
-        - description: name of the Port
-          in: query
-          name: portName
-          schema:
-            type: string
-        - description: endpoints to be analyzed
-          in: query
-          name: endpoints
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/endpoints:
     get:
       operationId: listEndpoints
@@ -1377,40 +1390,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/view/analyze:
-    get:
-      operationId: analyzeView
-      summary: Analyze cluster view
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       deprecated: true
@@ -1430,16 +1409,16 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
         - description: component type
           in: query
           name: component
           schema:
             type: string
+        - description: include root account
+          in: query
+          name: includeRoot
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -2138,6 +2117,7 @@ paths:
           name: resourceId
           schema:
             type: integer
+            format: int64
         - description: resource type
           in: query
           name: resourceType
@@ -2153,72 +2133,24 @@ paths:
           name: operatorId
           schema:
             type: integer
-        - description: Organization Names
+            format: int64
+        - description: Advanced query conditions, supporting all types of filterType. Such as "orgID:111 orgID:222 operatorID:333"
           in: query
-          name: orgNames
+          name: customQuery
           schema:
-            type: array
-            items:
-              type: string
-            example:
-              - org1
-              - org2
-          style: form
-          explode: false
-        - description: resource IDs
-          in: query
-          name: resourceIds
-          schema:
-            type: array
-            items:
-              type: string
-            example:
-              - '1'
-              - '2'
-              - '3'
-          style: form
-          explode: false
-        - description: resource types
-          in: query
-          name: resourceTypes
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: false
-        - description: Event Names
-          in: query
-          name: eventNames
-          schema:
-            type: array
-            items:
-              type: string
-          style: form
-          explode: false
-        - description: User ID of the operators
-          in: query
-          name: operatorIds
-          schema:
-            type: array
-            items:
-              type: integer
-            example:
-              - 1
-              - 2
-              - 3
-          style: form
-          explode: false
+            type: string
         - description: the pageNumber of the query
           in: query
           name: pageNumber
           schema:
             type: integer
+            format: int64
         - description: the pageSize of the query
           in: query
           name: pageSize
           schema:
             type: integer
+            format: int64
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
         - $ref: '#/components/parameters/orderBy'
@@ -2621,96 +2553,6 @@ paths:
       tags:
         - paramTpl
       x-codegen-request-body-name: body
-  /admin/v1/organizations/paramTpls/{paramTplName}/analyze:
-    get:
-      deprecated: true
-      description: analyze parameter, deprecated, instead use analyzeParameter
-      operationId: analyzeParam
-      summary: Analyze parameter
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: false
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in read paramTpl request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-        - description: the parameter item in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
-    get:
-      deprecated: true
-      description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
-      operationId: analyzeClusterParam
-      summary: Analyze cluster parameter
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter name in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter value of an item
-          in: query
-          name: parameterValue
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
     get:
       operationId: listParameterProps
@@ -3047,92 +2889,6 @@ paths:
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
-  /admin/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze:
-    get:
-      operationId: analyzeParameter
-      summary: Analyze parameter
-      parameters:
-        - description: name of the Org
-          in: query
-          name: orgName
-          required: false
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: parameterTemplateName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in read parameter template request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-        - description: the parameter item in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze:
-    get:
-      operationId: analyzeClusterParameter
-      summary: Analyze cluster parameter
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter name in paramTpl
-          in: query
-          name: parameterName
-          required: true
-          schema:
-            type: string
-        - description: the parameter value of an item
-          in: query
-          name: parameterValue
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -3350,23 +3106,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: the sql string
-                limit:
-                  type: integer
-                  description: the query limit
-                  default: 200
-                database:
-                  type: string
-                  description: the database for executing SQL queries
-                  default: ''
-                noRecord:
-                  type: boolean
-                  description: if noRecord is true, the query(s) will not be added to query history
-                  nullable: true
+              $ref: '#/components/schemas/DmsQueryRequest'
         required: true
       responses:
         '200':
@@ -3404,23 +3144,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: the sql string
-                limit:
-                  type: integer
-                  description: the query limit
-                  default: 200
-                database:
-                  type: string
-                  description: the database for executing SQL queries
-                  default: ''
-                format:
-                  type: string
-                  description: the file format for export data
-                  default: csv
+              $ref: '#/components/schemas/DmsExportRequest'
       responses:
         '200':
           description: data in format
@@ -3460,47 +3184,7 @@ paths:
         content:
           application/json:
             schema:
-              description: the data of the import task
-              type: object
-              required:
-                - fileType
-                - tableName
-                - database
-              properties:
-                firstLineColumn:
-                  type: boolean
-                  description: whether the first line of the file is column name
-                  default: true
-                fieldsTerminalBy:
-                  type: string
-                  description: the delimiter of fields
-                  default: ','
-                fieldNames:
-                  type: array
-                  description: the field names
-                  items:
-                    type: string
-                  nullable: true
-                ignoreForeignKey:
-                  type: boolean
-                  description: whether ignore foreign key when import data or not
-                  default: false
-                fileType:
-                  type: string
-                file:
-                  type: string
-                  format: binary
-                  description: the data file, csv or other format
-                tableName:
-                  type: string
-                  description: the target table name
-                database:
-                  type: string
-                  description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
-                skipNull:
-                  type: boolean
-                  description: whether skip the row which has null value when import data
-                  default: true
+              $ref: '#/components/schemas/DmsImportRequest'
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/DmsImportFormData'
@@ -3828,15 +3512,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                query:
-                  type: string
-                  description: the sql string
-                database:
-                  type: string
-                  description: the database for explaining the SQL
-                  default: ''
+              $ref: '#/components/schemas/DmsExplainRequest'
         required: true
       responses:
         '200':
@@ -3874,16 +3550,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                type:
-                  $ref: '#/components/schemas/DmsGenerateDdlOperationType'
-                tableMetadata:
-                  $ref: '#/components/schemas/DmsTableMetadata'
-                viewMetadata:
-                  $ref: '#/components/schemas/DmsViewMetadata'
-              required:
-                - type
+              $ref: '#/components/schemas/DmsGenerateDDLRequest'
       responses:
         '200':
           description: A successful response.
@@ -3921,19 +3588,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                database:
-                  type: string
-                  description: the database of the table or view
-                  default: ''
-                table:
-                  type: string
-                  description: the target table or view name
-                limit:
-                  type: integer
-                  description: return limited number of data
-                  default: 200
+              $ref: '#/components/schemas/ShowDataRequest'
         required: true
       responses:
         '200':
@@ -4370,99 +4025,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterLog
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
-    get:
-      description: Analyze error logs of a cluster
-      summary: Analyze cluster error logs
-      operationId: analyzeLogs
-      parameters:
-        - in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: componentName
-          schema:
-            type: string
-        - in: query
-          name: instanceName
-          schema:
-            type: string
-        - in: query
-          name: startTime
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: endTime
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: limit
-          schema:
-            type: string
-        - in: query
-          name: sortType
-          schema:
-            $ref: '#/components/schemas/sortType'
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze:
-    post:
-      description: Analyze slow logs of a cluster
-      summary: Analyze cluster slow logs
-      operationId: analyzeSlowLogs
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClusterExecutionLog'
-      parameters:
-        - in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: Successful operation
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure:
     post:
       operationId: reconfigureCluster
@@ -5071,51 +4633,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/analyze:
-    get:
-      description: analyze a OpsRequest
-      summary: Analyze OpsRequest
-      operationId: analyzeOps
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: type of the OpsRequest
-          in: query
-          name: opsType
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: Successful analysis
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
     get:
       tags:
@@ -7589,38 +7106,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backup
-  /admin/v1/organizations/{orgName}/backups/{backupId}/analyze:
-    get:
-      operationId: analyzeBackup
-      summary: Analyze backup
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: id of the Backup
-          in: path
-          name: backupId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /admin/v1/organizations/{orgName}/backups/{backupId}/view:
     post:
       tags:
@@ -8070,38 +7555,6 @@ paths:
       tags:
         - restore
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze:
-    get:
-      operationId: analyzeClusterRestore
-      summary: Analyze cluster restore tasks
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the KubeBlocks cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/analysisResult'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - analyze
   /admin/v1/alertSMTPConfig:
     get:
       tags:
@@ -9551,96 +9004,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineLicense
-  /admin/v1/organizations/{orgName}/engines:
-    get:
-      tags:
-        - engine
-      operationId: listEnginesInOrg
-      summary: List engines in organization
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: environmentName
-          in: query
-          description: name of the EnvironmentName
-          schema:
-            type: string
-        - name: name
-          in: query
-          description: engine name
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: engine Type
-          schema:
-            $ref: '#/components/schemas/engineType'
-        - name: version
-          in: query
-          description: engine version
-          schema:
-            type: string
-        - name: provider
-          in: query
-          description: engine provider
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/engineList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - engine
-      operationId: engineActionInOrg
-      summary: Manage engine in organization
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        description: enable or disable an engine for an organization
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                engine:
-                  type: string
-                  description: the engine name
-                action:
-                  $ref: '#/components/schemas/orgEngineActionType'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                type: boolean
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: actionInfo
   /admin/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -9750,7 +9113,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: enable,disable and upgrade engine version
+        description: Request body for engine operations
         content:
           application/json:
             schema:
@@ -9758,20 +9121,24 @@ paths:
               properties:
                 version:
                   type: string
-                  description: enable,disable and upgrade version
+                  description: Version of the engine, required for upgrade/enable/disable action
                 action:
                   $ref: '#/components/schemas/engineActionType'
                 id:
                   type: string
-                  description: the engine id to action
+                  description: The engine id to action
         required: true
       responses:
         '200':
-          description: A successful response.
+          description: Operation completed successfully
           content:
             application/json:
               schema:
-                type: boolean
+                type: string
+                example: enable succeeded
+                description: Success message indicating the operation result
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10715,6 +10082,7 @@ paths:
     post:
       operationId: createLLM
       summary: Create LLM
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -10761,6 +10129,7 @@ paths:
     get:
       operationId: listLLM
       summary: List LLM
+      deprecated: true
       produces:
         - application/json
       responses:
@@ -10780,6 +10149,7 @@ paths:
     patch:
       operationId: updateLLM
       summary: Update LLM
+      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10834,6 +10204,7 @@ paths:
     delete:
       operationId: deleteLLM
       summary: Delete LLM
+      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -11655,6 +11026,7 @@ paths:
         - fault
       operationId: listFault
       summary: List faults
+      deprecated: true
       parameters:
         - name: cluster
           in: query
@@ -11684,6 +11056,7 @@ paths:
         - fault
       operationId: deleteFault
       summary: Delete faults
+      deprecated: true
       requestBody:
         description: ids of the faults
         content:
@@ -11711,6 +11084,7 @@ paths:
         - fault
       operationId: getChaos
       summary: Get chaos
+      deprecated: true
       parameters:
         - name: faultId
           in: path
@@ -11731,6 +11105,7 @@ paths:
         - fault
       operationId: createClusterPodChaos
       summary: Create a pod chaos for cluster
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -11755,6 +11130,7 @@ paths:
         - fault
       operationId: createClusterNetworkChaos
       summary: Create a network chaos for cluster
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -12640,7 +12016,7 @@ paths:
           $ref: '#/components/responses/500'
   /admin/v1/clustertasks:
     get:
-      operationId: listTasks
+      operationId: listClusterTasks
       summary: List cluster tasks
       parameters:
         - description: name of the Org
@@ -12743,7 +12119,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/availableClusterList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12775,7 +12151,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/relatedClusterList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14236,11 +13612,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -14291,9 +13662,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14396,6 +13770,61 @@ paths:
         - account
         - rdbms
       x-codegen-request-body-name: body
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password:
+    get:
+      description: get root account password
+      summary: get root account password
+      operationId: getRootAccountPassword
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+        - description: name of the component
+          in: query
+          name: component
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get root account password success
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -14558,11 +13987,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: include root account
-          in: query
-          name: includeRoot
-          schema:
-            type: boolean
       responses:
         '200':
           content:
@@ -14607,9 +14031,12 @@ paths:
               $ref: '#/components/schemas/account'
         required: true
       responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
+        '201':
+          description: create redis account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14684,6 +14111,442 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
+    get:
+      operationId: analyzeService
+      summary: Analyze service
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Service
+          in: path
+          name: serviceName
+          required: true
+          schema:
+            type: string
+        - description: name of the Port
+          in: query
+          name: portName
+          schema:
+            type: string
+        - description: endpoints to be analyzed
+          in: query
+          name: endpoints
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
+    get:
+      description: Analyze error logs of a cluster
+      summary: Analyze cluster error logs
+      operationId: analyzeLogs
+      deprecated: true
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze:
+    post:
+      description: Analyze slow logs of a cluster
+      summary: Analyze cluster slow logs
+      operationId: analyzeSlowLogs
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterExecutionLog'
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/paramTpls/{paramTplName}/analyze:
+    get:
+      deprecated: true
+      description: analyze parameter, deprecated, instead use analyzeParameter
+      operationId: analyzeParam
+      summary: Analyze parameter
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: paramTplName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read paramTpl request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+        - description: the parameter item in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
+    get:
+      deprecated: true
+      description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
+      operationId: analyzeClusterParam
+      summary: Analyze cluster parameter
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter name in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter value of an item
+          in: query
+          name: parameterValue
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/parameterTemplate/{parameterTemplateName}/analyze:
+    get:
+      operationId: analyzeParameter
+      summary: Analyze parameter
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the parameter template
+          in: path
+          name: parameterTemplateName
+          required: true
+          schema:
+            type: string
+        - description: the template partition in read parameter template request
+          in: query
+          name: partition
+          schema:
+            $ref: '#/components/schemas/paramTplPartition'
+        - description: the parameter item in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameter/analyze:
+    get:
+      operationId: analyzeClusterParameter
+      summary: Analyze cluster parameter
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter name in paramTpl
+          in: query
+          name: parameterName
+          required: true
+          schema:
+            type: string
+        - description: the parameter value of an item
+          in: query
+          name: parameterValue
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/analyze:
+    get:
+      description: analyze a OpsRequest
+      summary: Analyze OpsRequest
+      operationId: analyzeOps
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: type of the OpsRequest
+          in: query
+          name: opsType
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: Successful analysis
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/backups/{backupId}/analyze:
+    get:
+      operationId: analyzeBackup
+      summary: Analyze backup
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: id of the Backup
+          in: path
+          name: backupId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/restore/analyze:
+    get:
+      operationId: analyzeClusterRestore
+      summary: Analyze cluster restore tasks
+      deprecated: true
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/analysisResult'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - analyze
 components:
   securitySchemes:
     BearerToken:
@@ -14743,53 +14606,22 @@ components:
       required:
         - code
       type: object
-    adminUserCreate:
-      description: Admin user create
-      properties:
-        userName:
-          description: The name of the user, is unique
-          type: string
-        password:
-          description: The password of the admin user
-          type: string
-        email:
-          description: The email for the user
-          type: string
-          format: email
-        phoneNumber:
-          $ref: '#/components/schemas/phoneNumber'
-      required:
-        - userName
-        - password
-        - email
-      type: object
     adminUserUpdate:
       description: Admin user update
       properties:
         userName:
           description: The name of the user, is unique
           type: string
+        phoneNumber:
+          $ref: '#/components/schemas/phoneNumber'
         email:
           description: The email for the user
           type: string
           format: email
-        phoneNumber:
-          $ref: '#/components/schemas/phoneNumber'
       required:
         - userName
         - email
       type: object
-    adminUserList:
-      description: Admin user list
-      type: object
-      properties:
-        items:
-          description: Items is the list of admin user objects in the list
-          items:
-            $ref: '#/components/schemas/adminUser'
-          type: array
-      required:
-        - items
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
       properties:
@@ -14885,6 +14717,46 @@ components:
         - secretKey
         - description
         - createAt
+      type: object
+    adminUserList:
+      description: Admin user list
+      type: object
+      properties:
+        items:
+          description: Items is the list of admin user objects in the list
+          items:
+            $ref: '#/components/schemas/adminUser'
+          type: array
+      required:
+        - items
+    adminUserCreate:
+      description: Admin user create
+      properties:
+        userName:
+          description: The name of the user, is unique
+          type: string
+        password:
+          description: The password of the admin user
+          type: string
+        email:
+          description: The email for the user
+          type: string
+          format: email
+        phoneNumber:
+          $ref: '#/components/schemas/phoneNumber'
+      required:
+        - userName
+        - password
+        - email
+      type: object
+    adminUsersPassword:
+      description: Admin user password
+      properties:
+        newPassword:
+          description: The new password for the admin user.
+          type: string
+      required:
+        - newPassword
       type: object
     aggregateMetaDataType:
       type: string
@@ -15444,7 +15316,6 @@ components:
           description: volume name
         storage:
           title: Storage(Gi)
-          maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
@@ -15465,8 +15336,6 @@ components:
           description: number of components
         replicas:
           title: Replicas
-          maximum: 5
-          minimum: 1
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         classCode:
@@ -15475,16 +15344,11 @@ components:
           type: string
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
@@ -15871,13 +15735,6 @@ components:
           type: array
       required:
         - items
-      type: object
-    analysisResult:
-      properties:
-        explanation:
-          type: string
-        error:
-          type: string
       type: object
     endpointType:
       description: Type of endpoint
@@ -16922,6 +16779,30 @@ components:
       items:
         $ref: '#/components/schemas/datasource'
       type: array
+    DmsQueryBaseRequest:
+      type: object
+      properties:
+        database:
+          type: string
+          description: the database of the table or view
+          default: ''
+        query:
+          type: string
+          description: the sql string
+        limit:
+          type: integer
+          description: return limited number of data
+          default: 200
+    DmsQueryRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DmsQueryBaseRequest'
+        - type: object
+          properties:
+            noRecord:
+              type: boolean
+              description: if noRecord is true, the query(s) will not be added to query history
+              nullable: true
     DmsPagination:
       type: object
       properties:
@@ -16981,6 +16862,57 @@ components:
           items:
             type: string
           nullable: true
+    DmsExportRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/DmsQueryBaseRequest'
+        - type: object
+          properties:
+            format:
+              type: string
+              description: the file format for export data
+    DmsImportRequest:
+      description: the data of the import task
+      type: object
+      required:
+        - fileType
+        - tableName
+        - database
+      properties:
+        firstLineColumn:
+          type: boolean
+          description: whether the first line of the file is column name
+          default: true
+        fieldsTerminalBy:
+          type: string
+          description: the delimiter of fields
+          default: ','
+        fieldNames:
+          type: array
+          description: the field names
+          items:
+            type: string
+          nullable: true
+        ignoreForeignKey:
+          type: boolean
+          description: whether ignore foreign key when import data or not
+          default: false
+        fileType:
+          type: string
+        file:
+          type: string
+          format: binary
+          description: the data file, csv or other format
+        tableName:
+          type: string
+          description: the target table name
+        database:
+          type: string
+          description: the database of the specific table, required for the engine which don't need to specify database when create database, such as mysql
+        skipNull:
+          type: boolean
+          description: whether skip the row which has null value when import data
+          default: true
     DmsImportFormData:
       description: the data of the import task
       type: object
@@ -17029,6 +16961,7 @@ components:
         type: string
     DmsObject:
       type: object
+      x-nullable: true
       properties:
         type:
           type: string
@@ -17083,6 +17016,16 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/DmsQueryHistory'
+    DmsExplainRequest:
+      type: object
+      properties:
+        query:
+          type: string
+          description: the sql string
+        database:
+          type: string
+          description: the database for explaining the SQL
+          default: ''
     DmsGenerateDdlOperationType:
       type: string
       description: operation type
@@ -17406,42 +17349,82 @@ components:
           type: string
           description: The SQL statement defining the view
           nullable: true
-    DmsSession:
+    DmsGenerateDDLRequest:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: '#/components/schemas/DmsGenerateDdlOperationType'
+        tableMetadata:
+          $ref: '#/components/schemas/DmsTableMetadata'
+        viewMetadata:
+          $ref: '#/components/schemas/DmsViewMetadata'
+    ShowDataRequest:
       type: object
       properties:
-        id:
+        database:
           type: string
-          description: session id
+          description: the database of the table or view
+          default: ''
+        table:
+          type: string
+          description: the target table or view name
+        limit:
+          type: integer
+          description: return limited number of data
+          nullable: true
+    DmsSession:
+      type: object
+      required:
+        - id
+        - user
+        - host
+      properties:
+        id:
+          type: integer
+          description: session ID
+          format: int64
         user:
           type: string
           description: user name
         tenant:
           type: string
           description: tenant name
+          nullable: true
         host:
           type: string
-          description: host name
+          description: client host information
         db:
           type: string
           description: database name
+          nullable: true
         command:
           type: string
-          description: command
+          description: current command
+          nullable: true
         time:
-          type: string
-          description: time
+          type: integer
+          description: session duration time
+          format: int64
+          nullable: true
         state:
           type: string
-          description: state
+          description: session state
+          nullable: true
         info:
           type: string
-          description: info
+          description: additional session information
+          nullable: true
         ip:
           type: string
-          description: ip
+          description: server ip
+          nullable: true
         port:
-          type: string
-          description: port
+          type: integer
+          description: server port
+          format: int64
+          nullable: true
     DmsSessionList:
       type: array
       items:
@@ -17452,42 +17435,6 @@ components:
         - asc
         - desc
       type: string
-    ClusterExecutionLog:
-      type: object
-      description: Log entry for cluster execution
-      properties:
-        timestamp:
-          type: integer
-          format: int64
-          description: Timestamp of the execution
-        client:
-          type: string
-          description: Client identifier
-        dbName:
-          type: string
-          description: Database name
-        user:
-          type: string
-          description: User who executed the command
-        executionTime:
-          type: number
-          description: Time taken for execution
-          format: double
-        command:
-          type: string
-          description: Command that was executed
-        extra:
-          type: object
-          description: Additional information
-          additionalProperties: true
-      required:
-        - timestamp
-        - client
-        - dbName
-        - user
-        - executionTime
-        - command
-        - extra
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -17596,6 +17543,8 @@ components:
             properties:
               default:
                 type: boolean
+              defaultMinorVersion:
+                type: string
               majorVersion:
                 type: string
               minorVersions:
@@ -18381,7 +18330,6 @@ components:
           description: the number of replicas
         storage:
           title: Storage(Gi)
-          maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
@@ -18523,7 +18471,6 @@ components:
       required:
         - register
         - component
-        - storage
       properties:
         register:
           $ref: '#/components/schemas/register'
@@ -19894,16 +19841,11 @@ components:
           format: double
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
@@ -19939,10 +19881,11 @@ components:
         - name
         - createdAt
         - clusterTotal
+        - status
       properties:
         name:
           type: string
-          description: The namee of the project.
+          description: The name of the project.
         clusterTotal:
           type: integer
           description: The total number of clusters in the project.
@@ -19950,6 +19893,9 @@ components:
           type: string
           format: date-time
           description: The time the project was created.
+        status:
+          type: string
+          description: The status of project.
     projectList:
       description: Project list.
       type: object
@@ -20920,8 +20866,6 @@ components:
     alertMetric:
       required:
         - key
-        - threshold
-        - notation
       type: object
       properties:
         key:
@@ -21261,6 +21205,9 @@ components:
             minorVersion:
               type: object
               properties:
+                default:
+                  type: string
+                  description: default version.
                 rollback:
                   type: boolean
                   description: determine whether minor version can be rolled back.
@@ -21454,6 +21401,9 @@ components:
           type: boolean
         delete:
           type: boolean
+        displayRootAccount:
+          type: boolean
+          x-omitempty: false
     databaseOption:
       type: object
       required:
@@ -21502,6 +21452,14 @@ components:
       properties:
         defaultMethod:
           type: string
+        restoreOption:
+          type: object
+          properties:
+            crossModeRecovery:
+              type: array
+              description: cross mode recovery options
+              items:
+                type: string
         fullMethod:
           type: array
           items:
@@ -22429,12 +22387,6 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
-    orgEngineActionType:
-      type: string
-      description: organization engine action type
-      enum:
-        - enable
-        - disable
     engineActionType:
       type: string
       description: engine action type
@@ -22506,26 +22458,35 @@ components:
         cpu:
           type: number
           multipleOf: 0.1
+          minimum: 0.1
           format: double
         cpuRequest:
           type: number
           multipleOf: 0.1
+          minimum: 0.1
           format: double
         cpuLimit:
           type: number
           multipleOf: 0.1
+          minimum: 0.1
           format: double
         memory:
           type: number
           multipleOf: 0.1
+          description: memory, unit is Gi
+          minimum: 0.05
           format: double
         memoryRequest:
           type: number
           multipleOf: 0.1
+          description: memory request, unit is Gi
+          minimum: 0.05
           format: double
         memoryLimit:
           type: number
           multipleOf: 0.1
+          description: memory limit, unit is Gi
+          minimum: 0.05
           format: double
         component:
           type: string
@@ -23814,8 +23775,6 @@ components:
         - name
         - value
         - description
-        - maximum
-        - minimum
       properties:
         name:
           description: The name of the parameter
@@ -23839,10 +23798,12 @@ components:
           description: The maximum value of the parameter
           format: double
           type: number
+          nullable: true
         minimum:
           description: The minimum value of the parameter
           format: double
           type: number
+          nullable: true
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
@@ -23868,17 +23829,13 @@ components:
         - tenantName
         - mode
         - newValue
-        - oldValue
       properties:
         parameter:
           type: string
           description: parameter to alter
-        oldValue:
-          type: string
-          description: old value of parameter
         newValue:
           type: string
-          description: old value of parameter
+          description: new value of parameter
         mode:
           type: string
           description: tenant mode
@@ -24091,18 +24048,12 @@ components:
           format: date-time
           type: string
         cpu:
-          multipleOf: 0.5
-          maximum: 256
-          minimum: 0.5
           type: number
           format: double
         memory:
-          maximum: 1000
-          minimum: 0.5
           type: number
           format: double
         storage:
-          maximum: 10000
           minimum: 1
           type: number
           format: double
@@ -24356,28 +24307,20 @@ components:
           description: Cluster Application Version
         replicas:
           title: Replicas
-          maximum: 5
-          minimum: 1
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         cpu:
           title: CPU
-          multipleOf: 0.5
-          maximum: 64
-          minimum: 0.5
           type: number
           description: CPU cores.
           format: double
         memory:
           title: Memory(Gi)
-          maximum: 1000
-          minimum: 0.5
           type: number
           description: Memory, the unit is Gi.
           format: double
         storage:
           title: Storage(Gi)
-          maximum: 10000
           minimum: 1
           type: number
           description: Storage size, the unit is Gi.
@@ -24471,9 +24414,70 @@ components:
           items:
             $ref: '#/components/schemas/clusterTask'
           type: array
-      required:
-        - items
       type: object
+    availableClusterList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: ID of the cluster
+          name:
+            type: string
+            description: Name of the cluster
+          displayName:
+            type: string
+            description: Display name of the cluster
+          clusterType:
+            type: string
+    relatedClusterListItem:
+      type: object
+      x-nullable: true
+      description: the simplified cluster info for relation
+      required:
+        - id
+        - name
+        - clusterDefinition
+        - version
+        - mode
+        - status
+        - environmentName
+        - resource
+        - storage
+        - createdAt
+      properties:
+        id:
+          type: string
+          description: ID of the cluster
+        name:
+          type: string
+          description: Name of the cluster
+        clusterDefinition:
+          type: string
+          description: Type of the cluster
+        version:
+          type: string
+        mode:
+          type: string
+        status:
+          type: string
+        environmentName:
+          type: string
+          description: Name of the environment
+        resource:
+          type: string
+          description: Resource of the cluster
+        storage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the cluster was created
+    relatedClusterList:
+      type: array
+      items:
+        $ref: '#/components/schemas/relatedClusterListItem'
     environmentModuleInfo:
       type: object
       description: Environment module information in an environment
@@ -25199,6 +25203,49 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/environmentModule'
+    analysisResult:
+      properties:
+        explanation:
+          type: string
+        error:
+          type: string
+      type: object
+    ClusterExecutionLog:
+      type: object
+      description: Log entry for cluster execution
+      properties:
+        timestamp:
+          type: integer
+          format: int64
+          description: Timestamp of the execution
+        client:
+          type: string
+          description: Client identifier
+        dbName:
+          type: string
+          description: Database name
+        user:
+          type: string
+          description: User who executed the command
+        executionTime:
+          type: number
+          description: Time taken for execution
+          format: double
+        command:
+          type: string
+          description: Command that was executed
+        extra:
+          type: object
+          description: Additional information
+          additionalProperties: true
+      required:
+        - timestamp
+        - client
+        - dbName
+        - user
+        - executionTime
+        - command
+        - extra
   responses:
     '204':
       description: No Content

@@ -7,18 +7,21 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type Class struct {
-	Engine        *string  `json:"engine,omitempty"`
-	Code          *string  `json:"code,omitempty"`
-	CodeShort     *string  `json:"codeShort,omitempty"`
-	Mode          *string  `json:"mode,omitempty"`
-	Cpu           *float64 `json:"cpu,omitempty"`
-	CpuRequest    *float64 `json:"cpuRequest,omitempty"`
-	CpuLimit      *float64 `json:"cpuLimit,omitempty"`
-	Memory        *float64 `json:"memory,omitempty"`
+	Engine     *string  `json:"engine,omitempty"`
+	Code       *string  `json:"code,omitempty"`
+	CodeShort  *string  `json:"codeShort,omitempty"`
+	Mode       *string  `json:"mode,omitempty"`
+	Cpu        *float64 `json:"cpu,omitempty"`
+	CpuRequest *float64 `json:"cpuRequest,omitempty"`
+	CpuLimit   *float64 `json:"cpuLimit,omitempty"`
+	// memory, unit is Gi
+	Memory *float64 `json:"memory,omitempty"`
+	// memory request, unit is Gi
 	MemoryRequest *float64 `json:"memoryRequest,omitempty"`
-	MemoryLimit   *float64 `json:"memoryLimit,omitempty"`
-	Component     *string  `json:"component,omitempty"`
-	InstanceType  *string  `json:"instanceType,omitempty"`
+	// memory limit, unit is Gi
+	MemoryLimit  *float64 `json:"memoryLimit,omitempty"`
+	Component    *string  `json:"component,omitempty"`
+	InstanceType *string  `json:"instanceType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
