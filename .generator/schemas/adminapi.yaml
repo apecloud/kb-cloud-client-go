@@ -21400,6 +21400,9 @@ components:
         displayRootAccount:
           type: boolean
           x-omitempty: false
+        allowUpdateRootPassword:
+          type: boolean
+          x-omitempty: false
     databaseOption:
       type: object
       required:
