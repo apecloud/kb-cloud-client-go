@@ -10,18 +10,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AccountRoleType Role name should be one of [SUPERUSER, BASICUSER].
+// AccountRoleType Role name should be one of [BASICUSER, SUPERUSER, ROOT].
 type AccountRoleType string
 
 // List of AccountRoleType.
 const (
 	AccountRoleTypeSuperuser AccountRoleType = "SUPERUSER"
 	AccountRoleTypeBasicuser AccountRoleType = "BASICUSER"
+	AccountRoleTypeRoot      AccountRoleType = "ROOT"
 )
 
 var allowedAccountRoleTypeEnumValues = []AccountRoleType{
 	AccountRoleTypeSuperuser,
 	AccountRoleTypeBasicuser,
+	AccountRoleTypeRoot,
 }
 
 // GetAllowedValues returns the list of possible values.

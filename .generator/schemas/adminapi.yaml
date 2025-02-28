@@ -15942,10 +15942,11 @@ components:
       type: array
     accountRoleType:
       default: SUPERUSER
-      description: Role name should be one of [SUPERUSER, BASICUSER].
+      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
       enum:
         - SUPERUSER
         - BASICUSER
+        - ROOT
       title: role
       type: string
     account:
