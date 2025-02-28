@@ -15620,7 +15620,7 @@ components:
         displayRootAccount:
           type: boolean
           x-omitempty: false
-        allowUpdateRootPassword:
+        resetRootPassword:
           type: boolean
           x-omitempty: false
     databaseOption:
