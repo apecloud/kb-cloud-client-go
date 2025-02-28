@@ -15942,10 +15942,11 @@ components:
       type: array
     accountRoleType:
       default: SUPERUSER
-      description: Role name should be one of [SUPERUSER, BASICUSER].
+      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
       enum:
         - SUPERUSER
         - BASICUSER
+        - ROOT
       title: role
       type: string
     account:
@@ -21397,6 +21398,9 @@ components:
         delete:
           type: boolean
         displayRootAccount:
+          type: boolean
+          x-omitempty: false
+        resetRootPassword:
           type: boolean
           x-omitempty: false
     databaseOption:
