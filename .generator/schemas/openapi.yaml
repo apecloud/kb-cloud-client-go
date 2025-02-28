@@ -8729,7 +8729,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/availableClusterList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -8761,7 +8761,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/relatedClusterList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -18068,6 +18068,69 @@ components:
         - clusterId
         - parentId
       type: object
+    availableClusterList:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: ID of the cluster
+          name:
+            type: string
+            description: Name of the cluster
+          displayName:
+            type: string
+            description: Display name of the cluster
+          clusterType:
+            type: string
+    relatedClusterListItem:
+      type: object
+      x-nullable: true
+      description: the simplified cluster info for relation
+      required:
+        - id
+        - name
+        - clusterDefinition
+        - version
+        - mode
+        - status
+        - environmentName
+        - resource
+        - storage
+        - createdAt
+      properties:
+        id:
+          type: string
+          description: ID of the cluster
+        name:
+          type: string
+          description: Name of the cluster
+        clusterDefinition:
+          type: string
+          description: Type of the cluster
+        version:
+          type: string
+        mode:
+          type: string
+        status:
+          type: string
+        environmentName:
+          type: string
+          description: Name of the environment
+        resource:
+          type: string
+          description: Resource of the cluster
+        storage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          description: Time when the cluster was created
+    relatedClusterList:
+      type: array
+      items:
+        $ref: '#/components/schemas/relatedClusterListItem'
     Broker:
       x-go-name: KafkaBroker
       type: object
