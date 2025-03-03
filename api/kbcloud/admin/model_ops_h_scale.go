@@ -18,6 +18,8 @@ type OpsHScale struct {
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
 	// number of shards, mutually exclusive with replicas.
 	Shards common.NullableInt32 `json:"shards,omitempty"`
+	// Specifies the list of instances to take offline
+	OnlineInstancesToOffline []string `json:"onlineInstancesToOffline,omitempty"`
 	// Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
 	PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -144,6 +146,34 @@ func (o *OpsHScale) UnsetShards() {
 	o.Shards.Unset()
 }
 
+// GetOnlineInstancesToOffline returns the OnlineInstancesToOffline field value if set, zero value otherwise.
+func (o *OpsHScale) GetOnlineInstancesToOffline() []string {
+	if o == nil || o.OnlineInstancesToOffline == nil {
+		var ret []string
+		return ret
+	}
+	return o.OnlineInstancesToOffline
+}
+
+// GetOnlineInstancesToOfflineOk returns a tuple with the OnlineInstancesToOffline field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsHScale) GetOnlineInstancesToOfflineOk() (*[]string, bool) {
+	if o == nil || o.OnlineInstancesToOffline == nil {
+		return nil, false
+	}
+	return &o.OnlineInstancesToOffline, true
+}
+
+// HasOnlineInstancesToOffline returns a boolean if a field has been set.
+func (o *OpsHScale) HasOnlineInstancesToOffline() bool {
+	return o != nil && o.OnlineInstancesToOffline != nil
+}
+
+// SetOnlineInstancesToOffline gets a reference to the given []string and assigns it to the OnlineInstancesToOffline field.
+func (o *OpsHScale) SetOnlineInstancesToOffline(v []string) {
+	o.OnlineInstancesToOffline = v
+}
+
 // GetPreConditionDeadlineSeconds returns the PreConditionDeadlineSeconds field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *OpsHScale) GetPreConditionDeadlineSeconds() int32 {
 	if o == nil || o.PreConditionDeadlineSeconds.Get() == nil {
@@ -196,6 +226,9 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 	if o.Shards.IsSet() {
 		toSerialize["shards"] = o.Shards.Get()
 	}
+	if o.OnlineInstancesToOffline != nil {
+		toSerialize["onlineInstancesToOffline"] = o.OnlineInstancesToOffline
+	}
 	if o.PreConditionDeadlineSeconds.IsSet() {
 		toSerialize["preConditionDeadlineSeconds"] = o.PreConditionDeadlineSeconds.Get()
 	}
@@ -212,6 +245,7 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 		Component                   *string              `json:"component"`
 		Replicas                    common.NullableInt32 `json:"replicas,omitempty"`
 		Shards                      common.NullableInt32 `json:"shards,omitempty"`
+		OnlineInstancesToOffline    []string             `json:"onlineInstancesToOffline,omitempty"`
 		PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -222,13 +256,14 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "replicas", "shards", "preConditionDeadlineSeconds"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "replicas", "shards", "onlineInstancesToOffline", "preConditionDeadlineSeconds"})
 	} else {
 		return err
 	}
 	o.Component = *all.Component
 	o.Replicas = all.Replicas
 	o.Shards = all.Shards
+	o.OnlineInstancesToOffline = all.OnlineInstancesToOffline
 	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
 
 	if len(additionalProperties) > 0 {

@@ -221,6 +221,7 @@
 //   - [opsrequestApi.exposeCluster]
 //   - [opsrequestApi.getOpsRequestStatus]
 //   - [opsrequestApi.horizontalScaleCluster]
+//   - [opsrequestApi.instancesToOffline]
 //   - [opsrequestApi.promoteCluster]
 //   - [opsrequestApi.rebuildInstance]
 //   - [opsrequestApi.reconfigureCluster]

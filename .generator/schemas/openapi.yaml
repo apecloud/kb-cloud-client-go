@@ -3161,6 +3161,45 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instancesToOffline:
+    post:
+      operationId: instancesToOffline
+      summary: Take instances offline
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsHScale'
+        required: true
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsRequestName'
+          description: Accepted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - opsrequest
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
       description: Get cluster task
@@ -13286,6 +13325,11 @@ components:
           description: number of shards, mutually exclusive with replicas.
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          description: Specifies the list of instances to take offline
+          type: array
+          items:
+            type: string
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer

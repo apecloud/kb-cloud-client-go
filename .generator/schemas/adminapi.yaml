@@ -17608,6 +17608,11 @@ components:
           description: number of shards, mutually exclusive with replicas.
           type: integer
           nullable: true
+        onlineInstancesToOffline:
+          description: Specifies the list of instances to take offline
+          type: array
+          items:
+            type: string
         preConditionDeadlineSeconds:
           description: Specifies the maximum time in seconds that the OpsRequest will wait for its pre-conditions to be met before it aborts the operation
           type: integer
