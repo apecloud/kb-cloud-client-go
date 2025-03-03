@@ -10515,6 +10515,172 @@ paths:
       tags:
         - account
         - mongodb
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases:
+    get:
+      summary: list databases for mongodb
+      operationId: listDatabasesInMongoDB
+      tags:
+        - mongodb
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: datasource id
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success list databases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections:
+    get:
+      tags:
+        - mongodb
+      summary: List collections in mongodb
+      operationId: ListCollectionsInMongoDB
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: the id of datasource
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          description: the name of database
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success list collections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections/{collection}/documents:
+    get:
+      tags:
+        - mongodb
+      summary: List documents in mongodb
+      operationId: ListDocumentsInMongoDB
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: the id of datasource
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          description: the name of database
+          required: true
+          schema:
+            type: string
+        - name: collection
+          in: path
+          description: the name of collection
+          required: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: true
+          description: page
+          schema:
+            type: integer
+        - name: size
+          in: query
+          required: true
+          description: page size
+          schema:
+            type: integer
+        - name: filter
+          in: query
+          required: false
+          description: filter
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success list documents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DocumentList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
     get:
       description: Analyze error logs of a cluster
@@ -18649,6 +18815,19 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    DocumentList:
+      x-go-name: MongoDocumentList
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            type: object
+            additionalProperties:
+              type: object
+        total:
+          type: integer
+          x-omitempty: false
     analysisResult:
       properties:
         explanation:
