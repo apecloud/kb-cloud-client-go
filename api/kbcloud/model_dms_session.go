@@ -4,31 +4,35 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type DmsSession struct {
-	// session id
-	Id *string `json:"id,omitempty"`
+	// session ID
+	Id int64 `json:"id"`
 	// user name
-	User *string `json:"user,omitempty"`
+	User string `json:"user"`
 	// tenant name
-	Tenant *string `json:"tenant,omitempty"`
-	// host name
-	Host *string `json:"host,omitempty"`
+	Tenant common.NullableString `json:"tenant,omitempty"`
+	// client host information
+	Host string `json:"host"`
 	// database name
-	Db *string `json:"db,omitempty"`
-	// command
-	Command *string `json:"command,omitempty"`
-	// time
-	Time *string `json:"time,omitempty"`
-	// state
-	State *string `json:"state,omitempty"`
-	// info
-	Info *string `json:"info,omitempty"`
-	// ip
-	Ip *string `json:"ip,omitempty"`
-	// port
-	Port *string `json:"port,omitempty"`
+	Db common.NullableString `json:"db,omitempty"`
+	// current command
+	Command common.NullableString `json:"command,omitempty"`
+	// session duration time
+	Time common.NullableInt64 `json:"time,omitempty"`
+	// session state
+	State common.NullableString `json:"state,omitempty"`
+	// additional session information
+	Info common.NullableString `json:"info,omitempty"`
+	// server ip
+	Ip common.NullableString `json:"ip,omitempty"`
+	// server port
+	Port common.NullableInt64 `json:"port,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -38,8 +42,11 @@ type DmsSession struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmsSession() *DmsSession {
+func NewDmsSession(id int64, user string, host string) *DmsSession {
 	this := DmsSession{}
+	this.Id = id
+	this.User = user
+	this.Host = host
 	return &this
 }
 
@@ -51,312 +58,385 @@ func NewDmsSessionWithDefaults() *DmsSession {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *DmsSession) GetId() string {
-	if o == nil || o.Id == nil {
-		var ret string
+// GetId returns the Id field value.
+func (o *DmsSession) GetId() int64 {
+	if o == nil {
+		var ret int64
 		return ret
 	}
-	return *o.Id
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *DmsSession) GetIdOk() (*string, bool) {
-	if o == nil || o.Id == nil {
+func (o *DmsSession) GetIdOk() (*int64, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *DmsSession) HasId() bool {
-	return o != nil && o.Id != nil
+// SetId sets field value.
+func (o *DmsSession) SetId(v int64) {
+	o.Id = v
 }
 
-// SetId gets a reference to the given string and assigns it to the Id field.
-func (o *DmsSession) SetId(v string) {
-	o.Id = &v
-}
-
-// GetUser returns the User field value if set, zero value otherwise.
+// GetUser returns the User field value.
 func (o *DmsSession) GetUser() string {
-	if o == nil || o.User == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.User
+	return o.User
 }
 
-// GetUserOk returns a tuple with the User field value if set, nil otherwise
+// GetUserOk returns a tuple with the User field value
 // and a boolean to check if the value has been set.
 func (o *DmsSession) GetUserOk() (*string, bool) {
-	if o == nil || o.User == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.User, true
+	return &o.User, true
 }
 
-// HasUser returns a boolean if a field has been set.
-func (o *DmsSession) HasUser() bool {
-	return o != nil && o.User != nil
-}
-
-// SetUser gets a reference to the given string and assigns it to the User field.
+// SetUser sets field value.
 func (o *DmsSession) SetUser(v string) {
-	o.User = &v
+	o.User = v
 }
 
-// GetTenant returns the Tenant field value if set, zero value otherwise.
+// GetTenant returns the Tenant field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetTenant() string {
-	if o == nil || o.Tenant == nil {
+	if o == nil || o.Tenant.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Tenant
+	return *o.Tenant.Get()
 }
 
 // GetTenantOk returns a tuple with the Tenant field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetTenantOk() (*string, bool) {
-	if o == nil || o.Tenant == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Tenant, true
+	return o.Tenant.Get(), o.Tenant.IsSet()
 }
 
 // HasTenant returns a boolean if a field has been set.
 func (o *DmsSession) HasTenant() bool {
-	return o != nil && o.Tenant != nil
+	return o != nil && o.Tenant.IsSet()
 }
 
-// SetTenant gets a reference to the given string and assigns it to the Tenant field.
+// SetTenant gets a reference to the given common.NullableString and assigns it to the Tenant field.
 func (o *DmsSession) SetTenant(v string) {
-	o.Tenant = &v
+	o.Tenant.Set(&v)
 }
 
-// GetHost returns the Host field value if set, zero value otherwise.
+// SetTenantNil sets the value for Tenant to be an explicit nil.
+func (o *DmsSession) SetTenantNil() {
+	o.Tenant.Set(nil)
+}
+
+// UnsetTenant ensures that no value is present for Tenant, not even an explicit nil.
+func (o *DmsSession) UnsetTenant() {
+	o.Tenant.Unset()
+}
+
+// GetHost returns the Host field value.
 func (o *DmsSession) GetHost() string {
-	if o == nil || o.Host == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Host
+	return o.Host
 }
 
-// GetHostOk returns a tuple with the Host field value if set, nil otherwise
+// GetHostOk returns a tuple with the Host field value
 // and a boolean to check if the value has been set.
 func (o *DmsSession) GetHostOk() (*string, bool) {
-	if o == nil || o.Host == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Host, true
+	return &o.Host, true
 }
 
-// HasHost returns a boolean if a field has been set.
-func (o *DmsSession) HasHost() bool {
-	return o != nil && o.Host != nil
-}
-
-// SetHost gets a reference to the given string and assigns it to the Host field.
+// SetHost sets field value.
 func (o *DmsSession) SetHost(v string) {
-	o.Host = &v
+	o.Host = v
 }
 
-// GetDb returns the Db field value if set, zero value otherwise.
+// GetDb returns the Db field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetDb() string {
-	if o == nil || o.Db == nil {
+	if o == nil || o.Db.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Db
+	return *o.Db.Get()
 }
 
 // GetDbOk returns a tuple with the Db field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetDbOk() (*string, bool) {
-	if o == nil || o.Db == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Db, true
+	return o.Db.Get(), o.Db.IsSet()
 }
 
 // HasDb returns a boolean if a field has been set.
 func (o *DmsSession) HasDb() bool {
-	return o != nil && o.Db != nil
+	return o != nil && o.Db.IsSet()
 }
 
-// SetDb gets a reference to the given string and assigns it to the Db field.
+// SetDb gets a reference to the given common.NullableString and assigns it to the Db field.
 func (o *DmsSession) SetDb(v string) {
-	o.Db = &v
+	o.Db.Set(&v)
 }
 
-// GetCommand returns the Command field value if set, zero value otherwise.
+// SetDbNil sets the value for Db to be an explicit nil.
+func (o *DmsSession) SetDbNil() {
+	o.Db.Set(nil)
+}
+
+// UnsetDb ensures that no value is present for Db, not even an explicit nil.
+func (o *DmsSession) UnsetDb() {
+	o.Db.Unset()
+}
+
+// GetCommand returns the Command field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetCommand() string {
-	if o == nil || o.Command == nil {
+	if o == nil || o.Command.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Command
+	return *o.Command.Get()
 }
 
 // GetCommandOk returns a tuple with the Command field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetCommandOk() (*string, bool) {
-	if o == nil || o.Command == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Command, true
+	return o.Command.Get(), o.Command.IsSet()
 }
 
 // HasCommand returns a boolean if a field has been set.
 func (o *DmsSession) HasCommand() bool {
-	return o != nil && o.Command != nil
+	return o != nil && o.Command.IsSet()
 }
 
-// SetCommand gets a reference to the given string and assigns it to the Command field.
+// SetCommand gets a reference to the given common.NullableString and assigns it to the Command field.
 func (o *DmsSession) SetCommand(v string) {
-	o.Command = &v
+	o.Command.Set(&v)
 }
 
-// GetTime returns the Time field value if set, zero value otherwise.
-func (o *DmsSession) GetTime() string {
-	if o == nil || o.Time == nil {
-		var ret string
+// SetCommandNil sets the value for Command to be an explicit nil.
+func (o *DmsSession) SetCommandNil() {
+	o.Command.Set(nil)
+}
+
+// UnsetCommand ensures that no value is present for Command, not even an explicit nil.
+func (o *DmsSession) UnsetCommand() {
+	o.Command.Unset()
+}
+
+// GetTime returns the Time field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DmsSession) GetTime() int64 {
+	if o == nil || o.Time.Get() == nil {
+		var ret int64
 		return ret
 	}
-	return *o.Time
+	return *o.Time.Get()
 }
 
 // GetTimeOk returns a tuple with the Time field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsSession) GetTimeOk() (*string, bool) {
-	if o == nil || o.Time == nil {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DmsSession) GetTimeOk() (*int64, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Time, true
+	return o.Time.Get(), o.Time.IsSet()
 }
 
 // HasTime returns a boolean if a field has been set.
 func (o *DmsSession) HasTime() bool {
-	return o != nil && o.Time != nil
+	return o != nil && o.Time.IsSet()
 }
 
-// SetTime gets a reference to the given string and assigns it to the Time field.
-func (o *DmsSession) SetTime(v string) {
-	o.Time = &v
+// SetTime gets a reference to the given common.NullableInt64 and assigns it to the Time field.
+func (o *DmsSession) SetTime(v int64) {
+	o.Time.Set(&v)
 }
 
-// GetState returns the State field value if set, zero value otherwise.
+// SetTimeNil sets the value for Time to be an explicit nil.
+func (o *DmsSession) SetTimeNil() {
+	o.Time.Set(nil)
+}
+
+// UnsetTime ensures that no value is present for Time, not even an explicit nil.
+func (o *DmsSession) UnsetTime() {
+	o.Time.Unset()
+}
+
+// GetState returns the State field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetState() string {
-	if o == nil || o.State == nil {
+	if o == nil || o.State.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.State
+	return *o.State.Get()
 }
 
 // GetStateOk returns a tuple with the State field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetStateOk() (*string, bool) {
-	if o == nil || o.State == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.State, true
+	return o.State.Get(), o.State.IsSet()
 }
 
 // HasState returns a boolean if a field has been set.
 func (o *DmsSession) HasState() bool {
-	return o != nil && o.State != nil
+	return o != nil && o.State.IsSet()
 }
 
-// SetState gets a reference to the given string and assigns it to the State field.
+// SetState gets a reference to the given common.NullableString and assigns it to the State field.
 func (o *DmsSession) SetState(v string) {
-	o.State = &v
+	o.State.Set(&v)
 }
 
-// GetInfo returns the Info field value if set, zero value otherwise.
+// SetStateNil sets the value for State to be an explicit nil.
+func (o *DmsSession) SetStateNil() {
+	o.State.Set(nil)
+}
+
+// UnsetState ensures that no value is present for State, not even an explicit nil.
+func (o *DmsSession) UnsetState() {
+	o.State.Unset()
+}
+
+// GetInfo returns the Info field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetInfo() string {
-	if o == nil || o.Info == nil {
+	if o == nil || o.Info.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Info
+	return *o.Info.Get()
 }
 
 // GetInfoOk returns a tuple with the Info field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetInfoOk() (*string, bool) {
-	if o == nil || o.Info == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Info, true
+	return o.Info.Get(), o.Info.IsSet()
 }
 
 // HasInfo returns a boolean if a field has been set.
 func (o *DmsSession) HasInfo() bool {
-	return o != nil && o.Info != nil
+	return o != nil && o.Info.IsSet()
 }
 
-// SetInfo gets a reference to the given string and assigns it to the Info field.
+// SetInfo gets a reference to the given common.NullableString and assigns it to the Info field.
 func (o *DmsSession) SetInfo(v string) {
-	o.Info = &v
+	o.Info.Set(&v)
 }
 
-// GetIp returns the Ip field value if set, zero value otherwise.
+// SetInfoNil sets the value for Info to be an explicit nil.
+func (o *DmsSession) SetInfoNil() {
+	o.Info.Set(nil)
+}
+
+// UnsetInfo ensures that no value is present for Info, not even an explicit nil.
+func (o *DmsSession) UnsetInfo() {
+	o.Info.Unset()
+}
+
+// GetIp returns the Ip field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DmsSession) GetIp() string {
-	if o == nil || o.Ip == nil {
+	if o == nil || o.Ip.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.Ip
+	return *o.Ip.Get()
 }
 
 // GetIpOk returns a tuple with the Ip field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *DmsSession) GetIpOk() (*string, bool) {
-	if o == nil || o.Ip == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Ip, true
+	return o.Ip.Get(), o.Ip.IsSet()
 }
 
 // HasIp returns a boolean if a field has been set.
 func (o *DmsSession) HasIp() bool {
-	return o != nil && o.Ip != nil
+	return o != nil && o.Ip.IsSet()
 }
 
-// SetIp gets a reference to the given string and assigns it to the Ip field.
+// SetIp gets a reference to the given common.NullableString and assigns it to the Ip field.
 func (o *DmsSession) SetIp(v string) {
-	o.Ip = &v
+	o.Ip.Set(&v)
 }
 
-// GetPort returns the Port field value if set, zero value otherwise.
-func (o *DmsSession) GetPort() string {
-	if o == nil || o.Port == nil {
-		var ret string
+// SetIpNil sets the value for Ip to be an explicit nil.
+func (o *DmsSession) SetIpNil() {
+	o.Ip.Set(nil)
+}
+
+// UnsetIp ensures that no value is present for Ip, not even an explicit nil.
+func (o *DmsSession) UnsetIp() {
+	o.Ip.Unset()
+}
+
+// GetPort returns the Port field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DmsSession) GetPort() int64 {
+	if o == nil || o.Port.Get() == nil {
+		var ret int64
 		return ret
 	}
-	return *o.Port
+	return *o.Port.Get()
 }
 
 // GetPortOk returns a tuple with the Port field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsSession) GetPortOk() (*string, bool) {
-	if o == nil || o.Port == nil {
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DmsSession) GetPortOk() (*int64, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Port, true
+	return o.Port.Get(), o.Port.IsSet()
 }
 
 // HasPort returns a boolean if a field has been set.
 func (o *DmsSession) HasPort() bool {
-	return o != nil && o.Port != nil
+	return o != nil && o.Port.IsSet()
 }
 
-// SetPort gets a reference to the given string and assigns it to the Port field.
-func (o *DmsSession) SetPort(v string) {
-	o.Port = &v
+// SetPort gets a reference to the given common.NullableInt64 and assigns it to the Port field.
+func (o *DmsSession) SetPort(v int64) {
+	o.Port.Set(&v)
+}
+
+// SetPortNil sets the value for Port to be an explicit nil.
+func (o *DmsSession) SetPortNil() {
+	o.Port.Set(nil)
+}
+
+// UnsetPort ensures that no value is present for Port, not even an explicit nil.
+func (o *DmsSession) UnsetPort() {
+	o.Port.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -365,38 +445,32 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
+	toSerialize["id"] = o.Id
+	toSerialize["user"] = o.User
+	if o.Tenant.IsSet() {
+		toSerialize["tenant"] = o.Tenant.Get()
 	}
-	if o.User != nil {
-		toSerialize["user"] = o.User
+	toSerialize["host"] = o.Host
+	if o.Db.IsSet() {
+		toSerialize["db"] = o.Db.Get()
 	}
-	if o.Tenant != nil {
-		toSerialize["tenant"] = o.Tenant
+	if o.Command.IsSet() {
+		toSerialize["command"] = o.Command.Get()
 	}
-	if o.Host != nil {
-		toSerialize["host"] = o.Host
+	if o.Time.IsSet() {
+		toSerialize["time"] = o.Time.Get()
 	}
-	if o.Db != nil {
-		toSerialize["db"] = o.Db
+	if o.State.IsSet() {
+		toSerialize["state"] = o.State.Get()
 	}
-	if o.Command != nil {
-		toSerialize["command"] = o.Command
+	if o.Info.IsSet() {
+		toSerialize["info"] = o.Info.Get()
 	}
-	if o.Time != nil {
-		toSerialize["time"] = o.Time
+	if o.Ip.IsSet() {
+		toSerialize["ip"] = o.Ip.Get()
 	}
-	if o.State != nil {
-		toSerialize["state"] = o.State
-	}
-	if o.Info != nil {
-		toSerialize["info"] = o.Info
-	}
-	if o.Ip != nil {
-		toSerialize["ip"] = o.Ip
-	}
-	if o.Port != nil {
-		toSerialize["port"] = o.Port
+	if o.Port.IsSet() {
+		toSerialize["port"] = o.Port.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -408,20 +482,29 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id      *string `json:"id,omitempty"`
-		User    *string `json:"user,omitempty"`
-		Tenant  *string `json:"tenant,omitempty"`
-		Host    *string `json:"host,omitempty"`
-		Db      *string `json:"db,omitempty"`
-		Command *string `json:"command,omitempty"`
-		Time    *string `json:"time,omitempty"`
-		State   *string `json:"state,omitempty"`
-		Info    *string `json:"info,omitempty"`
-		Ip      *string `json:"ip,omitempty"`
-		Port    *string `json:"port,omitempty"`
+		Id      *int64                `json:"id"`
+		User    *string               `json:"user"`
+		Tenant  common.NullableString `json:"tenant,omitempty"`
+		Host    *string               `json:"host"`
+		Db      common.NullableString `json:"db,omitempty"`
+		Command common.NullableString `json:"command,omitempty"`
+		Time    common.NullableInt64  `json:"time,omitempty"`
+		State   common.NullableString `json:"state,omitempty"`
+		Info    common.NullableString `json:"info,omitempty"`
+		Ip      common.NullableString `json:"ip,omitempty"`
+		Port    common.NullableInt64  `json:"port,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Id == nil {
+		return fmt.Errorf("required field id missing")
+	}
+	if all.User == nil {
+		return fmt.Errorf("required field user missing")
+	}
+	if all.Host == nil {
+		return fmt.Errorf("required field host missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -429,10 +512,10 @@ func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Id = all.Id
-	o.User = all.User
+	o.Id = *all.Id
+	o.User = *all.User
 	o.Tenant = all.Tenant
-	o.Host = all.Host
+	o.Host = *all.Host
 	o.Db = all.Db
 	o.Command = all.Command
 	o.Time = all.Time

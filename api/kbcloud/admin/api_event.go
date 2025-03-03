@@ -17,37 +17,35 @@ import (
 // EventApi service type
 type EventApi common.Service
 
-// EventFilter Query available filters for event listing.
-func (a *EventApi) EventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
+// GetEvent Query event detail by Event ID.
+// Retrieves detailed information about an event based on the provided Event ID.
+func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EventFilterOptionList
+		localVarReturnValue Event
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "event",
-		OperationID: "eventFilter",
-		Path:        "/admin/v1/eventfilter/{filterType}",
+		OperationID: "getEvent",
+		Path:        "/admin/v1/events/{eventID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.EventFilter")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.GetEvent")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/eventfilter/{filterType}"
-	localVarPath = strings.Replace(localVarPath, "{"+"filterType"+"}", _neturl.PathEscape(common.ParameterToString(filterType, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/events/{eventID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"eventID"+"}", _neturl.PathEscape(common.ParameterToString(eventId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("source", common.ParameterToString(source, ""))
-	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
-	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -98,35 +96,38 @@ func (a *EventApi) EventFilter(ctx _context.Context, filterType EventFilterType,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetEvent Query event detail by Event ID.
-// Retrieves detailed information about an event based on the provided Event ID.
-func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_nethttp.Response, error) {
+// GetEventFilter Query available filters for event listing.
+// Query available filters for event listing
+func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue Event
+		localVarReturnValue EventFilterOptionList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "event",
-		OperationID: "getEvent",
-		Path:        "/admin/v1/events/{eventID}",
+		OperationID: "getEventFilter",
+		Path:        "/admin/v1/eventfilter/{filterType}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.GetEvent")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EventApi.GetEventFilter")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/events/{eventID}"
-	localVarPath = strings.Replace(localVarPath, "{"+"eventID"+"}", _neturl.PathEscape(common.ParameterToString(eventId, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/eventfilter/{filterType}"
+	localVarPath = strings.Replace(localVarPath, "{"+"filterType"+"}", _neturl.PathEscape(common.ParameterToString(filterType, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("source", common.ParameterToString(source, ""))
+	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
+	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
