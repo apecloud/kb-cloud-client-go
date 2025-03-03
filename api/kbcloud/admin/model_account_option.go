@@ -23,6 +23,7 @@ type AccountOption struct {
 	ResetPassword       bool                 `json:"resetPassword"`
 	Delete              bool                 `json:"delete"`
 	DisplayRootAccount  *bool                `json:"displayRootAccount,omitempty"`
+	ResetRootPassword   *bool                `json:"resetRootPassword,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -264,6 +265,34 @@ func (o *AccountOption) SetDisplayRootAccount(v bool) {
 	o.DisplayRootAccount = &v
 }
 
+// GetResetRootPassword returns the ResetRootPassword field value if set, zero value otherwise.
+func (o *AccountOption) GetResetRootPassword() bool {
+	if o == nil || o.ResetRootPassword == nil {
+		var ret bool
+		return ret
+	}
+	return *o.ResetRootPassword
+}
+
+// GetResetRootPasswordOk returns a tuple with the ResetRootPassword field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AccountOption) GetResetRootPasswordOk() (*bool, bool) {
+	if o == nil || o.ResetRootPassword == nil {
+		return nil, false
+	}
+	return o.ResetRootPassword, true
+}
+
+// HasResetRootPassword returns a boolean if a field has been set.
+func (o *AccountOption) HasResetRootPassword() bool {
+	return o != nil && o.ResetRootPassword != nil
+}
+
+// SetResetRootPassword gets a reference to the given bool and assigns it to the ResetRootPassword field.
+func (o *AccountOption) SetResetRootPassword(v bool) {
+	o.ResetRootPassword = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AccountOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -284,6 +313,9 @@ func (o AccountOption) MarshalJSON() ([]byte, error) {
 	if o.DisplayRootAccount != nil {
 		toSerialize["displayRootAccount"] = o.DisplayRootAccount
 	}
+	if o.ResetRootPassword != nil {
+		toSerialize["resetRootPassword"] = o.ResetRootPassword
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -302,6 +334,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 		ResetPassword       *bool                `json:"resetPassword"`
 		Delete              *bool                `json:"delete"`
 		DisplayRootAccount  *bool                `json:"displayRootAccount,omitempty"`
+		ResetRootPassword   *bool                `json:"resetRootPassword,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -323,7 +356,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount"})
+		common.DeleteKeys(additionalProperties, &[]string{"maxSuperUserAccount", "enabled", "privileges", "accountNamePattern", "create", "resetPassword", "delete", "displayRootAccount", "resetRootPassword"})
 	} else {
 		return err
 	}
@@ -335,6 +368,7 @@ func (o *AccountOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ResetPassword = *all.ResetPassword
 	o.Delete = *all.Delete
 	o.DisplayRootAccount = all.DisplayRootAccount
+	o.ResetRootPassword = all.ResetRootPassword
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -9894,6 +9894,41 @@ paths:
         '500':
           $ref: '#/components/responses/500'
   /api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/redisInsight:
+    get:
+      tags:
+        - redis
+      summary: get available redisInsight
+      operationId: getAvailableRedisInsight
+      parameters:
+        - name: orgName
+          in: path
+          description: the name of organization
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: the name of cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get available redisInsight success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisInsight'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     post:
       tags:
         - redis
@@ -9925,6 +9960,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RedisInsight'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - redis
+      summary: disable redisInsight plugin
+      operationId: disableRedisInsight
+      parameters:
+        - name: orgName
+          in: path
+          description: the name of organization
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: the name of cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: disable redisInsight success
+          content: {}
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -13068,10 +13135,11 @@ components:
       type: array
     accountRoleType:
       default: SUPERUSER
-      description: Role name should be one of [SUPERUSER, BASICUSER].
+      description: Role name should be one of [BASICUSER, SUPERUSER, ROOT].
       enum:
         - SUPERUSER
         - BASICUSER
+        - ROOT
       title: role
       type: string
     account:
@@ -15659,6 +15727,9 @@ components:
         delete:
           type: boolean
         displayRootAccount:
+          type: boolean
+          x-omitempty: false
+        resetRootPassword:
           type: boolean
           x-omitempty: false
     databaseOption:
@@ -18687,6 +18758,12 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    RedisInsight:
+      type: object
+      properties:
+        host:
+          type: string
+          description: redis insight host
     RedisInsightNetMode:
       type: string
       enum:
@@ -18700,6 +18777,9 @@ components:
         - NodePort
     RedisInsightEnableOpt:
       type: object
+      required:
+        - networkMode
+        - serviceType
       properties:
         networkMode:
           $ref: '#/components/schemas/RedisInsightNetMode'
@@ -18707,12 +18787,6 @@ components:
         serviceType:
           $ref: '#/components/schemas/RedisInsightSvcType'
           description: service type of redis insight
-    RedisInsight:
-      type: object
-      properties:
-        host:
-          type: string
-          description: redis insight host
     analysisResult:
       properties:
         explanation:
