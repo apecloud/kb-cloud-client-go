@@ -21079,8 +21079,6 @@ components:
           type: integer
       description: Alert object information
     alertObjectList:
-      required:
-        - items
       type: object
       properties:
         items:
