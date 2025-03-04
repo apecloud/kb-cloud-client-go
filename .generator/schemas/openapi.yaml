@@ -10515,7 +10515,7 @@ paths:
       tags:
         - account
         - mongodb
-  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases:
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases:
     get:
       summary: list databases for mongodb
       operationId: listDatabasesInMongoDB
@@ -10559,7 +10559,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections:
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections:
     get:
       tags:
         - mongodb
@@ -10609,7 +10609,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections/{collection}/documents:
+  /api/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections/{collection}/documents:
     get:
       tags:
         - mongodb

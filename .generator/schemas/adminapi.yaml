@@ -14079,7 +14079,7 @@ paths:
       tags:
         - account
         - mongodb
-  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases:
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases:
     get:
       summary: list databases for mongodb
       operationId: listDatabasesInMongoDB
@@ -14123,7 +14123,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections:
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections:
     get:
       tags:
         - mongodb
@@ -14173,7 +14173,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections/{collection}/documents:
+  /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections/{collection}/documents:
     get:
       tags:
         - mongodb

@@ -29,7 +29,7 @@ func (a *MongodbApi) ListCollectionsInMongoDB(ctx _context.Context, orgName stri
 	apiInfo := common.APIInfo{
 		Tag:         "mongodb",
 		OperationID: "ListCollectionsInMongoDB",
-		Path:        "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections",
+		Path:        "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,7 @@ func (a *MongodbApi) ListCollectionsInMongoDB(ctx _context.Context, orgName stri
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections"
+	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
@@ -135,7 +135,7 @@ func (a *MongodbApi) ListDocumentsInMongoDB(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "mongodb",
 		OperationID: "ListDocumentsInMongoDB",
-		Path:        "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections/{collection}/documents",
+		Path:        "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections/{collection}/documents",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -145,7 +145,7 @@ func (a *MongodbApi) ListDocumentsInMongoDB(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases/{database}/collections/{collection}/documents"
+	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/collections/{collection}/documents"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
@@ -222,7 +222,7 @@ func (a *MongodbApi) ListDatabasesInMongoDB(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "mongodb",
 		OperationID: "listDatabasesInMongoDB",
-		Path:        "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases",
+		Path:        "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -232,7 +232,7 @@ func (a *MongodbApi) ListDatabasesInMongoDB(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasources/{id}/databases"
+	localVarPath := localBasePath + "/admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
