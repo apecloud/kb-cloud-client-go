@@ -1072,7 +1072,7 @@ paths:
           name: clusterID
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           content:
