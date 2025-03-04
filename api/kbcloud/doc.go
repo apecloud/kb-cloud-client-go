@@ -38,7 +38,6 @@
 //   - [alertRuleApi.createAlertRule]
 //   - [alertRuleApi.deleteAlertRule]
 //   - [alertRuleApi.getAlertRule]
-//   - [alertRuleApi.getRuleConfig]
 //   - [alertRuleApi.listAlertRules]
 //   - [alertRuleApi.updateAlertRule]
 //   - [alertStrategyApi.createAlertStrategy]
