@@ -5436,33 +5436,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/alerts/statistic:
-    get:
-      summary: alert statistic
-      description: alert statistic
-      operationId: alertStatistic
-      tags:
-        - alert
-      parameters:
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertStatistic'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/alerts/strategies:
     get:
       tags:
@@ -14980,17 +14953,6 @@ components:
         error:
           type: string
           example: null
-    alertStatistic:
-      type: object
-      properties:
-        total:
-          type: integer
-        critical:
-          type: integer
-        warning:
-          type: integer
-        info:
-          type: integer
     alertSeverity:
       enum:
         - critical

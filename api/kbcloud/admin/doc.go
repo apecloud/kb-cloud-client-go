@@ -25,7 +25,6 @@
 //   - [adminUserApi.readAdminUser]
 //   - [adminUserApi.updateAdminUserPassword]
 //   - [adminUserApi.updateAdminUsersPassword]
-//   - [alertApi.alertStatistic]
 //   - [alertApi.batchCheckURLConnectivity]
 //   - [alertConfigApi.getAlertConfig]
 //   - [alertConfigApi.getAlertSMSConfig]
