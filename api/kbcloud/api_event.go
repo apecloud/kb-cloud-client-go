@@ -99,7 +99,7 @@ func (a *EventApi) GetEvent(ctx _context.Context, orgName string, eventId string
 
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
-	ResourceId   *int32
+	ResourceId   *string
 	ResourceType *string
 	EventName    *string
 	OperatorId   *int32
@@ -115,7 +115,7 @@ func NewListEventsOptionalParameters() *ListEventsOptionalParameters {
 }
 
 // WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId int32) *ListEventsOptionalParameters {
+func (r *ListEventsOptionalParameters) WithResourceId(resourceId string) *ListEventsOptionalParameters {
 	r.ResourceId = &resourceId
 	return r
 }
