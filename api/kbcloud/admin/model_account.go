@@ -22,7 +22,7 @@ type Account struct {
 	Name string `json:"name"`
 	// Specify the password of user. The default value is empty, which means a random password will be generated.
 	Password *string `json:"password,omitempty"`
-	// Role name should be one of [SUPERUSER, BASICUSER].
+	// Role name should be one of [BASICUSER, SUPERUSER, ROOT].
 	Role AccountRoleType `json:"role"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
