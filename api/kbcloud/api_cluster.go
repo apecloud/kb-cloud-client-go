@@ -393,7 +393,7 @@ func (a *ClusterApi) GetCluster(ctx _context.Context, orgName string, clusterNam
 }
 
 // GetClusterByID Get cluster details by ID.
-func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, clusterId int32) (Cluster, *_nethttp.Response, error) {
+func (a *ClusterApi) GetClusterByID(ctx _context.Context, orgName string, clusterId string) (Cluster, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
