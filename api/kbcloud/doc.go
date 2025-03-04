@@ -17,6 +17,7 @@
 //   - [accountApi.updateAccountOld]
 //   - [accountApi.updateAccountPrivileges]
 //   - [accountApi.updateAccountPrivilegesOld]
+//   - [alertApi.alertStatistic]
 //   - [alertApi.batchCheckURLConnectivity]
 //   - [alertConfigApi.getAlertConfig]
 //   - [alertConfigApi.setAlertConfig]
