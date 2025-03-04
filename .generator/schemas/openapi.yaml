@@ -445,6 +445,29 @@ paths:
       tags:
         - organization
       x-codegen-request-body-name: body
+    delete:
+      description: partially delete the specified org
+      summary: Delete organization
+      operationId: deleteOrg
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when org is deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
   /api/v1/organizations/{orgName}/members:
     get:
       description: list members of the specified Org

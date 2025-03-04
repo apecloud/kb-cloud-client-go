@@ -233,6 +233,7 @@
 //   - [opsrequestApi.verticalScaleCluster]
 //   - [organizationApi.batchUpdateOrgParameters]
 //   - [organizationApi.createOrg]
+//   - [organizationApi.deleteOrg]
 //   - [organizationApi.freezeMember]
 //   - [organizationApi.getOrgParameter]
 //   - [organizationApi.listOrg]
