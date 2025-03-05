@@ -12121,6 +12121,14 @@ components:
           type: integer
           description: Percentage of stock level transactions
           nullable: true
+        loadWorkers:
+          type: integer
+          description: number of parallel threads used to create initial content
+          default: 4
+        runTxnsPerTerminal:
+          type: integer
+          description: number of transactions to run per thread
+          nullable: true
         extraArgs:
           type: string
           description: Extra arguments for tpcc
