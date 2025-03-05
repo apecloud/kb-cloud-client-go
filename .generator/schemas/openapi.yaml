@@ -4466,32 +4466,6 @@ paths:
       tags:
         - backupRepo
   /api/v1/environments/{environmentName}/backupRepo/{backupRepoName}:
-    delete:
-      operationId: deleteBackupRepo
-      summary: Delete backup repo
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: name of the BackupRepo
-          in: path
-          name: backupRepoName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - backupRepo
     get:
       operationId: getBackupRepo
       summary: Get backup repo
@@ -4528,42 +4502,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
-    post:
-      operationId: updateBackupRepo
-      summary: Update backup repo
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: name of the BackupRepo
-          in: path
-          name: backupRepoName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/backupRepoUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/backupRepo'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - backupRepo
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterHistories:
     get:
       operationId: listParametersHistory
@@ -14500,15 +14438,6 @@ components:
           $ref: '#/components/schemas/pageResult'
       required:
         - items
-      type: object
-    backupRepoUpdate:
-      description: BackupRepoUpdate is the payload to update a KubeBlocks cluster backup repo
-      properties:
-        default:
-          description: default specifies whether the backupRepo is the default backupRepo
-          type: boolean
-      required:
-        - default
       type: object
     parameterHistory:
       description: The history of a parameter
