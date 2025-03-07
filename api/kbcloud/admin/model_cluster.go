@@ -71,8 +71,6 @@ type Cluster struct {
 	Extra map[string]interface{} `json:"extra,omitempty"`
 	// InitOptions is the list of init option
 	InitOptions []InitOptionItem `json:"initOptions,omitempty"`
-	// Tolerations of cluster
-	Tolerations *string `json:"tolerations,omitempty"`
 	// Use single availability zones
 	SingleZone *bool `json:"singleZone,omitempty"`
 	// Availability Zones
@@ -1027,34 +1025,6 @@ func (o *Cluster) SetInitOptions(v []InitOptionItem) {
 	o.InitOptions = v
 }
 
-// GetTolerations returns the Tolerations field value if set, zero value otherwise.
-func (o *Cluster) GetTolerations() string {
-	if o == nil || o.Tolerations == nil {
-		var ret string
-		return ret
-	}
-	return *o.Tolerations
-}
-
-// GetTolerationsOk returns a tuple with the Tolerations field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Cluster) GetTolerationsOk() (*string, bool) {
-	if o == nil || o.Tolerations == nil {
-		return nil, false
-	}
-	return o.Tolerations, true
-}
-
-// HasTolerations returns a boolean if a field has been set.
-func (o *Cluster) HasTolerations() bool {
-	return o != nil && o.Tolerations != nil
-}
-
-// SetTolerations gets a reference to the given string and assigns it to the Tolerations field.
-func (o *Cluster) SetTolerations(v string) {
-	o.Tolerations = &v
-}
-
 // GetSingleZone returns the SingleZone field value if set, zero value otherwise.
 func (o *Cluster) GetSingleZone() bool {
 	if o == nil || o.SingleZone == nil {
@@ -1416,9 +1386,6 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.InitOptions != nil {
 		toSerialize["initOptions"] = o.InitOptions
 	}
-	if o.Tolerations != nil {
-		toSerialize["tolerations"] = o.Tolerations
-	}
 	if o.SingleZone != nil {
 		toSerialize["singleZone"] = o.SingleZone
 	}
@@ -1486,7 +1453,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		Components             []ComponentItem           `json:"components,omitempty"`
 		Extra                  map[string]interface{}    `json:"extra,omitempty"`
 		InitOptions            []InitOptionItem          `json:"initOptions,omitempty"`
-		Tolerations            *string                   `json:"tolerations,omitempty"`
 		SingleZone             *bool                     `json:"singleZone,omitempty"`
 		AvailabilityZones      []string                  `json:"availabilityZones,omitempty"`
 		PodAntiAffinityEnabled *bool                     `json:"podAntiAffinityEnabled,omitempty"`
@@ -1511,7 +1477,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "tolerations", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode"})
 	} else {
 		return err
 	}
@@ -1558,7 +1524,6 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	o.Components = all.Components
 	o.Extra = all.Extra
 	o.InitOptions = all.InitOptions
-	o.Tolerations = all.Tolerations
 	o.SingleZone = all.SingleZone
 	o.AvailabilityZones = all.AvailabilityZones
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
