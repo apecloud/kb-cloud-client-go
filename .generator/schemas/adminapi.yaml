@@ -53,8 +53,6 @@ tags:
     description: Recycle Bin Cluster APIs
   - name: task
     description: Task APIs
-  - name: fault
-    description: Fault inject APIs
   - name: engine
     description: Engine APIs
   - name: metrics
@@ -1074,7 +1072,7 @@ paths:
           name: clusterID
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           content:
@@ -8720,38 +8718,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/alerts/rules/config:
-    get:
-      tags:
-        - alertRule
-      summary: Get alert rule configuration YAML
-      description: Retrieves the complete alert rule configuration in YAML format for all organizations
-      operationId: getRuleConfig
-      responses:
-        '200':
-          description: Alert rule configuration in YAML format
-          content:
-            text/yaml:
-              schema:
-                type: string
-                description: YAML formatted string containing the alert rule configuration
-                example: |
-                  groups:
-                    - name: org-name
-                      rules:
-                        - alert: HighCPUUsage
-                          expr: cpu_usage > 90
-                          for: 5m
-                          labels:
-                            severity: critical
-                          annotations:
-                            summary: High CPU usage detected
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/engineOptions:
     get:
       description: list all engineOptions
@@ -11015,135 +10981,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
-  /admin/v1/fault:
-    get:
-      tags:
-        - fault
-      operationId: listFault
-      summary: List faults
-      deprecated: true
-      parameters:
-        - name: cluster
-          in: query
-          description: name of the cluster
-          required: false
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: type of the chaos
-          required: false
-          schema:
-            $ref: '#/components/schemas/faultType'
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/faultList'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - fault
-      operationId: deleteFault
-      summary: Delete faults
-      deprecated: true
-      requestBody:
-        description: ids of the faults
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                type: string
-        required: true
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
-  /admin/v1/fault/{faultId}:
-    get:
-      tags:
-        - fault
-      operationId: getChaos
-      summary: Get chaos
-      deprecated: true
-      parameters:
-        - name: faultId
-          in: path
-          description: id of the fault
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/fault'
-  /admin/v1/fault/podChaos:
-    post:
-      tags:
-        - fault
-      operationId: createClusterPodChaos
-      summary: Create a pod chaos for cluster
-      deprecated: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/podChaos'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/fault'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
-  /admin/v1/fault/networkChaos:
-    post:
-      tags:
-        - fault
-      operationId: createClusterNetworkChaos
-      summary: Create a network chaos for cluster
-      deprecated: true
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/networkChaos'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/fault'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/tenants:
     get:
       tags:
@@ -13447,6 +13284,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clusterTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/redisInsight:
+    get:
+      tags:
+        - redis
+      summary: get available redisInsight
+      operationId: getAvailableRedisInsight
+      parameters:
+        - name: orgName
+          in: path
+          description: the name of organization
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: the name of cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get available redisInsight success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisInsight'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - redis
+      summary: enable redisInsight plugin
+      operationId: enableRedisInsight
+      parameters:
+        - name: orgName
+          in: path
+          description: the name of organization
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: the name of cluster
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedisInsightEnableOpt'
+      responses:
+        '200':
+          description: enable redisInsight success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedisInsight'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - redis
+      summary: disable redisInsight plugin
+      operationId: disableRedisInsight
+      parameters:
+        - name: orgName
+          in: path
+          description: the name of organization
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: the name of cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: disable redisInsight success
+          content: {}
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -21245,8 +21191,6 @@ components:
           type: integer
       description: Alert object information
     alertObjectList:
-      required:
-        - items
       type: object
       properties:
         items:
@@ -21576,6 +21520,8 @@ components:
       properties:
         enabled:
           type: boolean
+        databaseNamePattern:
+          type: string
     dmsOption:
       type: object
       required:
@@ -23679,183 +23625,6 @@ components:
         path:
           type: string
           description: the path to backup's kubeblocks-backup.json
-    faultType:
-      type: string
-      enum:
-        - PodChaos
-        - NetworkChaos
-        - IoChaos
-        - TimeChaos
-        - StressChaos
-    fault:
-      description: response of the fault
-      type: object
-      properties:
-        id:
-          type: string
-          description: id of the fault
-        name:
-          type: string
-          description: name of the fault
-        namespace:
-          type: string
-          description: namespace of the fault
-        type:
-          type: string
-          description: type of the fault
-        action:
-          type: string
-          description: action of the fault
-        status:
-          type: string
-          description: status of the fault
-        duration:
-          type: string
-          description: duration of the fault
-        environmentID:
-          type: string
-          description: environment id of the fault
-        environmentName:
-          type: string
-          description: environment name of the fault
-        orgName:
-          type: string
-          description: org name of the fault
-        clusterID:
-          type: string
-          description: cluster id of the fault
-        clusterName:
-          type: string
-          description: cluster name of the fault
-        createTime:
-          type: string
-          format: date-time
-          description: create time of the fault
-    faultList:
-      description: chaos list
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/fault'
-          description: list of chaos
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    podChaosMode:
-      type: string
-      enum:
-        - one
-        - all
-        - fixed
-        - fixed-percent
-        - random-max-percent
-      description: specify the mode of chaos
-    podChaosAction:
-      type: string
-      enum:
-        - pod-failure
-        - pod-kill
-      description: specify the action to be performed
-    podChaos:
-      required:
-        - clusterID
-        - action
-        - mode
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/podChaosMode'
-        clusterID:
-          type: string
-          description: the id of cluster to perform chaos
-        value:
-          type: string
-        action:
-          $ref: '#/components/schemas/podChaosAction'
-        duration:
-          type: string
-          description: specify the duration of the chaos action
-          nullable: true
-        gracePeriod:
-          type: integer
-          description: when action is pod-kill, specify the duration to wait before killing the pod
-          nullable: true
-        name:
-          type: string
-          description: the name of the pod to perform the chaos
-    networkChaosMode:
-      type: string
-      description: Specifies the mode of network chaos to be applied. This determines how the chaos is distributed among the target pods.
-      enum:
-        - one
-        - all
-        - fixed
-        - fixed-percent
-        - random-max-percent
-    networkChaosAction:
-      type: string
-      description: Specifies the type of network chaos action to be performed. Options include introducing delay, packet loss, duplication, corruption, network partition, or bandwidth limitation.
-      enum:
-        - delay
-        - loss
-        - duplicate
-        - corrupt
-        - partition
-        - bandwidth
-    networkChaosDirection:
-      type: string
-      description: Specifies the direction of network chaos effects. 'to' affects outgoing traffic, 'from' affects incoming traffic, and 'both' affects traffic in both directions.
-      enum:
-        - to
-        - from
-        - both
-    networkChaos:
-      required:
-        - clusterID
-        - action
-        - mode
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/networkChaosMode'
-        clusterID:
-          type: string
-          description: the id of cluster to perform chaos
-        value:
-          type: string
-        action:
-          $ref: '#/components/schemas/networkChaosAction'
-        direction:
-          $ref: '#/components/schemas/networkChaosDirection'
-        name:
-          type: string
-          description: the name of the pod to perform the chaos
-        delay:
-          type: object
-          description: specify the delay in the chaos action
-          properties:
-            latency:
-              type: string
-              description: specify the latency in the chaos action
-            correlation:
-              type: string
-              description: specify the correlation in the chaos action
-            jitter:
-              type: string
-              description: specify the jitter in the chaos action
-        loss:
-          type: object
-          description: specify the loss in the chaos action
-          properties:
-            loss:
-              type: string
-              description: specify the loss in the chaos action
-            correlation:
-              type: string
-              description: specify the correlation in the chaos action
     CPU:
       type: object
       properties:
@@ -25364,6 +25133,35 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    RedisInsight:
+      type: object
+      properties:
+        host:
+          type: string
+          description: redis insight host
+    RedisInsightNetMode:
+      type: string
+      enum:
+        - PRIVATE
+        - PUBLIC
+    RedisInsightSvcType:
+      type: string
+      enum:
+        - ClusterIP
+        - LoadBalancer
+        - NodePort
+    RedisInsightEnableOpt:
+      type: object
+      required:
+        - networkMode
+        - serviceType
+      properties:
+        networkMode:
+          $ref: '#/components/schemas/RedisInsightNetMode'
+          description: network mode of redis insight
+        serviceType:
+          $ref: '#/components/schemas/RedisInsightSvcType'
+          description: service type of redis insight
     DocumentList:
       x-go-name: MongoDocumentList
       type: object
@@ -25557,9 +25355,6 @@ x-tagGroup:
   - name: task
     tags:
       - task
-  - name: fault
-    tags:
-      - fault
   - name: engine
     tags:
       - engine
