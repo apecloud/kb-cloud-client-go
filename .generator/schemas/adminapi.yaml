@@ -18133,25 +18133,6 @@ components:
       description: Configuration for privisoining environment resources
       enum:
         - kubeconfig
-        - iac
-        - connect-agent
-    iac:
-      type: object
-      description: Create environment by IaC
-      required:
-        - role
-      properties:
-        role:
-          type: string
-          description: Role used to do AssumeRole action
-          example: arn:aws:iam::999999999999:role/RoleName
-        desiredNodeSize:
-          type: integer
-          description: Desired node size
-        instanceType:
-          type: string
-          description: Computing instance type
-          example: t3a.medium
     register:
       type: object
       description: Register manifest for environment
@@ -18160,8 +18141,6 @@ components:
       properties:
         type:
           $ref: '#/components/schemas/environmentRegisterType'
-        iac:
-          $ref: '#/components/schemas/iac'
         kubeconfig:
           description: The base64 encoded kubeconfig file contents to connect to this environment
           format: byte
@@ -24262,7 +24241,7 @@ components:
       description: |
         Action to perform on the environment module:
         - Enable: Enable the module
-        - Disable: Disable the module 
+        - Disable: Disable the module
         - Upgrade: Upgrade the module to specified version
       enum:
         - Enable
