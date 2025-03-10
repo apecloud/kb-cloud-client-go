@@ -15,15 +15,11 @@ type EnvironmentRegisterType string
 
 // List of EnvironmentRegisterType.
 const (
-	EnvironmentRegisterTypeKubeconfig   EnvironmentRegisterType = "kubeconfig"
-	EnvironmentRegisterTypeIac          EnvironmentRegisterType = "iac"
-	EnvironmentRegisterTypeConnectAgent EnvironmentRegisterType = "connect-agent"
+	EnvironmentRegisterTypeKubeconfig EnvironmentRegisterType = "kubeconfig"
 )
 
 var allowedEnvironmentRegisterTypeEnumValues = []EnvironmentRegisterType{
 	EnvironmentRegisterTypeKubeconfig,
-	EnvironmentRegisterTypeIac,
-	EnvironmentRegisterTypeConnectAgent,
 }
 
 // GetAllowedValues returns the list of possible values.
