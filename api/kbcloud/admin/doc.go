@@ -288,7 +288,6 @@
 //   - [metadbApi.metadbVerticalScale]
 //   - [metadbApi.metadbVolumeExpand]
 //   - [metricsApi.getAggregateMetaData]
-//   - [metricsApi.getEnvironmentStats]
 //   - [monitorDataSinkApi.createMonitorDataSink]
 //   - [monitorDataSinkApi.deleteMonitorDataSink]
 //   - [monitorDataSinkApi.listMonitorDataSinks]
