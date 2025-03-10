@@ -15679,10 +15679,6 @@ components:
           description: Extra configuration for cluster
         initOptions:
           $ref: '#/components/schemas/initOptions'
-        tolerations:
-          title: Tolerations
-          type: string
-          description: Tolerations of cluster
         singleZone:
           title: Single availability zones
           description: Use single availability zones
