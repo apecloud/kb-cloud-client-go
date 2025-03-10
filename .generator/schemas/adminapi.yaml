@@ -378,24 +378,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - metrics
-  /admin/v1/metrics/environment/stats:
-    get:
-      description: Get environment current stats
-      summary: Get environment stats
-      operationId: getEnvironmentStats
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentStats'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - metrics
   /admin/v1/organizations:
     get:
       tags:
@@ -14741,36 +14723,6 @@ components:
           description: The list of series items aggregated in the time range.
           items:
             $ref: '#/components/schemas/seriesItem'
-    environmentStats:
-      type: object
-      description: The cumulative statistics for all environments.
-      properties:
-        envTotal:
-          type: integer
-          format: int32
-          description: The total number of environments.
-        cpuTotal:
-          type: number
-          format: double
-          description: The cumulative CPU capacity of all environments, typically measured in CPU units.
-        memoryTotal:
-          type: number
-          format: double
-          description: The cumulative memory capacity of all environments, typically measured in bytes or GiB.
-        storageTotal:
-          type: number
-          format: double
-          description: The cumulative storage capacity of all environments, typically measured in bytes or GiB.
-      required:
-        - envTotal
-        - cpuTotal
-        - memoryTotal
-        - storageTotal
-      example:
-        envTotal: 3
-        cpuTotal: 240
-        memoryTotal: 1536
-        storageTotal: 8192
     organizationItem:
       description: Organization items.
       type: object
