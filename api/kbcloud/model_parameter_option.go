@@ -28,8 +28,6 @@ type ParameterOption struct {
 	InitOptions map[string]interface{} `json:"initOptions,omitempty"`
 	// Parameters to be calculated based on the instance specifications
 	ExprParams []ExprParam `json:"exprParams,omitempty"`
-	// occupationParams means that the parameter value is different from the dedicated specification under the shared specification
-	OccupationParams []OccupationParam `json:"occupationParams,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -292,34 +290,6 @@ func (o *ParameterOption) SetExprParams(v []ExprParam) {
 	o.ExprParams = v
 }
 
-// GetOccupationParams returns the OccupationParams field value if set, zero value otherwise.
-func (o *ParameterOption) GetOccupationParams() []OccupationParam {
-	if o == nil || o.OccupationParams == nil {
-		var ret []OccupationParam
-		return ret
-	}
-	return o.OccupationParams
-}
-
-// GetOccupationParamsOk returns a tuple with the OccupationParams field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetOccupationParamsOk() (*[]OccupationParam, bool) {
-	if o == nil || o.OccupationParams == nil {
-		return nil, false
-	}
-	return &o.OccupationParams, true
-}
-
-// HasOccupationParams returns a boolean if a field has been set.
-func (o *ParameterOption) HasOccupationParams() bool {
-	return o != nil && o.OccupationParams != nil
-}
-
-// SetOccupationParams gets a reference to the given []OccupationParam and assigns it to the OccupationParams field.
-func (o *ParameterOption) SetOccupationParams(v []OccupationParam) {
-	o.OccupationParams = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -345,9 +315,6 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	if o.ExprParams != nil {
 		toSerialize["exprParams"] = o.ExprParams
 	}
-	if o.OccupationParams != nil {
-		toSerialize["occupationParams"] = o.OccupationParams
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -358,16 +325,15 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component        *string                `json:"component"`
-		ExportTpl        *bool                  `json:"exportTpl"`
-		EnableTemplate   *bool                  `json:"enableTemplate"`
-		ConfigSpecs      *[]string              `json:"configSpecs"`
-		DisableHa        *bool                  `json:"disableHA,omitempty"`
-		Templates        []ParameterTemplate    `json:"templates,omitempty"`
-		Constraints      []ParameterConstraint  `json:"constraints,omitempty"`
-		InitOptions      map[string]interface{} `json:"initOptions,omitempty"`
-		ExprParams       []ExprParam            `json:"exprParams,omitempty"`
-		OccupationParams []OccupationParam      `json:"occupationParams,omitempty"`
+		Component      *string                `json:"component"`
+		ExportTpl      *bool                  `json:"exportTpl"`
+		EnableTemplate *bool                  `json:"enableTemplate"`
+		ConfigSpecs    *[]string              `json:"configSpecs"`
+		DisableHa      *bool                  `json:"disableHA,omitempty"`
+		Templates      []ParameterTemplate    `json:"templates,omitempty"`
+		Constraints    []ParameterConstraint  `json:"constraints,omitempty"`
+		InitOptions    map[string]interface{} `json:"initOptions,omitempty"`
+		ExprParams     []ExprParam            `json:"exprParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -386,7 +352,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "configSpecs", "disableHA", "templates", "constraints", "initOptions", "exprParams", "occupationParams"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "configSpecs", "disableHA", "templates", "constraints", "initOptions", "exprParams"})
 	} else {
 		return err
 	}
@@ -399,7 +365,6 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Constraints = all.Constraints
 	o.InitOptions = all.InitOptions
 	o.ExprParams = all.ExprParams
-	o.OccupationParams = all.OccupationParams
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

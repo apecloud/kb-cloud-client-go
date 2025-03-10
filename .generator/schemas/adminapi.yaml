@@ -21690,22 +21690,6 @@ components:
         unit:
           type: string
           description: unit of parameter
-    occupationParam:
-      type: object
-      required:
-        - name
-        - expression
-        - configSpecName
-      properties:
-        name:
-          type: string
-          description: name of the parameter
-        expression:
-          type: string
-          description: expression of the parameter value
-        configSpecName:
-          type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
     parameterOption:
       type: object
       required:
@@ -21752,11 +21736,6 @@ components:
           description: Parameters to be calculated based on the instance specifications
           items:
             $ref: '#/components/schemas/exprParam'
-        occupationParams:
-          type: array
-          description: occupationParams means that the parameter value is different from the dedicated specification under the shared specification
-          items:
-            $ref: '#/components/schemas/occupationParam'
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
