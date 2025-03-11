@@ -4116,7 +4116,44 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
-      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/rebuildInstance/availableNodes:
+    get:
+      operationId: listAvailableNodes
+      summary: List available nodes for rebuilding instance
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsRebuildInstanceInstanceParam'
+        required: true
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/nodeList'
+          description: Accepted
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - opsrequest
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/upgrade:
     post:
       operationId: upgradeCluster
@@ -17405,6 +17442,106 @@ components:
               - instances
           type: array
       type: object
+    resourceStats:
+      description: ResourceStats holds the requests, limits, and available stats for a resource.
+      properties:
+        allocatable:
+          description: The amount of CPU or Memory resources that are available on the node. Unit is GiB for memory and Cores for CPU.
+          format: double
+          type: number
+        limits:
+          description: The maximum number of CPU or Memory resources pods are allowed to use on the node.  Unit is GiB for memory and Cores for CPU
+          format: double
+          type: number
+        requests:
+          description: The number of CPU or Memory resources requested by pods running on the node. Unit is GiB for memory and Cores for CPU.
+          format: double
+          type: number
+        usage:
+          description: The amount of CPU or Memory resources that are already used on the node. Unit is GiB for memory and Cores for CPU.
+          format: double
+          type: number
+        capacity:
+          description: The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
+          format: double
+          type: number
+      required:
+        - usage
+      type: object
+    nodeStatus:
+      type: string
+      description: Status of the node
+      enum:
+        - Ready
+        - Warning
+        - UnderMaintenance
+        - Unschedulable
+    node:
+      description: node info
+      properties:
+        cpu:
+          description: CPU cores of the node
+          format: int64
+          type: integer
+        cpuStats:
+          $ref: '#/components/schemas/resourceStats'
+        createdAt:
+          description: |-
+            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
+
+            Populated by the system. Read-only. Null for lists
+          format: date-time
+          type: string
+        hostName:
+          description: Host name of the node
+          type: string
+        instanceType:
+          description: Instance type of the node
+          type: string
+        ip:
+          description: IP address of the node
+          type: string
+        memory:
+          description: Memory of the node, unit is GiB
+          format: int64
+          type: integer
+        memoryStats:
+          $ref: '#/components/schemas/resourceStats'
+        zone:
+          description: Zone of the node
+          type: string
+        region:
+          description: Region of the node
+          type: string
+        nodeGroup:
+          description: Node Group of the node
+          type: string
+        controlPlane:
+          description: node is in control plane
+          type: boolean
+        dataPlane:
+          description: node is in data plane
+          type: boolean
+        status:
+          $ref: '#/components/schemas/nodeStatus'
+          description: Node status
+      required:
+        - createdAt
+        - hostName
+        - ip
+        - status
+      type: object
+    nodeList:
+      description: nodeList is a list of nodes
+      properties:
+        items:
+          description: Items is the list of Org objects in the list
+          items:
+            $ref: '#/components/schemas/node'
+          type: array
+      required:
+        - items
+      type: object
     opsUpgrade:
       description: OpsUpgrade is the payload to upgrade a KubeBlocks cluster
       properties:
@@ -17787,106 +17924,6 @@ components:
           description: The base64 encoded kubeconfig file contents to connect to this Kubernetes
           format: byte
           type: string
-    resourceStats:
-      description: ResourceStats holds the requests, limits, and available stats for a resource.
-      properties:
-        allocatable:
-          description: The amount of CPU or Memory resources that are available on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-        limits:
-          description: The maximum number of CPU or Memory resources pods are allowed to use on the node.  Unit is GiB for memory and Cores for CPU
-          format: double
-          type: number
-        requests:
-          description: The number of CPU or Memory resources requested by pods running on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-        usage:
-          description: The amount of CPU or Memory resources that are already used on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-        capacity:
-          description: The total amount of physical resources available on the node. Unit is GiB for memory and Cores for CPU.
-          format: double
-          type: number
-      required:
-        - usage
-      type: object
-    nodeStatus:
-      type: string
-      description: Status of the node
-      enum:
-        - Ready
-        - Warning
-        - UnderMaintenance
-        - Unschedulable
-    node:
-      description: node info
-      properties:
-        cpu:
-          description: CPU cores of the node
-          format: int64
-          type: integer
-        cpuStats:
-          $ref: '#/components/schemas/resourceStats'
-        createdAt:
-          description: |-
-            CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
-          format: date-time
-          type: string
-        hostName:
-          description: Host name of the node
-          type: string
-        instanceType:
-          description: Instance type of the node
-          type: string
-        ip:
-          description: IP address of the node
-          type: string
-        memory:
-          description: Memory of the node, unit is GiB
-          format: int64
-          type: integer
-        memoryStats:
-          $ref: '#/components/schemas/resourceStats'
-        zone:
-          description: Zone of the node
-          type: string
-        region:
-          description: Region of the node
-          type: string
-        nodeGroup:
-          description: Node Group of the node
-          type: string
-        controlPlane:
-          description: node is in control plane
-          type: boolean
-        dataPlane:
-          description: node is in data plane
-          type: boolean
-        status:
-          $ref: '#/components/schemas/nodeStatus'
-          description: Node status
-      required:
-        - createdAt
-        - hostName
-        - ip
-        - status
-      type: object
-    nodeList:
-      description: nodeList is a list of nodes
-      properties:
-        items:
-          description: Items is the list of Org objects in the list
-          items:
-            $ref: '#/components/schemas/node'
-          type: array
-      required:
-        - items
-      type: object
     storageVolumeStatsByNode:
       description: storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
       properties:
