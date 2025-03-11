@@ -760,7 +760,7 @@ paths:
           in: query
           name: resourceId
           schema:
-            type: integer
+            type: string
         - description: resource type
           in: query
           name: resourceType

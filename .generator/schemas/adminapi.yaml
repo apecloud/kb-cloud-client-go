@@ -2131,8 +2131,7 @@ paths:
           in: query
           name: resourceId
           schema:
-            type: integer
-            format: int64
+            type: string
         - description: resource type
           in: query
           name: resourceType
