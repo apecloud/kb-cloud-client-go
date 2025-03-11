@@ -555,7 +555,7 @@ func (a *OpsrequestApi) HorizontalScaleCluster(ctx _context.Context, orgName str
 }
 
 // ListAvailableNodes List available nodes for rebuilding instance.
-func (a *OpsrequestApi) ListAvailableNodes(ctx _context.Context, orgName string, clusterName string, body OpsRebuildInstanceInstanceParam) (NodeList, *_nethttp.Response, error) {
+func (a *OpsrequestApi) ListAvailableNodes(ctx _context.Context, orgName string, clusterName string, name string) (NodeList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -583,11 +583,9 @@ func (a *OpsrequestApi) ListAvailableNodes(ctx _context.Context, orgName string,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarQueryParams.Add("name", common.ParameterToString(name, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

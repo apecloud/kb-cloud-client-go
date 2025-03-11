@@ -4133,12 +4133,12 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/opsRebuildInstanceInstanceParam'
-        required: true
+        - description: name of the instance to be rebuilt
+          in: query
+          name: name
+          required: true
+          schema:
+            type: string
       responses:
         '202':
           content:
