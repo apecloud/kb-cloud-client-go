@@ -15,12 +15,14 @@ type EngineMaturityLevel string
 
 // List of EngineMaturityLevel.
 const (
-	EngineMaturityLevelStable     EngineMaturityLevel = "stable"
-	EngineMaturityLevelDeprecated EngineMaturityLevel = "deprecated"
+	EngineMaturityLevelStable       EngineMaturityLevel = "stable"
+	EngineMaturityLevelExperimental EngineMaturityLevel = "experimental"
+	EngineMaturityLevelDeprecated   EngineMaturityLevel = "deprecated"
 )
 
 var allowedEngineMaturityLevelEnumValues = []EngineMaturityLevel{
 	EngineMaturityLevelStable,
+	EngineMaturityLevelExperimental,
 	EngineMaturityLevelDeprecated,
 }
 
