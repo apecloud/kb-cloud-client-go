@@ -52,6 +52,10 @@ type Tpcc struct {
 	DeliveryWeight common.NullableInt32 `json:"deliveryWeight,omitempty"`
 	// Percentage of stock level transactions
 	StockLevelWeight common.NullableInt32 `json:"stockLevelWeight,omitempty"`
+	// number of parallel threads used to create initial content
+	LoadWorkers *int32 `json:"loadWorkers,omitempty"`
+	// number of transactions to run per thread
+	RunTxnsPerTerminal common.NullableInt32 `json:"runTxnsPerTerminal,omitempty"`
 	// Extra arguments for tpcc
 	ExtraArgs *string `json:"extraArgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -80,6 +84,8 @@ func NewTpcc(cluster string, database string, username string, password string, 
 	this.Username = username
 	this.Password = password
 	this.Address = address
+	var loadWorkers int32 = 4
+	this.LoadWorkers = &loadWorkers
 	return &this
 }
 
@@ -98,6 +104,8 @@ func NewTpccWithDefaults() *Tpcc {
 	this.RequestCpu = &requestCpu
 	var requestMemory string = "0.5Gi"
 	this.RequestMemory = &requestMemory
+	var loadWorkers int32 = 4
+	this.LoadWorkers = &loadWorkers
 	return &this
 }
 
@@ -724,6 +732,73 @@ func (o *Tpcc) UnsetStockLevelWeight() {
 	o.StockLevelWeight.Unset()
 }
 
+// GetLoadWorkers returns the LoadWorkers field value if set, zero value otherwise.
+func (o *Tpcc) GetLoadWorkers() int32 {
+	if o == nil || o.LoadWorkers == nil {
+		var ret int32
+		return ret
+	}
+	return *o.LoadWorkers
+}
+
+// GetLoadWorkersOk returns a tuple with the LoadWorkers field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Tpcc) GetLoadWorkersOk() (*int32, bool) {
+	if o == nil || o.LoadWorkers == nil {
+		return nil, false
+	}
+	return o.LoadWorkers, true
+}
+
+// HasLoadWorkers returns a boolean if a field has been set.
+func (o *Tpcc) HasLoadWorkers() bool {
+	return o != nil && o.LoadWorkers != nil
+}
+
+// SetLoadWorkers gets a reference to the given int32 and assigns it to the LoadWorkers field.
+func (o *Tpcc) SetLoadWorkers(v int32) {
+	o.LoadWorkers = &v
+}
+
+// GetRunTxnsPerTerminal returns the RunTxnsPerTerminal field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Tpcc) GetRunTxnsPerTerminal() int32 {
+	if o == nil || o.RunTxnsPerTerminal.Get() == nil {
+		var ret int32
+		return ret
+	}
+	return *o.RunTxnsPerTerminal.Get()
+}
+
+// GetRunTxnsPerTerminalOk returns a tuple with the RunTxnsPerTerminal field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Tpcc) GetRunTxnsPerTerminalOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RunTxnsPerTerminal.Get(), o.RunTxnsPerTerminal.IsSet()
+}
+
+// HasRunTxnsPerTerminal returns a boolean if a field has been set.
+func (o *Tpcc) HasRunTxnsPerTerminal() bool {
+	return o != nil && o.RunTxnsPerTerminal.IsSet()
+}
+
+// SetRunTxnsPerTerminal gets a reference to the given common.NullableInt32 and assigns it to the RunTxnsPerTerminal field.
+func (o *Tpcc) SetRunTxnsPerTerminal(v int32) {
+	o.RunTxnsPerTerminal.Set(&v)
+}
+
+// SetRunTxnsPerTerminalNil sets the value for RunTxnsPerTerminal to be an explicit nil.
+func (o *Tpcc) SetRunTxnsPerTerminalNil() {
+	o.RunTxnsPerTerminal.Set(nil)
+}
+
+// UnsetRunTxnsPerTerminal ensures that no value is present for RunTxnsPerTerminal, not even an explicit nil.
+func (o *Tpcc) UnsetRunTxnsPerTerminal() {
+	o.RunTxnsPerTerminal.Unset()
+}
+
 // GetExtraArgs returns the ExtraArgs field value if set, zero value otherwise.
 func (o *Tpcc) GetExtraArgs() string {
 	if o == nil || o.ExtraArgs == nil {
@@ -808,6 +883,12 @@ func (o Tpcc) MarshalJSON() ([]byte, error) {
 	if o.StockLevelWeight.IsSet() {
 		toSerialize["stockLevelWeight"] = o.StockLevelWeight.Get()
 	}
+	if o.LoadWorkers != nil {
+		toSerialize["loadWorkers"] = o.LoadWorkers
+	}
+	if o.RunTxnsPerTerminal.IsSet() {
+		toSerialize["runTxnsPerTerminal"] = o.RunTxnsPerTerminal.Get()
+	}
 	if o.ExtraArgs != nil {
 		toSerialize["extraArgs"] = o.ExtraArgs
 	}
@@ -821,27 +902,29 @@ func (o Tpcc) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Tpcc) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Step              *TpccStep            `json:"step,omitempty"`
-		LimitCpu          *string              `json:"limitCpu,omitempty"`
-		LimitMemory       *string              `json:"limitMemory,omitempty"`
-		RequestCpu        *string              `json:"requestCpu,omitempty"`
-		RequestMemory     *string              `json:"requestMemory,omitempty"`
-		Name              *string              `json:"name,omitempty"`
-		Cluster           *string              `json:"cluster"`
-		Database          *string              `json:"database"`
-		Username          *string              `json:"username"`
-		Password          *string              `json:"password"`
-		Address           *string              `json:"address"`
-		Threads           common.NullableInt32 `json:"threads,omitempty"`
-		Warehouses        common.NullableInt32 `json:"warehouses,omitempty"`
-		Duration          common.NullableInt32 `json:"duration,omitempty"`
-		LimitTxPerMin     *int32               `json:"limitTxPerMin,omitempty"`
-		NewOrderWeight    common.NullableInt32 `json:"newOrderWeight,omitempty"`
-		PaymentWeight     common.NullableInt32 `json:"paymentWeight,omitempty"`
-		OrderStatusWeight common.NullableInt32 `json:"orderStatusWeight,omitempty"`
-		DeliveryWeight    common.NullableInt32 `json:"deliveryWeight,omitempty"`
-		StockLevelWeight  common.NullableInt32 `json:"stockLevelWeight,omitempty"`
-		ExtraArgs         *string              `json:"extraArgs,omitempty"`
+		Step               *TpccStep            `json:"step,omitempty"`
+		LimitCpu           *string              `json:"limitCpu,omitempty"`
+		LimitMemory        *string              `json:"limitMemory,omitempty"`
+		RequestCpu         *string              `json:"requestCpu,omitempty"`
+		RequestMemory      *string              `json:"requestMemory,omitempty"`
+		Name               *string              `json:"name,omitempty"`
+		Cluster            *string              `json:"cluster"`
+		Database           *string              `json:"database"`
+		Username           *string              `json:"username"`
+		Password           *string              `json:"password"`
+		Address            *string              `json:"address"`
+		Threads            common.NullableInt32 `json:"threads,omitempty"`
+		Warehouses         common.NullableInt32 `json:"warehouses,omitempty"`
+		Duration           common.NullableInt32 `json:"duration,omitempty"`
+		LimitTxPerMin      *int32               `json:"limitTxPerMin,omitempty"`
+		NewOrderWeight     common.NullableInt32 `json:"newOrderWeight,omitempty"`
+		PaymentWeight      common.NullableInt32 `json:"paymentWeight,omitempty"`
+		OrderStatusWeight  common.NullableInt32 `json:"orderStatusWeight,omitempty"`
+		DeliveryWeight     common.NullableInt32 `json:"deliveryWeight,omitempty"`
+		StockLevelWeight   common.NullableInt32 `json:"stockLevelWeight,omitempty"`
+		LoadWorkers        *int32               `json:"loadWorkers,omitempty"`
+		RunTxnsPerTerminal common.NullableInt32 `json:"runTxnsPerTerminal,omitempty"`
+		ExtraArgs          *string              `json:"extraArgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -863,7 +946,7 @@ func (o *Tpcc) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "threads", "warehouses", "duration", "limitTxPerMin", "newOrderWeight", "paymentWeight", "orderStatusWeight", "deliveryWeight", "stockLevelWeight", "extraArgs"})
+		common.DeleteKeys(additionalProperties, &[]string{"step", "limitCpu", "limitMemory", "requestCpu", "requestMemory", "name", "cluster", "database", "username", "password", "address", "threads", "warehouses", "duration", "limitTxPerMin", "newOrderWeight", "paymentWeight", "orderStatusWeight", "deliveryWeight", "stockLevelWeight", "loadWorkers", "runTxnsPerTerminal", "extraArgs"})
 	} else {
 		return err
 	}
@@ -893,6 +976,8 @@ func (o *Tpcc) UnmarshalJSON(bytes []byte) (err error) {
 	o.OrderStatusWeight = all.OrderStatusWeight
 	o.DeliveryWeight = all.DeliveryWeight
 	o.StockLevelWeight = all.StockLevelWeight
+	o.LoadWorkers = all.LoadWorkers
+	o.RunTxnsPerTerminal = all.RunTxnsPerTerminal
 	o.ExtraArgs = all.ExtraArgs
 
 	if len(additionalProperties) > 0 {

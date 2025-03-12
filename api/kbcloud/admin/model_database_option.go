@@ -11,7 +11,8 @@ import (
 )
 
 type DatabaseOption struct {
-	Enabled bool `json:"enabled"`
+	Enabled             bool    `json:"enabled"`
+	DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -58,6 +59,34 @@ func (o *DatabaseOption) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+// GetDatabaseNamePattern returns the DatabaseNamePattern field value if set, zero value otherwise.
+func (o *DatabaseOption) GetDatabaseNamePattern() string {
+	if o == nil || o.DatabaseNamePattern == nil {
+		var ret string
+		return ret
+	}
+	return *o.DatabaseNamePattern
+}
+
+// GetDatabaseNamePatternOk returns a tuple with the DatabaseNamePattern field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetDatabaseNamePatternOk() (*string, bool) {
+	if o == nil || o.DatabaseNamePattern == nil {
+		return nil, false
+	}
+	return o.DatabaseNamePattern, true
+}
+
+// HasDatabaseNamePattern returns a boolean if a field has been set.
+func (o *DatabaseOption) HasDatabaseNamePattern() bool {
+	return o != nil && o.DatabaseNamePattern != nil
+}
+
+// SetDatabaseNamePattern gets a reference to the given string and assigns it to the DatabaseNamePattern field.
+func (o *DatabaseOption) SetDatabaseNamePattern(v string) {
+	o.DatabaseNamePattern = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -65,6 +94,9 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["enabled"] = o.Enabled
+	if o.DatabaseNamePattern != nil {
+		toSerialize["databaseNamePattern"] = o.DatabaseNamePattern
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,7 +107,8 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled *bool `json:"enabled"`
+		Enabled             *bool   `json:"enabled"`
+		DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -85,11 +118,12 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "databaseNamePattern"})
 	} else {
 		return err
 	}
 	o.Enabled = *all.Enabled
+	o.DatabaseNamePattern = all.DatabaseNamePattern
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// BackupRepoUpdate BackupRepoUpdate is the payload to update a KubeBlocks cluster backup repo
-type BackupRepoUpdate struct {
-	// default specifies whether the backupRepo is the default backupRepo
-	Default bool `json:"default"`
+// EventFilterOptionList A collection of filter results.
+type EventFilterOptionList struct {
+	// An array containing individual filter result items.
+	Items []EventFilterOption `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewBackupRepoUpdate instantiates a new BackupRepoUpdate object.
+// NewEventFilterOptionList instantiates a new EventFilterOptionList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBackupRepoUpdate(defaultVar bool) *BackupRepoUpdate {
-	this := BackupRepoUpdate{}
-	this.Default = defaultVar
+func NewEventFilterOptionList(items []EventFilterOption) *EventFilterOptionList {
+	this := EventFilterOptionList{}
+	this.Items = items
 	return &this
 }
 
-// NewBackupRepoUpdateWithDefaults instantiates a new BackupRepoUpdate object.
+// NewEventFilterOptionListWithDefaults instantiates a new EventFilterOptionList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewBackupRepoUpdateWithDefaults() *BackupRepoUpdate {
-	this := BackupRepoUpdate{}
+func NewEventFilterOptionListWithDefaults() *EventFilterOptionList {
+	this := EventFilterOptionList{}
 	return &this
 }
 
-// GetDefault returns the Default field value.
-func (o *BackupRepoUpdate) GetDefault() bool {
+// GetItems returns the Items field value.
+func (o *EventFilterOptionList) GetItems() []EventFilterOption {
 	if o == nil {
-		var ret bool
+		var ret []EventFilterOption
 		return ret
 	}
-	return o.Default
+	return o.Items
 }
 
-// GetDefaultOk returns a tuple with the Default field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *BackupRepoUpdate) GetDefaultOk() (*bool, bool) {
+func (o *EventFilterOptionList) GetItemsOk() (*[]EventFilterOption, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Default, true
+	return &o.Items, true
 }
 
-// SetDefault sets field value.
-func (o *BackupRepoUpdate) SetDefault(v bool) {
-	o.Default = v
+// SetItems sets field value.
+func (o *EventFilterOptionList) SetItems(v []EventFilterOption) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o BackupRepoUpdate) MarshalJSON() ([]byte, error) {
+func (o EventFilterOptionList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["default"] = o.Default
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +75,23 @@ func (o BackupRepoUpdate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *BackupRepoUpdate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EventFilterOptionList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Default *bool `json:"default"`
+		Items *[]EventFilterOption `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Default == nil {
-		return fmt.Errorf("required field default missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"default"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.Default = *all.Default
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
