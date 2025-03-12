@@ -15356,6 +15356,7 @@ components:
       description: engine maturity level
       enum:
         - stable
+        - beta
         - experimental
         - deprecated
     engine:
