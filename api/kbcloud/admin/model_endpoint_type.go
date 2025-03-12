@@ -18,16 +18,18 @@ const (
 	EndpointTypeClusterIp    EndpointType = "ClusterIP"
 	EndpointTypeNodePort     EndpointType = "NodePort"
 	EndpointTypeLoadBalancer EndpointType = "LoadBalancer"
-	EndpointTypeFixedPodIp   EndpointType = "FixedPodIP"
+	EndpointTypePodIp        EndpointType = "PodIP"
 	EndpointTypeHostNetwork  EndpointType = "HostNetwork"
+	EndpointTypePodFqdn      EndpointType = "PodFQDN"
 )
 
 var allowedEndpointTypeEnumValues = []EndpointType{
 	EndpointTypeClusterIp,
 	EndpointTypeNodePort,
 	EndpointTypeLoadBalancer,
-	EndpointTypeFixedPodIp,
+	EndpointTypePodIp,
 	EndpointTypeHostNetwork,
+	EndpointTypePodFqdn,
 }
 
 // GetAllowedValues returns the list of possible values.

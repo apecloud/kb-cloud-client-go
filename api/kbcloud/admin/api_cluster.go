@@ -1010,7 +1010,6 @@ func (a *ClusterApi) ListClusters(ctx _context.Context, o ...ListClustersOptiona
 // ListEndpointsOptionalParameters holds optional parameters for ListEndpoints.
 type ListEndpointsOptionalParameters struct {
 	NodePortHostCount *int32
-	IncludeClusterIp  *bool
 	ReturnLen         *int32
 }
 
@@ -1023,12 +1022,6 @@ func NewListEndpointsOptionalParameters() *ListEndpointsOptionalParameters {
 // WithNodePortHostCount sets the corresponding parameter name and returns the struct.
 func (r *ListEndpointsOptionalParameters) WithNodePortHostCount(nodePortHostCount int32) *ListEndpointsOptionalParameters {
 	r.NodePortHostCount = &nodePortHostCount
-	return r
-}
-
-// WithIncludeClusterIp sets the corresponding parameter name and returns the struct.
-func (r *ListEndpointsOptionalParameters) WithIncludeClusterIp(includeClusterIp bool) *ListEndpointsOptionalParameters {
-	r.IncludeClusterIp = &includeClusterIp
 	return r
 }
 
@@ -1077,9 +1070,6 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.NodePortHostCount != nil {
 		localVarQueryParams.Add("nodePortHostCount", common.ParameterToString(*optionalParams.NodePortHostCount, ""))
-	}
-	if optionalParams.IncludeClusterIp != nil {
-		localVarQueryParams.Add("includeClusterIP", common.ParameterToString(*optionalParams.IncludeClusterIp, ""))
 	}
 	if optionalParams.ReturnLen != nil {
 		localVarQueryParams.Add("returnLen", common.ParameterToString(*optionalParams.ReturnLen, ""))
