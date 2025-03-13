@@ -118,7 +118,7 @@
 //   - [clusterLogApi.queryRunningLogs]
 //   - [clusterLogApi.querySlowLogs]
 //   - [clusterTagApi.createTag]
-//   - [clusterTagApi.deleteTags]
+//   - [clusterTagApi.deleteTag]
 //   - [clusterTagApi.getTags]
 //   - [clusterTagApi.listOrgTags]
 //   - [clusterTagApi.updateTag]
