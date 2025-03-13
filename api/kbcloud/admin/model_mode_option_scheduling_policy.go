@@ -6,7 +6,7 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type EngineOptionSchedulingPolicy struct {
+type ModeOptionSchedulingPolicy struct {
 	// If set to true, resource distribution is at the cluster level.
 	//
 	ClusterScopeAntiAffinity *bool `json:"clusterScopeAntiAffinity,omitempty"`
@@ -15,25 +15,25 @@ type EngineOptionSchedulingPolicy struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEngineOptionSchedulingPolicy instantiates a new EngineOptionSchedulingPolicy object.
+// NewModeOptionSchedulingPolicy instantiates a new ModeOptionSchedulingPolicy object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineOptionSchedulingPolicy() *EngineOptionSchedulingPolicy {
-	this := EngineOptionSchedulingPolicy{}
+func NewModeOptionSchedulingPolicy() *ModeOptionSchedulingPolicy {
+	this := ModeOptionSchedulingPolicy{}
 	return &this
 }
 
-// NewEngineOptionSchedulingPolicyWithDefaults instantiates a new EngineOptionSchedulingPolicy object.
+// NewModeOptionSchedulingPolicyWithDefaults instantiates a new ModeOptionSchedulingPolicy object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineOptionSchedulingPolicyWithDefaults() *EngineOptionSchedulingPolicy {
-	this := EngineOptionSchedulingPolicy{}
+func NewModeOptionSchedulingPolicyWithDefaults() *ModeOptionSchedulingPolicy {
+	this := ModeOptionSchedulingPolicy{}
 	return &this
 }
 
 // GetClusterScopeAntiAffinity returns the ClusterScopeAntiAffinity field value if set, zero value otherwise.
-func (o *EngineOptionSchedulingPolicy) GetClusterScopeAntiAffinity() bool {
+func (o *ModeOptionSchedulingPolicy) GetClusterScopeAntiAffinity() bool {
 	if o == nil || o.ClusterScopeAntiAffinity == nil {
 		var ret bool
 		return ret
@@ -43,7 +43,7 @@ func (o *EngineOptionSchedulingPolicy) GetClusterScopeAntiAffinity() bool {
 
 // GetClusterScopeAntiAffinityOk returns a tuple with the ClusterScopeAntiAffinity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineOptionSchedulingPolicy) GetClusterScopeAntiAffinityOk() (*bool, bool) {
+func (o *ModeOptionSchedulingPolicy) GetClusterScopeAntiAffinityOk() (*bool, bool) {
 	if o == nil || o.ClusterScopeAntiAffinity == nil {
 		return nil, false
 	}
@@ -51,17 +51,17 @@ func (o *EngineOptionSchedulingPolicy) GetClusterScopeAntiAffinityOk() (*bool, b
 }
 
 // HasClusterScopeAntiAffinity returns a boolean if a field has been set.
-func (o *EngineOptionSchedulingPolicy) HasClusterScopeAntiAffinity() bool {
+func (o *ModeOptionSchedulingPolicy) HasClusterScopeAntiAffinity() bool {
 	return o != nil && o.ClusterScopeAntiAffinity != nil
 }
 
 // SetClusterScopeAntiAffinity gets a reference to the given bool and assigns it to the ClusterScopeAntiAffinity field.
-func (o *EngineOptionSchedulingPolicy) SetClusterScopeAntiAffinity(v bool) {
+func (o *ModeOptionSchedulingPolicy) SetClusterScopeAntiAffinity(v bool) {
 	o.ClusterScopeAntiAffinity = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineOptionSchedulingPolicy) MarshalJSON() ([]byte, error) {
+func (o ModeOptionSchedulingPolicy) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -77,7 +77,7 @@ func (o EngineOptionSchedulingPolicy) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineOptionSchedulingPolicy) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ModeOptionSchedulingPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ClusterScopeAntiAffinity *bool `json:"clusterScopeAntiAffinity,omitempty"`
 	}{}

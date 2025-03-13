@@ -11,13 +11,14 @@ import (
 )
 
 type ModeOption struct {
-	Name        string                 `json:"name"`
-	Title       LocalizedDescription   `json:"title"`
-	Description LocalizedDescription   `json:"description"`
-	Components  []ModeComponent        `json:"components"`
-	Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
-	Versions    []string               `json:"versions,omitempty"`
-	Extra       map[string]interface{} `json:"extra,omitempty"`
+	Name             string                      `json:"name"`
+	Title            LocalizedDescription        `json:"title"`
+	Description      LocalizedDescription        `json:"description"`
+	SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
+	Components       []ModeComponent             `json:"components"`
+	Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
+	Versions         []string                    `json:"versions,omitempty"`
+	Extra            map[string]interface{}      `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -111,6 +112,34 @@ func (o *ModeOption) GetDescriptionOk() (*LocalizedDescription, bool) {
 // SetDescription sets field value.
 func (o *ModeOption) SetDescription(v LocalizedDescription) {
 	o.Description = v
+}
+
+// GetSchedulingPolicy returns the SchedulingPolicy field value if set, zero value otherwise.
+func (o *ModeOption) GetSchedulingPolicy() ModeOptionSchedulingPolicy {
+	if o == nil || o.SchedulingPolicy == nil {
+		var ret ModeOptionSchedulingPolicy
+		return ret
+	}
+	return *o.SchedulingPolicy
+}
+
+// GetSchedulingPolicyOk returns a tuple with the SchedulingPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetSchedulingPolicyOk() (*ModeOptionSchedulingPolicy, bool) {
+	if o == nil || o.SchedulingPolicy == nil {
+		return nil, false
+	}
+	return o.SchedulingPolicy, true
+}
+
+// HasSchedulingPolicy returns a boolean if a field has been set.
+func (o *ModeOption) HasSchedulingPolicy() bool {
+	return o != nil && o.SchedulingPolicy != nil
+}
+
+// SetSchedulingPolicy gets a reference to the given ModeOptionSchedulingPolicy and assigns it to the SchedulingPolicy field.
+func (o *ModeOption) SetSchedulingPolicy(v ModeOptionSchedulingPolicy) {
+	o.SchedulingPolicy = &v
 }
 
 // GetComponents returns the Components field value.
@@ -229,6 +258,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["title"] = o.Title
 	toSerialize["description"] = o.Description
+	if o.SchedulingPolicy != nil {
+		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
+	}
 	toSerialize["components"] = o.Components
 	if o.Proxy != nil {
 		toSerialize["proxy"] = o.Proxy
@@ -249,13 +281,14 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                `json:"name"`
-		Title       *LocalizedDescription  `json:"title"`
-		Description *LocalizedDescription  `json:"description"`
-		Components  *[]ModeComponent       `json:"components"`
-		Proxy       *ModeOptionProxy       `json:"proxy,omitempty"`
-		Versions    []string               `json:"versions,omitempty"`
-		Extra       map[string]interface{} `json:"extra,omitempty"`
+		Name             *string                     `json:"name"`
+		Title            *LocalizedDescription       `json:"title"`
+		Description      *LocalizedDescription       `json:"description"`
+		SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
+		Components       *[]ModeComponent            `json:"components"`
+		Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
+		Versions         []string                    `json:"versions,omitempty"`
+		Extra            map[string]interface{}      `json:"extra,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -274,7 +307,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "components", "proxy", "versions", "extra"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra"})
 	} else {
 		return err
 	}
@@ -289,6 +322,10 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Description = *all.Description
+	if all.SchedulingPolicy != nil && all.SchedulingPolicy.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.SchedulingPolicy = all.SchedulingPolicy
 	o.Components = *all.Components
 	if all.Proxy != nil && all.Proxy.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true

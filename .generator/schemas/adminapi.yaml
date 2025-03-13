@@ -21298,6 +21298,13 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         description:
           $ref: '#/components/schemas/localizedDescription'
+        schedulingPolicy:
+          type: object
+          properties:
+            clusterScopeAntiAffinity:
+              type: boolean
+              description: |
+                If set to true, resource distribution is at the cluster level.
         components:
           type: array
           items:
@@ -22027,13 +22034,6 @@ components:
       properties:
         engineName:
           type: string
-        schedulingPolicy:
-          type: object
-          properties:
-            clusterScopeAntiAffinity:
-              type: boolean
-              description: |
-                If set to true, resource distribution is at the cluster level.
         maturityLevel:
           $ref: '#/components/schemas/engineMaturityLevel'
         title:

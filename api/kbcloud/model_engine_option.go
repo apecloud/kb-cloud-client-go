@@ -11,8 +11,7 @@ import (
 )
 
 type EngineOption struct {
-	EngineName       string                        `json:"engineName"`
-	SchedulingPolicy *EngineOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
+	EngineName string `json:"engineName"`
 	// engine maturity level
 	MaturityLevel *EngineMaturityLevel `json:"maturityLevel,omitempty"`
 	Title         string               `json:"title"`
@@ -104,34 +103,6 @@ func (o *EngineOption) GetEngineNameOk() (*string, bool) {
 // SetEngineName sets field value.
 func (o *EngineOption) SetEngineName(v string) {
 	o.EngineName = v
-}
-
-// GetSchedulingPolicy returns the SchedulingPolicy field value if set, zero value otherwise.
-func (o *EngineOption) GetSchedulingPolicy() EngineOptionSchedulingPolicy {
-	if o == nil || o.SchedulingPolicy == nil {
-		var ret EngineOptionSchedulingPolicy
-		return ret
-	}
-	return *o.SchedulingPolicy
-}
-
-// GetSchedulingPolicyOk returns a tuple with the SchedulingPolicy field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EngineOption) GetSchedulingPolicyOk() (*EngineOptionSchedulingPolicy, bool) {
-	if o == nil || o.SchedulingPolicy == nil {
-		return nil, false
-	}
-	return o.SchedulingPolicy, true
-}
-
-// HasSchedulingPolicy returns a boolean if a field has been set.
-func (o *EngineOption) HasSchedulingPolicy() bool {
-	return o != nil && o.SchedulingPolicy != nil
-}
-
-// SetSchedulingPolicy gets a reference to the given EngineOptionSchedulingPolicy and assigns it to the SchedulingPolicy field.
-func (o *EngineOption) SetSchedulingPolicy(v EngineOptionSchedulingPolicy) {
-	o.SchedulingPolicy = &v
 }
 
 // GetMaturityLevel returns the MaturityLevel field value if set, zero value otherwise.
@@ -873,9 +844,6 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["engineName"] = o.EngineName
-	if o.SchedulingPolicy != nil {
-		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
-	}
 	if o.MaturityLevel != nil {
 		toSerialize["maturityLevel"] = o.MaturityLevel
 	}
@@ -941,37 +909,36 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		EngineName       *string                       `json:"engineName"`
-		SchedulingPolicy *EngineOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
-		MaturityLevel    *EngineMaturityLevel          `json:"maturityLevel,omitempty"`
-		Title            *string                       `json:"title"`
-		Description      *LocalizedDescription         `json:"description"`
-		Versions         *[]string                     `json:"versions"`
-		Components       *[]ComponentOption            `json:"components"`
-		Modes            *[]ModeOption                 `json:"modes"`
-		Account          *AccountOption                `json:"account,omitempty"`
-		Database         *DatabaseOption               `json:"database,omitempty"`
-		Dms              *DmsOption                    `json:"dms"`
-		Backup           *BackupOption                 `json:"backup,omitempty"`
-		Bench            *BenchOption                  `json:"bench,omitempty"`
-		Endpoints        *[]EndpointOption             `json:"endpoints"`
-		NetworkMode      *NetworkModeOption            `json:"networkMode,omitempty"`
-		Promote          *[]ComponentOpsOption         `json:"promote"`
-		Stop             *[]ComponentOpsOption         `json:"stop"`
-		Start            *[]ComponentOpsOption         `json:"start"`
-		Restart          *[]ComponentOpsOption         `json:"restart"`
-		Hscale           *[]ComponentOpsOption         `json:"hscale"`
-		Vscale           *[]ComponentOpsOption         `json:"vscale"`
-		License          *EngineOptionLicense          `json:"license,omitempty"`
-		StorageExpansion []ComponentOpsOption          `json:"storageExpansion,omitempty"`
-		RebuildInstance  []ComponentOpsOption          `json:"rebuildInstance,omitempty"`
-		Upgrade          []ComponentOpsOption          `json:"upgrade,omitempty"`
-		Metrics          *MetricsOption                `json:"metrics,omitempty"`
-		Dashboards       *[]DashboardOption            `json:"dashboards"`
-		Logs             *[]LogOption                  `json:"logs"`
-		Parameters       *[]ParameterOption            `json:"parameters"`
-		DisasterRecovery *DisasterRecoveryOption       `json:"disasterRecovery,omitempty"`
-		Cdc              []CdcOption                   `json:"cdc,omitempty"`
+		EngineName       *string                 `json:"engineName"`
+		MaturityLevel    *EngineMaturityLevel    `json:"maturityLevel,omitempty"`
+		Title            *string                 `json:"title"`
+		Description      *LocalizedDescription   `json:"description"`
+		Versions         *[]string               `json:"versions"`
+		Components       *[]ComponentOption      `json:"components"`
+		Modes            *[]ModeOption           `json:"modes"`
+		Account          *AccountOption          `json:"account,omitempty"`
+		Database         *DatabaseOption         `json:"database,omitempty"`
+		Dms              *DmsOption              `json:"dms"`
+		Backup           *BackupOption           `json:"backup,omitempty"`
+		Bench            *BenchOption            `json:"bench,omitempty"`
+		Endpoints        *[]EndpointOption       `json:"endpoints"`
+		NetworkMode      *NetworkModeOption      `json:"networkMode,omitempty"`
+		Promote          *[]ComponentOpsOption   `json:"promote"`
+		Stop             *[]ComponentOpsOption   `json:"stop"`
+		Start            *[]ComponentOpsOption   `json:"start"`
+		Restart          *[]ComponentOpsOption   `json:"restart"`
+		Hscale           *[]ComponentOpsOption   `json:"hscale"`
+		Vscale           *[]ComponentOpsOption   `json:"vscale"`
+		License          *EngineOptionLicense    `json:"license,omitempty"`
+		StorageExpansion []ComponentOpsOption    `json:"storageExpansion,omitempty"`
+		RebuildInstance  []ComponentOpsOption    `json:"rebuildInstance,omitempty"`
+		Upgrade          []ComponentOpsOption    `json:"upgrade,omitempty"`
+		Metrics          *MetricsOption          `json:"metrics,omitempty"`
+		Dashboards       *[]DashboardOption      `json:"dashboards"`
+		Logs             *[]LogOption            `json:"logs"`
+		Parameters       *[]ParameterOption      `json:"parameters"`
+		DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
+		Cdc              []CdcOption             `json:"cdc,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1029,17 +996,13 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "schedulingPolicy", "maturityLevel", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.EngineName = *all.EngineName
-	if all.SchedulingPolicy != nil && all.SchedulingPolicy.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.SchedulingPolicy = all.SchedulingPolicy
 	if all.MaturityLevel != nil && !all.MaturityLevel.IsValid() {
 		hasInvalidField = true
 	} else {
