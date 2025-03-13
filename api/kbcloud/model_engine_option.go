@@ -11,15 +11,17 @@ import (
 )
 
 type EngineOption struct {
-	EngineName  string               `json:"engineName"`
-	Title       string               `json:"title"`
-	Description LocalizedDescription `json:"description"`
-	Versions    []string             `json:"versions"`
-	Components  []ComponentOption    `json:"components"`
-	Modes       []ModeOption         `json:"modes"`
-	Account     *AccountOption       `json:"account,omitempty"`
-	Database    *DatabaseOption      `json:"database,omitempty"`
-	Dms         DmsOption            `json:"dms"`
+	EngineName string `json:"engineName"`
+	// engine maturity level
+	MaturityLevel *EngineMaturityLevel `json:"maturityLevel,omitempty"`
+	Title         string               `json:"title"`
+	Description   LocalizedDescription `json:"description"`
+	Versions      []string             `json:"versions"`
+	Components    []ComponentOption    `json:"components"`
+	Modes         []ModeOption         `json:"modes"`
+	Account       *AccountOption       `json:"account,omitempty"`
+	Database      *DatabaseOption      `json:"database,omitempty"`
+	Dms           DmsOption            `json:"dms"`
 	// If present, it must be set defaultMethod and fullMethod
 	Backup           *BackupOption           `json:"backup,omitempty"`
 	Bench            *BenchOption            `json:"bench,omitempty"`
@@ -101,6 +103,34 @@ func (o *EngineOption) GetEngineNameOk() (*string, bool) {
 // SetEngineName sets field value.
 func (o *EngineOption) SetEngineName(v string) {
 	o.EngineName = v
+}
+
+// GetMaturityLevel returns the MaturityLevel field value if set, zero value otherwise.
+func (o *EngineOption) GetMaturityLevel() EngineMaturityLevel {
+	if o == nil || o.MaturityLevel == nil {
+		var ret EngineMaturityLevel
+		return ret
+	}
+	return *o.MaturityLevel
+}
+
+// GetMaturityLevelOk returns a tuple with the MaturityLevel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetMaturityLevelOk() (*EngineMaturityLevel, bool) {
+	if o == nil || o.MaturityLevel == nil {
+		return nil, false
+	}
+	return o.MaturityLevel, true
+}
+
+// HasMaturityLevel returns a boolean if a field has been set.
+func (o *EngineOption) HasMaturityLevel() bool {
+	return o != nil && o.MaturityLevel != nil
+}
+
+// SetMaturityLevel gets a reference to the given EngineMaturityLevel and assigns it to the MaturityLevel field.
+func (o *EngineOption) SetMaturityLevel(v EngineMaturityLevel) {
+	o.MaturityLevel = &v
 }
 
 // GetTitle returns the Title field value.
@@ -814,6 +844,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["engineName"] = o.EngineName
+	if o.MaturityLevel != nil {
+		toSerialize["maturityLevel"] = o.MaturityLevel
+	}
 	toSerialize["title"] = o.Title
 	toSerialize["description"] = o.Description
 	toSerialize["versions"] = o.Versions
@@ -877,6 +910,7 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		EngineName       *string                 `json:"engineName"`
+		MaturityLevel    *EngineMaturityLevel    `json:"maturityLevel,omitempty"`
 		Title            *string                 `json:"title"`
 		Description      *LocalizedDescription   `json:"description"`
 		Versions         *[]string               `json:"versions"`
@@ -962,13 +996,18 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkMode", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.EngineName = *all.EngineName
+	if all.MaturityLevel != nil && !all.MaturityLevel.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.MaturityLevel = all.MaturityLevel
+	}
 	o.Title = *all.Title
 	if all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
