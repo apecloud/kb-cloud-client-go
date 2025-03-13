@@ -1180,12 +1180,6 @@ paths:
           schema:
             type: integer
             default: 3
-        - description: whether to include the ClusterIP endpoint
-          in: query
-          name: includeClusterIP
-          schema:
-            type: boolean
-            default: false
         - description: |
             The total number of returned endpoints,  If the total number of endpoints is less than returnLen, then return the actual available endpoints.
           in: query
@@ -2081,6 +2075,41 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
+  /admin/v1/eventfilter/{filterType}:
+    get:
+      description: Query available filters for event listing
+      summary: Query available filters for event listing
+      operationId: getEventFilter
+      parameters:
+        - description: The event filter field you want to obtain.
+          in: path
+          name: filterType
+          required: true
+          schema:
+            $ref: '#/components/schemas/eventFilterType'
+        - description: The event filter you want to query from a certain source.
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventFilterOptionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /admin/v1/events:
     get:
       description: List events
@@ -2096,8 +2125,7 @@ paths:
           in: query
           name: resourceId
           schema:
-            type: integer
-            format: int64
+            type: string
         - description: resource type
           in: query
           name: resourceType
@@ -2114,6 +2142,11 @@ paths:
           schema:
             type: integer
             format: int64
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
         - description: the pageNumber of the query
           in: query
           name: pageNumber
@@ -15372,6 +15405,7 @@ components:
         - HostNetwork
         - NodePort
         - FixedPodIP
+        - HeadlessService
       type: string
     cluster:
       required:
@@ -15669,8 +15703,9 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
-        - FixedPodIP
+        - PodIP
         - HostNetwork
+        - PodFQDN
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -16193,18 +16228,49 @@ components:
               - StartAt
           type: array
       type: object
-    eventResourceType:
-      description: Type of the resource
+    eventFilterType:
+      description: Console do not support orgName.
       type: string
       enum:
-        - cluster
-        - role
+        - orgName
+        - operator
+        - eventName
+        - resourceName
+        - resourceType
+    eventFilterOption:
+      description: Represents a single filter result item.
+      properties:
+        title:
+          description: The human-readable title of the filter option.
+          type: string
+        value:
+          description: The actual value associated with the filter option.
+          type: string
+      required:
+        - title
+        - value
+    eventFilterOptionList:
+      description: A collection of filter results.
+      properties:
+        items:
+          description: An array containing individual filter result items.
+          type: array
+          items:
+            $ref: '#/components/schemas/eventFilterOption'
+      required:
+        - items
     eventResultStatus:
       description: result status of the operation event
       enum:
         - success
         - failed
       type: string
+    eventResourceType:
+      description: Type of the resource
+      type: string
+      enum:
+        - cluster
+        - role
     eventSource:
       description: event source
       enum:
@@ -16245,6 +16311,9 @@ components:
           type: string
         displayName:
           description: Display name is custom operation name
+          type: string
+        orgName:
+          description: The org of the event
           type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
@@ -21074,6 +21143,14 @@ components:
       enum:
         - current
         - original
+    engineMaturityLevel:
+      type: string
+      description: engine maturity level
+      enum:
+        - stable
+        - beta
+        - experimental
+        - deprecated
     componentOption:
       type: object
       required:
@@ -21129,7 +21206,7 @@ components:
                 rule:
                   type: string
                   description: |
-                    ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0. 
+                    ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0.
                     Currently supports [X, X.Y, X.Y.Z] formats to determine major versions of the engine from the serviceVersion
                 versionMapping:
                   type: array
@@ -21254,6 +21331,13 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         description:
           $ref: '#/components/schemas/localizedDescription'
+        schedulingPolicy:
+          type: object
+          properties:
+            clusterScopeAntiAffinity:
+              type: boolean
+              description: |
+                If set to true, resource distribution is at the cluster level.
         components:
           type: array
           items:
@@ -21448,14 +21532,26 @@ components:
           default: false
           description: whether the endpoint follows the network mode of the component
     networkModeOption:
-      type: object
-      required:
-        - supported
-      properties:
-        supported:
-          type: array
-          items:
-            $ref: '#/components/schemas/networkMode'
+      type: array
+      items:
+        type: object
+        required:
+          - supported
+        properties:
+          supported:
+            type: array
+            items:
+              $ref: '#/components/schemas/networkMode'
+          modes:
+            type: array
+            items:
+              type: string
+            nullable: true
+          versions:
+            type: array
+            items:
+              type: string
+            nullable: true
     componentOpsOption:
       type: object
       required:
@@ -21531,7 +21627,7 @@ components:
                   value:
                     type: string
                     description: |
-                      parameter value, you can define a go template expression to refer the variable of the current ops. 
+                      parameter value, you can define a go template expression to refer the variable of the current ops.
                       available built-in objects that can be referenced in the expression include:
                       - cluster: cluster record
                       - params: ops input parameters
@@ -21983,6 +22079,8 @@ components:
       properties:
         engineName:
           type: string
+        maturityLevel:
+          $ref: '#/components/schemas/engineMaturityLevel'
         title:
           type: string
         description:
@@ -22014,7 +22112,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
-        networkMode:
+        networkModes:
           $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
@@ -22271,6 +22369,8 @@ components:
           description: clusterversion in the engines
           items:
             type: string
+        maturityLevel:
+          $ref: '#/components/schemas/engineMaturityLevel'
     engineList:
       items:
         $ref: '#/components/schemas/engine'

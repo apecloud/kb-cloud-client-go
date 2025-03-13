@@ -216,6 +216,7 @@
 //   - [environmentApi.uncordonEnvironmentNode]
 //   - [environmentApi.updateEnvironmentModule]
 //   - [eventApi.getEvent]
+//   - [eventApi.getEventFilter]
 //   - [eventApi.listEvents]
 //   - [featureApi.listFeature]
 //   - [featureApi.listFeatureGroup]

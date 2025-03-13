@@ -710,10 +710,44 @@ paths:
       tags:
         - member
         - role
+  /api/v1/organizations/{orgName}/eventfilter/{filterType}:
+    get:
+      description: Query available filters for event listing
+      summary: Query available filters for event listing
+      operationId: getEventFilter
+      parameters:
+        - description: The orgName
+          in: path
+          name: orgName
+          required: true
+          type: string
+        - description: The event filter field you want to obtain. OpenAPI do not support orgName.
+          in: path
+          name: filterType
+          required: true
+          schema:
+            $ref: '#/components/schemas/eventFilterType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventFilterOptionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /api/v1/organizations/{orgName}/events:
     get:
-      description: list events
-      summary: list events
+      description: List events
+      summary: List events
       operationId: listEvents
       parameters:
         - description: Organization Name
@@ -742,6 +776,11 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
         - description: the pageNumber of the query
           in: query
           name: pageNumber
@@ -774,7 +813,7 @@ paths:
   /api/v1/organizations/{orgName}/events/{eventID}:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
-      summary: get event by eventID
+      summary: Query event detail by Event ID
       operationId: getEvent
       parameters:
         - description: Organization Name
@@ -3510,12 +3549,6 @@ paths:
           schema:
             type: integer
             default: 3
-        - description: whether to include the ClusterIP endpoint
-          in: query
-          name: includeClusterIP
-          schema:
-            type: boolean
-            default: false
         - description: |
             The total number of returned endpoints,  If the total number of endpoints is less than returnLen, then return the actual available endpoints.
           in: query
@@ -7627,27 +7660,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-    post:
-      tags:
-        - instanceTypes
-      operationId: createInstanceType
-      summary: Create a new instance type
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/createInstanceType'
-      responses:
-        '201':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
   /api/v1/instance-types/{id}:
     get:
       tags:
@@ -7667,55 +7679,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - instanceTypes
-      operationId: updateInstanceType
-      summary: Update an instance type by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/instanceTypes'
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/instanceTypes'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - instanceTypes
-      operationId: deleteInstanceType
-      summary: Delete an instance type by ID
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: A successful response.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11348,18 +11311,49 @@ components:
       required:
         - items
       type: object
-    eventResourceType:
-      description: Type of the resource
+    eventFilterType:
+      description: Console do not support orgName.
       type: string
       enum:
-        - cluster
-        - role
+        - orgName
+        - operator
+        - eventName
+        - resourceName
+        - resourceType
+    eventFilterOption:
+      description: Represents a single filter result item.
+      properties:
+        title:
+          description: The human-readable title of the filter option.
+          type: string
+        value:
+          description: The actual value associated with the filter option.
+          type: string
+      required:
+        - title
+        - value
+    eventFilterOptionList:
+      description: A collection of filter results.
+      properties:
+        items:
+          description: An array containing individual filter result items.
+          type: array
+          items:
+            $ref: '#/components/schemas/eventFilterOption'
+      required:
+        - items
     eventResultStatus:
       description: result status of the operation event
       enum:
         - success
         - failed
       type: string
+    eventResourceType:
+      description: Type of the resource
+      type: string
+      enum:
+        - cluster
+        - role
     eventSource:
       description: event source
       enum:
@@ -11400,6 +11394,9 @@ components:
           type: string
         displayName:
           description: Display name is custom operation name
+          type: string
+        orgName:
+          description: The org of the event
           type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'
@@ -11513,6 +11510,7 @@ components:
         - HostNetwork
         - NodePort
         - FixedPodIP
+        - HeadlessService
       type: string
     networkConfig:
       type: object
@@ -13760,8 +13758,9 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
-        - FixedPodIP
+        - PodIP
         - HostNetwork
+        - PodFQDN
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -15347,6 +15346,14 @@ components:
         - Failed
         - Enabling
         - Disabling
+    engineMaturityLevel:
+      type: string
+      description: engine maturity level
+      enum:
+        - stable
+        - beta
+        - experimental
+        - deprecated
     engine:
       type: object
       properties:
@@ -15402,6 +15409,8 @@ components:
           description: clusterversion in the engines
           items:
             type: string
+        maturityLevel:
+          $ref: '#/components/schemas/engineMaturityLevel'
     engineList:
       items:
         $ref: '#/components/schemas/engine'
@@ -15471,7 +15480,7 @@ components:
                 rule:
                   type: string
                   description: |
-                    ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0. 
+                    ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0.
                     Currently supports [X, X.Y, X.Y.Z] formats to determine major versions of the engine from the serviceVersion
                 versionMapping:
                   type: array
@@ -15596,6 +15605,13 @@ components:
           $ref: '#/components/schemas/localizedDescription'
         description:
           $ref: '#/components/schemas/localizedDescription'
+        schedulingPolicy:
+          type: object
+          properties:
+            clusterScopeAntiAffinity:
+              type: boolean
+              description: |
+                If set to true, resource distribution is at the cluster level.
         components:
           type: array
           items:
@@ -15790,14 +15806,26 @@ components:
           default: false
           description: whether the endpoint follows the network mode of the component
     networkModeOption:
-      type: object
-      required:
-        - supported
-      properties:
-        supported:
-          type: array
-          items:
-            $ref: '#/components/schemas/networkMode'
+      type: array
+      items:
+        type: object
+        required:
+          - supported
+        properties:
+          supported:
+            type: array
+            items:
+              $ref: '#/components/schemas/networkMode'
+          modes:
+            type: array
+            items:
+              type: string
+            nullable: true
+          versions:
+            type: array
+            items:
+              type: string
+            nullable: true
     componentOpsOption:
       type: object
       required:
@@ -15873,7 +15901,7 @@ components:
                   value:
                     type: string
                     description: |
-                      parameter value, you can define a go template expression to refer the variable of the current ops. 
+                      parameter value, you can define a go template expression to refer the variable of the current ops.
                       available built-in objects that can be referenced in the expression include:
                       - cluster: cluster record
                       - params: ops input parameters
@@ -16325,6 +16353,8 @@ components:
       properties:
         engineName:
           type: string
+        maturityLevel:
+          $ref: '#/components/schemas/engineMaturityLevel'
         title:
           type: string
         description:
@@ -16356,7 +16386,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
-        networkMode:
+        networkModes:
           $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
@@ -17338,35 +17368,6 @@ components:
           description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
         serverConfiguration:
           $ref: '#/components/schemas/serverConfiguration'
-    createInstanceType:
-      type: object
-      properties:
-        description:
-          type: string
-          maxLength: 255
-          description: Any characters, no more than 255 characters long.
-        displayName:
-          type: string
-          maxLength: 63
-          description: Any characters, no more than 63 characters long.
-        occupationType:
-          $ref: '#/components/schemas/OccupationType'
-        name:
-          type: string
-          pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
-        serverConfiguration:
-          $ref: '#/components/schemas/serverConfiguration'
-        engines:
-          type: array
-          items:
-            type: string
-          description: List of engine names supported by this instance type.
-        sourceInstanceTypeName:
-          type: array
-          items:
-            type: string
-          description: The Names of the instance types to be copied. All specifications of these instances will be copied to the new instance type.
     inspection:
       description: inspection
       properties:

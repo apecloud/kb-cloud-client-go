@@ -10,61 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type NetworkModeOption struct {
-	Supported []NetworkMode `json:"supported"`
+// EventFilterOptionList A collection of filter results.
+type EventFilterOptionList struct {
+	// An array containing individual filter result items.
+	Items []EventFilterOption `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewNetworkModeOption instantiates a new NetworkModeOption object.
+// NewEventFilterOptionList instantiates a new EventFilterOptionList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewNetworkModeOption(supported []NetworkMode) *NetworkModeOption {
-	this := NetworkModeOption{}
-	this.Supported = supported
+func NewEventFilterOptionList(items []EventFilterOption) *EventFilterOptionList {
+	this := EventFilterOptionList{}
+	this.Items = items
 	return &this
 }
 
-// NewNetworkModeOptionWithDefaults instantiates a new NetworkModeOption object.
+// NewEventFilterOptionListWithDefaults instantiates a new EventFilterOptionList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewNetworkModeOptionWithDefaults() *NetworkModeOption {
-	this := NetworkModeOption{}
+func NewEventFilterOptionListWithDefaults() *EventFilterOptionList {
+	this := EventFilterOptionList{}
 	return &this
 }
 
-// GetSupported returns the Supported field value.
-func (o *NetworkModeOption) GetSupported() []NetworkMode {
+// GetItems returns the Items field value.
+func (o *EventFilterOptionList) GetItems() []EventFilterOption {
 	if o == nil {
-		var ret []NetworkMode
+		var ret []EventFilterOption
 		return ret
 	}
-	return o.Supported
+	return o.Items
 }
 
-// GetSupportedOk returns a tuple with the Supported field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *NetworkModeOption) GetSupportedOk() (*[]NetworkMode, bool) {
+func (o *EventFilterOptionList) GetItemsOk() (*[]EventFilterOption, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Supported, true
+	return &o.Items, true
 }
 
-// SetSupported sets field value.
-func (o *NetworkModeOption) SetSupported(v []NetworkMode) {
-	o.Supported = v
+// SetItems sets field value.
+func (o *EventFilterOptionList) SetItems(v []EventFilterOption) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o NetworkModeOption) MarshalJSON() ([]byte, error) {
+func (o EventFilterOptionList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["supported"] = o.Supported
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -73,23 +75,23 @@ func (o NetworkModeOption) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *NetworkModeOption) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EventFilterOptionList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Supported *[]NetworkMode `json:"supported"`
+		Items *[]EventFilterOption `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Supported == nil {
-		return fmt.Errorf("required field supported missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"supported"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.Supported = *all.Supported
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
