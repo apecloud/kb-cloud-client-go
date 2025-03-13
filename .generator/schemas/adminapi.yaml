@@ -2147,6 +2147,11 @@ paths:
           name: status
           schema:
             $ref: '#/components/schemas/eventResultStatus'
+        - description: Advanced query conditions, supporting all types of filterType. Such as "orgID:111 orgID:222 operatorID:333"
+          in: query
+          name: customQuery
+          schema:
+            type: string
         - description: the pageNumber of the query
           in: query
           name: pageNumber
