@@ -2831,7 +2831,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/{clusterName}/upgrade:
     post:
       operationId: upgradeCluster
@@ -3396,7 +3395,7 @@ paths:
         - clusterTag
       description: delete cluster tag
       summary: Delete tag
-      operationId: deleteTags
+      operationId: deleteTag
       parameters:
         - name: orgName
           in: path
@@ -3497,24 +3496,10 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                clusterId:
-                  type: string
-                  description: The cluster id corresponding to the tag
-                items:
-                  type: array
-                  description: The key value pair of the tag needed to create
-                  items:
-                    type: object
-                    properties:
-                      key:
-                        type: string
-                      value:
-                        type: string
+              $ref: '#/components/schemas/tagCreate'
         required: true
       responses:
-        '200':
+        '201':
           description: create tag successfully
           content:
             application/json:
