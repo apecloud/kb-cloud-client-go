@@ -19,7 +19,7 @@ type ClusterTagApi common.Service
 
 // CreateTag Create cluster tags.
 // create tag
-func (a *ClusterTagApi) CreateTag(ctx _context.Context, orgName string, body interface{}) (TagCreate, *_nethttp.Response, error) {
+func (a *ClusterTagApi) CreateTag(ctx _context.Context, orgName string, body TagCreate) (TagCreate, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
