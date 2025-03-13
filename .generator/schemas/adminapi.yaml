@@ -1180,12 +1180,6 @@ paths:
           schema:
             type: integer
             default: 3
-        - description: whether to include the ClusterIP endpoint
-          in: query
-          name: includeClusterIP
-          schema:
-            type: boolean
-            default: false
         - description: |
             The total number of returned endpoints,  If the total number of endpoints is less than returnLen, then return the actual available endpoints.
           in: query
@@ -15374,6 +15368,7 @@ components:
         - HostNetwork
         - NodePort
         - FixedPodIP
+        - HeadlessService
       type: string
     cluster:
       required:
@@ -15671,8 +15666,9 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
-        - FixedPodIP
+        - PodIP
         - HostNetwork
+        - PodFQDN
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -21492,14 +21488,26 @@ components:
           default: false
           description: whether the endpoint follows the network mode of the component
     networkModeOption:
-      type: object
-      required:
-        - supported
-      properties:
-        supported:
-          type: array
-          items:
-            $ref: '#/components/schemas/networkMode'
+      type: array
+      items:
+        type: object
+        required:
+          - supported
+        properties:
+          supported:
+            type: array
+            items:
+              $ref: '#/components/schemas/networkMode'
+          modes:
+            type: array
+            items:
+              type: string
+            nullable: true
+          versions:
+            type: array
+            items:
+              type: string
+            nullable: true
     componentOpsOption:
       type: object
       required:
@@ -22060,7 +22068,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
-        networkMode:
+        networkModes:
           $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array
