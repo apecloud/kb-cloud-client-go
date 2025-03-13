@@ -21106,6 +21106,14 @@ components:
       enum:
         - current
         - original
+    engineMaturityLevel:
+      type: string
+      description: engine maturity level
+      enum:
+        - stable
+        - beta
+        - experimental
+        - deprecated
     componentOption:
       type: object
       required:
@@ -21161,7 +21169,7 @@ components:
                 rule:
                   type: string
                   description: |
-                    ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0. 
+                    ServiceVersion uses semver syntax(X Y.Z), such MySQL 5.7.4 and PG 14.8.0.
                     Currently supports [X, X.Y, X.Y.Z] formats to determine major versions of the engine from the serviceVersion
                 versionMapping:
                   type: array
@@ -21575,7 +21583,7 @@ components:
                   value:
                     type: string
                     description: |
-                      parameter value, you can define a go template expression to refer the variable of the current ops. 
+                      parameter value, you can define a go template expression to refer the variable of the current ops.
                       available built-in objects that can be referenced in the expression include:
                       - cluster: cluster record
                       - params: ops input parameters
@@ -22027,6 +22035,8 @@ components:
       properties:
         engineName:
           type: string
+        maturityLevel:
+          $ref: '#/components/schemas/engineMaturityLevel'
         title:
           type: string
         description:
@@ -22315,6 +22325,8 @@ components:
           description: clusterversion in the engines
           items:
             type: string
+        maturityLevel:
+          $ref: '#/components/schemas/engineMaturityLevel'
     engineList:
       items:
         $ref: '#/components/schemas/engine'

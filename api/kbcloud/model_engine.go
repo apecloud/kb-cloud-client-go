@@ -33,6 +33,8 @@ type Engine struct {
 	ErrMsg *string `json:"errMsg,omitempty"`
 	// clusterversion in the engines
 	ClusterVersions []string `json:"clusterVersions,omitempty"`
+	// engine maturity level
+	MaturityLevel *EngineMaturityLevel `json:"maturityLevel,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -419,6 +421,34 @@ func (o *Engine) SetClusterVersions(v []string) {
 	o.ClusterVersions = v
 }
 
+// GetMaturityLevel returns the MaturityLevel field value if set, zero value otherwise.
+func (o *Engine) GetMaturityLevel() EngineMaturityLevel {
+	if o == nil || o.MaturityLevel == nil {
+		var ret EngineMaturityLevel
+		return ret
+	}
+	return *o.MaturityLevel
+}
+
+// GetMaturityLevelOk returns a tuple with the MaturityLevel field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Engine) GetMaturityLevelOk() (*EngineMaturityLevel, bool) {
+	if o == nil || o.MaturityLevel == nil {
+		return nil, false
+	}
+	return o.MaturityLevel, true
+}
+
+// HasMaturityLevel returns a boolean if a field has been set.
+func (o *Engine) HasMaturityLevel() bool {
+	return o != nil && o.MaturityLevel != nil
+}
+
+// SetMaturityLevel gets a reference to the given EngineMaturityLevel and assigns it to the MaturityLevel field.
+func (o *Engine) SetMaturityLevel(v EngineMaturityLevel) {
+	o.MaturityLevel = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Engine) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -464,6 +494,9 @@ func (o Engine) MarshalJSON() ([]byte, error) {
 	if o.ClusterVersions != nil {
 		toSerialize["clusterVersions"] = o.ClusterVersions
 	}
+	if o.MaturityLevel != nil {
+		toSerialize["maturityLevel"] = o.MaturityLevel
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -474,26 +507,27 @@ func (o Engine) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *string       `json:"id,omitempty"`
-		Description         *string       `json:"description,omitempty"`
-		Name                *string       `json:"name,omitempty"`
-		Version             *string       `json:"version,omitempty"`
-		KbVersionConstraint *string       `json:"kbVersionConstraint,omitempty"`
-		Type                *EngineType   `json:"type,omitempty"`
-		Installed           *bool         `json:"installed,omitempty"`
-		Provider            *string       `json:"provider,omitempty"`
-		Status              *EngineStatus `json:"status,omitempty"`
-		AvailableVersion    []string      `json:"availableVersion,omitempty"`
-		UpgradeHistory      *string       `json:"upgradeHistory,omitempty"`
-		ErrMsg              *string       `json:"errMsg,omitempty"`
-		ClusterVersions     []string      `json:"clusterVersions,omitempty"`
+		Id                  *string              `json:"id,omitempty"`
+		Description         *string              `json:"description,omitempty"`
+		Name                *string              `json:"name,omitempty"`
+		Version             *string              `json:"version,omitempty"`
+		KbVersionConstraint *string              `json:"kbVersionConstraint,omitempty"`
+		Type                *EngineType          `json:"type,omitempty"`
+		Installed           *bool                `json:"installed,omitempty"`
+		Provider            *string              `json:"provider,omitempty"`
+		Status              *EngineStatus        `json:"status,omitempty"`
+		AvailableVersion    []string             `json:"availableVersion,omitempty"`
+		UpgradeHistory      *string              `json:"upgradeHistory,omitempty"`
+		ErrMsg              *string              `json:"errMsg,omitempty"`
+		ClusterVersions     []string             `json:"clusterVersions,omitempty"`
+		MaturityLevel       *EngineMaturityLevel `json:"maturityLevel,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "description", "name", "version", "kbVersionConstraint", "type", "installed", "provider", "status", "availableVersion", "upgradeHistory", "errMsg", "clusterVersions"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "description", "name", "version", "kbVersionConstraint", "type", "installed", "provider", "status", "availableVersion", "upgradeHistory", "errMsg", "clusterVersions", "maturityLevel"})
 	} else {
 		return err
 	}
@@ -520,6 +554,11 @@ func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	o.UpgradeHistory = all.UpgradeHistory
 	o.ErrMsg = all.ErrMsg
 	o.ClusterVersions = all.ClusterVersions
+	if all.MaturityLevel != nil && !all.MaturityLevel.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.MaturityLevel = all.MaturityLevel
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
