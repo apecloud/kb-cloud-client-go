@@ -3396,7 +3396,7 @@ paths:
         - clusterTag
       description: delete cluster tag
       summary: Delete tag
-      operationId: deleteTags
+      operationId: deleteTag
       parameters:
         - name: orgName
           in: path

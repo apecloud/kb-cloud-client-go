@@ -99,9 +99,9 @@ func (a *ClusterTagApi) CreateTag(ctx _context.Context, orgName string, body Tag
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteTags Delete tag.
+// DeleteTag Delete tag.
 // delete cluster tag
-func (a *ClusterTagApi) DeleteTags(ctx _context.Context, orgName string, tagId string) (*_nethttp.Response, error) {
+func (a *ClusterTagApi) DeleteTag(ctx _context.Context, orgName string, tagId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -110,13 +110,13 @@ func (a *ClusterTagApi) DeleteTags(ctx _context.Context, orgName string, tagId s
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "clusterTag",
-		OperationID: "deleteTags",
+		OperationID: "deleteTag",
 		Path:        "/admin/v1/organizations/{orgName}/tags/{tagId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.DeleteTags")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterTagApi.DeleteTag")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
