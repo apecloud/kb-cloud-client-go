@@ -59,7 +59,8 @@ type ClusterListItem struct {
 	// Cluster main component codeShort
 	CodeShort *string `json:"codeShort,omitempty"`
 	// Org Name
-	OrgName *string `json:"orgName,omitempty"`
+	OrgName     *string      `json:"orgName,omitempty"`
+	TaskSummary *TaskSummary `json:"taskSummary,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -773,6 +774,34 @@ func (o *ClusterListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+// GetTaskSummary returns the TaskSummary field value if set, zero value otherwise.
+func (o *ClusterListItem) GetTaskSummary() TaskSummary {
+	if o == nil || o.TaskSummary == nil {
+		var ret TaskSummary
+		return ret
+	}
+	return *o.TaskSummary
+}
+
+// GetTaskSummaryOk returns a tuple with the TaskSummary field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetTaskSummaryOk() (*TaskSummary, bool) {
+	if o == nil || o.TaskSummary == nil {
+		return nil, false
+	}
+	return o.TaskSummary, true
+}
+
+// HasTaskSummary returns a boolean if a field has been set.
+func (o *ClusterListItem) HasTaskSummary() bool {
+	return o != nil && o.TaskSummary != nil
+}
+
+// SetTaskSummary gets a reference to the given TaskSummary and assigns it to the TaskSummary field.
+func (o *ClusterListItem) SetTaskSummary(v TaskSummary) {
+	o.TaskSummary = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -839,6 +868,9 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.TaskSummary != nil {
+		toSerialize["taskSummary"] = o.TaskSummary
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -873,6 +905,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Storage                *string                `json:"storage,omitempty"`
 		CodeShort              *string                `json:"codeShort,omitempty"`
 		OrgName                *string                `json:"orgName,omitempty"`
+		TaskSummary            *TaskSummary           `json:"taskSummary,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -909,7 +942,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName", "taskSummary"})
 	} else {
 		return err
 	}
@@ -943,6 +976,10 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Storage = all.Storage
 	o.CodeShort = all.CodeShort
 	o.OrgName = all.OrgName
+	if all.TaskSummary != nil && all.TaskSummary.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.TaskSummary = all.TaskSummary
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
