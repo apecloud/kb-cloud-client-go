@@ -3496,12 +3496,6 @@ paths:
           schema:
             type: integer
             default: 3
-        - description: whether to include the ClusterIP endpoint
-          in: query
-          name: includeClusterIP
-          schema:
-            type: boolean
-            default: false
       responses:
         '200':
           content:
@@ -11314,6 +11308,7 @@ components:
         - HostNetwork
         - NodePort
         - FixedPodIP
+        - HeadlessService
       type: string
     networkConfig:
       type: object
@@ -13557,8 +13552,9 @@ components:
         - ClusterIP
         - NodePort
         - LoadBalancer
-        - FixedPodIP
+        - PodIP
         - HostNetwork
+        - PodFQDN
     endpointNetworkType:
       description: Network type of endpoint
       type: string
@@ -15602,14 +15598,26 @@ components:
           default: false
           description: whether the endpoint follows the network mode of the component
     networkModeOption:
-      type: object
-      required:
-        - supported
-      properties:
-        supported:
-          type: array
-          items:
-            $ref: '#/components/schemas/networkMode'
+      type: array
+      items:
+        type: object
+        required:
+          - supported
+        properties:
+          supported:
+            type: array
+            items:
+              $ref: '#/components/schemas/networkMode'
+          modes:
+            type: array
+            items:
+              type: string
+            nullable: true
+          versions:
+            type: array
+            items:
+              type: string
+            nullable: true
     componentOpsOption:
       type: object
       required:
@@ -16170,7 +16178,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/endpointOption'
-        networkMode:
+        networkModes:
           $ref: '#/components/schemas/networkModeOption'
         promote:
           type: array

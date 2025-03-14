@@ -14,15 +14,17 @@ type NetworkMode string
 
 // List of NetworkMode.
 const (
-	NetworkModeHostNetwork NetworkMode = "HostNetwork"
-	NetworkModeNodePort    NetworkMode = "NodePort"
-	NetworkModeFixedPodIp  NetworkMode = "FixedPodIP"
+	NetworkModeHostNetwork     NetworkMode = "HostNetwork"
+	NetworkModeNodePort        NetworkMode = "NodePort"
+	NetworkModeFixedPodIp      NetworkMode = "FixedPodIP"
+	NetworkModeHeadlessService NetworkMode = "HeadlessService"
 )
 
 var allowedNetworkModeEnumValues = []NetworkMode{
 	NetworkModeHostNetwork,
 	NetworkModeNodePort,
 	NetworkModeFixedPodIp,
+	NetworkModeHeadlessService,
 }
 
 // GetAllowedValues returns the list of possible values.
