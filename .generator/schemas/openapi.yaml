@@ -8423,7 +8423,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/clusterList'
+                $ref: '#/components/schemas/disasterRecoveryClusterList'
           description: A list of disaster recovery instances.
         '401':
           $ref: '#/components/responses/401'
@@ -12377,29 +12377,6 @@ components:
       enum:
         - Normal
         - DisasterRecovery
-    taskType:
-      type: string
-      enum:
-        - ScaleOut
-        - ScaleIn
-        - DeleteDisasterRecoveryCluster
-        - CreateDisasterRecoveryCluster
-        - PromoteDisasterRecoveryCluster
-      description: Type of task operation
-    taskSummary:
-      type: object
-      properties:
-        taskType:
-          $ref: '#/components/schemas/taskType'
-        progress:
-          type: integer
-          description: Progress percentage of the task
-          minimum: 0
-          maximum: 100
-        message:
-          type: string
-          description: Detailed message about the task status
-          x-nullable: true
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -12488,9 +12465,6 @@ components:
         orgName:
           description: Org Name
           type: string
-        taskSummary:
-          description: Summary information of the associated task when the cluster has related tasks
-          $ref: '#/components/schemas/taskSummary'
       required:
         - cloudProvider
         - createdAt
@@ -17940,6 +17914,50 @@ components:
           nullable: true
       required:
         - taskId
+      type: object
+    taskType:
+      type: string
+      enum:
+        - ScaleOut
+        - ScaleIn
+        - DeleteDisasterRecoveryCluster
+        - CreateDisasterRecoveryCluster
+        - PromoteDisasterRecoveryCluster
+      description: Type of task operation
+    taskSummary:
+      type: object
+      properties:
+        taskType:
+          $ref: '#/components/schemas/taskType'
+        progress:
+          type: integer
+          description: Progress percentage of the task
+          minimum: 0
+          maximum: 100
+        message:
+          type: string
+          description: Detailed message about the task status
+          x-nullable: true
+    disasterRecoveryClusterItem:
+      description: DisasterRecovery cluster information
+      properties:
+        cluster:
+          $ref: '#/components/schemas/clusterListItem'
+        taskSummary:
+          $ref: '#/components/schemas/taskSummary'
+      type: object
+    disasterRecoveryClusterList:
+      description: disasterRecoveryClusterList is a list of disaster recovery clusters
+      properties:
+        items:
+          description: Items is the list of disaster recovery cluster objects in the list
+          items:
+            $ref: '#/components/schemas/disasterRecoveryClusterItem'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
       type: object
     disasterRecoveryCreate:
       description: DisasterRecoveryCreate is the description to create a DisasterRecovery cluster

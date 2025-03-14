@@ -15093,29 +15093,6 @@ components:
       enum:
         - Normal
         - DisasterRecovery
-    taskType:
-      type: string
-      enum:
-        - ScaleOut
-        - ScaleIn
-        - DeleteDisasterRecoveryCluster
-        - CreateDisasterRecoveryCluster
-        - PromoteDisasterRecoveryCluster
-      description: Type of task operation
-    taskSummary:
-      type: object
-      properties:
-        taskType:
-          $ref: '#/components/schemas/taskType'
-        progress:
-          type: integer
-          description: Progress percentage of the task
-          minimum: 0
-          maximum: 100
-        message:
-          type: string
-          description: Detailed message about the task status
-          x-nullable: true
     clusterListItem:
       description: KubeBlocks cluster information
       properties:
@@ -15204,9 +15181,6 @@ components:
         orgName:
           description: Org Name
           type: string
-        taskSummary:
-          description: Summary information of the associated task when the cluster has related tasks
-          $ref: '#/components/schemas/taskSummary'
       required:
         - cloudProvider
         - createdAt
@@ -19037,6 +19011,15 @@ components:
           description: Default SSH configuration for all nodes. Individual node SSH config will override this
           $ref: '#/components/schemas/sshConfig'
           x-nullable: true
+    taskType:
+      type: string
+      enum:
+        - ScaleOut
+        - ScaleIn
+        - DeleteDisasterRecoveryCluster
+        - CreateDisasterRecoveryCluster
+        - PromoteDisasterRecoveryCluster
+      description: Type of task operation
     taskStatus:
       type: string
       enum:
