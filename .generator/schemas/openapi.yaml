@@ -776,6 +776,11 @@ paths:
           name: operatorId
           schema:
             type: integer
+        - description: Advanced query conditions, supporting all types of filterType. Such as "operatorID:333 operatorID:444"
+          in: query
+          name: customQuery
+          schema:
+            type: string
         - description: the status of the event
           in: query
           name: status
