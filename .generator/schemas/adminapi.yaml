@@ -5516,6 +5516,36 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - environment
+    post:
+      operationId: updateEnvironmentKubeconfig
+      summary: update environment kubeconfig
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/kubeConfig'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/httpBody'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - environment
   /admin/v1/environments/{environmentName}/bootstrapManifests:
     get:
       operationId: getEnvironmentBootstrapManifests
@@ -19270,6 +19300,11 @@ components:
           type: string
       title: ''
       type: object
+    kubeConfig:
+      pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+      type: string
+      description: The kubeconfig body as raw binary.
+      format: byte
     environmentConditionStatus:
       description: Status is the status of the condition. Can be True, False, Unknown.
       enum:
@@ -19783,11 +19818,6 @@ components:
       items:
         type: string
       type: array
-    kubeConfig:
-      pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-      type: string
-      description: The kubeconfig body as raw binary.
-      format: byte
     rawCluster:
       type: object
       description: cluster info
