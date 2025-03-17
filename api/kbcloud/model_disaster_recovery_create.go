@@ -13,7 +13,7 @@ import (
 // DisasterRecoveryCreate DisasterRecoveryCreate is the description to create a DisasterRecovery cluster
 type DisasterRecoveryCreate struct {
 	// KubeBlocks cluster information
-	Cluster Cluster `json:"cluster"`
+	Cluster ClusterCreate `json:"cluster"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +23,7 @@ type DisasterRecoveryCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDisasterRecoveryCreate(cluster Cluster) *DisasterRecoveryCreate {
+func NewDisasterRecoveryCreate(cluster ClusterCreate) *DisasterRecoveryCreate {
 	this := DisasterRecoveryCreate{}
 	this.Cluster = cluster
 	return &this
@@ -38,9 +38,9 @@ func NewDisasterRecoveryCreateWithDefaults() *DisasterRecoveryCreate {
 }
 
 // GetCluster returns the Cluster field value.
-func (o *DisasterRecoveryCreate) GetCluster() Cluster {
+func (o *DisasterRecoveryCreate) GetCluster() ClusterCreate {
 	if o == nil {
-		var ret Cluster
+		var ret ClusterCreate
 		return ret
 	}
 	return o.Cluster
@@ -48,7 +48,7 @@ func (o *DisasterRecoveryCreate) GetCluster() Cluster {
 
 // GetClusterOk returns a tuple with the Cluster field value
 // and a boolean to check if the value has been set.
-func (o *DisasterRecoveryCreate) GetClusterOk() (*Cluster, bool) {
+func (o *DisasterRecoveryCreate) GetClusterOk() (*ClusterCreate, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,7 +56,7 @@ func (o *DisasterRecoveryCreate) GetClusterOk() (*Cluster, bool) {
 }
 
 // SetCluster sets field value.
-func (o *DisasterRecoveryCreate) SetCluster(v Cluster) {
+func (o *DisasterRecoveryCreate) SetCluster(v ClusterCreate) {
 	o.Cluster = v
 }
 
@@ -77,7 +77,7 @@ func (o DisasterRecoveryCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cluster *Cluster `json:"cluster"`
+		Cluster *ClusterCreate `json:"cluster"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
