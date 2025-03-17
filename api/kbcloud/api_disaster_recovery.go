@@ -342,11 +342,11 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 
 // ListDisasterRecovery List Disaster Recovery instances under the main cluster.
 // Retrieve a list of disaster recovery instances for a specific database cluster.
-func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string) (ClusterList, *_nethttp.Response, error) {
+func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterList
+		localVarReturnValue DisasterRecoveryClusterList
 	)
 
 	// Add api info to context
