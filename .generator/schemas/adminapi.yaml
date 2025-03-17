@@ -15296,11 +15296,15 @@ components:
           type: number
           description: CPU cores.
           format: double
+          minimum: 0
+          exclusiveMinimum: true
         memory:
           title: Memory(Gi)
           type: number
           description: Memory, the unit is Gi.
           format: double
+          minimum: 0
+          exclusiveMinimum: true
         storageClass:
           title: StorageClass
           type: string
