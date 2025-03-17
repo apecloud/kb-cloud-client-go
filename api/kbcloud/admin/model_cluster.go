@@ -11,7 +11,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Cluster KubeBlocks cluster information
+// Cluster KubeBlocks cluster details
 type Cluster struct {
 	// Cluster ID
 	Id *string `json:"id,omitempty"`

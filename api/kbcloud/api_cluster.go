@@ -19,7 +19,7 @@ import (
 type ClusterApi common.Service
 
 // CreateCluster Create new cluster.
-func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body Cluster) (Cluster, *_nethttp.Response, error) {
+func (a *ClusterApi) CreateCluster(ctx _context.Context, orgName string, body ClusterCreate) (Cluster, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}

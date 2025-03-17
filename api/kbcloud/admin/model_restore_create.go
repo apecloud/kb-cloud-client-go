@@ -17,7 +17,7 @@ type RestoreCreate struct {
 	// the id of backup to restore
 	BackupId string `json:"backupId"`
 	// KubeBlocks cluster information
-	Cluster Cluster `json:"cluster"`
+	Cluster ClusterCreate `json:"cluster"`
 	// restoreTime point to restore
 	RestoreTimeStr *string `json:"restoreTimeStr,omitempty"`
 	// the recovery process in the PostReady phase will be performed after the cluster is running successfully.
@@ -33,7 +33,7 @@ type RestoreCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewRestoreCreate(environmentName string, backupId string, cluster Cluster) *RestoreCreate {
+func NewRestoreCreate(environmentName string, backupId string, cluster ClusterCreate) *RestoreCreate {
 	this := RestoreCreate{}
 	this.EnvironmentName = environmentName
 	this.BackupId = backupId
@@ -100,9 +100,9 @@ func (o *RestoreCreate) SetBackupId(v string) {
 }
 
 // GetCluster returns the Cluster field value.
-func (o *RestoreCreate) GetCluster() Cluster {
+func (o *RestoreCreate) GetCluster() ClusterCreate {
 	if o == nil {
-		var ret Cluster
+		var ret ClusterCreate
 		return ret
 	}
 	return o.Cluster
@@ -110,7 +110,7 @@ func (o *RestoreCreate) GetCluster() Cluster {
 
 // GetClusterOk returns a tuple with the Cluster field value
 // and a boolean to check if the value has been set.
-func (o *RestoreCreate) GetClusterOk() (*Cluster, bool) {
+func (o *RestoreCreate) GetClusterOk() (*ClusterCreate, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -118,7 +118,7 @@ func (o *RestoreCreate) GetClusterOk() (*Cluster, bool) {
 }
 
 // SetCluster sets field value.
-func (o *RestoreCreate) SetCluster(v Cluster) {
+func (o *RestoreCreate) SetCluster(v ClusterCreate) {
 	o.Cluster = v
 }
 
@@ -236,7 +236,7 @@ func (o *RestoreCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		EnvironmentName                   *string              `json:"environmentName"`
 		BackupId                          *string              `json:"backupId"`
-		Cluster                           *Cluster             `json:"cluster"`
+		Cluster                           *ClusterCreate       `json:"cluster"`
 		RestoreTimeStr                    *string              `json:"restoreTimeStr,omitempty"`
 		DoReadyRestoreAfterClusterRunning *bool                `json:"doReadyRestoreAfterClusterRunning,omitempty"`
 		VolumeRestorePolicy               *VolumeRestorePolicy `json:"volumeRestorePolicy,omitempty"`
