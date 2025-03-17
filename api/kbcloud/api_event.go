@@ -184,6 +184,7 @@ type ListEventsOptionalParameters struct {
 	ResourceType *string
 	EventName    *string
 	OperatorId   *int32
+	CustomQuery  *string
 	Status       *EventResultStatus
 	PageNumber   *int32
 	PageSize     *int32
@@ -217,6 +218,12 @@ func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEven
 // WithOperatorId sets the corresponding parameter name and returns the struct.
 func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
 	r.OperatorId = &operatorId
+	return r
+}
+
+// WithCustomQuery sets the corresponding parameter name and returns the struct.
+func (r *ListEventsOptionalParameters) WithCustomQuery(customQuery string) *ListEventsOptionalParameters {
+	r.CustomQuery = &customQuery
 	return r
 }
 
@@ -294,6 +301,9 @@ func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64,
 	}
 	if optionalParams.OperatorId != nil {
 		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
+	}
+	if optionalParams.CustomQuery != nil {
+		localVarQueryParams.Add("customQuery", common.ParameterToString(*optionalParams.CustomQuery, ""))
 	}
 	if optionalParams.Status != nil {
 		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
