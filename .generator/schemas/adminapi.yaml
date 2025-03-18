@@ -2055,6 +2055,41 @@ paths:
       tags:
         - cluster
       x-codegen-request-body-name: body
+  /admin/v1/eventfilter/{filterType}:
+    get:
+      description: Query available filters for event listing
+      summary: Query available filters for event listing
+      operationId: getEventFilter
+      parameters:
+        - description: The event filter field you want to obtain.
+          in: path
+          name: filterType
+          required: true
+          schema:
+            $ref: '#/components/schemas/eventFilterType'
+        - description: The event filter you want to query from a certain source.
+          in: query
+          name: source
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventFilterOptionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /admin/v1/events:
     get:
       description: List events
@@ -2070,7 +2105,7 @@ paths:
           in: query
           name: resourceId
           schema:
-            type: integer
+            type: string
         - description: resource type
           in: query
           name: resourceType
@@ -2086,16 +2121,29 @@ paths:
           name: operatorId
           schema:
             type: integer
+            format: int64
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
+        - description: Advanced query conditions, supporting all types of filterType. Such as "orgID:111 orgID:222 operatorID:333"
+          in: query
+          name: customQuery
+          schema:
+            type: string
         - description: the pageNumber of the query
           in: query
           name: pageNumber
           schema:
             type: integer
+            format: int64
         - description: the pageSize of the query
           in: query
           name: pageSize
           schema:
             type: integer
+            format: int64
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
         - $ref: '#/components/parameters/orderBy'
@@ -16053,18 +16101,49 @@ components:
               - StartAt
           type: array
       type: object
-    eventResourceType:
-      description: Type of the resource
+    eventFilterType:
+      description: Console do not support orgName.
       type: string
       enum:
-        - cluster
-        - role
+        - orgName
+        - operator
+        - eventName
+        - resourceName
+        - resourceType
+    eventFilterOption:
+      description: Represents a single filter result item.
+      properties:
+        title:
+          description: The human-readable title of the filter option.
+          type: string
+        value:
+          description: The actual value associated with the filter option.
+          type: string
+      required:
+        - title
+        - value
+    eventFilterOptionList:
+      description: A collection of filter results.
+      properties:
+        items:
+          description: An array containing individual filter result items.
+          type: array
+          items:
+            $ref: '#/components/schemas/eventFilterOption'
+      required:
+        - items
     eventResultStatus:
       description: result status of the operation event
       enum:
         - success
         - failed
       type: string
+    eventResourceType:
+      description: Type of the resource
+      type: string
+      enum:
+        - cluster
+        - role
     eventSource:
       description: event source
       enum:
@@ -16105,6 +16184,9 @@ components:
           type: string
         displayName:
           description: Display name is custom operation name
+          type: string
+        orgName:
+          description: The org of the event
           type: string
         resultStatus:
           $ref: '#/components/schemas/eventResultStatus'

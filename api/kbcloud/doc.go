@@ -154,6 +154,7 @@
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listNodeGroup]
 //   - [eventApi.getEvent]
+//   - [eventApi.getEventFilter]
 //   - [eventApi.listEvents]
 //   - [featureApi.listFeature]
 //   - [featureApi.readFeature]
