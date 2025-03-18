@@ -14066,8 +14066,10 @@ components:
                 type: string
               key:
                 type: string
+                x-nullable: false
               value:
                 type: string
+                x-nullable: false
             required:
               - key
               - value
