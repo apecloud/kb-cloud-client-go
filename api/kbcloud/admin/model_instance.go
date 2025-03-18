@@ -43,7 +43,7 @@ type Instance struct {
 	// Status for instance
 	Status InstanceStatus `json:"status"`
 	// storage sets the storage size value mapping key
-	Storage []InstanceStorageItem `json:"storage"`
+	Storage []InstanceStorageItem `json:"storage,omitempty"`
 	// Available zone for instance
 	Zone string `json:"zone"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -55,7 +55,7 @@ type Instance struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInstance(accessMode string, cloud string, cluster string, component string, cpu string, createdAt string, memory string, name string, node string, region string, role string, status InstanceStatus, storage []InstanceStorageItem, zone string) *Instance {
+func NewInstance(accessMode string, cloud string, cluster string, component string, cpu string, createdAt string, memory string, name string, node string, region string, role string, status InstanceStatus, zone string) *Instance {
 	this := Instance{}
 	this.AccessMode = accessMode
 	this.Cloud = cloud
@@ -69,7 +69,6 @@ func NewInstance(accessMode string, cloud string, cluster string, component stri
 	this.Region = region
 	this.Role = role
 	this.Status = status
-	this.Storage = storage
 	this.Zone = zone
 	return &this
 }
@@ -442,25 +441,30 @@ func (o *Instance) SetStatus(v InstanceStatus) {
 	o.Status = v
 }
 
-// GetStorage returns the Storage field value.
+// GetStorage returns the Storage field value if set, zero value otherwise.
 func (o *Instance) GetStorage() []InstanceStorageItem {
-	if o == nil {
+	if o == nil || o.Storage == nil {
 		var ret []InstanceStorageItem
 		return ret
 	}
 	return o.Storage
 }
 
-// GetStorageOk returns a tuple with the Storage field value
+// GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Instance) GetStorageOk() (*[]InstanceStorageItem, bool) {
-	if o == nil {
+	if o == nil || o.Storage == nil {
 		return nil, false
 	}
 	return &o.Storage, true
 }
 
-// SetStorage sets field value.
+// HasStorage returns a boolean if a field has been set.
+func (o *Instance) HasStorage() bool {
+	return o != nil && o.Storage != nil
+}
+
+// SetStorage gets a reference to the given []InstanceStorageItem and assigns it to the Storage field.
 func (o *Instance) SetStorage(v []InstanceStorageItem) {
 	o.Storage = v
 }
@@ -515,7 +519,9 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 	toSerialize["region"] = o.Region
 	toSerialize["role"] = o.Role
 	toSerialize["status"] = o.Status
-	toSerialize["storage"] = o.Storage
+	if o.Storage != nil {
+		toSerialize["storage"] = o.Storage
+	}
 	toSerialize["zone"] = o.Zone
 
 	for key, value := range o.AdditionalProperties {
@@ -527,23 +533,23 @@ func (o Instance) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		AccessMode    *string                `json:"accessMode"`
-		OrgName       *string                `json:"orgName,omitempty"`
-		Cloud         *string                `json:"cloud"`
-		Cluster       *string                `json:"cluster"`
-		ComponentName *string                `json:"componentName,omitempty"`
-		ComponentDef  *string                `json:"componentDef,omitempty"`
-		Component     *string                `json:"component"`
-		Cpu           *string                `json:"cpu"`
-		CreatedAt     *string                `json:"createdAt"`
-		Memory        *string                `json:"memory"`
-		Name          *string                `json:"name"`
-		Node          *string                `json:"node"`
-		Region        *string                `json:"region"`
-		Role          *string                `json:"role"`
-		Status        *InstanceStatus        `json:"status"`
-		Storage       *[]InstanceStorageItem `json:"storage"`
-		Zone          *string                `json:"zone"`
+		AccessMode    *string               `json:"accessMode"`
+		OrgName       *string               `json:"orgName,omitempty"`
+		Cloud         *string               `json:"cloud"`
+		Cluster       *string               `json:"cluster"`
+		ComponentName *string               `json:"componentName,omitempty"`
+		ComponentDef  *string               `json:"componentDef,omitempty"`
+		Component     *string               `json:"component"`
+		Cpu           *string               `json:"cpu"`
+		CreatedAt     *string               `json:"createdAt"`
+		Memory        *string               `json:"memory"`
+		Name          *string               `json:"name"`
+		Node          *string               `json:"node"`
+		Region        *string               `json:"region"`
+		Role          *string               `json:"role"`
+		Status        *InstanceStatus       `json:"status"`
+		Storage       []InstanceStorageItem `json:"storage,omitempty"`
+		Zone          *string               `json:"zone"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -584,9 +590,6 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Status == nil {
 		return fmt.Errorf("required field status missing")
 	}
-	if all.Storage == nil {
-		return fmt.Errorf("required field storage missing")
-	}
 	if all.Zone == nil {
 		return fmt.Errorf("required field zone missing")
 	}
@@ -616,7 +619,7 @@ func (o *Instance) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Status = *all.Status
-	o.Storage = *all.Storage
+	o.Storage = all.Storage
 	o.Zone = *all.Zone
 
 	if len(additionalProperties) > 0 {
