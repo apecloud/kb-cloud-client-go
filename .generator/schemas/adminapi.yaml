@@ -15810,7 +15810,6 @@ components:
         - region
         - role
         - status
-        - storage
         - zone
       type: object
     instanceList:
