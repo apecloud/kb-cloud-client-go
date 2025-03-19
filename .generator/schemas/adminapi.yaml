@@ -918,7 +918,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cluster'
+              $ref: '#/components/schemas/clusterCreate'
         required: true
       responses:
         '200':
@@ -10084,38 +10084,13 @@ paths:
           $ref: '#/components/responses/404'
   /admin/v1/llm:
     post:
-      operationId: createLLM
-      summary: Create LLM
-      deprecated: true
+      operationId: addLLM
+      summary: add LLM
       requestBody:
         content:
           application/json:
             schema:
-              description: llmCreate
-              properties:
-                name:
-                  description: LLM name
-                  title: Name
-                  type: string
-                config:
-                  description: LLM config
-                  title: LLM config
-                  type: object
-                  additionalProperties:
-                    type: object
-                type:
-                  description: Type of LLM
-                  title: Type
-                  type: string
-                enabled:
-                  description: Whether this LLM is enabled
-                  title: Enabled
-                  type: boolean
-              required:
-                - name
-                - config
-                - type
-              type: object
+              $ref: '#/components/schemas/llm'
         required: true
       responses:
         '201':
@@ -10124,16 +10099,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/llm'
           description: Returned when object is created successfully.
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - llm
     get:
       operationId: listLLM
       summary: List LLM
-      deprecated: true
       produces:
         - application/json
       responses:
@@ -10143,17 +10121,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/llmList'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - llm
   /admin/v1/llm/{id}:
     patch:
       operationId: updateLLM
       summary: Update LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10208,7 +10189,6 @@ paths:
     delete:
       operationId: deleteLLM
       summary: Delete LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10226,6 +10206,57 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - llm
+  /admin/v1/llm/check:
+    post:
+      tags:
+        - llm
+      operationId: checkAPIKey
+      summary: check apikey available
+      description: check apikey available
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/llm'
+        required: true
+      responses:
+        '200':
+          description: apikey available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkAPIKey'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/llm/models:
+    get:
+      tags:
+        - llm
+      operationId: listAvailableModel
+      summary: List available model
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/monitorDataSinks:
     post:
       tags:
@@ -14099,7 +14130,6 @@ paths:
     get:
       operationId: analyzeService
       summary: Analyze service
-      deprecated: true
       parameters:
         - description: name of the Org
           in: path
@@ -14129,6 +14159,11 @@ paths:
           name: endpoints
           schema:
             type: string
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -14151,7 +14186,6 @@ paths:
       description: Analyze error logs of a cluster
       summary: Analyze cluster error logs
       operationId: analyzeLogs
-      deprecated: true
       parameters:
         - in: path
           name: orgName
@@ -14189,6 +14223,10 @@ paths:
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
+        - in: query
+          name: mode
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -14209,7 +14247,6 @@ paths:
       description: Analyze slow logs of a cluster
       summary: Analyze cluster slow logs
       operationId: analyzeSlowLogs
-      deprecated: true
       requestBody:
         content:
           application/json:
@@ -14226,6 +14263,11 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: mode
+          schema:
+            type: string
+          description: model name
       responses:
         '200':
           content:
@@ -14243,11 +14285,15 @@ paths:
         - analyze
   /admin/v1/organizations/paramTpls/{paramTplName}/analyze:
     get:
-      deprecated: true
       description: analyze parameter, deprecated, instead use analyzeParameter
       operationId: analyzeParam
       summary: Analyze parameter
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -14288,11 +14334,15 @@ paths:
         - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
     get:
-      deprecated: true
       description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
       operationId: analyzeClusterParam
       summary: Analyze cluster parameter
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14335,8 +14385,12 @@ paths:
     get:
       operationId: analyzeParameter
       summary: Analyze parameter
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -14379,8 +14433,12 @@ paths:
     get:
       operationId: analyzeClusterParameter
       summary: Analyze cluster parameter
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14424,8 +14482,12 @@ paths:
       description: analyze a OpsRequest
       summary: Analyze OpsRequest
       operationId: analyzeOps
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14469,8 +14531,12 @@ paths:
     get:
       operationId: analyzeBackup
       summary: Analyze backup
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14502,8 +14568,12 @@ paths:
     get:
       operationId: analyzeClusterRestore
       summary: Analyze cluster restore tasks
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -15274,38 +15344,37 @@ components:
           type: number
           description: Storage size, the unit is Gi.
           format: double
-    componentItem:
+    componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
       properties:
-        name:
-          type: string
-          description: component name
         component:
           type: string
           description: component type, refer to componentDef and support NamePrefix
         compNum:
           title: CompNum
           type: integer
-          description: number of components
+          description: The number of components, if often used as shards number
         replicas:
           title: Replicas
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         classCode:
           type: string
-        classSeries:
-          type: string
         cpu:
           title: CPU
           type: number
           description: CPU cores.
           format: double
+          minimum: 0
+          exclusiveMinimum: true
         memory:
           title: Memory(Gi)
           type: number
           description: Memory, the unit is Gi.
           format: double
+          minimum: 0
+          exclusiveMinimum: true
         storageClass:
           title: StorageClass
           type: string
@@ -15314,17 +15383,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/componentVolumeItem'
-        codeShort:
-          description: Cluster main component codeShort
-          type: string
         systemAccountSecretName:
           description: The name of the secret that contains the system account credentials
           type: string
-    components:
+    componentsCreate:
       type: array
       description: Components is the list of components
       items:
-        $ref: '#/components/schemas/componentItem'
+        $ref: '#/components/schemas/componentItemCreate'
     initOptionItem:
       description: InitOptionItem is the information of init option
       type: object
@@ -15398,6 +15464,147 @@ components:
         - FixedPodIP
         - HeadlessService
       type: string
+    clusterCreate:
+      required:
+        - engine
+        - environmentName
+        - name
+      type: object
+      properties:
+        parentId:
+          title: ParentId
+          type: integer
+          format: int64
+          nullable: true
+          description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
+        clusterType:
+          $ref: '#/components/schemas/clusterType'
+        orgName:
+          title: Org Name
+          type: string
+          description: Org Name
+        environmentName:
+          title: Environment Name
+          type: string
+          description: Environment Name
+        project:
+          title: Project
+          type: string
+          default: kubeblocks-cloud-ns
+          description: Name of project, it is the alias of environment namespace
+        name:
+          title: Name
+          type: string
+          description: Name of cluster. Name must be unique within an Org
+        engine:
+          title: Engine
+          type: string
+          description: Cluster Application Engine
+        license:
+          $ref: '#/components/schemas/clusterLicense'
+        paramTpls:
+          $ref: '#/components/schemas/paramTpls'
+        version:
+          title: Version
+          type: string
+          description: Cluster Application Version
+        terminationPolicy:
+          $ref: '#/components/schemas/clusterTerminationPolicy'
+        mode:
+          title: Mode
+          type: string
+          description: Cluster topology mode
+        components:
+          $ref: '#/components/schemas/componentsCreate'
+        extra:
+          title: Extra
+          type: object
+          additionalProperties:
+            type: object
+            properties: {}
+          description: Extra configuration for cluster
+        initOptions:
+          $ref: '#/components/schemas/initOptions'
+        singleZone:
+          title: Single availability zones
+          description: Use single availability zones
+          type: boolean
+          default: false
+        availabilityZones:
+          title: Availability Zones
+          description: Availability Zones
+          items:
+            type: string
+          type: array
+        backup:
+          description: Set cluster backup
+          $ref: '#/components/schemas/clusterBackup'
+        nodeGroup:
+          title: NodeGroup
+          description: Specify a NodeGroup for the cluster
+          type: string
+          nullable: true
+        displayName:
+          description: Display name of cluster.
+          type: string
+        static:
+          description: if cluster is static cluster
+          type: boolean
+        networkMode:
+          description: Specify the network mode for intra-cluster communication
+          $ref: '#/components/schemas/networkMode'
+      description: KubeBlocks cluster information
+    componentItem:
+      type: object
+      description: ComponentItem is the information of a component
+      properties:
+        name:
+          type: string
+          description: component name
+        component:
+          type: string
+          description: component type, refer to componentDef and support NamePrefix
+        compNum:
+          title: CompNum
+          type: integer
+          description: number of components
+        replicas:
+          title: Replicas
+          type: integer
+          description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
+        classCode:
+          type: string
+        classSeries:
+          type: string
+        cpu:
+          title: CPU
+          type: number
+          description: CPU cores.
+          format: double
+        memory:
+          title: Memory(Gi)
+          type: number
+          description: Memory, the unit is Gi.
+          format: double
+        storageClass:
+          title: StorageClass
+          type: string
+          description: StorageClass name
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/componentVolumeItem'
+        codeShort:
+          description: Cluster main component codeShort
+          type: string
+        systemAccountSecretName:
+          description: The name of the secret that contains the system account credentials
+          type: string
+    components:
+      type: array
+      description: Components is the list of components
+      items:
+        $ref: '#/components/schemas/componentItem'
     cluster:
       required:
         - engine
@@ -15563,7 +15770,7 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
-      description: KubeBlocks cluster information
+      description: KubeBlocks cluster details
     clusterUpdate:
       type: object
       properties:
@@ -15673,7 +15880,6 @@ components:
         - region
         - role
         - status
-        - storage
         - zone
       type: object
     instanceList:
@@ -15827,8 +16033,10 @@ components:
                 type: string
               key:
                 type: string
+                x-nullable: false
               value:
                 type: string
+                x-nullable: false
             required:
               - key
               - value
@@ -20635,7 +20843,7 @@ components:
           description: the id of backup to restore
           type: string
         cluster:
-          $ref: '#/components/schemas/cluster'
+          $ref: '#/components/schemas/clusterCreate'
         restoreTimeStr:
           description: restoreTime point to restore
           type: string
@@ -21134,14 +21342,6 @@ components:
       enum:
         - current
         - original
-    engineMaturityLevel:
-      type: string
-      description: engine maturity level
-      enum:
-        - stable
-        - beta
-        - experimental
-        - deprecated
     componentOption:
       type: object
       required:
@@ -22071,7 +22271,8 @@ components:
         engineName:
           type: string
         maturityLevel:
-          $ref: '#/components/schemas/engineMaturityLevel'
+          type: string
+          description: engine maturity level
         title:
           type: string
         description:
@@ -22361,7 +22562,9 @@ components:
           items:
             type: string
         maturityLevel:
-          $ref: '#/components/schemas/engineMaturityLevel'
+          title: maturityLevel
+          type: string
+          description: engine maturity level
     engineList:
       items:
         $ref: '#/components/schemas/engine'
@@ -22907,6 +23110,11 @@ components:
         groupEN:
           type: string
           description: The English name of the region group.
+    AccessLevel:
+      type: string
+      enum:
+        - Platform
+        - Organization
     llm:
       description: llm
       properties:
@@ -22918,10 +23126,6 @@ components:
           description: Name of the llm
           title: Name
           type: string
-        type:
-          description: Type of the llm
-          title: Type
-          type: string
         enabled:
           description: Whether this LLM is enabled
           title: Enabled
@@ -22932,6 +23136,8 @@ components:
           type: object
           additionalProperties:
             type: object
+        level:
+          $ref: '#/components/schemas/AccessLevel'
         createdAt:
           description: |-
             CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -22947,10 +23153,8 @@ components:
           format: date-time
           type: string
       required:
-        - id
         - name
         - config
-        - type
         - enabled
       type: object
     llmList:
@@ -22964,6 +23168,13 @@ components:
           description: Items is the list of llm objects
           items:
             $ref: '#/components/schemas/llm'
+    checkAPIKey:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
     monitorDataSinkCreate:
       description: External Endpoint create option
       type: object

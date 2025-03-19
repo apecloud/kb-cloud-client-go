@@ -14,35 +14,104 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DisasterRecoveryApi service type
-type DisasterRecoveryApi common.Service
+// LlmApi service type
+type LlmApi common.Service
 
-// CreateDisasterRecovery Create a new disaster recovery instance.
-// Create a new disaster recovery instance for a database cluster.
-func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// AddLLM add LLM.
+// add LLM
+func (a *LlmApi) AddLLM(ctx _context.Context, body Llm) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "createDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Tag:         "llm",
+		OperationID: "addLLM",
+		Path:        "/api/v1/organizations/{orgName}/llms",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.CreateDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.AddLLM")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "*/*"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+// CheckAPIKey check apikey available.
+// check apikey available
+func (a *LlmApi) CheckAPIKey(ctx _context.Context, body CheckAPIKey) (bool, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue bool
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "llm",
+		OperationID: "checkAPIKey",
+		Path:        "/api/v1/organizations/{orgName}/llms/check",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.CheckAPIKey")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
-	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/check"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -77,7 +146,7 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -100,32 +169,29 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteDisasterRecovery Delete a disaster recovery instance.
-// Delete a specific disaster recovery instance
-func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryTask, *_nethttp.Response, error) {
+// DeleteLLM Delete LLM.
+func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "deleteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}",
+		Tag:         "llm",
+		OperationID: "deleteLLM",
+		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.DeleteDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.DeleteLLM")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -139,17 +205,17 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clust
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -157,55 +223,44 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clust
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
-// GetDisasterRecoveryHistory Get switch history of a disaster recovery instance.
-// Retrieve the history of failover and failback operations for a specific disaster recovery instance.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryHistory, *_nethttp.Response, error) {
+// GetLLM Get LLM.
+// get user available llm list
+func (a *LlmApi) GetLLM(ctx _context.Context) (LlmList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryHistory
+		localVarReturnValue LlmList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "getDisasterRecoveryHistory",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory",
+		Tag:         "llm",
+		OperationID: "getLLM",
+		Path:        "/api/v1/organizations/{orgName}/llms",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryHistory")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.GetLLM")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -237,7 +292,7 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -260,32 +315,29 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetDisasterRecoveryStatus Retrieve Disaster Recovery Instance Status.
-// Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
+// ListAvailableModelInOrg List available model in org.
+func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryStatusResponse
+		localVarReturnValue []string
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "getDisasterRecoveryStatus",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status",
+		Tag:         "llm",
+		OperationID: "listAvailableModelInOrg",
+		Path:        "/api/v1/organizations/{orgName}/llm/models",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryStatus")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.ListAvailableModelInOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/models"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -317,7 +369,7 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -340,112 +392,30 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListDisasterRecovery List Disaster Recovery instances under the main cluster.
-// Retrieve a list of disaster recovery instances for a specific database cluster.
-func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
+// UpdateLLM Update LLM.
+func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (Llm, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryClusterList
+		localVarReturnValue Llm
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "listDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Tag:         "llm",
+		OperationID: "updateLLM",
+		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.ListDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.UpdateLLM")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
-	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// PromoteDisasterRecovery Promote a disaster recovery instance to the main instance.
-// Promote the disaster recovery instance to the primary database instance.
-func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string, body DisasterRecoveryPromote) (DisasterRecoveryTask, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "promoteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.PromoteDisasterRecovery")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -480,7 +450,7 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -503,9 +473,9 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewDisasterRecoveryApi Returns NewDisasterRecoveryApi.
-func NewDisasterRecoveryApi(client *common.APIClient) *DisasterRecoveryApi {
-	return &DisasterRecoveryApi{
+// NewLlmApi Returns NewLlmApi.
+func NewLlmApi(client *common.APIClient) *LlmApi {
+	return &LlmApi{
 		Client: client,
 	}
 }

@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DisasterRecoveryCreate DisasterRecoveryCreate is the description to create a DisasterRecovery cluster
-type DisasterRecoveryCreate struct {
-	// KubeBlocks cluster information
-	Cluster ClusterCreate `json:"cluster"`
+// NodeList nodeList is a list of nodes
+type NodeList struct {
+	// Items is the list of Org objects in the list
+	Items []Node `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewDisasterRecoveryCreate instantiates a new DisasterRecoveryCreate object.
+// NewNodeList instantiates a new NodeList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDisasterRecoveryCreate(cluster ClusterCreate) *DisasterRecoveryCreate {
-	this := DisasterRecoveryCreate{}
-	this.Cluster = cluster
+func NewNodeList(items []Node) *NodeList {
+	this := NodeList{}
+	this.Items = items
 	return &this
 }
 
-// NewDisasterRecoveryCreateWithDefaults instantiates a new DisasterRecoveryCreate object.
+// NewNodeListWithDefaults instantiates a new NodeList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewDisasterRecoveryCreateWithDefaults() *DisasterRecoveryCreate {
-	this := DisasterRecoveryCreate{}
+func NewNodeListWithDefaults() *NodeList {
+	this := NodeList{}
 	return &this
 }
 
-// GetCluster returns the Cluster field value.
-func (o *DisasterRecoveryCreate) GetCluster() ClusterCreate {
+// GetItems returns the Items field value.
+func (o *NodeList) GetItems() []Node {
 	if o == nil {
-		var ret ClusterCreate
+		var ret []Node
 		return ret
 	}
-	return o.Cluster
+	return o.Items
 }
 
-// GetClusterOk returns a tuple with the Cluster field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *DisasterRecoveryCreate) GetClusterOk() (*ClusterCreate, bool) {
+func (o *NodeList) GetItemsOk() (*[]Node, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Cluster, true
+	return &o.Items, true
 }
 
-// SetCluster sets field value.
-func (o *DisasterRecoveryCreate) SetCluster(v ClusterCreate) {
-	o.Cluster = v
+// SetItems sets field value.
+func (o *NodeList) SetItems(v []Node) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o DisasterRecoveryCreate) MarshalJSON() ([]byte, error) {
+func (o NodeList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["cluster"] = o.Cluster
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,35 +75,26 @@ func (o DisasterRecoveryCreate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *DisasterRecoveryCreate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *NodeList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cluster *ClusterCreate `json:"cluster"`
+		Items *[]Node `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Cluster == nil {
-		return fmt.Errorf("required field cluster missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cluster"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
-	if all.Cluster.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.Cluster = *all.Cluster
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
