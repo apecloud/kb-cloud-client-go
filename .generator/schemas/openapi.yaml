@@ -15673,14 +15673,6 @@ components:
         - Failed
         - Enabling
         - Disabling
-    engineMaturityLevel:
-      type: string
-      description: engine maturity level
-      enum:
-        - stable
-        - beta
-        - experimental
-        - deprecated
     engine:
       type: object
       properties:
@@ -15737,7 +15729,9 @@ components:
           items:
             type: string
         maturityLevel:
-          $ref: '#/components/schemas/engineMaturityLevel'
+          title: maturityLevel
+          type: string
+          description: engine maturity level
     engineList:
       items:
         $ref: '#/components/schemas/engine'
@@ -16681,7 +16675,8 @@ components:
         engineName:
           type: string
         maturityLevel:
-          $ref: '#/components/schemas/engineMaturityLevel'
+          type: string
+          description: engine maturity level
         title:
           type: string
         description:
