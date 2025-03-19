@@ -15747,6 +15747,8 @@ components:
       properties:
         enabled:
           type: boolean
+        databaseNamePattern:
+          type: string
     dmsOption:
       type: object
       required:
