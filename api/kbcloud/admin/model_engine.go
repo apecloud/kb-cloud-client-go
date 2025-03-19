@@ -34,7 +34,7 @@ type Engine struct {
 	// clusterversion in the engines
 	ClusterVersions []string `json:"clusterVersions,omitempty"`
 	// engine maturity level
-	MaturityLevel *EngineMaturityLevel `json:"maturityLevel,omitempty"`
+	MaturityLevel *string `json:"maturityLevel,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -422,9 +422,9 @@ func (o *Engine) SetClusterVersions(v []string) {
 }
 
 // GetMaturityLevel returns the MaturityLevel field value if set, zero value otherwise.
-func (o *Engine) GetMaturityLevel() EngineMaturityLevel {
+func (o *Engine) GetMaturityLevel() string {
 	if o == nil || o.MaturityLevel == nil {
-		var ret EngineMaturityLevel
+		var ret string
 		return ret
 	}
 	return *o.MaturityLevel
@@ -432,7 +432,7 @@ func (o *Engine) GetMaturityLevel() EngineMaturityLevel {
 
 // GetMaturityLevelOk returns a tuple with the MaturityLevel field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Engine) GetMaturityLevelOk() (*EngineMaturityLevel, bool) {
+func (o *Engine) GetMaturityLevelOk() (*string, bool) {
 	if o == nil || o.MaturityLevel == nil {
 		return nil, false
 	}
@@ -444,8 +444,8 @@ func (o *Engine) HasMaturityLevel() bool {
 	return o != nil && o.MaturityLevel != nil
 }
 
-// SetMaturityLevel gets a reference to the given EngineMaturityLevel and assigns it to the MaturityLevel field.
-func (o *Engine) SetMaturityLevel(v EngineMaturityLevel) {
+// SetMaturityLevel gets a reference to the given string and assigns it to the MaturityLevel field.
+func (o *Engine) SetMaturityLevel(v string) {
 	o.MaturityLevel = &v
 }
 
@@ -507,20 +507,20 @@ func (o Engine) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                  *string              `json:"id,omitempty"`
-		Description         *string              `json:"description,omitempty"`
-		Name                *string              `json:"name,omitempty"`
-		Version             *string              `json:"version,omitempty"`
-		KbVersionConstraint *string              `json:"kbVersionConstraint,omitempty"`
-		Type                *EngineType          `json:"type,omitempty"`
-		Installed           *bool                `json:"installed,omitempty"`
-		Provider            *string              `json:"provider,omitempty"`
-		Status              *EngineStatus        `json:"status,omitempty"`
-		AvailableVersion    []string             `json:"availableVersion,omitempty"`
-		UpgradeHistory      *string              `json:"upgradeHistory,omitempty"`
-		ErrMsg              *string              `json:"errMsg,omitempty"`
-		ClusterVersions     []string             `json:"clusterVersions,omitempty"`
-		MaturityLevel       *EngineMaturityLevel `json:"maturityLevel,omitempty"`
+		Id                  *string       `json:"id,omitempty"`
+		Description         *string       `json:"description,omitempty"`
+		Name                *string       `json:"name,omitempty"`
+		Version             *string       `json:"version,omitempty"`
+		KbVersionConstraint *string       `json:"kbVersionConstraint,omitempty"`
+		Type                *EngineType   `json:"type,omitempty"`
+		Installed           *bool         `json:"installed,omitempty"`
+		Provider            *string       `json:"provider,omitempty"`
+		Status              *EngineStatus `json:"status,omitempty"`
+		AvailableVersion    []string      `json:"availableVersion,omitempty"`
+		UpgradeHistory      *string       `json:"upgradeHistory,omitempty"`
+		ErrMsg              *string       `json:"errMsg,omitempty"`
+		ClusterVersions     []string      `json:"clusterVersions,omitempty"`
+		MaturityLevel       *string       `json:"maturityLevel,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -554,11 +554,7 @@ func (o *Engine) UnmarshalJSON(bytes []byte) (err error) {
 	o.UpgradeHistory = all.UpgradeHistory
 	o.ErrMsg = all.ErrMsg
 	o.ClusterVersions = all.ClusterVersions
-	if all.MaturityLevel != nil && !all.MaturityLevel.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.MaturityLevel = all.MaturityLevel
-	}
+	o.MaturityLevel = all.MaturityLevel
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
