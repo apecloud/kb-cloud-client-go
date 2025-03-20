@@ -9,8 +9,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type DmsQueryRequest struct {
 	// the database of the table or view
 	Database *string `json:"database,omitempty"`
-	// the target table or view name
-	Table *string `json:"table,omitempty"`
+	// the sql string
+	Query *string `json:"query,omitempty"`
 	// return limited number of data
 	Limit *int32 `json:"limit,omitempty"`
 	// if noRecord is true, the query(s) will not be added to query history
@@ -61,32 +61,32 @@ func (o *DmsQueryRequest) SetDatabase(v string) {
 	o.Database = &v
 }
 
-// GetTable returns the Table field value if set, zero value otherwise.
-func (o *DmsQueryRequest) GetTable() string {
-	if o == nil || o.Table == nil {
+// GetQuery returns the Query field value if set, zero value otherwise.
+func (o *DmsQueryRequest) GetQuery() string {
+	if o == nil || o.Query == nil {
 		var ret string
 		return ret
 	}
-	return *o.Table
+	return *o.Query
 }
 
-// GetTableOk returns a tuple with the Table field value if set, nil otherwise
+// GetQueryOk returns a tuple with the Query field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmsQueryRequest) GetTableOk() (*string, bool) {
-	if o == nil || o.Table == nil {
+func (o *DmsQueryRequest) GetQueryOk() (*string, bool) {
+	if o == nil || o.Query == nil {
 		return nil, false
 	}
-	return o.Table, true
+	return o.Query, true
 }
 
-// HasTable returns a boolean if a field has been set.
-func (o *DmsQueryRequest) HasTable() bool {
-	return o != nil && o.Table != nil
+// HasQuery returns a boolean if a field has been set.
+func (o *DmsQueryRequest) HasQuery() bool {
+	return o != nil && o.Query != nil
 }
 
-// SetTable gets a reference to the given string and assigns it to the Table field.
-func (o *DmsQueryRequest) SetTable(v string) {
-	o.Table = &v
+// SetQuery gets a reference to the given string and assigns it to the Query field.
+func (o *DmsQueryRequest) SetQuery(v string) {
+	o.Query = &v
 }
 
 // GetLimit returns the Limit field value if set, zero value otherwise.
@@ -164,8 +164,8 @@ func (o DmsQueryRequest) MarshalJSON() ([]byte, error) {
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
-	if o.Table != nil {
-		toSerialize["table"] = o.Table
+	if o.Query != nil {
+		toSerialize["query"] = o.Query
 	}
 	if o.Limit != nil {
 		toSerialize["limit"] = o.Limit
@@ -184,7 +184,7 @@ func (o DmsQueryRequest) MarshalJSON() ([]byte, error) {
 func (o *DmsQueryRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Database *string             `json:"database,omitempty"`
-		Table    *string             `json:"table,omitempty"`
+		Query    *string             `json:"query,omitempty"`
 		Limit    *int32              `json:"limit,omitempty"`
 		NoRecord common.NullableBool `json:"noRecord,omitempty"`
 	}{}
@@ -193,12 +193,12 @@ func (o *DmsQueryRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"database", "table", "limit", "noRecord"})
+		common.DeleteKeys(additionalProperties, &[]string{"database", "query", "limit", "noRecord"})
 	} else {
 		return err
 	}
 	o.Database = all.Database
-	o.Table = all.Table
+	o.Query = all.Query
 	o.Limit = all.Limit
 	o.NoRecord = all.NoRecord
 	if len(additionalProperties) > 0 {
