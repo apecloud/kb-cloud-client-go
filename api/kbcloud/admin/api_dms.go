@@ -758,11 +758,11 @@ func (a *DmsApi) CloseSessions(ctx _context.Context, orgName string, clusterName
 }
 
 // CreateDataSourceV2 create the datasource.
-func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) CreateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (Datasource, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarReturnValue Datasource
 	)
 
 	// Add api info to context
@@ -1807,11 +1807,11 @@ func (a *DmsApi) TestDataSourceV2(ctx _context.Context, orgName string, clusterN
 }
 
 // UpdateDataSourceV2 update the datasource.
-func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (bool, *_nethttp.Response, error) {
+func (a *DmsApi) UpdateDataSourceV2(ctx _context.Context, orgName string, clusterName string, body Datasource) (Datasource, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue bool
+		localVarReturnValue Datasource
 	)
 
 	// Add api info to context
