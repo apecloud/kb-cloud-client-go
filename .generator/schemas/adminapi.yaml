@@ -15562,6 +15562,7 @@ components:
         displayName:
           description: Display name of cluster.
           type: string
+          nullable: true
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
