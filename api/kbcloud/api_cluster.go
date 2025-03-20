@@ -884,7 +884,6 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 // ListEndpointsOptionalParameters holds optional parameters for ListEndpoints.
 type ListEndpointsOptionalParameters struct {
 	NodePortHostCount *int32
-	ReturnLen         *int32
 }
 
 // NewListEndpointsOptionalParameters creates an empty struct for parameters.
@@ -896,12 +895,6 @@ func NewListEndpointsOptionalParameters() *ListEndpointsOptionalParameters {
 // WithNodePortHostCount sets the corresponding parameter name and returns the struct.
 func (r *ListEndpointsOptionalParameters) WithNodePortHostCount(nodePortHostCount int32) *ListEndpointsOptionalParameters {
 	r.NodePortHostCount = &nodePortHostCount
-	return r
-}
-
-// WithReturnLen sets the corresponding parameter name and returns the struct.
-func (r *ListEndpointsOptionalParameters) WithReturnLen(returnLen int32) *ListEndpointsOptionalParameters {
-	r.ReturnLen = &returnLen
 	return r
 }
 
@@ -944,9 +937,6 @@ func (a *ClusterApi) ListEndpoints(ctx _context.Context, orgName string, cluster
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.NodePortHostCount != nil {
 		localVarQueryParams.Add("nodePortHostCount", common.ParameterToString(*optionalParams.NodePortHostCount, ""))
-	}
-	if optionalParams.ReturnLen != nil {
-		localVarQueryParams.Add("returnLen", common.ParameterToString(*optionalParams.ReturnLen, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

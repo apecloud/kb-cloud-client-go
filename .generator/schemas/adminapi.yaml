@@ -1180,12 +1180,6 @@ paths:
           schema:
             type: integer
             default: 3
-        - description: |
-            The total number of returned endpoints,  If the total number of endpoints is less than returnLen, then return the actual available endpoints.
-          in: query
-          name: returnLen
-          schema:
-            type: integer
       responses:
         '200':
           content:
