@@ -119,7 +119,7 @@ func (a *DmsApi) DataExport(ctx _context.Context, orgName string, clusterName st
 }
 
 // DataImport Data Import.
-func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, file _io.Reader) (interface{}, *_nethttp.Response, error) {
+func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName string, id string, body DmsImportRequest, file _io.Reader) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -157,6 +157,11 @@ func (a *DmsApi) DataImport(ctx _context.Context, orgName string, clusterName st
 	if localVarFile != nil {
 		fbs, _ := _io.ReadAll(localVarFile)
 		formFile.FileBytes = fbs
+	}
+
+	localVarFormParams, err = common.BuildFormParams(body)
+	if err != nil {
+		return localVarReturnValue, nil, common.ReportError("Failed to build form params: %s", err.Error())
 	}
 	common.SetAuthKeys(
 		ctx,

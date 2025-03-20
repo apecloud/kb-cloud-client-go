@@ -575,3 +575,49 @@ func (e GenericOpenAPIError) Body() []byte {
 func (e GenericOpenAPIError) Model() interface{} {
 	return e.ErrorModel
 }
+
+func BuildFormParams(body interface{}) (url.Values, error) {
+	if body == nil {
+		return url.Values{}, nil
+	}
+	localVarFormParams := url.Values{}
+	t := reflect.TypeOf(body)
+	v := reflect.ValueOf(body)
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		value := v.Field(i)
+
+		// Check if the field has json tag and is exported (starts with uppercase)
+		tagValue := field.Tag.Get("json")
+		if tagValue == "" || tagValue == "-" {
+			continue // Skip fields without json tag or with "-" tag value
+		}
+
+		// Handle pointer types
+		if value.Kind() == reflect.Ptr && !value.IsNil() {
+			value = value.Elem()
+		} else if value.Kind() == reflect.Ptr && value.IsNil() {
+			// Skip nil pointers
+			continue
+		}
+
+		// Get the actual value and check if it's empty
+		actualValue := value.Interface()
+		if actualValue == nil || actualValue == "" {
+			continue // Skip empty values
+		}
+		tagValue = strings.Split(tagValue, ",")[0]
+		// Add to form params
+		switch val := actualValue.(type) {
+		case string:
+			localVarFormParams.Add(tagValue, val)
+		case time.Time:
+			localVarFormParams.Add(tagValue, val.Format(time.DateTime))
+		default:
+			// For other types, you might want to implement custom handling or convert to string
+			localVarFormParams.Add(tagValue, fmt.Sprint(val))
+		}
+	}
+	return localVarFormParams, nil
+}
