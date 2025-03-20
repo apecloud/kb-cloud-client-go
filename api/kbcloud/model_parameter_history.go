@@ -21,6 +21,12 @@ type ParameterHistory struct {
 	NewValue string `json:"newValue"`
 	// The date and time the parameter was last updated
 	UpdatedAt time.Time `json:"updatedAt"`
+	// event source
+	Source *EventSource `json:"source,omitempty"`
+	// operator of the event, if source is user, operator is user name; if source is system, operator is system name
+	Operator *string `json:"operator,omitempty"`
+	// The user ID of the operator
+	OperatorId *string `json:"operatorId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -139,6 +145,90 @@ func (o *ParameterHistory) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
+// GetSource returns the Source field value if set, zero value otherwise.
+func (o *ParameterHistory) GetSource() EventSource {
+	if o == nil || o.Source == nil {
+		var ret EventSource
+		return ret
+	}
+	return *o.Source
+}
+
+// GetSourceOk returns a tuple with the Source field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterHistory) GetSourceOk() (*EventSource, bool) {
+	if o == nil || o.Source == nil {
+		return nil, false
+	}
+	return o.Source, true
+}
+
+// HasSource returns a boolean if a field has been set.
+func (o *ParameterHistory) HasSource() bool {
+	return o != nil && o.Source != nil
+}
+
+// SetSource gets a reference to the given EventSource and assigns it to the Source field.
+func (o *ParameterHistory) SetSource(v EventSource) {
+	o.Source = &v
+}
+
+// GetOperator returns the Operator field value if set, zero value otherwise.
+func (o *ParameterHistory) GetOperator() string {
+	if o == nil || o.Operator == nil {
+		var ret string
+		return ret
+	}
+	return *o.Operator
+}
+
+// GetOperatorOk returns a tuple with the Operator field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterHistory) GetOperatorOk() (*string, bool) {
+	if o == nil || o.Operator == nil {
+		return nil, false
+	}
+	return o.Operator, true
+}
+
+// HasOperator returns a boolean if a field has been set.
+func (o *ParameterHistory) HasOperator() bool {
+	return o != nil && o.Operator != nil
+}
+
+// SetOperator gets a reference to the given string and assigns it to the Operator field.
+func (o *ParameterHistory) SetOperator(v string) {
+	o.Operator = &v
+}
+
+// GetOperatorId returns the OperatorId field value if set, zero value otherwise.
+func (o *ParameterHistory) GetOperatorId() string {
+	if o == nil || o.OperatorId == nil {
+		var ret string
+		return ret
+	}
+	return *o.OperatorId
+}
+
+// GetOperatorIdOk returns a tuple with the OperatorId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterHistory) GetOperatorIdOk() (*string, bool) {
+	if o == nil || o.OperatorId == nil {
+		return nil, false
+	}
+	return o.OperatorId, true
+}
+
+// HasOperatorId returns a boolean if a field has been set.
+func (o *ParameterHistory) HasOperatorId() bool {
+	return o != nil && o.OperatorId != nil
+}
+
+// SetOperatorId gets a reference to the given string and assigns it to the OperatorId field.
+func (o *ParameterHistory) SetOperatorId(v string) {
+	o.OperatorId = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterHistory) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -153,6 +243,15 @@ func (o ParameterHistory) MarshalJSON() ([]byte, error) {
 	} else {
 		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
+	if o.Source != nil {
+		toSerialize["source"] = o.Source
+	}
+	if o.Operator != nil {
+		toSerialize["operator"] = o.Operator
+	}
+	if o.OperatorId != nil {
+		toSerialize["operatorId"] = o.OperatorId
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -163,10 +262,13 @@ func (o ParameterHistory) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterHistory) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ParameterName *string    `json:"parameterName"`
-		OldValue      *string    `json:"oldValue"`
-		NewValue      *string    `json:"newValue"`
-		UpdatedAt     *time.Time `json:"updatedAt"`
+		ParameterName *string      `json:"parameterName"`
+		OldValue      *string      `json:"oldValue"`
+		NewValue      *string      `json:"newValue"`
+		UpdatedAt     *time.Time   `json:"updatedAt"`
+		Source        *EventSource `json:"source,omitempty"`
+		Operator      *string      `json:"operator,omitempty"`
+		OperatorId    *string      `json:"operatorId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -185,17 +287,30 @@ func (o *ParameterHistory) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parameterName", "oldValue", "newValue", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"parameterName", "oldValue", "newValue", "updatedAt", "source", "operator", "operatorId"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.ParameterName = *all.ParameterName
 	o.OldValue = *all.OldValue
 	o.NewValue = *all.NewValue
 	o.UpdatedAt = *all.UpdatedAt
+	if all.Source != nil && !all.Source.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Source = all.Source
+	}
+	o.Operator = all.Operator
+	o.OperatorId = all.OperatorId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
