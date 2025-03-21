@@ -16728,6 +16728,14 @@ components:
           description: The date and time the parameter was last updated
           format: date-time
           type: string
+        source:
+          $ref: '#/components/schemas/eventSource'
+        operator:
+          description: operator of the event, if source is user, operator is user name; if source is system, operator is system name
+          type: string
+        operatorId:
+          description: The user ID of the operator
+          type: string
     parameterHistoryList:
       description: A list of parameter history
       properties:
