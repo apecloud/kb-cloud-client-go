@@ -2882,6 +2882,41 @@ paths:
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
+    patch:
+      operationId: updateClusterParameterTemplate
+      summary: Update cluster parameter template
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paramTpls'
+        required: true
+      responses:
+        '200':
+          content: {}
+          description: update cluster parameter template successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
