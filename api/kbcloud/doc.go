@@ -261,6 +261,7 @@
 //   - [parameterTemplateApi.listParameterTemplates]
 //   - [parameterTemplateApi.patchParameterTemplate]
 //   - [parameterTemplateApi.readParameterTemplate]
+//   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [projectApi.listProjects]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]
 //   - [recycleBinClusterApi.getRecycleBinCluster]

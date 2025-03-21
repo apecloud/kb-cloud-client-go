@@ -2882,6 +2882,41 @@ paths:
       tags:
         - parameterTemplate
       x-codegen-request-body-name: body
+    patch:
+      operationId: updateClusterParameterTemplate
+      summary: Update cluster parameter template
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/paramTpls'
+        required: true
+      responses:
+        '200':
+          content: {}
+          description: update cluster parameter template successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - parameterTemplate
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
@@ -14595,6 +14630,46 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/analyze:
+    get:
+      tags:
+        - AI
+      summary: Analyze cluster
+      description: Analyze cluster
+      operationId: analyzeCluster
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          type: string
+        - name: clusterName
+          in: path
+          required: true
+          type: string
+        - name: mode
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    description: 流式返回的内容
+                  error:
+                    type: string
+                    description: 错误信息
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:

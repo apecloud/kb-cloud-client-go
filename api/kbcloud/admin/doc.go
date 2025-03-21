@@ -3,6 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
+//   - [AIApi.analyzeCluster]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]
@@ -342,6 +343,7 @@
 //   - [parameterTemplateApi.listParameterTemplates]
 //   - [parameterTemplateApi.patchParameterTemplate]
 //   - [parameterTemplateApi.readParameterTemplate]
+//   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [platformParameterApi.getPlatformParameter]
 //   - [platformParameterApi.listPlatformParameters]
 //   - [platformParameterApi.updatePlatformParameters]
