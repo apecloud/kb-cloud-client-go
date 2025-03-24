@@ -174,6 +174,7 @@
 //   - [engineOptionApi.listEngineOptions]
 //   - [engineOptionApi.updateEngineOption]
 //   - [environmentApi.addNodes]
+//   - [environmentApi.checkKubeconfig]
 //   - [environmentApi.checkNodeSSHConfig]
 //   - [environmentApi.cordonEnvironmentNode]
 //   - [environmentApi.createEnvironment]
