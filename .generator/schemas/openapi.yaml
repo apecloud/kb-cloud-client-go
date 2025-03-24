@@ -15051,6 +15051,9 @@ components:
         value:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
+        default:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
         needRestart:
           description: Whether the parameter requires a restart to take effect
           type: boolean
@@ -15078,6 +15081,11 @@ components:
         props:
           type: array
           description: The list of parameters properties
+          items:
+            $ref: '#/components/schemas/parameterProp'
+        additionalProps:
+          type: array
+          description: The additional properties of the parameter
           items:
             $ref: '#/components/schemas/parameterProp'
         fileName:
