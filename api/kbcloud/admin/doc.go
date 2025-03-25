@@ -215,6 +215,7 @@
 //   - [environmentApi.scaleOutEnvironmentNodes]
 //   - [environmentApi.setNodeMaintenanceMode]
 //   - [environmentApi.uncordonEnvironmentNode]
+//   - [environmentApi.updateEnvironmentKubeconfig]
 //   - [environmentApi.updateEnvironmentModule]
 //   - [eventApi.getEvent]
 //   - [eventApi.getEventFilter]
