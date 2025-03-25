@@ -61,6 +61,8 @@ tags:
     description: Feature APIs
   - name: license
     description: License APIs
+  - name: billing
+    description: Billing APIs
 paths:
   /admin/v1/user:
     get:
@@ -14590,6 +14592,214 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/pricing:
+    get:
+      operationId: getEnvironmentPricing
+      summary: Get the environment pricing
+      parameters:
+        - description: name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentPricing'
+          description: Retrieve the price of one environment
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    post:
+      operationId: saveEnvironmentPricing
+      summary: Save the environment pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentPricing'
+      responses:
+        '204':
+          description: Returned when information of pricing save successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    delete:
+      operationId: deleteEnvironmentPricing
+      summary: Delete the environment pricing
+      parameters:
+        - description: name of the environment
+          in: query
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when pricing deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+  /admin/v1/pricing/global:
+    get:
+      operationId: getGlobalPricing
+      summary: Get the global information of pricing
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/globalPricing'
+          description: Retrieve the global information of pricing
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    post:
+      operationId: saveGlobalPricing
+      summary: Save the global information of pricing
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/globalPricing'
+      responses:
+        '204':
+          description: Returned when global information of pricing save successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+  /admin/v1/billing/refresh:
+    post:
+      operationId: refreshBill
+      summary: Refresh bill
+      parameters:
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '204':
+          description: Returned when bill refreshed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicTask'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
+  /admin/v1/billing/overview:
+    get:
+      operationId: queryBillOverview
+      summary: Query bills of all environments and organizations
+      parameters:
+        - description: The type of aggregation time
+          in: query
+          name: aggregationTime
+          schema:
+            $ref: '#/components/schemas/aggregationTimeType'
+        - description: The type of aggregation group
+          in: query
+          name: aggregationGroup
+          schema:
+            $ref: '#/components/schemas/aggregationGroupType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicBillList'
+          description: Retrieve the price of all environments
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
+  /admin/v1/billing/detail:
+    get:
+      operationId: queryBillDetail
+      summary: Query bill details
+      parameters:
+        - description: The ID of the bill
+          in: query
+          name: billID
+          schema:
+            type: integer
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: integer
+        - description: name of the organization
+          in: query
+          name: organization
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The type of aggregation time
+          in: query
+          name: aggregationTime
+          schema:
+            $ref: '#/components/schemas/aggregationTimeType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDetailList'
+          description: Retrieve the price detail
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
 components:
   securitySchemes:
     BearerToken:
@@ -25277,6 +25487,156 @@ components:
         - executionTime
         - command
         - extra
+    environmentPricing:
+      type: object
+      description: the information of environment pricing
+      properties:
+        envName:
+          description: The environment name
+          type: string
+          nullable: true
+        cpuPrice:
+          description: The price of CPU, the unit is 'Core'
+          type: string
+          nullable: true
+        memoryPrice:
+          description: The price of Memory, the unit is 'GB'
+          type: string
+          nullable: true
+        storagePrice:
+          description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+    currencyUnitType:
+      description: The currency uint for display in bill query
+      enum:
+        - RMB
+      type: string
+      nullable: true
+    globalPricing:
+      type: object
+      description: the global information of pricing
+      properties:
+        enabled:
+          description: Enable global pricing
+          type: boolean
+        currencyUnit:
+          $ref: '#/components/schemas/currencyUnitType'
+        billScheduleTime:
+          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM
+          type: string
+          nullable: true
+        cpuPrice:
+          description: The price of CPU, the unit is 'Core'
+          type: string
+          nullable: true
+        memoryPrice:
+          description: The price of Memory, the unit is 'GB'
+          type: string
+          nullable: true
+        storagePrice:
+          description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+    BasicTask:
+      type: object
+      description: Task information
+      properties:
+        taskId:
+          description: Task ID
+          type: integer
+          nullable: true
+      required:
+        - taskId
+    aggregationTimeType:
+      description: The type of aggregation time
+      enum:
+        - yearly
+        - monthly
+        - quarterly
+        - daily
+      type: string
+      nullable: true
+    aggregationGroupType:
+      description: The type of aggregation group
+      enum:
+        - global
+        - organization
+        - project
+      type: string
+      nullable: true
+    BasicBill:
+      type: object
+      description: Basic bill information
+      properties:
+        dataTime:
+          description: The timestamp of data
+          type: integer
+          format: int64
+        price:
+          description: The total price
+          type: string
+    BasicBillList:
+      type: object
+      description: list price in date range
+      properties:
+        items:
+          description: Items of the bill
+          items:
+            $ref: '#/components/schemas/BasicBill'
+          type: array
+      required:
+        - items
+    BillDetail:
+      type: object
+      description: Task information
+      properties:
+        dataTime:
+          description: The timestamp of data
+          type: integer
+          format: int64
+        price:
+          description: The total price
+          type: string
+        clusterID:
+          description: The ID of cluster
+          type: integer
+          nullable: true
+        clusterName:
+          description: The Name of cluster
+          type: string
+          nullable: true
+        engine:
+          description: Cluster Application Engine
+          type: string
+          nullable: true
+        version:
+          description: Cluster Application Version
+          type: string
+          nullable: true
+        mode:
+          description: Cluster topology mode
+          type: string
+          nullable: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+    BillDetailList:
+      type: object
+      description: list price details in date range
+      properties:
+        items:
+          description: Items of the price
+          items:
+            $ref: '#/components/schemas/BillDetail'
+          type: array
+      required:
+        - items
   responses:
     '204':
       description: No Content
@@ -25413,3 +25773,7 @@ x-tagGroup:
   - name: engine
     tags:
       - engine
+  - name: billing
+    tags:
+      - pricing
+      - billing
