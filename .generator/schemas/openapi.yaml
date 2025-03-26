@@ -18406,6 +18406,9 @@ components:
           type: string
           format: date-time
           description: Time when the cluster was created
+        proxyUrl:
+          type: string
+          description: Proxy URL of the cluster
     relatedClusterList:
       type: array
       items:
