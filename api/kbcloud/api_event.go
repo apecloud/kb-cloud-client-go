@@ -99,7 +99,7 @@ func (a *EventApi) GetEvent(ctx _context.Context, orgName string, eventId string
 
 // GetEventFilter Query available filters for event listing.
 // Query available filters for event listing
-func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
+func (a *EventApi) GetEventFilter(ctx _context.Context, orgName string, filterType EventFilterType, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -121,6 +121,7 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/eventfilter/{filterType}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"filterType"+"}", _neturl.PathEscape(common.ParameterToString(filterType, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

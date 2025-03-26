@@ -720,7 +720,8 @@ paths:
           in: path
           name: orgName
           required: true
-          type: string
+          schema:
+            type: string
         - description: The event filter field you want to obtain. OpenAPI do not support orgName.
           in: path
           name: filterType
