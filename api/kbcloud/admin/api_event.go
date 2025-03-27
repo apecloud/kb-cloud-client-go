@@ -180,52 +180,17 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
-	OrgName      *string
-	ResourceId   *string
-	ResourceType *string
-	EventName    *string
-	OperatorId   *int64
-	Status       *EventResultStatus
-	CustomQuery  *string
-	PageNumber   *int64
-	PageSize     *int64
-	OrderBy      *string
+	Status      *EventResultStatus
+	CustomQuery *string
+	PageNumber  *int64
+	PageSize    *int64
+	OrderBy     *string
 }
 
 // NewListEventsOptionalParameters creates an empty struct for parameters.
 func NewListEventsOptionalParameters() *ListEventsOptionalParameters {
 	this := ListEventsOptionalParameters{}
 	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOrgName(orgName string) *ListEventsOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
-// WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId string) *ListEventsOptionalParameters {
-	r.ResourceId = &resourceId
-	return r
-}
-
-// WithResourceType sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceType(resourceType string) *ListEventsOptionalParameters {
-	r.ResourceType = &resourceType
-	return r
-}
-
-// WithEventName sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEventsOptionalParameters {
-	r.EventName = &eventName
-	return r
-}
-
-// WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int64) *ListEventsOptionalParameters {
-	r.OperatorId = &operatorId
-	return r
 }
 
 // WithStatus sets the corresponding parameter name and returns the struct.
@@ -296,21 +261,6 @@ func (a *EventApi) ListEvents(ctx _context.Context, start int64, end int64, o ..
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
-	if optionalParams.ResourceId != nil {
-		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
-	}
-	if optionalParams.ResourceType != nil {
-		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
-	}
-	if optionalParams.EventName != nil {
-		localVarQueryParams.Add("eventName", common.ParameterToString(*optionalParams.EventName, ""))
-	}
-	if optionalParams.OperatorId != nil {
-		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
-	}
 	if optionalParams.Status != nil {
 		localVarQueryParams.Add("status", common.ParameterToString(*optionalParams.Status, ""))
 	}
