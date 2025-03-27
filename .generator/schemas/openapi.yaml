@@ -756,26 +756,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: resource ID
-          in: query
-          name: resourceId
-          schema:
-            type: string
-        - description: resource type
-          in: query
-          name: resourceType
-          schema:
-            type: string
-        - description: Event Name
-          in: query
-          name: eventName
-          schema:
-            type: string
-        - description: User ID of the operator
-          in: query
-          name: operatorId
-          schema:
-            type: integer
         - description: Advanced query conditions, supporting all types of filterType. Such as "operatorID:333 operatorID:444"
           in: query
           name: customQuery
