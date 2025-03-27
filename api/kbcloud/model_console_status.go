@@ -15,6 +15,7 @@ type ConsoleStatus string
 // List of ConsoleStatus.
 const (
 	ConsoleStatusDeployed        ConsoleStatus = "deployed"
+	ConsoleStatusUndeployed      ConsoleStatus = "undeployed"
 	ConsoleStatusUninstalled     ConsoleStatus = "uninstalled"
 	ConsoleStatusSuperseded      ConsoleStatus = "superseded"
 	ConsoleStatusFailed          ConsoleStatus = "failed"
@@ -27,6 +28,7 @@ const (
 
 var allowedConsoleStatusEnumValues = []ConsoleStatus{
 	ConsoleStatusDeployed,
+	ConsoleStatusUndeployed,
 	ConsoleStatusUninstalled,
 	ConsoleStatusSuperseded,
 	ConsoleStatusFailed,
