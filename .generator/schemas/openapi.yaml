@@ -9607,6 +9607,124 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/console:
+    get:
+      tags:
+        - dms
+      summary: get engine available console
+      description: get engine available console
+      operationId: getEngineAvailableConsole
+      parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/console'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - dms
+      summary: disable console
+      description: disable console
+      operationId: disableConsole
+      parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: disable console successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - dms
+      summary: enable console
+      description: enable console
+      operationId: enableConsole
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DMSConsoleEnableOpt'
+      responses:
+        '204':
+          description: enable console successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -18602,6 +18720,56 @@ components:
           description: network mode of redis insight
         serviceType:
           $ref: '#/components/schemas/RedisInsightSvcType'
+          description: service type of redis insight
+    consoleStatus:
+      type: string
+      enum:
+        - deployed
+        - uninstalled
+        - superseded
+        - failed
+        - uninstalling
+        - pending-install
+        - pending-upgrade
+        - pending-rollback
+        - unknown
+    console:
+      type: object
+      description: engine console plugin, like redisinsight, minio-console, etc.
+      properties:
+        name:
+          type: string
+        status:
+          $ref: '#/components/schemas/consoleStatus'
+        description:
+          type: string
+        version:
+          type: string
+        address:
+          type: string
+          x-omitempty: false
+    DMSConsoleNetMode:
+      type: string
+      enum:
+        - PRIVATE
+        - PUBLIC
+    DMSConsoleSvcType:
+      type: string
+      enum:
+        - ClusterIP
+        - LoadBalancer
+        - NodePort
+    DMSConsoleEnableOpt:
+      type: object
+      required:
+        - networkMode
+        - serviceType
+      properties:
+        networkMode:
+          $ref: '#/components/schemas/DMSConsoleNetMode'
+          description: network mode of redis insight
+        serviceType:
+          $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
     analysisResult:
       properties:
