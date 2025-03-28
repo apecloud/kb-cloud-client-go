@@ -13390,75 +13390,39 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/redisInsight:
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/console:
     get:
       tags:
-        - redis
-      summary: get available redisInsight
-      operationId: getAvailableRedisInsight
+        - dms
+      summary: get engine available console
+      description: get engine available console
+      operationId: getEngineAvailableConsole
       parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
         - name: orgName
           in: path
-          description: the name of organization
+          description: name of the Org
           required: true
           schema:
             type: string
         - name: clusterName
           in: path
-          description: the name of cluster
+          description: name of the cluster
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: get available redisInsight success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RedisInsight'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - redis
-      summary: enable redisInsight plugin
-      operationId: enableRedisInsight
-      parameters:
-        - name: orgName
-          in: path
-          description: the name of organization
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: the name of cluster
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RedisInsightEnableOpt'
-      responses:
-        '200':
-          description: enable redisInsight success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RedisInsight'
-        '400':
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/console'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -13469,28 +13433,73 @@ paths:
           $ref: '#/components/responses/500'
     delete:
       tags:
-        - redis
-      summary: disable redisInsight plugin
-      operationId: disableRedisInsight
+        - dms
+      summary: disable console
+      description: disable console
+      operationId: disableConsole
       parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
         - name: orgName
           in: path
-          description: the name of organization
+          description: name of the Org
           required: true
           schema:
             type: string
         - name: clusterName
           in: path
-          description: the name of cluster
+          description: name of the cluster
           required: true
           schema:
             type: string
       responses:
         '204':
-          description: disable redisInsight success
-          content: {}
-        '400':
-          $ref: '#/components/responses/400'
+          description: disable console successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - dms
+      summary: enable console
+      description: enable console
+      operationId: enableConsole
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DMSConsoleEnableOpt'
+      responses:
+        '204':
+          description: enable console successfully
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25062,34 +25071,56 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
-    RedisInsight:
+    consoleStatus:
+      type: string
+      enum:
+        - deployed
+        - undeployed
+        - uninstalled
+        - superseded
+        - failed
+        - uninstalling
+        - pending-install
+        - pending-upgrade
+        - pending-rollback
+        - unknown
+    console:
       type: object
+      description: engine console plugin, like redisinsight, minio-console, etc.
       properties:
-        host:
+        name:
           type: string
-          description: redis insight host
-    RedisInsightNetMode:
+        status:
+          $ref: '#/components/schemas/consoleStatus'
+        description:
+          type: string
+        version:
+          type: string
+        address:
+          type: string
+          x-omitempty: false
+    DMSConsoleNetMode:
       type: string
       enum:
         - PRIVATE
         - PUBLIC
-    RedisInsightSvcType:
+    DMSConsoleSvcType:
       type: string
       enum:
         - ClusterIP
         - LoadBalancer
         - NodePort
-    RedisInsightEnableOpt:
+    DMSConsoleEnableOpt:
       type: object
       required:
         - networkMode
         - serviceType
       properties:
         networkMode:
-          $ref: '#/components/schemas/RedisInsightNetMode'
+          $ref: '#/components/schemas/DMSConsoleNetMode'
           description: network mode of redis insight
         serviceType:
-          $ref: '#/components/schemas/RedisInsightSvcType'
+          $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
     environmentModuleList:
       type: array
