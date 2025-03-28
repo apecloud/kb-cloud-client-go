@@ -20307,6 +20307,7 @@ components:
           description: Date/time when the backup finished being processed.
           format: date-time
           type: string
+          nullable: true
         creationTimestamp:
           description: Date/time when the backup was created.
           format: date-time
@@ -20330,6 +20331,7 @@ components:
           description: Date/time when the backup started being processed.
           format: date-time
           type: string
+          nullable: true
         status:
           $ref: '#/components/schemas/backupStatus'
         timeRangeEnd:
