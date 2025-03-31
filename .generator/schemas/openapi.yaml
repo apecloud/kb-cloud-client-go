@@ -722,7 +722,8 @@ paths:
           in: path
           name: orgName
           required: true
-          type: string
+          schema:
+            type: string
         - description: The event filter field you want to obtain. OpenAPI do not support orgName.
           in: path
           name: filterType
@@ -758,26 +759,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: resource ID
-          in: query
-          name: resourceId
-          schema:
-            type: string
-        - description: resource type
-          in: query
-          name: resourceType
-          schema:
-            type: string
-        - description: Event Name
-          in: query
-          name: eventName
-          schema:
-            type: string
-        - description: User ID of the operator
-          in: query
-          name: operatorId
-          schema:
-            type: integer
         - description: Advanced query conditions, supporting all types of filterType. Such as "operatorID:333 operatorID:444"
           in: query
           name: customQuery
@@ -4624,90 +4605,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - parameter
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs:
-    get:
-      deprecated: true
-      description: get parameter specs, deprecated, instead use listParameterProps
-      operationId: listParameterSpecs
-      summary: List parameter specs of the cluster
-      tags:
-        - parameter
-      parameters:
-        - description: name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the component definition
-          in: query
-          name: component
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/parameterSpecList'
-          description: get parameters of the cluster successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/configurations:
-    get:
-      deprecated: true
-      description: get parameter configurations, deprecated, instead use listParameterProps
-      operationId: listConfigurations
-      summary: List configurations of the cluster
-      tags:
-        - parameter
-      parameters:
-        - description: name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: component type
-          in: query
-          name: component
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/configurationList'
-          description: get configuration of the cluster successfully
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
     get:
       operationId: listParameterProps
@@ -4748,273 +4645,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/paramTpls:
-    get:
-      deprecated: true
-      description: list parameter templates, deprecated, instead use listParameterTemplates
-      operationId: listParamTpl
-      summary: List configuration templates in an Org
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in listParamTpl request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-        - description: Cluster Application Version
-          in: query
-          name: version
-          schema:
-            type: string
-        - description: component type
-          in: query
-          name: component
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/paramTplList'
-          description: list parameter templates successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-    post:
-      deprecated: true
-      description: create parameter template, deprecated, instead use createParameterTemplate
-      operationId: createParamTpl
-      summary: Create configuration template
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/paramTplCreate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/paramTplListItem'
-          description: create parameter template successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/paramTpls/{paramTplName}:
-    delete:
-      deprecated: true
-      description: delete parameter template, deprecated, instead use deleteParameterTemplate
-      operationId: deleteParamTpl
-      summary: Delete configuration template
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-    get:
-      deprecated: true
-      description: get parameter template, deprecated, instead use readParameterTemplate
-      operationId: readParamTpl
-      summary: Get configuration template details
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-        - description: the template partition in read paramTpl request
-          in: query
-          name: partition
-          schema:
-            $ref: '#/components/schemas/paramTplPartition'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/paramTplGet'
-          description: read parameter template successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-    patch:
-      deprecated: true
-      description: update parameter template, deprecated, instead use patchParameterTemplate
-      summary: Update configuration template
-      operationId: patchParamTpl
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the parameter template
-          in: path
-          name: paramTplName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/paramTplUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/paramTplListItem'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-      x-codegen-request-body-name: body
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/paramTpls:
-    get:
-      deprecated: true
-      description: get cluster parameter template, deprecated, instead use getClusterParameterTemplate
-      operationId: getClusterParamTpls
-      summary: Get cluster configuration templates
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: component type
-          in: query
-          name: component
-          required: false
-          schema:
-            type: string
-        - description: engine name
-          in: query
-          name: engineName
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/paramTplApplyToClusterList'
-          description: get parameter template applicable to the cluster successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-    post:
-      deprecated: true
-      description: export parameter template from cluster, deprecated, instead use exportParameterTemplateFromCluster
-      operationId: createParamTplFromCluster
-      summary: Export configuration template from cluster
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/paramTplCreateFromCluster'
-        required: true
-      responses:
-        '200':
-          content: {}
-          description: create parameter template from cluster successfully
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - paramTpl
-      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/parameterTemplates:
     get:
       operationId: listParameterTemplates
@@ -9871,75 +9501,39 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/data/redis/organizations/{orgName}/clusters/{clusterName}/redisInsight:
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/console:
     get:
       tags:
-        - redis
-      summary: get available redisInsight
-      operationId: getAvailableRedisInsight
+        - dms
+      summary: get engine available console
+      description: get engine available console
+      operationId: getEngineAvailableConsole
       parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
         - name: orgName
           in: path
-          description: the name of organization
+          description: name of the Org
           required: true
           schema:
             type: string
         - name: clusterName
           in: path
-          description: the name of cluster
+          description: name of the cluster
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: get available redisInsight success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RedisInsight'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    post:
-      tags:
-        - redis
-      summary: enable redisInsight plugin
-      operationId: enableRedisInsight
-      parameters:
-        - name: orgName
-          in: path
-          description: the name of organization
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: path
-          description: the name of cluster
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RedisInsightEnableOpt'
-      responses:
-        '200':
-          description: enable redisInsight success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RedisInsight'
-        '400':
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/console'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -9950,28 +9544,73 @@ paths:
           $ref: '#/components/responses/500'
     delete:
       tags:
-        - redis
-      summary: disable redisInsight plugin
-      operationId: disableRedisInsight
+        - dms
+      summary: disable console
+      description: disable console
+      operationId: disableConsole
       parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
         - name: orgName
           in: path
-          description: the name of organization
+          description: name of the Org
           required: true
           schema:
             type: string
         - name: clusterName
           in: path
-          description: the name of cluster
+          description: name of the cluster
           required: true
           schema:
             type: string
       responses:
         '204':
-          description: disable redisInsight success
-          content: {}
-        '400':
-          $ref: '#/components/responses/400'
+          description: disable console successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - dms
+      summary: enable console
+      description: enable console
+      operationId: enableConsole
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: name of the cluster
+          required: true
+          schema:
+            type: string
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DMSConsoleEnableOpt'
+      responses:
+        '204':
+          description: enable console successfully
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14606,6 +14245,7 @@ components:
           description: Date/time when the backup finished being processed.
           format: date-time
           type: string
+          nullable: true
         creationTimestamp:
           description: Date/time when the backup was created.
           format: date-time
@@ -14629,6 +14269,7 @@ components:
           description: Date/time when the backup started being processed.
           format: date-time
           type: string
+          nullable: true
         status:
           $ref: '#/components/schemas/backupStatus'
         timeRangeEnd:
@@ -15183,94 +14824,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/parameterHistory'
-    parameterSpec:
-      description: Cluster parameter specification
-      type: object
-      required:
-        - name
-        - description
-        - type
-        - default
-        - needRestart
-        - immutable
-        - maximum
-        - minimum
-        - enum
-      properties:
-        name:
-          description: The name of the parameter
-          type: string
-        description:
-          description: The description of the parameter
-          type: string
-        type:
-          description: The type of the parameter value
-          type: string
-        default:
-          description: The default value of the parameter
-          type: object
-          additionalProperties: true
-        needRestart:
-          description: Whether the parameter requires a restart to take effect
-          type: boolean
-        immutable:
-          description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
-          type: boolean
-        maximum:
-          description: The maximum value of the parameter
-          format: double
-          type: number
-        minimum:
-          description: The minimum value of the parameter
-          format: double
-          type: number
-        enum:
-          description: The value options of the parameter
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-    parameterSpecListItem:
-      type: object
-      description: With the list of parameterSpecs and the configuration file name
-      properties:
-        specs:
-          type: array
-          items:
-            $ref: '#/components/schemas/parameterSpec'
-        fileName:
-          description: The name of the configuration file
-          type: string
-    parameterSpecList:
-      description: A list of cluster parameterSpecs
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/parameterSpecListItem'
-    configuration:
-      description: Cluster parameters configuration, include the file name and content of the parameters
-      type: object
-      required:
-        - fileName
-        - content
-      properties:
-        fileName:
-          description: The name of the configuration file
-          type: string
-        content:
-          description: The content of the configuration file
-          type: string
-        regex:
-          description: The regular expression of the configuration file
-          type: string
-    configurationList:
-      description: A list of cluster parameters configuration
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/configuration'
     parameterProp:
       type: object
       required:
@@ -15289,6 +14842,9 @@ components:
           description: The type of the parameter value
           type: string
         value:
+          description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+          type: object
+        default:
           description: The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
           type: object
         needRestart:
@@ -15318,6 +14874,11 @@ components:
         props:
           type: array
           description: The list of parameters properties
+          items:
+            $ref: '#/components/schemas/parameterProp'
+        additionalProps:
+          type: array
+          description: The additional properties of the parameter
           items:
             $ref: '#/components/schemas/parameterProp'
         fileName:
@@ -15421,48 +14982,6 @@ components:
         - family
         - name
       type: object
-    configurationWithRegex:
-      description: Cluster parameters configuration, include the file name and content of the parameters
-      type: object
-      required:
-        - regex
-        - fileName
-        - content
-      properties:
-        fileName:
-          description: The name of the configuration file
-          type: string
-        content:
-          description: The content of the configuration file
-          type: string
-        regex:
-          description: the template regex
-          type: string
-    paramTplGetItem:
-      type: object
-      description: paramTplGetItem is a list of get parameter template and parameterSpec
-      properties:
-        specName:
-          description: The name of the configuration spec
-          type: string
-        config:
-          $ref: '#/components/schemas/configurationWithRegex'
-        parameterSpec:
-          $ref: '#/components/schemas/parameterSpecListItem'
-      required:
-        - specName
-        - config
-        - parameterSpec
-    paramTplGet:
-      description: paramTplGet is the response of get parameter template request
-      properties:
-        family:
-          type: string
-          description: family of parameter template
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/paramTplGetItem'
     paramTplUpdate:
       description: paramTplUpdate is the payload to update a parameter template
       properties:
@@ -18786,6 +18305,9 @@ components:
           type: string
           format: date-time
           description: Time when the cluster was created
+        proxyUrl:
+          type: string
+          description: Proxy URL of the cluster
     relatedClusterList:
       type: array
       items:
@@ -19304,34 +18826,56 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
-    RedisInsight:
+    consoleStatus:
+      type: string
+      enum:
+        - deployed
+        - undeployed
+        - uninstalled
+        - superseded
+        - failed
+        - uninstalling
+        - pending-install
+        - pending-upgrade
+        - pending-rollback
+        - unknown
+    console:
       type: object
+      description: engine console plugin, like redisinsight, minio-console, etc.
       properties:
-        host:
+        name:
           type: string
-          description: redis insight host
-    RedisInsightNetMode:
+        status:
+          $ref: '#/components/schemas/consoleStatus'
+        description:
+          type: string
+        version:
+          type: string
+        address:
+          type: string
+          x-omitempty: false
+    DMSConsoleNetMode:
       type: string
       enum:
         - PRIVATE
         - PUBLIC
-    RedisInsightSvcType:
+    DMSConsoleSvcType:
       type: string
       enum:
         - ClusterIP
         - LoadBalancer
         - NodePort
-    RedisInsightEnableOpt:
+    DMSConsoleEnableOpt:
       type: object
       required:
         - networkMode
         - serviceType
       properties:
         networkMode:
-          $ref: '#/components/schemas/RedisInsightNetMode'
+          $ref: '#/components/schemas/DMSConsoleNetMode'
           description: network mode of redis insight
         serviceType:
-          $ref: '#/components/schemas/RedisInsightSvcType'
+          $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
     analysisResult:
       properties:

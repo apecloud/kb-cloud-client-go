@@ -29,6 +29,8 @@ type RelatedClusterListItem struct {
 	Storage  string `json:"storage"`
 	// Time when the cluster was created
 	CreatedAt time.Time `json:"createdAt"`
+	// Proxy URL of the cluster
+	ProxyUrl *string `json:"proxyUrl,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -291,6 +293,34 @@ func (o *RelatedClusterListItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
+// GetProxyUrl returns the ProxyUrl field value if set, zero value otherwise.
+func (o *RelatedClusterListItem) GetProxyUrl() string {
+	if o == nil || o.ProxyUrl == nil {
+		var ret string
+		return ret
+	}
+	return *o.ProxyUrl
+}
+
+// GetProxyUrlOk returns a tuple with the ProxyUrl field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RelatedClusterListItem) GetProxyUrlOk() (*string, bool) {
+	if o == nil || o.ProxyUrl == nil {
+		return nil, false
+	}
+	return o.ProxyUrl, true
+}
+
+// HasProxyUrl returns a boolean if a field has been set.
+func (o *RelatedClusterListItem) HasProxyUrl() bool {
+	return o != nil && o.ProxyUrl != nil
+}
+
+// SetProxyUrl gets a reference to the given string and assigns it to the ProxyUrl field.
+func (o *RelatedClusterListItem) SetProxyUrl(v string) {
+	o.ProxyUrl = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o RelatedClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -310,6 +340,9 @@ func (o RelatedClusterListItem) MarshalJSON() ([]byte, error) {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
 	} else {
 		toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
+	}
+	if o.ProxyUrl != nil {
+		toSerialize["proxyUrl"] = o.ProxyUrl
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -331,6 +364,7 @@ func (o *RelatedClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Resource          *string    `json:"resource"`
 		Storage           *string    `json:"storage"`
 		CreatedAt         *time.Time `json:"createdAt"`
+		ProxyUrl          *string    `json:"proxyUrl,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -367,7 +401,7 @@ func (o *RelatedClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "clusterDefinition", "version", "mode", "status", "environmentName", "resource", "storage", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "clusterDefinition", "version", "mode", "status", "environmentName", "resource", "storage", "createdAt", "proxyUrl"})
 	} else {
 		return err
 	}
@@ -381,6 +415,7 @@ func (o *RelatedClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Resource = *all.Resource
 	o.Storage = *all.Storage
 	o.CreatedAt = *all.CreatedAt
+	o.ProxyUrl = all.ProxyUrl
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
