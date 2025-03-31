@@ -11117,7 +11117,10 @@ components:
           description: Event name is OpsRequest name or cluster operation name
           type: string
         displayName:
-          description: Display name is custom operation name
+          description: Display name of the event
+          type: string
+        displayNameCN:
+          description: Display name of the event in Chinese
           type: string
         orgName:
           description: The org of the event
