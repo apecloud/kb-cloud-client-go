@@ -17,14 +17,38 @@ import (
 // AnalyzeApi service type
 type AnalyzeApi common.Service
 
+// AnalyzeBackupOptionalParameters holds optional parameters for AnalyzeBackup.
+type AnalyzeBackupOptionalParameters struct {
+	Mode *string
+}
+
+// NewAnalyzeBackupOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeBackupOptionalParameters() *AnalyzeBackupOptionalParameters {
+	this := AnalyzeBackupOptionalParameters{}
+	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeBackupOptionalParameters) WithMode(mode string) *AnalyzeBackupOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // AnalyzeBackup Analyze backup.
-// Deprecated: This API is deprecated.
-func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupId string) (AnalysisResult, *_nethttp.Response, error) {
+func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupId string, o ...AnalyzeBackupOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
+		optionalParams      AnalyzeBackupOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeBackupOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -47,6 +71,9 @@ func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupI
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -99,6 +126,7 @@ func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupI
 
 // AnalyzeClusterParamOptionalParameters holds optional parameters for AnalyzeClusterParam.
 type AnalyzeClusterParamOptionalParameters struct {
+	Mode           *string
 	ParameterValue *string
 }
 
@@ -106,6 +134,12 @@ type AnalyzeClusterParamOptionalParameters struct {
 func NewAnalyzeClusterParamOptionalParameters() *AnalyzeClusterParamOptionalParameters {
 	this := AnalyzeClusterParamOptionalParameters{}
 	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeClusterParamOptionalParameters) WithMode(mode string) *AnalyzeClusterParamOptionalParameters {
+	r.Mode = &mode
+	return r
 }
 
 // WithParameterValue sets the corresponding parameter name and returns the struct.
@@ -116,7 +150,6 @@ func (r *AnalyzeClusterParamOptionalParameters) WithParameterValue(parameterValu
 
 // AnalyzeClusterParam Analyze cluster parameter.
 // analyze cluster parameter, deprecated, instead use analyzeClusterParameter
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParamOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -154,6 +187,9 @@ func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, c
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("parameterName", common.ParameterToString(parameterName, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.ParameterValue != nil {
 		localVarQueryParams.Add("parameterValue", common.ParameterToString(*optionalParams.ParameterValue, ""))
 	}
@@ -209,6 +245,7 @@ func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, c
 
 // AnalyzeClusterParameterOptionalParameters holds optional parameters for AnalyzeClusterParameter.
 type AnalyzeClusterParameterOptionalParameters struct {
+	Mode           *string
 	ParameterValue *string
 }
 
@@ -218,6 +255,12 @@ func NewAnalyzeClusterParameterOptionalParameters() *AnalyzeClusterParameterOpti
 	return &this
 }
 
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeClusterParameterOptionalParameters) WithMode(mode string) *AnalyzeClusterParameterOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // WithParameterValue sets the corresponding parameter name and returns the struct.
 func (r *AnalyzeClusterParameterOptionalParameters) WithParameterValue(parameterValue string) *AnalyzeClusterParameterOptionalParameters {
 	r.ParameterValue = &parameterValue
@@ -225,7 +268,6 @@ func (r *AnalyzeClusterParameterOptionalParameters) WithParameterValue(parameter
 }
 
 // AnalyzeClusterParameter Analyze cluster parameter.
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -263,6 +305,9 @@ func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName strin
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("parameterName", common.ParameterToString(parameterName, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.ParameterValue != nil {
 		localVarQueryParams.Add("parameterValue", common.ParameterToString(*optionalParams.ParameterValue, ""))
 	}
@@ -316,14 +361,38 @@ func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName strin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// AnalyzeClusterRestoreOptionalParameters holds optional parameters for AnalyzeClusterRestore.
+type AnalyzeClusterRestoreOptionalParameters struct {
+	Mode *string
+}
+
+// NewAnalyzeClusterRestoreOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeClusterRestoreOptionalParameters() *AnalyzeClusterRestoreOptionalParameters {
+	this := AnalyzeClusterRestoreOptionalParameters{}
+	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeClusterRestoreOptionalParameters) WithMode(mode string) *AnalyzeClusterRestoreOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // AnalyzeClusterRestore Analyze cluster restore tasks.
-// Deprecated: This API is deprecated.
-func (a *AnalyzeApi) AnalyzeClusterRestore(ctx _context.Context, orgName string, clusterName string) (AnalysisResult, *_nethttp.Response, error) {
+func (a *AnalyzeApi) AnalyzeClusterRestore(ctx _context.Context, orgName string, clusterName string, o ...AnalyzeClusterRestoreOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
+		optionalParams      AnalyzeClusterRestoreOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeClusterRestoreOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -346,6 +415,9 @@ func (a *AnalyzeApi) AnalyzeClusterRestore(ctx _context.Context, orgName string,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -402,6 +474,7 @@ type AnalyzeLogsOptionalParameters struct {
 	InstanceName  *string
 	Limit         *string
 	SortType      *SortType
+	Mode          *string
 }
 
 // NewAnalyzeLogsOptionalParameters creates an empty struct for parameters.
@@ -434,9 +507,14 @@ func (r *AnalyzeLogsOptionalParameters) WithSortType(sortType SortType) *Analyze
 	return r
 }
 
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeLogsOptionalParameters) WithMode(mode string) *AnalyzeLogsOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // AnalyzeLogs Analyze cluster error logs.
 // Analyze error logs of a cluster
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AnalyzeLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -486,6 +564,9 @@ func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterNa
 	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
+	}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -537,15 +618,39 @@ func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterNa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// AnalyzeOpsOptionalParameters holds optional parameters for AnalyzeOps.
+type AnalyzeOpsOptionalParameters struct {
+	Mode *string
+}
+
+// NewAnalyzeOpsOptionalParameters creates an empty struct for parameters.
+func NewAnalyzeOpsOptionalParameters() *AnalyzeOpsOptionalParameters {
+	this := AnalyzeOpsOptionalParameters{}
+	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeOpsOptionalParameters) WithMode(mode string) *AnalyzeOpsOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // AnalyzeOps Analyze OpsRequest.
 // analyze a OpsRequest
-// Deprecated: This API is deprecated.
-func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string) (AnalysisResult, *_nethttp.Response, error) {
+func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string, o ...AnalyzeOpsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AnalysisResult
+		optionalParams      AnalyzeOpsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AnalyzeOpsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -570,6 +675,9 @@ func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName st
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("opsType", common.ParameterToString(opsType, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -622,6 +730,7 @@ func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName st
 
 // AnalyzeParamOptionalParameters holds optional parameters for AnalyzeParam.
 type AnalyzeParamOptionalParameters struct {
+	Mode      *string
 	OrgName   *string
 	Partition *ParamTplPartition
 }
@@ -630,6 +739,12 @@ type AnalyzeParamOptionalParameters struct {
 func NewAnalyzeParamOptionalParameters() *AnalyzeParamOptionalParameters {
 	this := AnalyzeParamOptionalParameters{}
 	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeParamOptionalParameters) WithMode(mode string) *AnalyzeParamOptionalParameters {
+	r.Mode = &mode
+	return r
 }
 
 // WithOrgName sets the corresponding parameter name and returns the struct.
@@ -646,7 +761,6 @@ func (r *AnalyzeParamOptionalParameters) WithPartition(partition ParamTplPartiti
 
 // AnalyzeParam Analyze parameter.
 // analyze parameter, deprecated, instead use analyzeParameter
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, parameterName string, o ...AnalyzeParamOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -683,6 +797,9 @@ func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, par
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("parameterName", common.ParameterToString(parameterName, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -741,6 +858,7 @@ func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, par
 
 // AnalyzeParameterOptionalParameters holds optional parameters for AnalyzeParameter.
 type AnalyzeParameterOptionalParameters struct {
+	Mode      *string
 	OrgName   *string
 	Partition *ParamTplPartition
 }
@@ -749,6 +867,12 @@ type AnalyzeParameterOptionalParameters struct {
 func NewAnalyzeParameterOptionalParameters() *AnalyzeParameterOptionalParameters {
 	this := AnalyzeParameterOptionalParameters{}
 	return &this
+}
+
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeParameterOptionalParameters) WithMode(mode string) *AnalyzeParameterOptionalParameters {
+	r.Mode = &mode
+	return r
 }
 
 // WithOrgName sets the corresponding parameter name and returns the struct.
@@ -764,7 +888,6 @@ func (r *AnalyzeParameterOptionalParameters) WithPartition(partition ParamTplPar
 }
 
 // AnalyzeParameter Analyze parameter.
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeParameter(ctx _context.Context, parameterTemplateName string, parameterName string, o ...AnalyzeParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -801,6 +924,9 @@ func (a *AnalyzeApi) AnalyzeParameter(ctx _context.Context, parameterTemplateNam
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("parameterName", common.ParameterToString(parameterName, ""))
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -861,6 +987,7 @@ func (a *AnalyzeApi) AnalyzeParameter(ctx _context.Context, parameterTemplateNam
 type AnalyzeServiceOptionalParameters struct {
 	PortName  *string
 	Endpoints *string
+	Mode      *string
 }
 
 // NewAnalyzeServiceOptionalParameters creates an empty struct for parameters.
@@ -881,8 +1008,13 @@ func (r *AnalyzeServiceOptionalParameters) WithEndpoints(endpoints string) *Anal
 	return r
 }
 
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeServiceOptionalParameters) WithMode(mode string) *AnalyzeServiceOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // AnalyzeService Analyze service.
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeService(ctx _context.Context, orgName string, clusterName string, serviceName string, o ...AnalyzeServiceOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -925,6 +1057,9 @@ func (a *AnalyzeApi) AnalyzeService(ctx _context.Context, orgName string, cluste
 	}
 	if optionalParams.Endpoints != nil {
 		localVarQueryParams.Add("endpoints", common.ParameterToString(*optionalParams.Endpoints, ""))
+	}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -979,6 +1114,7 @@ func (a *AnalyzeApi) AnalyzeService(ctx _context.Context, orgName string, cluste
 // AnalyzeSlowLogsOptionalParameters holds optional parameters for AnalyzeSlowLogs.
 type AnalyzeSlowLogsOptionalParameters struct {
 	Body *ClusterExecutionLog
+	Mode *string
 }
 
 // NewAnalyzeSlowLogsOptionalParameters creates an empty struct for parameters.
@@ -993,9 +1129,14 @@ func (r *AnalyzeSlowLogsOptionalParameters) WithBody(body ClusterExecutionLog) *
 	return r
 }
 
+// WithMode sets the corresponding parameter name and returns the struct.
+func (r *AnalyzeSlowLogsOptionalParameters) WithMode(mode string) *AnalyzeSlowLogsOptionalParameters {
+	r.Mode = &mode
+	return r
+}
+
 // AnalyzeSlowLogs Analyze cluster slow logs.
 // Analyze slow logs of a cluster
-// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clusterName string, o ...AnalyzeSlowLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -1032,6 +1173,9 @@ func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clust
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.Mode != nil {
+		localVarQueryParams.Add("mode", common.ParameterToString(*optionalParams.Mode, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 

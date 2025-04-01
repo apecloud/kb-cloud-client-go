@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -17,63 +17,35 @@ import (
 // LlmApi service type
 type LlmApi common.Service
 
-// AddLLMOptionalParameters holds optional parameters for AddLLM.
-type AddLLMOptionalParameters struct {
-	OrgName *string
-}
-
-// NewAddLLMOptionalParameters creates an empty struct for parameters.
-func NewAddLLMOptionalParameters() *AddLLMOptionalParameters {
-	this := AddLLMOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *AddLLMOptionalParameters) WithOrgName(orgName string) *AddLLMOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // AddLLM add LLM.
-func (a *LlmApi) AddLLM(ctx _context.Context, body Llm, o ...AddLLMOptionalParameters) (Llm, *_nethttp.Response, error) {
+// add LLM
+func (a *LlmApi) AddLLM(ctx _context.Context, body Llm) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue Llm
-		optionalParams      AddLLMOptionalParameters
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type AddLLMOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "addLLM",
-		Path:        "/admin/v1/llm",
+		Path:        "/api/v1/organizations/{orgName}/llms",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.AddLLM")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/llm"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "application/json"
+	localVarHeaderParams["Accept"] = "*/*"
 
 	// body params
 	localVarPostBody = &body
@@ -84,17 +56,17 @@ func (a *LlmApi) AddLLM(ctx _context.Context, body Llm, o ...AddLLMOptionalParam
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -106,39 +78,30 @@ func (a *LlmApi) AddLLM(ctx _context.Context, body Llm, o ...AddLLMOptionalParam
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // CheckAPIKey check apikey available.
 // check apikey available
-func (a *LlmApi) CheckAPIKey(ctx _context.Context, body Llm) (CheckAPIKey, *_nethttp.Response, error) {
+func (a *LlmApi) CheckAPIKey(ctx _context.Context, body CheckAPIKey) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue CheckAPIKey
+		localVarReturnValue bool
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "checkAPIKey",
-		Path:        "/admin/v1/llm/check",
+		Path:        "/api/v1/organizations/{orgName}/llms/check",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -148,7 +111,7 @@ func (a *LlmApi) CheckAPIKey(ctx _context.Context, body Llm) (CheckAPIKey, *_net
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/llm/check"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/check"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -217,7 +180,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "deleteLLM",
-		Path:        "/admin/v1/llm/{id}",
+		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -227,7 +190,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/llm/{id}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -274,29 +237,30 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 	return localVarHTTPResponse, nil
 }
 
-// ListAvailableModel List available model.
-func (a *LlmApi) ListAvailableModel(ctx _context.Context) ([]string, *_nethttp.Response, error) {
+// GetLLM Get LLM.
+// get user available llm list
+func (a *LlmApi) GetLLM(ctx _context.Context) (LlmList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []string
+		localVarReturnValue LlmList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
-		OperationID: "listAvailableModel",
-		Path:        "/admin/v1/llm/models",
+		OperationID: "getLLM",
+		Path:        "/api/v1/organizations/{orgName}/llms",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.ListAvailableModel")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.GetLLM")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/llm/models"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -351,29 +315,29 @@ func (a *LlmApi) ListAvailableModel(ctx _context.Context) ([]string, *_nethttp.R
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListLLM List LLM.
-func (a *LlmApi) ListLLM(ctx _context.Context) (LlmList, *_nethttp.Response, error) {
+// ListAvailableModelInOrg List available model in org.
+func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue LlmList
+		localVarReturnValue []string
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
-		OperationID: "listLLM",
-		Path:        "/admin/v1/llm",
+		OperationID: "listAvailableModelInOrg",
+		Path:        "/api/v1/organizations/{orgName}/llm/models",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.ListLLM")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LlmApi.ListAvailableModelInOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/llm"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/models"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -440,7 +404,7 @@ func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (L
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "updateLLM",
-		Path:        "/admin/v1/llm/{id}",
+		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -450,7 +414,7 @@ func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (L
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/llm/{id}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
