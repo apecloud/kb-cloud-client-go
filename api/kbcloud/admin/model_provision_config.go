@@ -19,7 +19,7 @@ type ProvisionConfig struct {
 	// Create your node plan, and the selected nodes will be used for pod scheduling
 	NodePool []NodePoolNode `json:"nodePool,omitempty"`
 	// Storage config for environment
-	Storage *StorageConfig `json:"storage,omitempty"`
+	Storage *Environment_storageConfig `json:"storage,omitempty"`
 	// option modules of environment
 	Modules []EnvironmentModule `json:"modules,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -121,9 +121,9 @@ func (o *ProvisionConfig) SetNodePool(v []NodePoolNode) {
 }
 
 // GetStorage returns the Storage field value if set, zero value otherwise.
-func (o *ProvisionConfig) GetStorage() StorageConfig {
+func (o *ProvisionConfig) GetStorage() Environment_storageConfig {
 	if o == nil || o.Storage == nil {
-		var ret StorageConfig
+		var ret Environment_storageConfig
 		return ret
 	}
 	return *o.Storage
@@ -131,7 +131,7 @@ func (o *ProvisionConfig) GetStorage() StorageConfig {
 
 // GetStorageOk returns a tuple with the Storage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ProvisionConfig) GetStorageOk() (*StorageConfig, bool) {
+func (o *ProvisionConfig) GetStorageOk() (*Environment_storageConfig, bool) {
 	if o == nil || o.Storage == nil {
 		return nil, false
 	}
@@ -143,8 +143,8 @@ func (o *ProvisionConfig) HasStorage() bool {
 	return o != nil && o.Storage != nil
 }
 
-// SetStorage gets a reference to the given StorageConfig and assigns it to the Storage field.
-func (o *ProvisionConfig) SetStorage(v StorageConfig) {
+// SetStorage gets a reference to the given Environment_storageConfig and assigns it to the Storage field.
+func (o *ProvisionConfig) SetStorage(v Environment_storageConfig) {
 	o.Storage = &v
 }
 
@@ -203,11 +203,11 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Register  *Register           `json:"register"`
-		Component *Component          `json:"component"`
-		NodePool  []NodePoolNode      `json:"nodePool,omitempty"`
-		Storage   *StorageConfig      `json:"storage,omitempty"`
-		Modules   []EnvironmentModule `json:"modules,omitempty"`
+		Register  *Register                  `json:"register"`
+		Component *Component                 `json:"component"`
+		NodePool  []NodePoolNode             `json:"nodePool,omitempty"`
+		Storage   *Environment_storageConfig `json:"storage,omitempty"`
+		Modules   []EnvironmentModule        `json:"modules,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

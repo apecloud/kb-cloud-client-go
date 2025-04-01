@@ -12462,6 +12462,15 @@ components:
           description: the crop expression for incremental backup schedule
           type: string
       type: object
+    storageConfig:
+      type: object
+      properties:
+        storageName:
+          type: string
+          description: the name of storage
+        bucketName:
+          type: string
+          description: the bucket name for the storage
     clusterCreate:
       required:
         - engine
@@ -12551,6 +12560,9 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        storageConfig:
+          description: Specify the storage config for cluster like starrocks
+          $ref: '#/components/schemas/storageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object

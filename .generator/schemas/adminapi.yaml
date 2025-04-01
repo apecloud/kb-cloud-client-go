@@ -15104,6 +15104,15 @@ components:
         - FixedPodIP
         - HeadlessService
       type: string
+    storageConfig:
+      type: object
+      properties:
+        storageName:
+          type: string
+          description: the name of storage
+        bucketName:
+          type: string
+          description: the bucket name for the storage
     clusterCreate:
       required:
         - engine
@@ -15193,6 +15202,9 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        storageConfig:
+          description: Specify the storage config for cluster like starrocks
+          $ref: '#/components/schemas/storageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -18055,7 +18067,7 @@ components:
           $ref: '#/components/schemas/storageCreate'
         cluster:
           $ref: '#/components/schemas/staticCluster'
-    storageConfig:
+    environment_storageConfig:
       type: object
       description: Storage config for environment
       required:
@@ -18179,7 +18191,7 @@ components:
         nodePool:
           $ref: '#/components/schemas/nodePool'
         storage:
-          $ref: '#/components/schemas/storageConfig'
+          $ref: '#/components/schemas/environment_storageConfig'
         modules:
           type: array
           description: option modules of environment

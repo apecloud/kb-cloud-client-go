@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// StorageConfigLog the storage config for log
-type StorageConfigLog struct {
+// Environment_storageConfigLog the storage config for log
+type Environment_storageConfigLog struct {
 	// the name of storage
 	StorageName string `json:"storageName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -19,26 +19,26 @@ type StorageConfigLog struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewStorageConfigLog instantiates a new StorageConfigLog object.
+// NewEnvironment_storageConfigLog instantiates a new Environment_storageConfigLog object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageConfigLog(storageName string) *StorageConfigLog {
-	this := StorageConfigLog{}
+func NewEnvironment_storageConfigLog(storageName string) *Environment_storageConfigLog {
+	this := Environment_storageConfigLog{}
 	this.StorageName = storageName
 	return &this
 }
 
-// NewStorageConfigLogWithDefaults instantiates a new StorageConfigLog object.
+// NewEnvironment_storageConfigLogWithDefaults instantiates a new Environment_storageConfigLog object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewStorageConfigLogWithDefaults() *StorageConfigLog {
-	this := StorageConfigLog{}
+func NewEnvironment_storageConfigLogWithDefaults() *Environment_storageConfigLog {
+	this := Environment_storageConfigLog{}
 	return &this
 }
 
 // GetStorageName returns the StorageName field value.
-func (o *StorageConfigLog) GetStorageName() string {
+func (o *Environment_storageConfigLog) GetStorageName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -48,7 +48,7 @@ func (o *StorageConfigLog) GetStorageName() string {
 
 // GetStorageNameOk returns a tuple with the StorageName field value
 // and a boolean to check if the value has been set.
-func (o *StorageConfigLog) GetStorageNameOk() (*string, bool) {
+func (o *Environment_storageConfigLog) GetStorageNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *StorageConfigLog) GetStorageNameOk() (*string, bool) {
 }
 
 // SetStorageName sets field value.
-func (o *StorageConfigLog) SetStorageName(v string) {
+func (o *Environment_storageConfigLog) SetStorageName(v string) {
 	o.StorageName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o StorageConfigLog) MarshalJSON() ([]byte, error) {
+func (o Environment_storageConfigLog) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -75,7 +75,7 @@ func (o StorageConfigLog) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *StorageConfigLog) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Environment_storageConfigLog) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		StorageName *string `json:"storageName"`
 	}{}

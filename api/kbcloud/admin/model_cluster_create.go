@@ -52,8 +52,9 @@ type ClusterCreate struct {
 	// Display name of cluster.
 	DisplayName *string `json:"displayName,omitempty"`
 	// if cluster is static cluster
-	Static      *bool        `json:"static,omitempty"`
-	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
+	Static        *bool          `json:"static,omitempty"`
+	NetworkMode   *NetworkMode   `json:"networkMode,omitempty"`
+	StorageConfig *StorageConfig `json:"storageConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -729,6 +730,34 @@ func (o *ClusterCreate) SetNetworkMode(v NetworkMode) {
 	o.NetworkMode = &v
 }
 
+// GetStorageConfig returns the StorageConfig field value if set, zero value otherwise.
+func (o *ClusterCreate) GetStorageConfig() StorageConfig {
+	if o == nil || o.StorageConfig == nil {
+		var ret StorageConfig
+		return ret
+	}
+	return *o.StorageConfig
+}
+
+// GetStorageConfigOk returns a tuple with the StorageConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterCreate) GetStorageConfigOk() (*StorageConfig, bool) {
+	if o == nil || o.StorageConfig == nil {
+		return nil, false
+	}
+	return o.StorageConfig, true
+}
+
+// HasStorageConfig returns a boolean if a field has been set.
+func (o *ClusterCreate) HasStorageConfig() bool {
+	return o != nil && o.StorageConfig != nil
+}
+
+// SetStorageConfig gets a reference to the given StorageConfig and assigns it to the StorageConfig field.
+func (o *ClusterCreate) SetStorageConfig(v StorageConfig) {
+	o.StorageConfig = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -795,6 +824,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.NetworkMode != nil {
 		toSerialize["networkMode"] = o.NetworkMode
 	}
+	if o.StorageConfig != nil {
+		toSerialize["storageConfig"] = o.StorageConfig
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -827,6 +859,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayName       *string                   `json:"displayName,omitempty"`
 		Static            *bool                     `json:"static,omitempty"`
 		NetworkMode       *NetworkMode              `json:"networkMode,omitempty"`
+		StorageConfig     *StorageConfig            `json:"storageConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -842,7 +875,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "storageConfig"})
 	} else {
 		return err
 	}
@@ -888,6 +921,10 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.NetworkMode = all.NetworkMode
 	}
+	if all.StorageConfig != nil && all.StorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.StorageConfig = all.StorageConfig
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
