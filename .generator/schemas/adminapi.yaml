@@ -24739,7 +24739,6 @@ components:
       type: string
       enum:
         - deployed
-        - undeployed
         - uninstalled
         - superseded
         - failed
