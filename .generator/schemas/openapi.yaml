@@ -10915,6 +10915,46 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/analyze:
+    get:
+      tags:
+        - AI
+      summary: Analyze cluster
+      description: Analyze cluster
+      operationId: analyzeCluster
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          type: string
+        - name: clusterName
+          in: path
+          required: true
+          type: string
+        - name: mode
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    description: 流式返回的内容
+                  error:
+                    type: string
+                    description: 错误信息
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
