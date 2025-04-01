@@ -3,6 +3,7 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
+//   - [AIApi.analyzeCluster]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]
@@ -203,6 +204,12 @@
 //   - [kafkaApi.resetKafkaTopicConsumerOffset]
 //   - [kafkaApi.setKafkaTopicConfig]
 //   - [kafkaApi.updateKafkaBrokerConfig]
+//   - [llmApi.addLLM]
+//   - [llmApi.checkAPIKey]
+//   - [llmApi.deleteLLM]
+//   - [llmApi.getLLM]
+//   - [llmApi.listAvailableModelInOrg]
+//   - [llmApi.updateLLM]
 //   - [loadBalancerApi.getLoadBalancer]
 //   - [markClusterApi.markClusterRestoreCompleted]
 //   - [memberApi.addOrgMember]

@@ -9785,38 +9785,20 @@ paths:
           $ref: '#/components/responses/404'
   /admin/v1/llm:
     post:
-      operationId: createLLM
-      summary: Create LLM
-      deprecated: true
+      operationId: addLLM
+      summary: add LLM
+      parameters:
+        - description: orgName the LLM belongs to
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              description: llmCreate
-              properties:
-                name:
-                  description: LLM name
-                  title: Name
-                  type: string
-                config:
-                  description: LLM config
-                  title: LLM config
-                  type: object
-                  additionalProperties:
-                    type: object
-                type:
-                  description: Type of LLM
-                  title: Type
-                  type: string
-                enabled:
-                  description: Whether this LLM is enabled
-                  title: Enabled
-                  type: boolean
-              required:
-                - name
-                - config
-                - type
-              type: object
+              $ref: '#/components/schemas/llm'
         required: true
       responses:
         '201':
@@ -9825,16 +9807,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/llm'
           description: Returned when object is created successfully.
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - llm
     get:
       operationId: listLLM
       summary: List LLM
-      deprecated: true
       produces:
         - application/json
       responses:
@@ -9844,17 +9829,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/llmList'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
         - llm
   /admin/v1/llm/{id}:
     patch:
       operationId: updateLLM
       summary: Update LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -9909,7 +9897,6 @@ paths:
     delete:
       operationId: deleteLLM
       summary: Delete LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -9927,6 +9914,57 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - llm
+  /admin/v1/llm/check:
+    post:
+      tags:
+        - llm
+      operationId: checkAPIKey
+      summary: check apikey available
+      description: check apikey available
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/llm'
+        required: true
+      responses:
+        '200':
+          description: apikey available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/checkAPIKey'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/llm/models:
+    get:
+      tags:
+        - llm
+      operationId: listAvailableModel
+      summary: List available model
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/monitorDataSinks:
     post:
       tags:
@@ -13809,7 +13847,6 @@ paths:
     get:
       operationId: analyzeService
       summary: Analyze service
-      deprecated: true
       parameters:
         - description: name of the Org
           in: path
@@ -13839,6 +13876,11 @@ paths:
           name: endpoints
           schema:
             type: string
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -13861,7 +13903,6 @@ paths:
       description: Analyze error logs of a cluster
       summary: Analyze cluster error logs
       operationId: analyzeLogs
-      deprecated: true
       parameters:
         - in: path
           name: orgName
@@ -13899,6 +13940,10 @@ paths:
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
+        - in: query
+          name: mode
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -13919,7 +13964,6 @@ paths:
       description: Analyze slow logs of a cluster
       summary: Analyze cluster slow logs
       operationId: analyzeSlowLogs
-      deprecated: true
       requestBody:
         content:
           application/json:
@@ -13936,6 +13980,11 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          name: mode
+          schema:
+            type: string
+          description: model name
       responses:
         '200':
           content:
@@ -13953,11 +14002,15 @@ paths:
         - analyze
   /admin/v1/organizations/paramTpls/{paramTplName}/analyze:
     get:
-      deprecated: true
       description: analyze parameter, deprecated, instead use analyzeParameter
       operationId: analyzeParam
       summary: Analyze parameter
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -13998,11 +14051,15 @@ paths:
         - analyze
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/params/analyze:
     get:
-      deprecated: true
       description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
       operationId: analyzeClusterParam
       summary: Analyze cluster parameter
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14045,8 +14102,12 @@ paths:
     get:
       operationId: analyzeParameter
       summary: Analyze parameter
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: query
           name: orgName
@@ -14089,8 +14150,12 @@ paths:
     get:
       operationId: analyzeClusterParameter
       summary: Analyze cluster parameter
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14134,8 +14199,12 @@ paths:
       description: analyze a OpsRequest
       summary: Analyze OpsRequest
       operationId: analyzeOps
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14179,8 +14248,12 @@ paths:
     get:
       operationId: analyzeBackup
       summary: Analyze backup
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14212,8 +14285,12 @@ paths:
     get:
       operationId: analyzeClusterRestore
       summary: Analyze cluster restore tasks
-      deprecated: true
       parameters:
+        - description: model name
+          in: query
+          name: mode
+          schema:
+            type: string
         - description: name of the Org
           in: path
           name: orgName
@@ -14241,6 +14318,46 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/analyze:
+    get:
+      tags:
+        - AI
+      summary: Analyze cluster
+      description: Analyze cluster
+      operationId: analyzeCluster
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          type: string
+        - name: clusterName
+          in: path
+          required: true
+          type: string
+        - name: mode
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    description: 流式返回的内容
+                  error:
+                    type: string
+                    description: 错误信息
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -22638,6 +22755,11 @@ components:
         groupEN:
           type: string
           description: The English name of the region group.
+    AccessLevel:
+      type: string
+      enum:
+        - Platform
+        - Organization
     llm:
       description: llm
       properties:
@@ -22649,10 +22771,6 @@ components:
           description: Name of the llm
           title: Name
           type: string
-        type:
-          description: Type of the llm
-          title: Type
-          type: string
         enabled:
           description: Whether this LLM is enabled
           title: Enabled
@@ -22663,6 +22781,8 @@ components:
           type: object
           additionalProperties:
             type: object
+        level:
+          $ref: '#/components/schemas/AccessLevel'
         createdAt:
           description: |-
             CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
@@ -22678,10 +22798,8 @@ components:
           format: date-time
           type: string
       required:
-        - id
         - name
         - config
-        - type
         - enabled
       type: object
     llmList:
@@ -22695,6 +22813,13 @@ components:
           description: Items is the list of llm objects
           items:
             $ref: '#/components/schemas/llm'
+    checkAPIKey:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
     monitorDataSinkCreate:
       description: External Endpoint create option
       type: object
