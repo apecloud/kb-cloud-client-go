@@ -17,13 +17,38 @@ import (
 // LlmApi service type
 type LlmApi common.Service
 
+// AddLLMOptionalParameters holds optional parameters for AddLLM.
+type AddLLMOptionalParameters struct {
+	OrgName *string
+}
+
+// NewAddLLMOptionalParameters creates an empty struct for parameters.
+func NewAddLLMOptionalParameters() *AddLLMOptionalParameters {
+	this := AddLLMOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *AddLLMOptionalParameters) WithOrgName(orgName string) *AddLLMOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // AddLLM add LLM.
-func (a *LlmApi) AddLLM(ctx _context.Context, body Llm) (Llm, *_nethttp.Response, error) {
+func (a *LlmApi) AddLLM(ctx _context.Context, body Llm, o ...AddLLMOptionalParameters) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue Llm
+		optionalParams      AddLLMOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type AddLLMOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -44,6 +69,9 @@ func (a *LlmApi) AddLLM(ctx _context.Context, body Llm) (Llm, *_nethttp.Response
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 

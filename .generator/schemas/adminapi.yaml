@@ -9787,6 +9787,13 @@ paths:
     post:
       operationId: addLLM
       summary: add LLM
+      parameters:
+        - description: orgName the LLM belongs to
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
