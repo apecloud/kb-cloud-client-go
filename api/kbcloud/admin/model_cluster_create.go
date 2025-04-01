@@ -52,9 +52,9 @@ type ClusterCreate struct {
 	// Display name of cluster.
 	DisplayName *string `json:"displayName,omitempty"`
 	// if cluster is static cluster
-	Static        *bool          `json:"static,omitempty"`
-	NetworkMode   *NetworkMode   `json:"networkMode,omitempty"`
-	StorageConfig *StorageConfig `json:"storageConfig,omitempty"`
+	Static        *bool                 `json:"static,omitempty"`
+	NetworkMode   *NetworkMode          `json:"networkMode,omitempty"`
+	StorageConfig *ClusterStorageConfig `json:"storageConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -731,9 +731,9 @@ func (o *ClusterCreate) SetNetworkMode(v NetworkMode) {
 }
 
 // GetStorageConfig returns the StorageConfig field value if set, zero value otherwise.
-func (o *ClusterCreate) GetStorageConfig() StorageConfig {
+func (o *ClusterCreate) GetStorageConfig() ClusterStorageConfig {
 	if o == nil || o.StorageConfig == nil {
-		var ret StorageConfig
+		var ret ClusterStorageConfig
 		return ret
 	}
 	return *o.StorageConfig
@@ -741,7 +741,7 @@ func (o *ClusterCreate) GetStorageConfig() StorageConfig {
 
 // GetStorageConfigOk returns a tuple with the StorageConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterCreate) GetStorageConfigOk() (*StorageConfig, bool) {
+func (o *ClusterCreate) GetStorageConfigOk() (*ClusterStorageConfig, bool) {
 	if o == nil || o.StorageConfig == nil {
 		return nil, false
 	}
@@ -753,8 +753,8 @@ func (o *ClusterCreate) HasStorageConfig() bool {
 	return o != nil && o.StorageConfig != nil
 }
 
-// SetStorageConfig gets a reference to the given StorageConfig and assigns it to the StorageConfig field.
-func (o *ClusterCreate) SetStorageConfig(v StorageConfig) {
+// SetStorageConfig gets a reference to the given ClusterStorageConfig and assigns it to the StorageConfig field.
+func (o *ClusterCreate) SetStorageConfig(v ClusterStorageConfig) {
 	o.StorageConfig = &v
 }
 
@@ -859,7 +859,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayName       *string                   `json:"displayName,omitempty"`
 		Static            *bool                     `json:"static,omitempty"`
 		NetworkMode       *NetworkMode              `json:"networkMode,omitempty"`
-		StorageConfig     *StorageConfig            `json:"storageConfig,omitempty"`
+		StorageConfig     *ClusterStorageConfig     `json:"storageConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

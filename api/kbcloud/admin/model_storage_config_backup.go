@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// Environment_storageConfigBackup the storage config for backup
-type Environment_storageConfigBackup struct {
+// StorageConfigBackup the storage config for backup
+type StorageConfigBackup struct {
 	// the name of storage
 	StorageName string `json:"storageName"`
 	// the backup repo name which will be init
@@ -23,28 +23,28 @@ type Environment_storageConfigBackup struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEnvironment_storageConfigBackup instantiates a new Environment_storageConfigBackup object.
+// NewStorageConfigBackup instantiates a new StorageConfigBackup object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironment_storageConfigBackup(storageName string, backupRepoName string, defaultBackupRepo bool) *Environment_storageConfigBackup {
-	this := Environment_storageConfigBackup{}
+func NewStorageConfigBackup(storageName string, backupRepoName string, defaultBackupRepo bool) *StorageConfigBackup {
+	this := StorageConfigBackup{}
 	this.StorageName = storageName
 	this.BackupRepoName = backupRepoName
 	this.DefaultBackupRepo = defaultBackupRepo
 	return &this
 }
 
-// NewEnvironment_storageConfigBackupWithDefaults instantiates a new Environment_storageConfigBackup object.
+// NewStorageConfigBackupWithDefaults instantiates a new StorageConfigBackup object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEnvironment_storageConfigBackupWithDefaults() *Environment_storageConfigBackup {
-	this := Environment_storageConfigBackup{}
+func NewStorageConfigBackupWithDefaults() *StorageConfigBackup {
+	this := StorageConfigBackup{}
 	return &this
 }
 
 // GetStorageName returns the StorageName field value.
-func (o *Environment_storageConfigBackup) GetStorageName() string {
+func (o *StorageConfigBackup) GetStorageName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -54,7 +54,7 @@ func (o *Environment_storageConfigBackup) GetStorageName() string {
 
 // GetStorageNameOk returns a tuple with the StorageName field value
 // and a boolean to check if the value has been set.
-func (o *Environment_storageConfigBackup) GetStorageNameOk() (*string, bool) {
+func (o *StorageConfigBackup) GetStorageNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,12 +62,12 @@ func (o *Environment_storageConfigBackup) GetStorageNameOk() (*string, bool) {
 }
 
 // SetStorageName sets field value.
-func (o *Environment_storageConfigBackup) SetStorageName(v string) {
+func (o *StorageConfigBackup) SetStorageName(v string) {
 	o.StorageName = v
 }
 
 // GetBackupRepoName returns the BackupRepoName field value.
-func (o *Environment_storageConfigBackup) GetBackupRepoName() string {
+func (o *StorageConfigBackup) GetBackupRepoName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -77,7 +77,7 @@ func (o *Environment_storageConfigBackup) GetBackupRepoName() string {
 
 // GetBackupRepoNameOk returns a tuple with the BackupRepoName field value
 // and a boolean to check if the value has been set.
-func (o *Environment_storageConfigBackup) GetBackupRepoNameOk() (*string, bool) {
+func (o *StorageConfigBackup) GetBackupRepoNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -85,12 +85,12 @@ func (o *Environment_storageConfigBackup) GetBackupRepoNameOk() (*string, bool) 
 }
 
 // SetBackupRepoName sets field value.
-func (o *Environment_storageConfigBackup) SetBackupRepoName(v string) {
+func (o *StorageConfigBackup) SetBackupRepoName(v string) {
 	o.BackupRepoName = v
 }
 
 // GetDefaultBackupRepo returns the DefaultBackupRepo field value.
-func (o *Environment_storageConfigBackup) GetDefaultBackupRepo() bool {
+func (o *StorageConfigBackup) GetDefaultBackupRepo() bool {
 	if o == nil {
 		var ret bool
 		return ret
@@ -100,7 +100,7 @@ func (o *Environment_storageConfigBackup) GetDefaultBackupRepo() bool {
 
 // GetDefaultBackupRepoOk returns a tuple with the DefaultBackupRepo field value
 // and a boolean to check if the value has been set.
-func (o *Environment_storageConfigBackup) GetDefaultBackupRepoOk() (*bool, bool) {
+func (o *StorageConfigBackup) GetDefaultBackupRepoOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -108,12 +108,12 @@ func (o *Environment_storageConfigBackup) GetDefaultBackupRepoOk() (*bool, bool)
 }
 
 // SetDefaultBackupRepo sets field value.
-func (o *Environment_storageConfigBackup) SetDefaultBackupRepo(v bool) {
+func (o *StorageConfigBackup) SetDefaultBackupRepo(v bool) {
 	o.DefaultBackupRepo = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o Environment_storageConfigBackup) MarshalJSON() ([]byte, error) {
+func (o StorageConfigBackup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -129,7 +129,7 @@ func (o Environment_storageConfigBackup) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *Environment_storageConfigBackup) UnmarshalJSON(bytes []byte) (err error) {
+func (o *StorageConfigBackup) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		StorageName       *string `json:"storageName"`
 		BackupRepoName    *string `json:"backupRepoName"`

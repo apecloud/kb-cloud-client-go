@@ -4,13 +4,20 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// StorageConfig Storage config for environment
 type StorageConfig struct {
-	// the name of storage
-	StorageName *string `json:"storageName,omitempty"`
-	// the bucket name for the storage
-	BucketName *string `json:"bucketName,omitempty"`
+	// these storages will be created
+	Storages []EnvironmentStorage `json:"storages"`
+	// the storage config for log
+	Log StorageConfigLog `json:"log"`
+	// the storage config for backup
+	Backup StorageConfigBackup `json:"backup"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -20,8 +27,11 @@ type StorageConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageConfig() *StorageConfig {
+func NewStorageConfig(storages []EnvironmentStorage, log StorageConfigLog, backup StorageConfigBackup) *StorageConfig {
 	this := StorageConfig{}
+	this.Storages = storages
+	this.Log = log
+	this.Backup = backup
 	return &this
 }
 
@@ -33,60 +43,73 @@ func NewStorageConfigWithDefaults() *StorageConfig {
 	return &this
 }
 
-// GetStorageName returns the StorageName field value if set, zero value otherwise.
-func (o *StorageConfig) GetStorageName() string {
-	if o == nil || o.StorageName == nil {
-		var ret string
+// GetStorages returns the Storages field value.
+func (o *StorageConfig) GetStorages() []EnvironmentStorage {
+	if o == nil {
+		var ret []EnvironmentStorage
 		return ret
 	}
-	return *o.StorageName
+	return o.Storages
 }
 
-// GetStorageNameOk returns a tuple with the StorageName field value if set, nil otherwise
+// GetStoragesOk returns a tuple with the Storages field value
 // and a boolean to check if the value has been set.
-func (o *StorageConfig) GetStorageNameOk() (*string, bool) {
-	if o == nil || o.StorageName == nil {
+func (o *StorageConfig) GetStoragesOk() (*[]EnvironmentStorage, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.StorageName, true
+	return &o.Storages, true
 }
 
-// HasStorageName returns a boolean if a field has been set.
-func (o *StorageConfig) HasStorageName() bool {
-	return o != nil && o.StorageName != nil
+// SetStorages sets field value.
+func (o *StorageConfig) SetStorages(v []EnvironmentStorage) {
+	o.Storages = v
 }
 
-// SetStorageName gets a reference to the given string and assigns it to the StorageName field.
-func (o *StorageConfig) SetStorageName(v string) {
-	o.StorageName = &v
-}
-
-// GetBucketName returns the BucketName field value if set, zero value otherwise.
-func (o *StorageConfig) GetBucketName() string {
-	if o == nil || o.BucketName == nil {
-		var ret string
+// GetLog returns the Log field value.
+func (o *StorageConfig) GetLog() StorageConfigLog {
+	if o == nil {
+		var ret StorageConfigLog
 		return ret
 	}
-	return *o.BucketName
+	return o.Log
 }
 
-// GetBucketNameOk returns a tuple with the BucketName field value if set, nil otherwise
+// GetLogOk returns a tuple with the Log field value
 // and a boolean to check if the value has been set.
-func (o *StorageConfig) GetBucketNameOk() (*string, bool) {
-	if o == nil || o.BucketName == nil {
+func (o *StorageConfig) GetLogOk() (*StorageConfigLog, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.BucketName, true
+	return &o.Log, true
 }
 
-// HasBucketName returns a boolean if a field has been set.
-func (o *StorageConfig) HasBucketName() bool {
-	return o != nil && o.BucketName != nil
+// SetLog sets field value.
+func (o *StorageConfig) SetLog(v StorageConfigLog) {
+	o.Log = v
 }
 
-// SetBucketName gets a reference to the given string and assigns it to the BucketName field.
-func (o *StorageConfig) SetBucketName(v string) {
-	o.BucketName = &v
+// GetBackup returns the Backup field value.
+func (o *StorageConfig) GetBackup() StorageConfigBackup {
+	if o == nil {
+		var ret StorageConfigBackup
+		return ret
+	}
+	return o.Backup
+}
+
+// GetBackupOk returns a tuple with the Backup field value
+// and a boolean to check if the value has been set.
+func (o *StorageConfig) GetBackupOk() (*StorageConfigBackup, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Backup, true
+}
+
+// SetBackup sets field value.
+func (o *StorageConfig) SetBackup(v StorageConfigBackup) {
+	o.Backup = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -95,12 +118,9 @@ func (o StorageConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.StorageName != nil {
-		toSerialize["storageName"] = o.StorageName
-	}
-	if o.BucketName != nil {
-		toSerialize["bucketName"] = o.BucketName
-	}
+	toSerialize["storages"] = o.Storages
+	toSerialize["log"] = o.Log
+	toSerialize["backup"] = o.Backup
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -111,23 +131,46 @@ func (o StorageConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		StorageName *string `json:"storageName,omitempty"`
-		BucketName  *string `json:"bucketName,omitempty"`
+		Storages *[]EnvironmentStorage `json:"storages"`
+		Log      *StorageConfigLog     `json:"log"`
+		Backup   *StorageConfigBackup  `json:"backup"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Storages == nil {
+		return fmt.Errorf("required field storages missing")
+	}
+	if all.Log == nil {
+		return fmt.Errorf("required field log missing")
+	}
+	if all.Backup == nil {
+		return fmt.Errorf("required field backup missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storageName", "bucketName"})
+		common.DeleteKeys(additionalProperties, &[]string{"storages", "log", "backup"})
 	} else {
 		return err
 	}
-	o.StorageName = all.StorageName
-	o.BucketName = all.BucketName
+
+	hasInvalidField := false
+	o.Storages = *all.Storages
+	if all.Log.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Log = *all.Log
+	if all.Backup.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Backup = *all.Backup
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
