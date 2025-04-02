@@ -277,6 +277,7 @@
 //   - [llmApi.addLLM]
 //   - [llmApi.checkAPIKey]
 //   - [llmApi.deleteLLM]
+//   - [llmApi.getLLMByID]
 //   - [llmApi.listAvailableModel]
 //   - [llmApi.listLLM]
 //   - [llmApi.updateLLM]
