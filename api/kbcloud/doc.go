@@ -208,6 +208,7 @@
 //   - [llmApi.checkAPIKey]
 //   - [llmApi.deleteLLM]
 //   - [llmApi.getLLM]
+//   - [llmApi.getLLMByIDInOrg]
 //   - [llmApi.listAvailableModelInOrg]
 //   - [llmApi.updateLLM]
 //   - [loadBalancerApi.getLoadBalancer]

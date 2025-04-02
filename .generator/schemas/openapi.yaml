@@ -10814,6 +10814,37 @@ paths:
         '500':
           $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/llms/{id}:
+    get:
+      tags:
+        - llm
+      operationId: getLLMByIDInOrg
+      summary: Get LLM by ID in org
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          type: string
+        - description: ID of the LLM
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: LLM by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/llm'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     patch:
       tags:
         - llm

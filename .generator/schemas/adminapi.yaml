@@ -9956,6 +9956,33 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - llm
+    get:
+      tags:
+        - llm
+      operationId: getLLMByID
+      summary: Get LLM by ID
+      parameters:
+        - description: ID of the LLM
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: LLM by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/llm'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/llm/check:
     post:
       tags:
