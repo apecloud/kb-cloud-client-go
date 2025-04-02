@@ -231,6 +231,7 @@
 //   - [opsrequestApi.rebuildInstance]
 //   - [opsrequestApi.reconfigureCluster]
 //   - [opsrequestApi.restartCluster]
+//   - [opsrequestApi.specifyClusterIOQuotas]
 //   - [opsrequestApi.startCluster]
 //   - [opsrequestApi.stopCluster]
 //   - [opsrequestApi.updateClusterLicense]

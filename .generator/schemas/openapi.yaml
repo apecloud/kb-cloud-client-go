@@ -3275,6 +3275,48 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/volumes/io-quotas:
+    post:
+      tags:
+        - opsrequest
+      operationId: specifyClusterIOQuotas
+      summary: Specify IOPS and BPS of cluster volumes
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opsIoQuotas'
+        required: true
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsIoQuotas'
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/clustertasks/{taskId}:
     get:
       description: Get cluster task
@@ -13061,6 +13103,26 @@ components:
           type: string
           nullable: true
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
+    ioQuantity:
+      description: IO Quantity describes IOPS and BPS of a volume
+      properties:
+        readIOPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeIOPS:
+          type: integer
+          format: int64
+          nullable: true
+        readBPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeBPS:
+          type: integer
+          nullable: true
+          format: int64
+      type: object
     instanceStorageItem:
       description: Instance storage information
       properties:
@@ -13075,6 +13137,10 @@ components:
         storageClass:
           description: The name of StorageClass in use
           type: string
+        ioReserves:
+          $ref: '#/components/schemas/ioQuantity'
+        ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
       required:
         - name
         - size
@@ -13856,6 +13922,31 @@ components:
           format: date-time
           description: Time when the task completed or failed
           nullable: true
+    opsIoQuotas:
+      description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
+      properties:
+        component:
+          type: string
+          minLength: 1
+        volumes:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: volume name
+              ioReserves:
+                $ref: '#/components/schemas/ioQuantity'
+              ioLimits:
+                $ref: '#/components/schemas/ioQuantity'
+            required:
+              - name
+      required:
+        - volumes
+        - component
+      type: object
     opsStatus:
       enum:
         - Pending
