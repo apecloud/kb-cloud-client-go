@@ -11275,9 +11275,11 @@ components:
         role:
           description: The name of the role in the organization
           type: string
+          x-nullable: false
         userId:
           description: The ID of the user
           type: string
+          x-nullable: false
       required:
         - role
         - userId
