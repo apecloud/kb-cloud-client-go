@@ -988,7 +988,7 @@ func (r *EnableConsoleOptionalParameters) WithBody(body DMSConsoleEnableOpt) *En
 
 // EnableConsole enable console.
 // enable console
-func (a *DmsApi) EnableConsole(ctx _context.Context, orgName string, clusterName string, engineName string, o ...EnableConsoleOptionalParameters) (*_nethttp.Response, error) {
+func (a *DmsApi) EnableConsole(ctx _context.Context, engineName string, orgName string, clusterName string, o ...EnableConsoleOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -1017,9 +1017,9 @@ func (a *DmsApi) EnableConsole(ctx _context.Context, orgName string, clusterName
 	}
 
 	localVarPath := localBasePath + "/api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/console"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
