@@ -9934,6 +9934,12 @@ paths:
       description: enable console
       operationId: enableConsole
       parameters:
+        - name: engineName
+          in: path
+          description: name of the engine
+          required: true
+          schema:
+            type: string
         - name: orgName
           in: path
           description: name of the Org
@@ -9943,12 +9949,6 @@ paths:
         - name: clusterName
           in: path
           description: name of the cluster
-          required: true
-          schema:
-            type: string
-        - name: engineName
-          in: path
-          description: name of the engine
           required: true
           schema:
             type: string
