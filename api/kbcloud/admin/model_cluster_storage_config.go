@@ -10,7 +10,7 @@ type ClusterStorageConfig struct {
 	// the name of storage
 	StorageName *string `json:"storageName,omitempty"`
 	// the bucket name for the storage
-	BucketName *string `json:"bucketName,omitempty"`
+	Bucket *string `json:"bucket,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -61,32 +61,32 @@ func (o *ClusterStorageConfig) SetStorageName(v string) {
 	o.StorageName = &v
 }
 
-// GetBucketName returns the BucketName field value if set, zero value otherwise.
-func (o *ClusterStorageConfig) GetBucketName() string {
-	if o == nil || o.BucketName == nil {
+// GetBucket returns the Bucket field value if set, zero value otherwise.
+func (o *ClusterStorageConfig) GetBucket() string {
+	if o == nil || o.Bucket == nil {
 		var ret string
 		return ret
 	}
-	return *o.BucketName
+	return *o.Bucket
 }
 
-// GetBucketNameOk returns a tuple with the BucketName field value if set, nil otherwise
+// GetBucketOk returns a tuple with the Bucket field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterStorageConfig) GetBucketNameOk() (*string, bool) {
-	if o == nil || o.BucketName == nil {
+func (o *ClusterStorageConfig) GetBucketOk() (*string, bool) {
+	if o == nil || o.Bucket == nil {
 		return nil, false
 	}
-	return o.BucketName, true
+	return o.Bucket, true
 }
 
-// HasBucketName returns a boolean if a field has been set.
-func (o *ClusterStorageConfig) HasBucketName() bool {
-	return o != nil && o.BucketName != nil
+// HasBucket returns a boolean if a field has been set.
+func (o *ClusterStorageConfig) HasBucket() bool {
+	return o != nil && o.Bucket != nil
 }
 
-// SetBucketName gets a reference to the given string and assigns it to the BucketName field.
-func (o *ClusterStorageConfig) SetBucketName(v string) {
-	o.BucketName = &v
+// SetBucket gets a reference to the given string and assigns it to the Bucket field.
+func (o *ClusterStorageConfig) SetBucket(v string) {
+	o.Bucket = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -98,8 +98,8 @@ func (o ClusterStorageConfig) MarshalJSON() ([]byte, error) {
 	if o.StorageName != nil {
 		toSerialize["storageName"] = o.StorageName
 	}
-	if o.BucketName != nil {
-		toSerialize["bucketName"] = o.BucketName
+	if o.Bucket != nil {
+		toSerialize["bucket"] = o.Bucket
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -112,19 +112,19 @@ func (o ClusterStorageConfig) MarshalJSON() ([]byte, error) {
 func (o *ClusterStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		StorageName *string `json:"storageName,omitempty"`
-		BucketName  *string `json:"bucketName,omitempty"`
+		Bucket      *string `json:"bucket,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storageName", "bucketName"})
+		common.DeleteKeys(additionalProperties, &[]string{"storageName", "bucket"})
 	} else {
 		return err
 	}
 	o.StorageName = all.StorageName
-	o.BucketName = all.BucketName
+	o.Bucket = all.Bucket
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

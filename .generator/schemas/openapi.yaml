@@ -12823,7 +12823,7 @@ components:
         storageName:
           type: string
           description: the name of storage
-        bucketName:
+        bucket:
           type: string
           description: the bucket name for the storage
     clusterCreate:
