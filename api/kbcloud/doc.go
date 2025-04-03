@@ -4,6 +4,7 @@
 
 // List of APIs:
 //   - [AIApi.analyzeCluster]
+//   - [AIApi.chatBIWebSocket]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]
