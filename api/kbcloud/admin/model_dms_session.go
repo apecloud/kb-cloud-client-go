@@ -33,6 +33,8 @@ type DmsSession struct {
 	Ip common.NullableString `json:"ip,omitempty"`
 	// server port
 	Port common.NullableInt64 `json:"port,omitempty"`
+	// whether the session is protected and don't allow to be killed
+	Protected *bool `json:"protected,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -439,6 +441,34 @@ func (o *DmsSession) UnsetPort() {
 	o.Port.Unset()
 }
 
+// GetProtected returns the Protected field value if set, zero value otherwise.
+func (o *DmsSession) GetProtected() bool {
+	if o == nil || o.Protected == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Protected
+}
+
+// GetProtectedOk returns a tuple with the Protected field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmsSession) GetProtectedOk() (*bool, bool) {
+	if o == nil || o.Protected == nil {
+		return nil, false
+	}
+	return o.Protected, true
+}
+
+// HasProtected returns a boolean if a field has been set.
+func (o *DmsSession) HasProtected() bool {
+	return o != nil && o.Protected != nil
+}
+
+// SetProtected gets a reference to the given bool and assigns it to the Protected field.
+func (o *DmsSession) SetProtected(v bool) {
+	o.Protected = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DmsSession) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -472,6 +502,9 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 	if o.Port.IsSet() {
 		toSerialize["port"] = o.Port.Get()
 	}
+	if o.Protected != nil {
+		toSerialize["protected"] = o.Protected
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -482,17 +515,18 @@ func (o DmsSession) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id      *int64                `json:"id"`
-		User    *string               `json:"user"`
-		Tenant  common.NullableString `json:"tenant,omitempty"`
-		Host    *string               `json:"host"`
-		Db      common.NullableString `json:"db,omitempty"`
-		Command common.NullableString `json:"command,omitempty"`
-		Time    common.NullableInt64  `json:"time,omitempty"`
-		State   common.NullableString `json:"state,omitempty"`
-		Info    common.NullableString `json:"info,omitempty"`
-		Ip      common.NullableString `json:"ip,omitempty"`
-		Port    common.NullableInt64  `json:"port,omitempty"`
+		Id        *int64                `json:"id"`
+		User      *string               `json:"user"`
+		Tenant    common.NullableString `json:"tenant,omitempty"`
+		Host      *string               `json:"host"`
+		Db        common.NullableString `json:"db,omitempty"`
+		Command   common.NullableString `json:"command,omitempty"`
+		Time      common.NullableInt64  `json:"time,omitempty"`
+		State     common.NullableString `json:"state,omitempty"`
+		Info      common.NullableString `json:"info,omitempty"`
+		Ip        common.NullableString `json:"ip,omitempty"`
+		Port      common.NullableInt64  `json:"port,omitempty"`
+		Protected *bool                 `json:"protected,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -508,7 +542,7 @@ func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "user", "tenant", "host", "db", "command", "time", "state", "info", "ip", "port"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "user", "tenant", "host", "db", "command", "time", "state", "info", "ip", "port", "protected"})
 	} else {
 		return err
 	}
@@ -523,6 +557,7 @@ func (o *DmsSession) UnmarshalJSON(bytes []byte) (err error) {
 	o.Info = all.Info
 	o.Ip = all.Ip
 	o.Port = all.Port
+	o.Protected = all.Protected
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
