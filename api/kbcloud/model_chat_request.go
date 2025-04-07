@@ -30,6 +30,10 @@ type ChatRequest struct {
 	Model *string `json:"model,omitempty"`
 	// 创建时间
 	CreatedAt *int64 `json:"createdAt,omitempty"`
+	// chat涉及的数据库
+	Database *string `json:"database,omitempty"`
+	// chat涉及的表
+	Tables []string `json:"tables,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -276,6 +280,62 @@ func (o *ChatRequest) SetCreatedAt(v int64) {
 	o.CreatedAt = &v
 }
 
+// GetDatabase returns the Database field value if set, zero value otherwise.
+func (o *ChatRequest) GetDatabase() string {
+	if o == nil || o.Database == nil {
+		var ret string
+		return ret
+	}
+	return *o.Database
+}
+
+// GetDatabaseOk returns a tuple with the Database field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ChatRequest) GetDatabaseOk() (*string, bool) {
+	if o == nil || o.Database == nil {
+		return nil, false
+	}
+	return o.Database, true
+}
+
+// HasDatabase returns a boolean if a field has been set.
+func (o *ChatRequest) HasDatabase() bool {
+	return o != nil && o.Database != nil
+}
+
+// SetDatabase gets a reference to the given string and assigns it to the Database field.
+func (o *ChatRequest) SetDatabase(v string) {
+	o.Database = &v
+}
+
+// GetTables returns the Tables field value if set, zero value otherwise.
+func (o *ChatRequest) GetTables() []string {
+	if o == nil || o.Tables == nil {
+		var ret []string
+		return ret
+	}
+	return o.Tables
+}
+
+// GetTablesOk returns a tuple with the Tables field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ChatRequest) GetTablesOk() (*[]string, bool) {
+	if o == nil || o.Tables == nil {
+		return nil, false
+	}
+	return &o.Tables, true
+}
+
+// HasTables returns a boolean if a field has been set.
+func (o *ChatRequest) HasTables() bool {
+	return o != nil && o.Tables != nil
+}
+
+// SetTables gets a reference to the given []string and assigns it to the Tables field.
+func (o *ChatRequest) SetTables(v []string) {
+	o.Tables = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -294,6 +354,12 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	}
 	if o.CreatedAt != nil {
 		toSerialize["createdAt"] = o.CreatedAt
+	}
+	if o.Database != nil {
+		toSerialize["database"] = o.Database
+	}
+	if o.Tables != nil {
+		toSerialize["tables"] = o.Tables
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -314,6 +380,8 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 		QueryType   *QueryType `json:"queryType"`
 		Model       *string    `json:"model,omitempty"`
 		CreatedAt   *int64     `json:"createdAt,omitempty"`
+		Database    *string    `json:"database,omitempty"`
+		Tables      []string   `json:"tables,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -341,7 +409,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "tables"})
 	} else {
 		return err
 	}
@@ -360,6 +428,8 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Model = all.Model
 	o.CreatedAt = all.CreatedAt
+	o.Database = all.Database
+	o.Tables = all.Tables
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

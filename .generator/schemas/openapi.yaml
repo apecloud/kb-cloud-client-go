@@ -19293,6 +19293,16 @@ components:
           type: integer
           format: int64
           description: 创建时间
+        database:
+          type: string
+          description: chat涉及的数据库
+          x-nullable: true
+        tables:
+          type: array
+          description: chat涉及的表
+          items:
+            type: string
+            x-nullable: true
     chatResponseType:
       type: string
       enum:
