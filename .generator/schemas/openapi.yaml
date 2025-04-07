@@ -17390,6 +17390,10 @@ components:
           description: server port
           format: int64
           nullable: true
+        protected:
+          type: boolean
+          description: whether the session is protected and don't allow to be killed
+          x-omitempty: false
     DmsSessionList:
       type: array
       items:
