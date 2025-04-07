@@ -153,6 +153,7 @@
 //   - [engineOptionApi.getEngineOption]
 //   - [engineOptionApi.listEngineOptions]
 //   - [environmentApi.getEnvironment]
+//   - [environmentApi.getEnvironmentModuleInfo]
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listNodeGroup]
