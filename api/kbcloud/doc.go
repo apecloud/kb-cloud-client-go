@@ -11,6 +11,7 @@
 //   - [accountApi.deleteAccount]
 //   - [accountApi.deleteAccountOld]
 //   - [accountApi.deleteMongoDBAccount]
+//   - [accountApi.generateDemoData]
 //   - [accountApi.getRootAccountPassword]
 //   - [accountApi.listAccounts]
 //   - [accountApi.listAccountsOld]

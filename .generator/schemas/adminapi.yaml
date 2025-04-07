@@ -13263,6 +13263,50 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/demo:
+    post:
+      tags:
+        - account
+      description: generate demo data
+      summary: generate demo data
+      operationId: generateDemoData
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: acccount name which owns the database to generate demo data
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when demo data is generated successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -17401,6 +17445,10 @@ components:
           description: server port
           format: int64
           nullable: true
+        protected:
+          type: boolean
+          description: whether the session is protected and don't allow to be killed
+          x-omitempty: false
     DmsSessionList:
       type: array
       items:
