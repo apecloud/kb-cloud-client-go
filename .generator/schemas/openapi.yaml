@@ -1223,44 +1223,6 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-    patch:
-      operationId: updateEnvironmentModule
-      summary: update environment module
-      parameters:
-        - name: environmentName
-          in: path
-          required: true
-          description: Environment Name
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/environmentModuleUpdate'
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/workflow'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '429':
-          $ref: '#/components/responses/429'
-        '500':
-          $ref: '#/components/responses/500'
-      tags:
-        - environment
   /api/v1/organizations/{orgName}/benchmark:
     get:
       tags:
@@ -12123,83 +12085,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/environmentModule'
-    environmentModuleAction:
-      type: string
-      description: |
-        Action to perform on the environment module:
-        - Enable: Enable the module
-        - Disable: Disable the module
-        - Upgrade: Upgrade the module to specified version
-      enum:
-        - Enable
-        - Disable
-        - Upgrade
-    environmentModuleUpdate:
-      type: object
-      description: Update information for an environment module
-      properties:
-        name:
-          type: string
-          description: Name of the environment module to update
-        action:
-          $ref: '#/components/schemas/environmentModuleAction'
-        version:
-          type: string
-          description: Version of the environment module to upgrade to
-      required:
-        - name
-        - action
-    workflowStep:
-      type: object
-      description: workflow step
-      properties:
-        name:
-          title: step name
-          type: string
-        phase:
-          title: status
-          type: string
-        message:
-          title: message
-          type: string
-        startedAt:
-          title: start time
-          type: string
-          nullable: true
-          format: date-time
-        finishedAt:
-          title: finish time
-          type: string
-          nullable: true
-          format: date-time
-    workflow:
-      description: component management workflow
-      type: object
-      properties:
-        name:
-          title: workflow name
-          type: string
-        phase:
-          title: status
-          type: string
-        message:
-          title: message
-          type: string
-        startedAt:
-          title: start time
-          type: string
-          nullable: true
-          format: date-time
-        finishedAt:
-          title: finish time
-          type: string
-          nullable: true
-          format: date-time
-        steps:
-          type: array
-          description: ordered by time asc
-          items:
-            $ref: '#/components/schemas/workflowStep'
     benchmarkType:
       type: string
       description: Type of benchmark

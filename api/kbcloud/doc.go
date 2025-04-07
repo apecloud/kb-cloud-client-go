@@ -158,7 +158,6 @@
 //   - [environmentApi.listEnvNodeZone]
 //   - [environmentApi.listEnvironment]
 //   - [environmentApi.listNodeGroup]
-//   - [environmentApi.updateEnvironmentModule]
 //   - [eventApi.getEvent]
 //   - [eventApi.getEventFilter]
 //   - [eventApi.listEvents]
