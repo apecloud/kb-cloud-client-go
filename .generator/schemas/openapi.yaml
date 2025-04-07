@@ -1189,6 +1189,40 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - resourceStats
+  /api/v1/environments/{environmentName}/modules:
+    get:
+      operationId: getEnvironmentModuleInfo
+      summary: Get environment module information in an environment
+      parameters:
+        - name: environmentName
+          in: path
+          required: true
+          description: Environment Name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleInfo'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /api/v1/organizations/{orgName}/benchmark:
     get:
       tags:
@@ -11966,6 +12000,91 @@ components:
         - items
         - updatedAt
       type: object
+    environmentModuleStatus:
+      type: string
+      description: Status of environment module
+      enum:
+        - Running
+        - Updating
+        - Error
+        - Disabled
+        - Enabled
+    hostingStatus:
+      type: string
+      description: Hosting status (Hostable, Non-hostable, Hosted). When hosting_status is Hosted, cluster_info will be returned
+      enum:
+        - Hostable
+        - Non-hostable
+        - Hosted
+    clusterInfo:
+      type: object
+      description: Cluster information
+      properties:
+        clusterName:
+          type: string
+          description: The name of the cluster
+        clusterDefinition:
+          type: string
+          description: The definition of the cluster
+        orgName:
+          type: string
+          description: The organization name
+    localizedDescription:
+      type: object
+      required:
+        - zh-CN
+        - en-US
+      properties:
+        zh-CN:
+          type: string
+        en-US:
+          type: string
+    environmentModule:
+      type: object
+      description: Single environment module information
+      properties:
+        name:
+          type: string
+          description: Environment module name
+        version:
+          type: string
+          description: Environment module version
+        status:
+          $ref: '#/components/schemas/environmentModuleStatus'
+        hostingStatus:
+          $ref: '#/components/schemas/hostingStatus'
+        replicas:
+          type: integer
+          description: Number of replicas
+        location:
+          type: string
+          description: Deployment location
+        clusterInfo:
+          $ref: '#/components/schemas/clusterInfo'
+          description: Cluster information, only returned when hosting_status is Hosted
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        optional:
+          type: boolean
+          description: indicate module is optional
+      required:
+        - name
+        - status
+    environmentModuleInfo:
+      type: object
+      description: Environment module information in an environment
+      properties:
+        environmentId:
+          type: string
+          description: Environment ID
+        lastUpdated:
+          type: string
+          format: date-time
+          description: Last update time of the data
+        environmentModules:
+          type: array
+          items:
+            $ref: '#/components/schemas/environmentModule'
     benchmarkType:
       type: string
       description: Type of benchmark
@@ -15696,16 +15815,6 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
-    localizedDescription:
-      type: object
-      required:
-        - zh-CN
-        - en-US
-      properties:
-        zh-CN:
-          type: string
-        en-US:
-          type: string
     componentOption:
       type: object
       required:
@@ -19183,6 +19292,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Conflict
+    '429':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Too many requests
     '500':
       content:
         application/json:
