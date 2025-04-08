@@ -99,7 +99,7 @@ func (a *EventApi) GetEvent(ctx _context.Context, orgName string, eventId string
 
 // GetEventFilter Query available filters for event listing.
 // Query available filters for event listing
-func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
+func (a *EventApi) GetEventFilter(ctx _context.Context, orgName string, filterType EventFilterType, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -121,6 +121,7 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/eventfilter/{filterType}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"filterType"+"}", _neturl.PathEscape(common.ParameterToString(filterType, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -180,45 +181,17 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 
 // ListEventsOptionalParameters holds optional parameters for ListEvents.
 type ListEventsOptionalParameters struct {
-	ResourceId   *string
-	ResourceType *string
-	EventName    *string
-	OperatorId   *int32
-	CustomQuery  *string
-	Status       *EventResultStatus
-	PageNumber   *int32
-	PageSize     *int32
-	OrderBy      *string
+	CustomQuery *string
+	Status      *EventResultStatus
+	PageNumber  *int32
+	PageSize    *int32
+	OrderBy     *string
 }
 
 // NewListEventsOptionalParameters creates an empty struct for parameters.
 func NewListEventsOptionalParameters() *ListEventsOptionalParameters {
 	this := ListEventsOptionalParameters{}
 	return &this
-}
-
-// WithResourceId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceId(resourceId string) *ListEventsOptionalParameters {
-	r.ResourceId = &resourceId
-	return r
-}
-
-// WithResourceType sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithResourceType(resourceType string) *ListEventsOptionalParameters {
-	r.ResourceType = &resourceType
-	return r
-}
-
-// WithEventName sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithEventName(eventName string) *ListEventsOptionalParameters {
-	r.EventName = &eventName
-	return r
-}
-
-// WithOperatorId sets the corresponding parameter name and returns the struct.
-func (r *ListEventsOptionalParameters) WithOperatorId(operatorId int32) *ListEventsOptionalParameters {
-	r.OperatorId = &operatorId
-	return r
 }
 
 // WithCustomQuery sets the corresponding parameter name and returns the struct.
@@ -290,18 +263,6 @@ func (a *EventApi) ListEvents(ctx _context.Context, orgName string, start int64,
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
-	if optionalParams.ResourceId != nil {
-		localVarQueryParams.Add("resourceId", common.ParameterToString(*optionalParams.ResourceId, ""))
-	}
-	if optionalParams.ResourceType != nil {
-		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
-	}
-	if optionalParams.EventName != nil {
-		localVarQueryParams.Add("eventName", common.ParameterToString(*optionalParams.EventName, ""))
-	}
-	if optionalParams.OperatorId != nil {
-		localVarQueryParams.Add("operatorId", common.ParameterToString(*optionalParams.OperatorId, ""))
-	}
 	if optionalParams.CustomQuery != nil {
 		localVarQueryParams.Add("customQuery", common.ParameterToString(*optionalParams.CustomQuery, ""))
 	}

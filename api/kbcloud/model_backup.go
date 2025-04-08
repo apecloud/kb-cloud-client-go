@@ -24,7 +24,7 @@ type Backup struct {
 	// the type of backup
 	BackupType BackupType `json:"backupType"`
 	// Date/time when the backup finished being processed.
-	CompletionTimestamp *time.Time `json:"completionTimestamp,omitempty"`
+	CompletionTimestamp common.NullableTime `json:"completionTimestamp,omitempty"`
 	// Date/time when the backup was created.
 	CreationTimestamp time.Time `json:"creationTimestamp"`
 	// The duration time of backup execution. When converted to a string, the form is "1h2m0.5s".
@@ -38,7 +38,7 @@ type Backup struct {
 	// sourceCluster records the source cluster information for this backup.
 	SourceCluster string `json:"sourceCluster"`
 	// Date/time when the backup started being processed.
-	StartTimestamp *time.Time `json:"startTimestamp,omitempty"`
+	StartTimestamp common.NullableTime `json:"startTimestamp,omitempty"`
 	// The current status. Valid values are New, InProgress, Completed, Failed.
 	Status BackupStatus `json:"status"`
 	// timeRangeEnd records the end time of the backup.
@@ -231,32 +231,43 @@ func (o *Backup) SetBackupType(v BackupType) {
 	o.BackupType = v
 }
 
-// GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise.
+// GetCompletionTimestamp returns the CompletionTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetCompletionTimestamp() time.Time {
-	if o == nil || o.CompletionTimestamp == nil {
+	if o == nil || o.CompletionTimestamp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.CompletionTimestamp
+	return *o.CompletionTimestamp.Get()
 }
 
 // GetCompletionTimestampOk returns a tuple with the CompletionTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetCompletionTimestampOk() (*time.Time, bool) {
-	if o == nil || o.CompletionTimestamp == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.CompletionTimestamp, true
+	return o.CompletionTimestamp.Get(), o.CompletionTimestamp.IsSet()
 }
 
 // HasCompletionTimestamp returns a boolean if a field has been set.
 func (o *Backup) HasCompletionTimestamp() bool {
-	return o != nil && o.CompletionTimestamp != nil
+	return o != nil && o.CompletionTimestamp.IsSet()
 }
 
-// SetCompletionTimestamp gets a reference to the given time.Time and assigns it to the CompletionTimestamp field.
+// SetCompletionTimestamp gets a reference to the given common.NullableTime and assigns it to the CompletionTimestamp field.
 func (o *Backup) SetCompletionTimestamp(v time.Time) {
-	o.CompletionTimestamp = &v
+	o.CompletionTimestamp.Set(&v)
+}
+
+// SetCompletionTimestampNil sets the value for CompletionTimestamp to be an explicit nil.
+func (o *Backup) SetCompletionTimestampNil() {
+	o.CompletionTimestamp.Set(nil)
+}
+
+// UnsetCompletionTimestamp ensures that no value is present for CompletionTimestamp, not even an explicit nil.
+func (o *Backup) UnsetCompletionTimestamp() {
+	o.CompletionTimestamp.Unset()
 }
 
 // GetCreationTimestamp returns the CreationTimestamp field value.
@@ -402,32 +413,43 @@ func (o *Backup) SetSourceCluster(v string) {
 	o.SourceCluster = v
 }
 
-// GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise.
+// GetStartTimestamp returns the StartTimestamp field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Backup) GetStartTimestamp() time.Time {
-	if o == nil || o.StartTimestamp == nil {
+	if o == nil || o.StartTimestamp.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.StartTimestamp
+	return *o.StartTimestamp.Get()
 }
 
 // GetStartTimestampOk returns a tuple with the StartTimestamp field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *Backup) GetStartTimestampOk() (*time.Time, bool) {
-	if o == nil || o.StartTimestamp == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.StartTimestamp, true
+	return o.StartTimestamp.Get(), o.StartTimestamp.IsSet()
 }
 
 // HasStartTimestamp returns a boolean if a field has been set.
 func (o *Backup) HasStartTimestamp() bool {
-	return o != nil && o.StartTimestamp != nil
+	return o != nil && o.StartTimestamp.IsSet()
 }
 
-// SetStartTimestamp gets a reference to the given time.Time and assigns it to the StartTimestamp field.
+// SetStartTimestamp gets a reference to the given common.NullableTime and assigns it to the StartTimestamp field.
 func (o *Backup) SetStartTimestamp(v time.Time) {
-	o.StartTimestamp = &v
+	o.StartTimestamp.Set(&v)
+}
+
+// SetStartTimestampNil sets the value for StartTimestamp to be an explicit nil.
+func (o *Backup) SetStartTimestampNil() {
+	o.StartTimestamp.Set(nil)
+}
+
+// UnsetStartTimestamp ensures that no value is present for StartTimestamp, not even an explicit nil.
+func (o *Backup) UnsetStartTimestamp() {
+	o.StartTimestamp.Unset()
 }
 
 // GetStatus returns the Status field value.
@@ -945,12 +967,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 		toSerialize["backupRepo"] = o.BackupRepo
 	}
 	toSerialize["backupType"] = o.BackupType
-	if o.CompletionTimestamp != nil {
-		if o.CompletionTimestamp.Nanosecond() == 0 {
-			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["completionTimestamp"] = o.CompletionTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.CompletionTimestamp.IsSet() {
+		toSerialize["completionTimestamp"] = o.CompletionTimestamp.Get()
 	}
 	if o.CreationTimestamp.Nanosecond() == 0 {
 		toSerialize["creationTimestamp"] = o.CreationTimestamp.Format("2006-01-02T15:04:05Z07:00")
@@ -964,12 +982,8 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize["orgName"] = o.OrgName
 	toSerialize["snapshotVolumes"] = o.SnapshotVolumes
 	toSerialize["sourceCluster"] = o.SourceCluster
-	if o.StartTimestamp != nil {
-		if o.StartTimestamp.Nanosecond() == 0 {
-			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["startTimestamp"] = o.StartTimestamp.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.StartTimestamp.IsSet() {
+		toSerialize["startTimestamp"] = o.StartTimestamp.Get()
 	}
 	toSerialize["status"] = o.Status
 	if o.TimeRangeEnd.IsSet() {
@@ -1026,14 +1040,14 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		BackupPolicyName    *string             `json:"backupPolicyName"`
 		BackupRepo          *string             `json:"backupRepo,omitempty"`
 		BackupType          *BackupType         `json:"backupType"`
-		CompletionTimestamp *time.Time          `json:"completionTimestamp,omitempty"`
+		CompletionTimestamp common.NullableTime `json:"completionTimestamp,omitempty"`
 		CreationTimestamp   *time.Time          `json:"creationTimestamp"`
 		Duration            *string             `json:"duration,omitempty"`
 		Name                *string             `json:"name"`
 		OrgName             *string             `json:"orgName"`
 		SnapshotVolumes     *bool               `json:"snapshotVolumes"`
 		SourceCluster       *string             `json:"sourceCluster"`
-		StartTimestamp      *time.Time          `json:"startTimestamp,omitempty"`
+		StartTimestamp      common.NullableTime `json:"startTimestamp,omitempty"`
 		Status              *BackupStatus       `json:"status"`
 		TimeRangeEnd        common.NullableTime `json:"timeRangeEnd,omitempty"`
 		TimeRangeStart      common.NullableTime `json:"timeRangeStart,omitempty"`

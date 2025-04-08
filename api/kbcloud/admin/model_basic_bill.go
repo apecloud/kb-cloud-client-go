@@ -8,6 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // BasicBill Basic bill information
 type BasicBill struct {
+	// The name of aggregationGroupType
+	AggregationGroupName *string `json:"aggregationGroupName,omitempty"`
 	// The timestamp of data
 	DataTime *int64 `json:"dataTime,omitempty"`
 	// The total price
@@ -32,6 +34,34 @@ func NewBasicBill() *BasicBill {
 func NewBasicBillWithDefaults() *BasicBill {
 	this := BasicBill{}
 	return &this
+}
+
+// GetAggregationGroupName returns the AggregationGroupName field value if set, zero value otherwise.
+func (o *BasicBill) GetAggregationGroupName() string {
+	if o == nil || o.AggregationGroupName == nil {
+		var ret string
+		return ret
+	}
+	return *o.AggregationGroupName
+}
+
+// GetAggregationGroupNameOk returns a tuple with the AggregationGroupName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BasicBill) GetAggregationGroupNameOk() (*string, bool) {
+	if o == nil || o.AggregationGroupName == nil {
+		return nil, false
+	}
+	return o.AggregationGroupName, true
+}
+
+// HasAggregationGroupName returns a boolean if a field has been set.
+func (o *BasicBill) HasAggregationGroupName() bool {
+	return o != nil && o.AggregationGroupName != nil
+}
+
+// SetAggregationGroupName gets a reference to the given string and assigns it to the AggregationGroupName field.
+func (o *BasicBill) SetAggregationGroupName(v string) {
+	o.AggregationGroupName = &v
 }
 
 // GetDataTime returns the DataTime field value if set, zero value otherwise.
@@ -96,6 +126,9 @@ func (o BasicBill) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.AggregationGroupName != nil {
+		toSerialize["aggregationGroupName"] = o.AggregationGroupName
+	}
 	if o.DataTime != nil {
 		toSerialize["dataTime"] = o.DataTime
 	}
@@ -112,18 +145,20 @@ func (o BasicBill) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BasicBill) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DataTime *int64  `json:"dataTime,omitempty"`
-		Price    *string `json:"price,omitempty"`
+		AggregationGroupName *string `json:"aggregationGroupName,omitempty"`
+		DataTime             *int64  `json:"dataTime,omitempty"`
+		Price                *string `json:"price,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"dataTime", "price"})
+		common.DeleteKeys(additionalProperties, &[]string{"aggregationGroupName", "dataTime", "price"})
 	} else {
 		return err
 	}
+	o.AggregationGroupName = all.AggregationGroupName
 	o.DataTime = all.DataTime
 	o.Price = all.Price
 
