@@ -32,6 +32,8 @@ type ChatRequest struct {
 	CreatedAt *int64 `json:"createdAt,omitempty"`
 	// chat涉及的数据库
 	Database *string `json:"database,omitempty"`
+	// chat涉及的schema
+	Schema *string `json:"schema,omitempty"`
 	// chat涉及的表
 	Tables []string `json:"tables,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -308,6 +310,34 @@ func (o *ChatRequest) SetDatabase(v string) {
 	o.Database = &v
 }
 
+// GetSchema returns the Schema field value if set, zero value otherwise.
+func (o *ChatRequest) GetSchema() string {
+	if o == nil || o.Schema == nil {
+		var ret string
+		return ret
+	}
+	return *o.Schema
+}
+
+// GetSchemaOk returns a tuple with the Schema field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ChatRequest) GetSchemaOk() (*string, bool) {
+	if o == nil || o.Schema == nil {
+		return nil, false
+	}
+	return o.Schema, true
+}
+
+// HasSchema returns a boolean if a field has been set.
+func (o *ChatRequest) HasSchema() bool {
+	return o != nil && o.Schema != nil
+}
+
+// SetSchema gets a reference to the given string and assigns it to the Schema field.
+func (o *ChatRequest) SetSchema(v string) {
+	o.Schema = &v
+}
+
 // GetTables returns the Tables field value if set, zero value otherwise.
 func (o *ChatRequest) GetTables() []string {
 	if o == nil || o.Tables == nil {
@@ -358,6 +388,9 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
+	if o.Schema != nil {
+		toSerialize["schema"] = o.Schema
+	}
 	if o.Tables != nil {
 		toSerialize["tables"] = o.Tables
 	}
@@ -381,6 +414,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 		Model       *string    `json:"model,omitempty"`
 		CreatedAt   *int64     `json:"createdAt,omitempty"`
 		Database    *string    `json:"database,omitempty"`
+		Schema      *string    `json:"schema,omitempty"`
 		Tables      []string   `json:"tables,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -409,7 +443,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "tables"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "schema", "tables"})
 	} else {
 		return err
 	}
@@ -429,6 +463,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	o.Model = all.Model
 	o.CreatedAt = all.CreatedAt
 	o.Database = all.Database
+	o.Schema = all.Schema
 	o.Tables = all.Tables
 
 	if len(additionalProperties) > 0 {

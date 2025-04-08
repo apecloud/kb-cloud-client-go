@@ -13266,7 +13266,7 @@ paths:
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/demo:
     post:
       tags:
-        - account
+        - rdbms
       description: generate demo data
       summary: generate demo data
       operationId: generateDemoData
@@ -25217,6 +25217,10 @@ components:
         database:
           type: string
           description: chat涉及的数据库
+          x-nullable: true
+        schema:
+          type: string
+          description: chat涉及的schema
           x-nullable: true
         tables:
           type: array
