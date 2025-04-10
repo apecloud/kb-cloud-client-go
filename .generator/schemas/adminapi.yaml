@@ -18288,6 +18288,11 @@ components:
           description: Memory overcommit ratio of this environment
           type: number
           format: double
+        replicas:
+          description: the replicas of core componment, such as kubeblocks and gemini
+          type: integer
+          minimum: 1
+          default: 1
         namespaces:
           items:
             type: string
