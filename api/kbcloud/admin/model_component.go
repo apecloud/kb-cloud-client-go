@@ -44,7 +44,7 @@ type Component struct {
 func NewComponent(defaultStorageClass string) *Component {
 	this := Component{}
 	this.DefaultStorageClass = defaultStorageClass
-	var replicas int32 = 3
+	var replicas int32 = 1
 	this.Replicas = &replicas
 	return &this
 }
@@ -54,7 +54,7 @@ func NewComponent(defaultStorageClass string) *Component {
 // but it doesn't guarantee that properties required by API are set.
 func NewComponentWithDefaults() *Component {
 	this := Component{}
-	var replicas int32 = 3
+	var replicas int32 = 1
 	this.Replicas = &replicas
 	return &this
 }

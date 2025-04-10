@@ -18292,7 +18292,7 @@ components:
           description: the replicas of core componment, such as kubeblocks and gemini
           type: integer
           minimum: 1
-          default: 3
+          default: 1
         namespaces:
           items:
             type: string
