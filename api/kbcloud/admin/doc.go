@@ -4,6 +4,7 @@
 
 // List of APIs:
 //   - [AIApi.analyzeCluster]
+//   - [AIApi.chatBIWebSocket]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]
@@ -353,6 +354,7 @@
 //   - [providerApi.getCloudProvider]
 //   - [providerApi.listCloudProviders]
 //   - [providerApi.updateCloudProvider]
+//   - [rdbmsApi.generateDemoData]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]
 //   - [recycleBinClusterApi.getRecycleBinCluster]
 //   - [recycleBinClusterApi.listRecycleBinCluster]
