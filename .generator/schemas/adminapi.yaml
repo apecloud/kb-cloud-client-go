@@ -2189,6 +2189,11 @@ paths:
           required: false
           schema:
             type: string
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -2342,6 +2347,11 @@ paths:
           name: partition
           schema:
             $ref: '#/components/schemas/paramTplPartition'
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -16566,6 +16576,9 @@ components:
         specName:
           description: The name of the config spec
           type: string
+        rawContent:
+          description: The raw content of the configuration file, return only when raw is true in the query.
+          type: string
     parameterList:
       description: A list of cluster parameter
       properties:
@@ -16714,6 +16727,9 @@ components:
           type: object
         newParamTplName:
           description: Specify the new name of the parameter template
+          type: string
+        rawContent:
+          description: The raw content of the configuration file
           type: string
       type: object
     paramTplApplyToClusterListItem:
@@ -21892,6 +21908,9 @@ components:
         enableTemplate:
           description: If set to true, the parameter templates of the component can be used. Mainly used by frontend.
           type: boolean
+        enableRawContent:
+          type: boolean
+          description: If set to true, the component can display the raw content of the parameter configuration file.
         configSpecs:
           type: array
           description: all parameter configuration specs of this component
