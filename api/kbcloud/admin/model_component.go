@@ -28,6 +28,8 @@ type Component struct {
 	CpuOvercommitRatio *float64 `json:"cpuOvercommitRatio,omitempty"`
 	// Memory overcommit ratio of this environment
 	MemoryOvercommitRatio *float64 `json:"memoryOvercommitRatio,omitempty"`
+	// the replicas of core componment, such as kubeblocks and gemini
+	Replicas *int32 `json:"replicas,omitempty"`
 	// Namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -42,6 +44,8 @@ type Component struct {
 func NewComponent(defaultStorageClass string) *Component {
 	this := Component{}
 	this.DefaultStorageClass = defaultStorageClass
+	var replicas int32 = 1
+	this.Replicas = &replicas
 	return &this
 }
 
@@ -50,6 +54,8 @@ func NewComponent(defaultStorageClass string) *Component {
 // but it doesn't guarantee that properties required by API are set.
 func NewComponentWithDefaults() *Component {
 	this := Component{}
+	var replicas int32 = 1
+	this.Replicas = &replicas
 	return &this
 }
 
@@ -272,6 +278,34 @@ func (o *Component) SetMemoryOvercommitRatio(v float64) {
 	o.MemoryOvercommitRatio = &v
 }
 
+// GetReplicas returns the Replicas field value if set, zero value otherwise.
+func (o *Component) GetReplicas() int32 {
+	if o == nil || o.Replicas == nil {
+		var ret int32
+		return ret
+	}
+	return *o.Replicas
+}
+
+// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Component) GetReplicasOk() (*int32, bool) {
+	if o == nil || o.Replicas == nil {
+		return nil, false
+	}
+	return o.Replicas, true
+}
+
+// HasReplicas returns a boolean if a field has been set.
+func (o *Component) HasReplicas() bool {
+	return o != nil && o.Replicas != nil
+}
+
+// SetReplicas gets a reference to the given int32 and assigns it to the Replicas field.
+func (o *Component) SetReplicas(v int32) {
+	o.Replicas = &v
+}
+
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Component) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -328,6 +362,9 @@ func (o Component) MarshalJSON() ([]byte, error) {
 	if o.MemoryOvercommitRatio != nil {
 		toSerialize["memoryOvercommitRatio"] = o.MemoryOvercommitRatio
 	}
+	if o.Replicas != nil {
+		toSerialize["replicas"] = o.Replicas
+	}
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
@@ -349,6 +386,7 @@ func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 		DefaultStorageClass   *string  `json:"defaultStorageClass"`
 		CpuOvercommitRatio    *float64 `json:"cpuOvercommitRatio,omitempty"`
 		MemoryOvercommitRatio *float64 `json:"memoryOvercommitRatio,omitempty"`
+		Replicas              *int32   `json:"replicas,omitempty"`
 		Namespaces            []string `json:"namespaces,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -359,7 +397,7 @@ func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"kubernetesVersion", "kbVersion", "geminiVersion", "oteldVersion", "imageRegistry", "defaultStorageClass", "cpuOvercommitRatio", "memoryOvercommitRatio", "namespaces"})
+		common.DeleteKeys(additionalProperties, &[]string{"kubernetesVersion", "kbVersion", "geminiVersion", "oteldVersion", "imageRegistry", "defaultStorageClass", "cpuOvercommitRatio", "memoryOvercommitRatio", "replicas", "namespaces"})
 	} else {
 		return err
 	}
@@ -371,6 +409,7 @@ func (o *Component) UnmarshalJSON(bytes []byte) (err error) {
 	o.DefaultStorageClass = *all.DefaultStorageClass
 	o.CpuOvercommitRatio = all.CpuOvercommitRatio
 	o.MemoryOvercommitRatio = all.MemoryOvercommitRatio
+	o.Replicas = all.Replicas
 	o.Namespaces = all.Namespaces
 
 	if len(additionalProperties) > 0 {
