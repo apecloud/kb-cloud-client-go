@@ -261,6 +261,7 @@
 //   - [parameterTemplateApi.readParameterTemplate]
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [projectApi.listProjects]
+//   - [rdbmsApi.generateDemoData]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]
 //   - [recycleBinClusterApi.getRecycleBinCluster]
 //   - [recycleBinClusterApi.listRecycleBinCluster]

@@ -357,6 +357,7 @@
 //   - [providerApi.getCloudProvider]
 //   - [providerApi.listCloudProviders]
 //   - [providerApi.updateCloudProvider]
+//   - [rdbmsApi.generateDemoData]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]
 //   - [recycleBinClusterApi.getRecycleBinCluster]
 //   - [recycleBinClusterApi.listRecycleBinCluster]
