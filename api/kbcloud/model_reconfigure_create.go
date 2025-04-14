@@ -18,6 +18,8 @@ type ReconfigureCreate struct {
 	ConfigFileName *string `json:"configFileName,omitempty"`
 	// Specify parameters list to be updated
 	Parameters map[string]string `json:"parameters"`
+	// The raw content of the configuration file
+	RawContent *string `json:"rawContent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -116,6 +118,34 @@ func (o *ReconfigureCreate) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
 
+// GetRawContent returns the RawContent field value if set, zero value otherwise.
+func (o *ReconfigureCreate) GetRawContent() string {
+	if o == nil || o.RawContent == nil {
+		var ret string
+		return ret
+	}
+	return *o.RawContent
+}
+
+// GetRawContentOk returns a tuple with the RawContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReconfigureCreate) GetRawContentOk() (*string, bool) {
+	if o == nil || o.RawContent == nil {
+		return nil, false
+	}
+	return o.RawContent, true
+}
+
+// HasRawContent returns a boolean if a field has been set.
+func (o *ReconfigureCreate) HasRawContent() bool {
+	return o != nil && o.RawContent != nil
+}
+
+// SetRawContent gets a reference to the given string and assigns it to the RawContent field.
+func (o *ReconfigureCreate) SetRawContent(v string) {
+	o.RawContent = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -127,6 +157,9 @@ func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 		toSerialize["configFileName"] = o.ConfigFileName
 	}
 	toSerialize["parameters"] = o.Parameters
+	if o.RawContent != nil {
+		toSerialize["rawContent"] = o.RawContent
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -140,6 +173,7 @@ func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Component      *string            `json:"component"`
 		ConfigFileName *string            `json:"configFileName,omitempty"`
 		Parameters     *map[string]string `json:"parameters"`
+		RawContent     *string            `json:"rawContent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -152,13 +186,14 @@ func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "configFileName", "parameters"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "configFileName", "parameters", "rawContent"})
 	} else {
 		return err
 	}
 	o.Component = *all.Component
 	o.ConfigFileName = all.ConfigFileName
 	o.Parameters = *all.Parameters
+	o.RawContent = all.RawContent
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -13680,6 +13680,9 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        rawContent:
+          description: The raw content of the configuration file
+          type: string
       required:
         - parameters
         - component
