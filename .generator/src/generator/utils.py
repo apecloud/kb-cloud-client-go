@@ -1,7 +1,6 @@
 """Utilities methods."""
 import re
 
-
 PATTERN_DOUBLE_UNDERSCORE = re.compile(r"__+")
 PATTERN_LEADING_ALPHA = re.compile(r"(.)([A-Z][a-z]+)")
 PATTERN_FOLLOWING_ALPHA = re.compile(r"([a-z0-9])([A-Z])")
@@ -47,3 +46,15 @@ def schema_name(schema):
 def given_variables(context):
     """Return a list of variables using in given steps."""
     return {key for values in context.get("_given", {}).values() for key in values}
+
+
+def removeWebSocketOP(operations: list):
+    if not operations:
+        return operations
+
+    filtered_operations = []
+    for path, method, operation in operations:
+        responses = operation.get('responses', {})
+        if '101' not in responses:
+            filtered_operations.append((path, method, operation))
+    return filtered_operations

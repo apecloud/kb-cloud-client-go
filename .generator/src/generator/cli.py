@@ -114,6 +114,9 @@ def cli(specs, output):
             if name == None:
                 print(f"missing tag for {operations}")
                 exit(1)
+            operations = utils.removeWebSocketOP(operations)
+            if len(operations) == 0:
+                continue
             filename = "api_" + formatter.snake_case(name) + ".go"
             api_path = resources_dir / filename
             api_path.parent.mkdir(parents=True, exist_ok=True)
