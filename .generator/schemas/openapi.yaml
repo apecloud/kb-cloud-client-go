@@ -11126,11 +11126,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/chatRequest'
-      x-kubernetes-action: connect
-      x-kubernetes-group-version-kind:
-        group: ''
-        kind: WebSocket
-        version: v1
       responses:
         '101':
           description: Switching Protocols to websocket
