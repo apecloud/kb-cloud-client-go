@@ -8112,6 +8112,32 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+  /admin/v1/alerts/rules/config:
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/alerts/metrics:
     get:
       tags:
@@ -21052,6 +21078,24 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
+    alertRuleConfig:
+      type: object
+      required:
+        - orgNames
+        - content
+      properties:
+        orgNames:
+          type: array
+          description: Organization names for the alert rule configuration
+          items:
+            type: string
+          example:
+            - my-org-1
+            - my-org-2
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     alertMetricList:
       required:
         - items

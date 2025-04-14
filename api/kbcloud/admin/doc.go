@@ -51,6 +51,7 @@
 //   - [alertRuleApi.getAlertRule]
 //   - [alertRuleApi.listAlertRules]
 //   - [alertRuleApi.updateAlertRule]
+//   - [alertRuleApi.updateRuleConfig]
 //   - [alertSMTPConfigApi.getAlertSMTPConfig]
 //   - [alertSMTPConfigApi.updateAlertSMTPConfig]
 //   - [alertStrategyApi.createAlertStrategy]
