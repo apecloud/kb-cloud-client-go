@@ -12900,6 +12900,26 @@ components:
         - Halt
         - Delete
         - WipeOut
+    ioQuantity:
+      description: IO Quantity describes IOPS and BPS of a volume
+      properties:
+        readIOPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeIOPS:
+          type: integer
+          format: int64
+          nullable: true
+        readBPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeBPS:
+          type: integer
+          nullable: true
+          format: int64
+      type: object
     componentVolumeItem:
       description: ComponentVolumeItem is the information of a component volume
       type: object
@@ -12913,6 +12933,8 @@ components:
           type: number
           description: Storage size, the unit is Gi.
           format: double
+        ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -13343,26 +13365,6 @@ components:
           type: string
           nullable: true
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
-    ioQuantity:
-      description: IO Quantity describes IOPS and BPS of a volume
-      properties:
-        readIOPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeIOPS:
-          type: integer
-          format: int64
-          nullable: true
-        readBPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeBPS:
-          type: integer
-          nullable: true
-          format: int64
-      type: object
     instanceStorageItem:
       description: Instance storage information
       properties:
