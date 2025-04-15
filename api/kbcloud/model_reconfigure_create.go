@@ -17,7 +17,7 @@ type ReconfigureCreate struct {
 	// config file name
 	ConfigFileName *string `json:"configFileName,omitempty"`
 	// Specify parameters list to be updated
-	Parameters map[string]string `json:"parameters"`
+	Parameters map[string]string `json:"parameters,omitempty"`
 	// The raw content of the configuration file
 	RawContent *string `json:"rawContent,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -29,10 +29,9 @@ type ReconfigureCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewReconfigureCreate(component string, parameters map[string]string) *ReconfigureCreate {
+func NewReconfigureCreate(component string) *ReconfigureCreate {
 	this := ReconfigureCreate{}
 	this.Component = component
-	this.Parameters = parameters
 	return &this
 }
 
@@ -95,25 +94,30 @@ func (o *ReconfigureCreate) SetConfigFileName(v string) {
 	o.ConfigFileName = &v
 }
 
-// GetParameters returns the Parameters field value.
+// GetParameters returns the Parameters field value if set, zero value otherwise.
 func (o *ReconfigureCreate) GetParameters() map[string]string {
-	if o == nil {
+	if o == nil || o.Parameters == nil {
 		var ret map[string]string
 		return ret
 	}
 	return o.Parameters
 }
 
-// GetParametersOk returns a tuple with the Parameters field value
+// GetParametersOk returns a tuple with the Parameters field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReconfigureCreate) GetParametersOk() (*map[string]string, bool) {
-	if o == nil {
+	if o == nil || o.Parameters == nil {
 		return nil, false
 	}
 	return &o.Parameters, true
 }
 
-// SetParameters sets field value.
+// HasParameters returns a boolean if a field has been set.
+func (o *ReconfigureCreate) HasParameters() bool {
+	return o != nil && o.Parameters != nil
+}
+
+// SetParameters gets a reference to the given map[string]string and assigns it to the Parameters field.
 func (o *ReconfigureCreate) SetParameters(v map[string]string) {
 	o.Parameters = v
 }
@@ -156,7 +160,9 @@ func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 	if o.ConfigFileName != nil {
 		toSerialize["configFileName"] = o.ConfigFileName
 	}
-	toSerialize["parameters"] = o.Parameters
+	if o.Parameters != nil {
+		toSerialize["parameters"] = o.Parameters
+	}
 	if o.RawContent != nil {
 		toSerialize["rawContent"] = o.RawContent
 	}
@@ -170,19 +176,16 @@ func (o ReconfigureCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string            `json:"component"`
-		ConfigFileName *string            `json:"configFileName,omitempty"`
-		Parameters     *map[string]string `json:"parameters"`
-		RawContent     *string            `json:"rawContent,omitempty"`
+		Component      *string           `json:"component"`
+		ConfigFileName *string           `json:"configFileName,omitempty"`
+		Parameters     map[string]string `json:"parameters,omitempty"`
+		RawContent     *string           `json:"rawContent,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
-	}
-	if all.Parameters == nil {
-		return fmt.Errorf("required field parameters missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -192,7 +195,7 @@ func (o *ReconfigureCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Component = *all.Component
 	o.ConfigFileName = all.ConfigFileName
-	o.Parameters = *all.Parameters
+	o.Parameters = all.Parameters
 	o.RawContent = all.RawContent
 
 	if len(additionalProperties) > 0 {

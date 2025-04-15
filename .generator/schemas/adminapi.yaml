@@ -17489,7 +17489,6 @@ components:
           description: The raw content of the configuration file
           type: string
       required:
-        - parameters
         - component
       type: object
     opsRequestName:
