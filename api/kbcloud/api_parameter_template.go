@@ -566,7 +566,8 @@ func (a *ParameterTemplateApi) PatchParameterTemplate(ctx _context.Context, orgN
 
 // ReadParameterTemplateOptionalParameters holds optional parameters for ReadParameterTemplate.
 type ReadParameterTemplateOptionalParameters struct {
-	Partition *ParamTplPartition
+	Partition  *ParamTplPartition
+	RawContent *bool
 }
 
 // NewReadParameterTemplateOptionalParameters creates an empty struct for parameters.
@@ -578,6 +579,12 @@ func NewReadParameterTemplateOptionalParameters() *ReadParameterTemplateOptional
 // WithPartition sets the corresponding parameter name and returns the struct.
 func (r *ReadParameterTemplateOptionalParameters) WithPartition(partition ParamTplPartition) *ReadParameterTemplateOptionalParameters {
 	r.Partition = &partition
+	return r
+}
+
+// WithRawContent sets the corresponding parameter name and returns the struct.
+func (r *ReadParameterTemplateOptionalParameters) WithRawContent(rawContent bool) *ReadParameterTemplateOptionalParameters {
+	r.RawContent = &rawContent
 	return r
 }
 
@@ -620,6 +627,9 @@ func (a *ParameterTemplateApi) ReadParameterTemplate(ctx _context.Context, orgNa
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Partition != nil {
 		localVarQueryParams.Add("partition", common.ParameterToString(*optionalParams.Partition, ""))
+	}
+	if optionalParams.RawContent != nil {
+		localVarQueryParams.Add("rawContent", common.ParameterToString(*optionalParams.RawContent, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
