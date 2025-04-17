@@ -8631,6 +8631,31 @@ paths:
       tags:
         - engineOption
       x-codegen-request-body-name: body
+  /admin/v1/engineOptions/{engineName}/release:
+    post:
+      description: Release a engineOption
+      summary: Release engineOption
+      operationId: releaseEngineOption
+      parameters:
+        - description: Name of the engineOption
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/engineOption'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - engineOption
   /admin/v1/engineOptionHistories:
     get:
       description: List a engineOption histories of a engine
@@ -21216,6 +21241,12 @@ components:
       enum:
         - current
         - original
+    engineOptionStatus:
+      type: string
+      default: Release
+      enum:
+        - Release
+        - Uncommitted
     componentOption:
       type: object
       required:
@@ -22152,6 +22183,8 @@ components:
           description: engine maturity level
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/engineOptionStatus'
         description:
           $ref: '#/components/schemas/localizedDescription'
         versions:
