@@ -15304,6 +15304,9 @@ components:
         family:
           description: 'Name of database with its version, eg: mysql8.0'
           type: string
+        engine:
+          description: Name of database engine
+          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           type: string
