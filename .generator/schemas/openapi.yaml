@@ -15306,6 +15306,9 @@ components:
         family:
           description: 'Name of database with its version, eg: mysql8.0'
           type: string
+        engine:
+          description: Name of database engine
+          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           type: string
@@ -15925,6 +15928,12 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
+    engineOptionStatus:
+      type: string
+      default: Release
+      enum:
+        - Release
+        - Uncommitted
     componentOption:
       type: object
       required:
@@ -16861,6 +16870,8 @@ components:
           description: engine maturity level
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/engineOptionStatus'
         description:
           $ref: '#/components/schemas/localizedDescription'
         versions:

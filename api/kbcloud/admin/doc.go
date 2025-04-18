@@ -176,6 +176,7 @@
 //   - [engineOptionApi.getEngineOption]
 //   - [engineOptionApi.listEngineOptionHistory]
 //   - [engineOptionApi.listEngineOptions]
+//   - [engineOptionApi.releaseEngineOption]
 //   - [engineOptionApi.updateEngineOption]
 //   - [environmentApi.addNodes]
 //   - [environmentApi.checkKubeconfig]

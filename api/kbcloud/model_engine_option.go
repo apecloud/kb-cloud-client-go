@@ -15,6 +15,7 @@ type EngineOption struct {
 	// engine maturity level
 	MaturityLevel *string              `json:"maturityLevel,omitempty"`
 	Title         string               `json:"title"`
+	Status        *EngineOptionStatus  `json:"status,omitempty"`
 	Description   LocalizedDescription `json:"description"`
 	Versions      []string             `json:"versions"`
 	Components    []ComponentOption    `json:"components"`
@@ -56,6 +57,8 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 	this := EngineOption{}
 	this.EngineName = engineName
 	this.Title = title
+	var status EngineOptionStatus = EngineOptionStatusRelease
+	this.Status = &status
 	this.Description = description
 	this.Versions = versions
 	this.Components = components
@@ -79,6 +82,8 @@ func NewEngineOption(engineName string, title string, description LocalizedDescr
 // but it doesn't guarantee that properties required by API are set.
 func NewEngineOptionWithDefaults() *EngineOption {
 	this := EngineOption{}
+	var status EngineOptionStatus = EngineOptionStatusRelease
+	this.Status = &status
 	return &this
 }
 
@@ -154,6 +159,34 @@ func (o *EngineOption) GetTitleOk() (*string, bool) {
 // SetTitle sets field value.
 func (o *EngineOption) SetTitle(v string) {
 	o.Title = v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *EngineOption) GetStatus() EngineOptionStatus {
+	if o == nil || o.Status == nil {
+		var ret EngineOptionStatus
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetStatusOk() (*EngineOptionStatus, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *EngineOption) HasStatus() bool {
+	return o != nil && o.Status != nil
+}
+
+// SetStatus gets a reference to the given EngineOptionStatus and assigns it to the Status field.
+func (o *EngineOption) SetStatus(v EngineOptionStatus) {
+	o.Status = &v
 }
 
 // GetDescription returns the Description field value.
@@ -848,6 +881,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 		toSerialize["maturityLevel"] = o.MaturityLevel
 	}
 	toSerialize["title"] = o.Title
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
 	toSerialize["description"] = o.Description
 	toSerialize["versions"] = o.Versions
 	toSerialize["components"] = o.Components
@@ -912,6 +948,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		EngineName       *string                 `json:"engineName"`
 		MaturityLevel    *string                 `json:"maturityLevel,omitempty"`
 		Title            *string                 `json:"title"`
+		Status           *EngineOptionStatus     `json:"status,omitempty"`
 		Description      *LocalizedDescription   `json:"description"`
 		Versions         *[]string               `json:"versions"`
 		Components       *[]ComponentOption      `json:"components"`
@@ -996,7 +1033,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "status", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
 	} else {
 		return err
 	}
@@ -1005,6 +1042,11 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.EngineName = *all.EngineName
 	o.MaturityLevel = all.MaturityLevel
 	o.Title = *all.Title
+	if all.Status != nil && !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = all.Status
+	}
 	if all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
