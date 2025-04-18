@@ -4706,6 +4706,11 @@ paths:
           required: false
           schema:
             type: string
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -4816,6 +4821,11 @@ paths:
           name: partition
           schema:
             $ref: '#/components/schemas/paramTplPartition'
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -9695,6 +9705,50 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/demo:
+    post:
+      tags:
+        - rdbms
+      description: generate demo data
+      summary: generate demo data
+      operationId: generateDemoData
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: acccount name which owns the database to generate demo data
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when demo data is generated successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -10360,7 +10414,7 @@ paths:
           schema:
             $ref: '#/components/schemas/sortType'
         - in: query
-          name: mode
+          name: model
           schema:
             type: string
       responses:
@@ -10400,7 +10454,7 @@ paths:
           schema:
             type: string
         - in: query
-          name: mode
+          name: model
           schema:
             type: string
           description: model name
@@ -10427,7 +10481,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10504,7 +10558,7 @@ paths:
             type: string
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
       responses:
@@ -10531,7 +10585,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10568,7 +10622,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10655,7 +10709,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10703,7 +10757,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10751,7 +10805,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -11038,7 +11092,7 @@ paths:
           in: path
           required: true
           type: string
-        - name: mode
+        - name: model
           in: query
           required: false
           type: string
@@ -11062,6 +11116,52 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/ai/chat:
+    get:
+      tags:
+        - AI
+      summary: WebSocket endpoint for Chat
+      description: |
+        建立 WebSocket 连接进行 AI 对话。
+      operationId: chatBIWebSocket
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          type: string
+          description: 组织名称
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        '101':
+          description: Switching Protocols to websocket
+          headers:
+            Upgrade:
+              schema:
+                type: string
+                example: websocket
+            Connection:
+              schema:
+                type: string
+                example: Upgrade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chatResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
 components:
   securitySchemes:
     BearerToken:
@@ -13592,8 +13692,10 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        rawContent:
+          description: The raw content of the configuration file
+          type: string
       required:
-        - parameters
         - component
       type: object
     opsRequestName:
@@ -15182,6 +15284,9 @@ components:
         specName:
           description: The name of the config spec
           type: string
+        rawContent:
+          description: The raw content of the configuration file, return only when raw is true in the query.
+          type: string
     parameterList:
       description: A list of cluster parameter
       properties:
@@ -15210,6 +15315,9 @@ components:
           type: string
         family:
           description: 'Name of database with its version, eg: mysql8.0'
+          type: string
+        engine:
+          description: Name of database engine
           type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
@@ -15293,6 +15401,9 @@ components:
           type: object
         newParamTplName:
           description: Specify the new name of the parameter template
+          type: string
+        rawContent:
+          description: The raw content of the configuration file
           type: string
       type: object
     paramTplApplyToClusterListItem:
@@ -15827,6 +15938,12 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
+    engineOptionStatus:
+      type: string
+      default: Release
+      enum:
+        - Release
+        - Uncommitted
     componentOption:
       type: object
       required:
@@ -16516,6 +16633,9 @@ components:
         enableTemplate:
           description: If set to true, the parameter templates of the component can be used. Mainly used by frontend.
           type: boolean
+        enableRawContent:
+          type: boolean
+          description: If set to true, the component can display the raw content of the parameter configuration file.
         configSpecs:
           type: array
           description: all parameter configuration specs of this component
@@ -16760,6 +16880,8 @@ components:
           description: engine maturity level
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/engineOptionStatus'
         description:
           $ref: '#/components/schemas/localizedDescription'
         versions:
@@ -19276,6 +19398,100 @@ components:
           type: boolean
         message:
           type: string
+    queryType:
+      type: string
+      enum:
+        - Analyze
+        - BI
+      description: 查询类型
+    chatRequest:
+      type: object
+      required:
+        - orgName
+        - clusterName
+        - sessionId
+        - messageID
+        - parentID
+        - query
+        - queryType
+      description: 聊天消息请求
+      properties:
+        orgName:
+          type: string
+          description: 组织名称
+        clusterName:
+          type: string
+          description: 集群名称
+        sessionId:
+          type: string
+          description: 会话ID
+        messageID:
+          type: string
+          description: 消息ID
+        parentID:
+          type: string
+          description: 父消息ID
+        query:
+          type: string
+          description: 问题内容
+        queryType:
+          $ref: '#/components/schemas/queryType'
+        model:
+          type: string
+          description: LLM模型
+          x-nullable: true
+        createdAt:
+          type: integer
+          format: int64
+          description: 创建时间
+        database:
+          type: string
+          description: chat涉及的数据库
+          x-nullable: true
+        schema:
+          type: string
+          description: chat涉及的schema
+          x-nullable: true
+        tables:
+          type: array
+          description: chat涉及的表
+          items:
+            type: string
+            x-nullable: true
+    chatResponseType:
+      type: string
+      enum:
+        - Message
+        - Graph
+        - Finish
+        - DataInterpretation
+        - Error
+      description: 消息类型
+    chatResponse:
+      type: object
+      required:
+        - data
+        - type
+        - messageID
+        - parentID
+        - sessionId
+      description: 聊天消息响应
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          description: 任意类型的数据
+        type:
+          $ref: '#/components/schemas/chatResponseType'
+        messageID:
+          type: string
+          description: 消息ID
+        parentID:
+          type: string
+          description: 父消息ID
+        sessionId:
+          type: string
+          description: 会话ID
   responses:
     '400':
       content:

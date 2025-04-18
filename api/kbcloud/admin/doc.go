@@ -4,6 +4,7 @@
 
 // List of APIs:
 //   - [AIApi.analyzeCluster]
+//   - [AIApi.chatBIWebSocket]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]
@@ -176,6 +177,7 @@
 //   - [engineOptionApi.getEngineOption]
 //   - [engineOptionApi.listEngineOptionHistory]
 //   - [engineOptionApi.listEngineOptions]
+//   - [engineOptionApi.releaseEngineOption]
 //   - [engineOptionApi.updateEngineOption]
 //   - [environmentApi.addNodes]
 //   - [environmentApi.checkKubeconfig]
@@ -353,6 +355,7 @@
 //   - [providerApi.getCloudProvider]
 //   - [providerApi.listCloudProviders]
 //   - [providerApi.updateCloudProvider]
+//   - [rdbmsApi.generateDemoData]
 //   - [recycleBinClusterApi.deleteRecycleBinCluster]
 //   - [recycleBinClusterApi.getRecycleBinCluster]
 //   - [recycleBinClusterApi.listRecycleBinCluster]

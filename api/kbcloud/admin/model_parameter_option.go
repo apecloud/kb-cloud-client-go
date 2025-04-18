@@ -17,6 +17,8 @@ type ParameterOption struct {
 	ExportTpl bool `json:"exportTpl"`
 	// If set to true, the parameter templates of the component can be used. Mainly used by frontend.
 	EnableTemplate bool `json:"enableTemplate"`
+	// If set to true, the component can display the raw content of the parameter configuration file.
+	EnableRawContent *bool `json:"enableRawContent,omitempty"`
 	// all parameter configuration specs of this component
 	ConfigSpecs []string `json:"configSpecs"`
 	DisableHa   *bool    `json:"disableHA,omitempty"`
@@ -125,6 +127,34 @@ func (o *ParameterOption) GetEnableTemplateOk() (*bool, bool) {
 // SetEnableTemplate sets field value.
 func (o *ParameterOption) SetEnableTemplate(v bool) {
 	o.EnableTemplate = v
+}
+
+// GetEnableRawContent returns the EnableRawContent field value if set, zero value otherwise.
+func (o *ParameterOption) GetEnableRawContent() bool {
+	if o == nil || o.EnableRawContent == nil {
+		var ret bool
+		return ret
+	}
+	return *o.EnableRawContent
+}
+
+// GetEnableRawContentOk returns a tuple with the EnableRawContent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterOption) GetEnableRawContentOk() (*bool, bool) {
+	if o == nil || o.EnableRawContent == nil {
+		return nil, false
+	}
+	return o.EnableRawContent, true
+}
+
+// HasEnableRawContent returns a boolean if a field has been set.
+func (o *ParameterOption) HasEnableRawContent() bool {
+	return o != nil && o.EnableRawContent != nil
+}
+
+// SetEnableRawContent gets a reference to the given bool and assigns it to the EnableRawContent field.
+func (o *ParameterOption) SetEnableRawContent(v bool) {
+	o.EnableRawContent = &v
 }
 
 // GetConfigSpecs returns the ConfigSpecs field value.
@@ -299,6 +329,9 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["exportTpl"] = o.ExportTpl
 	toSerialize["enableTemplate"] = o.EnableTemplate
+	if o.EnableRawContent != nil {
+		toSerialize["enableRawContent"] = o.EnableRawContent
+	}
 	toSerialize["configSpecs"] = o.ConfigSpecs
 	if o.DisableHa != nil {
 		toSerialize["disableHA"] = o.DisableHa
@@ -325,15 +358,16 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string                `json:"component"`
-		ExportTpl      *bool                  `json:"exportTpl"`
-		EnableTemplate *bool                  `json:"enableTemplate"`
-		ConfigSpecs    *[]string              `json:"configSpecs"`
-		DisableHa      *bool                  `json:"disableHA,omitempty"`
-		Templates      []ParameterTemplate    `json:"templates,omitempty"`
-		Constraints    []ParameterConstraint  `json:"constraints,omitempty"`
-		InitOptions    map[string]interface{} `json:"initOptions,omitempty"`
-		ExprParams     []ExprParam            `json:"exprParams,omitempty"`
+		Component        *string                `json:"component"`
+		ExportTpl        *bool                  `json:"exportTpl"`
+		EnableTemplate   *bool                  `json:"enableTemplate"`
+		EnableRawContent *bool                  `json:"enableRawContent,omitempty"`
+		ConfigSpecs      *[]string              `json:"configSpecs"`
+		DisableHa        *bool                  `json:"disableHA,omitempty"`
+		Templates        []ParameterTemplate    `json:"templates,omitempty"`
+		Constraints      []ParameterConstraint  `json:"constraints,omitempty"`
+		InitOptions      map[string]interface{} `json:"initOptions,omitempty"`
+		ExprParams       []ExprParam            `json:"exprParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -352,13 +386,14 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "configSpecs", "disableHA", "templates", "constraints", "initOptions", "exprParams"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "constraints", "initOptions", "exprParams"})
 	} else {
 		return err
 	}
 	o.Component = *all.Component
 	o.ExportTpl = *all.ExportTpl
 	o.EnableTemplate = *all.EnableTemplate
+	o.EnableRawContent = all.EnableRawContent
 	o.ConfigSpecs = *all.ConfigSpecs
 	o.DisableHa = all.DisableHa
 	o.Templates = all.Templates
