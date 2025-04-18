@@ -15307,6 +15307,9 @@ components:
         engine:
           description: Name of database engine
           type: string
+        component:
+          description: Name of component
+          type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
           type: string
