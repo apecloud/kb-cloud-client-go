@@ -13038,6 +13038,8 @@ components:
       type: object
     clusterStorageConfig:
       type: object
+      required:
+        - storageName
       properties:
         storageName:
           type: string
