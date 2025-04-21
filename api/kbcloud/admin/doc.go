@@ -177,6 +177,7 @@
 //   - [engineLicenseApi.listEngineLicenses]
 //   - [engineOptionApi.ListUpgradeableServiceVersion]
 //   - [engineOptionApi.createEngineOption]
+//   - [engineOptionApi.deleteEngineOption]
 //   - [engineOptionApi.getEngineOption]
 //   - [engineOptionApi.listEngineOptionHistory]
 //   - [engineOptionApi.listEngineOptions]
