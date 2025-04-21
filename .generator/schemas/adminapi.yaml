@@ -8573,7 +8573,7 @@ paths:
       summary: Get engineOption
       operationId: getEngineOption
       parameters:
-        - description: Name of the engineOption
+        - description: Name of the engine
           in: path
           name: engineName
           required: true
@@ -8603,7 +8603,7 @@ paths:
       summary: Update engineOption
       operationId: updateEngineOption
       parameters:
-        - description: Name of the engineOption
+        - description: Name of the engine
           in: path
           name: engineName
           required: true
@@ -8631,6 +8631,26 @@ paths:
       tags:
         - engineOption
       x-codegen-request-body-name: body
+    delete:
+      description: Delete a engineOption
+      summary: Delete engineOption
+      operationId: deleteEngineOption
+      parameters:
+        - description: Name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - engineOption
   /admin/v1/engineOptions/{engineName}/release:
     post:
       description: Release a engineOption
