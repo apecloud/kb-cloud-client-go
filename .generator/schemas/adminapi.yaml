@@ -18608,6 +18608,143 @@ components:
             defaultBackupRepo:
               type: boolean
               description: judge whether to set the backup is default which will be init
+    nodeSelector:
+      title: NodeSelector
+      description: Node selection criteria for pod scheduling.
+      type: object
+      additionalProperties:
+        type: string
+      minProperties: 1
+    tolerationOperator:
+      type: string
+      enum:
+        - Equal
+        - Exists
+      description: The operator to use for matching the taint's key and value.
+    tolerationEffect:
+      type: string
+      enum:
+        - NoSchedule
+        - PreferNoSchedule
+        - NoExecute
+      description: The effect of the taint that this toleration tolerates.
+    toleration:
+      title: Toleration
+      description: Toleration allows a pod to be scheduled on nodes with taints.
+      type: object
+      properties:
+        key:
+          type: string
+          description: The taint key that the toleration applies to.
+        operator:
+          $ref: '#/components/schemas/tolerationOperator'
+        value:
+          type: string
+          description: The taint value to match. Optional if operator is "Exists".
+        effect:
+          $ref: '#/components/schemas/tolerationEffect'
+        tolerationSeconds:
+          type: integer
+          description: The duration for which the toleration is valid.
+      required:
+        - key
+        - operator
+        - effect
+    tolerations:
+      title: Tolerations
+      description: List of tolerations for pod scheduling on tainted nodes.
+      type: array
+      items:
+        $ref: '#/components/schemas/toleration'
+      minItems: 1
+    nodeSelectorOperator:
+      type: string
+      enum:
+        - In
+        - NotIn
+        - Exists
+        - DoesNotExist
+    nodeSelectorRequirement:
+      title: NodeSelectorRequirement
+      description: Defines a requirement for a node selector.
+      type: object
+      properties:
+        key:
+          type: string
+        operator:
+          $ref: '#/components/schemas/nodeSelectorOperator'
+        values:
+          type: array
+          items:
+            type: string
+      required:
+        - key
+        - operator
+    nodeSelectorTerm:
+      title: NodeSelectorTerm
+      description: Represents a set of node selection criteria.
+      type: object
+      properties:
+        matchExpressions:
+          type: array
+          items:
+            $ref: '#/components/schemas/nodeSelectorRequirement'
+    labelSelector:
+      title: LabelSelector
+      description: Represents a label selector for matching pods based on their labels.
+      type: object
+      properties:
+        matchExpressions:
+          type: array
+          items:
+            $ref: '#/components/schemas/nodeSelectorRequirement'
+    requiredSchedulingRule:
+      title: RequiredSchedulingRule
+      description: Specifies the hard affinity/anti-affinity rules for pod scheduling.
+      type: object
+      properties:
+        nodeSelectorTerms:
+          type: array
+          items:
+            $ref: '#/components/schemas/nodeSelectorTerm'
+        labelSelector:
+          $ref: '#/components/schemas/labelSelector'
+        topologyKey:
+          type: string
+          description: The key used to denote how Pods are grouped together (e.g., by node).
+      minProperties: 1
+    nodeAffinity:
+      title: NodeAffinity
+      description: Rules for scheduling pods based on node labels.
+      type: object
+      properties:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          $ref: '#/components/schemas/requiredSchedulingRule'
+    podAffinity:
+      title: PodAffinity
+      description: Rules for scheduling pods to co-locate with other pods.
+      type: object
+      properties:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          $ref: '#/components/schemas/requiredSchedulingRule'
+    podAntiAffinity:
+      title: PodAntiAffinity
+      description: Rules for scheduling pods to avoid co-locating with other pods.
+      type: object
+      properties:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          $ref: '#/components/schemas/requiredSchedulingRule'
+    affinity:
+      title: Affinity
+      description: Rules for pod scheduling based on node and pod relationships.
+      type: object
+      properties:
+        nodeAffinity:
+          $ref: '#/components/schemas/nodeAffinity'
+        podAffinity:
+          $ref: '#/components/schemas/podAffinity'
+        podAntiAffinity:
+          $ref: '#/components/schemas/podAntiAffinity'
     environmentModuleStatus:
       type: string
       description: Status of environment module
@@ -18694,6 +18831,12 @@ components:
           $ref: '#/components/schemas/nodePool'
         storage:
           $ref: '#/components/schemas/storageConfig'
+        nodeSelector:
+          $ref: '#/components/schemas/nodeSelector'
+        tolerations:
+          $ref: '#/components/schemas/tolerations'
+        affinity:
+          $ref: '#/components/schemas/affinity'
         modules:
           type: array
           description: option modules of environment
