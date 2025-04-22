@@ -6018,6 +6018,41 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engine
+  /api/v1/engines/resourceConstraints:
+    get:
+      operationId: listEngineRsourceConstraints
+      summary: List engine resource constraints
+      parameters:
+        - description: engine name
+          in: query
+          name: engine
+          schema:
+            type: string
+        - description: engine mode
+          in: query
+          name: mode
+          schema:
+            type: string
+        - description: engine component
+          in: query
+          name: component
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resourceConstraintList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
   /api/v1/engineOptions:
     get:
       description: list all engineOptions
@@ -12910,6 +12945,26 @@ components:
         - Halt
         - Delete
         - WipeOut
+    ioQuantity:
+      description: IO Quantity describes IOPS and BPS of a volume
+      properties:
+        readIOPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeIOPS:
+          type: integer
+          format: int64
+          nullable: true
+        readBPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeBPS:
+          type: integer
+          nullable: true
+          format: int64
+      type: object
     componentVolumeItem:
       description: ComponentVolumeItem is the information of a component volume
       type: object
@@ -12923,6 +12978,8 @@ components:
           type: number
           description: Storage size, the unit is Gi.
           format: double
+        ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -13353,26 +13410,6 @@ components:
           type: string
           nullable: true
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
-    ioQuantity:
-      description: IO Quantity describes IOPS and BPS of a volume
-      properties:
-        readIOPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeIOPS:
-          type: integer
-          format: int64
-          nullable: true
-        readBPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeBPS:
-          type: integer
-          nullable: true
-          format: int64
-      type: object
     instanceStorageItem:
       description: Instance storage information
       properties:
@@ -15929,6 +15966,74 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
+    integerOption:
+      type: object
+      required:
+        - min
+        - max
+        - default
+        - step
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+    storageOption:
+      type: object
+      required:
+        - name
+        - title
+        - min
+        - step
+        - max
+        - default
+      properties:
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        name:
+          type: string
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+    resourceConstraint:
+      type: object
+      properties:
+        id:
+          type: string
+          description: resource constraint id
+        engine:
+          type: string
+          description: engine name
+        mode:
+          type: string
+          description: engine mode
+        component:
+          type: string
+          description: engine component
+        replicas:
+          $ref: '#/components/schemas/integerOption'
+        shards:
+          $ref: '#/components/schemas/integerOption'
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/storageOption'
+    resourceConstraintList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/resourceConstraint'
     engineOptionStatus:
       type: string
       default: Release
@@ -16014,22 +16119,6 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    integerOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     floatOption:
       type: object
       required:
@@ -16050,28 +16139,6 @@ components:
         step:
           type: number
           format: double
-    storageOption:
-      type: object
-      required:
-        - name
-        - title
-        - min
-        - step
-        - max
-        - default
-      properties:
-        title:
-          $ref: '#/components/schemas/localizedDescription'
-        name:
-          type: string
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     modeComponent:
       type: object
       required:
@@ -19588,7 +19655,6 @@ x-tagGroups:
       - tls
       - whitelist
       - database
-      - classes
       - recycleBinCluster
       - clusterTask
   - name: Backup & Restore
@@ -19619,6 +19685,8 @@ x-tagGroups:
   - name: Engine
     tags:
       - engine
+      - engineOption
+      - class
   - name: Benchmark
     tags:
       - benchmark
