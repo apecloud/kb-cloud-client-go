@@ -25498,6 +25498,7 @@ components:
         - Finish
         - DataInterpretation
         - Error
+        - Think
       description: 消息类型
     chatResponse:
       type: object
