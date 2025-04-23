@@ -23291,6 +23291,7 @@ components:
       properties:
         success:
           type: boolean
+          x-omitempty: false
         message:
           type: string
     monitorDataSinkCreate:
