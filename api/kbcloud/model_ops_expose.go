@@ -14,6 +14,7 @@ import (
 type OpsExpose struct {
 	Component string `json:"component"`
 	Enable    bool   `json:"enable"`
+	Readonly  *bool  `json:"readonly,omitempty"`
 	// Specifies the type of exposure for the KubeBlocks cluster.
 	Type OpsExposeType `json:"type"`
 	// Specifies the type of service for the KubeBlocks cluster.
@@ -92,6 +93,34 @@ func (o *OpsExpose) GetEnableOk() (*bool, bool) {
 // SetEnable sets field value.
 func (o *OpsExpose) SetEnable(v bool) {
 	o.Enable = v
+}
+
+// GetReadonly returns the Readonly field value if set, zero value otherwise.
+func (o *OpsExpose) GetReadonly() bool {
+	if o == nil || o.Readonly == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Readonly
+}
+
+// GetReadonlyOk returns a tuple with the Readonly field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OpsExpose) GetReadonlyOk() (*bool, bool) {
+	if o == nil || o.Readonly == nil {
+		return nil, false
+	}
+	return o.Readonly, true
+}
+
+// HasReadonly returns a boolean if a field has been set.
+func (o *OpsExpose) HasReadonly() bool {
+	return o != nil && o.Readonly != nil
+}
+
+// SetReadonly gets a reference to the given bool and assigns it to the Readonly field.
+func (o *OpsExpose) SetReadonly(v bool) {
+	o.Readonly = &v
 }
 
 // GetType returns the Type field value.
@@ -181,6 +210,9 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["component"] = o.Component
 	toSerialize["enable"] = o.Enable
+	if o.Readonly != nil {
+		toSerialize["readonly"] = o.Readonly
+	}
 	toSerialize["type"] = o.Type
 	if o.VpcServiceType != nil {
 		toSerialize["vpcServiceType"] = o.VpcServiceType
@@ -200,6 +232,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component      *string                     `json:"component"`
 		Enable         *bool                       `json:"enable"`
+		Readonly       *bool                       `json:"readonly,omitempty"`
 		Type           *OpsExposeType              `json:"type"`
 		VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
 		PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
@@ -218,7 +251,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "type", "vpcServiceType", "portsMapping"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping"})
 	} else {
 		return err
 	}
@@ -226,6 +259,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Component = *all.Component
 	o.Enable = *all.Enable
+	o.Readonly = all.Readonly
 	if !all.Type.IsValid() {
 		hasInvalidField = true
 	} else {
