@@ -11197,6 +11197,48 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/v1/secrets:
+    get:
+      tags:
+        - secret
+      operationId: listSecrets
+      summary: List Secrets
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/secretKeyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    post:
+      tags:
+        - secret
+      operationId: createSecret
+      summary: Create a new secret
+      description: Store a new secret in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/secretKey'
+      responses:
+        '200':
+          description: Secret created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/secretKey'
+        '400':
+          description: Invalid input provided.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
 components:
   securitySchemes:
     BearerToken:
@@ -19549,6 +19591,61 @@ components:
         sessionId:
           type: string
           description: 会话ID
+    encryptionAlgorithm:
+      description: the encryption algorithm
+      type: string
+      enum:
+        - AES-128-CFB
+        - AES-192-CFB
+        - AES-256-CFB
+    encryptionKeyUsage:
+      type: string
+      enum:
+        - encryption
+        - decryption
+        - signing
+        - verification
+      description: The intended usage of the key.
+    secretKey:
+      description: The secret key used for encryption or decryption.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the key.
+        name:
+          type: string
+          description: The name of the key.
+        algorithm:
+          $ref: '#/components/schemas/encryptionAlgorithm'
+        keyUsage:
+          $ref: '#/components/schemas/encryptionKeyUsage'
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation timestamp of the key.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last update timestamp of the key.
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional metadata associated with the key.
+    secretKeyList:
+      description: secret is a list of secret
+      properties:
+        items:
+          description: Items is the list of backup policy objects in the list
+          items:
+            $ref: '#/components/schemas/secretKey'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '400':
       content:

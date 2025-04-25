@@ -292,6 +292,8 @@
 //   - [roleApi.listRolePermissions]
 //   - [roleApi.listRoles]
 //   - [roleApi.updateRoleByName]
+//   - [secretApi.createSecret]
+//   - [secretApi.listSecrets]
 //   - [sessionApi.killSession]
 //   - [sessionApi.listSessions]
 //   - [storageClassApi.getStorageClassStats]
