@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"time"
@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// SecretKey The secret key used for encryption or decryption.
-type SecretKey struct {
+// Key mutiple kv pair
+type Key struct {
 	// The unique identifier of the key.
 	Id *string `json:"id,omitempty"`
 	// The name of the key.
@@ -31,25 +31,25 @@ type SecretKey struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecretKey instantiates a new SecretKey object.
+// NewKey instantiates a new Key object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecretKey() *SecretKey {
-	this := SecretKey{}
+func NewKey() *Key {
+	this := Key{}
 	return &this
 }
 
-// NewSecretKeyWithDefaults instantiates a new SecretKey object.
+// NewKeyWithDefaults instantiates a new Key object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecretKeyWithDefaults() *SecretKey {
-	this := SecretKey{}
+func NewKeyWithDefaults() *Key {
+	this := Key{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *SecretKey) GetId() string {
+func (o *Key) GetId() string {
 	if o == nil || o.Id == nil {
 		var ret string
 		return ret
@@ -59,7 +59,7 @@ func (o *SecretKey) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetIdOk() (*string, bool) {
+func (o *Key) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -67,17 +67,17 @@ func (o *SecretKey) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *SecretKey) HasId() bool {
+func (o *Key) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *SecretKey) SetId(v string) {
+func (o *Key) SetId(v string) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *SecretKey) GetName() string {
+func (o *Key) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -87,7 +87,7 @@ func (o *SecretKey) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetNameOk() (*string, bool) {
+func (o *Key) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -95,17 +95,17 @@ func (o *SecretKey) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *SecretKey) HasName() bool {
+func (o *Key) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *SecretKey) SetName(v string) {
+func (o *Key) SetName(v string) {
 	o.Name = &v
 }
 
 // GetAlgorithm returns the Algorithm field value if set, zero value otherwise.
-func (o *SecretKey) GetAlgorithm() EncryptionAlgorithm {
+func (o *Key) GetAlgorithm() EncryptionAlgorithm {
 	if o == nil || o.Algorithm == nil {
 		var ret EncryptionAlgorithm
 		return ret
@@ -115,7 +115,7 @@ func (o *SecretKey) GetAlgorithm() EncryptionAlgorithm {
 
 // GetAlgorithmOk returns a tuple with the Algorithm field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetAlgorithmOk() (*EncryptionAlgorithm, bool) {
+func (o *Key) GetAlgorithmOk() (*EncryptionAlgorithm, bool) {
 	if o == nil || o.Algorithm == nil {
 		return nil, false
 	}
@@ -123,17 +123,17 @@ func (o *SecretKey) GetAlgorithmOk() (*EncryptionAlgorithm, bool) {
 }
 
 // HasAlgorithm returns a boolean if a field has been set.
-func (o *SecretKey) HasAlgorithm() bool {
+func (o *Key) HasAlgorithm() bool {
 	return o != nil && o.Algorithm != nil
 }
 
 // SetAlgorithm gets a reference to the given EncryptionAlgorithm and assigns it to the Algorithm field.
-func (o *SecretKey) SetAlgorithm(v EncryptionAlgorithm) {
+func (o *Key) SetAlgorithm(v EncryptionAlgorithm) {
 	o.Algorithm = &v
 }
 
 // GetKeyUsage returns the KeyUsage field value if set, zero value otherwise.
-func (o *SecretKey) GetKeyUsage() EncryptionKeyUsage {
+func (o *Key) GetKeyUsage() EncryptionKeyUsage {
 	if o == nil || o.KeyUsage == nil {
 		var ret EncryptionKeyUsage
 		return ret
@@ -143,7 +143,7 @@ func (o *SecretKey) GetKeyUsage() EncryptionKeyUsage {
 
 // GetKeyUsageOk returns a tuple with the KeyUsage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetKeyUsageOk() (*EncryptionKeyUsage, bool) {
+func (o *Key) GetKeyUsageOk() (*EncryptionKeyUsage, bool) {
 	if o == nil || o.KeyUsage == nil {
 		return nil, false
 	}
@@ -151,17 +151,17 @@ func (o *SecretKey) GetKeyUsageOk() (*EncryptionKeyUsage, bool) {
 }
 
 // HasKeyUsage returns a boolean if a field has been set.
-func (o *SecretKey) HasKeyUsage() bool {
+func (o *Key) HasKeyUsage() bool {
 	return o != nil && o.KeyUsage != nil
 }
 
 // SetKeyUsage gets a reference to the given EncryptionKeyUsage and assigns it to the KeyUsage field.
-func (o *SecretKey) SetKeyUsage(v EncryptionKeyUsage) {
+func (o *Key) SetKeyUsage(v EncryptionKeyUsage) {
 	o.KeyUsage = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *SecretKey) GetCreatedAt() time.Time {
+func (o *Key) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
 		var ret time.Time
 		return ret
@@ -171,7 +171,7 @@ func (o *SecretKey) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetCreatedAtOk() (*time.Time, bool) {
+func (o *Key) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || o.CreatedAt == nil {
 		return nil, false
 	}
@@ -179,17 +179,17 @@ func (o *SecretKey) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *SecretKey) HasCreatedAt() bool {
+func (o *Key) HasCreatedAt() bool {
 	return o != nil && o.CreatedAt != nil
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *SecretKey) SetCreatedAt(v time.Time) {
+func (o *Key) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *SecretKey) GetUpdatedAt() time.Time {
+func (o *Key) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
 		var ret time.Time
 		return ret
@@ -199,7 +199,7 @@ func (o *SecretKey) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *Key) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil || o.UpdatedAt == nil {
 		return nil, false
 	}
@@ -207,17 +207,17 @@ func (o *SecretKey) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // HasUpdatedAt returns a boolean if a field has been set.
-func (o *SecretKey) HasUpdatedAt() bool {
+func (o *Key) HasUpdatedAt() bool {
 	return o != nil && o.UpdatedAt != nil
 }
 
 // SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *SecretKey) SetUpdatedAt(v time.Time) {
+func (o *Key) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
 // GetMetadata returns the Metadata field value if set, zero value otherwise.
-func (o *SecretKey) GetMetadata() map[string]string {
+func (o *Key) GetMetadata() map[string]string {
 	if o == nil || o.Metadata == nil {
 		var ret map[string]string
 		return ret
@@ -227,7 +227,7 @@ func (o *SecretKey) GetMetadata() map[string]string {
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKey) GetMetadataOk() (*map[string]string, bool) {
+func (o *Key) GetMetadataOk() (*map[string]string, bool) {
 	if o == nil || o.Metadata == nil {
 		return nil, false
 	}
@@ -235,17 +235,17 @@ func (o *SecretKey) GetMetadataOk() (*map[string]string, bool) {
 }
 
 // HasMetadata returns a boolean if a field has been set.
-func (o *SecretKey) HasMetadata() bool {
+func (o *Key) HasMetadata() bool {
 	return o != nil && o.Metadata != nil
 }
 
 // SetMetadata gets a reference to the given map[string]string and assigns it to the Metadata field.
-func (o *SecretKey) SetMetadata(v map[string]string) {
+func (o *Key) SetMetadata(v map[string]string) {
 	o.Metadata = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecretKey) MarshalJSON() ([]byte, error) {
+func (o Key) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -287,7 +287,7 @@ func (o SecretKey) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecretKey) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id        *string              `json:"id,omitempty"`
 		Name      *string              `json:"name,omitempty"`

@@ -13,33 +13,33 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// SecretApi service type
-type SecretApi common.Service
+// KeyApi service type
+type KeyApi common.Service
 
-// CreateSecret Create a new secret.
-// Store a new secret in the system.
-func (a *SecretApi) CreateSecret(ctx _context.Context, body SecretKey) (SecretKey, *_nethttp.Response, error) {
+// CreateKey Create a new key.
+// Store a new key in the system.
+func (a *KeyApi) CreateKey(ctx _context.Context, body Key) (Key, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue SecretKey
+		localVarReturnValue Key
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "secret",
-		OperationID: "createSecret",
-		Path:        "/api/v1/secrets",
+		Tag:         "key",
+		OperationID: "createKey",
+		Path:        "/api/v1/key",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SecretApi.CreateSecret")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KeyApi.CreateKey")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/secrets"
+	localVarPath := localBasePath + "/api/v1/key"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -106,29 +106,29 @@ func (a *SecretApi) CreateSecret(ctx _context.Context, body SecretKey) (SecretKe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListSecrets List Secrets.
-func (a *SecretApi) ListSecrets(ctx _context.Context) (SecretKeyList, *_nethttp.Response, error) {
+// ListKeys List Keys.
+func (a *KeyApi) ListKeys(ctx _context.Context) (KeyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue SecretKeyList
+		localVarReturnValue KeyList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "secret",
-		OperationID: "listSecrets",
-		Path:        "/api/v1/secrets",
+		Tag:         "key",
+		OperationID: "listKeys",
+		Path:        "/api/v1/key",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".SecretApi.ListSecrets")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KeyApi.ListKeys")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/secrets"
+	localVarPath := localBasePath + "/api/v1/key"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -183,9 +183,9 @@ func (a *SecretApi) ListSecrets(ctx _context.Context) (SecretKeyList, *_nethttp.
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewSecretApi Returns NewSecretApi.
-func NewSecretApi(client *common.APIClient) *SecretApi {
-	return &SecretApi{
+// NewKeyApi Returns NewKeyApi.
+func NewKeyApi(client *common.APIClient) *KeyApi {
+	return &KeyApi{
 		Client: client,
 	}
 }

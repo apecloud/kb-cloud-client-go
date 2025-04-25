@@ -14681,82 +14681,82 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /admin/v1/secrets:
+  /admin/v1/key:
     get:
       tags:
-        - secret
-      operationId: listSecrets
-      summary: List Secrets
+        - key
+      operationId: listKeys
+      summary: List Keys
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretKeyList'
+                $ref: '#/components/schemas/keyList'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
     post:
       tags:
-        - secret
-      operationId: createSecret
-      summary: Create a new secret
-      description: Store a new secret in the system.
+        - key
+      operationId: createKey
+      summary: Create a new key
+      description: Store a new key in the system.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/secretKey'
+              $ref: '#/components/schemas/key'
       responses:
         '200':
-          description: Secret created successfully.
+          description: key created successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretKey'
+                $ref: '#/components/schemas/key'
         '400':
           description: Invalid input provided.
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/secrets/{secretName}:
+  /admin/v1/key/{keyName}:
     get:
-      operationId: getSecret
+      operationId: getKey
       tags:
-        - secret
-      summary: get an existing secret
+        - key
+      summary: get an existing key
       parameters:
-        - name: secretName
+        - name: keyName
           in: path
           required: true
-          description: the name of secret
+          description: the name of key
           schema:
             type: string
       responses:
         '200':
-          description: Successfully updated the secret
+          description: Successfully updated the key
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretKey'
+                $ref: '#/components/schemas/key'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
     patch:
-      operationId: updateSecret
+      operationId: updateKey
       tags:
-        - secret
-      summary: Update an existing secret
+        - key
+      summary: Update an existing key
       parameters:
-        - name: secretName
+        - name: keyName
           in: path
           required: true
-          description: the name of secret
+          description: the name of key
           schema:
             type: string
       requestBody:
@@ -14764,33 +14764,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/secretKey'
+              $ref: '#/components/schemas/key'
       responses:
         '200':
-          description: Successfully updated the secret
+          description: Successfully updated the key
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretKey'
+                $ref: '#/components/schemas/key'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
     delete:
-      operationId: deleteSecret
+      operationId: deleteKey
       tags:
-        - secret
-      summary: Delete a specific secret
+        - key
+      summary: Delete a specific key
       parameters:
-        - name: secretName
+        - name: keyName
           in: path
           required: true
-          description: the name of secret
+          description: the name of key
           schema:
             type: string
       responses:
         '204':
-          description: Successfully deleted the secret
+          description: Successfully deleted the key
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25667,8 +25667,8 @@ components:
         - signing
         - verification
       description: The intended usage of the key.
-    secretKey:
-      description: The secret key used for encryption or decryption.
+    key:
+      description: mutiple kv pair
       type: object
       properties:
         id:
@@ -25694,13 +25694,13 @@ components:
           additionalProperties:
             type: string
           description: Additional metadata associated with the key.
-    secretKeyList:
-      description: secret is a list of secret
+    keyList:
+      description: key list
       properties:
         items:
-          description: Items is the list of backup policy objects in the list
+          description: Items is the list of key objects in the list
           items:
-            $ref: '#/components/schemas/secretKey'
+            $ref: '#/components/schemas/key'
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'

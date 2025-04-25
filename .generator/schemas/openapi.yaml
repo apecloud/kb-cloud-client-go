@@ -11197,42 +11197,42 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/v1/secrets:
+  /api/v1/key:
     get:
       tags:
-        - secret
-      operationId: listSecrets
-      summary: List Secrets
+        - key
+      operationId: listKeys
+      summary: List Keys
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretKeyList'
+                $ref: '#/components/schemas/keyList'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
     post:
       tags:
-        - secret
-      operationId: createSecret
-      summary: Create a new secret
-      description: Store a new secret in the system.
+        - key
+      operationId: createKey
+      summary: Create a new key
+      description: Store a new key in the system.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/secretKey'
+              $ref: '#/components/schemas/key'
       responses:
         '200':
-          description: Secret created successfully.
+          description: key created successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/secretKey'
+                $ref: '#/components/schemas/key'
         '400':
           description: Invalid input provided.
         '401':
@@ -19618,8 +19618,8 @@ components:
         - signing
         - verification
       description: The intended usage of the key.
-    secretKey:
-      description: The secret key used for encryption or decryption.
+    key:
+      description: mutiple kv pair
       type: object
       properties:
         id:
@@ -19645,13 +19645,13 @@ components:
           additionalProperties:
             type: string
           description: Additional metadata associated with the key.
-    secretKeyList:
-      description: secret is a list of secret
+    keyList:
+      description: key list
       properties:
         items:
-          description: Items is the list of backup policy objects in the list
+          description: Items is the list of key objects in the list
           items:
-            $ref: '#/components/schemas/secretKey'
+            $ref: '#/components/schemas/key'
           type: array
         pageResult:
           $ref: '#/components/schemas/pageResult'

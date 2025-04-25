@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// SecretKeyList secret is a list of secret
-type SecretKeyList struct {
-	// Items is the list of backup policy objects in the list
-	Items []SecretKey `json:"items"`
+// KeyList key list
+type KeyList struct {
+	// Items is the list of key objects in the list
+	Items []Key `json:"items"`
 	// PageResult info
 	PageResult *PageResult `json:"pageResult,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -21,28 +21,28 @@ type SecretKeyList struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewSecretKeyList instantiates a new SecretKeyList object.
+// NewKeyList instantiates a new KeyList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewSecretKeyList(items []SecretKey) *SecretKeyList {
-	this := SecretKeyList{}
+func NewKeyList(items []Key) *KeyList {
+	this := KeyList{}
 	this.Items = items
 	return &this
 }
 
-// NewSecretKeyListWithDefaults instantiates a new SecretKeyList object.
+// NewKeyListWithDefaults instantiates a new KeyList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewSecretKeyListWithDefaults() *SecretKeyList {
-	this := SecretKeyList{}
+func NewKeyListWithDefaults() *KeyList {
+	this := KeyList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *SecretKeyList) GetItems() []SecretKey {
+func (o *KeyList) GetItems() []Key {
 	if o == nil {
-		var ret []SecretKey
+		var ret []Key
 		return ret
 	}
 	return o.Items
@@ -50,7 +50,7 @@ func (o *SecretKeyList) GetItems() []SecretKey {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *SecretKeyList) GetItemsOk() (*[]SecretKey, bool) {
+func (o *KeyList) GetItemsOk() (*[]Key, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,12 +58,12 @@ func (o *SecretKeyList) GetItemsOk() (*[]SecretKey, bool) {
 }
 
 // SetItems sets field value.
-func (o *SecretKeyList) SetItems(v []SecretKey) {
+func (o *KeyList) SetItems(v []Key) {
 	o.Items = v
 }
 
 // GetPageResult returns the PageResult field value if set, zero value otherwise.
-func (o *SecretKeyList) GetPageResult() PageResult {
+func (o *KeyList) GetPageResult() PageResult {
 	if o == nil || o.PageResult == nil {
 		var ret PageResult
 		return ret
@@ -73,7 +73,7 @@ func (o *SecretKeyList) GetPageResult() PageResult {
 
 // GetPageResultOk returns a tuple with the PageResult field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SecretKeyList) GetPageResultOk() (*PageResult, bool) {
+func (o *KeyList) GetPageResultOk() (*PageResult, bool) {
 	if o == nil || o.PageResult == nil {
 		return nil, false
 	}
@@ -81,17 +81,17 @@ func (o *SecretKeyList) GetPageResultOk() (*PageResult, bool) {
 }
 
 // HasPageResult returns a boolean if a field has been set.
-func (o *SecretKeyList) HasPageResult() bool {
+func (o *KeyList) HasPageResult() bool {
 	return o != nil && o.PageResult != nil
 }
 
 // SetPageResult gets a reference to the given PageResult and assigns it to the PageResult field.
-func (o *SecretKeyList) SetPageResult(v PageResult) {
+func (o *KeyList) SetPageResult(v PageResult) {
 	o.PageResult = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o SecretKeyList) MarshalJSON() ([]byte, error) {
+func (o KeyList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -108,10 +108,10 @@ func (o SecretKeyList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *SecretKeyList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *KeyList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items      *[]SecretKey `json:"items"`
-		PageResult *PageResult  `json:"pageResult,omitempty"`
+		Items      *[]Key      `json:"items"`
+		PageResult *PageResult `json:"pageResult,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
