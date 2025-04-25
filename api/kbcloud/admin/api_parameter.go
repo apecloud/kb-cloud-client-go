@@ -17,118 +17,10 @@ import (
 // ParameterApi service type
 type ParameterApi common.Service
 
-// ListConfigurationsOptionalParameters holds optional parameters for ListConfigurations.
-type ListConfigurationsOptionalParameters struct {
-	Component *string
-}
-
-// NewListConfigurationsOptionalParameters creates an empty struct for parameters.
-func NewListConfigurationsOptionalParameters() *ListConfigurationsOptionalParameters {
-	this := ListConfigurationsOptionalParameters{}
-	return &this
-}
-
-// WithComponent sets the corresponding parameter name and returns the struct.
-func (r *ListConfigurationsOptionalParameters) WithComponent(component string) *ListConfigurationsOptionalParameters {
-	r.Component = &component
-	return r
-}
-
-// ListConfigurations List configurations of the cluster.
-// get parameter configurations, deprecated, instead use listParameterProps
-// Deprecated: This API is deprecated.
-func (a *ParameterApi) ListConfigurations(ctx _context.Context, orgName string, clusterName string, o ...ListConfigurationsOptionalParameters) (ConfigurationList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ConfigurationList
-		optionalParams      ListConfigurationsOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListConfigurationsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "parameter",
-		OperationID: "listConfigurations",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/configurations",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParameterApi.ListConfigurations")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/configurations"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	if optionalParams.Component != nil {
-		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
-	}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // ListParameterPropsOptionalParameters holds optional parameters for ListParameterProps.
 type ListParameterPropsOptionalParameters struct {
-	Component *string
+	Component  *string
+	RawContent *bool
 }
 
 // NewListParameterPropsOptionalParameters creates an empty struct for parameters.
@@ -140,6 +32,12 @@ func NewListParameterPropsOptionalParameters() *ListParameterPropsOptionalParame
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *ListParameterPropsOptionalParameters) WithComponent(component string) *ListParameterPropsOptionalParameters {
 	r.Component = &component
+	return r
+}
+
+// WithRawContent sets the corresponding parameter name and returns the struct.
+func (r *ListParameterPropsOptionalParameters) WithRawContent(rawContent bool) *ListParameterPropsOptionalParameters {
+	r.RawContent = &rawContent
 	return r
 }
 
@@ -183,114 +81,8 @@ func (a *ParameterApi) ListParameterProps(ctx _context.Context, orgName string, 
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
 	}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-// ListParameterSpecsOptionalParameters holds optional parameters for ListParameterSpecs.
-type ListParameterSpecsOptionalParameters struct {
-	Component *string
-}
-
-// NewListParameterSpecsOptionalParameters creates an empty struct for parameters.
-func NewListParameterSpecsOptionalParameters() *ListParameterSpecsOptionalParameters {
-	this := ListParameterSpecsOptionalParameters{}
-	return &this
-}
-
-// WithComponent sets the corresponding parameter name and returns the struct.
-func (r *ListParameterSpecsOptionalParameters) WithComponent(component string) *ListParameterSpecsOptionalParameters {
-	r.Component = &component
-	return r
-}
-
-// ListParameterSpecs List parameter specs of the cluster.
-// get parameter specs, deprecated, instead use listParameterProps
-// Deprecated: This API is deprecated.
-func (a *ParameterApi) ListParameterSpecs(ctx _context.Context, orgName string, clusterName string, o ...ListParameterSpecsOptionalParameters) (ParameterSpecList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue ParameterSpecList
-		optionalParams      ListParameterSpecsOptionalParameters
-	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListParameterSpecsOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "parameter",
-		OperationID: "listParameterSpecs",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ParameterApi.ListParameterSpecs")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/parameterSpecs"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	if optionalParams.Component != nil {
-		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	if optionalParams.RawContent != nil {
+		localVarQueryParams.Add("rawContent", common.ParameterToString(*optionalParams.RawContent, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

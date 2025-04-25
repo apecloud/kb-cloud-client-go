@@ -23,6 +23,10 @@ type ParamTplListItem struct {
 	Description string `json:"description"`
 	// Name of database with its version, eg: mysql8.0
 	Family string `json:"family"`
+	// Name of database engine
+	Engine *string `json:"engine,omitempty"`
+	// Name of component
+	Component *string `json:"component,omitempty"`
 	// Name of parameter template. Name must be unique within an Org
 	Name string `json:"name"`
 	// the template partition in listParamTpl request
@@ -162,6 +166,62 @@ func (o *ParamTplListItem) SetFamily(v string) {
 	o.Family = v
 }
 
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *ParamTplListItem) GetEngine() string {
+	if o == nil || o.Engine == nil {
+		var ret string
+		return ret
+	}
+	return *o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplListItem) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
+		return nil, false
+	}
+	return o.Engine, true
+}
+
+// HasEngine returns a boolean if a field has been set.
+func (o *ParamTplListItem) HasEngine() bool {
+	return o != nil && o.Engine != nil
+}
+
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *ParamTplListItem) SetEngine(v string) {
+	o.Engine = &v
+}
+
+// GetComponent returns the Component field value if set, zero value otherwise.
+func (o *ParamTplListItem) GetComponent() string {
+	if o == nil || o.Component == nil {
+		var ret string
+		return ret
+	}
+	return *o.Component
+}
+
+// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParamTplListItem) GetComponentOk() (*string, bool) {
+	if o == nil || o.Component == nil {
+		return nil, false
+	}
+	return o.Component, true
+}
+
+// HasComponent returns a boolean if a field has been set.
+func (o *ParamTplListItem) HasComponent() bool {
+	return o != nil && o.Component != nil
+}
+
+// SetComponent gets a reference to the given string and assigns it to the Component field.
+func (o *ParamTplListItem) SetComponent(v string) {
+	o.Component = &v
+}
+
 // GetName returns the Name field value.
 func (o *ParamTplListItem) GetName() string {
 	if o == nil {
@@ -277,6 +337,12 @@ func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["description"] = o.Description
 	toSerialize["family"] = o.Family
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
+	}
+	if o.Component != nil {
+		toSerialize["component"] = o.Component
+	}
 	toSerialize["name"] = o.Name
 	toSerialize["partition"] = o.Partition
 	toSerialize["paramTplID"] = o.ParamTplId
@@ -301,6 +367,8 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt   *time.Time `json:"createdAt,omitempty"`
 		Description *string    `json:"description"`
 		Family      *string    `json:"family"`
+		Engine      *string    `json:"engine,omitempty"`
+		Component   *string    `json:"component,omitempty"`
 		Name        *string    `json:"name"`
 		Partition   *string    `json:"partition"`
 		ParamTplId  *string    `json:"paramTplID"`
@@ -326,7 +394,7 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "family", "name", "partition", "paramTplID", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "createdAt", "description", "family", "engine", "component", "name", "partition", "paramTplID", "updatedAt"})
 	} else {
 		return err
 	}
@@ -334,6 +402,8 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = all.CreatedAt
 	o.Description = *all.Description
 	o.Family = *all.Family
+	o.Engine = all.Engine
+	o.Component = all.Component
 	o.Name = *all.Name
 	o.Partition = *all.Partition
 	o.ParamTplId = *all.ParamTplId
