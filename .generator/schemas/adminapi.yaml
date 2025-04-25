@@ -20709,6 +20709,16 @@ components:
         - status
         - totalSize
       type: object
+    encryptionConfig:
+      description: encryption config for cluster
+      properties:
+        secretKeyRef:
+          type: string
+          description: the secret ref for encryption
+        key:
+          type: string
+          description: the key name used for encryption
+      type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
       properties:
@@ -20749,6 +20759,8 @@ components:
           format: date-time
           type: string
           nullable: true
+        encryptionConfig:
+          $ref: '#/components/schemas/encryptionConfig'
       type: object
     backupList:
       description: BackupList is a list of backups
