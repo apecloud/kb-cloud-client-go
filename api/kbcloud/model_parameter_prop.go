@@ -19,6 +19,8 @@ type ParameterProp struct {
 	Type string `json:"type"`
 	// The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
 	Value interface{} `json:"value,omitempty"`
+	// The value of the parameter, if parameter is not set in tpl, it's value equal to cue default value.
+	Default interface{} `json:"default,omitempty"`
 	// Whether the parameter requires a restart to take effect
 	NeedRestart bool `json:"needRestart"`
 	// Whether the parameter is an immutable parameter, immutable parameters cannot be modified
@@ -155,6 +157,34 @@ func (o *ParameterProp) HasValue() bool {
 // SetValue gets a reference to the given interface{} and assigns it to the Value field.
 func (o *ParameterProp) SetValue(v interface{}) {
 	o.Value = v
+}
+
+// GetDefault returns the Default field value if set, zero value otherwise.
+func (o *ParameterProp) GetDefault() interface{} {
+	if o == nil || o.Default == nil {
+		var ret interface{}
+		return ret
+	}
+	return o.Default
+}
+
+// GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterProp) GetDefaultOk() (*interface{}, bool) {
+	if o == nil || o.Default == nil {
+		return nil, false
+	}
+	return &o.Default, true
+}
+
+// HasDefault returns a boolean if a field has been set.
+func (o *ParameterProp) HasDefault() bool {
+	return o != nil && o.Default != nil
+}
+
+// SetDefault gets a reference to the given interface{} and assigns it to the Default field.
+func (o *ParameterProp) SetDefault(v interface{}) {
+	o.Default = v
 }
 
 // GetNeedRestart returns the NeedRestart field value.
@@ -323,6 +353,9 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 	if o.Value != nil {
 		toSerialize["value"] = o.Value
 	}
+	if o.Default != nil {
+		toSerialize["default"] = o.Default
+	}
 	toSerialize["needRestart"] = o.NeedRestart
 	toSerialize["immutable"] = o.Immutable
 	if o.Maximum.IsSet() {
@@ -348,6 +381,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string                `json:"description,omitempty"`
 		Type        *string                `json:"type"`
 		Value       interface{}            `json:"value,omitempty"`
+		Default     interface{}            `json:"default,omitempty"`
 		NeedRestart *bool                  `json:"needRestart"`
 		Immutable   *bool                  `json:"immutable"`
 		Maximum     common.NullableFloat64 `json:"maximum,omitempty"`
@@ -371,7 +405,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "type", "value", "needRestart", "immutable", "maximum", "minimum", "enum"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "type", "value", "default", "needRestart", "immutable", "maximum", "minimum", "enum"})
 	} else {
 		return err
 	}
@@ -379,6 +413,7 @@ func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = all.Description
 	o.Type = *all.Type
 	o.Value = all.Value
+	o.Default = all.Default
 	o.NeedRestart = *all.NeedRestart
 	o.Immutable = *all.Immutable
 	o.Maximum = all.Maximum
