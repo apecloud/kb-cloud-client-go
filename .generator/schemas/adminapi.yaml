@@ -15446,6 +15446,8 @@ components:
           format: double
         ioLimits:
           $ref: '#/components/schemas/ioQuantity'
+        ioReserves:
+          $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
