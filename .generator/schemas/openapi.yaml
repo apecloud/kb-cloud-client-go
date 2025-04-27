@@ -11197,6 +11197,23 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/v1/keys:
+    get:
+      tags:
+        - key
+      operationId: listKeys
+      summary: List Keys
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/keyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
 components:
   securitySchemes:
     BearerToken:
@@ -14771,6 +14788,16 @@ components:
         - status
         - totalSize
       type: object
+    encryptionConfig:
+      description: encryption config for cluster
+      properties:
+        secretKeyRef:
+          type: string
+          description: the secret ref for encryption
+        key:
+          type: string
+          description: the key name used for encryption
+      type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
       properties:
@@ -14811,6 +14838,8 @@ components:
           format: date-time
           type: string
           nullable: true
+        encryptionConfig:
+          $ref: '#/components/schemas/encryptionConfig'
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -19551,6 +19580,61 @@ components:
         sessionId:
           type: string
           description: 会话ID
+    encryptionAlgorithm:
+      description: the encryption algorithm
+      type: string
+      enum:
+        - AES-128-CFB
+        - AES-192-CFB
+        - AES-256-CFB
+    encryptionKeyUsage:
+      type: string
+      enum:
+        - encryption
+        - decryption
+        - signing
+        - verification
+      description: The intended usage of the key.
+    key:
+      description: mutiple kv pair
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the key.
+        name:
+          type: string
+          description: The name of the key.
+        algorithm:
+          $ref: '#/components/schemas/encryptionAlgorithm'
+        keyUsage:
+          $ref: '#/components/schemas/encryptionKeyUsage'
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation timestamp of the key.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last update timestamp of the key.
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional metadata associated with the key.
+    keyList:
+      description: key list
+      properties:
+        items:
+          description: Items is the list of key objects in the list
+          items:
+            $ref: '#/components/schemas/key'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '400':
       content:
