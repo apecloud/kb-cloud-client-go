@@ -11197,7 +11197,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/v1/key:
+  /api/v1/keys:
     get:
       tags:
         - key
@@ -11210,31 +11210,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/keyList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-    post:
-      tags:
-        - key
-      operationId: createKey
-      summary: Create a new key
-      description: Store a new key in the system.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/key'
-      responses:
-        '200':
-          description: key created successfully.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/key'
-        '400':
-          description: Invalid input provided.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -13021,6 +12996,8 @@ components:
           description: Storage size, the unit is Gi.
           format: double
         ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
+        ioReserves:
           $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object

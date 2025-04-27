@@ -14681,7 +14681,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /admin/v1/key:
+  /admin/v1/keys:
     get:
       tags:
         - key
@@ -14723,7 +14723,7 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/key/{keyName}:
+  /admin/v1/keys/{keyName}:
     get:
       operationId: getKey
       tags:
@@ -15559,6 +15559,8 @@ components:
           description: Storage size, the unit is Gi.
           format: double
         ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
+        ioReserves:
           $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object

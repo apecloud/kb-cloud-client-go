@@ -30,7 +30,7 @@ func (a *KeyApi) CreateKey(ctx _context.Context, body Key) (Key, *_nethttp.Respo
 	apiInfo := common.APIInfo{
 		Tag:         "key",
 		OperationID: "createKey",
-		Path:        "/admin/v1/key",
+		Path:        "/admin/v1/keys",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -40,7 +40,7 @@ func (a *KeyApi) CreateKey(ctx _context.Context, body Key) (Key, *_nethttp.Respo
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/key"
+	localVarPath := localBasePath + "/admin/v1/keys"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -118,7 +118,7 @@ func (a *KeyApi) DeleteKey(ctx _context.Context, keyName string) (*_nethttp.Resp
 	apiInfo := common.APIInfo{
 		Tag:         "key",
 		OperationID: "deleteKey",
-		Path:        "/admin/v1/key/{keyName}",
+		Path:        "/admin/v1/keys/{keyName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -128,7 +128,7 @@ func (a *KeyApi) DeleteKey(ctx _context.Context, keyName string) (*_nethttp.Resp
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/key/{keyName}"
+	localVarPath := localBasePath + "/admin/v1/keys/{keyName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"keyName"+"}", _neturl.PathEscape(common.ParameterToString(keyName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -187,7 +187,7 @@ func (a *KeyApi) GetKey(ctx _context.Context, keyName string) (Key, *_nethttp.Re
 	apiInfo := common.APIInfo{
 		Tag:         "key",
 		OperationID: "getKey",
-		Path:        "/admin/v1/key/{keyName}",
+		Path:        "/admin/v1/keys/{keyName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -197,7 +197,7 @@ func (a *KeyApi) GetKey(ctx _context.Context, keyName string) (Key, *_nethttp.Re
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/key/{keyName}"
+	localVarPath := localBasePath + "/admin/v1/keys/{keyName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"keyName"+"}", _neturl.PathEscape(common.ParameterToString(keyName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -265,7 +265,7 @@ func (a *KeyApi) ListKeys(ctx _context.Context) (KeyList, *_nethttp.Response, er
 	apiInfo := common.APIInfo{
 		Tag:         "key",
 		OperationID: "listKeys",
-		Path:        "/admin/v1/key",
+		Path:        "/admin/v1/keys",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -275,7 +275,7 @@ func (a *KeyApi) ListKeys(ctx _context.Context) (KeyList, *_nethttp.Response, er
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/key"
+	localVarPath := localBasePath + "/admin/v1/keys"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -342,7 +342,7 @@ func (a *KeyApi) UpdateKey(ctx _context.Context, keyName string, body Key) (Key,
 	apiInfo := common.APIInfo{
 		Tag:         "key",
 		OperationID: "updateKey",
-		Path:        "/admin/v1/key/{keyName}",
+		Path:        "/admin/v1/keys/{keyName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -352,7 +352,7 @@ func (a *KeyApi) UpdateKey(ctx _context.Context, keyName string, body Key) (Key,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/key/{keyName}"
+	localVarPath := localBasePath + "/admin/v1/keys/{keyName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"keyName"+"}", _neturl.PathEscape(common.ParameterToString(keyName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
