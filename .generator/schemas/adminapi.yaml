@@ -396,6 +396,32 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+    post:
+      description: Create a new organization
+      summary: Create organization
+      operationId: createOrg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -415,6 +441,66 @@ paths:
               schema:
                 $ref: '#/components/schemas/org'
           description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      description: partially update the specified Org
+      summary: Update organization
+      operationId: patchOrg
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+          description: OK
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+          description: Created
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+      x-codegen-request-body-name: body
+    delete:
+      description: partially delete the specified org
+      summary: Delete organization
+      operationId: deleteOrg
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when org is deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -477,16 +563,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -499,8 +575,70 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - member
+    post:
+      description: Add organization with specific role
+      summary: Add member
+      operationId: addOrgMember
+      parameters:
+        - description: Name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgMemberAdd'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMember'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - member
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/members/{memberId}:
+    delete:
+      description: delete a Org Member
+      summary: Delete member
+      operationId: deleteOrgMember
+      parameters:
+        - description: Name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: ID of the member
+          in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - member
     get:
       description: read the specified OrgMember
       summary: Get member
@@ -532,7 +670,46 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - organization
+        - member
+    patch:
+      description: Only authenticated organization admins can update the member's role
+      summary: Update member role
+      operationId: patchOrgMember
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: ID of the member
+          in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgMemberUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMember'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - member
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
@@ -15087,6 +15264,25 @@ components:
           items:
             $ref: '#/components/schemas/organizationItem'
           description: The list of organizations.
+    orgCreate:
+      description: OrgCreate is the payload for organization creation
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+        creator:
+          description: The id of the creator of the organization
+          type: integer
+          format: int64
+      required:
+        - name
+      type: object
     org:
       description: Org info
       properties:
@@ -15125,6 +15321,16 @@ components:
         - updatedAt
         - enabled
       type: object
+    orgUpdate:
+      description: Organization update
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+      type: object
     orgMember:
       description: Org Member info
       properties:
@@ -15160,6 +15366,30 @@ components:
           $ref: '#/components/schemas/pageResult'
       required:
         - items
+      type: object
+    orgMemberAdd:
+      description: MemberAdd is the payload for adding organization member
+      properties:
+        role:
+          description: The name of the role in the organization
+          type: string
+          x-nullable: false
+        userId:
+          description: The ID of the user
+          type: string
+          x-nullable: false
+      required:
+        - role
+        - userId
+      type: object
+    orgMemberUpdate:
+      description: Org Member update
+      properties:
+        role:
+          description: The role of the User in the Org. Required
+          type: string
+      required:
+        - role
       type: object
     orgParameter:
       description: org parameter item
