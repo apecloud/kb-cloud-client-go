@@ -18071,6 +18071,8 @@ components:
           minLength: 1
         enable:
           type: boolean
+        readonly:
+          type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
         vpcServiceType:
