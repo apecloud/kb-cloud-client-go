@@ -8,6 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EncryptionConfig encryption config for cluster
 type EncryptionConfig struct {
+	// whether enable enc
+	Enabled *bool `json:"enabled,omitempty"`
 	// the secret ref for encryption
 	SecretKeyRef *string `json:"secretKeyRef,omitempty"`
 	// the key name used for encryption
@@ -32,6 +34,34 @@ func NewEncryptionConfig() *EncryptionConfig {
 func NewEncryptionConfigWithDefaults() *EncryptionConfig {
 	this := EncryptionConfig{}
 	return &this
+}
+
+// GetEnabled returns the Enabled field value if set, zero value otherwise.
+func (o *EncryptionConfig) GetEnabled() bool {
+	if o == nil || o.Enabled == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Enabled
+}
+
+// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EncryptionConfig) GetEnabledOk() (*bool, bool) {
+	if o == nil || o.Enabled == nil {
+		return nil, false
+	}
+	return o.Enabled, true
+}
+
+// HasEnabled returns a boolean if a field has been set.
+func (o *EncryptionConfig) HasEnabled() bool {
+	return o != nil && o.Enabled != nil
+}
+
+// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
+func (o *EncryptionConfig) SetEnabled(v bool) {
+	o.Enabled = &v
 }
 
 // GetSecretKeyRef returns the SecretKeyRef field value if set, zero value otherwise.
@@ -96,6 +126,9 @@ func (o EncryptionConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Enabled != nil {
+		toSerialize["enabled"] = o.Enabled
+	}
 	if o.SecretKeyRef != nil {
 		toSerialize["secretKeyRef"] = o.SecretKeyRef
 	}
@@ -112,6 +145,7 @@ func (o EncryptionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EncryptionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Enabled      *bool   `json:"enabled,omitempty"`
 		SecretKeyRef *string `json:"secretKeyRef,omitempty"`
 		Key          *string `json:"key,omitempty"`
 	}{}
@@ -120,10 +154,11 @@ func (o *EncryptionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"secretKeyRef", "key"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "secretKeyRef", "key"})
 	} else {
 		return err
 	}
+	o.Enabled = all.Enabled
 	o.SecretKeyRef = all.SecretKeyRef
 	o.Key = all.Key
 
