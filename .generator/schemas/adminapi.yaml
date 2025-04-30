@@ -20718,6 +20718,9 @@ components:
     encryptionConfig:
       description: encryption config for cluster
       properties:
+        enabled:
+          type: boolean
+          description: whether enable enc
         secretKeyRef:
           type: string
           description: the secret ref for encryption
@@ -25687,6 +25690,11 @@ components:
           $ref: '#/components/schemas/encryptionAlgorithm'
         keyUsage:
           $ref: '#/components/schemas/encryptionKeyUsage'
+        clusters:
+          type: array
+          items:
+            type: string
+          description: the clusters which use the key
         createdAt:
           type: string
           format: date-time

@@ -20,6 +20,8 @@ type Key struct {
 	Algorithm *EncryptionAlgorithm `json:"algorithm,omitempty"`
 	// The intended usage of the key.
 	KeyUsage *EncryptionKeyUsage `json:"keyUsage,omitempty"`
+	// the clusters which use the key
+	Clusters []string `json:"clusters,omitempty"`
 	// The creation timestamp of the key.
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	// The last update timestamp of the key.
@@ -160,6 +162,34 @@ func (o *Key) SetKeyUsage(v EncryptionKeyUsage) {
 	o.KeyUsage = &v
 }
 
+// GetClusters returns the Clusters field value if set, zero value otherwise.
+func (o *Key) GetClusters() []string {
+	if o == nil || o.Clusters == nil {
+		var ret []string
+		return ret
+	}
+	return o.Clusters
+}
+
+// GetClustersOk returns a tuple with the Clusters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Key) GetClustersOk() (*[]string, bool) {
+	if o == nil || o.Clusters == nil {
+		return nil, false
+	}
+	return &o.Clusters, true
+}
+
+// HasClusters returns a boolean if a field has been set.
+func (o *Key) HasClusters() bool {
+	return o != nil && o.Clusters != nil
+}
+
+// SetClusters gets a reference to the given []string and assigns it to the Clusters field.
+func (o *Key) SetClusters(v []string) {
+	o.Clusters = v
+}
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *Key) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -262,6 +292,9 @@ func (o Key) MarshalJSON() ([]byte, error) {
 	if o.KeyUsage != nil {
 		toSerialize["keyUsage"] = o.KeyUsage
 	}
+	if o.Clusters != nil {
+		toSerialize["clusters"] = o.Clusters
+	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -293,6 +326,7 @@ func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 		Name      *string              `json:"name,omitempty"`
 		Algorithm *EncryptionAlgorithm `json:"algorithm,omitempty"`
 		KeyUsage  *EncryptionKeyUsage  `json:"keyUsage,omitempty"`
+		Clusters  []string             `json:"clusters,omitempty"`
 		CreatedAt *time.Time           `json:"createdAt,omitempty"`
 		UpdatedAt *time.Time           `json:"updatedAt,omitempty"`
 		Metadata  map[string]string    `json:"metadata,omitempty"`
@@ -302,7 +336,7 @@ func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "algorithm", "keyUsage", "createdAt", "updatedAt", "metadata"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "algorithm", "keyUsage", "clusters", "createdAt", "updatedAt", "metadata"})
 	} else {
 		return err
 	}
@@ -320,6 +354,7 @@ func (o *Key) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.KeyUsage = all.KeyUsage
 	}
+	o.Clusters = all.Clusters
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
 	o.Metadata = all.Metadata
