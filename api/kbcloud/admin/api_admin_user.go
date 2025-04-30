@@ -30,7 +30,7 @@ func (a *AdminUserApi) CreateAdminUser(ctx _context.Context, body AdminUserCreat
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "createAdminUser",
-		Path:        "/admin/v1/users",
+		Path:        "/admin/v1/administrators",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -40,7 +40,7 @@ func (a *AdminUserApi) CreateAdminUser(ctx _context.Context, body AdminUserCreat
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users"
+	localVarPath := localBasePath + "/admin/v1/administrators"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -110,7 +110,7 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, userId string) (*_n
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "deleteAdminUser",
-		Path:        "/admin/v1/users/{userID}",
+		Path:        "/admin/v1/administrators/{userID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -120,7 +120,7 @@ func (a *AdminUserApi) DeleteAdminUser(ctx _context.Context, userId string) (*_n
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users/{userID}"
+	localVarPath := localBasePath + "/admin/v1/administrators/{userID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -180,7 +180,7 @@ func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) (AdminUserList, *_ne
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "listAdminUsers",
-		Path:        "/admin/v1/users",
+		Path:        "/admin/v1/administrators",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -190,7 +190,7 @@ func (a *AdminUserApi) ListAdminUsers(ctx _context.Context) (AdminUserList, *_ne
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users"
+	localVarPath := localBasePath + "/admin/v1/administrators"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -339,7 +339,7 @@ func (a *AdminUserApi) PatchAdminUsersProfile(ctx _context.Context, userId strin
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "patchAdminUsersProfile",
-		Path:        "/admin/v1/users/{userID}",
+		Path:        "/admin/v1/administrators/{userID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -349,7 +349,7 @@ func (a *AdminUserApi) PatchAdminUsersProfile(ctx _context.Context, userId strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users/{userID}"
+	localVarPath := localBasePath + "/admin/v1/administrators/{userID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -569,7 +569,7 @@ func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, userId str
 	apiInfo := common.APIInfo{
 		Tag:         "adminUser",
 		OperationID: "updateAdminUsersPassword",
-		Path:        "/admin/v1/users/{userID}/password",
+		Path:        "/admin/v1/administrators/{userID}/password",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -579,7 +579,7 @@ func (a *AdminUserApi) UpdateAdminUsersPassword(ctx _context.Context, userId str
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/users/{userID}/password"
+	localVarPath := localBasePath + "/admin/v1/administrators/{userID}/password"
 	localVarPath = strings.Replace(localVarPath, "{"+"userID"+"}", _neturl.PathEscape(common.ParameterToString(userId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

@@ -18,8 +18,6 @@ type OrgCreate struct {
 	DisplayName *string `json:"displayName,omitempty"`
 	// The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
 	Name string `json:"name"`
-	// The id of the creator of the organization
-	Creator *int64 `json:"creator,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -122,34 +120,6 @@ func (o *OrgCreate) SetName(v string) {
 	o.Name = v
 }
 
-// GetCreator returns the Creator field value if set, zero value otherwise.
-func (o *OrgCreate) GetCreator() int64 {
-	if o == nil || o.Creator == nil {
-		var ret int64
-		return ret
-	}
-	return *o.Creator
-}
-
-// GetCreatorOk returns a tuple with the Creator field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OrgCreate) GetCreatorOk() (*int64, bool) {
-	if o == nil || o.Creator == nil {
-		return nil, false
-	}
-	return o.Creator, true
-}
-
-// HasCreator returns a boolean if a field has been set.
-func (o *OrgCreate) HasCreator() bool {
-	return o != nil && o.Creator != nil
-}
-
-// SetCreator gets a reference to the given int64 and assigns it to the Creator field.
-func (o *OrgCreate) SetCreator(v int64) {
-	o.Creator = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o OrgCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -163,9 +133,6 @@ func (o OrgCreate) MarshalJSON() ([]byte, error) {
 		toSerialize["displayName"] = o.DisplayName
 	}
 	toSerialize["name"] = o.Name
-	if o.Creator != nil {
-		toSerialize["creator"] = o.Creator
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -179,7 +146,6 @@ func (o *OrgCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string `json:"description,omitempty"`
 		DisplayName *string `json:"displayName,omitempty"`
 		Name        *string `json:"name"`
-		Creator     *int64  `json:"creator,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -189,14 +155,13 @@ func (o *OrgCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "name", "creator"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "name"})
 	} else {
 		return err
 	}
 	o.Description = all.Description
 	o.DisplayName = all.DisplayName
 	o.Name = *all.Name
-	o.Creator = all.Creator
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -207,7 +207,7 @@ paths:
   /api/v1/user/verificationEmail:
     post:
       description: To send verification email checking user's email address
-      summary: Send verification email to user's email address. For logto and authing, only the "email" is required, and for auth0, only the "externalID" is required.
+      summary: Send verification email to user's email address.
       operationId: sendVerificationEmail
       responses:
         '204':
@@ -306,6 +306,61 @@ paths:
               schema:
                 $ref: '#/components/schemas/apikeyWithSK'
           description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - user
+      x-codegen-request-body-name: body
+  /api/v1/users:
+    get:
+      description: Query users by name or email
+      summary: Query users
+      operationId: queryOrgUsers
+      parameters:
+        - description: User name, email or user name can not be empty at the same time
+          in: query
+          name: userName
+          required: false
+          schema:
+            type: string
+        - description: Email, user name or email can not be empty at the same time
+          in: query
+          name: email
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - user
+    post:
+      description: Create user in the organization
+      summary: Create user in the organization
+      operationId: createOrgUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: A successful response.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -359,29 +414,6 @@ paths:
           description: OK
         '401':
           $ref: '#/components/responses/401'
-      x-codeSamples:
-        - lang: curl
-          source: |-
-            curl -X POST -H "Content-Type: application/json" -d '{
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }' http://localhost:8080/api/v1/orgs
-        - lang: Python
-          source: |-
-            import requests
-            import json
-            url = "http://localhost:8080/api/v1/orgs"
-            payload = {
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-            print(response.text.encode('utf8'))
       tags:
         - organization
       x-codegen-request-body-name: body
@@ -710,7 +742,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
-        - member
         - role
   /api/v1/organizations/{orgName}/eventfilter/{filterType}:
     get:
@@ -924,7 +955,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     patch:
       operationId: patchOrgParameter
       summary: Update a parameter of an organization
@@ -956,7 +987,7 @@ paths:
                 $ref: '#/components/schemas/orgParameter'
           description: OK
       tags:
-        - organization
+        - organizationParameter
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -11231,7 +11262,7 @@ components:
       description: User info
       properties:
         createdAt:
-          description: CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
+          description: created time of the user
           format: date-time
           type: string
         userName:
@@ -11249,10 +11280,7 @@ components:
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
         updatedAt:
-          description: |-
-            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
+          description: updated time of the user
           format: date-time
           type: string
       required:
@@ -11389,6 +11417,34 @@ components:
         - description
         - createAt
       type: object
+    userList:
+      description: User list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/user'
+          description: The list of users
+    userCreate:
+      description: User create
+      properties:
+        userName:
+          description: The name of the user, is unique
+          type: string
+        email:
+          description: The email for the user
+          type: string
+        displayName:
+          description: The display name of the user
+          type: string
+        password:
+          description: The password for the user
+          type: string
+      required:
+        - userName
+        - password
+      type: object
     userOrg:
       description: UserOrg is the payload for user organization
       properties:
@@ -11437,10 +11493,6 @@ components:
         name:
           description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
           type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
       required:
         - name
       type: object
@@ -14793,6 +14845,9 @@ components:
     encryptionConfig:
       description: encryption config for cluster
       properties:
+        enabled:
+          type: boolean
+          description: whether enable enc
         secretKeyRef:
           type: string
           description: the secret ref for encryption
@@ -19611,6 +19666,11 @@ components:
           $ref: '#/components/schemas/encryptionAlgorithm'
         keyUsage:
           $ref: '#/components/schemas/encryptionKeyUsage'
+        clusters:
+          type: array
+          items:
+            type: string
+          description: the clusters which use the key
         createdAt:
           type: string
           format: date-time
