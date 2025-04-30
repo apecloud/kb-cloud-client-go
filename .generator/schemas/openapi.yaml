@@ -3470,6 +3470,7 @@ paths:
     get:
       operationId: getAutohealing
       summary: list autohealing job
+      deprecated: true
       parameters:
         - description: name of the Org
           in: path
