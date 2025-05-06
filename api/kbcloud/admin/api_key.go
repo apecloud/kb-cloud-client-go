@@ -17,14 +17,39 @@ import (
 // KeyApi service type
 type KeyApi common.Service
 
+// CreateKeyOptionalParameters holds optional parameters for CreateKey.
+type CreateKeyOptionalParameters struct {
+	Body *Key
+}
+
+// NewCreateKeyOptionalParameters creates an empty struct for parameters.
+func NewCreateKeyOptionalParameters() *CreateKeyOptionalParameters {
+	this := CreateKeyOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *CreateKeyOptionalParameters) WithBody(body Key) *CreateKeyOptionalParameters {
+	r.Body = &body
+	return r
+}
+
 // CreateKey Create a new key.
 // Store a new key in the system.
-func (a *KeyApi) CreateKey(ctx _context.Context, body Key) (Key, *_nethttp.Response, error) {
+func (a *KeyApi) CreateKey(ctx _context.Context, o ...CreateKeyOptionalParameters) (Key, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue Key
+		optionalParams      CreateKeyOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateKeyOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -46,10 +71,12 @@ func (a *KeyApi) CreateKey(ctx _context.Context, body Key) (Key, *_nethttp.Respo
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
-	localVarPostBody = &body
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -75,16 +102,7 @@ func (a *KeyApi) CreateKey(ctx _context.Context, body Key) (Key, *_nethttp.Respo
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v None
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

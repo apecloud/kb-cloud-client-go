@@ -12828,10 +12828,9 @@ components:
     invitationCreate:
       description: Invitation create payload
       properties:
-        email:
-          description: The email of the invitee
+        userId:
+          description: The ID of the user as invitee, if email is not provided, the user ID is required
           type: string
-          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -12839,7 +12838,7 @@ components:
           description: The name of the role
           type: string
       required:
-        - email
+        - userId
         - orgName
         - roleName
       type: object

@@ -1155,6 +1155,54 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       x-codegen-request-body-name: body
+  /api/v1/invitations/{invitationId}:
+    get:
+      tags:
+        - invitation
+      description: read the specified Invitation for organization admin or invitee
+      summary: Get Invitation
+      operationId: readInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invitation'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    delete:
+      tags:
+        - invitation
+      description: delete the specified Invitation for organization admin
+      summary: Delete Invitation
+      operationId: deleteInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/invitations/{invitationId}/resend:
     patch:
       tags:
@@ -15213,7 +15261,6 @@ paths:
       summary: Create a new key
       description: Store a new key in the system.
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -15226,7 +15273,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/key'
         '400':
-          description: Invalid input provided.
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -15931,10 +15978,9 @@ components:
     invitationCreate:
       description: Invitation create payload
       properties:
-        email:
-          description: The email of the invitee
+        userId:
+          description: The ID of the user as invitee, if email is not provided, the user ID is required
           type: string
-          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -15942,7 +15988,7 @@ components:
           description: The name of the role
           type: string
       required:
-        - email
+        - userId
         - orgName
         - roleName
       type: object
