@@ -14707,7 +14707,6 @@ paths:
       summary: Create a new key
       description: Store a new key in the system.
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -14720,7 +14719,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/key'
         '400':
-          description: Invalid input provided.
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
