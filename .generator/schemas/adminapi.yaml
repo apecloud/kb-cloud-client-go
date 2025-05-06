@@ -20720,12 +20720,12 @@ components:
         enabled:
           type: boolean
           description: whether enable enc
-        secretKeyRef:
+        masterKey:
           type: string
-          description: the secret ref for encryption
-        key:
+          description: the master key for encryption
+        dataKey:
           type: string
-          description: the key name used for encryption
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
