@@ -2166,6 +2166,90 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /admin/v1/organizations/{orgName}/events:
+    get:
+      description: List events
+      summary: List events
+      operationId: listOrgEvents
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Advanced query conditions, supporting all types of filterType. Such as "operatorID:333 operatorID:444"
+          in: query
+          name: customQuery
+          schema:
+            type: string
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/orderBy'
+        - $ref: '#/components/parameters/sortDesc'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventList'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
+  /admin/v1/organizations/{orgName}/events/{eventID}:
+    get:
+      description: Retrieves detailed information about an event based on the provided Event ID.
+      summary: Query event detail by Event ID
+      operationId: getOrgEvent
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Unique identifier for the event.
+          in: path
+          name: eventID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/event'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
     get:
       operationId: listParameterProps
