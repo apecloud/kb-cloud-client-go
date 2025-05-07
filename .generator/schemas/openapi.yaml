@@ -753,7 +753,7 @@ paths:
     get:
       description: List events
       summary: List events
-      operationId: listEvents
+      operationId: listOrgEvents
       parameters:
         - description: Organization Name
           in: path
@@ -804,7 +804,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: getEvent
+      operationId: getOrgEvent
       parameters:
         - description: Organization Name
           in: path
