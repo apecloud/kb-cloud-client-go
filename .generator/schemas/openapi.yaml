@@ -8566,6 +8566,129 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
+    delete:
+      description: delete mssql database
+      summary: Delete mssql database
+      operationId: deleteMssqlDatabase
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of database
+          in: path
+          name: databaseName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: create mssql account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - database
+        - mssql
+  /api/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/accounts:
+    post:
+      description: create an mssql account in cluster
+      summary: Create mssql account
+      operationId: createMssqlAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+        required: true
+      responses:
+        '201':
+          description: create mssql account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - account
+        - mmsql
+      x-codegen-request-body-name: body
+  /api/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
+    delete:
+      description: delete mssql account in cluster
+      summary: Delete mssql cluster account
+      operationId: deleteMssqlAccount
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the Account
+          in: path
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: delete mssql account success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/clusterTask'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - mssql
   /api/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
