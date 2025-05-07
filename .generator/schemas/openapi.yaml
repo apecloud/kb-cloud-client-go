@@ -782,7 +782,7 @@ paths:
     get:
       description: List events
       summary: List events
-      operationId: listEvents
+      operationId: listOrgEvents
       parameters:
         - description: Organization Name
           in: path
@@ -833,7 +833,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: getEvent
+      operationId: getOrgEvent
       parameters:
         - description: Organization Name
           in: path
@@ -14823,6 +14823,12 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
+        encryptionMasterKey:
+          description: the master key for encryption
+          type: string
+        encryptionDataKey:
+          description: the data key for encryption
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -14847,12 +14853,12 @@ components:
         enabled:
           type: boolean
           description: whether enable enc
-        secretKeyRef:
+        masterKey:
           type: string
-          description: the secret ref for encryption
-        key:
+          description: the master key for encryption
+        dataKey:
           type: string
-          description: the key name used for encryption
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -19670,6 +19676,11 @@ components:
           items:
             type: string
           description: the clusters which use the key
+        backups:
+          type: array
+          items:
+            type: string
+          description: the backups which use the key
         createdAt:
           type: string
           format: date-time
