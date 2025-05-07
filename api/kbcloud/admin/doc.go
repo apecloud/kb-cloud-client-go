@@ -222,7 +222,6 @@
 //   - [environmentApi.updateEnvironmentModule]
 //   - [eventApi.getEvent]
 //   - [eventApi.getEventFilter]
-//   - [eventApi.getOrgEvent]
 //   - [eventApi.listEvents]
 //   - [eventApi.listOrgEvents]
 //   - [featureApi.listFeature]
