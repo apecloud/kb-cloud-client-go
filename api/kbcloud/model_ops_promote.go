@@ -12,8 +12,8 @@ import (
 
 // OpsPromote OpsPromote is the payload to promote a KubeBlocks cluster
 type OpsPromote struct {
-	ComponentName string  `json:"componentName"`
-	InstanceName  *string `json:"instanceName,omitempty"`
+	ComponentName string `json:"componentName"`
+	InstanceName  string `json:"instanceName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,9 +23,10 @@ type OpsPromote struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsPromote(componentName string) *OpsPromote {
+func NewOpsPromote(componentName string, instanceName string) *OpsPromote {
 	this := OpsPromote{}
 	this.ComponentName = componentName
+	this.InstanceName = instanceName
 	return &this
 }
 
@@ -60,32 +61,27 @@ func (o *OpsPromote) SetComponentName(v string) {
 	o.ComponentName = v
 }
 
-// GetInstanceName returns the InstanceName field value if set, zero value otherwise.
+// GetInstanceName returns the InstanceName field value.
 func (o *OpsPromote) GetInstanceName() string {
-	if o == nil || o.InstanceName == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.InstanceName
+	return o.InstanceName
 }
 
-// GetInstanceNameOk returns a tuple with the InstanceName field value if set, nil otherwise
+// GetInstanceNameOk returns a tuple with the InstanceName field value
 // and a boolean to check if the value has been set.
 func (o *OpsPromote) GetInstanceNameOk() (*string, bool) {
-	if o == nil || o.InstanceName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.InstanceName, true
+	return &o.InstanceName, true
 }
 
-// HasInstanceName returns a boolean if a field has been set.
-func (o *OpsPromote) HasInstanceName() bool {
-	return o != nil && o.InstanceName != nil
-}
-
-// SetInstanceName gets a reference to the given string and assigns it to the InstanceName field.
+// SetInstanceName sets field value.
 func (o *OpsPromote) SetInstanceName(v string) {
-	o.InstanceName = &v
+	o.InstanceName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -95,9 +91,7 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["componentName"] = o.ComponentName
-	if o.InstanceName != nil {
-		toSerialize["instanceName"] = o.InstanceName
-	}
+	toSerialize["instanceName"] = o.InstanceName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -109,13 +103,16 @@ func (o OpsPromote) MarshalJSON() ([]byte, error) {
 func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ComponentName *string `json:"componentName"`
-		InstanceName  *string `json:"instanceName,omitempty"`
+		InstanceName  *string `json:"instanceName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.ComponentName == nil {
 		return fmt.Errorf("required field componentName missing")
+	}
+	if all.InstanceName == nil {
+		return fmt.Errorf("required field instanceName missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -124,7 +121,7 @@ func (o *OpsPromote) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.ComponentName = *all.ComponentName
-	o.InstanceName = all.InstanceName
+	o.InstanceName = *all.InstanceName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
