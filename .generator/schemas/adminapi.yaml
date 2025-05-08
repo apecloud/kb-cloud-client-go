@@ -2167,6 +2167,57 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+  /admin/v1/organizations/{orgName}/events:
+    get:
+      description: List events
+      summary: List events
+      operationId: listOrgEvents
+      parameters:
+        - description: Organization Name
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: Advanced query conditions, supporting all types of filterType. Such as "operatorID:333 operatorID:444"
+          in: query
+          name: customQuery
+          schema:
+            type: string
+        - description: the status of the event
+          in: query
+          name: status
+          schema:
+            $ref: '#/components/schemas/eventResultStatus'
+        - description: the pageNumber of the query
+          in: query
+          name: pageNumber
+          schema:
+            type: integer
+        - description: the pageSize of the query
+          in: query
+          name: pageSize
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+        - $ref: '#/components/parameters/orderBy'
+        - $ref: '#/components/parameters/sortDesc'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/eventList'
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - event
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
     get:
       operationId: listParameterProps
@@ -14708,7 +14759,6 @@ paths:
       summary: Create a new key
       description: Store a new key in the system.
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -14721,7 +14771,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/key'
         '400':
-          description: Invalid input provided.
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -18046,12 +18096,14 @@ components:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
       required:
         - componentName
+        - instanceName
       properties:
         componentName:
           type: string
           minLength: 1
         instanceName:
           type: string
+          x-nullable: false
       type: object
     opsExposeType:
       type: string
@@ -20698,6 +20750,12 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
+        encryptionMasterKey:
+          description: the master key for encryption
+          type: string
+        encryptionDataKey:
+          description: the data key for encryption
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -20722,12 +20780,12 @@ components:
         enabled:
           type: boolean
           description: whether enable enc
-        secretKeyRef:
+        masterKey:
           type: string
-          description: the secret ref for encryption
-        key:
+          description: the master key for encryption
+        dataKey:
           type: string
-          description: the key name used for encryption
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -25696,6 +25754,11 @@ components:
           items:
             type: string
           description: the clusters which use the key
+        backups:
+          type: array
+          items:
+            type: string
+          description: the backups which use the key
         createdAt:
           type: string
           format: date-time

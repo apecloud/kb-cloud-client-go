@@ -230,6 +230,7 @@
 //   - [eventApi.getEvent]
 //   - [eventApi.getEventFilter]
 //   - [eventApi.listEvents]
+//   - [eventApi.listOrgEvents]
 //   - [featureApi.listFeature]
 //   - [featureApi.listFeatureGroup]
 //   - [featureApi.readFeature]
