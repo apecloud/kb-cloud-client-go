@@ -19642,11 +19642,12 @@ components:
           type: string
           format: date-time
           description: The last update timestamp of the key.
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-          description: Additional metadata associated with the key.
+        dataKeyName:
+          type: string
+          description: the name of data key
+        sysmetricKey:
+          type: string
+          description: the sysmetric key
     keyList:
       description: key list
       properties:
