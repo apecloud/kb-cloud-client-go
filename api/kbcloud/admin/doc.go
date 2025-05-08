@@ -443,7 +443,7 @@
 //   - [taskApi.stopTask]
 //   - [tlsApi.getTLSCertificate]
 //   - [tlsApi.tlsSwitcher]
-//   - [userApi.createOrgUser]
+//   - [userApi.createUser]
 //   - [userApi.createUserApikey]
 //   - [userApi.deleteApikey]
 //   - [userApi.patchAPIkey]

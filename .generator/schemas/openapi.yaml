@@ -345,9 +345,9 @@ paths:
       tags:
         - user
     post:
-      description: Create user in the organization
-      summary: Create user in the organization
-      operationId: createOrgUser
+      description: Create user
+      summary: Create user
+      operationId: createUser
       requestBody:
         content:
           application/json:
@@ -365,6 +365,8 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '409':
+          $ref: '#/components/responses/409'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -742,6 +744,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
+        - member
         - role
   /api/v1/organizations/{orgName}/eventfilter/{filterType}:
     get:
@@ -14035,12 +14038,14 @@ components:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
       required:
         - componentName
+        - instanceName
       properties:
         componentName:
           type: string
           minLength: 1
         instanceName:
           type: string
+          x-nullable: false
       type: object
     opsExposeType:
       type: string

@@ -17,9 +17,9 @@ import (
 // UserApi service type
 type UserApi common.Service
 
-// CreateOrgUser Create user in the organization.
-// Create user in the organization
-func (a *UserApi) CreateOrgUser(ctx _context.Context, body UserCreate) (User, *_nethttp.Response, error) {
+// CreateUser Create user.
+// Create user
+func (a *UserApi) CreateUser(ctx _context.Context, body UserCreate) (User, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -29,13 +29,13 @@ func (a *UserApi) CreateOrgUser(ctx _context.Context, body UserCreate) (User, *_
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "user",
-		OperationID: "createOrgUser",
+		OperationID: "createUser",
 		Path:        "/api/v1/users",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.CreateOrgUser")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.CreateUser")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -75,7 +75,7 @@ func (a *UserApi) CreateOrgUser(ctx _context.Context, body UserCreate) (User, *_
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 409 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
