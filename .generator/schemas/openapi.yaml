@@ -15286,6 +15286,9 @@ components:
         operatorId:
           description: The user ID of the operator
           type: string
+        fileName:
+          description: The name of the configuration file
+          type: string
     parameterHistoryList:
       description: A list of parameter history
       properties:
