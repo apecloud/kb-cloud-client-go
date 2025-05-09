@@ -34,6 +34,8 @@ type BackupPolicy struct {
 	RetentionPolicy *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
 	// the time to do next backup
 	NextBackupTime common.NullableTime `json:"nextBackupTime,omitempty"`
+	// encryption config for cluster
+	EncryptionConfig *EncryptionConfig `json:"encryptionConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -387,6 +389,34 @@ func (o *BackupPolicy) UnsetNextBackupTime() {
 	o.NextBackupTime.Unset()
 }
 
+// GetEncryptionConfig returns the EncryptionConfig field value if set, zero value otherwise.
+func (o *BackupPolicy) GetEncryptionConfig() EncryptionConfig {
+	if o == nil || o.EncryptionConfig == nil {
+		var ret EncryptionConfig
+		return ret
+	}
+	return *o.EncryptionConfig
+}
+
+// GetEncryptionConfigOk returns a tuple with the EncryptionConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupPolicy) GetEncryptionConfigOk() (*EncryptionConfig, bool) {
+	if o == nil || o.EncryptionConfig == nil {
+		return nil, false
+	}
+	return o.EncryptionConfig, true
+}
+
+// HasEncryptionConfig returns a boolean if a field has been set.
+func (o *BackupPolicy) HasEncryptionConfig() bool {
+	return o != nil && o.EncryptionConfig != nil
+}
+
+// SetEncryptionConfig gets a reference to the given EncryptionConfig and assigns it to the EncryptionConfig field.
+func (o *BackupPolicy) SetEncryptionConfig(v EncryptionConfig) {
+	o.EncryptionConfig = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -426,6 +456,9 @@ func (o BackupPolicy) MarshalJSON() ([]byte, error) {
 	if o.NextBackupTime.IsSet() {
 		toSerialize["nextBackupTime"] = o.NextBackupTime.Get()
 	}
+	if o.EncryptionConfig != nil {
+		toSerialize["encryptionConfig"] = o.EncryptionConfig
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -447,13 +480,14 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		BackupRepo                *string                `json:"backupRepo,omitempty"`
 		RetentionPolicy           *BackupRetentionPolicy `json:"retentionPolicy,omitempty"`
 		NextBackupTime            common.NullableTime    `json:"nextBackupTime,omitempty"`
+		EncryptionConfig          *EncryptionConfig      `json:"encryptionConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "continuousBackupMethod", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "autoBackupMethod", "pitrEnabled", "continuousBackupMethod", "cronExpression", "incrementalBackupEnabled", "incrementalCronExpression", "retentionPeriod", "backupRepo", "retentionPolicy", "nextBackupTime", "encryptionConfig"})
 	} else {
 		return err
 	}
@@ -474,6 +508,10 @@ func (o *BackupPolicy) UnmarshalJSON(bytes []byte) (err error) {
 		o.RetentionPolicy = all.RetentionPolicy
 	}
 	o.NextBackupTime = all.NextBackupTime
+	if all.EncryptionConfig != nil && all.EncryptionConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.EncryptionConfig = all.EncryptionConfig
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

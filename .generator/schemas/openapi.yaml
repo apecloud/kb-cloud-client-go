@@ -306,6 +306,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/apikeyWithSK'
           description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -751,7 +753,7 @@ paths:
     get:
       description: List events
       summary: List events
-      operationId: listEvents
+      operationId: listOrgEvents
       parameters:
         - description: Organization Name
           in: path
@@ -802,7 +804,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: getEvent
+      operationId: getOrgEvent
       parameters:
         - description: Organization Name
           in: path
@@ -4706,6 +4708,11 @@ paths:
           required: false
           schema:
             type: string
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -4816,6 +4823,11 @@ paths:
           name: partition
           schema:
             $ref: '#/components/schemas/paramTplPartition'
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -6000,6 +6012,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineList'
           description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+  /api/v1/engines/resourceConstraints:
+    get:
+      operationId: listEngineRsourceConstraints
+      summary: List engine resource constraints
+      parameters:
+        - description: engine name
+          in: query
+          name: engine
+          schema:
+            type: string
+        - description: engine mode
+          in: query
+          name: mode
+          schema:
+            type: string
+        - description: engine component
+          in: query
+          name: component
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resourceConstraintList'
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -9695,6 +9742,50 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/demo:
+    post:
+      tags:
+        - rdbms
+      description: generate demo data
+      summary: generate demo data
+      operationId: generateDemoData
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: acccount name which owns the database to generate demo data
+          in: query
+          name: accountName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when demo data is generated successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -10360,7 +10451,7 @@ paths:
           schema:
             $ref: '#/components/schemas/sortType'
         - in: query
-          name: mode
+          name: model
           schema:
             type: string
       responses:
@@ -10400,7 +10491,7 @@ paths:
           schema:
             type: string
         - in: query
-          name: mode
+          name: model
           schema:
             type: string
           description: model name
@@ -10427,7 +10518,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10504,7 +10595,7 @@ paths:
             type: string
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
       responses:
@@ -10531,7 +10622,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10568,7 +10659,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10655,7 +10746,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10703,7 +10794,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -10751,7 +10842,7 @@ paths:
       parameters:
         - description: model name
           in: query
-          name: mode
+          name: model
           schema:
             type: string
         - description: name of the Org
@@ -11038,7 +11129,7 @@ paths:
           in: path
           required: true
           type: string
-        - name: mode
+        - name: model
           in: query
           required: false
           type: string
@@ -11062,6 +11153,69 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/ai/chat:
+    get:
+      tags:
+        - AI
+      summary: WebSocket endpoint for Chat
+      description: |
+        建立 WebSocket 连接进行 AI 对话。
+      operationId: chatBIWebSocket
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          type: string
+          description: 组织名称
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        '101':
+          description: Switching Protocols to websocket
+          headers:
+            Upgrade:
+              schema:
+                type: string
+                example: websocket
+            Connection:
+              schema:
+                type: string
+                example: Upgrade
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/chatResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/v1/keys:
+    get:
+      tags:
+        - key
+      operationId: listKeys
+      summary: List Keys
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/keyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
 components:
   securitySchemes:
     BearerToken:
@@ -12810,6 +12964,26 @@ components:
         - Halt
         - Delete
         - WipeOut
+    ioQuantity:
+      description: IO Quantity describes IOPS and BPS of a volume
+      properties:
+        readIOPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeIOPS:
+          type: integer
+          format: int64
+          nullable: true
+        readBPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeBPS:
+          type: integer
+          nullable: true
+          format: int64
+      type: object
     componentVolumeItem:
       description: ComponentVolumeItem is the information of a component volume
       type: object
@@ -12823,6 +12997,10 @@ components:
           type: number
           description: Storage size, the unit is Gi.
           format: double
+        ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
+        ioReserves:
+          $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -13253,26 +13431,6 @@ components:
           type: string
           nullable: true
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
-    ioQuantity:
-      description: IO Quantity describes IOPS and BPS of a volume
-      properties:
-        readIOPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeIOPS:
-          type: integer
-          format: int64
-          nullable: true
-        readBPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeBPS:
-          type: integer
-          nullable: true
-          format: int64
-      type: object
     instanceStorageItem:
       description: Instance storage information
       properties:
@@ -13580,8 +13738,10 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        rawContent:
+          description: The raw content of the configuration file
+          type: string
       required:
-        - parameters
         - component
       type: object
     opsRequestName:
@@ -13826,12 +13986,14 @@ components:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
       required:
         - componentName
+        - instanceName
       properties:
         componentName:
           type: string
           minLength: 1
         instanceName:
           type: string
+          x-nullable: false
       type: object
     opsExposeType:
       type: string
@@ -13853,6 +14015,8 @@ components:
           type: string
           minLength: 1
         enable:
+          type: boolean
+        readonly:
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
@@ -14612,6 +14776,12 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
+        encryptionMasterKey:
+          description: the master key for encryption
+          type: string
+        encryptionDataKey:
+          description: the data key for encryption
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -14629,6 +14799,19 @@ components:
         - sourceCluster
         - status
         - totalSize
+      type: object
+    encryptionConfig:
+      description: encryption config for cluster
+      properties:
+        enabled:
+          type: boolean
+          description: whether enable enc
+        masterKey:
+          type: string
+          description: the master key for encryption
+        dataKey:
+          type: string
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -14670,6 +14853,8 @@ components:
           format: date-time
           type: string
           nullable: true
+        encryptionConfig:
+          $ref: '#/components/schemas/encryptionConfig'
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -15100,6 +15285,9 @@ components:
         operatorId:
           description: The user ID of the operator
           type: string
+        fileName:
+          description: The name of the configuration file
+          type: string
     parameterHistoryList:
       description: A list of parameter history
       properties:
@@ -15170,6 +15358,9 @@ components:
         specName:
           description: The name of the config spec
           type: string
+        rawContent:
+          description: The raw content of the configuration file, return only when raw is true in the query.
+          type: string
     parameterList:
       description: A list of cluster parameter
       properties:
@@ -15198,6 +15389,12 @@ components:
           type: string
         family:
           description: 'Name of database with its version, eg: mysql8.0'
+          type: string
+        engine:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
           type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
@@ -15281,6 +15478,9 @@ components:
           type: object
         newParamTplName:
           description: Specify the new name of the parameter template
+          type: string
+        rawContent:
+          description: The raw content of the configuration file
           type: string
       type: object
     paramTplApplyToClusterListItem:
@@ -15815,6 +16015,80 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
+    integerOption:
+      type: object
+      required:
+        - min
+        - max
+        - default
+        - step
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+    storageOption:
+      type: object
+      required:
+        - name
+        - title
+        - min
+        - step
+        - max
+        - default
+      properties:
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        name:
+          type: string
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+    resourceConstraint:
+      type: object
+      properties:
+        id:
+          type: string
+          description: resource constraint id
+        engine:
+          type: string
+          description: engine name
+        mode:
+          type: string
+          description: engine mode
+        component:
+          type: string
+          description: engine component
+        replicas:
+          $ref: '#/components/schemas/integerOption'
+        shards:
+          $ref: '#/components/schemas/integerOption'
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/storageOption'
+    resourceConstraintList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/resourceConstraint'
+    engineOptionStatus:
+      type: string
+      default: Release
+      enum:
+        - Release
+        - Uncommitted
     componentOption:
       type: object
       required:
@@ -15894,22 +16168,6 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    integerOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     floatOption:
       type: object
       required:
@@ -15930,28 +16188,6 @@ components:
         step:
           type: number
           format: double
-    storageOption:
-      type: object
-      required:
-        - name
-        - title
-        - min
-        - step
-        - max
-        - default
-      properties:
-        title:
-          $ref: '#/components/schemas/localizedDescription'
-        name:
-          type: string
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     modeComponent:
       type: object
       required:
@@ -16504,6 +16740,9 @@ components:
         enableTemplate:
           description: If set to true, the parameter templates of the component can be used. Mainly used by frontend.
           type: boolean
+        enableRawContent:
+          type: boolean
+          description: If set to true, the component can display the raw content of the parameter configuration file.
         configSpecs:
           type: array
           description: all parameter configuration specs of this component
@@ -16748,6 +16987,8 @@ components:
           description: engine maturity level
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/engineOptionStatus'
         description:
           $ref: '#/components/schemas/localizedDescription'
         versions:
@@ -19259,8 +19500,169 @@ components:
       properties:
         success:
           type: boolean
+          x-omitempty: false
         message:
           type: string
+    queryType:
+      type: string
+      enum:
+        - Analyze
+        - BI
+      description: 查询类型
+    chatRequest:
+      type: object
+      required:
+        - orgName
+        - clusterName
+        - sessionId
+        - messageID
+        - parentID
+        - query
+        - queryType
+      description: 聊天消息请求
+      properties:
+        orgName:
+          type: string
+          description: 组织名称
+        clusterName:
+          type: string
+          description: 集群名称
+        sessionId:
+          type: string
+          description: 会话ID
+        messageID:
+          type: string
+          description: 消息ID
+        parentID:
+          type: string
+          description: 父消息ID
+        query:
+          type: string
+          description: 问题内容
+        queryType:
+          $ref: '#/components/schemas/queryType'
+        model:
+          type: string
+          description: LLM模型
+          x-nullable: true
+        createdAt:
+          type: integer
+          format: int64
+          description: 创建时间
+        database:
+          type: string
+          description: chat涉及的数据库
+          x-nullable: true
+        schema:
+          type: string
+          description: chat涉及的schema
+          x-nullable: true
+        tables:
+          type: array
+          description: chat涉及的表
+          items:
+            type: string
+            x-nullable: true
+    chatResponseType:
+      type: string
+      enum:
+        - Message
+        - Graph
+        - Finish
+        - DataInterpretation
+        - Error
+        - Think
+      description: 消息类型
+    chatResponse:
+      type: object
+      required:
+        - data
+        - type
+        - messageID
+        - parentID
+        - sessionId
+      description: 聊天消息响应
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          description: 任意类型的数据
+        type:
+          $ref: '#/components/schemas/chatResponseType'
+        messageID:
+          type: string
+          description: 消息ID
+        parentID:
+          type: string
+          description: 父消息ID
+        sessionId:
+          type: string
+          description: 会话ID
+    encryptionAlgorithm:
+      description: the encryption algorithm
+      type: string
+      enum:
+        - AES-128-CFB
+        - AES-192-CFB
+        - AES-256-CFB
+    encryptionKeyUsage:
+      type: string
+      enum:
+        - encryption
+        - decryption
+        - signing
+        - verification
+      description: The intended usage of the key.
+    key:
+      description: mutiple kv pair
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the key.
+        name:
+          type: string
+          description: The name of the key.
+        algorithm:
+          $ref: '#/components/schemas/encryptionAlgorithm'
+        keyUsage:
+          $ref: '#/components/schemas/encryptionKeyUsage'
+        clusters:
+          type: array
+          items:
+            type: string
+          description: the clusters which use the key
+        backups:
+          type: array
+          items:
+            type: string
+          description: the backups which use the key
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation timestamp of the key.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last update timestamp of the key.
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          description: Additional metadata associated with the key.
+    keyList:
+      description: key list
+      properties:
+        items:
+          description: Items is the list of key objects in the list
+          items:
+            $ref: '#/components/schemas/key'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '400':
       content:
@@ -19368,7 +19770,6 @@ x-tagGroups:
       - tls
       - whitelist
       - database
-      - classes
       - recycleBinCluster
       - clusterTask
   - name: Backup & Restore
@@ -19399,6 +19800,8 @@ x-tagGroups:
   - name: Engine
     tags:
       - engine
+      - engineOption
+      - class
   - name: Benchmark
     tags:
       - benchmark
