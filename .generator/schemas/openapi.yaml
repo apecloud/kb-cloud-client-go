@@ -16031,6 +16031,10 @@ components:
           type: integer
         step:
           type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
     storageOption:
       type: object
       required:
