@@ -11,10 +11,11 @@ import (
 )
 
 type IntegerOption struct {
-	Min     int32 `json:"min"`
-	Max     int32 `json:"max"`
-	Default int32 `json:"default"`
-	Step    int32 `json:"step"`
+	Min      int32   `json:"min"`
+	Max      int32   `json:"max"`
+	Default  int32   `json:"default"`
+	Step     int32   `json:"step"`
+	Excludes []int32 `json:"excludes,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -133,6 +134,34 @@ func (o *IntegerOption) SetStep(v int32) {
 	o.Step = v
 }
 
+// GetExcludes returns the Excludes field value if set, zero value otherwise.
+func (o *IntegerOption) GetExcludes() []int32 {
+	if o == nil || o.Excludes == nil {
+		var ret []int32
+		return ret
+	}
+	return o.Excludes
+}
+
+// GetExcludesOk returns a tuple with the Excludes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *IntegerOption) GetExcludesOk() (*[]int32, bool) {
+	if o == nil || o.Excludes == nil {
+		return nil, false
+	}
+	return &o.Excludes, true
+}
+
+// HasExcludes returns a boolean if a field has been set.
+func (o *IntegerOption) HasExcludes() bool {
+	return o != nil && o.Excludes != nil
+}
+
+// SetExcludes gets a reference to the given []int32 and assigns it to the Excludes field.
+func (o *IntegerOption) SetExcludes(v []int32) {
+	o.Excludes = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o IntegerOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -143,6 +172,9 @@ func (o IntegerOption) MarshalJSON() ([]byte, error) {
 	toSerialize["max"] = o.Max
 	toSerialize["default"] = o.Default
 	toSerialize["step"] = o.Step
+	if o.Excludes != nil {
+		toSerialize["excludes"] = o.Excludes
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -153,10 +185,11 @@ func (o IntegerOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *IntegerOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Min     *int32 `json:"min"`
-		Max     *int32 `json:"max"`
-		Default *int32 `json:"default"`
-		Step    *int32 `json:"step"`
+		Min      *int32  `json:"min"`
+		Max      *int32  `json:"max"`
+		Default  *int32  `json:"default"`
+		Step     *int32  `json:"step"`
+		Excludes []int32 `json:"excludes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -175,7 +208,7 @@ func (o *IntegerOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "default", "step"})
+		common.DeleteKeys(additionalProperties, &[]string{"min", "max", "default", "step", "excludes"})
 	} else {
 		return err
 	}
@@ -183,6 +216,7 @@ func (o *IntegerOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Max = *all.Max
 	o.Default = *all.Default
 	o.Step = *all.Step
+	o.Excludes = all.Excludes
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
