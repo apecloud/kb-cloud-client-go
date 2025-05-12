@@ -1459,6 +1459,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations:
     get:
+      deprecated: true
       tags:
         - invitation
       description: list the Invitation of specified Org or User
@@ -1497,6 +1498,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     post:
+      deprecated: true
       tags:
         - invitation
       description: create a Invitation
@@ -1520,6 +1522,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations/{invitationId}:
     get:
+      deprecated: true
       tags:
         - invitation
       description: read the specified Invitation for organization admin or invitee
@@ -1544,6 +1547,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     delete:
+      deprecated: true
       tags:
         - invitation
       description: delete the specified Invitation for organization admin
@@ -1568,6 +1572,7 @@ paths:
           $ref: '#/components/responses/404'
   /api/v1/invitations/{invitationId}/accept:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1590,6 +1595,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/reject:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1612,6 +1618,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/resend:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -11590,13 +11597,13 @@ components:
           description: The name of the role in the organization
           type: string
           x-nullable: false
-        userId:
-          description: The ID of the user
+        userName:
+          description: The name of the user
           type: string
           x-nullable: false
       required:
         - role
-        - userId
+        - userName
       type: object
     orgMemberUpdate:
       description: Org Member update
@@ -16083,6 +16090,10 @@ components:
           type: integer
         step:
           type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
     storageOption:
       type: object
       required:
@@ -19697,11 +19708,12 @@ components:
           type: string
           format: date-time
           description: The last update timestamp of the key.
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-          description: Additional metadata associated with the key.
+        dataKeyName:
+          type: string
+          description: the name of data key
+        sysmetricKey:
+          type: string
+          description: the sysmetric key
     keyList:
       description: key list
       properties:

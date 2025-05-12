@@ -23,8 +23,6 @@ security:
 tags:
   - name: user
     description: User APIs
-  - name: invitation
-    description: Invitation APIs
   - name: role
     description: Role Management APIs
   - name: organization
@@ -1102,131 +1100,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/invitations:
-    get:
-      tags:
-        - invitation
-      description: list the Invitation of specified Org or User
-      summary: List invitations
-      operationId: listInvitation
-      parameters:
-        - name: orgName
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/invitationList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-    post:
-      tags:
-        - invitation
-      description: create a Invitation
-      summary: Create invitation
-      operationId: createInvitation
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/invitationCreate'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/invitation'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      x-codegen-request-body-name: body
-  /api/v1/invitations/{invitationId}:
-    get:
-      tags:
-        - invitation
-      description: read the specified Invitation for organization admin or invitee
-      summary: Get Invitation
-      operationId: readInvitation
-      parameters:
-        - name: invitationId
-          in: path
-          description: ID of the invitation
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/invitation'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-    delete:
-      tags:
-        - invitation
-      description: delete the specified Invitation for organization admin
-      summary: Delete Invitation
-      operationId: deleteInvitation
-      parameters:
-        - name: invitationId
-          in: path
-          description: ID of the invitation
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content: {}
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/invitations/{invitationId}/resend:
-    patch:
-      tags:
-        - invitation
-      description: partially update the specified Invitation
-      summary: Resend invitation
-      operationId: resendInvitation
-      parameters:
-        - name: invitationId
-          in: path
-          description: ID of the invitation
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content: {}
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
   /admin/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
@@ -15862,13 +15735,13 @@ components:
           description: The name of the role in the organization
           type: string
           x-nullable: false
-        userId:
-          description: The ID of the user
+        userName:
+          description: The name of the user
           type: string
           x-nullable: false
       required:
         - role
-        - userId
+        - userName
       type: object
     orgMemberUpdate:
       description: Org Member update
@@ -15954,97 +15827,6 @@ components:
         description:
           description: The description of the role
           type: string
-    invitationSender:
-      description: InvitationSender is the User who send the Invitation
-      properties:
-        email:
-          description: The email of the User
-          type: string
-          nullable: true
-        id:
-          description: The ID of the User
-          type: string
-          nullable: true
-        name:
-          description: The name of the User
-          type: string
-          nullable: true
-      type: object
-    invitation:
-      description: Invitation info
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-          description: the created time of the invitation
-        email:
-          description: The email of the invitee
-          type: string
-        expireTime:
-          description: Expire time of this invitation
-          format: date-time
-          type: string
-        id:
-          description: The ID for the invitation
-          type: string
-        lastEmailTime:
-          description: Last email send time
-          format: date-time
-          type: string
-        orgName:
-          description: The name of the organization, for output only
-          type: string
-        roleName:
-          description: The name of the role
-          type: string
-        sender:
-          $ref: '#/components/schemas/invitationSender'
-        token:
-          description: '[internal, not for caller display] token of invitation, base64 encoded string including invitation and org ID'
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-          description: the updated time of the invitation
-      required:
-        - email
-        - expireTime
-        - id
-        - lastEmailTime
-        - orgName
-        - roleName
-        - token
-      type: object
-    invitationList:
-      description: InvitationList is a list of invitations
-      properties:
-        items:
-          description: Items is the list of Invitation objects in the list
-          items:
-            $ref: '#/components/schemas/invitation'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
-    invitationCreate:
-      description: Invitation create payload
-      properties:
-        userId:
-          description: The ID of the user as invitee, if email is not provided, the user ID is required
-          type: string
-        orgName:
-          description: The name of the organization, for output only
-          type: string
-        roleName:
-          description: The name of the role
-          type: string
-      required:
-        - userId
-        - orgName
-        - roleName
-      type: object
     orgParameter:
       description: org parameter item
       type: object
@@ -22383,6 +22165,10 @@ components:
           type: integer
         step:
           type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
     floatOption:
       type: object
       required:
@@ -26471,11 +26257,12 @@ components:
           type: string
           format: date-time
           description: The last update timestamp of the key.
-        metadata:
-          type: object
-          additionalProperties:
-            type: string
-          description: Additional metadata associated with the key.
+        dataKeyName:
+          type: string
+          description: the name of data key
+        sysmetricKey:
+          type: string
+          description: the sysmetric key
     keyList:
       description: key list
       properties:
@@ -26580,7 +26367,6 @@ x-tagGroups:
       - organization
       - member
       - role
-      - invitation
       - organizationParameter
   - name: Project
     tags:
