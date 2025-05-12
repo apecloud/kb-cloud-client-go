@@ -8195,7 +8195,7 @@ paths:
           content:
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/alertRuleYamlContent'
+                $ref: '#/components/schemas/alertRuleConfig'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -21532,29 +21532,6 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
-    alertRuleYamlContent:
-      type: object
-      description: The content of the alert rule configuration file in YAML format, including organization names.
-      properties:
-        orgName:
-          type: string
-          description: Organization name for the alert rule configuration
-          example: example-org-1
-        content:
-          type: string
-          format: binary
-          description: YAML file content containing the new alert rule configuration
-          example: |
-            groups:
-            - name: example-rules
-              rules:
-              - alert: HighErrorRate
-                expr: rate(http_requests_total{status="500"}[5m]) > 10
-                for: 5m
-                labels:
-                  severity: critical
-                annotations:
-                  summary: High error rate detected
     alertRuleConfig:
       type: object
       required:

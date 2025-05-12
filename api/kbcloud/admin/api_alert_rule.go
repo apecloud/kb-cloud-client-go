@@ -207,11 +207,11 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, ale
 
 // DownloadOrgAlertRuleFile Download organization-specific alert rule configuration file.
 // Downloads the current alert rule configuration for a specific organization as a YAML file.
-func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (AlertRuleYamlContent, *_nethttp.Response, error) {
+func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (AlertRuleConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue AlertRuleYamlContent
+		localVarReturnValue AlertRuleConfig
 	)
 
 	// Add api info to context

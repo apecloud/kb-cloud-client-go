@@ -41,6 +41,7 @@
 //   - [alertRuleApi.downloadOrgAlertRuleFile]
 //   - [alertRuleApi.getAlertRule]
 //   - [alertRuleApi.listAlertRules]
+//   - [alertRuleApi.restoreOrgAlertRuleToDefault]
 //   - [alertRuleApi.updateAlertRule]
 //   - [alertRuleApi.updateRuleConfig]
 //   - [alertStrategyApi.createAlertStrategy]

@@ -5988,7 +5988,7 @@ paths:
           content:
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/alertRuleYamlContent'
+                $ref: '#/components/schemas/alertRuleConfig'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -6030,6 +6030,41 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           description: Internal server error during update.
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/alerts/rules/config/restore:
+    post:
+      tags:
+        - alertRule
+      summary: Restore organization's alert rule configuration to defaults
+      description: Restores the alert rule configuration for a specific organization to the system default settings.
+      operationId: restoreOrgAlertRuleToDefault
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alert rule configuration for the organization restored to defaults successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
           $ref: '#/components/responses/500'
   /api/v1/environments/{environmentName}/engines:
     get:
@@ -15992,29 +16027,6 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
-    alertRuleYamlContent:
-      type: object
-      description: The content of the alert rule configuration file in YAML format, including organization names.
-      properties:
-        orgName:
-          type: string
-          description: Organization name for the alert rule configuration
-          example: example-org-1
-        content:
-          type: string
-          format: binary
-          description: YAML file content containing the new alert rule configuration
-          example: |
-            groups:
-            - name: example-rules
-              rules:
-              - alert: HighErrorRate
-                expr: rate(http_requests_total{status="500"}[5m]) > 10
-                for: 5m
-                labels:
-                  severity: critical
-                annotations:
-                  summary: High error rate detected
     alertRuleConfig:
       type: object
       required:
