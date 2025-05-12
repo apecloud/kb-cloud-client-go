@@ -19,7 +19,8 @@ type ParameterApi common.Service
 
 // ListParameterPropsOptionalParameters holds optional parameters for ListParameterProps.
 type ListParameterPropsOptionalParameters struct {
-	Component *string
+	Component  *string
+	RawContent *bool
 }
 
 // NewListParameterPropsOptionalParameters creates an empty struct for parameters.
@@ -31,6 +32,12 @@ func NewListParameterPropsOptionalParameters() *ListParameterPropsOptionalParame
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *ListParameterPropsOptionalParameters) WithComponent(component string) *ListParameterPropsOptionalParameters {
 	r.Component = &component
+	return r
+}
+
+// WithRawContent sets the corresponding parameter name and returns the struct.
+func (r *ListParameterPropsOptionalParameters) WithRawContent(rawContent bool) *ListParameterPropsOptionalParameters {
+	r.RawContent = &rawContent
 	return r
 }
 
@@ -73,6 +80,9 @@ func (a *ParameterApi) ListParameterProps(ctx _context.Context, orgName string, 
 	localVarFormParams := _neturl.Values{}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
+	if optionalParams.RawContent != nil {
+		localVarQueryParams.Add("rawContent", common.ParameterToString(*optionalParams.RawContent, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

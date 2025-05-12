@@ -12,8 +12,6 @@ import (
 )
 
 type AlertRuleConfig struct {
-	// Organization names for the alert rule configuration
-	OrgNames []string `json:"orgNames"`
 	// YAML file content containing the new alert rule configuration
 	Content _io.Reader `json:"content"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,9 +23,8 @@ type AlertRuleConfig struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertRuleConfig(orgNames []string, content _io.Reader) *AlertRuleConfig {
+func NewAlertRuleConfig(content _io.Reader) *AlertRuleConfig {
 	this := AlertRuleConfig{}
-	this.OrgNames = orgNames
 	this.Content = content
 	return &this
 }
@@ -38,29 +35,6 @@ func NewAlertRuleConfig(orgNames []string, content _io.Reader) *AlertRuleConfig 
 func NewAlertRuleConfigWithDefaults() *AlertRuleConfig {
 	this := AlertRuleConfig{}
 	return &this
-}
-
-// GetOrgNames returns the OrgNames field value.
-func (o *AlertRuleConfig) GetOrgNames() []string {
-	if o == nil {
-		var ret []string
-		return ret
-	}
-	return o.OrgNames
-}
-
-// GetOrgNamesOk returns a tuple with the OrgNames field value
-// and a boolean to check if the value has been set.
-func (o *AlertRuleConfig) GetOrgNamesOk() (*[]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.OrgNames, true
-}
-
-// SetOrgNames sets field value.
-func (o *AlertRuleConfig) SetOrgNames(v []string) {
-	o.OrgNames = v
 }
 
 // GetContent returns the Content field value.
@@ -92,7 +66,6 @@ func (o AlertRuleConfig) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["orgNames"] = o.OrgNames
 	toSerialize["content"] = o.Content
 
 	for key, value := range o.AdditionalProperties {
@@ -104,25 +77,20 @@ func (o AlertRuleConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AlertRuleConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgNames *[]string   `json:"orgNames"`
-		Content  *_io.Reader `json:"content"`
+		Content *_io.Reader `json:"content"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.OrgNames == nil {
-		return fmt.Errorf("required field orgNames missing")
 	}
 	if all.Content == nil {
 		return fmt.Errorf("required field content missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgNames", "content"})
+		common.DeleteKeys(additionalProperties, &[]string{"content"})
 	} else {
 		return err
 	}
-	o.OrgNames = *all.OrgNames
 	o.Content = *all.Content
 
 	if len(additionalProperties) > 0 {

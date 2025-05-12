@@ -73,6 +73,10 @@ type Backup struct {
 	ParentBackupName *string `json:"parentBackupName,omitempty"`
 	// the base backup name
 	BaseBackupName *string `json:"baseBackupName,omitempty"`
+	// the master key for encryption
+	EncryptionMasterKey *string `json:"encryptionMasterKey,omitempty"`
+	// the data key for encryption
+	EncryptionDataKey *string `json:"encryptionDataKey,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -954,6 +958,62 @@ func (o *Backup) SetBaseBackupName(v string) {
 	o.BaseBackupName = &v
 }
 
+// GetEncryptionMasterKey returns the EncryptionMasterKey field value if set, zero value otherwise.
+func (o *Backup) GetEncryptionMasterKey() string {
+	if o == nil || o.EncryptionMasterKey == nil {
+		var ret string
+		return ret
+	}
+	return *o.EncryptionMasterKey
+}
+
+// GetEncryptionMasterKeyOk returns a tuple with the EncryptionMasterKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetEncryptionMasterKeyOk() (*string, bool) {
+	if o == nil || o.EncryptionMasterKey == nil {
+		return nil, false
+	}
+	return o.EncryptionMasterKey, true
+}
+
+// HasEncryptionMasterKey returns a boolean if a field has been set.
+func (o *Backup) HasEncryptionMasterKey() bool {
+	return o != nil && o.EncryptionMasterKey != nil
+}
+
+// SetEncryptionMasterKey gets a reference to the given string and assigns it to the EncryptionMasterKey field.
+func (o *Backup) SetEncryptionMasterKey(v string) {
+	o.EncryptionMasterKey = &v
+}
+
+// GetEncryptionDataKey returns the EncryptionDataKey field value if set, zero value otherwise.
+func (o *Backup) GetEncryptionDataKey() string {
+	if o == nil || o.EncryptionDataKey == nil {
+		var ret string
+		return ret
+	}
+	return *o.EncryptionDataKey
+}
+
+// GetEncryptionDataKeyOk returns a tuple with the EncryptionDataKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Backup) GetEncryptionDataKeyOk() (*string, bool) {
+	if o == nil || o.EncryptionDataKey == nil {
+		return nil, false
+	}
+	return o.EncryptionDataKey, true
+}
+
+// HasEncryptionDataKey returns a boolean if a field has been set.
+func (o *Backup) HasEncryptionDataKey() bool {
+	return o != nil && o.EncryptionDataKey != nil
+}
+
+// SetEncryptionDataKey gets a reference to the given string and assigns it to the EncryptionDataKey field.
+func (o *Backup) SetEncryptionDataKey(v string) {
+	o.EncryptionDataKey = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Backup) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1025,6 +1085,12 @@ func (o Backup) MarshalJSON() ([]byte, error) {
 	if o.BaseBackupName != nil {
 		toSerialize["baseBackupName"] = o.BaseBackupName
 	}
+	if o.EncryptionMasterKey != nil {
+		toSerialize["encryptionMasterKey"] = o.EncryptionMasterKey
+	}
+	if o.EncryptionDataKey != nil {
+		toSerialize["encryptionDataKey"] = o.EncryptionDataKey
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1066,6 +1132,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 		Engine              *string             `json:"engine"`
 		ParentBackupName    *string             `json:"parentBackupName,omitempty"`
 		BaseBackupName      *string             `json:"baseBackupName,omitempty"`
+		EncryptionMasterKey *string             `json:"encryptionMasterKey,omitempty"`
+		EncryptionDataKey   *string             `json:"encryptionDataKey,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1120,7 +1188,7 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName"})
+		common.DeleteKeys(additionalProperties, &[]string{"autoBackup", "backupMethod", "backupPolicyName", "backupRepo", "backupType", "completionTimestamp", "creationTimestamp", "duration", "name", "orgName", "snapshotVolumes", "sourceCluster", "startTimestamp", "status", "timeRangeEnd", "timeRangeStart", "totalSize", "failureReason", "extras", "targetPods", "path", "retentionPeriod", "expiration", "id", "clusterId", "cloudProvider", "cloudRegion", "environmentName", "engine", "parentBackupName", "baseBackupName", "encryptionMasterKey", "encryptionDataKey"})
 	} else {
 		return err
 	}
@@ -1165,6 +1233,8 @@ func (o *Backup) UnmarshalJSON(bytes []byte) (err error) {
 	o.Engine = *all.Engine
 	o.ParentBackupName = all.ParentBackupName
 	o.BaseBackupName = all.BaseBackupName
+	o.EncryptionMasterKey = all.EncryptionMasterKey
+	o.EncryptionDataKey = all.EncryptionDataKey
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

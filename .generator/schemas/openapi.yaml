@@ -306,6 +306,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/apikeyWithSK'
           description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -751,7 +753,7 @@ paths:
     get:
       description: List events
       summary: List events
-      operationId: listEvents
+      operationId: listOrgEvents
       parameters:
         - description: Organization Name
           in: path
@@ -802,7 +804,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: getEvent
+      operationId: getOrgEvent
       parameters:
         - description: Organization Name
           in: path
@@ -4706,6 +4708,11 @@ paths:
           required: false
           schema:
             type: string
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -4816,6 +4823,11 @@ paths:
           name: partition
           schema:
             $ref: '#/components/schemas/paramTplPartition'
+        - description: whether to return the raw template content
+          in: query
+          name: rawContent
+          schema:
+            type: boolean
       responses:
         '200':
           content:
@@ -5956,6 +5968,69 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Download organization-specific alert rule configuration file
+      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
+      operationId: downloadOrgAlertRuleFile
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful download of the organization-specific alert rule configuration file.
+          content:
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/alertRuleYamlContent'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
   /api/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -6000,6 +6075,41 @@ paths:
               schema:
                 $ref: '#/components/schemas/engineList'
           description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - engine
+  /api/v1/engines/resourceConstraints:
+    get:
+      operationId: listEngineRsourceConstraints
+      summary: List engine resource constraints
+      parameters:
+        - description: engine name
+          in: query
+          name: engine
+          schema:
+            type: string
+        - description: engine mode
+          in: query
+          name: mode
+          schema:
+            type: string
+        - description: engine component
+          in: query
+          name: component
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resourceConstraintList'
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11152,6 +11262,23 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/v1/keys:
+    get:
+      tags:
+        - key
+      operationId: listKeys
+      summary: List Keys
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/keyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
 components:
   securitySchemes:
     BearerToken:
@@ -12900,6 +13027,26 @@ components:
         - Halt
         - Delete
         - WipeOut
+    ioQuantity:
+      description: IO Quantity describes IOPS and BPS of a volume
+      properties:
+        readIOPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeIOPS:
+          type: integer
+          format: int64
+          nullable: true
+        readBPS:
+          type: integer
+          nullable: true
+          format: int64
+        writeBPS:
+          type: integer
+          nullable: true
+          format: int64
+      type: object
     componentVolumeItem:
       description: ComponentVolumeItem is the information of a component volume
       type: object
@@ -12913,6 +13060,10 @@ components:
           type: number
           description: Storage size, the unit is Gi.
           format: double
+        ioLimits:
+          $ref: '#/components/schemas/ioQuantity'
+        ioReserves:
+          $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -13343,26 +13494,6 @@ components:
           type: string
           nullable: true
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
-    ioQuantity:
-      description: IO Quantity describes IOPS and BPS of a volume
-      properties:
-        readIOPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeIOPS:
-          type: integer
-          format: int64
-          nullable: true
-        readBPS:
-          type: integer
-          nullable: true
-          format: int64
-        writeBPS:
-          type: integer
-          nullable: true
-          format: int64
-      type: object
     instanceStorageItem:
       description: Instance storage information
       properties:
@@ -13670,8 +13801,10 @@ components:
             type: string
           description: Specify parameters list to be updated
           type: object
+        rawContent:
+          description: The raw content of the configuration file
+          type: string
       required:
-        - parameters
         - component
       type: object
     opsRequestName:
@@ -13916,12 +14049,14 @@ components:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
       required:
         - componentName
+        - instanceName
       properties:
         componentName:
           type: string
           minLength: 1
         instanceName:
           type: string
+          x-nullable: false
       type: object
     opsExposeType:
       type: string
@@ -13943,6 +14078,8 @@ components:
           type: string
           minLength: 1
         enable:
+          type: boolean
+        readonly:
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
@@ -14702,6 +14839,12 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
+        encryptionMasterKey:
+          description: the master key for encryption
+          type: string
+        encryptionDataKey:
+          description: the data key for encryption
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -14719,6 +14862,19 @@ components:
         - sourceCluster
         - status
         - totalSize
+      type: object
+    encryptionConfig:
+      description: encryption config for cluster
+      properties:
+        enabled:
+          type: boolean
+          description: whether enable enc
+        masterKey:
+          type: string
+          description: the master key for encryption
+        dataKey:
+          type: string
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -14760,6 +14916,8 @@ components:
           format: date-time
           type: string
           nullable: true
+        encryptionConfig:
+          $ref: '#/components/schemas/encryptionConfig'
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -15190,6 +15348,9 @@ components:
         operatorId:
           description: The user ID of the operator
           type: string
+        fileName:
+          description: The name of the configuration file
+          type: string
     parameterHistoryList:
       description: A list of parameter history
       properties:
@@ -15260,6 +15421,9 @@ components:
         specName:
           description: The name of the config spec
           type: string
+        rawContent:
+          description: The raw content of the configuration file, return only when raw is true in the query.
+          type: string
     parameterList:
       description: A list of cluster parameter
       properties:
@@ -15288,6 +15452,12 @@ components:
           type: string
         family:
           description: 'Name of database with its version, eg: mysql8.0'
+          type: string
+        engine:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
           type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
@@ -15371,6 +15541,9 @@ components:
           type: object
         newParamTplName:
           description: Specify the new name of the parameter template
+          type: string
+        rawContent:
+          description: The raw content of the configuration file
           type: string
       type: object
     paramTplApplyToClusterListItem:
@@ -15819,6 +15992,38 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
+    alertRuleYamlContent:
+      type: object
+      description: The content of the alert rule configuration file in YAML format, including organization names.
+      properties:
+        orgName:
+          type: string
+          description: Organization name for the alert rule configuration
+          example: example-org-1
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
+          example: |
+            groups:
+            - name: example-rules
+              rules:
+              - alert: HighErrorRate
+                expr: rate(http_requests_total{status="500"}[5m]) > 10
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: High error rate detected
+    alertRuleConfig:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     engineType:
       type: string
       description: engine type
@@ -15905,6 +16110,84 @@ components:
       items:
         $ref: '#/components/schemas/engine'
       type: array
+    integerOption:
+      type: object
+      required:
+        - min
+        - max
+        - default
+        - step
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
+    storageOption:
+      type: object
+      required:
+        - name
+        - title
+        - min
+        - step
+        - max
+        - default
+      properties:
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        name:
+          type: string
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+    resourceConstraint:
+      type: object
+      properties:
+        id:
+          type: string
+          description: resource constraint id
+        engine:
+          type: string
+          description: engine name
+        mode:
+          type: string
+          description: engine mode
+        component:
+          type: string
+          description: engine component
+        replicas:
+          $ref: '#/components/schemas/integerOption'
+        shards:
+          $ref: '#/components/schemas/integerOption'
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/storageOption'
+    resourceConstraintList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/resourceConstraint'
+    engineOptionStatus:
+      type: string
+      default: Release
+      enum:
+        - Release
+        - Uncommitted
     componentOption:
       type: object
       required:
@@ -15984,22 +16267,6 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    integerOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     floatOption:
       type: object
       required:
@@ -16020,28 +16287,6 @@ components:
         step:
           type: number
           format: double
-    storageOption:
-      type: object
-      required:
-        - name
-        - title
-        - min
-        - step
-        - max
-        - default
-      properties:
-        title:
-          $ref: '#/components/schemas/localizedDescription'
-        name:
-          type: string
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     modeComponent:
       type: object
       required:
@@ -16594,6 +16839,9 @@ components:
         enableTemplate:
           description: If set to true, the parameter templates of the component can be used. Mainly used by frontend.
           type: boolean
+        enableRawContent:
+          type: boolean
+          description: If set to true, the component can display the raw content of the parameter configuration file.
         configSpecs:
           type: array
           description: all parameter configuration specs of this component
@@ -16838,6 +17086,8 @@ components:
           description: engine maturity level
         title:
           type: string
+        status:
+          $ref: '#/components/schemas/engineOptionStatus'
         description:
           $ref: '#/components/schemas/localizedDescription'
         versions:
@@ -19349,6 +19599,7 @@ components:
       properties:
         success:
           type: boolean
+          x-omitempty: false
         message:
           type: string
     queryType:
@@ -19419,6 +19670,7 @@ components:
         - Finish
         - DataInterpretation
         - Error
+        - Think
       description: 消息类型
     chatResponse:
       type: object
@@ -19445,6 +19697,72 @@ components:
         sessionId:
           type: string
           description: 会话ID
+    encryptionAlgorithm:
+      description: the encryption algorithm
+      type: string
+      enum:
+        - AES-128-CFB
+        - AES-192-CFB
+        - AES-256-CFB
+    encryptionKeyUsage:
+      type: string
+      enum:
+        - encryption
+        - decryption
+        - signing
+        - verification
+      description: The intended usage of the key.
+    key:
+      description: mutiple kv pair
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the key.
+        name:
+          type: string
+          description: The name of the key.
+        algorithm:
+          $ref: '#/components/schemas/encryptionAlgorithm'
+        keyUsage:
+          $ref: '#/components/schemas/encryptionKeyUsage'
+        clusters:
+          type: array
+          items:
+            type: string
+          description: the clusters which use the key
+        backups:
+          type: array
+          items:
+            type: string
+          description: the backups which use the key
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation timestamp of the key.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last update timestamp of the key.
+        dataKeyName:
+          type: string
+          description: the name of data key
+        sysmetricKey:
+          type: string
+          description: the sysmetric key
+    keyList:
+      description: key list
+      properties:
+        items:
+          description: Items is the list of key objects in the list
+          items:
+            $ref: '#/components/schemas/key'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '400':
       content:
@@ -19552,7 +19870,6 @@ x-tagGroups:
       - tls
       - whitelist
       - database
-      - classes
       - recycleBinCluster
       - clusterTask
   - name: Backup & Restore
@@ -19583,6 +19900,8 @@ x-tagGroups:
   - name: Engine
     tags:
       - engine
+      - engineOption
+      - class
   - name: Benchmark
     tags:
       - benchmark

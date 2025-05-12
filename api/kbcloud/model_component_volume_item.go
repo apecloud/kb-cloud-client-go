@@ -12,6 +12,10 @@ type ComponentVolumeItem struct {
 	Name *string `json:"name,omitempty"`
 	// Storage size, the unit is Gi.
 	Storage *float64 `json:"storage,omitempty"`
+	// IO Quantity describes IOPS and BPS of a volume
+	IoLimits *IoQuantity `json:"ioLimits,omitempty"`
+	// IO Quantity describes IOPS and BPS of a volume
+	IoReserves *IoQuantity `json:"ioReserves,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -90,6 +94,62 @@ func (o *ComponentVolumeItem) SetStorage(v float64) {
 	o.Storage = &v
 }
 
+// GetIoLimits returns the IoLimits field value if set, zero value otherwise.
+func (o *ComponentVolumeItem) GetIoLimits() IoQuantity {
+	if o == nil || o.IoLimits == nil {
+		var ret IoQuantity
+		return ret
+	}
+	return *o.IoLimits
+}
+
+// GetIoLimitsOk returns a tuple with the IoLimits field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentVolumeItem) GetIoLimitsOk() (*IoQuantity, bool) {
+	if o == nil || o.IoLimits == nil {
+		return nil, false
+	}
+	return o.IoLimits, true
+}
+
+// HasIoLimits returns a boolean if a field has been set.
+func (o *ComponentVolumeItem) HasIoLimits() bool {
+	return o != nil && o.IoLimits != nil
+}
+
+// SetIoLimits gets a reference to the given IoQuantity and assigns it to the IoLimits field.
+func (o *ComponentVolumeItem) SetIoLimits(v IoQuantity) {
+	o.IoLimits = &v
+}
+
+// GetIoReserves returns the IoReserves field value if set, zero value otherwise.
+func (o *ComponentVolumeItem) GetIoReserves() IoQuantity {
+	if o == nil || o.IoReserves == nil {
+		var ret IoQuantity
+		return ret
+	}
+	return *o.IoReserves
+}
+
+// GetIoReservesOk returns a tuple with the IoReserves field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentVolumeItem) GetIoReservesOk() (*IoQuantity, bool) {
+	if o == nil || o.IoReserves == nil {
+		return nil, false
+	}
+	return o.IoReserves, true
+}
+
+// HasIoReserves returns a boolean if a field has been set.
+func (o *ComponentVolumeItem) HasIoReserves() bool {
+	return o != nil && o.IoReserves != nil
+}
+
+// SetIoReserves gets a reference to the given IoQuantity and assigns it to the IoReserves field.
+func (o *ComponentVolumeItem) SetIoReserves(v IoQuantity) {
+	o.IoReserves = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ComponentVolumeItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -102,6 +162,12 @@ func (o ComponentVolumeItem) MarshalJSON() ([]byte, error) {
 	if o.Storage != nil {
 		toSerialize["storage"] = o.Storage
 	}
+	if o.IoLimits != nil {
+		toSerialize["ioLimits"] = o.IoLimits
+	}
+	if o.IoReserves != nil {
+		toSerialize["ioReserves"] = o.IoReserves
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -112,23 +178,39 @@ func (o ComponentVolumeItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentVolumeItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string  `json:"name,omitempty"`
-		Storage *float64 `json:"storage,omitempty"`
+		Name       *string     `json:"name,omitempty"`
+		Storage    *float64    `json:"storage,omitempty"`
+		IoLimits   *IoQuantity `json:"ioLimits,omitempty"`
+		IoReserves *IoQuantity `json:"ioReserves,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "storage"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "storage", "ioLimits", "ioReserves"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = all.Name
 	o.Storage = all.Storage
+	if all.IoLimits != nil && all.IoLimits.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.IoLimits = all.IoLimits
+	if all.IoReserves != nil && all.IoReserves.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.IoReserves = all.IoReserves
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
