@@ -329,10 +329,11 @@ func (a *UserApi) PatchAPIkey(ctx _context.Context, keyName string, body ApikeyC
 
 // PatchAuthenticatedUser Update user information.
 // partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
-func (a *UserApi) PatchAuthenticatedUser(ctx _context.Context, body UserUpdate) (*_nethttp.Response, error) {
+func (a *UserApi) PatchAuthenticatedUser(ctx _context.Context, body UserUpdate) (User, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod = _nethttp.MethodPatch
-		localVarPostBody   interface{}
+		localVarHTTPMethod  = _nethttp.MethodPatch
+		localVarPostBody    interface{}
+		localVarReturnValue User
 	)
 
 	// Add api info to context
@@ -346,7 +347,7 @@ func (a *UserApi) PatchAuthenticatedUser(ctx _context.Context, body UserUpdate) 
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".UserApi.PatchAuthenticatedUser")
 	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/api/v1/user"
@@ -366,17 +367,17 @@ func (a *UserApi) PatchAuthenticatedUser(ctx _context.Context, body UserUpdate) 
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return nil, err
+		return localVarReturnValue, nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarHTTPResponse, err
+		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -388,14 +389,23 @@ func (a *UserApi) PatchAuthenticatedUser(ctx _context.Context, body UserUpdate) 
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarHTTPResponse, newErr
+				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarHTTPResponse, newErr
+		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	return localVarHTTPResponse, nil
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // PhoneVerification Send verification code to user's phone.

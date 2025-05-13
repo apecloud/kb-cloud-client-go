@@ -91,6 +91,12 @@ paths:
               $ref: '#/components/schemas/userUpdate'
         required: true
       responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: OK
         '204':
           content: {}
           description: Returned when project is deleted successfully.
