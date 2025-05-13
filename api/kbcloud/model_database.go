@@ -16,12 +16,10 @@ type Database struct {
 	Component *string `json:"component,omitempty"`
 	// Specify the name of database, which must be unique.
 	Name string `json:"name"`
-	// Specify account name who can manage this database
-	AccountName *string `json:"accountName,omitempty"`
-	// Specify charsetName of database.
-	Charset *string `json:"charset,omitempty"`
 	// Description of the database.
 	Description *string `json:"description,omitempty"`
+	// Specify the options of database.
+	Options map[string]string `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -96,62 +94,6 @@ func (o *Database) SetName(v string) {
 	o.Name = v
 }
 
-// GetAccountName returns the AccountName field value if set, zero value otherwise.
-func (o *Database) GetAccountName() string {
-	if o == nil || o.AccountName == nil {
-		var ret string
-		return ret
-	}
-	return *o.AccountName
-}
-
-// GetAccountNameOk returns a tuple with the AccountName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Database) GetAccountNameOk() (*string, bool) {
-	if o == nil || o.AccountName == nil {
-		return nil, false
-	}
-	return o.AccountName, true
-}
-
-// HasAccountName returns a boolean if a field has been set.
-func (o *Database) HasAccountName() bool {
-	return o != nil && o.AccountName != nil
-}
-
-// SetAccountName gets a reference to the given string and assigns it to the AccountName field.
-func (o *Database) SetAccountName(v string) {
-	o.AccountName = &v
-}
-
-// GetCharset returns the Charset field value if set, zero value otherwise.
-func (o *Database) GetCharset() string {
-	if o == nil || o.Charset == nil {
-		var ret string
-		return ret
-	}
-	return *o.Charset
-}
-
-// GetCharsetOk returns a tuple with the Charset field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Database) GetCharsetOk() (*string, bool) {
-	if o == nil || o.Charset == nil {
-		return nil, false
-	}
-	return o.Charset, true
-}
-
-// HasCharset returns a boolean if a field has been set.
-func (o *Database) HasCharset() bool {
-	return o != nil && o.Charset != nil
-}
-
-// SetCharset gets a reference to the given string and assigns it to the Charset field.
-func (o *Database) SetCharset(v string) {
-	o.Charset = &v
-}
-
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *Database) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -180,6 +122,34 @@ func (o *Database) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetOptions returns the Options field value if set, zero value otherwise.
+func (o *Database) GetOptions() map[string]string {
+	if o == nil || o.Options == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Options
+}
+
+// GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Database) GetOptionsOk() (*map[string]string, bool) {
+	if o == nil || o.Options == nil {
+		return nil, false
+	}
+	return &o.Options, true
+}
+
+// HasOptions returns a boolean if a field has been set.
+func (o *Database) HasOptions() bool {
+	return o != nil && o.Options != nil
+}
+
+// SetOptions gets a reference to the given map[string]string and assigns it to the Options field.
+func (o *Database) SetOptions(v map[string]string) {
+	o.Options = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Database) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -190,14 +160,11 @@ func (o Database) MarshalJSON() ([]byte, error) {
 		toSerialize["component"] = o.Component
 	}
 	toSerialize["name"] = o.Name
-	if o.AccountName != nil {
-		toSerialize["accountName"] = o.AccountName
-	}
-	if o.Charset != nil {
-		toSerialize["charset"] = o.Charset
-	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
+	}
+	if o.Options != nil {
+		toSerialize["options"] = o.Options
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -209,11 +176,10 @@ func (o Database) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component   *string `json:"component,omitempty"`
-		Name        *string `json:"name"`
-		AccountName *string `json:"accountName,omitempty"`
-		Charset     *string `json:"charset,omitempty"`
-		Description *string `json:"description,omitempty"`
+		Component   *string           `json:"component,omitempty"`
+		Name        *string           `json:"name"`
+		Description *string           `json:"description,omitempty"`
+		Options     map[string]string `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -223,15 +189,14 @@ func (o *Database) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "name", "accountName", "charset", "description"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "name", "description", "options"})
 	} else {
 		return err
 	}
 	o.Component = all.Component
 	o.Name = *all.Name
-	o.AccountName = all.AccountName
-	o.Charset = all.Charset
 	o.Description = all.Description
+	o.Options = all.Options
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
