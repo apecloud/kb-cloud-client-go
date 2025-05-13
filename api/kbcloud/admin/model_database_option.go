@@ -11,8 +11,9 @@ import (
 )
 
 type DatabaseOption struct {
-	Enabled             bool    `json:"enabled"`
-	DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
+	Enabled             bool     `json:"enabled"`
+	DatabaseNamePattern *string  `json:"databaseNamePattern,omitempty"`
+	AvailableOptions    []string `json:"availableOptions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -87,6 +88,34 @@ func (o *DatabaseOption) SetDatabaseNamePattern(v string) {
 	o.DatabaseNamePattern = &v
 }
 
+// GetAvailableOptions returns the AvailableOptions field value if set, zero value otherwise.
+func (o *DatabaseOption) GetAvailableOptions() []string {
+	if o == nil || o.AvailableOptions == nil {
+		var ret []string
+		return ret
+	}
+	return o.AvailableOptions
+}
+
+// GetAvailableOptionsOk returns a tuple with the AvailableOptions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetAvailableOptionsOk() (*[]string, bool) {
+	if o == nil || o.AvailableOptions == nil {
+		return nil, false
+	}
+	return &o.AvailableOptions, true
+}
+
+// HasAvailableOptions returns a boolean if a field has been set.
+func (o *DatabaseOption) HasAvailableOptions() bool {
+	return o != nil && o.AvailableOptions != nil
+}
+
+// SetAvailableOptions gets a reference to the given []string and assigns it to the AvailableOptions field.
+func (o *DatabaseOption) SetAvailableOptions(v []string) {
+	o.AvailableOptions = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -96,6 +125,9 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	toSerialize["enabled"] = o.Enabled
 	if o.DatabaseNamePattern != nil {
 		toSerialize["databaseNamePattern"] = o.DatabaseNamePattern
+	}
+	if o.AvailableOptions != nil {
+		toSerialize["availableOptions"] = o.AvailableOptions
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -107,8 +139,9 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled             *bool   `json:"enabled"`
-		DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
+		Enabled             *bool    `json:"enabled"`
+		DatabaseNamePattern *string  `json:"databaseNamePattern,omitempty"`
+		AvailableOptions    []string `json:"availableOptions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -118,12 +151,13 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "databaseNamePattern"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "databaseNamePattern", "availableOptions"})
 	} else {
 		return err
 	}
 	o.Enabled = *all.Enabled
 	o.DatabaseNamePattern = all.DatabaseNamePattern
+	o.AvailableOptions = all.AvailableOptions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
