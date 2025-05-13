@@ -13530,6 +13530,67 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/dboptions:
+    get:
+      tags:
+        - rdbms
+      description: get available options for creating database
+      summary: get database options
+      operationId: getDatabaseOptions
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: option type
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - name: charset
+          in: query
+          description: specified charset
+          required: false
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: filter keyword
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get database options success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -16449,18 +16510,16 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
-        accountName:
-          description: Specify account name who can manage this database
-          title: owner
-          type: string
-        charset:
-          description: Specify charsetName of database.
-          title: charsetName
-          type: string
         description:
           description: Description of the database.
           title: description
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: object
       required:
         - name
       type: object
@@ -21843,6 +21902,10 @@ components:
           type: boolean
         databaseNamePattern:
           type: string
+        availableOptions:
+          type: array
+          items:
+            type: string
     dmsOption:
       type: object
       required:
