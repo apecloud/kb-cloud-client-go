@@ -16519,7 +16519,7 @@ components:
           title: options
           type: object
           additionalProperties:
-            type: object
+            type: string
       required:
         - name
       type: object
