@@ -114,7 +114,7 @@ paths:
     get:
       description: Get authenticated login user info
       summary: Get authenticated user
-      operationId: readUser
+      operationId: getAuthenticatedUser
       responses:
         '200':
           content:
@@ -128,7 +128,7 @@ paths:
         - user
     patch:
       description: partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
-      operationId: patchUser
+      operationId: patchAuthenticatedUser
       summary: Update user information
       requestBody:
         content:
@@ -147,9 +147,9 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/user/password:
     patch:
-      description: Update user password.
-      summary: Update user password
-      operationId: updateUserPassword
+      description: Update current authenticated user password.
+      summary: Update current authenticated user password
+      operationId: updateAuthenticatedUserPassword
       requestBody:
         content:
           application/json:
@@ -201,24 +201,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-      tags:
-        - user
-      x-codegen-request-body-name: body
-  /api/v1/user/verificationEmail:
-    post:
-      description: To send verification email checking user's email address
-      summary: Send verification email to user's email address.
-      operationId: sendVerificationEmail
-      responses:
-        '204':
-          content: {}
-          description: Send verification email to user successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -312,61 +294,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-      tags:
-        - user
-      x-codegen-request-body-name: body
-  /api/v1/users:
-    get:
-      description: Query users by name or email
-      summary: Query users
-      operationId: queryOrgUsers
-      parameters:
-        - description: User name, email or user name can not be empty at the same time
-          in: query
-          name: userName
-          required: false
-          schema:
-            type: string
-        - description: Email, user name or email can not be empty at the same time
-          in: query
-          name: email
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userList'
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-      tags:
-        - user
-    post:
-      description: Create user
-      summary: Create user
-      operationId: createUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/userCreate'
-        required: true
-      responses:
-        '201':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '409':
-          $ref: '#/components/responses/409'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -9825,6 +9752,67 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/dboptions:
+    get:
+      tags:
+        - rdbms
+      description: get available options for creating database
+      summary: get database options
+      operationId: getDatabaseOptions
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: option type
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - name: charset
+          in: query
+          description: specified charset
+          required: false
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: filter keyword
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get database options success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -11269,11 +11257,10 @@ components:
       pattern: ^\+\d{1,3}\d{11}$
       type: string
     user:
-      description: User info
+      description: Admin user info
       properties:
-        createdAt:
-          description: created time of the user
-          format: date-time
+        id:
+          description: The ID for the user
           type: string
         userName:
           description: The name of the user, is unique
@@ -11284,23 +11271,22 @@ components:
         email:
           description: The email for the user
           type: string
-        id:
-          description: The ID for the user
-          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        updatedAt:
-          description: updated time of the user
+        createdAt:
           format: date-time
           type: string
+        updatedAt:
+          format: date-time
+          type: string
+        isDefaultPassword:
+          description: return true if the default admin user need to reset password
+          type: boolean
       required:
-        - createdAt
-        - email
         - id
-        - updatedAt
         - userName
-        - displayName
-      type: object
+        - createdAt
+        - updatedAt
     APIErrorResponse:
       description: API error response.
       properties:
@@ -11327,9 +11313,6 @@ components:
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        verificationCode:
-          description: The verification code for the user
-          type: string
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -11426,34 +11409,6 @@ components:
         - secretKey
         - description
         - createAt
-      type: object
-    userList:
-      description: User list
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/user'
-          description: The list of users
-    userCreate:
-      description: User create
-      properties:
-        userName:
-          description: The name of the user, is unique
-          type: string
-        email:
-          description: The email for the user
-          type: string
-        displayName:
-          description: The display name of the user
-          type: string
-        password:
-          description: The password for the user
-          type: string
-      required:
-        - userName
-        - password
       type: object
     userOrg:
       description: UserOrg is the payload for user organization
@@ -13767,18 +13722,16 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
-        accountName:
-          description: Specify account name who can manage this database
-          title: owner
-          type: string
-        charset:
-          description: Specify charsetName of database.
-          title: charsetName
-          type: string
         description:
           description: Description of the database.
           title: description
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
       required:
         - name
       type: object
@@ -16367,6 +16320,10 @@ components:
           type: boolean
         databaseNamePattern:
           type: string
+        availableOptions:
+          type: array
+          items:
+            type: string
     dmsOption:
       type: object
       required:

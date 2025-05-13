@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUserList Admin user list
-type AdminUserList struct {
-	// Items is the list of admin user objects in the list
-	Items []AdminUser `json:"items"`
+// Password Admin user password
+type Password struct {
+	// The new password for the admin user.
+	NewPassword string `json:"newPassword"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUserList instantiates a new AdminUserList object.
+// NewPassword instantiates a new Password object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUserList(items []AdminUser) *AdminUserList {
-	this := AdminUserList{}
-	this.Items = items
+func NewPassword(newPassword string) *Password {
+	this := Password{}
+	this.NewPassword = newPassword
 	return &this
 }
 
-// NewAdminUserListWithDefaults instantiates a new AdminUserList object.
+// NewPasswordWithDefaults instantiates a new Password object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUserListWithDefaults() *AdminUserList {
-	this := AdminUserList{}
+func NewPasswordWithDefaults() *Password {
+	this := Password{}
 	return &this
 }
 
-// GetItems returns the Items field value.
-func (o *AdminUserList) GetItems() []AdminUser {
+// GetNewPassword returns the NewPassword field value.
+func (o *Password) GetNewPassword() string {
 	if o == nil {
-		var ret []AdminUser
+		var ret string
 		return ret
 	}
-	return o.Items
+	return o.NewPassword
 }
 
-// GetItemsOk returns a tuple with the Items field value
+// GetNewPasswordOk returns a tuple with the NewPassword field value
 // and a boolean to check if the value has been set.
-func (o *AdminUserList) GetItemsOk() (*[]AdminUser, bool) {
+func (o *Password) GetNewPasswordOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Items, true
+	return &o.NewPassword, true
 }
 
-// SetItems sets field value.
-func (o *AdminUserList) SetItems(v []AdminUser) {
-	o.Items = v
+// SetNewPassword sets field value.
+func (o *Password) SetNewPassword(v string) {
+	o.NewPassword = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUserList) MarshalJSON() ([]byte, error) {
+func (o Password) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["items"] = o.Items
+	toSerialize["newPassword"] = o.NewPassword
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +75,23 @@ func (o AdminUserList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUserList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Password) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]AdminUser `json:"items"`
+		NewPassword *string `json:"newPassword"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Items == nil {
-		return fmt.Errorf("required field items missing")
+	if all.NewPassword == nil {
+		return fmt.Errorf("required field newPassword missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"newPassword"})
 	} else {
 		return err
 	}
-	o.Items = *all.Items
+	o.NewPassword = *all.NewPassword
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
