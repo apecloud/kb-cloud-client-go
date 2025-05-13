@@ -18,6 +18,7 @@ import (
 type AutohealingApi common.Service
 
 // GetAutohealing list autohealing job.
+// Deprecated: This API is deprecated.
 func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, clusterName string) ([]AutohealingListItem, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

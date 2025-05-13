@@ -2173,6 +2173,7 @@ paths:
     get:
       operationId: getAutohealing
       summary: list autohealing job
+      deprecated: true
       parameters:
         - description: name of the Org
           in: path
@@ -15615,6 +15616,8 @@ components:
         newPassword:
           description: The new password for the admin user.
           type: string
+          minLength: 8
+          pattern: ^[^\s].*[^\s]$
       required:
         - newPassword
       type: object
