@@ -204,6 +204,7 @@
 //   - [kafkaApi.resetKafkaTopicConsumerOffset]
 //   - [kafkaApi.setKafkaTopicConfig]
 //   - [kafkaApi.updateKafkaBrokerConfig]
+//   - [keyApi.listKeys]
 //   - [loadBalancerApi.getLoadBalancer]
 //   - [markClusterApi.markClusterRestoreCompleted]
 //   - [memberApi.addOrgMember]

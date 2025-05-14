@@ -14405,6 +14405,119 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+  /admin/v1/keys:
+    get:
+      tags:
+        - key
+      operationId: listKeys
+      summary: List Keys
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/keyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    post:
+      tags:
+        - key
+      operationId: createKey
+      summary: Create a new key
+      description: Store a new key in the system.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/key'
+      responses:
+        '200':
+          description: key created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/key'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /admin/v1/keys/{keyName}:
+    get:
+      operationId: getKey
+      tags:
+        - key
+      summary: get an existing key
+      parameters:
+        - name: keyName
+          in: path
+          required: true
+          description: the name of key
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully updated the key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/key'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    patch:
+      operationId: updateKey
+      tags:
+        - key
+      summary: Update an existing key
+      parameters:
+        - name: keyName
+          in: path
+          required: true
+          description: the name of key
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/key'
+      responses:
+        '200':
+          description: Successfully updated the key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/key'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    delete:
+      operationId: deleteKey
+      tags:
+        - key
+      summary: Delete a specific key
+      parameters:
+        - name: keyName
+          in: path
+          required: true
+          description: the name of key
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Successfully deleted the key
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
 components:
   securitySchemes:
     BearerToken:
@@ -20116,6 +20229,12 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
+        encryptionMasterKey:
+          description: the master key for encryption
+          type: string
+        encryptionDataKey:
+          description: the data key for encryption
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -20133,6 +20252,19 @@ components:
         - sourceCluster
         - status
         - totalSize
+      type: object
+    encryptionConfig:
+      description: encryption config for cluster
+      properties:
+        enabled:
+          type: boolean
+          description: whether enable enc
+        masterKey:
+          type: string
+          description: the master key for encryption
+        dataKey:
+          type: string
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -20174,6 +20306,8 @@ components:
           format: date-time
           type: string
           nullable: true
+        encryptionConfig:
+          $ref: '#/components/schemas/encryptionConfig'
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -24895,6 +25029,72 @@ components:
         - executionTime
         - command
         - extra
+    encryptionAlgorithm:
+      description: the encryption algorithm
+      type: string
+      enum:
+        - AES-128-CFB
+        - AES-192-CFB
+        - AES-256-CFB
+    encryptionKeyUsage:
+      type: string
+      enum:
+        - encryption
+        - decryption
+        - signing
+        - verification
+      description: The intended usage of the key.
+    key:
+      description: mutiple kv pair
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the key.
+        name:
+          type: string
+          description: The name of the key.
+        algorithm:
+          $ref: '#/components/schemas/encryptionAlgorithm'
+        keyUsage:
+          $ref: '#/components/schemas/encryptionKeyUsage'
+        clusters:
+          type: array
+          items:
+            type: string
+          description: the clusters which use the key
+        backups:
+          type: array
+          items:
+            type: string
+          description: the backups which use the key
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation timestamp of the key.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last update timestamp of the key.
+        dataKeyName:
+          type: string
+          description: the name of data key
+        sysmetricKey:
+          type: string
+          description: the sysmetric key
+    keyList:
+      description: key list
+      properties:
+        items:
+          description: Items is the list of key objects in the list
+          items:
+            $ref: '#/components/schemas/key'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '204':
       description: No Content
