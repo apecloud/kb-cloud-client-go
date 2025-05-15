@@ -18771,20 +18771,31 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
-    staticCluster:
+    componentConfig:
+      type: object
       properties:
+        name:
+          type: string
+          description: Component name
         replicas:
           title: Replicas
           type: integer
           description: the number of replicas
         storage:
           title: Storage(Gi)
-          minimum: 1
           type: number
           description: Storage size, the unit is Gi.
           format: double
         classCode:
           type: string
+          description: Class code for the component
+    staticCluster:
+      properties:
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/componentConfig'
+          description: Array of component configurations
     environmentStorage:
       type: object
       description: Storage config
@@ -18913,6 +18924,24 @@ components:
       required:
         - name
         - status
+    logsConfig:
+      title: LogsConfig
+      description: Configuration for log-related components (e.g., Loki)
+      type: object
+      required:
+        - cluster
+      properties:
+        cluster:
+          $ref: '#/components/schemas/staticCluster'
+    metricsConfig:
+      title: MetricsConfig
+      description: Configuration for metrics-related components (e.g., Victoriametrics)
+      type: object
+      required:
+        - cluster
+      properties:
+        cluster:
+          $ref: '#/components/schemas/staticCluster'
     provisionConfig:
       title: ProvisionConfig
       description: Configuration to provision infrastructure for this environment
@@ -18934,6 +18963,10 @@ components:
           description: option modules of environment
           items:
             $ref: '#/components/schemas/environmentModule'
+        logsConfig:
+          $ref: '#/components/schemas/logsConfig'
+        metricsConfig:
+          $ref: '#/components/schemas/metricsConfig'
     autohealingConfig:
       type: object
       description: cluster instance autohealing process config

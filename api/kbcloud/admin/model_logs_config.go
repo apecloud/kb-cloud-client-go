@@ -4,70 +4,68 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-type StaticCluster struct {
-	// Array of component configurations
-	Components []ComponentConfig `json:"components,omitempty"`
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// LogsConfig Configuration for log-related components (e.g., Loki)
+type LogsConfig struct {
+	Cluster StaticCluster `json:"cluster"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewStaticCluster instantiates a new StaticCluster object.
+// NewLogsConfig instantiates a new LogsConfig object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStaticCluster() *StaticCluster {
-	this := StaticCluster{}
+func NewLogsConfig(cluster StaticCluster) *LogsConfig {
+	this := LogsConfig{}
+	this.Cluster = cluster
 	return &this
 }
 
-// NewStaticClusterWithDefaults instantiates a new StaticCluster object.
+// NewLogsConfigWithDefaults instantiates a new LogsConfig object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewStaticClusterWithDefaults() *StaticCluster {
-	this := StaticCluster{}
+func NewLogsConfigWithDefaults() *LogsConfig {
+	this := LogsConfig{}
 	return &this
 }
 
-// GetComponents returns the Components field value if set, zero value otherwise.
-func (o *StaticCluster) GetComponents() []ComponentConfig {
-	if o == nil || o.Components == nil {
-		var ret []ComponentConfig
+// GetCluster returns the Cluster field value.
+func (o *LogsConfig) GetCluster() StaticCluster {
+	if o == nil {
+		var ret StaticCluster
 		return ret
 	}
-	return o.Components
+	return o.Cluster
 }
 
-// GetComponentsOk returns a tuple with the Components field value if set, nil otherwise
+// GetClusterOk returns a tuple with the Cluster field value
 // and a boolean to check if the value has been set.
-func (o *StaticCluster) GetComponentsOk() (*[]ComponentConfig, bool) {
-	if o == nil || o.Components == nil {
+func (o *LogsConfig) GetClusterOk() (*StaticCluster, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Components, true
+	return &o.Cluster, true
 }
 
-// HasComponents returns a boolean if a field has been set.
-func (o *StaticCluster) HasComponents() bool {
-	return o != nil && o.Components != nil
-}
-
-// SetComponents gets a reference to the given []ComponentConfig and assigns it to the Components field.
-func (o *StaticCluster) SetComponents(v []ComponentConfig) {
-	o.Components = v
+// SetCluster sets field value.
+func (o *LogsConfig) SetCluster(v StaticCluster) {
+	o.Cluster = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o StaticCluster) MarshalJSON() ([]byte, error) {
+func (o LogsConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Components != nil {
-		toSerialize["components"] = o.Components
-	}
+	toSerialize["cluster"] = o.Cluster
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -76,23 +74,35 @@ func (o StaticCluster) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *StaticCluster) UnmarshalJSON(bytes []byte) (err error) {
+func (o *LogsConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Components []ComponentConfig `json:"components,omitempty"`
+		Cluster *StaticCluster `json:"cluster"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Cluster == nil {
+		return fmt.Errorf("required field cluster missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"components"})
+		common.DeleteKeys(additionalProperties, &[]string{"cluster"})
 	} else {
 		return err
 	}
-	o.Components = all.Components
+
+	hasInvalidField := false
+	if all.Cluster.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Cluster = *all.Cluster
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

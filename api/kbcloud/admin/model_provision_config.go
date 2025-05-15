@@ -22,6 +22,10 @@ type ProvisionConfig struct {
 	Storage *StorageConfig `json:"storage,omitempty"`
 	// option modules of environment
 	Modules []EnvironmentModule `json:"modules,omitempty"`
+	// Configuration for log-related components (e.g., Loki)
+	LogsConfig *LogsConfig `json:"logsConfig,omitempty"`
+	// Configuration for metrics-related components (e.g., Victoriametrics)
+	MetricsConfig *MetricsConfig `json:"metricsConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -176,6 +180,62 @@ func (o *ProvisionConfig) SetModules(v []EnvironmentModule) {
 	o.Modules = v
 }
 
+// GetLogsConfig returns the LogsConfig field value if set, zero value otherwise.
+func (o *ProvisionConfig) GetLogsConfig() LogsConfig {
+	if o == nil || o.LogsConfig == nil {
+		var ret LogsConfig
+		return ret
+	}
+	return *o.LogsConfig
+}
+
+// GetLogsConfigOk returns a tuple with the LogsConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProvisionConfig) GetLogsConfigOk() (*LogsConfig, bool) {
+	if o == nil || o.LogsConfig == nil {
+		return nil, false
+	}
+	return o.LogsConfig, true
+}
+
+// HasLogsConfig returns a boolean if a field has been set.
+func (o *ProvisionConfig) HasLogsConfig() bool {
+	return o != nil && o.LogsConfig != nil
+}
+
+// SetLogsConfig gets a reference to the given LogsConfig and assigns it to the LogsConfig field.
+func (o *ProvisionConfig) SetLogsConfig(v LogsConfig) {
+	o.LogsConfig = &v
+}
+
+// GetMetricsConfig returns the MetricsConfig field value if set, zero value otherwise.
+func (o *ProvisionConfig) GetMetricsConfig() MetricsConfig {
+	if o == nil || o.MetricsConfig == nil {
+		var ret MetricsConfig
+		return ret
+	}
+	return *o.MetricsConfig
+}
+
+// GetMetricsConfigOk returns a tuple with the MetricsConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ProvisionConfig) GetMetricsConfigOk() (*MetricsConfig, bool) {
+	if o == nil || o.MetricsConfig == nil {
+		return nil, false
+	}
+	return o.MetricsConfig, true
+}
+
+// HasMetricsConfig returns a boolean if a field has been set.
+func (o *ProvisionConfig) HasMetricsConfig() bool {
+	return o != nil && o.MetricsConfig != nil
+}
+
+// SetMetricsConfig gets a reference to the given MetricsConfig and assigns it to the MetricsConfig field.
+func (o *ProvisionConfig) SetMetricsConfig(v MetricsConfig) {
+	o.MetricsConfig = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -193,6 +253,12 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 	if o.Modules != nil {
 		toSerialize["modules"] = o.Modules
 	}
+	if o.LogsConfig != nil {
+		toSerialize["logsConfig"] = o.LogsConfig
+	}
+	if o.MetricsConfig != nil {
+		toSerialize["metricsConfig"] = o.MetricsConfig
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -203,11 +269,13 @@ func (o ProvisionConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Register  *Register           `json:"register"`
-		Component *Component          `json:"component"`
-		NodePool  []NodePoolNode      `json:"nodePool,omitempty"`
-		Storage   *StorageConfig      `json:"storage,omitempty"`
-		Modules   []EnvironmentModule `json:"modules,omitempty"`
+		Register      *Register           `json:"register"`
+		Component     *Component          `json:"component"`
+		NodePool      []NodePoolNode      `json:"nodePool,omitempty"`
+		Storage       *StorageConfig      `json:"storage,omitempty"`
+		Modules       []EnvironmentModule `json:"modules,omitempty"`
+		LogsConfig    *LogsConfig         `json:"logsConfig,omitempty"`
+		MetricsConfig *MetricsConfig      `json:"metricsConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -220,7 +288,7 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage", "modules"})
+		common.DeleteKeys(additionalProperties, &[]string{"register", "component", "nodePool", "storage", "modules", "logsConfig", "metricsConfig"})
 	} else {
 		return err
 	}
@@ -240,6 +308,14 @@ func (o *ProvisionConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Storage = all.Storage
 	o.Modules = all.Modules
+	if all.LogsConfig != nil && all.LogsConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.LogsConfig = all.LogsConfig
+	if all.MetricsConfig != nil && all.MetricsConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.MetricsConfig = all.MetricsConfig
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
