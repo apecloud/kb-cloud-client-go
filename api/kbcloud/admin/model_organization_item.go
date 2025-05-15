@@ -18,7 +18,7 @@ type OrganizationItem struct {
 	// The display name of the organization.
 	DisplayName string `json:"displayName"`
 	// The display name of the creator of the organization.
-	Creator string `json:"creator"`
+	Creator *string `json:"creator,omitempty"`
 	// The ID of the creator of the organization
 	CreatorId string `json:"creatorID"`
 	// The total number of clusters in the organization.
@@ -34,11 +34,10 @@ type OrganizationItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrganizationItem(name string, displayName string, creator string, creatorId string, clusterTotal int32, createdAt time.Time) *OrganizationItem {
+func NewOrganizationItem(name string, displayName string, creatorId string, clusterTotal int32, createdAt time.Time) *OrganizationItem {
 	this := OrganizationItem{}
 	this.Name = name
 	this.DisplayName = displayName
-	this.Creator = creator
 	this.CreatorId = creatorId
 	this.ClusterTotal = clusterTotal
 	this.CreatedAt = createdAt
@@ -99,27 +98,32 @@ func (o *OrganizationItem) SetDisplayName(v string) {
 	o.DisplayName = v
 }
 
-// GetCreator returns the Creator field value.
+// GetCreator returns the Creator field value if set, zero value otherwise.
 func (o *OrganizationItem) GetCreator() string {
-	if o == nil {
+	if o == nil || o.Creator == nil {
 		var ret string
 		return ret
 	}
-	return o.Creator
+	return *o.Creator
 }
 
-// GetCreatorOk returns a tuple with the Creator field value
+// GetCreatorOk returns a tuple with the Creator field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *OrganizationItem) GetCreatorOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Creator == nil {
 		return nil, false
 	}
-	return &o.Creator, true
+	return o.Creator, true
 }
 
-// SetCreator sets field value.
+// HasCreator returns a boolean if a field has been set.
+func (o *OrganizationItem) HasCreator() bool {
+	return o != nil && o.Creator != nil
+}
+
+// SetCreator gets a reference to the given string and assigns it to the Creator field.
 func (o *OrganizationItem) SetCreator(v string) {
-	o.Creator = v
+	o.Creator = &v
 }
 
 // GetCreatorId returns the CreatorId field value.
@@ -199,7 +203,9 @@ func (o OrganizationItem) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["displayName"] = o.DisplayName
-	toSerialize["creator"] = o.Creator
+	if o.Creator != nil {
+		toSerialize["creator"] = o.Creator
+	}
 	toSerialize["creatorID"] = o.CreatorId
 	toSerialize["clusterTotal"] = o.ClusterTotal
 	if o.CreatedAt.Nanosecond() == 0 {
@@ -219,7 +225,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name         *string    `json:"name"`
 		DisplayName  *string    `json:"displayName"`
-		Creator      *string    `json:"creator"`
+		Creator      *string    `json:"creator,omitempty"`
 		CreatorId    *string    `json:"creatorID"`
 		ClusterTotal *int32     `json:"clusterTotal"`
 		CreatedAt    *time.Time `json:"createdAt"`
@@ -232,9 +238,6 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.DisplayName == nil {
 		return fmt.Errorf("required field displayName missing")
-	}
-	if all.Creator == nil {
-		return fmt.Errorf("required field creator missing")
 	}
 	if all.CreatorId == nil {
 		return fmt.Errorf("required field creatorID missing")
@@ -253,7 +256,7 @@ func (o *OrganizationItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Name = *all.Name
 	o.DisplayName = *all.DisplayName
-	o.Creator = *all.Creator
+	o.Creator = all.Creator
 	o.CreatorId = *all.CreatorId
 	o.ClusterTotal = *all.ClusterTotal
 	o.CreatedAt = *all.CreatedAt

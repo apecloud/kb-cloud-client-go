@@ -541,7 +541,7 @@ paths:
               $ref: '#/components/schemas/orgCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -15669,7 +15669,6 @@ components:
       required:
         - name
         - displayName
-        - creator
         - creatorID
         - clusterTotal
         - createdAt
