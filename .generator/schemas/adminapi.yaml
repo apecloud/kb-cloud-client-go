@@ -21436,6 +21436,9 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
+        supportsReadonly:
+          type: boolean
+          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:
