@@ -281,7 +281,7 @@ func (a *BillingApi) QueryBillOverview(ctx _context.Context, start int64, end in
 }
 
 // RefreshBill Refresh bill.
-func (a *BillingApi) RefreshBill(ctx _context.Context, start int64, end int64) (BasicTask, *_nethttp.Response, error) {
+func (a *BillingApi) RefreshBill(ctx _context.Context, environmentName string, start int64, end int64) (BasicTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -307,6 +307,7 @@ func (a *BillingApi) RefreshBill(ctx _context.Context, start int64, end int64) (
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("environmentName", common.ParameterToString(environmentName, ""))
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
