@@ -14,6 +14,8 @@ import (
 type DatabaseItem struct {
 	// Specify the name of database, which must be unique.
 	Name string `json:"name"`
+	// Specify the options of database.
+	Options map[string]string `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +62,34 @@ func (o *DatabaseItem) SetName(v string) {
 	o.Name = v
 }
 
+// GetOptions returns the Options field value if set, zero value otherwise.
+func (o *DatabaseItem) GetOptions() map[string]string {
+	if o == nil || o.Options == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.Options
+}
+
+// GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseItem) GetOptionsOk() (*map[string]string, bool) {
+	if o == nil || o.Options == nil {
+		return nil, false
+	}
+	return &o.Options, true
+}
+
+// HasOptions returns a boolean if a field has been set.
+func (o *DatabaseItem) HasOptions() bool {
+	return o != nil && o.Options != nil
+}
+
+// SetOptions gets a reference to the given map[string]string and assigns it to the Options field.
+func (o *DatabaseItem) SetOptions(v map[string]string) {
+	o.Options = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DatabaseItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -67,6 +97,9 @@ func (o DatabaseItem) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	if o.Options != nil {
+		toSerialize["options"] = o.Options
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,7 +110,8 @@ func (o DatabaseItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DatabaseItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name *string `json:"name"`
+		Name    *string           `json:"name"`
+		Options map[string]string `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -87,11 +121,12 @@ func (o *DatabaseItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "options"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
+	o.Options = all.Options
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
