@@ -5941,6 +5941,104 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Download organization-specific alert rule configuration file
+      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
+      operationId: downloadOrgAlertRuleFile
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful download of the organization-specific alert rule configuration file.
+          content:
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/alertRuleConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/alerts/rules/config/restore:
+    post:
+      tags:
+        - alertRule
+      summary: Restore organization's alert rule configuration to defaults
+      description: Restores the alert rule configuration for a specific organization to the system default settings.
+      operationId: restoreOrgAlertRuleToDefault
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alert rule configuration for the organization restored to defaults successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -13704,6 +13802,12 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
       required:
         - name
       type: object
@@ -15948,6 +16052,15 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
+    alertRuleConfig:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     engineType:
       type: string
       description: engine type
@@ -16441,6 +16554,9 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
+        supportsReadonly:
+          type: boolean
+          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:
