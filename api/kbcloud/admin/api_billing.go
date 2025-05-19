@@ -20,7 +20,7 @@ type BillingApi common.Service
 type QueryBillDetailOptionalParameters struct {
 	BillId          *int32
 	ClusterId       *int32
-	Organization    *string
+	OrgName         *string
 	ProjectName     *string
 	AggregationTime *AggregationTimeType
 }
@@ -43,9 +43,9 @@ func (r *QueryBillDetailOptionalParameters) WithClusterId(clusterId int32) *Quer
 	return r
 }
 
-// WithOrganization sets the corresponding parameter name and returns the struct.
-func (r *QueryBillDetailOptionalParameters) WithOrganization(organization string) *QueryBillDetailOptionalParameters {
-	r.Organization = &organization
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *QueryBillDetailOptionalParameters) WithOrgName(orgName string) *QueryBillDetailOptionalParameters {
+	r.OrgName = &orgName
 	return r
 }
 
@@ -104,8 +104,8 @@ func (a *BillingApi) QueryBillDetail(ctx _context.Context, start int64, end int6
 	if optionalParams.ClusterId != nil {
 		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
 	}
-	if optionalParams.Organization != nil {
-		localVarQueryParams.Add("organization", common.ParameterToString(*optionalParams.Organization, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
 	if optionalParams.ProjectName != nil {
 		localVarQueryParams.Add("projectName", common.ParameterToString(*optionalParams.ProjectName, ""))
@@ -281,7 +281,7 @@ func (a *BillingApi) QueryBillOverview(ctx _context.Context, start int64, end in
 }
 
 // RefreshBill Refresh bill.
-func (a *BillingApi) RefreshBill(ctx _context.Context, environmentName string, start int64, end int64) (BasicTask, *_nethttp.Response, error) {
+func (a *BillingApi) RefreshBill(ctx _context.Context, start int64, end int64) (BasicTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -307,7 +307,6 @@ func (a *BillingApi) RefreshBill(ctx _context.Context, environmentName string, s
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("environmentName", common.ParameterToString(environmentName, ""))
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	localVarHeaderParams["Accept"] = "application/json"
