@@ -306,6 +306,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/apikeyWithSK'
           description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -751,7 +753,7 @@ paths:
     get:
       description: List events
       summary: List events
-      operationId: listEvents
+      operationId: listOrgEvents
       parameters:
         - description: Organization Name
           in: path
@@ -802,7 +804,7 @@ paths:
     get:
       description: Retrieves detailed information about an event based on the provided Event ID.
       summary: Query event detail by Event ID
-      operationId: getEvent
+      operationId: getOrgEvent
       parameters:
         - description: Organization Name
           in: path
@@ -3468,6 +3470,7 @@ paths:
     get:
       operationId: getAutohealing
       summary: list autohealing job
+      deprecated: true
       parameters:
         - description: name of the Org
           in: path
@@ -5966,6 +5969,104 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Download organization-specific alert rule configuration file
+      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
+      operationId: downloadOrgAlertRuleFile
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful download of the organization-specific alert rule configuration file.
+          content:
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/alertRuleConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/alerts/rules/config/restore:
+    post:
+      tags:
+        - alertRule
+      summary: Restore organization's alert rule configuration to defaults
+      description: Restores the alert rule configuration for a specific organization to the system default settings.
+      operationId: restoreOrgAlertRuleToDefault
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alert rule configuration for the organization restored to defaults successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -9784,6 +9885,67 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/dboptions:
+    get:
+      tags:
+        - rdbms
+      description: get available options for creating database
+      summary: get database options
+      operationId: getDatabaseOptions
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: option type
+          in: query
+          name: type
+          required: true
+          schema:
+            type: string
+        - name: charset
+          in: query
+          description: specified charset
+          required: false
+          schema:
+            type: string
+        - name: filter
+          in: query
+          description: filter keyword
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: get database options success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
       description: list databases for rdbms engine cluster
@@ -11197,6 +11359,23 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/v1/keys:
+    get:
+      tags:
+        - key
+      operationId: listKeys
+      summary: List Keys
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/keyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
 components:
   securitySchemes:
     BearerToken:
@@ -12980,6 +13159,8 @@ components:
           format: double
         ioLimits:
           $ref: '#/components/schemas/ioQuantity'
+        ioReserves:
+          $ref: '#/components/schemas/ioQuantity'
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
@@ -13676,6 +13857,12 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
       required:
         - name
       type: object
@@ -13701,18 +13888,16 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
-        accountName:
-          description: Specify account name who can manage this database
-          title: owner
-          type: string
-        charset:
-          description: Specify charsetName of database.
-          title: charsetName
-          type: string
         description:
           description: Description of the database.
           title: description
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
       required:
         - name
       type: object
@@ -13979,12 +14164,14 @@ components:
       description: OpsPromote is the payload to promote a KubeBlocks cluster
       required:
         - componentName
+        - instanceName
       properties:
         componentName:
           type: string
           minLength: 1
         instanceName:
           type: string
+          x-nullable: false
       type: object
     opsExposeType:
       type: string
@@ -14006,6 +14193,8 @@ components:
           type: string
           minLength: 1
         enable:
+          type: boolean
+        readonly:
           type: boolean
         type:
           $ref: '#/components/schemas/opsExposeType'
@@ -14765,6 +14954,12 @@ components:
         baseBackupName:
           description: the base backup name
           type: string
+        encryptionMasterKey:
+          description: the master key for encryption
+          type: string
+        encryptionDataKey:
+          description: the data key for encryption
+          type: string
       required:
         - autoBackup
         - backupMethod
@@ -14782,6 +14977,19 @@ components:
         - sourceCluster
         - status
         - totalSize
+      type: object
+    encryptionConfig:
+      description: encryption config for cluster
+      properties:
+        enabled:
+          type: boolean
+          description: whether enable enc
+        masterKey:
+          type: string
+          description: the master key for encryption
+        dataKey:
+          type: string
+          description: the data key for encryption
       type: object
     backupPolicy:
       description: BackupPolicy is the payload for KubeBlocks cluster backup policy
@@ -14823,6 +15031,8 @@ components:
           format: date-time
           type: string
           nullable: true
+        encryptionConfig:
+          $ref: '#/components/schemas/encryptionConfig'
       type: object
     backupList:
       description: BackupList is a list of backups
@@ -15252,6 +15462,9 @@ components:
           type: string
         operatorId:
           description: The user ID of the operator
+          type: string
+        fileName:
+          description: The name of the configuration file
           type: string
     parameterHistoryList:
       description: A list of parameter history
@@ -15894,6 +16107,15 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
+    alertRuleConfig:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     engineType:
       type: string
       description: engine type
@@ -15996,6 +16218,10 @@ components:
           type: integer
         step:
           type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
     storageOption:
       type: object
       required:
@@ -16269,6 +16495,10 @@ components:
           type: boolean
         databaseNamePattern:
           type: string
+        availableOptions:
+          type: array
+          items:
+            type: string
     dmsOption:
       type: object
       required:
@@ -16379,6 +16609,9 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
+        supportsReadonly:
+          type: boolean
+          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:
@@ -19468,6 +19701,7 @@ components:
       properties:
         success:
           type: boolean
+          x-omitempty: false
         message:
           type: string
     queryType:
@@ -19538,6 +19772,7 @@ components:
         - Finish
         - DataInterpretation
         - Error
+        - Think
       description: 消息类型
     chatResponse:
       type: object
@@ -19564,6 +19799,72 @@ components:
         sessionId:
           type: string
           description: 会话ID
+    encryptionAlgorithm:
+      description: the encryption algorithm
+      type: string
+      enum:
+        - AES-128-CFB
+        - AES-192-CFB
+        - AES-256-CFB
+    encryptionKeyUsage:
+      type: string
+      enum:
+        - encryption
+        - decryption
+        - signing
+        - verification
+      description: The intended usage of the key.
+    key:
+      description: mutiple kv pair
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the key.
+        name:
+          type: string
+          description: The name of the key.
+        algorithm:
+          $ref: '#/components/schemas/encryptionAlgorithm'
+        keyUsage:
+          $ref: '#/components/schemas/encryptionKeyUsage'
+        clusters:
+          type: array
+          items:
+            type: string
+          description: the clusters which use the key
+        backups:
+          type: array
+          items:
+            type: string
+          description: the backups which use the key
+        createdAt:
+          type: string
+          format: date-time
+          description: The creation timestamp of the key.
+        updatedAt:
+          type: string
+          format: date-time
+          description: The last update timestamp of the key.
+        dataKeyName:
+          type: string
+          description: the name of data key
+        sysmetricKey:
+          type: string
+          description: the sysmetric key
+    keyList:
+      description: key list
+      properties:
+        items:
+          description: Items is the list of key objects in the list
+          items:
+            $ref: '#/components/schemas/key'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '400':
       content:

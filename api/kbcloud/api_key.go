@@ -2,47 +2,43 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AutohealingApi service type
-type AutohealingApi common.Service
+// KeyApi service type
+type KeyApi common.Service
 
-// GetAutohealing list autohealing job.
-// Deprecated: This API is deprecated.
-func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, clusterName string) ([]AutohealingListItem, *_nethttp.Response, error) {
+// ListKeys List Keys.
+func (a *KeyApi) ListKeys(ctx _context.Context) (KeyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []AutohealingListItem
+		localVarReturnValue KeyList
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "autohealing",
-		OperationID: "getAutohealing",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing",
+		Tag:         "key",
+		OperationID: "listKeys",
+		Path:        "/api/v1/keys",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AutohealingApi.GetAutohealing")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".KeyApi.ListKeys")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/keys"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -69,6 +65,22 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
 	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := common.GenericOpenAPIError{
@@ -81,9 +93,9 @@ func (a *AutohealingApi) GetAutohealing(ctx _context.Context, orgName string, cl
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewAutohealingApi Returns NewAutohealingApi.
-func NewAutohealingApi(client *common.APIClient) *AutohealingApi {
-	return &AutohealingApi{
+// NewKeyApi Returns NewKeyApi.
+func NewKeyApi(client *common.APIClient) *KeyApi {
+	return &KeyApi{
 		Client: client,
 	}
 }
