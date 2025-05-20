@@ -15640,10 +15640,13 @@ components:
         schedulingPolicy:
           type: object
           properties:
-            clusterScopeAntiAffinity:
-              type: boolean
+            componentAntiAffinity:
+              type: array
+              minItems: 1
               description: |
-                If set to true, resource distribution is at the cluster level.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+              items:
+                type: string
         components:
           type: array
           items:
