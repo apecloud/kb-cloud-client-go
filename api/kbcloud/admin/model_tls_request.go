@@ -14,7 +14,7 @@ type TlsRequest struct {
 	// Enable TLS or not
 	Enable bool `json:"enable"`
 	// TLS options
-	Options TlsOption `json:"options"`
+	Options *TlsOption `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -24,10 +24,9 @@ type TlsRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTlsRequest(enable bool, options TlsOption) *TlsRequest {
+func NewTlsRequest(enable bool) *TlsRequest {
 	this := TlsRequest{}
 	this.Enable = enable
-	this.Options = options
 	return &this
 }
 
@@ -62,27 +61,32 @@ func (o *TlsRequest) SetEnable(v bool) {
 	o.Enable = v
 }
 
-// GetOptions returns the Options field value.
+// GetOptions returns the Options field value if set, zero value otherwise.
 func (o *TlsRequest) GetOptions() TlsOption {
-	if o == nil {
+	if o == nil || o.Options == nil {
 		var ret TlsOption
 		return ret
 	}
-	return o.Options
+	return *o.Options
 }
 
-// GetOptionsOk returns a tuple with the Options field value
+// GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TlsRequest) GetOptionsOk() (*TlsOption, bool) {
-	if o == nil {
+	if o == nil || o.Options == nil {
 		return nil, false
 	}
-	return &o.Options, true
+	return o.Options, true
 }
 
-// SetOptions sets field value.
+// HasOptions returns a boolean if a field has been set.
+func (o *TlsRequest) HasOptions() bool {
+	return o != nil && o.Options != nil
+}
+
+// SetOptions gets a reference to the given TlsOption and assigns it to the Options field.
 func (o *TlsRequest) SetOptions(v TlsOption) {
-	o.Options = v
+	o.Options = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -92,7 +96,9 @@ func (o TlsRequest) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["enable"] = o.Enable
-	toSerialize["options"] = o.Options
+	if o.Options != nil {
+		toSerialize["options"] = o.Options
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -104,16 +110,13 @@ func (o TlsRequest) MarshalJSON() ([]byte, error) {
 func (o *TlsRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Enable  *bool      `json:"enable"`
-		Options *TlsOption `json:"options"`
+		Options *TlsOption `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Enable == nil {
 		return fmt.Errorf("required field enable missing")
-	}
-	if all.Options == nil {
-		return fmt.Errorf("required field options missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -124,10 +127,10 @@ func (o *TlsRequest) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.Enable = *all.Enable
-	if all.Options.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Options != nil && all.Options.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Options = *all.Options
+	o.Options = all.Options
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
