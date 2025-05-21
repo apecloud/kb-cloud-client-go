@@ -10,8 +10,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUsersPassword Admin user password
-type AdminUsersPassword struct {
+// Password Admin user password
+type Password struct {
 	// The new password for the admin user.
 	NewPassword string `json:"newPassword"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -19,26 +19,26 @@ type AdminUsersPassword struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUsersPassword instantiates a new AdminUsersPassword object.
+// NewPassword instantiates a new Password object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUsersPassword(newPassword string) *AdminUsersPassword {
-	this := AdminUsersPassword{}
+func NewPassword(newPassword string) *Password {
+	this := Password{}
 	this.NewPassword = newPassword
 	return &this
 }
 
-// NewAdminUsersPasswordWithDefaults instantiates a new AdminUsersPassword object.
+// NewPasswordWithDefaults instantiates a new Password object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUsersPasswordWithDefaults() *AdminUsersPassword {
-	this := AdminUsersPassword{}
+func NewPasswordWithDefaults() *Password {
+	this := Password{}
 	return &this
 }
 
 // GetNewPassword returns the NewPassword field value.
-func (o *AdminUsersPassword) GetNewPassword() string {
+func (o *Password) GetNewPassword() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -48,7 +48,7 @@ func (o *AdminUsersPassword) GetNewPassword() string {
 
 // GetNewPasswordOk returns a tuple with the NewPassword field value
 // and a boolean to check if the value has been set.
-func (o *AdminUsersPassword) GetNewPasswordOk() (*string, bool) {
+func (o *Password) GetNewPasswordOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *AdminUsersPassword) GetNewPasswordOk() (*string, bool) {
 }
 
 // SetNewPassword sets field value.
-func (o *AdminUsersPassword) SetNewPassword(v string) {
+func (o *Password) SetNewPassword(v string) {
 	o.NewPassword = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUsersPassword) MarshalJSON() ([]byte, error) {
+func (o Password) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -75,7 +75,7 @@ func (o AdminUsersPassword) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUsersPassword) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Password) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		NewPassword *string `json:"newPassword"`
 	}{}

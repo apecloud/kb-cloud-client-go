@@ -114,7 +114,7 @@ paths:
     get:
       description: Get authenticated login user info
       summary: Get authenticated user
-      operationId: readUser
+      operationId: getAuthenticatedUser
       responses:
         '200':
           content:
@@ -128,7 +128,7 @@ paths:
         - user
     patch:
       description: partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
-      operationId: patchUser
+      operationId: patchAuthenticatedUser
       summary: Update user information
       requestBody:
         content:
@@ -137,6 +137,12 @@ paths:
               $ref: '#/components/schemas/userUpdate'
         required: true
       responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: OK
         '204':
           content: {}
           description: Returned when project is deleted successfully.
@@ -147,9 +153,9 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/user/password:
     patch:
-      description: Update user password.
-      summary: Update user password
-      operationId: updateUserPassword
+      description: Update current authenticated user password.
+      summary: Update current authenticated user password
+      operationId: updateAuthenticatedUserPassword
       requestBody:
         content:
           application/json:
@@ -201,24 +207,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-      tags:
-        - user
-      x-codegen-request-body-name: body
-  /api/v1/user/verificationEmail:
-    post:
-      description: To send verification email checking user's email address
-      summary: Send verification email to user's email address. For logto and authing, only the "email" is required, and for auth0, only the "externalID" is required.
-      operationId: sendVerificationEmail
-      responses:
-        '204':
-          content: {}
-          description: Send verification email to user successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -353,7 +341,7 @@ paths:
               $ref: '#/components/schemas/orgCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -361,29 +349,6 @@ paths:
           description: OK
         '401':
           $ref: '#/components/responses/401'
-      x-codeSamples:
-        - lang: curl
-          source: |-
-            curl -X POST -H "Content-Type: application/json" -d '{
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }' http://localhost:8080/api/v1/orgs
-        - lang: Python
-          source: |-
-            import requests
-            import json
-            url = "http://localhost:8080/api/v1/orgs"
-            payload = {
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-            print(response.text.encode('utf8'))
       tags:
         - organization
       x-codegen-request-body-name: body
@@ -926,7 +891,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     patch:
       operationId: patchOrgParameter
       summary: Update a parameter of an organization
@@ -958,7 +923,7 @@ paths:
                 $ref: '#/components/schemas/orgParameter'
           description: OK
       tags:
-        - organization
+        - organizationParameter
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -1427,6 +1392,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations:
     get:
+      deprecated: true
       tags:
         - invitation
       description: list the Invitation of specified Org or User
@@ -1465,6 +1431,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     post:
+      deprecated: true
       tags:
         - invitation
       description: create a Invitation
@@ -1488,6 +1455,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations/{invitationId}:
     get:
+      deprecated: true
       tags:
         - invitation
       description: read the specified Invitation for organization admin or invitee
@@ -1512,6 +1480,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     delete:
+      deprecated: true
       tags:
         - invitation
       description: delete the specified Invitation for organization admin
@@ -1536,6 +1505,7 @@ paths:
           $ref: '#/components/responses/404'
   /api/v1/invitations/{invitationId}/accept:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1558,6 +1528,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/reject:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1580,6 +1551,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/resend:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -11390,11 +11362,10 @@ components:
       pattern: ^\+\d{1,3}\d{11}$
       type: string
     user:
-      description: User info
+      description: Admin user info
       properties:
-        createdAt:
-          description: CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
-          format: date-time
+        id:
+          description: The ID for the user
           type: string
         userName:
           description: The name of the user, is unique
@@ -11405,26 +11376,22 @@ components:
         email:
           description: The email for the user
           type: string
-        id:
-          description: The ID for the user
-          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        updatedAt:
-          description: |-
-            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
+        createdAt:
           format: date-time
           type: string
+        updatedAt:
+          format: date-time
+          type: string
+        isDefaultPassword:
+          description: return true if the default admin user need to reset password
+          type: boolean
       required:
-        - createdAt
-        - email
         - id
-        - updatedAt
         - userName
-        - displayName
-      type: object
+        - createdAt
+        - updatedAt
     APIErrorResponse:
       description: API error response.
       properties:
@@ -11451,9 +11418,6 @@ components:
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        verificationCode:
-          description: The verification code for the user
-          type: string
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -11599,10 +11563,6 @@ components:
         name:
           description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
           type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
       required:
         - name
       type: object
@@ -11697,13 +11657,13 @@ components:
           description: The name of the role in the organization
           type: string
           x-nullable: false
-        userId:
-          description: The ID of the user
+        userName:
+          description: The name of the user
           type: string
           x-nullable: false
       required:
         - role
-        - userId
+        - userName
       type: object
     orgMemberUpdate:
       description: Org Member update
@@ -12938,10 +12898,9 @@ components:
     invitationCreate:
       description: Invitation create payload
       properties:
-        email:
-          description: The email of the invitee
+        userId:
+          description: The ID of the user as invitee, if email is not provided, the user ID is required
           type: string
-          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -12949,7 +12908,7 @@ components:
           description: The name of the role
           type: string
       required:
-        - email
+        - userId
         - orgName
         - roleName
       type: object
