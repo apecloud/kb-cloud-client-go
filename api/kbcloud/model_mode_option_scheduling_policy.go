@@ -7,9 +7,9 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ModeOptionSchedulingPolicy struct {
-	// If set to true, resource distribution is at the cluster level.
+	// when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
 	//
-	ClusterScopeAntiAffinity *bool `json:"clusterScopeAntiAffinity,omitempty"`
+	ComponentAntiAffinity []string `json:"componentAntiAffinity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -32,32 +32,32 @@ func NewModeOptionSchedulingPolicyWithDefaults() *ModeOptionSchedulingPolicy {
 	return &this
 }
 
-// GetClusterScopeAntiAffinity returns the ClusterScopeAntiAffinity field value if set, zero value otherwise.
-func (o *ModeOptionSchedulingPolicy) GetClusterScopeAntiAffinity() bool {
-	if o == nil || o.ClusterScopeAntiAffinity == nil {
-		var ret bool
+// GetComponentAntiAffinity returns the ComponentAntiAffinity field value if set, zero value otherwise.
+func (o *ModeOptionSchedulingPolicy) GetComponentAntiAffinity() []string {
+	if o == nil || o.ComponentAntiAffinity == nil {
+		var ret []string
 		return ret
 	}
-	return *o.ClusterScopeAntiAffinity
+	return o.ComponentAntiAffinity
 }
 
-// GetClusterScopeAntiAffinityOk returns a tuple with the ClusterScopeAntiAffinity field value if set, nil otherwise
+// GetComponentAntiAffinityOk returns a tuple with the ComponentAntiAffinity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeOptionSchedulingPolicy) GetClusterScopeAntiAffinityOk() (*bool, bool) {
-	if o == nil || o.ClusterScopeAntiAffinity == nil {
+func (o *ModeOptionSchedulingPolicy) GetComponentAntiAffinityOk() (*[]string, bool) {
+	if o == nil || o.ComponentAntiAffinity == nil {
 		return nil, false
 	}
-	return o.ClusterScopeAntiAffinity, true
+	return &o.ComponentAntiAffinity, true
 }
 
-// HasClusterScopeAntiAffinity returns a boolean if a field has been set.
-func (o *ModeOptionSchedulingPolicy) HasClusterScopeAntiAffinity() bool {
-	return o != nil && o.ClusterScopeAntiAffinity != nil
+// HasComponentAntiAffinity returns a boolean if a field has been set.
+func (o *ModeOptionSchedulingPolicy) HasComponentAntiAffinity() bool {
+	return o != nil && o.ComponentAntiAffinity != nil
 }
 
-// SetClusterScopeAntiAffinity gets a reference to the given bool and assigns it to the ClusterScopeAntiAffinity field.
-func (o *ModeOptionSchedulingPolicy) SetClusterScopeAntiAffinity(v bool) {
-	o.ClusterScopeAntiAffinity = &v
+// SetComponentAntiAffinity gets a reference to the given []string and assigns it to the ComponentAntiAffinity field.
+func (o *ModeOptionSchedulingPolicy) SetComponentAntiAffinity(v []string) {
+	o.ComponentAntiAffinity = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -66,8 +66,8 @@ func (o ModeOptionSchedulingPolicy) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.ClusterScopeAntiAffinity != nil {
-		toSerialize["clusterScopeAntiAffinity"] = o.ClusterScopeAntiAffinity
+	if o.ComponentAntiAffinity != nil {
+		toSerialize["componentAntiAffinity"] = o.ComponentAntiAffinity
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -79,18 +79,18 @@ func (o ModeOptionSchedulingPolicy) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOptionSchedulingPolicy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterScopeAntiAffinity *bool `json:"clusterScopeAntiAffinity,omitempty"`
+		ComponentAntiAffinity []string `json:"componentAntiAffinity,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"clusterScopeAntiAffinity"})
+		common.DeleteKeys(additionalProperties, &[]string{"componentAntiAffinity"})
 	} else {
 		return err
 	}
-	o.ClusterScopeAntiAffinity = all.ClusterScopeAntiAffinity
+	o.ComponentAntiAffinity = all.ComponentAntiAffinity
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

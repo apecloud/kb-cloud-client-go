@@ -14695,59 +14695,114 @@ components:
       required:
         - items
       type: object
-    tlsConfig:
-      description: Configuration for TLS including all certificates and keys
+    tlsName:
+      type: string
+      description: Name of the TLS certificates
+      enum:
+        - ca
+        - certificate
+        - privateKey
+        - keystore
+        - truststore
+    tlsType:
+      description: TLS type
+      type: string
+      enum:
+        - StandardTLS
+        - JavaKeystore
+      default: StandardTLS
+    certificate:
+      description: certificates and it's config
       type: object
+      required:
+        - type
+        - name
+        - content
       properties:
-        caCert:
-          description: CA Certificate
+        name:
+          description: Name of the TLS certificates
+          $ref: '#/components/schemas/tlsName'
+        type:
+          $ref: '#/components/schemas/tlsType'
+        content:
+          description: Content of the TLS certificates
           type: string
-        clientCert:
-          description: Client Side Certificate
-          type: string
-        clientKey:
-          description: Client Side key
-          type: string
-        keystore:
-          description: Keystore in PEM format
-          type: string
-        truststore:
-          description: Truststore in PEM format
-          type: string
+        expirationDays:
+          description: Expiration days for this certificate
+          type: integer
+          x-omitempty: true
+          format: int32
+        DNS:
+          description: DNS name in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        ipAddress:
+          description: IP address in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
     tlsCert:
       properties:
-        tlsConfig:
-          $ref: '#/components/schemas/tlsConfig'
+        certificates:
+          description: TLS certificates
+          type: array
+          items:
+            $ref: '#/components/schemas/certificate'
         componentName:
           description: Component these certs belong to
           type: string
-        expirationDaysCA:
-          description: Expiration days of CA certificate
-          type: integer
-          format: int32
-        expirationDaysClient:
-          description: Expiration days of client certificate
-          type: integer
-          format: int32
-        expirationDaysKeystore:
-          description: Expiration days of Keystore certificate
-          type: integer
-          format: int32
-        expirationDaysTruststore:
-          description: Expiration days of Truststore certificate
-          type: integer
-          format: int32
       type: object
     tlsCertList:
       items:
         $ref: '#/components/schemas/tlsCert'
       type: array
+    certificateIssuer:
+      description: certificate issuer
+      type: string
+      enum:
+        - Apecloud
+        - UserSelf
+    tlsOption:
+      description: TLS options
+      type: object
+      required:
+        - issuer
+      properties:
+        issuer:
+          description: Issuer of the TLS certificates
+          $ref: '#/components/schemas/certificateIssuer'
+        serviceName:
+          description: the service name that will be set in certificate SAN
+          type: array
+          items:
+            type: string
+          x-omitempty: true
+        caContent:
+          description: CA certificate content
+          type: string
+          x-omitempty: true
+        certificateContent:
+          description: Certificate content
+          type: string
+          x-omitempty: true
+        privateKeyContent:
+          description: Private key content
+          type: string
+          x-omitempty: true
     tlsRequest:
+      type: object
+      required:
+        - enable
       properties:
         enable:
           description: Enable TLS or not
           type: boolean
-      type: object
+        options:
+          description: TLS options
+          $ref: '#/components/schemas/tlsOption'
     clusterBackupMethod:
       description: the backup method for cluster
       properties:
@@ -16370,10 +16425,13 @@ components:
         schedulingPolicy:
           type: object
           properties:
-            clusterScopeAntiAffinity:
-              type: boolean
+            componentAntiAffinity:
+              type: array
+              minItems: 1
               description: |
-                If set to true, resource distribution is at the cluster level.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+              items:
+                type: string
         components:
           type: array
           items:

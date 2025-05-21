@@ -4,11 +4,17 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type TlsRequest struct {
 	// Enable TLS or not
-	Enable *bool `json:"enable,omitempty"`
+	Enable bool `json:"enable"`
+	// TLS options
+	Options *TlsOption `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -18,8 +24,9 @@ type TlsRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTlsRequest() *TlsRequest {
+func NewTlsRequest(enable bool) *TlsRequest {
 	this := TlsRequest{}
+	this.Enable = enable
 	return &this
 }
 
@@ -31,32 +38,55 @@ func NewTlsRequestWithDefaults() *TlsRequest {
 	return &this
 }
 
-// GetEnable returns the Enable field value if set, zero value otherwise.
+// GetEnable returns the Enable field value.
 func (o *TlsRequest) GetEnable() bool {
-	if o == nil || o.Enable == nil {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Enable
+	return o.Enable
 }
 
-// GetEnableOk returns a tuple with the Enable field value if set, nil otherwise
+// GetEnableOk returns a tuple with the Enable field value
 // and a boolean to check if the value has been set.
 func (o *TlsRequest) GetEnableOk() (*bool, bool) {
-	if o == nil || o.Enable == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Enable, true
+	return &o.Enable, true
 }
 
-// HasEnable returns a boolean if a field has been set.
-func (o *TlsRequest) HasEnable() bool {
-	return o != nil && o.Enable != nil
-}
-
-// SetEnable gets a reference to the given bool and assigns it to the Enable field.
+// SetEnable sets field value.
 func (o *TlsRequest) SetEnable(v bool) {
-	o.Enable = &v
+	o.Enable = v
+}
+
+// GetOptions returns the Options field value if set, zero value otherwise.
+func (o *TlsRequest) GetOptions() TlsOption {
+	if o == nil || o.Options == nil {
+		var ret TlsOption
+		return ret
+	}
+	return *o.Options
+}
+
+// GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TlsRequest) GetOptionsOk() (*TlsOption, bool) {
+	if o == nil || o.Options == nil {
+		return nil, false
+	}
+	return o.Options, true
+}
+
+// HasOptions returns a boolean if a field has been set.
+func (o *TlsRequest) HasOptions() bool {
+	return o != nil && o.Options != nil
+}
+
+// SetOptions gets a reference to the given TlsOption and assigns it to the Options field.
+func (o *TlsRequest) SetOptions(v TlsOption) {
+	o.Options = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -65,8 +95,9 @@ func (o TlsRequest) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Enable != nil {
-		toSerialize["enable"] = o.Enable
+	toSerialize["enable"] = o.Enable
+	if o.Options != nil {
+		toSerialize["options"] = o.Options
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -78,21 +109,35 @@ func (o TlsRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TlsRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enable *bool `json:"enable,omitempty"`
+		Enable  *bool      `json:"enable"`
+		Options *TlsOption `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Enable == nil {
+		return fmt.Errorf("required field enable missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enable"})
+		common.DeleteKeys(additionalProperties, &[]string{"enable", "options"})
 	} else {
 		return err
 	}
-	o.Enable = all.Enable
+
+	hasInvalidField := false
+	o.Enable = *all.Enable
+	if all.Options != nil && all.Options.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Options = all.Options
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
