@@ -26273,6 +26273,7 @@ components:
         enabled:
           description: Enable global pricing
           type: boolean
+          x-omitempty: false
         currencyUnit:
           $ref: '#/components/schemas/currencyUnitType'
         billScheduleTime:
