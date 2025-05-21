@@ -6906,6 +6906,266 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DmsResult'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases:
+    get:
+      tags:
+        - dms
+      operationId: listDatabasesUseDatasource
+      summary: List all databases under the datasource
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Datasource ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsSchemaList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}:
+    get:
+      tags:
+        - dms
+      operationId: listSchemasInDB
+      summary: List all schemas in the specified database
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Datasource ID
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          description: Database name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsSchemaList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/{schema}:
+    get:
+      tags:
+        - dms
+      operationId: listObjectTypeInDBSchema
+      summary: List all object types in the specified database schema
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Datasource ID
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          description: Database name
+          required: true
+          schema:
+            type: string
+        - name: schema
+          in: path
+          description: Schema name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsObjectList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/{schema}/{type}:
+    get:
+      tags:
+        - dms
+      operationId: listObjectNamesByTypeInDBSchema
+      summary: List all object names of the specified type
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Datasource ID
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          description: Database name
+          required: true
+          schema:
+            type: string
+        - name: schema
+          in: path
+          description: Schema name
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          description: Object type
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsObjectNameList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}/databases/{database}/{schema}/{type}/{objectName}:
+    get:
+      tags:
+        - dms
+      operationId: getObjectInfoInDBSchema
+      summary: Get detailed information of the specified object
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Datasource ID
+          required: true
+          schema:
+            type: string
+        - name: database
+          in: path
+          description: Database name
+          required: true
+          schema:
+            type: string
+        - name: schema
+          in: path
+          description: Schema name
+          required: true
+          schema:
+            type: string
+        - name: type
+          in: path
+          description: Object type
+          required: true
+          schema:
+            type: string
+        - name: objectName
+          in: path
+          description: Object name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmsObjectResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
       deprecated: true
