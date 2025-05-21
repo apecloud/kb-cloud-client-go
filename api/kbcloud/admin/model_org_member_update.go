@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUserList Admin user list
-type AdminUserList struct {
-	// Items is the list of admin user objects in the list
-	Items []AdminUser `json:"items"`
+// OrgMemberUpdate Org Member update
+type OrgMemberUpdate struct {
+	// The role of the User in the Org. Required
+	Role string `json:"role"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUserList instantiates a new AdminUserList object.
+// NewOrgMemberUpdate instantiates a new OrgMemberUpdate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUserList(items []AdminUser) *AdminUserList {
-	this := AdminUserList{}
-	this.Items = items
+func NewOrgMemberUpdate(role string) *OrgMemberUpdate {
+	this := OrgMemberUpdate{}
+	this.Role = role
 	return &this
 }
 
-// NewAdminUserListWithDefaults instantiates a new AdminUserList object.
+// NewOrgMemberUpdateWithDefaults instantiates a new OrgMemberUpdate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUserListWithDefaults() *AdminUserList {
-	this := AdminUserList{}
+func NewOrgMemberUpdateWithDefaults() *OrgMemberUpdate {
+	this := OrgMemberUpdate{}
 	return &this
 }
 
-// GetItems returns the Items field value.
-func (o *AdminUserList) GetItems() []AdminUser {
+// GetRole returns the Role field value.
+func (o *OrgMemberUpdate) GetRole() string {
 	if o == nil {
-		var ret []AdminUser
+		var ret string
 		return ret
 	}
-	return o.Items
+	return o.Role
 }
 
-// GetItemsOk returns a tuple with the Items field value
+// GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
-func (o *AdminUserList) GetItemsOk() (*[]AdminUser, bool) {
+func (o *OrgMemberUpdate) GetRoleOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Items, true
+	return &o.Role, true
 }
 
-// SetItems sets field value.
-func (o *AdminUserList) SetItems(v []AdminUser) {
-	o.Items = v
+// SetRole sets field value.
+func (o *OrgMemberUpdate) SetRole(v string) {
+	o.Role = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUserList) MarshalJSON() ([]byte, error) {
+func (o OrgMemberUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["items"] = o.Items
+	toSerialize["role"] = o.Role
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +75,23 @@ func (o AdminUserList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUserList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *OrgMemberUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]AdminUser `json:"items"`
+		Role *string `json:"role"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Items == nil {
-		return fmt.Errorf("required field items missing")
+	if all.Role == nil {
+		return fmt.Errorf("required field role missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"role"})
 	} else {
 		return err
 	}
-	o.Items = *all.Items
+	o.Role = *all.Role
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

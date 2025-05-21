@@ -2,47 +2,40 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// OrgCreate OrgCreate is the payload for organization creation
-type OrgCreate struct {
+// OrgUpdate Organization update
+type OrgUpdate struct {
 	// The description of the organization
 	Description *string `json:"description,omitempty"`
 	// The display name of the organization
 	DisplayName *string `json:"displayName,omitempty"`
-	// The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
-	Name string `json:"name"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOrgCreate instantiates a new OrgCreate object.
+// NewOrgUpdate instantiates a new OrgUpdate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgCreate(name string) *OrgCreate {
-	this := OrgCreate{}
-	this.Name = name
+func NewOrgUpdate() *OrgUpdate {
+	this := OrgUpdate{}
 	return &this
 }
 
-// NewOrgCreateWithDefaults instantiates a new OrgCreate object.
+// NewOrgUpdateWithDefaults instantiates a new OrgUpdate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOrgCreateWithDefaults() *OrgCreate {
-	this := OrgCreate{}
+func NewOrgUpdateWithDefaults() *OrgUpdate {
+	this := OrgUpdate{}
 	return &this
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *OrgCreate) GetDescription() string {
+func (o *OrgUpdate) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -52,7 +45,7 @@ func (o *OrgCreate) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OrgCreate) GetDescriptionOk() (*string, bool) {
+func (o *OrgUpdate) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -60,17 +53,17 @@ func (o *OrgCreate) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *OrgCreate) HasDescription() bool {
+func (o *OrgUpdate) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *OrgCreate) SetDescription(v string) {
+func (o *OrgUpdate) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
-func (o *OrgCreate) GetDisplayName() string {
+func (o *OrgUpdate) GetDisplayName() string {
 	if o == nil || o.DisplayName == nil {
 		var ret string
 		return ret
@@ -80,7 +73,7 @@ func (o *OrgCreate) GetDisplayName() string {
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OrgCreate) GetDisplayNameOk() (*string, bool) {
+func (o *OrgUpdate) GetDisplayNameOk() (*string, bool) {
 	if o == nil || o.DisplayName == nil {
 		return nil, false
 	}
@@ -88,40 +81,17 @@ func (o *OrgCreate) GetDisplayNameOk() (*string, bool) {
 }
 
 // HasDisplayName returns a boolean if a field has been set.
-func (o *OrgCreate) HasDisplayName() bool {
+func (o *OrgUpdate) HasDisplayName() bool {
 	return o != nil && o.DisplayName != nil
 }
 
 // SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
-func (o *OrgCreate) SetDisplayName(v string) {
+func (o *OrgUpdate) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
-// GetName returns the Name field value.
-func (o *OrgCreate) GetName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value
-// and a boolean to check if the value has been set.
-func (o *OrgCreate) GetNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Name, true
-}
-
-// SetName sets field value.
-func (o *OrgCreate) SetName(v string) {
-	o.Name = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
-func (o OrgCreate) MarshalJSON() ([]byte, error) {
+func (o OrgUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -132,7 +102,6 @@ func (o OrgCreate) MarshalJSON() ([]byte, error) {
 	if o.DisplayName != nil {
 		toSerialize["displayName"] = o.DisplayName
 	}
-	toSerialize["name"] = o.Name
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -141,27 +110,22 @@ func (o OrgCreate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OrgCreate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *OrgUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Description *string `json:"description,omitempty"`
 		DisplayName *string `json:"displayName,omitempty"`
-		Name        *string `json:"name"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Name == nil {
-		return fmt.Errorf("required field name missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName"})
 	} else {
 		return err
 	}
 	o.Description = all.Description
 	o.DisplayName = all.DisplayName
-	o.Name = *all.Name
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
