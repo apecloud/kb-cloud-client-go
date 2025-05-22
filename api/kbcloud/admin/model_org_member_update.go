@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUsersPassword Admin user password
-type AdminUsersPassword struct {
-	// The new password for the admin user.
-	NewPassword string `json:"newPassword"`
+// OrgMemberUpdate Org Member update
+type OrgMemberUpdate struct {
+	// The role of the User in the Org. Required
+	Role string `json:"role"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUsersPassword instantiates a new AdminUsersPassword object.
+// NewOrgMemberUpdate instantiates a new OrgMemberUpdate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUsersPassword(newPassword string) *AdminUsersPassword {
-	this := AdminUsersPassword{}
-	this.NewPassword = newPassword
+func NewOrgMemberUpdate(role string) *OrgMemberUpdate {
+	this := OrgMemberUpdate{}
+	this.Role = role
 	return &this
 }
 
-// NewAdminUsersPasswordWithDefaults instantiates a new AdminUsersPassword object.
+// NewOrgMemberUpdateWithDefaults instantiates a new OrgMemberUpdate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUsersPasswordWithDefaults() *AdminUsersPassword {
-	this := AdminUsersPassword{}
+func NewOrgMemberUpdateWithDefaults() *OrgMemberUpdate {
+	this := OrgMemberUpdate{}
 	return &this
 }
 
-// GetNewPassword returns the NewPassword field value.
-func (o *AdminUsersPassword) GetNewPassword() string {
+// GetRole returns the Role field value.
+func (o *OrgMemberUpdate) GetRole() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.NewPassword
+	return o.Role
 }
 
-// GetNewPasswordOk returns a tuple with the NewPassword field value
+// GetRoleOk returns a tuple with the Role field value
 // and a boolean to check if the value has been set.
-func (o *AdminUsersPassword) GetNewPasswordOk() (*string, bool) {
+func (o *OrgMemberUpdate) GetRoleOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.NewPassword, true
+	return &o.Role, true
 }
 
-// SetNewPassword sets field value.
-func (o *AdminUsersPassword) SetNewPassword(v string) {
-	o.NewPassword = v
+// SetRole sets field value.
+func (o *OrgMemberUpdate) SetRole(v string) {
+	o.Role = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUsersPassword) MarshalJSON() ([]byte, error) {
+func (o OrgMemberUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["newPassword"] = o.NewPassword
+	toSerialize["role"] = o.Role
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +75,23 @@ func (o AdminUsersPassword) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUsersPassword) UnmarshalJSON(bytes []byte) (err error) {
+func (o *OrgMemberUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NewPassword *string `json:"newPassword"`
+		Role *string `json:"role"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.NewPassword == nil {
-		return fmt.Errorf("required field newPassword missing")
+	if all.Role == nil {
+		return fmt.Errorf("required field role missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"newPassword"})
+		common.DeleteKeys(additionalProperties, &[]string{"role"})
 	} else {
 		return err
 	}
-	o.NewPassword = *all.NewPassword
+	o.Role = *all.Role
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

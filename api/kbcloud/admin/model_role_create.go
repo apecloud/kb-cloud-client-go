@@ -10,37 +10,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DatabaseItem Cluster database information
-type DatabaseItem struct {
-	// Specify the name of database, which must be unique.
+// RoleCreate Role create
+type RoleCreate struct {
+	// The name of the role
 	Name string `json:"name"`
-	// Specify the options of database.
-	Options map[string]string `json:"options,omitempty"`
+	// The description of the role
+	Description *string `json:"description,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewDatabaseItem instantiates a new DatabaseItem object.
+// NewRoleCreate instantiates a new RoleCreate object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDatabaseItem(name string) *DatabaseItem {
-	this := DatabaseItem{}
+func NewRoleCreate(name string) *RoleCreate {
+	this := RoleCreate{}
 	this.Name = name
 	return &this
 }
 
-// NewDatabaseItemWithDefaults instantiates a new DatabaseItem object.
+// NewRoleCreateWithDefaults instantiates a new RoleCreate object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewDatabaseItemWithDefaults() *DatabaseItem {
-	this := DatabaseItem{}
+func NewRoleCreateWithDefaults() *RoleCreate {
+	this := RoleCreate{}
 	return &this
 }
 
 // GetName returns the Name field value.
-func (o *DatabaseItem) GetName() string {
+func (o *RoleCreate) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -50,7 +50,7 @@ func (o *DatabaseItem) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *DatabaseItem) GetNameOk() (*string, bool) {
+func (o *RoleCreate) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,47 +58,47 @@ func (o *DatabaseItem) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *DatabaseItem) SetName(v string) {
+func (o *RoleCreate) SetName(v string) {
 	o.Name = v
 }
 
-// GetOptions returns the Options field value if set, zero value otherwise.
-func (o *DatabaseItem) GetOptions() map[string]string {
-	if o == nil || o.Options == nil {
-		var ret map[string]string
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *RoleCreate) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
 		return ret
 	}
-	return o.Options
+	return *o.Description
 }
 
-// GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DatabaseItem) GetOptionsOk() (*map[string]string, bool) {
-	if o == nil || o.Options == nil {
+func (o *RoleCreate) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
 		return nil, false
 	}
-	return &o.Options, true
+	return o.Description, true
 }
 
-// HasOptions returns a boolean if a field has been set.
-func (o *DatabaseItem) HasOptions() bool {
-	return o != nil && o.Options != nil
+// HasDescription returns a boolean if a field has been set.
+func (o *RoleCreate) HasDescription() bool {
+	return o != nil && o.Description != nil
 }
 
-// SetOptions gets a reference to the given map[string]string and assigns it to the Options field.
-func (o *DatabaseItem) SetOptions(v map[string]string) {
-	o.Options = v
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *RoleCreate) SetDescription(v string) {
+	o.Description = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o DatabaseItem) MarshalJSON() ([]byte, error) {
+func (o RoleCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	if o.Options != nil {
-		toSerialize["options"] = o.Options
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -108,10 +108,10 @@ func (o DatabaseItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *DatabaseItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *RoleCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string           `json:"name"`
-		Options map[string]string `json:"options,omitempty"`
+		Name        *string `json:"name"`
+		Description *string `json:"description,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -121,12 +121,12 @@ func (o *DatabaseItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "options"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
-	o.Options = all.Options
+	o.Description = all.Description
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

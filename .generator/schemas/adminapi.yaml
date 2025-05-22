@@ -23,8 +23,8 @@ security:
 tags:
   - name: user
     description: User APIs
-  - name: invitation
-    description: Invitation APIs
+  - name: administrator
+    description: Administrator APIs
   - name: role
     description: Role Management APIs
   - name: organization
@@ -61,63 +61,65 @@ tags:
     description: Feature APIs
   - name: license
     description: License APIs
+  - name: organizationParameter
+    description: Organization Parameter APIs
 paths:
   /admin/v1/user:
     get:
-      description: Get authenticated login admin user info
-      summary: Get authenticated admin user
-      operationId: readAdminUser
+      description: Get authenticated login user info
+      summary: Get authenticated user
+      operationId: getAuthenticatedUser
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminUser'
+                $ref: '#/components/schemas/user'
           description: OK
         '401':
           $ref: '#/components/responses/401'
       tags:
-        - adminUser
+        - user
     patch:
-      description: Update authenticated login admin user info
-      operationId: patchAdminUser
-      summary: Update admin user information
+      description: partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
+      operationId: patchAuthenticatedUser
+      summary: Update user information
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminUserUpdate'
+              $ref: '#/components/schemas/userUpdate'
         required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminUser'
+                $ref: '#/components/schemas/user'
           description: OK
-        '400':
-          $ref: '#/components/responses/400'
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
         '401':
           $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
       tags:
-        - adminUser
+        - user
+      x-codegen-request-body-name: body
   /admin/v1/user/password:
     patch:
-      description: Update authenticated login admin user password
-      summary: Update authenticated login admin user password
-      operationId: updateAdminUserPassword
+      description: Update current authenticated user password.
+      summary: Update current authenticated user password
+      operationId: updateAuthenticatedUserPassword
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                newPassword:
-                  description: The new password for the admin user.
+                new_password:
+                  description: The new password for the user.
                   type: string
               required:
-                - newPassword
+                - new_password
               type: object
         required: true
       responses:
@@ -130,8 +132,10 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+        '500':
+          $ref: '#/components/responses/500'
       tags:
-        - adminUser
+        - user
       x-codegen-request-body-name: body
   /admin/v1/user/apikey/{keyName}:
     patch:
@@ -226,23 +230,23 @@ paths:
       tags:
         - user
       x-codegen-request-body-name: body
-  /admin/v1/users:
+  /admin/v1/administrators:
     post:
-      description: Create a new admin user
-      summary: Create a new admin user
-      operationId: createAdminUser
+      description: Create a new administrator
+      summary: Create a new administrator
+      operationId: createAdministrator
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminUserCreate'
+              $ref: '#/components/schemas/userCreate'
         required: true
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminUser'
+                $ref: '#/components/schemas/user'
           description: Created
         '400':
           $ref: '#/components/responses/400'
@@ -251,31 +255,31 @@ paths:
         '409':
           $ref: '#/components/responses/409'
       tags:
-        - adminUser
+        - administrator
     get:
-      description: list admin users
-      summary: list admin users
-      operationId: listAdminUsers
+      description: List administrators
+      summary: List administrators
+      operationId: listAdministrators
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminUserList'
+                $ref: '#/components/schemas/userList'
           description: OK
         '401':
           $ref: '#/components/responses/401'
       tags:
-        - adminUser
-  /admin/v1/users/{userID}:
+        - administrator
+  /admin/v1/administrators/{administratorID}:
     patch:
-      description: Update the information of the specified admin user
-      operationId: patchAdminUsersProfile
-      summary: Update the information of the specified admin user
+      description: Update the information of the specified administrator
+      operationId: patchAdministrator
+      summary: Update the information of the specified administrator
       parameters:
         - in: path
-          name: userID
-          description: ID of the admin user
+          name: administratorID
+          description: ID of the administrator
           required: true
           schema:
             type: string
@@ -283,14 +287,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminUserUpdate'
+              $ref: '#/components/schemas/userUpdate'
         required: true
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/adminUser'
+                $ref: '#/components/schemas/user'
           description: OK
         '400':
           $ref: '#/components/responses/400'
@@ -299,15 +303,15 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - adminUser
+        - administrator
     delete:
-      description: delete admin user
-      operationId: deleteAdminUser
-      summary: delete admin user
+      description: delete administrator
+      operationId: deleteAdministrator
+      summary: delete administrator
       parameters:
         - in: path
-          name: userID
-          description: Name of the admin user
+          name: administratorID
+          description: ID of the administrator
           required: true
           schema:
             type: string
@@ -322,16 +326,16 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - adminUser
-  /admin/v1/users/{userID}/password:
+        - administrator
+  /admin/v1/administrators/{administratorID}/password:
     patch:
-      description: Update admin user password
-      operationId: updateAdminUsersPassword
-      summary: Update admin user password
+      description: Update administrator password
+      operationId: updateAdministratorPassword
+      summary: Update administrator password
       parameters:
         - in: path
-          name: userID
-          description: ID of the admin user
+          name: administratorID
+          description: ID of the administrator
           required: true
           schema:
             type: string
@@ -339,7 +343,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/adminUsersPassword'
+              $ref: '#/components/schemas/password'
         required: true
       responses:
         '204':
@@ -352,7 +356,135 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - adminUser
+        - administrator
+      x-codegen-request-body-name: body
+  /admin/v1/users:
+    post:
+      description: Create a new user
+      summary: Create a new user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: Created
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '409':
+          $ref: '#/components/responses/409'
+      tags:
+        - user
+    get:
+      description: List users
+      summary: List users
+      operationId: listUsers
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userList'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - user
+  /admin/v1/users/{userID}:
+    patch:
+      description: Update the information of the specified user
+      operationId: patchUser
+      summary: Update the information of the specified user
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/userUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - user
+    delete:
+      description: delete user
+      operationId: deleteUser
+      summary: delete user
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - user
+  /admin/v1/users/{userID}/password:
+    patch:
+      description: Update user password
+      operationId: updateUserPassword
+      summary: Update user password
+      parameters:
+        - in: path
+          name: userID
+          description: ID of the user
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/password'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Password updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - user
       x-codegen-request-body-name: body
   /admin/v1/metrics/metaData/aggregate:
     get:
@@ -398,6 +530,28 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+    post:
+      description: Create a new organization
+      summary: Create organization
+      operationId: createOrg
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgCreate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+      tags:
+        - organization
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}:
     get:
       description: read the specified Org
@@ -417,6 +571,66 @@ paths:
               schema:
                 $ref: '#/components/schemas/org'
           description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+    patch:
+      description: partially update the specified Org
+      summary: Update organization
+      operationId: patchOrg
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+          description: OK
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/org'
+          description: Created
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+      x-codegen-request-body-name: body
+    delete:
+      description: partially delete the specified org
+      summary: Delete organization
+      operationId: deleteOrg
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when org is deleted successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -479,16 +693,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: The pagination token in the List request
-          in: query
-          name: pageToken
-          schema:
-            type: string
-        - description: The pagination size in the List request.
-          in: query
-          name: pageSize
-          schema:
-            type: string
       responses:
         '200':
           content:
@@ -501,8 +705,70 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - member
+    post:
+      description: Add organization with specific role
+      summary: Add member
+      operationId: addOrgMember
+      parameters:
+        - description: Name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgMemberAdd'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMember'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - member
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/members/{memberId}:
+    delete:
+      description: delete a Org Member
+      summary: Delete member
+      operationId: deleteOrgMember
+      parameters:
+        - description: Name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: ID of the member
+          in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - member
     get:
       description: read the specified OrgMember
       summary: Get member
@@ -534,7 +800,383 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       tags:
+        - member
+    patch:
+      description: Only authenticated organization admins can update the member's role
+      summary: Update member role
+      operationId: patchOrgMember
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: ID of the member
+          in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgMemberUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgMember'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - member
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/members/{memberId}/freeze:
+    post:
+      description: freeze the member in org
+      summary: freeze the member in org
+      operationId: freezeMember
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: ID of the member
+          in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
         - organization
+  /admin/v1/organizations/{orgName}/members/{memberId}/unfreeze:
+    post:
+      description: unfreeze the member in org
+      summary: unfreeze the member in org
+      operationId: unfreezeMember
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: ID of the member
+          in: path
+          name: memberId
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organization
+  /admin/v1/permissions:
+    get:
+      tags:
+        - role
+      summary: List all permissions
+      description: List all permissions
+      operationId: listPermissions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/permissionList'
+        '401':
+          $ref: '#/components/responses/401'
+  /admin/v1/organizations/{orgName}/roles:
+    get:
+      tags:
+        - role
+      summary: List roles of a organization
+      description: List roles of a organization
+      operationId: listRoles
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/roleList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - role
+      summary: Create role
+      description: Create role
+      operationId: createRole
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleCreate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/roles/{roleName}:
+    get:
+      tags:
+        - role
+      summary: Get role by name
+      description: Get role by name
+      operationId: getRoleByName
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
+      tags:
+        - role
+      summary: Update role by name
+      description: Update role by name
+      operationId: updateRoleByName
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/roleUpdate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - role
+      summary: Delete role by name
+      description: Delete role by name
+      operationId: deleteRoleByName
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when role is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/roles/{roleName}/permissions:
+    get:
+      tags:
+        - role
+      summary: List permissions of a role
+      description: List permissions of a role
+      operationId: listRolePermissions
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/permissionList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/roles/{roleName}/permissions/batch:
+    post:
+      tags:
+        - role
+      summary: Batch add permissions to a role
+      description: Batch add permissions to a role
+      operationId: batchAddRolePermissions
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '204':
+          description: Returned when permissions are added successfully.
+          content: {}
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+    delete:
+      tags:
+        - role
+      summary: Batch remove permissions from a role
+      description: Batch remove permissions from a role
+      operationId: batchRemoveRolePermissions
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: roleName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        '204':
+          description: Returned when permissions are removed successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/parameters:
     get:
       operationId: listOrgParameters
@@ -628,7 +1270,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     patch:
       operationId: patchOrgParameter
       summary: Update a parameter of an organization
@@ -660,143 +1302,7 @@ paths:
                 $ref: '#/components/schemas/orgParameter'
           description: OK
       tags:
-        - organization
-  /admin/v1/permissions:
-    get:
-      tags:
-        - role
-      summary: List all permissions
-      description: List all permissions
-      operationId: listPermissions
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/permissionList'
-        '401':
-          $ref: '#/components/responses/401'
-  /admin/v1/organizations/{orgName}/roles:
-    get:
-      tags:
-        - role
-      summary: List roles of a organization
-      description: List roles of a organization
-      operationId: listRoles
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/roleList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/roles/{roleName}:
-    get:
-      tags:
-        - role
-      summary: Get role by name
-      description: Get role by name
-      operationId: getRoleByName
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: roleName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/role'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/roles/{roleName}/permissions:
-    get:
-      tags:
-        - role
-      summary: List permissions of a role
-      description: List permissions of a role
-      operationId: listRolePermissions
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: roleName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/permissionList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/invitations:
-    get:
-      tags:
-        - invitation
-      description: list the Invitation of specified Org or User
-      summary: List invitations
-      operationId: listInvitation
-      parameters:
-        - name: orgName
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-        - name: userId
-          in: query
-          description: If 'true', then the output is pretty printed
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/invitationList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
+        - organizationParameter
   /admin/v1/clusters:
     get:
       tags:
@@ -8176,6 +8682,104 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Download organization-specific alert rule configuration file
+      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
+      operationId: downloadOrgAlertRuleFile
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful download of the organization-specific alert rule configuration file.
+          content:
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/alertRuleConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/alerts/rules/config/restore:
+    post:
+      tags:
+        - alertRule
+      summary: Restore organization's alert rule configuration to defaults
+      description: Restores the alert rule configuration for a specific organization to the system default settings.
+      operationId: restoreOrgAlertRuleToDefault
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alert rule configuration for the organization restored to defaults successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/alerts/metrics:
     get:
       tags:
@@ -14922,9 +15526,12 @@ components:
       example: '+8618912345678'
       pattern: ^\+\d{1,3}\d{11}$
       type: string
-    adminUser:
+    user:
       description: Admin user info
       properties:
+        id:
+          description: The ID for the user
+          type: string
         userName:
           description: The name of the user, is unique
           type: string
@@ -14945,14 +15552,11 @@ components:
         isDefaultPassword:
           description: return true if the default admin user need to reset password
           type: boolean
-        id:
-          description: The ID for the user
-          type: string
       required:
+        - id
         - userName
         - createdAt
         - updatedAt
-        - displayName
     APIErrorResponse:
       description: API error response.
       properties:
@@ -14968,21 +15572,17 @@ components:
       required:
         - code
       type: object
-    adminUserUpdate:
-      description: Admin user update
+    userUpdate:
+      description: User update
       properties:
-        userName:
-          description: The name of the user, is unique
+        displayName:
+          description: The display name of the user
           type: string
-        phoneNumber:
-          $ref: '#/components/schemas/phoneNumber'
         email:
           description: The email for the user
           type: string
-          format: email
-      required:
-        - userName
-        - email
+        phoneNumber:
+          $ref: '#/components/schemas/phoneNumber'
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -15080,18 +15680,16 @@ components:
         - description
         - createAt
       type: object
-    adminUserList:
-      description: Admin user list
+    userList:
+      description: User list
       type: object
       properties:
         items:
-          description: Items is the list of admin user objects in the list
-          items:
-            $ref: '#/components/schemas/adminUser'
           type: array
-      required:
-        - items
-    adminUserCreate:
+          items:
+            $ref: '#/components/schemas/user'
+          description: The list of users
+    userCreate:
       description: Admin user create
       properties:
         userName:
@@ -15109,14 +15707,15 @@ components:
       required:
         - userName
         - password
-        - email
       type: object
-    adminUsersPassword:
+    password:
       description: Admin user password
       properties:
         newPassword:
           description: The new password for the admin user.
           type: string
+          minLength: 8
+          pattern: ^[^\s].*[^\s]$
       required:
         - newPassword
       type: object
@@ -15168,8 +15767,6 @@ components:
       required:
         - name
         - displayName
-        - creator
-        - creatorID
         - clusterTotal
         - createdAt
       properties:
@@ -15201,6 +15798,21 @@ components:
           items:
             $ref: '#/components/schemas/organizationItem'
           description: The list of organizations.
+    orgCreate:
+      description: OrgCreate is the payload for organization creation
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+        name:
+          description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
+          type: string
+      required:
+        - name
+      type: object
     org:
       description: Org info
       properties:
@@ -15239,6 +15851,16 @@ components:
         - updatedAt
         - enabled
       type: object
+    orgUpdate:
+      description: Organization update
+      properties:
+        description:
+          description: The description of the organization
+          type: string
+        displayName:
+          description: The display name of the organization
+          type: string
+      type: object
     orgMember:
       description: Org Member info
       properties:
@@ -15275,6 +15897,105 @@ components:
       required:
         - items
       type: object
+    orgMemberAdd:
+      description: MemberAdd is the payload for adding organization member
+      properties:
+        role:
+          description: The name of the role in the organization
+          type: string
+          x-nullable: false
+        userName:
+          description: The name of the user
+          type: string
+          x-nullable: false
+      required:
+        - role
+        - userName
+      type: object
+    orgMemberUpdate:
+      description: Org Member update
+      properties:
+        role:
+          description: The role of the User in the Org. Required
+          type: string
+      required:
+        - role
+      type: object
+    permission:
+      description: Permission information
+      type: object
+      properties:
+        name:
+          description: The name of the permission
+          type: string
+        group:
+          description: The group of the permission
+          type: string
+        description:
+          description: The description of the permission
+          type: string
+    permissionList:
+      description: PermissionList is a list of Permissions
+      properties:
+        items:
+          description: Items is the list of Permission objects in the list
+          items:
+            $ref: '#/components/schemas/permission'
+          type: array
+      required:
+        - items
+      type: object
+    role:
+      description: Role information
+      type: object
+      properties:
+        name:
+          description: The name of the role
+          type: string
+        type:
+          description: The type of the role
+          type: string
+        description:
+          description: The description of the role
+          type: string
+        createdAt:
+          description: The time when the role was created. Read-Only
+          format: date-time
+          type: string
+        updatedAt:
+          description: The time when the role was updated. Read-Only
+          format: date-time
+          type: string
+    roleList:
+      description: RoleList is a list of Roles
+      properties:
+        items:
+          description: Items is the list of Role objects in the list
+          items:
+            $ref: '#/components/schemas/role'
+          type: array
+      required:
+        - items
+      type: object
+    roleCreate:
+      description: Role create
+      type: object
+      properties:
+        name:
+          description: The name of the role
+          type: string
+        description:
+          description: The description of the role
+          type: string
+      required:
+        - name
+    roleUpdate:
+      description: Role update
+      type: object
+      properties:
+        description:
+          description: The description of the role
+          type: string
     orgParameter:
       description: org parameter item
       type: object
@@ -15332,136 +16053,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
-    permission:
-      description: Permission information
-      type: object
-      properties:
-        name:
-          description: The name of the permission
-          type: string
-        group:
-          description: The group of the permission
-          type: string
-        description:
-          description: The description of the permission
-          type: string
-    permissionList:
-      description: PermissionList is a list of Permissions
-      properties:
-        items:
-          description: Items is the list of Permission objects in the list
-          items:
-            $ref: '#/components/schemas/permission'
-          type: array
-      required:
-        - items
-      type: object
-    role:
-      description: Role information
-      type: object
-      properties:
-        name:
-          description: The name of the role
-          type: string
-        type:
-          description: The type of the role
-          type: string
-        description:
-          description: The description of the role
-          type: string
-        createdAt:
-          description: The time when the role was created. Read-Only
-          format: date-time
-          type: string
-        updatedAt:
-          description: The time when the role was updated. Read-Only
-          format: date-time
-          type: string
-    roleList:
-      description: RoleList is a list of Roles
-      properties:
-        items:
-          description: Items is the list of Role objects in the list
-          items:
-            $ref: '#/components/schemas/role'
-          type: array
-      required:
-        - items
-      type: object
-    invitationSender:
-      description: InvitationSender is the User who send the Invitation
-      properties:
-        email:
-          description: The email of the User
-          type: string
-          nullable: true
-        id:
-          description: The ID of the User
-          type: string
-          nullable: true
-        name:
-          description: The name of the User
-          type: string
-          nullable: true
-      type: object
-    invitation:
-      description: Invitation info
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-          description: the created time of the invitation
-        email:
-          description: The email of the invitee
-          type: string
-        expireTime:
-          description: Expire time of this invitation
-          format: date-time
-          type: string
-        id:
-          description: The ID for the invitation
-          type: string
-        lastEmailTime:
-          description: Last email send time
-          format: date-time
-          type: string
-        orgName:
-          description: The name of the organization, for output only
-          type: string
-        roleName:
-          description: The name of the role
-          type: string
-        sender:
-          $ref: '#/components/schemas/invitationSender'
-        token:
-          description: '[internal, not for caller display] token of invitation, base64 encoded string including invitation and org ID'
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-          description: the updated time of the invitation
-      required:
-        - email
-        - expireTime
-        - id
-        - lastEmailTime
-        - orgName
-        - roleName
-        - token
-      type: object
-    invitationList:
-      description: InvitationList is a list of invitations
-      properties:
-        items:
-          description: Items is the list of Invitation objects in the list
-          items:
-            $ref: '#/components/schemas/invitation'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
     clusterType:
       title: ClusterType
       type: string
@@ -16486,6 +17077,12 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
       required:
         - name
       type: object
@@ -16631,59 +17228,114 @@ components:
       required:
         - items
       type: object
-    tlsConfig:
-      description: Configuration for TLS including all certificates and keys
+    tlsName:
+      type: string
+      description: Name of the TLS certificates
+      enum:
+        - ca
+        - certificate
+        - privateKey
+        - keystore
+        - truststore
+    tlsType:
+      description: TLS type
+      type: string
+      enum:
+        - StandardTLS
+        - JavaKeystore
+      default: StandardTLS
+    certificate:
+      description: certificates and it's config
       type: object
+      required:
+        - type
+        - name
+        - content
       properties:
-        caCert:
-          description: CA Certificate
+        name:
+          description: Name of the TLS certificates
+          $ref: '#/components/schemas/tlsName'
+        type:
+          $ref: '#/components/schemas/tlsType'
+        content:
+          description: Content of the TLS certificates
           type: string
-        clientCert:
-          description: Client Side Certificate
-          type: string
-        clientKey:
-          description: Client Side key
-          type: string
-        keystore:
-          description: Keystore in PEM format
-          type: string
-        truststore:
-          description: Truststore in PEM format
-          type: string
+        expirationDays:
+          description: Expiration days for this certificate
+          type: integer
+          x-omitempty: true
+          format: int32
+        DNS:
+          description: DNS name in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        ipAddress:
+          description: IP address in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
     tlsCert:
       properties:
-        tlsConfig:
-          $ref: '#/components/schemas/tlsConfig'
+        certificates:
+          description: TLS certificates
+          type: array
+          items:
+            $ref: '#/components/schemas/certificate'
         componentName:
           description: Component these certs belong to
           type: string
-        expirationDaysCA:
-          description: Expiration days of CA certificate
-          type: integer
-          format: int32
-        expirationDaysClient:
-          description: Expiration days of client certificate
-          type: integer
-          format: int32
-        expirationDaysKeystore:
-          description: Expiration days of Keystore certificate
-          type: integer
-          format: int32
-        expirationDaysTruststore:
-          description: Expiration days of Truststore certificate
-          type: integer
-          format: int32
       type: object
     tlsCertList:
       items:
         $ref: '#/components/schemas/tlsCert'
       type: array
+    certificateIssuer:
+      description: certificate issuer
+      type: string
+      enum:
+        - Apecloud
+        - UserSelf
+    tlsOption:
+      description: TLS options
+      type: object
+      required:
+        - issuer
+      properties:
+        issuer:
+          description: Issuer of the TLS certificates
+          $ref: '#/components/schemas/certificateIssuer'
+        serviceName:
+          description: the service name that will be set in certificate SAN
+          type: array
+          items:
+            type: string
+          x-omitempty: true
+        caContent:
+          description: CA certificate content
+          type: string
+          x-omitempty: true
+        certificateContent:
+          description: Certificate content
+          type: string
+          x-omitempty: true
+        privateKeyContent:
+          description: Private key content
+          type: string
+          x-omitempty: true
     tlsRequest:
+      type: object
+      required:
+        - enable
       properties:
         enable:
           description: Enable TLS or not
           type: boolean
-      type: object
+        options:
+          description: TLS options
+          $ref: '#/components/schemas/tlsOption'
     ipWhitelist:
       description: whitelist
       properties:
@@ -21527,6 +22179,15 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
+    alertRuleConfig:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     alertMetricList:
       required:
         - items
@@ -21866,10 +22527,13 @@ components:
         schedulingPolicy:
           type: object
           properties:
-            clusterScopeAntiAffinity:
-              type: boolean
+            componentAntiAffinity:
+              type: array
+              minItems: 1
               description: |
-                If set to true, resource distribution is at the cluster level.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+              items:
+                type: string
         components:
           type: array
           items:
@@ -22050,6 +22714,9 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
+        supportsReadonly:
+          type: boolean
+          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:
@@ -25968,10 +26635,11 @@ components:
       type: boolean
       required: false
       default: true
-x-tagGroup:
+x-tagGroups:
   - name: User
     tags:
       - user
+      - administrator
   - name: Metrics
     tags:
       - metrics
@@ -25980,7 +26648,7 @@ x-tagGroup:
       - organization
       - member
       - role
-      - invitation
+      - organizationParameter
   - name: Project
     tags:
       - project

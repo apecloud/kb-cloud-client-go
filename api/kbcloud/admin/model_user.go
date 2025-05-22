@@ -11,12 +11,14 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUser Admin user info
-type AdminUser struct {
+// User Admin user info
+type User struct {
+	// The ID for the user
+	Id string `json:"id"`
 	// The name of the user, is unique
 	UserName string `json:"userName"`
 	// The display name of the user
-	DisplayName string `json:"displayName"`
+	DisplayName *string `json:"displayName,omitempty"`
 	// The email for the user
 	Email *string `json:"email,omitempty"`
 	// The phonenumber for the user.
@@ -25,36 +27,57 @@ type AdminUser struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 	// return true if the default admin user need to reset password
 	IsDefaultPassword *bool `json:"isDefaultPassword,omitempty"`
-	// The ID for the user
-	Id *string `json:"id,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUser instantiates a new AdminUser object.
+// NewUser instantiates a new User object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUser(userName string, displayName string, createdAt time.Time, updatedAt time.Time) *AdminUser {
-	this := AdminUser{}
+func NewUser(id string, userName string, createdAt time.Time, updatedAt time.Time) *User {
+	this := User{}
+	this.Id = id
 	this.UserName = userName
-	this.DisplayName = displayName
 	this.CreatedAt = createdAt
 	this.UpdatedAt = updatedAt
 	return &this
 }
 
-// NewAdminUserWithDefaults instantiates a new AdminUser object.
+// NewUserWithDefaults instantiates a new User object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUserWithDefaults() *AdminUser {
-	this := AdminUser{}
+func NewUserWithDefaults() *User {
+	this := User{}
 	return &this
 }
 
+// GetId returns the Id field value.
+func (o *User) GetId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value
+// and a boolean to check if the value has been set.
+func (o *User) GetIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Id, true
+}
+
+// SetId sets field value.
+func (o *User) SetId(v string) {
+	o.Id = v
+}
+
 // GetUserName returns the UserName field value.
-func (o *AdminUser) GetUserName() string {
+func (o *User) GetUserName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -64,7 +87,7 @@ func (o *AdminUser) GetUserName() string {
 
 // GetUserNameOk returns a tuple with the UserName field value
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetUserNameOk() (*string, bool) {
+func (o *User) GetUserNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -72,35 +95,40 @@ func (o *AdminUser) GetUserNameOk() (*string, bool) {
 }
 
 // SetUserName sets field value.
-func (o *AdminUser) SetUserName(v string) {
+func (o *User) SetUserName(v string) {
 	o.UserName = v
 }
 
-// GetDisplayName returns the DisplayName field value.
-func (o *AdminUser) GetDisplayName() string {
-	if o == nil {
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *User) GetDisplayName() string {
+	if o == nil || o.DisplayName == nil {
 		var ret string
 		return ret
 	}
-	return o.DisplayName
+	return *o.DisplayName
 }
 
-// GetDisplayNameOk returns a tuple with the DisplayName field value
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetDisplayNameOk() (*string, bool) {
-	if o == nil {
+func (o *User) GetDisplayNameOk() (*string, bool) {
+	if o == nil || o.DisplayName == nil {
 		return nil, false
 	}
-	return &o.DisplayName, true
+	return o.DisplayName, true
 }
 
-// SetDisplayName sets field value.
-func (o *AdminUser) SetDisplayName(v string) {
-	o.DisplayName = v
+// HasDisplayName returns a boolean if a field has been set.
+func (o *User) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+func (o *User) SetDisplayName(v string) {
+	o.DisplayName = &v
 }
 
 // GetEmail returns the Email field value if set, zero value otherwise.
-func (o *AdminUser) GetEmail() string {
+func (o *User) GetEmail() string {
 	if o == nil || o.Email == nil {
 		var ret string
 		return ret
@@ -110,7 +138,7 @@ func (o *AdminUser) GetEmail() string {
 
 // GetEmailOk returns a tuple with the Email field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetEmailOk() (*string, bool) {
+func (o *User) GetEmailOk() (*string, bool) {
 	if o == nil || o.Email == nil {
 		return nil, false
 	}
@@ -118,17 +146,17 @@ func (o *AdminUser) GetEmailOk() (*string, bool) {
 }
 
 // HasEmail returns a boolean if a field has been set.
-func (o *AdminUser) HasEmail() bool {
+func (o *User) HasEmail() bool {
 	return o != nil && o.Email != nil
 }
 
 // SetEmail gets a reference to the given string and assigns it to the Email field.
-func (o *AdminUser) SetEmail(v string) {
+func (o *User) SetEmail(v string) {
 	o.Email = &v
 }
 
 // GetPhoneNumber returns the PhoneNumber field value if set, zero value otherwise.
-func (o *AdminUser) GetPhoneNumber() string {
+func (o *User) GetPhoneNumber() string {
 	if o == nil || o.PhoneNumber == nil {
 		var ret string
 		return ret
@@ -138,7 +166,7 @@ func (o *AdminUser) GetPhoneNumber() string {
 
 // GetPhoneNumberOk returns a tuple with the PhoneNumber field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetPhoneNumberOk() (*string, bool) {
+func (o *User) GetPhoneNumberOk() (*string, bool) {
 	if o == nil || o.PhoneNumber == nil {
 		return nil, false
 	}
@@ -146,17 +174,17 @@ func (o *AdminUser) GetPhoneNumberOk() (*string, bool) {
 }
 
 // HasPhoneNumber returns a boolean if a field has been set.
-func (o *AdminUser) HasPhoneNumber() bool {
+func (o *User) HasPhoneNumber() bool {
 	return o != nil && o.PhoneNumber != nil
 }
 
 // SetPhoneNumber gets a reference to the given string and assigns it to the PhoneNumber field.
-func (o *AdminUser) SetPhoneNumber(v string) {
+func (o *User) SetPhoneNumber(v string) {
 	o.PhoneNumber = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value.
-func (o *AdminUser) GetCreatedAt() time.Time {
+func (o *User) GetCreatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -166,7 +194,7 @@ func (o *AdminUser) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetCreatedAtOk() (*time.Time, bool) {
+func (o *User) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -174,12 +202,12 @@ func (o *AdminUser) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // SetCreatedAt sets field value.
-func (o *AdminUser) SetCreatedAt(v time.Time) {
+func (o *User) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value.
-func (o *AdminUser) GetUpdatedAt() time.Time {
+func (o *User) GetUpdatedAt() time.Time {
 	if o == nil {
 		var ret time.Time
 		return ret
@@ -189,7 +217,7 @@ func (o *AdminUser) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *User) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -197,12 +225,12 @@ func (o *AdminUser) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // SetUpdatedAt sets field value.
-func (o *AdminUser) SetUpdatedAt(v time.Time) {
+func (o *User) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = v
 }
 
 // GetIsDefaultPassword returns the IsDefaultPassword field value if set, zero value otherwise.
-func (o *AdminUser) GetIsDefaultPassword() bool {
+func (o *User) GetIsDefaultPassword() bool {
 	if o == nil || o.IsDefaultPassword == nil {
 		var ret bool
 		return ret
@@ -212,7 +240,7 @@ func (o *AdminUser) GetIsDefaultPassword() bool {
 
 // GetIsDefaultPasswordOk returns a tuple with the IsDefaultPassword field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AdminUser) GetIsDefaultPasswordOk() (*bool, bool) {
+func (o *User) GetIsDefaultPasswordOk() (*bool, bool) {
 	if o == nil || o.IsDefaultPassword == nil {
 		return nil, false
 	}
@@ -220,51 +248,26 @@ func (o *AdminUser) GetIsDefaultPasswordOk() (*bool, bool) {
 }
 
 // HasIsDefaultPassword returns a boolean if a field has been set.
-func (o *AdminUser) HasIsDefaultPassword() bool {
+func (o *User) HasIsDefaultPassword() bool {
 	return o != nil && o.IsDefaultPassword != nil
 }
 
 // SetIsDefaultPassword gets a reference to the given bool and assigns it to the IsDefaultPassword field.
-func (o *AdminUser) SetIsDefaultPassword(v bool) {
+func (o *User) SetIsDefaultPassword(v bool) {
 	o.IsDefaultPassword = &v
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
-func (o *AdminUser) GetId() string {
-	if o == nil || o.Id == nil {
-		var ret string
-		return ret
-	}
-	return *o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AdminUser) GetIdOk() (*string, bool) {
-	if o == nil || o.Id == nil {
-		return nil, false
-	}
-	return o.Id, true
-}
-
-// HasId returns a boolean if a field has been set.
-func (o *AdminUser) HasId() bool {
-	return o != nil && o.Id != nil
-}
-
-// SetId gets a reference to the given string and assigns it to the Id field.
-func (o *AdminUser) SetId(v string) {
-	o.Id = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUser) MarshalJSON() ([]byte, error) {
+func (o User) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	toSerialize["id"] = o.Id
 	toSerialize["userName"] = o.UserName
-	toSerialize["displayName"] = o.DisplayName
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 	if o.Email != nil {
 		toSerialize["email"] = o.Email
 	}
@@ -284,9 +287,6 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 	if o.IsDefaultPassword != nil {
 		toSerialize["isDefaultPassword"] = o.IsDefaultPassword
 	}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -295,25 +295,25 @@ func (o AdminUser) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
+func (o *User) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Id                *string    `json:"id"`
 		UserName          *string    `json:"userName"`
-		DisplayName       *string    `json:"displayName"`
+		DisplayName       *string    `json:"displayName,omitempty"`
 		Email             *string    `json:"email,omitempty"`
 		PhoneNumber       *string    `json:"phoneNumber,omitempty"`
 		CreatedAt         *time.Time `json:"createdAt"`
 		UpdatedAt         *time.Time `json:"updatedAt"`
 		IsDefaultPassword *bool      `json:"isDefaultPassword,omitempty"`
-		Id                *string    `json:"id,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Id == nil {
+		return fmt.Errorf("required field id missing")
+	}
 	if all.UserName == nil {
 		return fmt.Errorf("required field userName missing")
-	}
-	if all.DisplayName == nil {
-		return fmt.Errorf("required field displayName missing")
 	}
 	if all.CreatedAt == nil {
 		return fmt.Errorf("required field createdAt missing")
@@ -323,18 +323,18 @@ func (o *AdminUser) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"userName", "displayName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword", "id"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "userName", "displayName", "email", "phoneNumber", "createdAt", "updatedAt", "isDefaultPassword"})
 	} else {
 		return err
 	}
+	o.Id = *all.Id
 	o.UserName = *all.UserName
-	o.DisplayName = *all.DisplayName
+	o.DisplayName = all.DisplayName
 	o.Email = all.Email
 	o.PhoneNumber = all.PhoneNumber
 	o.CreatedAt = *all.CreatedAt
 	o.UpdatedAt = *all.UpdatedAt
 	o.IsDefaultPassword = all.IsDefaultPassword
-	o.Id = all.Id
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

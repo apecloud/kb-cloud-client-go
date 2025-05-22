@@ -2,71 +2,71 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
+	_io "io"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUserList Admin user list
-type AdminUserList struct {
-	// Items is the list of admin user objects in the list
-	Items []AdminUser `json:"items"`
+type AlertRuleConfig struct {
+	// YAML file content containing the new alert rule configuration
+	Content _io.Reader `json:"content"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUserList instantiates a new AdminUserList object.
+// NewAlertRuleConfig instantiates a new AlertRuleConfig object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUserList(items []AdminUser) *AdminUserList {
-	this := AdminUserList{}
-	this.Items = items
+func NewAlertRuleConfig(content _io.Reader) *AlertRuleConfig {
+	this := AlertRuleConfig{}
+	this.Content = content
 	return &this
 }
 
-// NewAdminUserListWithDefaults instantiates a new AdminUserList object.
+// NewAlertRuleConfigWithDefaults instantiates a new AlertRuleConfig object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUserListWithDefaults() *AdminUserList {
-	this := AdminUserList{}
+func NewAlertRuleConfigWithDefaults() *AlertRuleConfig {
+	this := AlertRuleConfig{}
 	return &this
 }
 
-// GetItems returns the Items field value.
-func (o *AdminUserList) GetItems() []AdminUser {
+// GetContent returns the Content field value.
+func (o *AlertRuleConfig) GetContent() _io.Reader {
 	if o == nil {
-		var ret []AdminUser
+		var ret _io.Reader
 		return ret
 	}
-	return o.Items
+	return o.Content
 }
 
-// GetItemsOk returns a tuple with the Items field value
+// GetContentOk returns a tuple with the Content field value
 // and a boolean to check if the value has been set.
-func (o *AdminUserList) GetItemsOk() (*[]AdminUser, bool) {
+func (o *AlertRuleConfig) GetContentOk() (*_io.Reader, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Items, true
+	return &o.Content, true
 }
 
-// SetItems sets field value.
-func (o *AdminUserList) SetItems(v []AdminUser) {
-	o.Items = v
+// SetContent sets field value.
+func (o *AlertRuleConfig) SetContent(v _io.Reader) {
+	o.Content = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUserList) MarshalJSON() ([]byte, error) {
+func (o AlertRuleConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["items"] = o.Items
+	toSerialize["content"] = o.Content
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +75,23 @@ func (o AdminUserList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUserList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *AlertRuleConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]AdminUser `json:"items"`
+		Content *_io.Reader `json:"content"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Items == nil {
-		return fmt.Errorf("required field items missing")
+	if all.Content == nil {
+		return fmt.Errorf("required field content missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"content"})
 	} else {
 		return err
 	}
-	o.Items = *all.Items
+	o.Content = *all.Content
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

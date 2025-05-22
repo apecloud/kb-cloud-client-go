@@ -114,7 +114,7 @@ paths:
     get:
       description: Get authenticated login user info
       summary: Get authenticated user
-      operationId: readUser
+      operationId: getAuthenticatedUser
       responses:
         '200':
           content:
@@ -128,7 +128,7 @@ paths:
         - user
     patch:
       description: partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
-      operationId: patchUser
+      operationId: patchAuthenticatedUser
       summary: Update user information
       requestBody:
         content:
@@ -137,6 +137,12 @@ paths:
               $ref: '#/components/schemas/userUpdate'
         required: true
       responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: OK
         '204':
           content: {}
           description: Returned when project is deleted successfully.
@@ -147,9 +153,9 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/user/password:
     patch:
-      description: Update user password.
-      summary: Update user password
-      operationId: updateUserPassword
+      description: Update current authenticated user password.
+      summary: Update current authenticated user password
+      operationId: updateAuthenticatedUserPassword
       requestBody:
         content:
           application/json:
@@ -201,24 +207,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-      tags:
-        - user
-      x-codegen-request-body-name: body
-  /api/v1/user/verificationEmail:
-    post:
-      description: To send verification email checking user's email address
-      summary: Send verification email to user's email address. For logto and authing, only the "email" is required, and for auth0, only the "externalID" is required.
-      operationId: sendVerificationEmail
-      responses:
-        '204':
-          content: {}
-          description: Send verification email to user successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -353,7 +341,7 @@ paths:
               $ref: '#/components/schemas/orgCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -361,29 +349,6 @@ paths:
           description: OK
         '401':
           $ref: '#/components/responses/401'
-      x-codeSamples:
-        - lang: curl
-          source: |-
-            curl -X POST -H "Content-Type: application/json" -d '{
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }' http://localhost:8080/api/v1/orgs
-        - lang: Python
-          source: |-
-            import requests
-            import json
-            url = "http://localhost:8080/api/v1/orgs"
-            payload = {
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-            print(response.text.encode('utf8'))
       tags:
         - organization
       x-codegen-request-body-name: body
@@ -926,7 +891,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     patch:
       operationId: patchOrgParameter
       summary: Update a parameter of an organization
@@ -958,7 +923,7 @@ paths:
                 $ref: '#/components/schemas/orgParameter'
           description: OK
       tags:
-        - organization
+        - organizationParameter
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -1427,6 +1392,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations:
     get:
+      deprecated: true
       tags:
         - invitation
       description: list the Invitation of specified Org or User
@@ -1465,6 +1431,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     post:
+      deprecated: true
       tags:
         - invitation
       description: create a Invitation
@@ -1488,6 +1455,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations/{invitationId}:
     get:
+      deprecated: true
       tags:
         - invitation
       description: read the specified Invitation for organization admin or invitee
@@ -1512,6 +1480,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     delete:
+      deprecated: true
       tags:
         - invitation
       description: delete the specified Invitation for organization admin
@@ -1536,6 +1505,7 @@ paths:
           $ref: '#/components/responses/404'
   /api/v1/invitations/{invitationId}/accept:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1558,6 +1528,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/reject:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1580,6 +1551,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/resend:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -5969,6 +5941,104 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/alerts/rules/config:
+    get:
+      tags:
+        - alertRule
+      summary: Download organization-specific alert rule configuration file
+      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
+      operationId: downloadOrgAlertRuleFile
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful download of the organization-specific alert rule configuration file.
+          content:
+            application/x-yaml:
+              schema:
+                $ref: '#/components/schemas/alertRuleConfig'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
+  /api/v1/organizations/{orgName}/alerts/rules/config/restore:
+    post:
+      tags:
+        - alertRule
+      summary: Restore organization's alert rule configuration to defaults
+      description: Restores the alert rule configuration for a specific organization to the system default settings.
+      operationId: restoreOrgAlertRuleToDefault
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alert rule configuration for the organization restored to defaults successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/environments/{environmentName}/engines:
     get:
       operationId: listEnginesInEnv
@@ -11292,11 +11362,10 @@ components:
       pattern: ^\+\d{1,3}\d{11}$
       type: string
     user:
-      description: User info
+      description: Admin user info
       properties:
-        createdAt:
-          description: CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
-          format: date-time
+        id:
+          description: The ID for the user
           type: string
         userName:
           description: The name of the user, is unique
@@ -11307,26 +11376,22 @@ components:
         email:
           description: The email for the user
           type: string
-        id:
-          description: The ID for the user
-          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        updatedAt:
-          description: |-
-            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
+        createdAt:
           format: date-time
           type: string
+        updatedAt:
+          format: date-time
+          type: string
+        isDefaultPassword:
+          description: return true if the default admin user need to reset password
+          type: boolean
       required:
-        - createdAt
-        - email
         - id
-        - updatedAt
         - userName
-        - displayName
-      type: object
+        - createdAt
+        - updatedAt
     APIErrorResponse:
       description: API error response.
       properties:
@@ -11353,9 +11418,6 @@ components:
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        verificationCode:
-          description: The verification code for the user
-          type: string
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -11501,10 +11563,6 @@ components:
         name:
           description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
           type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
       required:
         - name
       type: object
@@ -11599,13 +11657,13 @@ components:
           description: The name of the role in the organization
           type: string
           x-nullable: false
-        userId:
-          description: The ID of the user
+        userName:
+          description: The name of the user
           type: string
           x-nullable: false
       required:
         - role
-        - userId
+        - userName
       type: object
     orgMemberUpdate:
       description: Org Member update
@@ -12840,10 +12898,9 @@ components:
     invitationCreate:
       description: Invitation create payload
       properties:
-        email:
-          description: The email of the invitee
+        userId:
+          description: The ID of the user as invitee, if email is not provided, the user ID is required
           type: string
-          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -12851,7 +12908,7 @@ components:
           description: The name of the role
           type: string
       required:
-        - email
+        - userId
         - orgName
         - roleName
       type: object
@@ -13745,6 +13802,12 @@ components:
           description: Specify the name of database, which must be unique.
           title: name
           type: string
+        options:
+          description: Specify the options of database.
+          title: options
+          type: object
+          additionalProperties:
+            type: string
       required:
         - name
       type: object
@@ -14632,59 +14695,114 @@ components:
       required:
         - items
       type: object
-    tlsConfig:
-      description: Configuration for TLS including all certificates and keys
+    tlsName:
+      type: string
+      description: Name of the TLS certificates
+      enum:
+        - ca
+        - certificate
+        - privateKey
+        - keystore
+        - truststore
+    tlsType:
+      description: TLS type
+      type: string
+      enum:
+        - StandardTLS
+        - JavaKeystore
+      default: StandardTLS
+    certificate:
+      description: certificates and it's config
       type: object
+      required:
+        - type
+        - name
+        - content
       properties:
-        caCert:
-          description: CA Certificate
+        name:
+          description: Name of the TLS certificates
+          $ref: '#/components/schemas/tlsName'
+        type:
+          $ref: '#/components/schemas/tlsType'
+        content:
+          description: Content of the TLS certificates
           type: string
-        clientCert:
-          description: Client Side Certificate
-          type: string
-        clientKey:
-          description: Client Side key
-          type: string
-        keystore:
-          description: Keystore in PEM format
-          type: string
-        truststore:
-          description: Truststore in PEM format
-          type: string
+        expirationDays:
+          description: Expiration days for this certificate
+          type: integer
+          x-omitempty: true
+          format: int32
+        DNS:
+          description: DNS name in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        ipAddress:
+          description: IP address in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
     tlsCert:
       properties:
-        tlsConfig:
-          $ref: '#/components/schemas/tlsConfig'
+        certificates:
+          description: TLS certificates
+          type: array
+          items:
+            $ref: '#/components/schemas/certificate'
         componentName:
           description: Component these certs belong to
           type: string
-        expirationDaysCA:
-          description: Expiration days of CA certificate
-          type: integer
-          format: int32
-        expirationDaysClient:
-          description: Expiration days of client certificate
-          type: integer
-          format: int32
-        expirationDaysKeystore:
-          description: Expiration days of Keystore certificate
-          type: integer
-          format: int32
-        expirationDaysTruststore:
-          description: Expiration days of Truststore certificate
-          type: integer
-          format: int32
       type: object
     tlsCertList:
       items:
         $ref: '#/components/schemas/tlsCert'
       type: array
+    certificateIssuer:
+      description: certificate issuer
+      type: string
+      enum:
+        - Apecloud
+        - UserSelf
+    tlsOption:
+      description: TLS options
+      type: object
+      required:
+        - issuer
+      properties:
+        issuer:
+          description: Issuer of the TLS certificates
+          $ref: '#/components/schemas/certificateIssuer'
+        serviceName:
+          description: the service name that will be set in certificate SAN
+          type: array
+          items:
+            type: string
+          x-omitempty: true
+        caContent:
+          description: CA certificate content
+          type: string
+          x-omitempty: true
+        certificateContent:
+          description: Certificate content
+          type: string
+          x-omitempty: true
+        privateKeyContent:
+          description: Private key content
+          type: string
+          x-omitempty: true
     tlsRequest:
+      type: object
+      required:
+        - enable
       properties:
         enable:
           description: Enable TLS or not
           type: boolean
-      type: object
+        options:
+          description: TLS options
+          $ref: '#/components/schemas/tlsOption'
     clusterBackupMethod:
       description: the backup method for cluster
       properties:
@@ -15989,6 +16107,15 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
+    alertRuleConfig:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     engineType:
       type: string
       description: engine type
@@ -16298,10 +16425,13 @@ components:
         schedulingPolicy:
           type: object
           properties:
-            clusterScopeAntiAffinity:
-              type: boolean
+            componentAntiAffinity:
+              type: array
+              minItems: 1
               description: |
-                If set to true, resource distribution is at the cluster level.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+              items:
+                type: string
         components:
           type: array
           items:
@@ -16482,6 +16612,9 @@ components:
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
+        supportsReadonly:
+          type: boolean
+          description: whether the engine supports readonly endpoint
         servicePattern:
           $ref: '#/components/schemas/engineOptionsServicePattern'
         serviceNameRegex:

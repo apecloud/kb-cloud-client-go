@@ -12,8 +12,8 @@ import (
 
 // InvitationCreate Invitation create payload
 type InvitationCreate struct {
-	// The email of the invitee
-	Email string `json:"email"`
+	// The ID of the user as invitee, if email is not provided, the user ID is required
+	UserId string `json:"userId"`
 	// The name of the organization, for output only
 	OrgName string `json:"orgName"`
 	// The name of the role
@@ -27,9 +27,9 @@ type InvitationCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInvitationCreate(email string, orgName string, roleName string) *InvitationCreate {
+func NewInvitationCreate(userId string, orgName string, roleName string) *InvitationCreate {
 	this := InvitationCreate{}
-	this.Email = email
+	this.UserId = userId
 	this.OrgName = orgName
 	this.RoleName = roleName
 	return &this
@@ -43,27 +43,27 @@ func NewInvitationCreateWithDefaults() *InvitationCreate {
 	return &this
 }
 
-// GetEmail returns the Email field value.
-func (o *InvitationCreate) GetEmail() string {
+// GetUserId returns the UserId field value.
+func (o *InvitationCreate) GetUserId() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.Email
+	return o.UserId
 }
 
-// GetEmailOk returns a tuple with the Email field value
+// GetUserIdOk returns a tuple with the UserId field value
 // and a boolean to check if the value has been set.
-func (o *InvitationCreate) GetEmailOk() (*string, bool) {
+func (o *InvitationCreate) GetUserIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Email, true
+	return &o.UserId, true
 }
 
-// SetEmail sets field value.
-func (o *InvitationCreate) SetEmail(v string) {
-	o.Email = v
+// SetUserId sets field value.
+func (o *InvitationCreate) SetUserId(v string) {
+	o.UserId = v
 }
 
 // GetOrgName returns the OrgName field value.
@@ -118,7 +118,7 @@ func (o InvitationCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["email"] = o.Email
+	toSerialize["userId"] = o.UserId
 	toSerialize["orgName"] = o.OrgName
 	toSerialize["roleName"] = o.RoleName
 
@@ -131,15 +131,15 @@ func (o InvitationCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InvitationCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Email    *string `json:"email"`
+		UserId   *string `json:"userId"`
 		OrgName  *string `json:"orgName"`
 		RoleName *string `json:"roleName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Email == nil {
-		return fmt.Errorf("required field email missing")
+	if all.UserId == nil {
+		return fmt.Errorf("required field userId missing")
 	}
 	if all.OrgName == nil {
 		return fmt.Errorf("required field orgName missing")
@@ -149,11 +149,11 @@ func (o *InvitationCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"email", "orgName", "roleName"})
+		common.DeleteKeys(additionalProperties, &[]string{"userId", "orgName", "roleName"})
 	} else {
 		return err
 	}
-	o.Email = *all.Email
+	o.UserId = *all.UserId
 	o.OrgName = *all.OrgName
 	o.RoleName = *all.RoleName
 
