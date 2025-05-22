@@ -25192,8 +25192,7 @@ components:
           type: string
           description: platformParameter value
         description:
-          type: string
-          description: platformParameter description
+          $ref: '#/components/schemas/localizedDescription'
     platformParameterList:
       description: platformParameter list
       type: object
