@@ -26366,6 +26366,7 @@ components:
       enum:
         - Analyze
         - BI
+        - MCP
       description: 查询类型
     chatRequest:
       type: object
@@ -26430,6 +26431,8 @@ components:
         - DataInterpretation
         - Error
         - Think
+        - ToolResult
+        - SessionID
       description: 消息类型
     chatResponse:
       type: object

@@ -17,11 +17,13 @@ type QueryType string
 const (
 	QueryTypeAnalyze QueryType = "Analyze"
 	QueryTypeBi      QueryType = "BI"
+	QueryTypeMcp     QueryType = "MCP"
 )
 
 var allowedQueryTypeEnumValues = []QueryType{
 	QueryTypeAnalyze,
 	QueryTypeBi,
+	QueryTypeMcp,
 }
 
 // GetAllowedValues returns the list of possible values.

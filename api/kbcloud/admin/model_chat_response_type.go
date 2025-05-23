@@ -21,6 +21,8 @@ const (
 	ChatResponseTypeDataInterpretation ChatResponseType = "DataInterpretation"
 	ChatResponseTypeError              ChatResponseType = "Error"
 	ChatResponseTypeThink              ChatResponseType = "Think"
+	ChatResponseTypeToolResult         ChatResponseType = "ToolResult"
+	ChatResponseTypeSessionId          ChatResponseType = "SessionID"
 )
 
 var allowedChatResponseTypeEnumValues = []ChatResponseType{
@@ -30,6 +32,8 @@ var allowedChatResponseTypeEnumValues = []ChatResponseType{
 	ChatResponseTypeDataInterpretation,
 	ChatResponseTypeError,
 	ChatResponseTypeThink,
+	ChatResponseTypeToolResult,
+	ChatResponseTypeSessionId,
 }
 
 // GetAllowedValues returns the list of possible values.
