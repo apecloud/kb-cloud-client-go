@@ -265,6 +265,7 @@
 //   - [parameterTemplateApi.patchParameterTemplate]
 //   - [parameterTemplateApi.readParameterTemplate]
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
+//   - [platformParameterApi.getPlatformParameter]
 //   - [projectApi.listProjects]
 //   - [rdbmsApi.generateDemoData]
 //   - [rdbmsApi.getDatabaseOptions]

@@ -11348,6 +11348,32 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/platformParameters/{platformParameterName}:
+    get:
+      tags:
+        - platformParameter
+      operationId: getPlatformParameter
+      summary: get platformParameter by name
+      parameters:
+        - description: name of the platformParameter
+          in: path
+          name: platformParameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformParameter'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -19865,6 +19891,56 @@ components:
       required:
         - items
       type: object
+    platformParameterCategory:
+      enum:
+        - recycle-bin
+      type: string
+      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+    platformParameter:
+      description: platformParameter item
+      type: object
+      required:
+        - id
+        - name
+        - category
+        - description
+        - constraints
+        - type
+      properties:
+        id:
+          type: string
+          description: platformParameter ID
+        name:
+          type: string
+          description: platformParameter name
+        category:
+          $ref: '#/components/schemas/platformParameterCategory'
+        type:
+          type: string
+          description: type of platformParameter value
+        constraints:
+          type: object
+          description: platformParameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: platformParameter min value
+            max:
+              type: string
+              description: platformParameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: platformParameter enum constraints
+            default:
+              type: string
+              description: platformParameter default value
+        value:
+          type: string
+          description: platformParameter value
+        description:
+          $ref: '#/components/schemas/localizedDescription'
   responses:
     '400':
       content:
