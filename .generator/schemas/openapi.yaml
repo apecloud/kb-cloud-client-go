@@ -8292,24 +8292,28 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}:
+  /api/v1/organizations/{orgName}/disasterRecovery:
     delete:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
       description: Delete a specific disaster recovery instance
       parameters:
-        - description: The ID of the disaster recovery instance
-          in: path
-          name: clusterID
-          required: true
-          schema:
-            type: integer
         - description: name of the org
           in: path
           name: orgName
           required: true
           schema:
             type: string
+        - description: The ID of the disaster recovery logical instance
+          in: query
+          name: logicalInstanceID
+          schema:
+            type: integer
+        - description: The ID of the disaster recovery cluster
+          in: query
+          name: clusterID
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -18785,9 +18789,13 @@ components:
     disasterRecoveryTask:
       description: Task information of disasterRecovery job
       properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+          nullable: true
         taskId:
           description: Task ID
-          type: integer
+          type: string
           nullable: true
       required:
         - taskId
@@ -18818,6 +18826,9 @@ components:
     disasterRecoveryClusterItem:
       description: DisasterRecovery cluster information
       properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: integer
         cluster:
           $ref: '#/components/schemas/clusterListItem'
         taskSummary:
