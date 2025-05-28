@@ -18719,9 +18719,6 @@ components:
     environmentDelete:
       description: Environment deletion option
       type: object
-      required:
-        - minio
-        - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
