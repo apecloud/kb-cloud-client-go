@@ -5,7 +5,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  POETRY_VERSION: "1.7.1"
+  POETRY_VERSION: "2.1.3"
   PYTHON_VERSION: "3.11"
   GO_VERSION: "1.22"
   APECLOUD_COMMIT_URL: "https://github.com/apecloud/apecloud/commit"
