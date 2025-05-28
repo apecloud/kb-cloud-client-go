@@ -15,13 +15,11 @@ type QueryType string
 
 // List of QueryType.
 const (
-	QueryTypeAnalyze QueryType = "Analyze"
-	QueryTypeBi      QueryType = "BI"
-	QueryTypeMcp     QueryType = "MCP"
+	QueryTypeBi  QueryType = "BI"
+	QueryTypeMcp QueryType = "MCP"
 )
 
 var allowedQueryTypeEnumValues = []QueryType{
-	QueryTypeAnalyze,
 	QueryTypeBi,
 	QueryTypeMcp,
 }
