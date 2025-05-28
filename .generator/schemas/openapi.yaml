@@ -1673,6 +1673,37 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
+  /api/v1/organizations/{orgName}/clusters/validate:
+    post:
+      operationId: validateClusterCreation
+      summary: Validate cluster creation
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterCreate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Return when cluster creation is validated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -11971,6 +12002,14 @@ components:
       enum:
         - public
         - private
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       description: Environment info
       properties:
@@ -12041,6 +12080,8 @@ components:
         defaultStorageClass:
           type: string
           description: the default storageClass for the environment
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
       required:
         - provider
         - region
