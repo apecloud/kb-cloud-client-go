@@ -19627,6 +19627,14 @@ components:
         - Delete
         - DoNotDelete
       default: DoNotDelete
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       type: object
       description: Environment info
@@ -19704,6 +19712,8 @@ components:
           description: Extra info for environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -19969,6 +19979,9 @@ components:
           description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+          nullable: true
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
           nullable: true
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.

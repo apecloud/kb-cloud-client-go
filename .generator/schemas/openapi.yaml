@@ -11971,6 +11971,14 @@ components:
       enum:
         - public
         - private
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       description: Environment info
       properties:
@@ -12041,6 +12049,8 @@ components:
         defaultStorageClass:
           type: string
           description: the default storageClass for the environment
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
       required:
         - provider
         - region
