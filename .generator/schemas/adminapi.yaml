@@ -3973,6 +3973,86 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/pod:
+    get:
+      description: Query pod logs of a cluster
+      summary: Query cluster pod logs
+      operationId: queryPodLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  items:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        timestamp:
+                          type: string
+                      type: object
+                    type: array
+                  pagination:
+                    properties:
+                      endTime:
+                        type: string
+                      limit:
+                        type: string
+                      nextEndTime:
+                        type: string
+                      nextStartTime:
+                        type: string
+                      startTime:
+                        type: string
+                    type: object
+                type: object
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/running:
     get:
       description: Query running logs of a cluster
