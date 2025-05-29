@@ -35,6 +35,7 @@ func (r *AnalyzeBackupOptionalParameters) WithModel(model string) *AnalyzeBackup
 }
 
 // AnalyzeBackup Analyze backup.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeBackup(ctx _context.Context, orgName string, backupId string, o ...AnalyzeBackupOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -150,6 +151,7 @@ func (r *AnalyzeClusterParamOptionalParameters) WithParameterValue(parameterValu
 
 // AnalyzeClusterParam Analyze cluster parameter.
 // analyze cluster parameter, deprecated, instead use analyzeClusterParameter
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterParam(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParamOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -268,6 +270,7 @@ func (r *AnalyzeClusterParameterOptionalParameters) WithParameterValue(parameter
 }
 
 // AnalyzeClusterParameter Analyze cluster parameter.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterParameter(ctx _context.Context, orgName string, clusterName string, parameterName string, o ...AnalyzeClusterParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -379,6 +382,7 @@ func (r *AnalyzeClusterRestoreOptionalParameters) WithModel(model string) *Analy
 }
 
 // AnalyzeClusterRestore Analyze cluster restore tasks.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeClusterRestore(ctx _context.Context, orgName string, clusterName string, o ...AnalyzeClusterRestoreOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -515,6 +519,7 @@ func (r *AnalyzeLogsOptionalParameters) WithModel(model string) *AnalyzeLogsOpti
 
 // AnalyzeLogs Analyze cluster error logs.
 // Analyze error logs of a cluster
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeLogs(ctx _context.Context, orgName string, clusterName string, startTime string, endTime string, o ...AnalyzeLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -637,6 +642,7 @@ func (r *AnalyzeOpsOptionalParameters) WithModel(model string) *AnalyzeOpsOption
 
 // AnalyzeOps Analyze OpsRequest.
 // analyze a OpsRequest
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string, o ...AnalyzeOpsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -761,6 +767,7 @@ func (r *AnalyzeParamOptionalParameters) WithPartition(partition ParamTplPartiti
 
 // AnalyzeParam Analyze parameter.
 // analyze parameter, deprecated, instead use analyzeParameter
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeParam(ctx _context.Context, paramTplName string, parameterName string, o ...AnalyzeParamOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -888,6 +895,7 @@ func (r *AnalyzeParameterOptionalParameters) WithPartition(partition ParamTplPar
 }
 
 // AnalyzeParameter Analyze parameter.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeParameter(ctx _context.Context, parameterTemplateName string, parameterName string, o ...AnalyzeParameterOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1015,6 +1023,7 @@ func (r *AnalyzeServiceOptionalParameters) WithModel(model string) *AnalyzeServi
 }
 
 // AnalyzeService Analyze service.
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeService(ctx _context.Context, orgName string, clusterName string, serviceName string, o ...AnalyzeServiceOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -1137,6 +1146,7 @@ func (r *AnalyzeSlowLogsOptionalParameters) WithModel(model string) *AnalyzeSlow
 
 // AnalyzeSlowLogs Analyze cluster slow logs.
 // Analyze slow logs of a cluster
+// Deprecated: This API is deprecated.
 func (a *AnalyzeApi) AnalyzeSlowLogs(ctx _context.Context, orgName string, clusterName string, o ...AnalyzeSlowLogsOptionalParameters) (AnalysisResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
