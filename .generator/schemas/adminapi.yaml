@@ -1445,37 +1445,6 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
-  /admin/v1/organizations/{orgName}/clusters/validate:
-    post:
-      operationId: validateClusterCreation
-      summary: Validate cluster creation
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/clusterCreate'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: Return when cluster creation is validated successfully.
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -19868,14 +19837,6 @@ components:
         - Delete
         - DoNotDelete
       default: DoNotDelete
-    clusterValidationPolicy:
-      type: string
-      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
-      enum:
-        - Disabled
-        - ValidateOnly
-        - ForbiddenExecute
-      default: ValidateOnly
     environment:
       type: object
       description: Environment info
@@ -19953,8 +19914,6 @@ components:
           description: Extra info for environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
-        clusterValidationPolicy:
-          $ref: '#/components/schemas/clusterValidationPolicy'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -20142,6 +20101,9 @@ components:
     environmentDelete:
       description: Environment deletion option
       type: object
+      required:
+        - minio
+        - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
@@ -20220,9 +20182,6 @@ components:
           description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
-          nullable: true
-        clusterValidationPolicy:
-          $ref: '#/components/schemas/clusterValidationPolicy'
           nullable: true
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
@@ -25443,7 +25402,8 @@ components:
           type: string
           description: platformParameter value
         description:
-          $ref: '#/components/schemas/localizedDescription'
+          type: string
+          description: platformParameter description
     platformParameterList:
       description: platformParameter list
       type: object

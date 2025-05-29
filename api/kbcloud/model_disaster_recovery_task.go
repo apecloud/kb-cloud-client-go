@@ -12,10 +12,8 @@ import (
 
 // DisasterRecoveryTask Task information of disasterRecovery job
 type DisasterRecoveryTask struct {
-	// Logical instance ID
-	LogicalInstanceId common.NullableString `json:"logicalInstanceID,omitempty"`
 	// Task ID
-	TaskId common.NullableString `json:"taskId"`
+	TaskId common.NullableInt32 `json:"taskId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,7 +23,7 @@ type DisasterRecoveryTask struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDisasterRecoveryTask(taskId common.NullableString) *DisasterRecoveryTask {
+func NewDisasterRecoveryTask(taskId common.NullableInt32) *DisasterRecoveryTask {
 	this := DisasterRecoveryTask{}
 	this.TaskId = taskId
 	return &this
@@ -39,50 +37,11 @@ func NewDisasterRecoveryTaskWithDefaults() *DisasterRecoveryTask {
 	return &this
 }
 
-// GetLogicalInstanceId returns the LogicalInstanceId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *DisasterRecoveryTask) GetLogicalInstanceId() string {
-	if o == nil || o.LogicalInstanceId.Get() == nil {
-		var ret string
-		return ret
-	}
-	return *o.LogicalInstanceId.Get()
-}
-
-// GetLogicalInstanceIdOk returns a tuple with the LogicalInstanceId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *DisasterRecoveryTask) GetLogicalInstanceIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.LogicalInstanceId.Get(), o.LogicalInstanceId.IsSet()
-}
-
-// HasLogicalInstanceId returns a boolean if a field has been set.
-func (o *DisasterRecoveryTask) HasLogicalInstanceId() bool {
-	return o != nil && o.LogicalInstanceId.IsSet()
-}
-
-// SetLogicalInstanceId gets a reference to the given common.NullableString and assigns it to the LogicalInstanceId field.
-func (o *DisasterRecoveryTask) SetLogicalInstanceId(v string) {
-	o.LogicalInstanceId.Set(&v)
-}
-
-// SetLogicalInstanceIdNil sets the value for LogicalInstanceId to be an explicit nil.
-func (o *DisasterRecoveryTask) SetLogicalInstanceIdNil() {
-	o.LogicalInstanceId.Set(nil)
-}
-
-// UnsetLogicalInstanceId ensures that no value is present for LogicalInstanceId, not even an explicit nil.
-func (o *DisasterRecoveryTask) UnsetLogicalInstanceId() {
-	o.LogicalInstanceId.Unset()
-}
-
 // GetTaskId returns the TaskId field value.
-// If the value is explicit nil, the zero value for string will be returned.
-func (o *DisasterRecoveryTask) GetTaskId() string {
+// If the value is explicit nil, the zero value for int32 will be returned.
+func (o *DisasterRecoveryTask) GetTaskId() int32 {
 	if o == nil || o.TaskId.Get() == nil {
-		var ret string
+		var ret int32
 		return ret
 	}
 	return *o.TaskId.Get()
@@ -91,7 +50,7 @@ func (o *DisasterRecoveryTask) GetTaskId() string {
 // GetTaskIdOk returns a tuple with the TaskId field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *DisasterRecoveryTask) GetTaskIdOk() (*string, bool) {
+func (o *DisasterRecoveryTask) GetTaskIdOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -99,7 +58,7 @@ func (o *DisasterRecoveryTask) GetTaskIdOk() (*string, bool) {
 }
 
 // SetTaskId sets field value.
-func (o *DisasterRecoveryTask) SetTaskId(v string) {
+func (o *DisasterRecoveryTask) SetTaskId(v int32) {
 	o.TaskId.Set(&v)
 }
 
@@ -108,9 +67,6 @@ func (o DisasterRecoveryTask) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
-	}
-	if o.LogicalInstanceId.IsSet() {
-		toSerialize["logicalInstanceID"] = o.LogicalInstanceId.Get()
 	}
 	toSerialize["taskId"] = o.TaskId.Get()
 
@@ -123,8 +79,7 @@ func (o DisasterRecoveryTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		LogicalInstanceId common.NullableString `json:"logicalInstanceID,omitempty"`
-		TaskId            common.NullableString `json:"taskId"`
+		TaskId common.NullableInt32 `json:"taskId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -134,11 +89,10 @@ func (o *DisasterRecoveryTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"logicalInstanceID", "taskId"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId"})
 	} else {
 		return err
 	}
-	o.LogicalInstanceId = all.LogicalInstanceId
 	o.TaskId = all.TaskId
 
 	if len(additionalProperties) > 0 {

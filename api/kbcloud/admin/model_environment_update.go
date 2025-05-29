@@ -38,8 +38,6 @@ type EnvironmentUpdate struct {
 	NetworkModes []NetworkMode `json:"networkModes,omitempty"`
 	// Environment delete policy to protect environment from false delete
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
-	// Cluster operation validation policy, such as create, hscale, vscale, etc.
-	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -61,8 +59,6 @@ func NewEnvironmentUpdate() *EnvironmentUpdate {
 	this.InternetLbEnabled = &internetLbEnabled
 	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
-	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
-	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -81,8 +77,6 @@ func NewEnvironmentUpdateWithDefaults() *EnvironmentUpdate {
 	this.InternetLbEnabled = &internetLbEnabled
 	var deletePolicy EnvironmentDeletePolicy = EnvironmentDeletePolicyDoNotDelete
 	this.DeletePolicy = &deletePolicy
-	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
-	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -594,34 +588,6 @@ func (o *EnvironmentUpdate) SetDeletePolicy(v EnvironmentDeletePolicy) {
 	o.DeletePolicy = &v
 }
 
-// GetClusterValidationPolicy returns the ClusterValidationPolicy field value if set, zero value otherwise.
-func (o *EnvironmentUpdate) GetClusterValidationPolicy() ClusterValidationPolicy {
-	if o == nil || o.ClusterValidationPolicy == nil {
-		var ret ClusterValidationPolicy
-		return ret
-	}
-	return *o.ClusterValidationPolicy
-}
-
-// GetClusterValidationPolicyOk returns a tuple with the ClusterValidationPolicy field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EnvironmentUpdate) GetClusterValidationPolicyOk() (*ClusterValidationPolicy, bool) {
-	if o == nil || o.ClusterValidationPolicy == nil {
-		return nil, false
-	}
-	return o.ClusterValidationPolicy, true
-}
-
-// HasClusterValidationPolicy returns a boolean if a field has been set.
-func (o *EnvironmentUpdate) HasClusterValidationPolicy() bool {
-	return o != nil && o.ClusterValidationPolicy != nil
-}
-
-// SetClusterValidationPolicy gets a reference to the given ClusterValidationPolicy and assigns it to the ClusterValidationPolicy field.
-func (o *EnvironmentUpdate) SetClusterValidationPolicy(v ClusterValidationPolicy) {
-	o.ClusterValidationPolicy = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -673,9 +639,6 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 	if o.DeletePolicy != nil {
 		toSerialize["deletePolicy"] = o.DeletePolicy
 	}
-	if o.ClusterValidationPolicy != nil {
-		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -686,29 +649,28 @@ func (o EnvironmentUpdate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description             common.NullableString       `json:"description,omitempty"`
-		DisplayName             common.NullableString       `json:"displayName,omitempty"`
-		Organizations           common.NullableList[string] `json:"organizations,omitempty"`
-		Namespaces              common.NullableList[string] `json:"namespaces,omitempty"`
-		CpuOverCommitRatio      common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
-		MemoryOverCommitRatio   common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
-		AutohealingConfig       *AutohealingConfig          `json:"autohealingConfig,omitempty"`
-		DefaultStorageClass     common.NullableString       `json:"defaultStorageClass,omitempty"`
-		PodAntiAffinityEnabled  *bool                       `json:"podAntiAffinityEnabled,omitempty"`
-		ImageRegistry           common.NullableString       `json:"imageRegistry,omitempty"`
-		NodePortEnabled         *bool                       `json:"nodePortEnabled,omitempty"`
-		LbEnabled               *bool                       `json:"lbEnabled,omitempty"`
-		InternetLbEnabled       *bool                       `json:"internetLBEnabled,omitempty"`
-		NetworkModes            []NetworkMode               `json:"networkModes,omitempty"`
-		DeletePolicy            *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
-		ClusterValidationPolicy *ClusterValidationPolicy    `json:"clusterValidationPolicy,omitempty"`
+		Description            common.NullableString       `json:"description,omitempty"`
+		DisplayName            common.NullableString       `json:"displayName,omitempty"`
+		Organizations          common.NullableList[string] `json:"organizations,omitempty"`
+		Namespaces             common.NullableList[string] `json:"namespaces,omitempty"`
+		CpuOverCommitRatio     common.NullableFloat64      `json:"cpuOverCommitRatio,omitempty"`
+		MemoryOverCommitRatio  common.NullableFloat64      `json:"memoryOverCommitRatio,omitempty"`
+		AutohealingConfig      *AutohealingConfig          `json:"autohealingConfig,omitempty"`
+		DefaultStorageClass    common.NullableString       `json:"defaultStorageClass,omitempty"`
+		PodAntiAffinityEnabled *bool                       `json:"podAntiAffinityEnabled,omitempty"`
+		ImageRegistry          common.NullableString       `json:"imageRegistry,omitempty"`
+		NodePortEnabled        *bool                       `json:"nodePortEnabled,omitempty"`
+		LbEnabled              *bool                       `json:"lbEnabled,omitempty"`
+		InternetLbEnabled      *bool                       `json:"internetLBEnabled,omitempty"`
+		NetworkModes           []NetworkMode               `json:"networkModes,omitempty"`
+		DeletePolicy           *EnvironmentDeletePolicy    `json:"deletePolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy", "clusterValidationPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "displayName", "organizations", "namespaces", "cpuOverCommitRatio", "memoryOverCommitRatio", "autohealingConfig", "defaultStorageClass", "podAntiAffinityEnabled", "imageRegistry", "nodePortEnabled", "lbEnabled", "internetLBEnabled", "networkModes", "deletePolicy"})
 	} else {
 		return err
 	}
@@ -735,11 +697,6 @@ func (o *EnvironmentUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.DeletePolicy = all.DeletePolicy
-	}
-	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.ClusterValidationPolicy = all.ClusterValidationPolicy
 	}
 
 	if len(additionalProperties) > 0 {

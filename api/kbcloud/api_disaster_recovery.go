@@ -100,52 +100,20 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteDisasterRecoveryOptionalParameters holds optional parameters for DeleteDisasterRecovery.
-type DeleteDisasterRecoveryOptionalParameters struct {
-	LogicalInstanceId *int32
-	ClusterId         *int32
-}
-
-// NewDeleteDisasterRecoveryOptionalParameters creates an empty struct for parameters.
-func NewDeleteDisasterRecoveryOptionalParameters() *DeleteDisasterRecoveryOptionalParameters {
-	this := DeleteDisasterRecoveryOptionalParameters{}
-	return &this
-}
-
-// WithLogicalInstanceId sets the corresponding parameter name and returns the struct.
-func (r *DeleteDisasterRecoveryOptionalParameters) WithLogicalInstanceId(logicalInstanceId int32) *DeleteDisasterRecoveryOptionalParameters {
-	r.LogicalInstanceId = &logicalInstanceId
-	return r
-}
-
-// WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *DeleteDisasterRecoveryOptionalParameters) WithClusterId(clusterId int32) *DeleteDisasterRecoveryOptionalParameters {
-	r.ClusterId = &clusterId
-	return r
-}
-
 // DeleteDisasterRecovery Delete a disaster recovery instance.
 // Delete a specific disaster recovery instance
-func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgName string, o ...DeleteDisasterRecoveryOptionalParameters) (DisasterRecoveryTask, *_nethttp.Response, error) {
+func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
 		localVarReturnValue DisasterRecoveryTask
-		optionalParams      DeleteDisasterRecoveryOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteDisasterRecoveryOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "disasterRecovery",
 		OperationID: "deleteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery",
+		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -155,18 +123,13 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgNa
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}"
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.LogicalInstanceId != nil {
-		localVarQueryParams.Add("logicalInstanceID", common.ParameterToString(*optionalParams.LogicalInstanceId, ""))
-	}
-	if optionalParams.ClusterId != nil {
-		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

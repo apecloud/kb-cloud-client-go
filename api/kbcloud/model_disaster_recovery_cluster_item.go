@@ -8,8 +8,6 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // DisasterRecoveryClusterItem DisasterRecovery cluster information
 type DisasterRecoveryClusterItem struct {
-	// Logical instance ID
-	LogicalInstanceId *int32 `json:"logicalInstanceID,omitempty"`
 	// KubeBlocks cluster information
 	Cluster     *ClusterListItem `json:"cluster,omitempty"`
 	TaskSummary *TaskSummary     `json:"taskSummary,omitempty"`
@@ -33,34 +31,6 @@ func NewDisasterRecoveryClusterItem() *DisasterRecoveryClusterItem {
 func NewDisasterRecoveryClusterItemWithDefaults() *DisasterRecoveryClusterItem {
 	this := DisasterRecoveryClusterItem{}
 	return &this
-}
-
-// GetLogicalInstanceId returns the LogicalInstanceId field value if set, zero value otherwise.
-func (o *DisasterRecoveryClusterItem) GetLogicalInstanceId() int32 {
-	if o == nil || o.LogicalInstanceId == nil {
-		var ret int32
-		return ret
-	}
-	return *o.LogicalInstanceId
-}
-
-// GetLogicalInstanceIdOk returns a tuple with the LogicalInstanceId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *DisasterRecoveryClusterItem) GetLogicalInstanceIdOk() (*int32, bool) {
-	if o == nil || o.LogicalInstanceId == nil {
-		return nil, false
-	}
-	return o.LogicalInstanceId, true
-}
-
-// HasLogicalInstanceId returns a boolean if a field has been set.
-func (o *DisasterRecoveryClusterItem) HasLogicalInstanceId() bool {
-	return o != nil && o.LogicalInstanceId != nil
-}
-
-// SetLogicalInstanceId gets a reference to the given int32 and assigns it to the LogicalInstanceId field.
-func (o *DisasterRecoveryClusterItem) SetLogicalInstanceId(v int32) {
-	o.LogicalInstanceId = &v
 }
 
 // GetCluster returns the Cluster field value if set, zero value otherwise.
@@ -125,9 +95,6 @@ func (o DisasterRecoveryClusterItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.LogicalInstanceId != nil {
-		toSerialize["logicalInstanceID"] = o.LogicalInstanceId
-	}
 	if o.Cluster != nil {
 		toSerialize["cluster"] = o.Cluster
 	}
@@ -144,22 +111,20 @@ func (o DisasterRecoveryClusterItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryClusterItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		LogicalInstanceId *int32           `json:"logicalInstanceID,omitempty"`
-		Cluster           *ClusterListItem `json:"cluster,omitempty"`
-		TaskSummary       *TaskSummary     `json:"taskSummary,omitempty"`
+		Cluster     *ClusterListItem `json:"cluster,omitempty"`
+		TaskSummary *TaskSummary     `json:"taskSummary,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"logicalInstanceID", "cluster", "taskSummary"})
+		common.DeleteKeys(additionalProperties, &[]string{"cluster", "taskSummary"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	o.LogicalInstanceId = all.LogicalInstanceId
 	if all.Cluster != nil && all.Cluster.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

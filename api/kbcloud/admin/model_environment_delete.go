@@ -4,16 +4,20 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // EnvironmentDelete Environment deletion option
 type EnvironmentDelete struct {
 	// clean up resources in the cloud (only valid if creation is done by role ARN)
 	CleanCloudResources *bool `json:"cleanCloudResources,omitempty"`
 	// The policy to clean cloud resources, either `Delete` or `Retain`
-	Minio *CloudResourceCleanPolicy `json:"minio,omitempty"`
+	Minio CloudResourceCleanPolicy `json:"minio"`
 	// The policy to clean cloud resources, either `Delete` or `Retain`
-	VictoriaMetrics *CloudResourceCleanPolicy `json:"victoriaMetrics,omitempty"`
+	VictoriaMetrics CloudResourceCleanPolicy `json:"victoriaMetrics"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,12 +27,10 @@ type EnvironmentDelete struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEnvironmentDelete() *EnvironmentDelete {
+func NewEnvironmentDelete(minio CloudResourceCleanPolicy, victoriaMetrics CloudResourceCleanPolicy) *EnvironmentDelete {
 	this := EnvironmentDelete{}
-	var minio CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
-	this.Minio = &minio
-	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
-	this.VictoriaMetrics = &victoriaMetrics
+	this.Minio = minio
+	this.VictoriaMetrics = victoriaMetrics
 	return &this
 }
 
@@ -38,9 +40,9 @@ func NewEnvironmentDelete() *EnvironmentDelete {
 func NewEnvironmentDeleteWithDefaults() *EnvironmentDelete {
 	this := EnvironmentDelete{}
 	var minio CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
-	this.Minio = &minio
+	this.Minio = minio
 	var victoriaMetrics CloudResourceCleanPolicy = CloudResourceCleanPolicyRetain
-	this.VictoriaMetrics = &victoriaMetrics
+	this.VictoriaMetrics = victoriaMetrics
 	return &this
 }
 
@@ -72,60 +74,50 @@ func (o *EnvironmentDelete) SetCleanCloudResources(v bool) {
 	o.CleanCloudResources = &v
 }
 
-// GetMinio returns the Minio field value if set, zero value otherwise.
+// GetMinio returns the Minio field value.
 func (o *EnvironmentDelete) GetMinio() CloudResourceCleanPolicy {
-	if o == nil || o.Minio == nil {
+	if o == nil {
 		var ret CloudResourceCleanPolicy
 		return ret
 	}
-	return *o.Minio
+	return o.Minio
 }
 
-// GetMinioOk returns a tuple with the Minio field value if set, nil otherwise
+// GetMinioOk returns a tuple with the Minio field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentDelete) GetMinioOk() (*CloudResourceCleanPolicy, bool) {
-	if o == nil || o.Minio == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Minio, true
+	return &o.Minio, true
 }
 
-// HasMinio returns a boolean if a field has been set.
-func (o *EnvironmentDelete) HasMinio() bool {
-	return o != nil && o.Minio != nil
-}
-
-// SetMinio gets a reference to the given CloudResourceCleanPolicy and assigns it to the Minio field.
+// SetMinio sets field value.
 func (o *EnvironmentDelete) SetMinio(v CloudResourceCleanPolicy) {
-	o.Minio = &v
+	o.Minio = v
 }
 
-// GetVictoriaMetrics returns the VictoriaMetrics field value if set, zero value otherwise.
+// GetVictoriaMetrics returns the VictoriaMetrics field value.
 func (o *EnvironmentDelete) GetVictoriaMetrics() CloudResourceCleanPolicy {
-	if o == nil || o.VictoriaMetrics == nil {
+	if o == nil {
 		var ret CloudResourceCleanPolicy
 		return ret
 	}
-	return *o.VictoriaMetrics
+	return o.VictoriaMetrics
 }
 
-// GetVictoriaMetricsOk returns a tuple with the VictoriaMetrics field value if set, nil otherwise
+// GetVictoriaMetricsOk returns a tuple with the VictoriaMetrics field value
 // and a boolean to check if the value has been set.
 func (o *EnvironmentDelete) GetVictoriaMetricsOk() (*CloudResourceCleanPolicy, bool) {
-	if o == nil || o.VictoriaMetrics == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.VictoriaMetrics, true
+	return &o.VictoriaMetrics, true
 }
 
-// HasVictoriaMetrics returns a boolean if a field has been set.
-func (o *EnvironmentDelete) HasVictoriaMetrics() bool {
-	return o != nil && o.VictoriaMetrics != nil
-}
-
-// SetVictoriaMetrics gets a reference to the given CloudResourceCleanPolicy and assigns it to the VictoriaMetrics field.
+// SetVictoriaMetrics sets field value.
 func (o *EnvironmentDelete) SetVictoriaMetrics(v CloudResourceCleanPolicy) {
-	o.VictoriaMetrics = &v
+	o.VictoriaMetrics = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -137,12 +129,8 @@ func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 	if o.CleanCloudResources != nil {
 		toSerialize["cleanCloudResources"] = o.CleanCloudResources
 	}
-	if o.Minio != nil {
-		toSerialize["minio"] = o.Minio
-	}
-	if o.VictoriaMetrics != nil {
-		toSerialize["victoriaMetrics"] = o.VictoriaMetrics
-	}
+	toSerialize["minio"] = o.Minio
+	toSerialize["victoriaMetrics"] = o.VictoriaMetrics
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -154,11 +142,17 @@ func (o EnvironmentDelete) MarshalJSON() ([]byte, error) {
 func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		CleanCloudResources *bool                     `json:"cleanCloudResources,omitempty"`
-		Minio               *CloudResourceCleanPolicy `json:"minio,omitempty"`
-		VictoriaMetrics     *CloudResourceCleanPolicy `json:"victoriaMetrics,omitempty"`
+		Minio               *CloudResourceCleanPolicy `json:"minio"`
+		VictoriaMetrics     *CloudResourceCleanPolicy `json:"victoriaMetrics"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Minio == nil {
+		return fmt.Errorf("required field minio missing")
+	}
+	if all.VictoriaMetrics == nil {
+		return fmt.Errorf("required field victoriaMetrics missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -169,15 +163,15 @@ func (o *EnvironmentDelete) UnmarshalJSON(bytes []byte) (err error) {
 
 	hasInvalidField := false
 	o.CleanCloudResources = all.CleanCloudResources
-	if all.Minio != nil && !all.Minio.IsValid() {
+	if !all.Minio.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Minio = all.Minio
+		o.Minio = *all.Minio
 	}
-	if all.VictoriaMetrics != nil && !all.VictoriaMetrics.IsValid() {
+	if !all.VictoriaMetrics.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.VictoriaMetrics = all.VictoriaMetrics
+		o.VictoriaMetrics = *all.VictoriaMetrics
 	}
 
 	if len(additionalProperties) > 0 {
