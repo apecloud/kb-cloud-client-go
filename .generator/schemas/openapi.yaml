@@ -1673,6 +1673,37 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
+  /api/v1/organizations/{orgName}/clusters/validate:
+    post:
+      operationId: validateClusterCreation
+      summary: Validate cluster creation
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterCreate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Return when cluster creation is validated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -1838,6 +1869,51 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+      tags:
+        - cluster
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
+    get:
+      operationId: listInstanceEvents
+      summary: List instance events
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+        - description: return number of events
+          in: query
+          name: returnNumber
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceEventList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
@@ -8292,24 +8368,28 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}:
+  /api/v1/organizations/{orgName}/disasterRecovery:
     delete:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
       description: Delete a specific disaster recovery instance
       parameters:
-        - description: The ID of the disaster recovery instance
-          in: path
-          name: clusterID
-          required: true
-          schema:
-            type: integer
         - description: name of the org
           in: path
           name: orgName
           required: true
           schema:
             type: string
+        - description: The ID of the disaster recovery logical instance
+          in: query
+          name: logicalInstanceID
+          schema:
+            type: integer
+        - description: The ID of the disaster recovery cluster
+          in: query
+          name: clusterID
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -11348,6 +11428,32 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/platformParameters/{platformParameterName}:
+    get:
+      tags:
+        - platformParameter
+      operationId: getPlatformParameter
+      summary: get platformParameter by name
+      parameters:
+        - description: name of the platformParameter
+          in: path
+          name: platformParameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformParameter'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -11941,6 +12047,14 @@ components:
       enum:
         - public
         - private
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       description: Environment info
       properties:
@@ -12011,6 +12125,8 @@ components:
         defaultStorageClass:
           type: string
           description: the default storageClass for the environment
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
       required:
         - provider
         - region
@@ -13662,6 +13778,59 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    instanceEventItem:
+      description: Instance event
+      properties:
+        clusterName:
+          description: Cluster name of the event
+          type: string
+        instanceName:
+          description: Instance name of the event
+          type: string
+        name:
+          description: Name of the event
+          type: string
+        reason:
+          description: Reason of the event
+          type: string
+        message:
+          description: Message of the event
+          type: string
+        type:
+          description: Type of the event
+          type: string
+        source:
+          description: Source of the event
+          type: string
+        count:
+          description: Count of the event
+          type: integer
+          format: int32
+        eventTime:
+          description: Last timestamp of the event
+          type: string
+          format: date-time
+      required:
+        - clusterName
+        - instanceName
+        - name
+        - reason
+        - message
+        - type
+        - count
+        - eventTime
+      type: object
+    instanceEventList:
+      description: Instance event list
+      properties:
+        items:
+          description: Items is the list of instance event objects in the list
+          items:
+            $ref: '#/components/schemas/instanceEventItem'
           type: array
       required:
         - items
@@ -18759,9 +18928,13 @@ components:
     disasterRecoveryTask:
       description: Task information of disasterRecovery job
       properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+          nullable: true
         taskId:
           description: Task ID
-          type: integer
+          type: string
           nullable: true
       required:
         - taskId
@@ -18792,6 +18965,9 @@ components:
     disasterRecoveryClusterItem:
       description: DisasterRecovery cluster information
       properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: integer
         cluster:
           $ref: '#/components/schemas/clusterListItem'
         taskSummary:
@@ -19865,6 +20041,56 @@ components:
       required:
         - items
       type: object
+    platformParameterCategory:
+      enum:
+        - recycle-bin
+      type: string
+      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+    platformParameter:
+      description: platformParameter item
+      type: object
+      required:
+        - id
+        - name
+        - category
+        - description
+        - constraints
+        - type
+      properties:
+        id:
+          type: string
+          description: platformParameter ID
+        name:
+          type: string
+          description: platformParameter name
+        category:
+          $ref: '#/components/schemas/platformParameterCategory'
+        type:
+          type: string
+          description: type of platformParameter value
+        constraints:
+          type: object
+          description: platformParameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: platformParameter min value
+            max:
+              type: string
+              description: platformParameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: platformParameter enum constraints
+            default:
+              type: string
+              description: platformParameter default value
+        value:
+          type: string
+          description: platformParameter value
+        description:
+          $ref: '#/components/schemas/localizedDescription'
   responses:
     '400':
       content:

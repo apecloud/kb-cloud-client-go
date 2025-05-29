@@ -50,6 +50,8 @@ type Environment struct {
 	PodAntiAffinityEnabled *bool `json:"podAntiAffinityEnabled,omitempty"`
 	// the default storageClass for the environment
 	DefaultStorageClass string `json:"defaultStorageClass"`
+	// Cluster operation validation policy, such as create, hscale, vscale, etc.
+	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -74,6 +76,8 @@ func NewEnvironment(provider string, region string, availabilityZones []string, 
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
 	this.DefaultStorageClass = defaultStorageClass
+	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
+	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -84,6 +88,8 @@ func NewEnvironmentWithDefaults() *Environment {
 	this := Environment{}
 	var podAntiAffinityEnabled bool = true
 	this.PodAntiAffinityEnabled = &podAntiAffinityEnabled
+	var clusterValidationPolicy ClusterValidationPolicy = ClusterValidationPolicyValidateOnly
+	this.ClusterValidationPolicy = &clusterValidationPolicy
 	return &this
 }
 
@@ -536,6 +542,34 @@ func (o *Environment) SetDefaultStorageClass(v string) {
 	o.DefaultStorageClass = v
 }
 
+// GetClusterValidationPolicy returns the ClusterValidationPolicy field value if set, zero value otherwise.
+func (o *Environment) GetClusterValidationPolicy() ClusterValidationPolicy {
+	if o == nil || o.ClusterValidationPolicy == nil {
+		var ret ClusterValidationPolicy
+		return ret
+	}
+	return *o.ClusterValidationPolicy
+}
+
+// GetClusterValidationPolicyOk returns a tuple with the ClusterValidationPolicy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetClusterValidationPolicyOk() (*ClusterValidationPolicy, bool) {
+	if o == nil || o.ClusterValidationPolicy == nil {
+		return nil, false
+	}
+	return o.ClusterValidationPolicy, true
+}
+
+// HasClusterValidationPolicy returns a boolean if a field has been set.
+func (o *Environment) HasClusterValidationPolicy() bool {
+	return o != nil && o.ClusterValidationPolicy != nil
+}
+
+// SetClusterValidationPolicy gets a reference to the given ClusterValidationPolicy and assigns it to the ClusterValidationPolicy field.
+func (o *Environment) SetClusterValidationPolicy(v ClusterValidationPolicy) {
+	o.ClusterValidationPolicy = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -582,6 +616,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 		toSerialize["podAntiAffinityEnabled"] = o.PodAntiAffinityEnabled
 	}
 	toSerialize["defaultStorageClass"] = o.DefaultStorageClass
+	if o.ClusterValidationPolicy != nil {
+		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -592,24 +629,25 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Provider               *string           `json:"provider"`
-		Region                 *string           `json:"region"`
-		AvailabilityZones      *[]string         `json:"availabilityZones"`
-		NetworkConfig          *NetworkConfig    `json:"networkConfig,omitempty"`
-		CreatedAt              *time.Time        `json:"createdAt"`
-		Description            *string           `json:"description,omitempty"`
-		DisplayName            *string           `json:"displayName,omitempty"`
-		Id                     *uuid.UUID        `json:"id"`
-		Name                   *string           `json:"name"`
-		OrgName                *string           `json:"orgName"`
-		State                  *EnvironmentState `json:"state"`
-		Type                   *EnvironmentType  `json:"type"`
-		UpdatedAt              *time.Time        `json:"updatedAt"`
-		ImageRegistry          *string           `json:"imageRegistry,omitempty"`
-		ExtraInfo              *string           `json:"extraInfo,omitempty"`
-		Namespaces             []string          `json:"namespaces,omitempty"`
-		PodAntiAffinityEnabled *bool             `json:"podAntiAffinityEnabled,omitempty"`
-		DefaultStorageClass    *string           `json:"defaultStorageClass"`
+		Provider                *string                  `json:"provider"`
+		Region                  *string                  `json:"region"`
+		AvailabilityZones       *[]string                `json:"availabilityZones"`
+		NetworkConfig           *NetworkConfig           `json:"networkConfig,omitempty"`
+		CreatedAt               *time.Time               `json:"createdAt"`
+		Description             *string                  `json:"description,omitempty"`
+		DisplayName             *string                  `json:"displayName,omitempty"`
+		Id                      *uuid.UUID               `json:"id"`
+		Name                    *string                  `json:"name"`
+		OrgName                 *string                  `json:"orgName"`
+		State                   *EnvironmentState        `json:"state"`
+		Type                    *EnvironmentType         `json:"type"`
+		UpdatedAt               *time.Time               `json:"updatedAt"`
+		ImageRegistry           *string                  `json:"imageRegistry,omitempty"`
+		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
+		Namespaces              []string                 `json:"namespaces,omitempty"`
+		PodAntiAffinityEnabled  *bool                    `json:"podAntiAffinityEnabled,omitempty"`
+		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
+		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -649,7 +687,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass", "clusterValidationPolicy"})
 	} else {
 		return err
 	}
@@ -684,6 +722,11 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.Namespaces = all.Namespaces
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
 	o.DefaultStorageClass = *all.DefaultStorageClass
+	if all.ClusterValidationPolicy != nil && !all.ClusterValidationPolicy.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ClusterValidationPolicy = all.ClusterValidationPolicy
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

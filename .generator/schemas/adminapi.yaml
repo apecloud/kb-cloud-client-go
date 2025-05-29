@@ -1445,6 +1445,37 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
+  /admin/v1/organizations/{orgName}/clusters/validate:
+    post:
+      operationId: validateClusterCreation
+      summary: Validate cluster creation
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterCreate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Return when cluster creation is validated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -1610,6 +1641,51 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+      tags:
+        - cluster
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
+    get:
+      operationId: listInstanceEvents
+      summary: List instance events
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+        - description: return number of events
+          in: query
+          name: returnNumber
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceEventList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - cluster
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
@@ -17030,6 +17106,59 @@ components:
       required:
         - items
       type: object
+    instanceEventItem:
+      description: Instance event
+      properties:
+        clusterName:
+          description: Cluster name of the event
+          type: string
+        instanceName:
+          description: Instance name of the event
+          type: string
+        name:
+          description: Name of the event
+          type: string
+        reason:
+          description: Reason of the event
+          type: string
+        message:
+          description: Message of the event
+          type: string
+        type:
+          description: Type of the event
+          type: string
+        source:
+          description: Source of the event
+          type: string
+        count:
+          description: Count of the event
+          type: integer
+          format: int32
+        eventTime:
+          description: Last timestamp of the event
+          type: string
+          format: date-time
+      required:
+        - clusterName
+        - instanceName
+        - name
+        - reason
+        - message
+        - type
+        - count
+        - eventTime
+      type: object
+    instanceEventList:
+      description: Instance event list
+      properties:
+        items:
+          description: Items is the list of instance event objects in the list
+          items:
+            $ref: '#/components/schemas/instanceEventItem'
+          type: array
+      required:
+        - items
+      type: object
     endpointType:
       description: Type of endpoint
       type: string
@@ -19837,6 +19966,14 @@ components:
         - Delete
         - DoNotDelete
       default: DoNotDelete
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       type: object
       description: Environment info
@@ -19914,6 +20051,8 @@ components:
           description: Extra info for environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -20101,9 +20240,6 @@ components:
     environmentDelete:
       description: Environment deletion option
       type: object
-      required:
-        - minio
-        - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
@@ -20182,6 +20318,9 @@ components:
           description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+          nullable: true
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
           nullable: true
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
@@ -25402,8 +25541,7 @@ components:
           type: string
           description: platformParameter value
         description:
-          type: string
-          description: platformParameter description
+          $ref: '#/components/schemas/localizedDescription'
     platformParameterList:
       description: platformParameter list
       type: object
