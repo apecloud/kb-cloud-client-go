@@ -95,6 +95,7 @@
 //   - [clusterApi.listCluster]
 //   - [clusterApi.listEndpoints]
 //   - [clusterApi.listInstance]
+//   - [clusterApi.listInstanceEvents]
 //   - [clusterApi.patchCluster]
 //   - [clusterApi.queryClusterMetrics]
 //   - [clusterApi.validateClusterCreation]
