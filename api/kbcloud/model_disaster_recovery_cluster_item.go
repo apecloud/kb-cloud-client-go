@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 // DisasterRecoveryClusterItem DisasterRecovery cluster information
 type DisasterRecoveryClusterItem struct {
 	// Logical instance ID
-	LogicalInstanceId *int32 `json:"logicalInstanceID,omitempty"`
+	LogicalInstanceId *string `json:"logicalInstanceID,omitempty"`
 	// KubeBlocks cluster information
 	Cluster     *ClusterListItem `json:"cluster,omitempty"`
 	TaskSummary *TaskSummary     `json:"taskSummary,omitempty"`
@@ -36,9 +36,9 @@ func NewDisasterRecoveryClusterItemWithDefaults() *DisasterRecoveryClusterItem {
 }
 
 // GetLogicalInstanceId returns the LogicalInstanceId field value if set, zero value otherwise.
-func (o *DisasterRecoveryClusterItem) GetLogicalInstanceId() int32 {
+func (o *DisasterRecoveryClusterItem) GetLogicalInstanceId() string {
 	if o == nil || o.LogicalInstanceId == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.LogicalInstanceId
@@ -46,7 +46,7 @@ func (o *DisasterRecoveryClusterItem) GetLogicalInstanceId() int32 {
 
 // GetLogicalInstanceIdOk returns a tuple with the LogicalInstanceId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DisasterRecoveryClusterItem) GetLogicalInstanceIdOk() (*int32, bool) {
+func (o *DisasterRecoveryClusterItem) GetLogicalInstanceIdOk() (*string, bool) {
 	if o == nil || o.LogicalInstanceId == nil {
 		return nil, false
 	}
@@ -58,8 +58,8 @@ func (o *DisasterRecoveryClusterItem) HasLogicalInstanceId() bool {
 	return o != nil && o.LogicalInstanceId != nil
 }
 
-// SetLogicalInstanceId gets a reference to the given int32 and assigns it to the LogicalInstanceId field.
-func (o *DisasterRecoveryClusterItem) SetLogicalInstanceId(v int32) {
+// SetLogicalInstanceId gets a reference to the given string and assigns it to the LogicalInstanceId field.
+func (o *DisasterRecoveryClusterItem) SetLogicalInstanceId(v string) {
 	o.LogicalInstanceId = &v
 }
 
@@ -144,7 +144,7 @@ func (o DisasterRecoveryClusterItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryClusterItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		LogicalInstanceId *int32           `json:"logicalInstanceID,omitempty"`
+		LogicalInstanceId *string          `json:"logicalInstanceID,omitempty"`
 		Cluster           *ClusterListItem `json:"cluster,omitempty"`
 		TaskSummary       *TaskSummary     `json:"taskSummary,omitempty"`
 	}{}
