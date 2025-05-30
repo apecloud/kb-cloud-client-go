@@ -19,6 +19,7 @@ type DisasterRecoveryApi common.Service
 
 // CreateDisasterRecovery Create a new disaster recovery instance.
 // Create a new disaster recovery instance for a database cluster.
+// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -126,6 +127,7 @@ func (r *DeleteDisasterRecoveryOptionalParameters) WithClusterId(clusterId int32
 
 // DeleteDisasterRecovery Delete a disaster recovery instance.
 // Delete a specific disaster recovery instance
+// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgName string, o ...DeleteDisasterRecoveryOptionalParameters) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -219,6 +221,7 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgNa
 
 // GetDisasterRecoveryHistory Get switch history of a disaster recovery instance.
 // Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryHistory, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -299,6 +302,7 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 
 // GetDisasterRecoveryStatus Retrieve Disaster Recovery Instance Status.
 // Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -379,6 +383,7 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, cl
 
 // ListDisasterRecovery List Disaster Recovery instances under the main cluster.
 // Retrieve a list of disaster recovery instances for a specific database cluster.
+// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -459,6 +464,7 @@ func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentC
 
 // PromoteDisasterRecovery Promote a disaster recovery instance to the main instance.
 // Promote the disaster recovery instance to the primary database instance.
+// Deprecated: This API is deprecated.
 func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string, body DisasterRecoveryPromote) (DisasterRecoveryTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
