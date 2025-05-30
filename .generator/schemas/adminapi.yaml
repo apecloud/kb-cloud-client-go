@@ -16270,8 +16270,7 @@ components:
           type: string
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -16562,8 +16561,7 @@ components:
       properties:
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         clusterType:
@@ -16707,8 +16705,7 @@ components:
           description: Cluster ID
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
