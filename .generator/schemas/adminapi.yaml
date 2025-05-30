@@ -15685,6 +15685,7 @@ paths:
     get:
       operationId: getEnvironmentPricing
       summary: Get the environment pricing
+      deprecated: true
       parameters:
         - description: name of the environment
           in: query
@@ -15709,6 +15710,7 @@ paths:
     post:
       operationId: saveEnvironmentPricing
       summary: Save the environment pricing
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -15730,6 +15732,7 @@ paths:
     delete:
       operationId: deleteEnvironmentPricing
       summary: Delete the environment pricing
+      deprecated: true
       parameters:
         - description: name of the environment
           in: query
@@ -15754,6 +15757,7 @@ paths:
     get:
       operationId: getGlobalPricing
       summary: Get the global information of pricing
+      deprecated: true
       responses:
         '200':
           content:
@@ -15772,6 +15776,7 @@ paths:
     post:
       operationId: saveGlobalPricing
       summary: Save the global information of pricing
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -15794,6 +15799,7 @@ paths:
     post:
       operationId: refreshBill
       summary: Refresh bill
+      deprecated: true
       parameters:
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
@@ -15814,6 +15820,7 @@ paths:
     get:
       operationId: queryBillOverview
       summary: Query bills of all environments and organizations
+      deprecated: true
       parameters:
         - description: The type of aggregation time
           in: query
@@ -15846,6 +15853,7 @@ paths:
     get:
       operationId: queryBillDetail
       summary: Query bill details
+      deprecated: true
       parameters:
         - description: The ID of the bill
           in: query

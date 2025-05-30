@@ -17,6 +17,7 @@ import (
 type PricingApi common.Service
 
 // DeleteEnvironmentPricing Delete the environment pricing.
+// Deprecated: This API is deprecated.
 func (a *PricingApi) DeleteEnvironmentPricing(ctx _context.Context, environmentName string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
@@ -112,6 +113,7 @@ func (r *GetEnvironmentPricingOptionalParameters) WithEnvironmentName(environmen
 }
 
 // GetEnvironmentPricing Get the environment pricing.
+// Deprecated: This API is deprecated.
 func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnvironmentPricingOptionalParameters) (EnvironmentPricing, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -200,6 +202,7 @@ func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnviron
 }
 
 // GetGlobalPricing Get the global information of pricing.
+// Deprecated: This API is deprecated.
 func (a *PricingApi) GetGlobalPricing(ctx _context.Context) (GlobalPricing, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -294,6 +297,7 @@ func (r *SaveEnvironmentPricingOptionalParameters) WithBody(body EnvironmentPric
 }
 
 // SaveEnvironmentPricing Save the environment pricing.
+// Deprecated: This API is deprecated.
 func (a *PricingApi) SaveEnvironmentPricing(ctx _context.Context, o ...SaveEnvironmentPricingOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -401,6 +405,7 @@ func (r *SaveGlobalPricingOptionalParameters) WithBody(body GlobalPricing) *Save
 }
 
 // SaveGlobalPricing Save the global information of pricing.
+// Deprecated: This API is deprecated.
 func (a *PricingApi) SaveGlobalPricing(ctx _context.Context, o ...SaveGlobalPricingOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

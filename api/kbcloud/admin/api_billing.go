@@ -62,6 +62,7 @@ func (r *QueryBillDetailOptionalParameters) WithAggregationTime(aggregationTime 
 }
 
 // QueryBillDetail Query bill details.
+// Deprecated: This API is deprecated.
 func (a *BillingApi) QueryBillDetail(ctx _context.Context, start int64, end int64, o ...QueryBillDetailOptionalParameters) (BillDetailList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -188,6 +189,7 @@ func (r *QueryBillOverviewOptionalParameters) WithAggregationGroup(aggregationGr
 }
 
 // QueryBillOverview Query bills of all environments and organizations.
+// Deprecated: This API is deprecated.
 func (a *BillingApi) QueryBillOverview(ctx _context.Context, start int64, end int64, o ...QueryBillOverviewOptionalParameters) (BasicBillList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -281,6 +283,7 @@ func (a *BillingApi) QueryBillOverview(ctx _context.Context, start int64, end in
 }
 
 // RefreshBill Refresh bill.
+// Deprecated: This API is deprecated.
 func (a *BillingApi) RefreshBill(ctx _context.Context, start int64, end int64) (BasicTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
