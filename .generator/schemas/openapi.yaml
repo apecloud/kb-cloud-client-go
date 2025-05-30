@@ -8375,6 +8375,7 @@ paths:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
       description: Delete a specific disaster recovery instance
+      deprecated: true
       parameters:
         - description: name of the org
           in: path
@@ -8412,6 +8413,7 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
+      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8444,6 +8446,7 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
+      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8484,6 +8487,7 @@ paths:
       operationId: promoteDisasterRecovery
       summary: Promote a disaster recovery instance to the main instance
       description: Promote the disaster recovery instance to the primary database instance.
+      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8524,6 +8528,7 @@ paths:
       operationId: getDisasterRecoveryHistory
       summary: Get switch history of a disaster recovery instance
       description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8557,6 +8562,7 @@ paths:
       operationId: getDisasterRecoveryStatus
       summary: Retrieve Disaster Recovery Instance Status
       description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+      deprecated: true
       parameters:
         - description: Unique identifier of the disaster recovery instance
           in: path
@@ -13098,8 +13104,7 @@ components:
           type: string
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -13377,8 +13382,7 @@ components:
       properties:
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         clusterType:
@@ -13522,8 +13526,7 @@ components:
           description: Cluster ID
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -18955,6 +18958,10 @@ components:
           description: Task ID
           type: string
           nullable: true
+        clusterTaskId:
+          description: Cluster task ID
+          type: string
+          nullable: true
       required:
         - taskId
       type: object
@@ -18986,7 +18993,7 @@ components:
       properties:
         logicalInstanceID:
           description: Logical instance ID
-          type: integer
+          type: string
         cluster:
           $ref: '#/components/schemas/clusterListItem'
         taskSummary:
@@ -19043,11 +19050,11 @@ components:
       properties:
         taskID:
           description: the ID of disaster recovery task in TaskFlow
-          type: integer
+          type: string
           nullable: true
         parentClusterID:
           description: the ID of parent cluster
-          type: integer
+          type: string
           nullable: true
         parentClusterName:
           description: the Name of parent cluster
@@ -19059,7 +19066,7 @@ components:
           nullable: true
         clusterID:
           description: the ID of promote cluster
-          type: integer
+          type: string
           nullable: true
         clusterName:
           description: the Name of promote cluster
@@ -19108,7 +19115,7 @@ components:
       properties:
         clusterId:
           title: Cluster ID
-          type: integer
+          type: string
           description: Unique identifier for the cluster
         clusterName:
           title: Cluster Name
@@ -19127,8 +19134,7 @@ components:
           description: Current operational status of the cluster
         parentId:
           title: Parent Cluster ID
-          type: integer
-          format: int64
+          type: string
           description: ID of the parent cluster, if applicable; can be empty if there is no parent relationship
         parentName:
           title: Parent Cluster Name

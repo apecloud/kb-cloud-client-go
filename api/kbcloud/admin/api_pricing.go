@@ -2,57 +2,51 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"context"
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// DisasterRecoveryApi service type
-type DisasterRecoveryApi common.Service
+// PricingApi service type
+type PricingApi common.Service
 
-// CreateDisasterRecovery Create a new disaster recovery instance.
-// Create a new disaster recovery instance for a database cluster.
+// DeleteEnvironmentPricing Delete the environment pricing.
 // Deprecated: This API is deprecated.
-func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string, body DisasterRecoveryCreate) (DisasterRecoveryTask, *_nethttp.Response, error) {
+func (a *PricingApi) DeleteEnvironmentPricing(ctx _context.Context, environmentName string) (interface{}, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
+		localVarReturnValue interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "createDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
+		Tag:         "pricing",
+		OperationID: "deleteEnvironmentPricing",
+		Path:        "/admin/v1/pricing",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.CreateDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PricingApi.DeleteEnvironmentPricing")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
-	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/pricing"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarQueryParams.Add("environmentName", common.ParameterToString(environmentName, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -78,7 +72,7 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -101,43 +95,35 @@ func (a *DisasterRecoveryApi) CreateDisasterRecovery(ctx _context.Context, paren
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteDisasterRecoveryOptionalParameters holds optional parameters for DeleteDisasterRecovery.
-type DeleteDisasterRecoveryOptionalParameters struct {
-	LogicalInstanceId *int32
-	ClusterId         *int32
+// GetEnvironmentPricingOptionalParameters holds optional parameters for GetEnvironmentPricing.
+type GetEnvironmentPricingOptionalParameters struct {
+	EnvironmentName *string
 }
 
-// NewDeleteDisasterRecoveryOptionalParameters creates an empty struct for parameters.
-func NewDeleteDisasterRecoveryOptionalParameters() *DeleteDisasterRecoveryOptionalParameters {
-	this := DeleteDisasterRecoveryOptionalParameters{}
+// NewGetEnvironmentPricingOptionalParameters creates an empty struct for parameters.
+func NewGetEnvironmentPricingOptionalParameters() *GetEnvironmentPricingOptionalParameters {
+	this := GetEnvironmentPricingOptionalParameters{}
 	return &this
 }
 
-// WithLogicalInstanceId sets the corresponding parameter name and returns the struct.
-func (r *DeleteDisasterRecoveryOptionalParameters) WithLogicalInstanceId(logicalInstanceId int32) *DeleteDisasterRecoveryOptionalParameters {
-	r.LogicalInstanceId = &logicalInstanceId
+// WithEnvironmentName sets the corresponding parameter name and returns the struct.
+func (r *GetEnvironmentPricingOptionalParameters) WithEnvironmentName(environmentName string) *GetEnvironmentPricingOptionalParameters {
+	r.EnvironmentName = &environmentName
 	return r
 }
 
-// WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *DeleteDisasterRecoveryOptionalParameters) WithClusterId(clusterId int32) *DeleteDisasterRecoveryOptionalParameters {
-	r.ClusterId = &clusterId
-	return r
-}
-
-// DeleteDisasterRecovery Delete a disaster recovery instance.
-// Delete a specific disaster recovery instance
+// GetEnvironmentPricing Get the environment pricing.
 // Deprecated: This API is deprecated.
-func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgName string, o ...DeleteDisasterRecoveryOptionalParameters) (DisasterRecoveryTask, *_nethttp.Response, error) {
+func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnvironmentPricingOptionalParameters) (EnvironmentPricing, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
+		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
-		optionalParams      DeleteDisasterRecoveryOptionalParameters
+		localVarReturnValue EnvironmentPricing
+		optionalParams      GetEnvironmentPricingOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteDisasterRecoveryOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetEnvironmentPricingOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -145,29 +131,25 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgNa
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "deleteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery",
+		Tag:         "pricing",
+		OperationID: "getEnvironmentPricing",
+		Path:        "/admin/v1/pricing",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.DeleteDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PricingApi.GetEnvironmentPricing")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/pricing"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.LogicalInstanceId != nil {
-		localVarQueryParams.Add("logicalInstanceID", common.ParameterToString(*optionalParams.LogicalInstanceId, ""))
-	}
-	if optionalParams.ClusterId != nil {
-		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	if optionalParams.EnvironmentName != nil {
+		localVarQueryParams.Add("environmentName", common.ParameterToString(*optionalParams.EnvironmentName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -219,33 +201,30 @@ func (a *DisasterRecoveryApi) DeleteDisasterRecovery(ctx _context.Context, orgNa
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetDisasterRecoveryHistory Get switch history of a disaster recovery instance.
-// Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+// GetGlobalPricing Get the global information of pricing.
 // Deprecated: This API is deprecated.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryHistory, *_nethttp.Response, error) {
+func (a *PricingApi) GetGlobalPricing(ctx _context.Context) (GlobalPricing, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryHistory
+		localVarReturnValue GlobalPricing
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "getDisasterRecoveryHistory",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory",
+		Tag:         "pricing",
+		OperationID: "getGlobalPricing",
+		Path:        "/admin/v1/pricing/global",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryHistory")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PricingApi.GetGlobalPricing")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/switchHistory"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/pricing/global"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -300,195 +279,55 @@ func (a *DisasterRecoveryApi) GetDisasterRecoveryHistory(ctx _context.Context, c
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetDisasterRecoveryStatus Retrieve Disaster Recovery Instance Status.
-// Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
-// Deprecated: This API is deprecated.
-func (a *DisasterRecoveryApi) GetDisasterRecoveryStatus(ctx _context.Context, clusterId int32, orgName string) (DisasterRecoveryStatusResponse, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryStatusResponse
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "getDisasterRecoveryStatus",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.GetDisasterRecoveryStatus")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+// SaveEnvironmentPricingOptionalParameters holds optional parameters for SaveEnvironmentPricing.
+type SaveEnvironmentPricingOptionalParameters struct {
+	Body *EnvironmentPricing
 }
 
-// ListDisasterRecovery List Disaster Recovery instances under the main cluster.
-// Retrieve a list of disaster recovery instances for a specific database cluster.
-// Deprecated: This API is deprecated.
-func (a *DisasterRecoveryApi) ListDisasterRecovery(ctx _context.Context, parentClusterId int32, orgName string) (DisasterRecoveryClusterList, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryClusterList
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "listDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.ListDisasterRecovery")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/parent/{parentClusterID}/disasterRecovery"
-	localVarPath = strings.Replace(localVarPath, "{"+"parentClusterID"+"}", _neturl.PathEscape(common.ParameterToString(parentClusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+// NewSaveEnvironmentPricingOptionalParameters creates an empty struct for parameters.
+func NewSaveEnvironmentPricingOptionalParameters() *SaveEnvironmentPricingOptionalParameters {
+	this := SaveEnvironmentPricingOptionalParameters{}
+	return &this
 }
 
-// PromoteDisasterRecovery Promote a disaster recovery instance to the main instance.
-// Promote the disaster recovery instance to the primary database instance.
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *SaveEnvironmentPricingOptionalParameters) WithBody(body EnvironmentPricing) *SaveEnvironmentPricingOptionalParameters {
+	r.Body = &body
+	return r
+}
+
+// SaveEnvironmentPricing Save the environment pricing.
 // Deprecated: This API is deprecated.
-func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clusterId int32, orgName string, body DisasterRecoveryPromote) (DisasterRecoveryTask, *_nethttp.Response, error) {
+func (a *PricingApi) SaveEnvironmentPricing(ctx _context.Context, o ...SaveEnvironmentPricingOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue DisasterRecoveryTask
+		localVarReturnValue interface{}
+		optionalParams      SaveEnvironmentPricingOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type SaveEnvironmentPricingOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "disasterRecovery",
-		OperationID: "promoteDisasterRecovery",
-		Path:        "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote",
+		Tag:         "pricing",
+		OperationID: "saveEnvironmentPricing",
+		Path:        "/admin/v1/pricing",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".DisasterRecoveryApi.PromoteDisasterRecovery")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PricingApi.SaveEnvironmentPricing")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/disasterRecovery/{clusterID}/promote"
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterID"+"}", _neturl.PathEscape(common.ParameterToString(clusterId, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/pricing"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -497,7 +336,9 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
-	localVarPostBody = &body
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -523,7 +364,7 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -546,9 +387,117 @@ func (a *DisasterRecoveryApi) PromoteDisasterRecovery(ctx _context.Context, clus
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewDisasterRecoveryApi Returns NewDisasterRecoveryApi.
-func NewDisasterRecoveryApi(client *common.APIClient) *DisasterRecoveryApi {
-	return &DisasterRecoveryApi{
+// SaveGlobalPricingOptionalParameters holds optional parameters for SaveGlobalPricing.
+type SaveGlobalPricingOptionalParameters struct {
+	Body *GlobalPricing
+}
+
+// NewSaveGlobalPricingOptionalParameters creates an empty struct for parameters.
+func NewSaveGlobalPricingOptionalParameters() *SaveGlobalPricingOptionalParameters {
+	this := SaveGlobalPricingOptionalParameters{}
+	return &this
+}
+
+// WithBody sets the corresponding parameter name and returns the struct.
+func (r *SaveGlobalPricingOptionalParameters) WithBody(body GlobalPricing) *SaveGlobalPricingOptionalParameters {
+	r.Body = &body
+	return r
+}
+
+// SaveGlobalPricing Save the global information of pricing.
+// Deprecated: This API is deprecated.
+func (a *PricingApi) SaveGlobalPricing(ctx _context.Context, o ...SaveGlobalPricingOptionalParameters) (interface{}, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue interface{}
+		optionalParams      SaveGlobalPricingOptionalParameters
+	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type SaveGlobalPricingOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "pricing",
+		OperationID: "saveGlobalPricing",
+		Path:        "/admin/v1/pricing/global",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".PricingApi.SaveGlobalPricing")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/pricing/global"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	if optionalParams.Body != nil {
+		localVarPostBody = &optionalParams.Body
+	}
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// NewPricingApi Returns NewPricingApi.
+func NewPricingApi(client *common.APIClient) *PricingApi {
+	return &PricingApi{
 		Client: client,
 	}
 }
