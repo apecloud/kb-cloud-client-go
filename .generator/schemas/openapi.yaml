@@ -109,6 +109,8 @@ tags:
     description: Cluster Disaster Recovery APIs
   - name: llm
     description: LLM APIs
+  - name: organizationParameter
+    description: Organization Parameter APIs
 paths:
   /api/v1/user:
     get:
@@ -831,7 +833,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     post:
       operationId: batchUpdateOrgParameters
       summary: Batch update parameters of an organization
@@ -861,7 +863,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
   /api/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -20195,6 +20197,7 @@ x-tagGroups:
       - invitation
       - member
       - role
+      - organizationParameter
   - name: Project
     tags:
       - project

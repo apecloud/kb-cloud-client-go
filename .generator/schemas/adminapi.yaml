@@ -1210,7 +1210,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     post:
       operationId: batchUpdateOrgParameters
       summary: Batch update parameters of an organization
@@ -1240,7 +1240,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
   /admin/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
