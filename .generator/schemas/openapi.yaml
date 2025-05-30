@@ -10295,7 +10295,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Returned when project is deleted successfully.
+          description: Update account password successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10620,6 +10620,76 @@ paths:
       tags:
         - account
         - mongodb
+  /api/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/accounts:
+    delete:
+      operationId: deleteMssqlAccount
+      summary: delete mssql account compatible with windows account
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: account
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - mssql
+    patch:
+      operationId: updateMssqlAccount
+      summary: update mssql account compatible with windows account
+      tags:
+        - account
+        - mssql
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+      responses:
+        '204':
+          content: {}
+          description: Update mssql account successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
     get:
       description: Analyze error logs of a cluster
