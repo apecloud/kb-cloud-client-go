@@ -229,6 +229,8 @@
 //   - [environmentApi.patchNodeGroup]
 //   - [environmentApi.preflightEnvironment]
 //   - [environmentApi.removeNodeMaintenanceMode]
+//   - [environmentApi.resubmitWorkflow]
+//   - [environmentApi.retryWorkflow]
 //   - [environmentApi.scaleDownEnvironmentNodes]
 //   - [environmentApi.scaleOutEnvironmentNodes]
 //   - [environmentApi.setNodeMaintenanceMode]
