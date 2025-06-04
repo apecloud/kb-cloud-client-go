@@ -5424,6 +5424,78 @@ paths:
               schema:
                 type: string
           description: A successful response.
+  /admin/v1/environments/{environmentName}/workflow/{workflowName}/resubmit:
+    post:
+      operationId: resubmitWorkflow
+      summary: retry workflow from failed
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: workflow name
+          in: path
+          name: workflowName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/workflow'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/workflow/{workflowName}/retry:
+    post:
+      operationId: retryWorkflow
+      summary: retry workflow
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: workflow name
+          in: path
+          name: workflowName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/workflow'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/latestEnvModuleVersion:
     get:
       tags:
