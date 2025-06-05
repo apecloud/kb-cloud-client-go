@@ -13,15 +13,15 @@ import (
 // DisasterRecoveryHistoryItem DisasterRecovery history detail for Cluster
 type DisasterRecoveryHistoryItem struct {
 	// the ID of disaster recovery task in TaskFlow
-	TaskId common.NullableInt32 `json:"taskID,omitempty"`
+	TaskId common.NullableString `json:"taskID,omitempty"`
 	// the ID of parent cluster
-	ParentClusterId common.NullableInt32 `json:"parentClusterID,omitempty"`
+	ParentClusterId common.NullableString `json:"parentClusterID,omitempty"`
 	// the Name of parent cluster
 	ParentClusterName common.NullableString `json:"parentClusterName,omitempty"`
 	// parent env name
 	ParentEnvName common.NullableString `json:"parentEnvName,omitempty"`
 	// the ID of promote cluster
-	ClusterId common.NullableInt32 `json:"clusterID,omitempty"`
+	ClusterId common.NullableString `json:"clusterID,omitempty"`
 	// the Name of promote cluster
 	ClusterName common.NullableString `json:"clusterName,omitempty"`
 	// env name
@@ -67,9 +67,9 @@ func NewDisasterRecoveryHistoryItemWithDefaults() *DisasterRecoveryHistoryItem {
 }
 
 // GetTaskId returns the TaskId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *DisasterRecoveryHistoryItem) GetTaskId() int32 {
+func (o *DisasterRecoveryHistoryItem) GetTaskId() string {
 	if o == nil || o.TaskId.Get() == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.TaskId.Get()
@@ -78,7 +78,7 @@ func (o *DisasterRecoveryHistoryItem) GetTaskId() int32 {
 // GetTaskIdOk returns a tuple with the TaskId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *DisasterRecoveryHistoryItem) GetTaskIdOk() (*int32, bool) {
+func (o *DisasterRecoveryHistoryItem) GetTaskIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -90,8 +90,8 @@ func (o *DisasterRecoveryHistoryItem) HasTaskId() bool {
 	return o != nil && o.TaskId.IsSet()
 }
 
-// SetTaskId gets a reference to the given common.NullableInt32 and assigns it to the TaskId field.
-func (o *DisasterRecoveryHistoryItem) SetTaskId(v int32) {
+// SetTaskId gets a reference to the given common.NullableString and assigns it to the TaskId field.
+func (o *DisasterRecoveryHistoryItem) SetTaskId(v string) {
 	o.TaskId.Set(&v)
 }
 
@@ -106,9 +106,9 @@ func (o *DisasterRecoveryHistoryItem) UnsetTaskId() {
 }
 
 // GetParentClusterId returns the ParentClusterId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *DisasterRecoveryHistoryItem) GetParentClusterId() int32 {
+func (o *DisasterRecoveryHistoryItem) GetParentClusterId() string {
 	if o == nil || o.ParentClusterId.Get() == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.ParentClusterId.Get()
@@ -117,7 +117,7 @@ func (o *DisasterRecoveryHistoryItem) GetParentClusterId() int32 {
 // GetParentClusterIdOk returns a tuple with the ParentClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *DisasterRecoveryHistoryItem) GetParentClusterIdOk() (*int32, bool) {
+func (o *DisasterRecoveryHistoryItem) GetParentClusterIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -129,8 +129,8 @@ func (o *DisasterRecoveryHistoryItem) HasParentClusterId() bool {
 	return o != nil && o.ParentClusterId.IsSet()
 }
 
-// SetParentClusterId gets a reference to the given common.NullableInt32 and assigns it to the ParentClusterId field.
-func (o *DisasterRecoveryHistoryItem) SetParentClusterId(v int32) {
+// SetParentClusterId gets a reference to the given common.NullableString and assigns it to the ParentClusterId field.
+func (o *DisasterRecoveryHistoryItem) SetParentClusterId(v string) {
 	o.ParentClusterId.Set(&v)
 }
 
@@ -223,9 +223,9 @@ func (o *DisasterRecoveryHistoryItem) UnsetParentEnvName() {
 }
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *DisasterRecoveryHistoryItem) GetClusterId() int32 {
+func (o *DisasterRecoveryHistoryItem) GetClusterId() string {
 	if o == nil || o.ClusterId.Get() == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.ClusterId.Get()
@@ -234,7 +234,7 @@ func (o *DisasterRecoveryHistoryItem) GetClusterId() int32 {
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *DisasterRecoveryHistoryItem) GetClusterIdOk() (*int32, bool) {
+func (o *DisasterRecoveryHistoryItem) GetClusterIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -246,8 +246,8 @@ func (o *DisasterRecoveryHistoryItem) HasClusterId() bool {
 	return o != nil && o.ClusterId.IsSet()
 }
 
-// SetClusterId gets a reference to the given common.NullableInt32 and assigns it to the ClusterId field.
-func (o *DisasterRecoveryHistoryItem) SetClusterId(v int32) {
+// SetClusterId gets a reference to the given common.NullableString and assigns it to the ClusterId field.
+func (o *DisasterRecoveryHistoryItem) SetClusterId(v string) {
 	o.ClusterId.Set(&v)
 }
 
@@ -634,11 +634,11 @@ func (o DisasterRecoveryHistoryItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DisasterRecoveryHistoryItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId            common.NullableInt32              `json:"taskID,omitempty"`
-		ParentClusterId   common.NullableInt32              `json:"parentClusterID,omitempty"`
+		TaskId            common.NullableString             `json:"taskID,omitempty"`
+		ParentClusterId   common.NullableString             `json:"parentClusterID,omitempty"`
 		ParentClusterName common.NullableString             `json:"parentClusterName,omitempty"`
 		ParentEnvName     common.NullableString             `json:"parentEnvName,omitempty"`
-		ClusterId         common.NullableInt32              `json:"clusterID,omitempty"`
+		ClusterId         common.NullableString             `json:"clusterID,omitempty"`
 		ClusterName       common.NullableString             `json:"clusterName,omitempty"`
 		EnvName           common.NullableString             `json:"envName,omitempty"`
 		EventType         NullableDisasterRecoveryEventType `json:"eventType,omitempty"`

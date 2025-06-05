@@ -16,7 +16,7 @@ type Cluster struct {
 	// Cluster ID
 	Id *string `json:"id,omitempty"`
 	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
-	ParentId common.NullableInt64 `json:"parentId,omitempty"`
+	ParentId common.NullableString `json:"parentId,omitempty"`
 	// the name of parent cluster
 	ParentName common.NullableString `json:"parentName,omitempty"`
 	// the display name of parent cluster
@@ -174,9 +174,9 @@ func (o *Cluster) SetId(v string) {
 }
 
 // GetParentId returns the ParentId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *Cluster) GetParentId() int64 {
+func (o *Cluster) GetParentId() string {
 	if o == nil || o.ParentId.Get() == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 	return *o.ParentId.Get()
@@ -185,7 +185,7 @@ func (o *Cluster) GetParentId() int64 {
 // GetParentIdOk returns a tuple with the ParentId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *Cluster) GetParentIdOk() (*int64, bool) {
+func (o *Cluster) GetParentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -197,8 +197,8 @@ func (o *Cluster) HasParentId() bool {
 	return o != nil && o.ParentId.IsSet()
 }
 
-// SetParentId gets a reference to the given common.NullableInt64 and assigns it to the ParentId field.
-func (o *Cluster) SetParentId(v int64) {
+// SetParentId gets a reference to the given common.NullableString and assigns it to the ParentId field.
+func (o *Cluster) SetParentId(v string) {
 	o.ParentId.Set(&v)
 }
 
@@ -1424,7 +1424,7 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id                     *string                   `json:"id,omitempty"`
-		ParentId               common.NullableInt64      `json:"parentId,omitempty"`
+		ParentId               common.NullableString     `json:"parentId,omitempty"`
 		ParentName             common.NullableString     `json:"parentName,omitempty"`
 		ParentDisplayName      common.NullableString     `json:"parentDisplayName,omitempty"`
 		ClusterType            NullableClusterType       `json:"clusterType,omitempty"`

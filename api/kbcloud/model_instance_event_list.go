@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AdminUsersPassword Admin user password
-type AdminUsersPassword struct {
-	// The new password for the admin user.
-	NewPassword string `json:"newPassword"`
+// InstanceEventList Instance event list
+type InstanceEventList struct {
+	// Items is the list of instance event objects in the list
+	Items []InstanceEventItem `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewAdminUsersPassword instantiates a new AdminUsersPassword object.
+// NewInstanceEventList instantiates a new InstanceEventList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAdminUsersPassword(newPassword string) *AdminUsersPassword {
-	this := AdminUsersPassword{}
-	this.NewPassword = newPassword
+func NewInstanceEventList(items []InstanceEventItem) *InstanceEventList {
+	this := InstanceEventList{}
+	this.Items = items
 	return &this
 }
 
-// NewAdminUsersPasswordWithDefaults instantiates a new AdminUsersPassword object.
+// NewInstanceEventListWithDefaults instantiates a new InstanceEventList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewAdminUsersPasswordWithDefaults() *AdminUsersPassword {
-	this := AdminUsersPassword{}
+func NewInstanceEventListWithDefaults() *InstanceEventList {
+	this := InstanceEventList{}
 	return &this
 }
 
-// GetNewPassword returns the NewPassword field value.
-func (o *AdminUsersPassword) GetNewPassword() string {
+// GetItems returns the Items field value.
+func (o *InstanceEventList) GetItems() []InstanceEventItem {
 	if o == nil {
-		var ret string
+		var ret []InstanceEventItem
 		return ret
 	}
-	return o.NewPassword
+	return o.Items
 }
 
-// GetNewPasswordOk returns a tuple with the NewPassword field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *AdminUsersPassword) GetNewPasswordOk() (*string, bool) {
+func (o *InstanceEventList) GetItemsOk() (*[]InstanceEventItem, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.NewPassword, true
+	return &o.Items, true
 }
 
-// SetNewPassword sets field value.
-func (o *AdminUsersPassword) SetNewPassword(v string) {
-	o.NewPassword = v
+// SetItems sets field value.
+func (o *InstanceEventList) SetItems(v []InstanceEventItem) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o AdminUsersPassword) MarshalJSON() ([]byte, error) {
+func (o InstanceEventList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["newPassword"] = o.NewPassword
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,23 +75,23 @@ func (o AdminUsersPassword) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *AdminUsersPassword) UnmarshalJSON(bytes []byte) (err error) {
+func (o *InstanceEventList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		NewPassword *string `json:"newPassword"`
+		Items *[]InstanceEventItem `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.NewPassword == nil {
-		return fmt.Errorf("required field newPassword missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"newPassword"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.NewPassword = *all.NewPassword
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

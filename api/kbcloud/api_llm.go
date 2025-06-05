@@ -19,6 +19,7 @@ type LlmApi common.Service
 
 // AddLLM add LLM.
 // add LLM
+// Deprecated: This API is deprecated.
 func (a *LlmApi) AddLLM(ctx _context.Context, body Llm) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
@@ -90,6 +91,7 @@ func (a *LlmApi) AddLLM(ctx _context.Context, body Llm) (*_nethttp.Response, err
 
 // CheckAPIKey check apikey available.
 // check apikey available
+// Deprecated: This API is deprecated.
 func (a *LlmApi) CheckAPIKey(ctx _context.Context, body CheckAPIKey) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -170,6 +172,7 @@ func (a *LlmApi) CheckAPIKey(ctx _context.Context, body CheckAPIKey) (bool, *_ne
 }
 
 // DeleteLLM Delete LLM.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -239,6 +242,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 
 // GetLLM Get LLM.
 // get user available llm list
+// Deprecated: This API is deprecated.
 func (a *LlmApi) GetLLM(ctx _context.Context) (LlmList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -316,6 +320,7 @@ func (a *LlmApi) GetLLM(ctx _context.Context) (LlmList, *_nethttp.Response, erro
 }
 
 // GetLLMByIDInOrg Get LLM by ID in org.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -394,6 +399,7 @@ func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethtt
 }
 
 // ListAvailableModelInOrg List available model in org.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -471,6 +477,7 @@ func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_neth
 }
 
 // UpdateLLM Update LLM.
+// Deprecated: This API is deprecated.
 func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch

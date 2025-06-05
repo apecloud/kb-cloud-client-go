@@ -109,12 +109,14 @@ tags:
     description: Cluster Disaster Recovery APIs
   - name: llm
     description: LLM APIs
+  - name: organizationParameter
+    description: Organization Parameter APIs
 paths:
   /api/v1/user:
     get:
       description: Get authenticated login user info
       summary: Get authenticated user
-      operationId: readUser
+      operationId: getAuthenticatedUser
       responses:
         '200':
           content:
@@ -128,7 +130,7 @@ paths:
         - user
     patch:
       description: partially update the specified User. If you want to update phone number, you must request /api/v1/user/phone-verification-code first.
-      operationId: patchUser
+      operationId: patchAuthenticatedUser
       summary: Update user information
       requestBody:
         content:
@@ -137,6 +139,12 @@ paths:
               $ref: '#/components/schemas/userUpdate'
         required: true
       responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+          description: OK
         '204':
           content: {}
           description: Returned when project is deleted successfully.
@@ -147,9 +155,9 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/user/password:
     patch:
-      description: Update user password.
-      summary: Update user password
-      operationId: updateUserPassword
+      description: Update current authenticated user password.
+      summary: Update current authenticated user password
+      operationId: updateAuthenticatedUserPassword
       requestBody:
         content:
           application/json:
@@ -201,24 +209,6 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-      tags:
-        - user
-      x-codegen-request-body-name: body
-  /api/v1/user/verificationEmail:
-    post:
-      description: To send verification email checking user's email address
-      summary: Send verification email to user's email address. For logto and authing, only the "email" is required, and for auth0, only the "externalID" is required.
-      operationId: sendVerificationEmail
-      responses:
-        '204':
-          content: {}
-          description: Send verification email to user successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - user
       x-codegen-request-body-name: body
@@ -353,7 +343,7 @@ paths:
               $ref: '#/components/schemas/orgCreate'
         required: true
       responses:
-        '200':
+        '201':
           content:
             application/json:
               schema:
@@ -361,29 +351,6 @@ paths:
           description: OK
         '401':
           $ref: '#/components/responses/401'
-      x-codeSamples:
-        - lang: curl
-          source: |-
-            curl -X POST -H "Content-Type: application/json" -d '{
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }' http://localhost:8080/api/v1/orgs
-        - lang: Python
-          source: |-
-            import requests
-            import json
-            url = "http://localhost:8080/api/v1/orgs"
-            payload = {
-                "name":"heng4fun-org",
-                "description": "This a test organization description.",
-                "displayName": "heng4fun",
-            }
-            headers = {
-                'Content-Type': 'application/json'
-            }
-            response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-            print(response.text.encode('utf8'))
       tags:
         - organization
       x-codegen-request-body-name: body
@@ -866,7 +833,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     post:
       operationId: batchUpdateOrgParameters
       summary: Batch update parameters of an organization
@@ -896,7 +863,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
   /api/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -926,7 +893,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
     patch:
       operationId: patchOrgParameter
       summary: Update a parameter of an organization
@@ -958,7 +925,7 @@ paths:
                 $ref: '#/components/schemas/orgParameter'
           description: OK
       tags:
-        - organization
+        - organizationParameter
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -1427,6 +1394,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations:
     get:
+      deprecated: true
       tags:
         - invitation
       description: list the Invitation of specified Org or User
@@ -1465,6 +1433,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     post:
+      deprecated: true
       tags:
         - invitation
       description: create a Invitation
@@ -1488,6 +1457,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/invitations/{invitationId}:
     get:
+      deprecated: true
       tags:
         - invitation
       description: read the specified Invitation for organization admin or invitee
@@ -1512,6 +1482,7 @@ paths:
         '403':
           $ref: '#/components/responses/403'
     delete:
+      deprecated: true
       tags:
         - invitation
       description: delete the specified Invitation for organization admin
@@ -1536,6 +1507,7 @@ paths:
           $ref: '#/components/responses/404'
   /api/v1/invitations/{invitationId}/accept:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1558,6 +1530,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/reject:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1580,6 +1553,7 @@ paths:
           $ref: '#/components/responses/403'
   /api/v1/invitations/{invitationId}/resend:
     patch:
+      deprecated: true
       tags:
         - invitation
       description: partially update the specified Invitation
@@ -1693,6 +1667,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/cluster'
           description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+  /api/v1/organizations/{orgName}/clusters/validate:
+    post:
+      operationId: validateClusterCreation
+      summary: Validate cluster creation
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterCreate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Return when cluster creation is validated successfully.
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -1866,6 +1871,51 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+      tags:
+        - cluster
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
+    get:
+      operationId: listInstanceEvents
+      summary: List instance events
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+        - description: return number of events
+          in: query
+          name: returnNumber
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceEventList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - cluster
   /api/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
@@ -8320,24 +8370,29 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/disasterRecovery/{clusterID}:
+  /api/v1/organizations/{orgName}/disasterRecovery:
     delete:
       operationId: deleteDisasterRecovery
       summary: Delete a disaster recovery instance
       description: Delete a specific disaster recovery instance
+      deprecated: true
       parameters:
-        - description: The ID of the disaster recovery instance
-          in: path
-          name: clusterID
-          required: true
-          schema:
-            type: integer
         - description: name of the org
           in: path
           name: orgName
           required: true
           schema:
             type: string
+        - description: The ID of the disaster recovery logical instance
+          in: query
+          name: logicalInstanceID
+          schema:
+            type: integer
+        - description: The ID of the disaster recovery cluster
+          in: query
+          name: clusterID
+          schema:
+            type: integer
       responses:
         '200':
           content:
@@ -8358,6 +8413,7 @@ paths:
       operationId: listDisasterRecovery
       summary: List Disaster Recovery instances under the main cluster
       description: Retrieve a list of disaster recovery instances for a specific database cluster.
+      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8390,6 +8446,7 @@ paths:
       operationId: createDisasterRecovery
       summary: Create a new disaster recovery instance
       description: Create a new disaster recovery instance for a database cluster.
+      deprecated: true
       parameters:
         - description: The ID of the parent database cluster
           in: path
@@ -8430,6 +8487,7 @@ paths:
       operationId: promoteDisasterRecovery
       summary: Promote a disaster recovery instance to the main instance
       description: Promote the disaster recovery instance to the primary database instance.
+      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8470,6 +8528,7 @@ paths:
       operationId: getDisasterRecoveryHistory
       summary: Get switch history of a disaster recovery instance
       description: Retrieve the history of failover and failback operations for a specific disaster recovery instance.
+      deprecated: true
       parameters:
         - description: The ID of the disaster recovery instance
           in: path
@@ -8503,6 +8562,7 @@ paths:
       operationId: getDisasterRecoveryStatus
       summary: Retrieve Disaster Recovery Instance Status
       description: Get detailed information about the status of a specific disaster recovery instance, including delay and current replication point.
+      deprecated: true
       parameters:
         - description: Unique identifier of the disaster recovery instance
           in: path
@@ -10243,7 +10303,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Returned when project is deleted successfully.
+          description: Update account password successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10568,11 +10628,82 @@ paths:
       tags:
         - account
         - mongodb
+  /api/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/accounts:
+    delete:
+      operationId: deleteMssqlAccount
+      summary: delete mssql account compatible with windows account
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: account
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - account
+        - mssql
+    patch:
+      operationId: updateMssqlAccount
+      summary: update mssql account compatible with windows account
+      tags:
+        - account
+        - mssql
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+      responses:
+        '204':
+          content: {}
+          description: Update mssql account successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/logs/error/analyze:
     get:
       description: Analyze error logs of a cluster
       summary: Analyze cluster error logs
       operationId: analyzeLogs
+      deprecated: true
       parameters:
         - in: path
           name: orgName
@@ -10634,6 +10765,7 @@ paths:
       description: Analyze slow logs of a cluster
       summary: Analyze cluster slow logs
       operationId: analyzeSlowLogs
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -10675,6 +10807,7 @@ paths:
       description: analyze a OpsRequest
       summary: Analyze OpsRequest
       operationId: analyzeOps
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -10724,6 +10857,7 @@ paths:
     get:
       operationId: analyzeService
       summary: Analyze service
+      deprecated: true
       parameters:
         - description: name of the Org
           in: path
@@ -10779,6 +10913,7 @@ paths:
     get:
       operationId: analyzeClusterRestore
       summary: Analyze cluster restore tasks
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -10816,6 +10951,7 @@ paths:
     get:
       operationId: analyzeBackup
       summary: Analyze backup
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -10854,6 +10990,7 @@ paths:
       description: analyze parameter, deprecated, instead use analyzeParameter
       operationId: analyzeParam
       summary: Analyze parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -10903,6 +11040,7 @@ paths:
       description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
       operationId: analyzeClusterParam
       summary: Analyze cluster parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -10951,6 +11089,7 @@ paths:
     get:
       operationId: analyzeParameter
       summary: Analyze parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -10999,6 +11138,7 @@ paths:
     get:
       operationId: analyzeClusterParameter
       summary: Analyze cluster parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -11047,6 +11187,7 @@ paths:
     get:
       tags:
         - llm
+      deprecated: true
       operationId: getLLM
       summary: Get LLM
       description: get user available llm list
@@ -11073,6 +11214,7 @@ paths:
     post:
       tags:
         - llm
+      deprecated: true
       operationId: addLLM
       summary: add LLM
       description: add LLM
@@ -11102,6 +11244,7 @@ paths:
     get:
       tags:
         - llm
+      deprecated: true
       operationId: getLLMByIDInOrg
       summary: Get LLM by ID in org
       parameters:
@@ -11133,6 +11276,7 @@ paths:
     patch:
       tags:
         - llm
+      deprecated: true
       operationId: updateLLM
       summary: Update LLM
       parameters:
@@ -11191,6 +11335,7 @@ paths:
     delete:
       tags:
         - llm
+      deprecated: true
       operationId: deleteLLM
       summary: Delete LLM
       parameters:
@@ -11216,6 +11361,7 @@ paths:
     post:
       tags:
         - llm
+      deprecated: true
       operationId: checkAPIKey
       summary: check apikey available
       description: check apikey available
@@ -11249,6 +11395,7 @@ paths:
     get:
       tags:
         - llm
+      deprecated: true
       operationId: listAvailableModelInOrg
       summary: List available model in org
       parameters:
@@ -11376,6 +11523,32 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/platformParameters/{platformParameterName}:
+    get:
+      tags:
+        - platformParameter
+      operationId: getPlatformParameter
+      summary: get platformParameter by name
+      parameters:
+        - description: name of the platformParameter
+          in: path
+          name: platformParameterName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformParameter'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -11390,11 +11563,10 @@ components:
       pattern: ^\+\d{1,3}\d{11}$
       type: string
     user:
-      description: User info
+      description: Admin user info
       properties:
-        createdAt:
-          description: CreatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC. Populated by the system. Read-only. Null for lists
-          format: date-time
+        id:
+          description: The ID for the user
           type: string
         userName:
           description: The name of the user, is unique
@@ -11405,26 +11577,22 @@ components:
         email:
           description: The email for the user
           type: string
-        id:
-          description: The ID for the user
-          type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        updatedAt:
-          description: |-
-            UpdatedAt is a timestamp representing the server time when this object was created. It is not guaranteed to be set in happens-before order across separate operations. Clients may not set this value. It is represented in RFC3339 form and is in UTC.
-
-            Populated by the system. Read-only. Null for lists
+        createdAt:
           format: date-time
           type: string
+        updatedAt:
+          format: date-time
+          type: string
+        isDefaultPassword:
+          description: return true if the default admin user need to reset password
+          type: boolean
       required:
-        - createdAt
-        - email
         - id
-        - updatedAt
         - userName
-        - displayName
-      type: object
+        - createdAt
+        - updatedAt
     APIErrorResponse:
       description: API error response.
       properties:
@@ -11451,9 +11619,6 @@ components:
           type: string
         phoneNumber:
           $ref: '#/components/schemas/phoneNumber'
-        verificationCode:
-          description: The verification code for the user
-          type: string
       type: object
     apikeyCreate:
       description: APIKeyCreate is the payload for creating an APIKey
@@ -11599,10 +11764,6 @@ components:
         name:
           description: The full, unique name of this Object in the format organizations/{name}, set during creation. name must be a valid RFC 1123 compliant DNS label
           type: string
-        creator:
-          description: The id of the creator of the organization
-          type: integer
-          format: int64
       required:
         - name
       type: object
@@ -11697,13 +11858,13 @@ components:
           description: The name of the role in the organization
           type: string
           x-nullable: false
-        userId:
-          description: The ID of the user
+        userName:
+          description: The name of the user
           type: string
           x-nullable: false
       required:
         - role
-        - userId
+        - userName
       type: object
     orgMemberUpdate:
       description: Org Member update
@@ -11981,6 +12142,14 @@ components:
       enum:
         - public
         - private
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       description: Environment info
       properties:
@@ -12051,6 +12220,8 @@ components:
         defaultStorageClass:
           type: string
           description: the default storageClass for the environment
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
       required:
         - provider
         - region
@@ -12938,10 +13109,9 @@ components:
     invitationCreate:
       description: Invitation create payload
       properties:
-        email:
-          description: The email of the invitee
+        userId:
+          description: The ID of the user as invitee, if email is not provided, the user ID is required
           type: string
-          format: email
         orgName:
           description: The name of the organization, for output only
           type: string
@@ -12949,7 +13119,7 @@ components:
           description: The name of the role
           type: string
       required:
-        - email
+        - userId
         - orgName
         - roleName
       type: object
@@ -13004,8 +13174,7 @@ components:
           type: string
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -13294,8 +13463,7 @@ components:
       properties:
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         clusterType:
@@ -13442,8 +13610,7 @@ components:
           description: Cluster ID
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -13717,6 +13884,59 @@ components:
           description: Items is the list of KubeBlocks cluster objects in the list
           items:
             $ref: '#/components/schemas/instance'
+          type: array
+      required:
+        - items
+      type: object
+    instanceEventItem:
+      description: Instance event
+      properties:
+        clusterName:
+          description: Cluster name of the event
+          type: string
+        instanceName:
+          description: Instance name of the event
+          type: string
+        name:
+          description: Name of the event
+          type: string
+        reason:
+          description: Reason of the event
+          type: string
+        message:
+          description: Message of the event
+          type: string
+        type:
+          description: Type of the event
+          type: string
+        source:
+          description: Source of the event
+          type: string
+        count:
+          description: Count of the event
+          type: integer
+          format: int32
+        eventTime:
+          description: Last timestamp of the event
+          type: string
+          format: date-time
+      required:
+        - clusterName
+        - instanceName
+        - name
+        - reason
+        - message
+        - type
+        - count
+        - eventTime
+      type: object
+    instanceEventList:
+      description: Instance event list
+      properties:
+        items:
+          description: Items is the list of instance event objects in the list
+          items:
+            $ref: '#/components/schemas/instanceEventItem'
           type: array
       required:
         - items
@@ -14750,59 +14970,114 @@ components:
       required:
         - items
       type: object
-    tlsConfig:
-      description: Configuration for TLS including all certificates and keys
+    tlsName:
+      type: string
+      description: Name of the TLS certificates
+      enum:
+        - ca
+        - certificate
+        - privateKey
+        - keystore
+        - truststore
+    tlsType:
+      description: TLS type
+      type: string
+      enum:
+        - StandardTLS
+        - JavaKeystore
+      default: StandardTLS
+    certificate:
+      description: certificates and it's config
       type: object
+      required:
+        - type
+        - name
+        - content
       properties:
-        caCert:
-          description: CA Certificate
+        name:
+          description: Name of the TLS certificates
+          $ref: '#/components/schemas/tlsName'
+        type:
+          $ref: '#/components/schemas/tlsType'
+        content:
+          description: Content of the TLS certificates
           type: string
-        clientCert:
-          description: Client Side Certificate
-          type: string
-        clientKey:
-          description: Client Side key
-          type: string
-        keystore:
-          description: Keystore in PEM format
-          type: string
-        truststore:
-          description: Truststore in PEM format
-          type: string
+        expirationDays:
+          description: Expiration days for this certificate
+          type: integer
+          x-omitempty: true
+          format: int32
+        DNS:
+          description: DNS name in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
+        ipAddress:
+          description: IP address in the certificate SAN
+          type: array
+          x-omitempty: true
+          items:
+            type: string
     tlsCert:
       properties:
-        tlsConfig:
-          $ref: '#/components/schemas/tlsConfig'
+        certificates:
+          description: TLS certificates
+          type: array
+          items:
+            $ref: '#/components/schemas/certificate'
         componentName:
           description: Component these certs belong to
           type: string
-        expirationDaysCA:
-          description: Expiration days of CA certificate
-          type: integer
-          format: int32
-        expirationDaysClient:
-          description: Expiration days of client certificate
-          type: integer
-          format: int32
-        expirationDaysKeystore:
-          description: Expiration days of Keystore certificate
-          type: integer
-          format: int32
-        expirationDaysTruststore:
-          description: Expiration days of Truststore certificate
-          type: integer
-          format: int32
       type: object
     tlsCertList:
       items:
         $ref: '#/components/schemas/tlsCert'
       type: array
+    certificateIssuer:
+      description: certificate issuer
+      type: string
+      enum:
+        - Apecloud
+        - UserSelf
+    tlsOption:
+      description: TLS options
+      type: object
+      required:
+        - issuer
+      properties:
+        issuer:
+          description: Issuer of the TLS certificates
+          $ref: '#/components/schemas/certificateIssuer'
+        serviceName:
+          description: the service name that will be set in certificate SAN
+          type: array
+          items:
+            type: string
+          x-omitempty: true
+        caContent:
+          description: CA certificate content
+          type: string
+          x-omitempty: true
+        certificateContent:
+          description: Certificate content
+          type: string
+          x-omitempty: true
+        privateKeyContent:
+          description: Private key content
+          type: string
+          x-omitempty: true
     tlsRequest:
+      type: object
+      required:
+        - enable
       properties:
         enable:
           description: Enable TLS or not
           type: boolean
-      type: object
+        options:
+          description: TLS options
+          $ref: '#/components/schemas/tlsOption'
     clusterBackupMethod:
       description: the backup method for cluster
       properties:
@@ -16425,10 +16700,13 @@ components:
         schedulingPolicy:
           type: object
           properties:
-            clusterScopeAntiAffinity:
-              type: boolean
+            componentAntiAffinity:
+              type: array
+              minItems: 1
               description: |
-                If set to true, resource distribution is at the cluster level.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+              items:
+                type: string
         components:
           type: array
           items:
@@ -18759,9 +19037,17 @@ components:
     disasterRecoveryTask:
       description: Task information of disasterRecovery job
       properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
+          nullable: true
         taskId:
           description: Task ID
-          type: integer
+          type: string
+          nullable: true
+        clusterTaskId:
+          description: Cluster task ID
+          type: string
           nullable: true
       required:
         - taskId
@@ -18792,6 +19078,9 @@ components:
     disasterRecoveryClusterItem:
       description: DisasterRecovery cluster information
       properties:
+        logicalInstanceID:
+          description: Logical instance ID
+          type: string
         cluster:
           $ref: '#/components/schemas/clusterListItem'
         taskSummary:
@@ -18848,11 +19137,11 @@ components:
       properties:
         taskID:
           description: the ID of disaster recovery task in TaskFlow
-          type: integer
+          type: string
           nullable: true
         parentClusterID:
           description: the ID of parent cluster
-          type: integer
+          type: string
           nullable: true
         parentClusterName:
           description: the Name of parent cluster
@@ -18864,7 +19153,7 @@ components:
           nullable: true
         clusterID:
           description: the ID of promote cluster
-          type: integer
+          type: string
           nullable: true
         clusterName:
           description: the Name of promote cluster
@@ -18913,7 +19202,7 @@ components:
       properties:
         clusterId:
           title: Cluster ID
-          type: integer
+          type: string
           description: Unique identifier for the cluster
         clusterName:
           title: Cluster Name
@@ -18932,8 +19221,7 @@ components:
           description: Current operational status of the cluster
         parentId:
           title: Parent Cluster ID
-          type: integer
-          format: int64
+          type: string
           description: ID of the parent cluster, if applicable; can be empty if there is no parent relationship
         parentName:
           title: Parent Cluster Name
@@ -19865,6 +20153,56 @@ components:
       required:
         - items
       type: object
+    platformParameterCategory:
+      enum:
+        - recycle-bin
+      type: string
+      description: platformParameter category, representing the platformParameter group, such as 'recycle bin'
+    platformParameter:
+      description: platformParameter item
+      type: object
+      required:
+        - id
+        - name
+        - category
+        - description
+        - constraints
+        - type
+      properties:
+        id:
+          type: string
+          description: platformParameter ID
+        name:
+          type: string
+          description: platformParameter name
+        category:
+          $ref: '#/components/schemas/platformParameterCategory'
+        type:
+          type: string
+          description: type of platformParameter value
+        constraints:
+          type: object
+          description: platformParameter constraints including min, max, enum, default value
+          properties:
+            min:
+              type: string
+              description: platformParameter min value
+            max:
+              type: string
+              description: platformParameter max value
+            enum:
+              type: array
+              items:
+                type: string
+              description: platformParameter enum constraints
+            default:
+              type: string
+              description: platformParameter default value
+        value:
+          type: string
+          description: platformParameter value
+        description:
+          $ref: '#/components/schemas/localizedDescription'
   responses:
     '400':
       content:
@@ -19952,6 +20290,7 @@ x-tagGroups:
       - invitation
       - member
       - role
+      - organizationParameter
   - name: Project
     tags:
       - project
