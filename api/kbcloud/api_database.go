@@ -570,7 +570,7 @@ func (r *UpdateDatabaseConfigOptionalParameters) WithBody(body map[string]string
 	return r
 }
 
-// UpdateDatabaseConfig update database config1“.
+// UpdateDatabaseConfig update database config.
 // update a database config in cluster
 func (a *DatabaseApi) UpdateDatabaseConfig(ctx _context.Context, engineName string, orgName string, clusterName string, databaseName string, o ...UpdateDatabaseConfigOptionalParameters) (*_nethttp.Response, error) {
 	var (

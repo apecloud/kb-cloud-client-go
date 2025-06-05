@@ -14603,7 +14603,7 @@ paths:
         - rdbms
     patch:
       description: update a database config in cluster
-      summary: update database config1``
+      summary: update database config
       operationId: updateDatabaseConfig
       parameters:
         - description: name of the engine
@@ -23251,12 +23251,27 @@ components:
       properties:
         enabled:
           type: boolean
+          x-omitempty: false
+        update:
+          type: boolean
+          x-omitempty: false
         databaseNamePattern:
           type: string
         availableOptions:
           type: array
           items:
             type: string
+        availbaleUpdateOptions:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              description:
+                $ref: '#/components/schemas/localizedDescription'
     dmsOption:
       type: object
       required:
