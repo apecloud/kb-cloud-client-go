@@ -19,6 +19,7 @@ type RegionGroupApi common.Service
 
 // CreateRegionGroup Create a region group.
 // Create a region group
+// Deprecated: This API is deprecated.
 func (a *RegionGroupApi) CreateRegionGroup(ctx _context.Context, providerName string, body RegionGroupCreate) (RegionGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -101,6 +102,7 @@ func (a *RegionGroupApi) CreateRegionGroup(ctx _context.Context, providerName st
 
 // DeleteRegionGroup Delete a region group.
 // Delete a region
+// Deprecated: This API is deprecated.
 func (a *RegionGroupApi) DeleteRegionGroup(ctx _context.Context, providerName string, regionGroupName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -171,6 +173,7 @@ func (a *RegionGroupApi) DeleteRegionGroup(ctx _context.Context, providerName st
 
 // ListRegionGroups Get region group list.
 // Get region group list
+// Deprecated: This API is deprecated.
 func (a *RegionGroupApi) ListRegionGroups(ctx _context.Context, providerName string) (RegionGroupList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -250,6 +253,7 @@ func (a *RegionGroupApi) ListRegionGroups(ctx _context.Context, providerName str
 
 // UpdateRegionGroup Update a region group.
 // Update a region group
+// Deprecated: This API is deprecated.
 func (a *RegionGroupApi) UpdateRegionGroup(ctx _context.Context, providerName string, regionGroupName string, body RegionGroupUpdate) (RegionGroup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
