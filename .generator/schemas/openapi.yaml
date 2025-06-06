@@ -31,6 +31,8 @@ tags:
     description: User APIs
   - name: role
     description: Role Management APIs
+  - name: invitation
+    description: Invitation APIs
   - name: environment
     description: Environment APIs
   - name: benchmark
@@ -1404,6 +1406,188 @@ paths:
               schema:
                 $ref: '#/components/schemas/benchmark'
       x-codegen-request-body-name: body
+  /api/v1/invitations:
+    get:
+      deprecated: true
+      tags:
+        - invitation
+      description: list the Invitation of specified Org or User
+      summary: List invitations
+      operationId: listInvitation
+      parameters:
+        - name: orgName
+          in: query
+          description: If 'true', then the output is pretty printed
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: If 'true', then the output is pretty printed
+          schema:
+            type: string
+        - name: pageToken
+          in: query
+          description: The pagination token in the List request
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: The pagination size in the List request.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invitationList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    post:
+      deprecated: true
+      tags:
+        - invitation
+      description: create a Invitation
+      summary: Create invitation
+      operationId: createInvitation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/invitationCreate'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invitation'
+        '401':
+          $ref: '#/components/responses/401'
+      x-codegen-request-body-name: body
+  /api/v1/invitations/{invitationId}:
+    get:
+      deprecated: true
+      tags:
+        - invitation
+      description: read the specified Invitation for organization admin or invitee
+      summary: Get Invitation
+      operationId: readInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invitation'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+    delete:
+      deprecated: true
+      tags:
+        - invitation
+      description: delete the specified Invitation for organization admin
+      summary: Delete Invitation
+      operationId: deleteInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/invitations/{invitationId}/accept:
+    patch:
+      deprecated: true
+      tags:
+        - invitation
+      description: partially update the specified Invitation
+      summary: Accept invitation
+      operationId: acceptInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /api/v1/invitations/{invitationId}/reject:
+    patch:
+      deprecated: true
+      tags:
+        - invitation
+      description: partially update the specified Invitation
+      summary: Reject invitation
+      operationId: rejectInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+  /api/v1/invitations/{invitationId}/resend:
+    patch:
+      deprecated: true
+      tags:
+        - invitation
+      description: partially update the specified Invitation
+      summary: Resend invitation
+      operationId: resendInvitation
+      parameters:
+        - name: invitationId
+          in: path
+          description: ID of the invitation
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
   /api/v1/organizations/{orgName}/clusters:
     get:
       tags:
@@ -10021,56 +10205,6 @@ paths:
         - shared
       x-codegen-request-body-name: body
   /api/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
-    get:
-      description: get a database info in cluster
-      operationId: getDatabase
-      parameters:
-        - description: name of the engine
-          in: path
-          name: engineName
-          required: true
-          schema:
-            type: string
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of database
-          in: path
-          name: databaseName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/database'
-          description: Success
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      tags:
-        - database
-        - rdbms
-        - shared
     delete:
       description: delete a database in cluster
       summary: Delete cluster database
@@ -10110,58 +10244,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      tags:
-        - database
-        - rdbms
-        - shared
-    patch:
-      description: update a database config in cluster
-      summary: update database config
-      operationId: updateDatabaseConfig
-      parameters:
-        - description: name of the engine
-          in: path
-          name: engineName
-          required: true
-          schema:
-            type: string
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of database
-          in: path
-          name: databaseName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties:
-                type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - database
         - rdbms
@@ -13085,6 +13167,97 @@ components:
         redisSentinelPassword:
           type: string
           description: Redis sentinel password
+    invitationSender:
+      description: InvitationSender is the User who send the Invitation
+      properties:
+        email:
+          description: The email of the User
+          type: string
+          nullable: true
+        id:
+          description: The ID of the User
+          type: string
+          nullable: true
+        name:
+          description: The name of the User
+          type: string
+          nullable: true
+      type: object
+    invitation:
+      description: Invitation info
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+          description: the created time of the invitation
+        email:
+          description: The email of the invitee
+          type: string
+        expireTime:
+          description: Expire time of this invitation
+          format: date-time
+          type: string
+        id:
+          description: The ID for the invitation
+          type: string
+        lastEmailTime:
+          description: Last email send time
+          format: date-time
+          type: string
+        orgName:
+          description: The name of the organization, for output only
+          type: string
+        roleName:
+          description: The name of the role
+          type: string
+        sender:
+          $ref: '#/components/schemas/invitationSender'
+        token:
+          description: '[internal, not for caller display] token of invitation, base64 encoded string including invitation and org ID'
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+          description: the updated time of the invitation
+      required:
+        - email
+        - expireTime
+        - id
+        - lastEmailTime
+        - orgName
+        - roleName
+        - token
+      type: object
+    invitationList:
+      description: InvitationList is a list of invitations
+      properties:
+        items:
+          description: Items is the list of Invitation objects in the list
+          items:
+            $ref: '#/components/schemas/invitation'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
+    invitationCreate:
+      description: Invitation create payload
+      properties:
+        userId:
+          description: The ID of the user as invitee, if email is not provided, the user ID is required
+          type: string
+        orgName:
+          description: The name of the organization, for output only
+          type: string
+        roleName:
+          description: The name of the role
+          type: string
+      required:
+        - userId
+        - orgName
+        - roleName
+      type: object
     clusterType:
       title: ClusterType
       type: string
@@ -16719,27 +16892,12 @@ components:
       properties:
         enabled:
           type: boolean
-          x-omitempty: false
-        update:
-          type: boolean
-          x-omitempty: false
         databaseNamePattern:
           type: string
         availableOptions:
           type: array
           items:
             type: string
-        availbaleUpdateOptions:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              type:
-                type: string
-              description:
-                $ref: '#/components/schemas/localizedDescription'
     dmsOption:
       type: object
       required:
@@ -20247,6 +20405,7 @@ x-tagGroups:
   - name: Organization
     tags:
       - organization
+      - invitation
       - member
       - role
       - organizationParameter

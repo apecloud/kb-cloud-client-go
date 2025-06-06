@@ -14780,56 +14780,6 @@ paths:
         - shared
       x-codegen-request-body-name: body
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
-    get:
-      description: get a database info in cluster
-      operationId: getDatabase
-      parameters:
-        - description: name of the engine
-          in: path
-          name: engineName
-          required: true
-          schema:
-            type: string
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of database
-          in: path
-          name: databaseName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/database'
-          description: Success
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-      tags:
-        - database
-        - rdbms
-        - shared
     delete:
       description: delete a database in cluster
       summary: Delete cluster database
@@ -14869,58 +14819,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-      tags:
-        - database
-        - rdbms
-        - shared
-    patch:
-      description: update a database config in cluster
-      summary: update database config
-      operationId: updateDatabaseConfig
-      parameters:
-        - description: name of the engine
-          in: path
-          name: engineName
-          required: true
-          schema:
-            type: string
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of database
-          in: path
-          name: databaseName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties:
-                type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
       tags:
         - database
         - rdbms
@@ -23516,27 +23414,12 @@ components:
       properties:
         enabled:
           type: boolean
-          x-omitempty: false
-        update:
-          type: boolean
-          x-omitempty: false
         databaseNamePattern:
           type: string
         availableOptions:
           type: array
           items:
             type: string
-        availbaleUpdateOptions:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              type:
-                type: string
-              description:
-                $ref: '#/components/schemas/localizedDescription'
     dmsOption:
       type: object
       required:
