@@ -36,8 +36,8 @@ type ChatRequest struct {
 	Schema *string `json:"schema,omitempty"`
 	// Tables involved in the chat
 	Tables []string `json:"tables,omitempty"`
-	// Chat interaction mode
-	Mode *ChatRequestMode `json:"mode,omitempty"`
+	// Chat interaction mode,default is interactive,automatic_report is only for analyze
+	Mode ChatRequestMode `json:"mode"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -47,7 +47,7 @@ type ChatRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewChatRequest(orgName string, clusterName string, sessionId string, messageId string, parentId string, query string, queryType QueryType) *ChatRequest {
+func NewChatRequest(orgName string, clusterName string, sessionId string, messageId string, parentId string, query string, queryType QueryType, mode ChatRequestMode) *ChatRequest {
 	this := ChatRequest{}
 	this.OrgName = orgName
 	this.ClusterName = clusterName
@@ -56,6 +56,7 @@ func NewChatRequest(orgName string, clusterName string, sessionId string, messag
 	this.ParentId = parentId
 	this.Query = query
 	this.QueryType = queryType
+	this.Mode = mode
 	return &this
 }
 
@@ -368,32 +369,27 @@ func (o *ChatRequest) SetTables(v []string) {
 	o.Tables = v
 }
 
-// GetMode returns the Mode field value if set, zero value otherwise.
+// GetMode returns the Mode field value.
 func (o *ChatRequest) GetMode() ChatRequestMode {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		var ret ChatRequestMode
 		return ret
 	}
-	return *o.Mode
+	return o.Mode
 }
 
-// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
 func (o *ChatRequest) GetModeOk() (*ChatRequestMode, bool) {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Mode, true
+	return &o.Mode, true
 }
 
-// HasMode returns a boolean if a field has been set.
-func (o *ChatRequest) HasMode() bool {
-	return o != nil && o.Mode != nil
-}
-
-// SetMode gets a reference to the given ChatRequestMode and assigns it to the Mode field.
+// SetMode sets field value.
 func (o *ChatRequest) SetMode(v ChatRequestMode) {
-	o.Mode = &v
+	o.Mode = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -424,9 +420,7 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	if o.Tables != nil {
 		toSerialize["tables"] = o.Tables
 	}
-	if o.Mode != nil {
-		toSerialize["mode"] = o.Mode
-	}
+	toSerialize["mode"] = o.Mode
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -449,7 +443,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 		Database    *string          `json:"database,omitempty"`
 		Schema      *string          `json:"schema,omitempty"`
 		Tables      []string         `json:"tables,omitempty"`
-		Mode        *ChatRequestMode `json:"mode,omitempty"`
+		Mode        *ChatRequestMode `json:"mode"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -475,6 +469,9 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	if all.QueryType == nil {
 		return fmt.Errorf("required field queryType missing")
 	}
+	if all.Mode == nil {
+		return fmt.Errorf("required field mode missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "schema", "tables", "mode"})
@@ -499,10 +496,10 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	o.Database = all.Database
 	o.Schema = all.Schema
 	o.Tables = all.Tables
-	if all.Mode != nil && !all.Mode.IsValid() {
+	if !all.Mode.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Mode = all.Mode
+		o.Mode = *all.Mode
 	}
 
 	if len(additionalProperties) > 0 {

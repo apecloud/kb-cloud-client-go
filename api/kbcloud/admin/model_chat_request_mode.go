@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ChatRequestMode Chat interaction mode
+// ChatRequestMode Chat interaction mode,default is interactive,automatic_report is only for analyze
 type ChatRequestMode string
 
 // List of ChatRequestMode.

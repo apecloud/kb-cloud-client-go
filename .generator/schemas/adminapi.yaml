@@ -27457,7 +27457,7 @@ components:
       enum:
         - interactive
         - automatic_report
-      description: Chat interaction mode
+      description: Chat interaction mode,default is interactive,automatic_report is only for analyze
     chatRequest:
       type: object
       required:
@@ -27468,6 +27468,7 @@ components:
         - parentID
         - query
         - queryType
+        - mode
       description: Chat message request
       properties:
         orgName:
@@ -27514,8 +27515,6 @@ components:
             x-nullable: true
         mode:
           $ref: '#/components/schemas/chatRequestMode'
-          description: Mode specifies the chat interaction mode.
-          x-nullable: true
     chatResponseType:
       type: string
       enum:
