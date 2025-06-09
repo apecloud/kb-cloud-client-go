@@ -322,11 +322,11 @@ func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (Rec
 }
 
 // RestoreRecycleBinCluster Restore cluster from the Recycle Bin of the Org.
-func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, orgName string, clusterName string) (RecycleBinCluster, *_nethttp.Response, error) {
+func (a *RecycleBinClusterApi) RestoreRecycleBinCluster(ctx _context.Context, orgName string, clusterName string) (Cluster, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue RecycleBinCluster
+		localVarReturnValue Cluster
 	)
 
 	// Add api info to context
