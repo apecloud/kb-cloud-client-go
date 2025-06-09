@@ -18,6 +18,7 @@ type AIApi common.Service
 
 // AnalyzeCluster Analyze cluster.
 // Analyze cluster
+// Deprecated: This API is deprecated.
 func (a *AIApi) AnalyzeCluster(ctx _context.Context) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

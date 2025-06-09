@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ChatResponseType 消息类型
+// ChatResponseType Message type
 type ChatResponseType string
 
 // List of ChatResponseType.

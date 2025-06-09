@@ -10,18 +10,18 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// QueryType 查询类型
+// QueryType Query type
 type QueryType string
 
 // List of QueryType.
 const (
-	QueryTypeBi  QueryType = "BI"
-	QueryTypeMcp QueryType = "MCP"
+	QueryTypeBi      QueryType = "BI"
+	QueryTypeAnalyze QueryType = "Analyze"
 )
 
 var allowedQueryTypeEnumValues = []QueryType{
 	QueryTypeBi,
-	QueryTypeMcp,
+	QueryTypeAnalyze,
 }
 
 // GetAllowedValues returns the list of possible values.

@@ -19,6 +19,7 @@ type RegionApi common.Service
 
 // CreateRegion Create a region.
 // Create a region
+// Deprecated: This API is deprecated.
 func (a *RegionApi) CreateRegion(ctx _context.Context, providerName string, body RegionCreate) (Region, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -251,6 +252,7 @@ func (a *RegionApi) GetRegion(ctx _context.Context, providerName string, regionN
 
 // ListRegions Get region list.
 // Get region list
+// Deprecated: This API is deprecated.
 func (a *RegionApi) ListRegions(ctx _context.Context, providerName string) (RegionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
