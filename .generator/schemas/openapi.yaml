@@ -15260,6 +15260,7 @@ components:
     certificateIssuer:
       description: certificate issuer
       type: string
+      default: Apecloud
       enum:
         - Apecloud
         - UserSelf
