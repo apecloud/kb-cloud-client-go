@@ -15,7 +15,7 @@ type DatabaseItem struct {
 	// Specify the name of database, which must be unique.
 	Name string `json:"name"`
 	// Specify the options of database.
-	Options map[string]string `json:"options,omitempty"`
+	Options map[string]interface{} `json:"options,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -63,9 +63,9 @@ func (o *DatabaseItem) SetName(v string) {
 }
 
 // GetOptions returns the Options field value if set, zero value otherwise.
-func (o *DatabaseItem) GetOptions() map[string]string {
+func (o *DatabaseItem) GetOptions() map[string]interface{} {
 	if o == nil || o.Options == nil {
-		var ret map[string]string
+		var ret map[string]interface{}
 		return ret
 	}
 	return o.Options
@@ -73,7 +73,7 @@ func (o *DatabaseItem) GetOptions() map[string]string {
 
 // GetOptionsOk returns a tuple with the Options field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DatabaseItem) GetOptionsOk() (*map[string]string, bool) {
+func (o *DatabaseItem) GetOptionsOk() (*map[string]interface{}, bool) {
 	if o == nil || o.Options == nil {
 		return nil, false
 	}
@@ -85,8 +85,8 @@ func (o *DatabaseItem) HasOptions() bool {
 	return o != nil && o.Options != nil
 }
 
-// SetOptions gets a reference to the given map[string]string and assigns it to the Options field.
-func (o *DatabaseItem) SetOptions(v map[string]string) {
+// SetOptions gets a reference to the given map[string]interface{} and assigns it to the Options field.
+func (o *DatabaseItem) SetOptions(v map[string]interface{}) {
 	o.Options = v
 }
 
@@ -110,8 +110,8 @@ func (o DatabaseItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DatabaseItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string           `json:"name"`
-		Options map[string]string `json:"options,omitempty"`
+		Name    *string                `json:"name"`
+		Options map[string]interface{} `json:"options,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

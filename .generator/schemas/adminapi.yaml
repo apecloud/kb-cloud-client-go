@@ -15504,6 +15504,42 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/tde:
+    patch:
+      operationId: manageMssqlTDEDatabase
+      summary: batch modify database tde status
+      tags:
+        - mssql
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dbTDERequest'
+      responses:
+        '204':
+          content: {}
+          description: Enable mssql database in tde successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
     get:
       operationId: analyzeService
@@ -18022,8 +18058,7 @@ components:
           description: Specify the options of database.
           title: options
           type: object
-          additionalProperties:
-            type: string
+          additionalProperties: {}
       required:
         - name
       type: object
@@ -23523,12 +23558,22 @@ components:
           x-omitempty: false
         databaseNamePattern:
           type: string
+        listOption:
+          type: array
+          description: |
+            The database option information that will be displayed when listing databases
+          items:
+            type: string
         availableOptions:
           type: array
+          description: |
+            The database option cloud be set when creating databases
           items:
             type: string
         availbaleUpdateOptions:
           type: array
+          description: |
+            The database option name and type cloud be updated when updating databases
           items:
             type: object
             properties:
@@ -27285,6 +27330,20 @@ components:
         serviceType:
           $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
+    dbTDERequest:
+      type: object
+      properties:
+        enable:
+          type: array
+          items:
+            type: string
+        disable:
+          type: array
+          items:
+            type: string
+      required:
+        - enable
+        - disable
     analysisResult:
       properties:
         explanation:
