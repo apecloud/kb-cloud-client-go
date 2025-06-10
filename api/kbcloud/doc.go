@@ -221,6 +221,7 @@
 //   - [memberApi.listOrgMemberPermission]
 //   - [memberApi.patchOrgMember]
 //   - [memberApi.readOrgMember]
+//   - [mssqlApi.manageMssqlTDEDatabase]
 //   - [oceanbaseApi.getTenant]
 //   - [oceanbaseApi.listTenants]
 //   - [opsrequestApi.cancelOps]

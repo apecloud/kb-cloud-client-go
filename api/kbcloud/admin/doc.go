@@ -330,6 +330,7 @@
 //   - [monitorDataSinkApi.deleteMonitorDataSink]
 //   - [monitorDataSinkApi.listMonitorDataSinks]
 //   - [monitorDataSinkApi.patchMonitorDataSink]
+//   - [mssqlApi.manageMssqlTDEDatabase]
 //   - [oceanbaseApi.getTenant]
 //   - [oceanbaseApi.listTenants]
 //   - [opsrequestApi.cancelOps]

@@ -11,10 +11,17 @@ import (
 )
 
 type DatabaseOption struct {
-	Enabled                bool                                       `json:"enabled"`
-	Update                 *bool                                      `json:"update,omitempty"`
-	DatabaseNamePattern    *string                                    `json:"databaseNamePattern,omitempty"`
-	AvailableOptions       []string                                   `json:"availableOptions,omitempty"`
+	Enabled             bool    `json:"enabled"`
+	Update              *bool   `json:"update,omitempty"`
+	DatabaseNamePattern *string `json:"databaseNamePattern,omitempty"`
+	// The database option information that will be displayed when listing databases
+	//
+	ListOption []string `json:"listOption,omitempty"`
+	// The database option cloud be set when creating databases
+	//
+	AvailableOptions []string `json:"availableOptions,omitempty"`
+	// The database option name and type cloud be updated when updating databases
+	//
 	AvailbaleUpdateOptions []DatabaseOptionAvailbaleUpdateOptionsItem `json:"availbaleUpdateOptions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -118,6 +125,34 @@ func (o *DatabaseOption) SetDatabaseNamePattern(v string) {
 	o.DatabaseNamePattern = &v
 }
 
+// GetListOption returns the ListOption field value if set, zero value otherwise.
+func (o *DatabaseOption) GetListOption() []string {
+	if o == nil || o.ListOption == nil {
+		var ret []string
+		return ret
+	}
+	return o.ListOption
+}
+
+// GetListOptionOk returns a tuple with the ListOption field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DatabaseOption) GetListOptionOk() (*[]string, bool) {
+	if o == nil || o.ListOption == nil {
+		return nil, false
+	}
+	return &o.ListOption, true
+}
+
+// HasListOption returns a boolean if a field has been set.
+func (o *DatabaseOption) HasListOption() bool {
+	return o != nil && o.ListOption != nil
+}
+
+// SetListOption gets a reference to the given []string and assigns it to the ListOption field.
+func (o *DatabaseOption) SetListOption(v []string) {
+	o.ListOption = v
+}
+
 // GetAvailableOptions returns the AvailableOptions field value if set, zero value otherwise.
 func (o *DatabaseOption) GetAvailableOptions() []string {
 	if o == nil || o.AvailableOptions == nil {
@@ -187,6 +222,9 @@ func (o DatabaseOption) MarshalJSON() ([]byte, error) {
 	if o.DatabaseNamePattern != nil {
 		toSerialize["databaseNamePattern"] = o.DatabaseNamePattern
 	}
+	if o.ListOption != nil {
+		toSerialize["listOption"] = o.ListOption
+	}
 	if o.AvailableOptions != nil {
 		toSerialize["availableOptions"] = o.AvailableOptions
 	}
@@ -206,6 +244,7 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 		Enabled                *bool                                      `json:"enabled"`
 		Update                 *bool                                      `json:"update,omitempty"`
 		DatabaseNamePattern    *string                                    `json:"databaseNamePattern,omitempty"`
+		ListOption             []string                                   `json:"listOption,omitempty"`
 		AvailableOptions       []string                                   `json:"availableOptions,omitempty"`
 		AvailbaleUpdateOptions []DatabaseOptionAvailbaleUpdateOptionsItem `json:"availbaleUpdateOptions,omitempty"`
 	}{}
@@ -217,13 +256,14 @@ func (o *DatabaseOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "databaseNamePattern", "availableOptions", "availbaleUpdateOptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "update", "databaseNamePattern", "listOption", "availableOptions", "availbaleUpdateOptions"})
 	} else {
 		return err
 	}
 	o.Enabled = *all.Enabled
 	o.Update = all.Update
 	o.DatabaseNamePattern = all.DatabaseNamePattern
+	o.ListOption = all.ListOption
 	o.AvailableOptions = all.AvailableOptions
 	o.AvailbaleUpdateOptions = all.AvailbaleUpdateOptions
 
