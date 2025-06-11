@@ -17312,6 +17312,7 @@ components:
         - NodePort
         - FixedPodIP
         - HeadlessService
+        - LoadBalancer
       type: string
     clusterCreate:
       required:

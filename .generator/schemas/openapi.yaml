@@ -12080,6 +12080,7 @@ components:
         - NodePort
         - FixedPodIP
         - HeadlessService
+        - LoadBalancer
       type: string
     networkConfig:
       type: object
