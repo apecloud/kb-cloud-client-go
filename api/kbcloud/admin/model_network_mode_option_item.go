@@ -11,9 +11,11 @@ import (
 )
 
 type NetworkModeOptionItem struct {
-	Supported []NetworkMode               `json:"supported"`
-	Modes     common.NullableList[string] `json:"modes,omitempty"`
-	Versions  common.NullableList[string] `json:"versions,omitempty"`
+	Supported []NetworkMode `json:"supported"`
+	// not supported versions, key is the networkMode, value is an array of versions which support major version or mirror version.
+	NotSupportedVersions map[string][]string         `json:"notSupportedVersions,omitempty"`
+	Modes                common.NullableList[string] `json:"modes,omitempty"`
+	Versions             common.NullableList[string] `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -58,6 +60,34 @@ func (o *NetworkModeOptionItem) GetSupportedOk() (*[]NetworkMode, bool) {
 // SetSupported sets field value.
 func (o *NetworkModeOptionItem) SetSupported(v []NetworkMode) {
 	o.Supported = v
+}
+
+// GetNotSupportedVersions returns the NotSupportedVersions field value if set, zero value otherwise.
+func (o *NetworkModeOptionItem) GetNotSupportedVersions() map[string][]string {
+	if o == nil || o.NotSupportedVersions == nil {
+		var ret map[string][]string
+		return ret
+	}
+	return o.NotSupportedVersions
+}
+
+// GetNotSupportedVersionsOk returns a tuple with the NotSupportedVersions field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NetworkModeOptionItem) GetNotSupportedVersionsOk() (*map[string][]string, bool) {
+	if o == nil || o.NotSupportedVersions == nil {
+		return nil, false
+	}
+	return &o.NotSupportedVersions, true
+}
+
+// HasNotSupportedVersions returns a boolean if a field has been set.
+func (o *NetworkModeOptionItem) HasNotSupportedVersions() bool {
+	return o != nil && o.NotSupportedVersions != nil
+}
+
+// SetNotSupportedVersions gets a reference to the given map[string][]string and assigns it to the NotSupportedVersions field.
+func (o *NetworkModeOptionItem) SetNotSupportedVersions(v map[string][]string) {
+	o.NotSupportedVersions = v
 }
 
 // GetModes returns the Modes field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -145,6 +175,9 @@ func (o NetworkModeOptionItem) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["supported"] = o.Supported
+	if o.NotSupportedVersions != nil {
+		toSerialize["notSupportedVersions"] = o.NotSupportedVersions
+	}
 	if o.Modes.IsSet() {
 		toSerialize["modes"] = o.Modes.Get()
 	}
@@ -161,9 +194,10 @@ func (o NetworkModeOptionItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *NetworkModeOptionItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Supported *[]NetworkMode              `json:"supported"`
-		Modes     common.NullableList[string] `json:"modes,omitempty"`
-		Versions  common.NullableList[string] `json:"versions,omitempty"`
+		Supported            *[]NetworkMode              `json:"supported"`
+		NotSupportedVersions map[string][]string         `json:"notSupportedVersions,omitempty"`
+		Modes                common.NullableList[string] `json:"modes,omitempty"`
+		Versions             common.NullableList[string] `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -173,11 +207,12 @@ func (o *NetworkModeOptionItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"supported", "modes", "versions"})
+		common.DeleteKeys(additionalProperties, &[]string{"supported", "notSupportedVersions", "modes", "versions"})
 	} else {
 		return err
 	}
 	o.Supported = *all.Supported
+	o.NotSupportedVersions = all.NotSupportedVersions
 	o.Modes = all.Modes
 	o.Versions = all.Versions
 
