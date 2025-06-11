@@ -21556,6 +21556,12 @@ components:
           type: array
           items:
             type: string
+        listOption:
+          type: array
+          description: |
+            The database option information that will be displayed when listing databases
+          items:
+            type: string
         availbaleUpdateOptions:
           type: array
           items:
