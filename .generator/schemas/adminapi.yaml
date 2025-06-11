@@ -23725,12 +23725,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/networkMode'
+          notSupportedVersions:
+            type: object
+            description: not supported versions, key is the networkMode, value is an array of versions which support major version or mirror version.
+            additionalProperties:
+              type: array
+              items:
+                type: string
           modes:
-            type: array
-            items:
-              type: string
-            nullable: true
-          versions:
             type: array
             items:
               type: string
