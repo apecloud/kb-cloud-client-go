@@ -15,7 +15,6 @@ type NetworkModeOptionItem struct {
 	// not supported versions, key is the networkMode, value is an array of versions which support major version or mirror version.
 	NotSupportedVersions map[string][]string         `json:"notSupportedVersions,omitempty"`
 	Modes                common.NullableList[string] `json:"modes,omitempty"`
-	Versions             common.NullableList[string] `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -129,45 +128,6 @@ func (o *NetworkModeOptionItem) UnsetModes() {
 	o.Modes.Unset()
 }
 
-// GetVersions returns the Versions field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *NetworkModeOptionItem) GetVersions() []string {
-	if o == nil || o.Versions.Get() == nil {
-		var ret []string
-		return ret
-	}
-	return *o.Versions.Get()
-}
-
-// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *NetworkModeOptionItem) GetVersionsOk() (*[]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Versions.Get(), o.Versions.IsSet()
-}
-
-// HasVersions returns a boolean if a field has been set.
-func (o *NetworkModeOptionItem) HasVersions() bool {
-	return o != nil && o.Versions.IsSet()
-}
-
-// SetVersions gets a reference to the given common.NullableList[string] and assigns it to the Versions field.
-func (o *NetworkModeOptionItem) SetVersions(v []string) {
-	o.Versions.Set(&v)
-}
-
-// SetVersionsNil sets the value for Versions to be an explicit nil.
-func (o *NetworkModeOptionItem) SetVersionsNil() {
-	o.Versions.Set(nil)
-}
-
-// UnsetVersions ensures that no value is present for Versions, not even an explicit nil.
-func (o *NetworkModeOptionItem) UnsetVersions() {
-	o.Versions.Unset()
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o NetworkModeOptionItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -180,9 +140,6 @@ func (o NetworkModeOptionItem) MarshalJSON() ([]byte, error) {
 	}
 	if o.Modes.IsSet() {
 		toSerialize["modes"] = o.Modes.Get()
-	}
-	if o.Versions.IsSet() {
-		toSerialize["versions"] = o.Versions.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -197,7 +154,6 @@ func (o *NetworkModeOptionItem) UnmarshalJSON(bytes []byte) (err error) {
 		Supported            *[]NetworkMode              `json:"supported"`
 		NotSupportedVersions map[string][]string         `json:"notSupportedVersions,omitempty"`
 		Modes                common.NullableList[string] `json:"modes,omitempty"`
-		Versions             common.NullableList[string] `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -207,14 +163,13 @@ func (o *NetworkModeOptionItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"supported", "notSupportedVersions", "modes", "versions"})
+		common.DeleteKeys(additionalProperties, &[]string{"supported", "notSupportedVersions", "modes"})
 	} else {
 		return err
 	}
 	o.Supported = *all.Supported
 	o.NotSupportedVersions = all.NotSupportedVersions
 	o.Modes = all.Modes
-	o.Versions = all.Versions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
