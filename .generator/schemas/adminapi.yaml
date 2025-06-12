@@ -17839,6 +17839,9 @@ components:
         serviceName:
           description: Service name of endpoint
           type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
         portName:
           description: Port name of endpoint
           type: string
