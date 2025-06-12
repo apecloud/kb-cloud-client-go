@@ -16402,12 +16402,12 @@ paths:
           in: query
           name: billID
           schema:
-            type: integer
+            type: string
         - description: The ID of the cluster
           in: query
           name: clusterID
           schema:
-            type: integer
+            type: string
         - description: name of the organization
           in: query
           name: orgName
