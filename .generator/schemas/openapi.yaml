@@ -2910,7 +2910,8 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engineOption
+        - engine
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/volume-expand:
     post:
       operationId: clusterVolumeExpand
@@ -3938,6 +3939,7 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - backup
+        - shared
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/backups:
     get:
@@ -4201,6 +4203,7 @@ paths:
     post:
       tags:
         - backup
+        - shared
       operationId: downloadMultipleBackups
       summary: Download multiple backup files
       parameters:
@@ -6434,6 +6437,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: Data Export
       operationId: DataExport
       parameters:
@@ -6473,6 +6477,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: Data Import
       operationId: DataImport
       parameters:
@@ -6524,6 +6529,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: Get the task progress
       operationId: GetTaskProgress
       parameters:
@@ -6568,6 +6574,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: Get the task list
       operationId: GetTaskList
       parameters:
@@ -8515,6 +8522,7 @@ paths:
       operationId: createKafkaTopic
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -9054,6 +9062,7 @@ paths:
       operationId: produceKafkaTopicMessage
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -9188,6 +9197,7 @@ paths:
       operationId: deleteKafkaConsumerGroup
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -10459,6 +10469,7 @@ paths:
       summary: batch modify database tde status
       tags:
         - mssql
+        - shared
       parameters:
         - description: name of the organization
           in: path

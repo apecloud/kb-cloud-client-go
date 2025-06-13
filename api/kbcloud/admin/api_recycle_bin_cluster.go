@@ -245,6 +245,7 @@ func (a *RecycleBinClusterApi) ListRecycleBinCluster(ctx _context.Context, orgNa
 }
 
 // ListRecycleBinClusters List all clusters in the Recycle Bin.
+// Deprecated: This API is deprecated.
 func (a *RecycleBinClusterApi) ListRecycleBinClusters(ctx _context.Context) (RecycleBinClusterList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
