@@ -18,8 +18,8 @@ type BillingApi common.Service
 
 // QueryBillDetailOptionalParameters holds optional parameters for QueryBillDetail.
 type QueryBillDetailOptionalParameters struct {
-	BillId          *int32
-	ClusterId       *int32
+	BillId          *string
+	ClusterId       *string
 	OrgName         *string
 	ProjectName     *string
 	AggregationTime *AggregationTimeType
@@ -32,13 +32,13 @@ func NewQueryBillDetailOptionalParameters() *QueryBillDetailOptionalParameters {
 }
 
 // WithBillId sets the corresponding parameter name and returns the struct.
-func (r *QueryBillDetailOptionalParameters) WithBillId(billId int32) *QueryBillDetailOptionalParameters {
+func (r *QueryBillDetailOptionalParameters) WithBillId(billId string) *QueryBillDetailOptionalParameters {
 	r.BillId = &billId
 	return r
 }
 
 // WithClusterId sets the corresponding parameter name and returns the struct.
-func (r *QueryBillDetailOptionalParameters) WithClusterId(clusterId int32) *QueryBillDetailOptionalParameters {
+func (r *QueryBillDetailOptionalParameters) WithClusterId(clusterId string) *QueryBillDetailOptionalParameters {
 	r.ClusterId = &clusterId
 	return r
 }
