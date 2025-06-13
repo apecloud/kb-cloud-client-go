@@ -16931,6 +16931,11 @@ components:
       required:
         - component
       properties:
+        modes:
+          type: array
+          items:
+            type: string
+          description: List of modes that this component supports. if not set, support all modes.
         component:
           type: string
         disableHA:
