@@ -8001,12 +8001,12 @@ paths:
           in: query
           name: logicalInstanceID
           schema:
-            type: integer
+            type: string
         - description: The ID of the disaster recovery cluster
           in: query
           name: clusterID
           schema:
-            type: integer
+            type: string
       responses:
         '200':
           content:
@@ -8034,7 +8034,7 @@ paths:
           name: parentClusterID
           required: true
           schema:
-            type: integer
+            type: string
         - description: name of the org
           in: path
           name: orgName
@@ -8067,7 +8067,7 @@ paths:
           name: parentClusterID
           required: true
           schema:
-            type: integer
+            type: string
         - description: name of the org
           in: path
           name: orgName
@@ -8108,7 +8108,7 @@ paths:
           name: clusterID
           required: true
           schema:
-            type: integer
+            type: string
         - description: name of the org
           in: path
           name: orgName
@@ -8149,7 +8149,7 @@ paths:
           name: clusterID
           required: true
           schema:
-            type: integer
+            type: string
         - description: name of the org
           in: path
           name: orgName
@@ -8183,7 +8183,7 @@ paths:
           name: clusterID
           required: true
           schema:
-            type: integer
+            type: string
         - description: Name of the organization
           in: path
           name: orgName
@@ -14575,6 +14575,9 @@ components:
         serviceName:
           description: Service name of endpoint
           type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
         portName:
           description: Port name of endpoint
           type: string
@@ -16664,6 +16667,11 @@ components:
       required:
         - component
       properties:
+        modes:
+          type: array
+          items:
+            type: string
+          description: List of modes that this component supports. if not set, support all modes.
         component:
           type: string
         disableHA:
