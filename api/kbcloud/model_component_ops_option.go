@@ -11,8 +11,10 @@ import (
 )
 
 type ComponentOpsOption struct {
-	Component string `json:"component"`
-	DisableHa *bool  `json:"disableHA,omitempty"`
+	// List of modes that this component supports. if not set, support all modes.
+	Modes     []string `json:"modes,omitempty"`
+	Component string   `json:"component"`
+	DisableHa *bool    `json:"disableHA,omitempty"`
 	// parameter for rebuild instance ops
 	InPlace *bool `json:"inPlace,omitempty"`
 	// indicate whether backup is required when Inplace is true
@@ -54,6 +56,34 @@ func NewComponentOpsOptionWithDefaults() *ComponentOpsOption {
 	var needBackupWhenInPlace bool = false
 	this.NeedBackupWhenInPlace = &needBackupWhenInPlace
 	return &this
+}
+
+// GetModes returns the Modes field value if set, zero value otherwise.
+func (o *ComponentOpsOption) GetModes() []string {
+	if o == nil || o.Modes == nil {
+		var ret []string
+		return ret
+	}
+	return o.Modes
+}
+
+// GetModesOk returns a tuple with the Modes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentOpsOption) GetModesOk() (*[]string, bool) {
+	if o == nil || o.Modes == nil {
+		return nil, false
+	}
+	return &o.Modes, true
+}
+
+// HasModes returns a boolean if a field has been set.
+func (o *ComponentOpsOption) HasModes() bool {
+	return o != nil && o.Modes != nil
+}
+
+// SetModes gets a reference to the given []string and assigns it to the Modes field.
+func (o *ComponentOpsOption) SetModes(v []string) {
+	o.Modes = v
 }
 
 // GetComponent returns the Component field value.
@@ -254,6 +284,9 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Modes != nil {
+		toSerialize["modes"] = o.Modes
+	}
 	toSerialize["component"] = o.Component
 	if o.DisableHa != nil {
 		toSerialize["disableHA"] = o.DisableHa
@@ -283,6 +316,7 @@ func (o ComponentOpsOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Modes                 []string                              `json:"modes,omitempty"`
 		Component             *string                               `json:"component"`
 		DisableHa             *bool                                 `json:"disableHA,omitempty"`
 		InPlace               *bool                                 `json:"inPlace,omitempty"`
@@ -299,12 +333,13 @@ func (o *ComponentOpsOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupMethod", "restoreEnv", "dependentCustomOps"})
+		common.DeleteKeys(additionalProperties, &[]string{"modes", "component", "disableHA", "inPlace", "needBackupWhenInPlace", "backupMethod", "restoreEnv", "dependentCustomOps"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.Modes = all.Modes
 	o.Component = *all.Component
 	o.DisableHa = all.DisableHa
 	o.InPlace = all.InPlace
