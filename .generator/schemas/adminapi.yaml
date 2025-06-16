@@ -1336,6 +1336,7 @@ paths:
     get:
       tags:
         - cluster
+        - shared
       summary: Get cluster list
       description: Get cluster list
       operationId: listClusters
@@ -3491,6 +3492,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: Data Export
       operationId: DataExport
       parameters:
@@ -3530,6 +3532,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: Data Import
       operationId: DataImport
       parameters:
@@ -3581,6 +3584,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: Get the task progress
       operationId: GetTaskProgress
       parameters:
@@ -3625,6 +3629,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: Get the task list
       operationId: GetTaskList
       parameters:
@@ -4726,7 +4731,8 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engineOption
+        - engine
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/volume-expand:
     post:
       operationId: clusterVolumeExpand
@@ -7621,6 +7627,7 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - backup
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/backups:
     get:
@@ -7872,6 +7879,7 @@ paths:
     post:
       tags:
         - backup
+        - shared
       operationId: downloadMultipleBackups
       summary: Download multiple backup files
       parameters:
@@ -9090,6 +9098,7 @@ paths:
     put:
       tags:
         - alertRule
+        - shared
       summary: Update alert rule configuration via YAML upload
       description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
       operationId: updateRuleConfig
@@ -9365,6 +9374,7 @@ paths:
       tags:
         - alertInhibit
       operationId: listAlertInhibits
+      deprecated: true
       summary: List alert inhibits
       parameters:
         - name: orgName
@@ -10433,8 +10443,8 @@ paths:
     get:
       tags:
         - provider
-      summary: Get cloud provider list
-      description: Get cloud provider list
+      summary: List cloud providers
+      description: List cloud providers
       operationId: listCloudProviders
       responses:
         '200':
@@ -10547,501 +10557,6 @@ paths:
         - in: path
           name: providerName
           description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          $ref: '#/components/responses/204'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions:
-    get:
-      tags:
-        - region
-      summary: Get region list
-      description: Get region list
-      operationId: listRegions
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - region
-      summary: Create a region
-      description: Create a region
-      operationId: createRegion
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionCreate'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/region'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions/{regionName}:
-    get:
-      tags:
-        - region
-      summary: Get region
-      description: Get region
-      operationId: getRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the cloud region
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/region'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - region
-      summary: Update a region
-      description: Update a region
-      operationId: updateRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionUpdate'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/region'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - region
-      summary: Delete a region
-      description: Delete a region
-      operationId: deleteRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          $ref: '#/components/responses/204'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions/{regionName}/zones:
-    get:
-      tags:
-        - zone
-      summary: Get zone list
-      description: Get zone list
-      operationId: listZones
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zoneList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - zone
-      summary: Create a zone
-      description: Create a zone
-      operationId: createZone
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/zoneCreate'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zone'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}:
-    get:
-      tags:
-        - zone
-      summary: Get zone
-      description: Get zone
-      operationId: getZones
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: zoneName
-          description: Name of the zone
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zone'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - zone
-      summary: Update a zone
-      description: Update a zone
-      operationId: updateZone
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: zoneName
-          description: Name of the zone
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/zoneUpdate'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zone'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - zone
-      summary: Delete a zone
-      description: Delete a zone
-      operationId: deleteZone
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: zoneName
-          description: Name of the zone
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          $ref: '#/components/responses/204'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regionGroups:
-    get:
-      tags:
-        - regionGroup
-      summary: Get region group list
-      description: Get region group list
-      operationId: listRegionGroups
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionGroupList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - regionGroup
-      summary: Create a region group
-      description: Create a region group
-      operationId: createRegionGroup
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionGroupCreate'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionGroup'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regionGroups/{regionGroupName}:
-    patch:
-      tags:
-        - regionGroup
-      summary: Update a region group
-      description: Update a region group
-      operationId: updateRegionGroup
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionGroupName
-          description: Name of the region group
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionGroupUpdate'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionGroup'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - regionGroup
-      summary: Delete a region group
-      description: Delete a region
-      operationId: deleteRegionGroup
-      deprecated: true
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionGroupName
-          description: Name of the region group
           required: true
           schema:
             type: string
@@ -12295,6 +11810,7 @@ paths:
     get:
       summary: List cluster instances
       description: List instances based on query parameters with constraints.
+      deprecated: true
       operationId: listInstances
       parameters:
         - name: envName
@@ -12677,6 +12193,7 @@ paths:
       tags:
         - recycleBinCluster
       operationId: listRecycleBinClusters
+      deprecated: true
       summary: List all clusters in the Recycle Bin
       responses:
         '200':
@@ -13566,6 +13083,7 @@ paths:
       operationId: createKafkaTopic
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -14105,6 +13623,7 @@ paths:
       operationId: produceKafkaTopicMessage
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -14239,6 +13758,7 @@ paths:
       operationId: deleteKafkaConsumerGroup
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -15504,6 +15024,43 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/tde:
+    patch:
+      operationId: manageMssqlTDEDatabase
+      summary: batch modify database tde status
+      tags:
+        - mssql
+        - shared
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dbTDERequest'
+      responses:
+        '204':
+          content: {}
+          description: Enable mssql database in tde successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
     get:
       operationId: analyzeService
@@ -16485,12 +16042,12 @@ paths:
           in: query
           name: billID
           schema:
-            type: integer
+            type: string
         - description: The ID of the cluster
           in: query
           name: clusterID
           schema:
-            type: integer
+            type: string
         - description: name of the organization
           in: query
           name: orgName
@@ -17395,6 +16952,7 @@ components:
         - NodePort
         - FixedPodIP
         - HeadlessService
+        - LoadBalancer
       type: string
     clusterCreate:
       required:
@@ -17921,6 +17479,9 @@ components:
         serviceName:
           description: Service name of endpoint
           type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
         portName:
           description: Port name of endpoint
           type: string
@@ -18141,8 +17702,7 @@ components:
           description: Specify the options of database.
           title: options
           type: object
-          additionalProperties:
-            type: string
+          additionalProperties: {}
       required:
         - name
       type: object
@@ -18355,6 +17915,7 @@ components:
     certificateIssuer:
       description: certificate issuer
       type: string
+      default: Apecloud
       enum:
         - Apecloud
         - UserSelf
@@ -23641,12 +23202,22 @@ components:
           x-omitempty: false
         databaseNamePattern:
           type: string
+        listOption:
+          type: array
+          description: |
+            The database option information that will be displayed when listing databases
+          items:
+            type: string
         availableOptions:
           type: array
+          description: |
+            The database option cloud be set when creating databases
           items:
             type: string
         availbaleUpdateOptions:
           type: array
+          description: |
+            The database option name and type cloud be updated when updating databases
           items:
             type: object
             properties:
@@ -23797,12 +23368,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/networkMode'
+          notSupportedVersions:
+            type: object
+            description: not supported versions, key is the networkMode, value is an array of versions which support major version or mirror version.
+            additionalProperties:
+              type: array
+              items:
+                type: string
           modes:
-            type: array
-            items:
-              type: string
-            nullable: true
-          versions:
             type: array
             items:
               type: string
@@ -23812,6 +23385,11 @@ components:
       required:
         - component
       properties:
+        modes:
+          type: array
+          items:
+            type: string
+          description: List of modes that this component supports. if not set, support all modes.
         component:
           type: string
         disableHA:
@@ -25007,243 +24585,6 @@ components:
         supportARN:
           type: boolean
           description: Whether the cloud provider supports ARN.
-    region:
-      description: The region that the cloud provider has.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - provider
-        - enabled
-        - zoneCount
-        - group
-        - createdAt
-        - updatedAt
-      properties:
-        name:
-          type: string
-          description: The name of the region.
-        nameCN:
-          type: string
-          description: The Chinese name of the region.
-        nameEN:
-          type: string
-          description: The English name of the region.
-        provider:
-          type: string
-          description: The name of the cloud provider.
-        group:
-          type: string
-          description: The group of the region.
-        enabled:
-          type: boolean
-          description: Whether the region is enabled.
-        zoneCount:
-          type: integer
-          description: The number of zones that the region has.
-        createdAt:
-          type: string
-          format: date-time
-          description: The time when the region was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The time when the region was last updated.
-    regionList:
-      description: The list of regions.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/region'
-          description: The list of regions.
-    regionCreate:
-      description: The region that needs to be created.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-        - group
-      properties:
-        name:
-          type: string
-          description: The name of the region.
-        nameCN:
-          type: string
-          description: The Chinese name of the region.
-        nameEN:
-          type: string
-          description: The English name of the region.
-        enabled:
-          type: boolean
-          description: Whether the region is enabled.
-        group:
-          type: string
-          description: The group of the region.
-    regionUpdate:
-      description: The region that needs to be updated.
-      type: object
-      required:
-        - nameCN
-        - nameEN
-        - group
-        - enabled
-      properties:
-        nameCN:
-          type: string
-          description: The Chinese name of the region.
-        nameEN:
-          type: string
-          description: The English name of the region.
-        group:
-          type: string
-          description: The group of the region.
-        enabled:
-          type: boolean
-          description: Whether the region is enabled.
-    zone:
-      description: The zone that the region has.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-        - region
-        - createdAt
-        - updatedAt
-      properties:
-        name:
-          type: string
-          description: The name of the zone.
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-        region:
-          type: string
-          description: The name of the region.
-        createdAt:
-          type: string
-          format: date-time
-          description: The time when the zone was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The time when the zone was last updated.
-    zoneList:
-      description: The list of zones.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/zone'
-          description: The list of zones.
-    zoneCreate:
-      description: The zone that needs to be created.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-      properties:
-        name:
-          type: string
-          description: The name of the zone.
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-    zoneUpdate:
-      description: The zone that needs to be updated.
-      type: object
-      required:
-        - nameCN
-        - nameEN
-        - enabled
-      properties:
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-    regionGroup:
-      description: The region group
-      type: object
-      required:
-        - group
-        - groupCN
-        - groupEN
-        - provider
-      properties:
-        group:
-          type: string
-          description: The name of the region group
-        groupCN:
-          type: string
-          description: The Chinese name of the region group.
-        groupEN:
-          type: string
-          description: The English name of the region group.
-        provider:
-          type: string
-          description: The name of the provider.
-    regionGroupList:
-      description: The list of region group.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/regionGroup'
-          description: The list of region group.
-    regionGroupCreate:
-      description: The region group that needs to be created.
-      type: object
-      required:
-        - group
-        - groupCN
-        - groupEN
-      properties:
-        group:
-          type: string
-          description: The name of the region group.
-        groupCN:
-          type: string
-          description: The Chinese name of the region group.
-        groupEN:
-          type: string
-          description: The English name of the region group.
-    regionGroupUpdate:
-      description: The region group that needs to be updated.
-      type: object
-      properties:
-        groupCN:
-          type: string
-          description: The Chinese name of the region group.
-        groupEN:
-          type: string
-          description: The English name of the region group.
     AccessLevel:
       type: string
       enum:
@@ -27403,6 +26744,20 @@ components:
         serviceType:
           $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
+    dbTDERequest:
+      type: object
+      properties:
+        enable:
+          type: array
+          items:
+            type: string
+        disable:
+          type: array
+          items:
+            type: string
+      required:
+        - enable
+        - disable
     analysisResult:
       properties:
         explanation:
