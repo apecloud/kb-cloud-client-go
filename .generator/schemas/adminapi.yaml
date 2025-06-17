@@ -5159,41 +5159,6 @@ paths:
       tags:
         - opsrequest
         - shared
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
-    get:
-      tags:
-        - opsrequest
-        - shared
-      deprecated: true
-      description: get a OpsRequest status, deprecated, instead use cluster task api
-      summary: Get OpsRequest Status
-      operationId: getOpsRequestStatus
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/opsStatus'
-          description: Successful operation
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/volumes/io-quotas:
     post:
       tags:
@@ -12501,7 +12466,7 @@ paths:
           in: query
           name: status
           schema:
-            $ref: '#/components/schemas/cluster_opsStatus'
+            $ref: '#/components/schemas/opsStatus'
         - description: You want to check the type of the task. If not passed, all selected by default
           in: query
           name: clusterTaskType
@@ -19403,7 +19368,7 @@ components:
             x-go-type:
               type: Parameter
               import:
-                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+                package: github.com/apecloud/kubeblocks/apis/operations/v1alpha1
               hints:
                 kind: interface
       type: object
@@ -19562,20 +19527,6 @@ components:
           format: date-time
           description: Time when the task completed or failed
           nullable: true
-    opsStatus:
-      type: object
-      x-go-name: OpsRequestStatus
-      properties:
-        Status:
-          type: object
-          x-go-type:
-            type: OpsRequestStatus
-            import:
-              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
-            hints:
-              kind: interface
-        message:
-          type: string
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
       properties:
@@ -25747,7 +25698,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/task'
-    cluster_opsStatus:
+    opsStatus:
       enum:
         - Pending
         - Creating

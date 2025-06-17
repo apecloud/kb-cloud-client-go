@@ -338,7 +338,6 @@
 //   - [opsrequestApi.customOps]
 //   - [opsrequestApi.deleteOps]
 //   - [opsrequestApi.exposeCluster]
-//   - [opsrequestApi.getOpsRequestStatus]
 //   - [opsrequestApi.horizontalScaleCluster]
 //   - [opsrequestApi.listAvailableNodes]
 //   - [opsrequestApi.promoteCluster]
