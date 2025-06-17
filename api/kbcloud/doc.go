@@ -4,6 +4,9 @@
 
 // List of APIs:
 //   - [AIApi.analyzeCluster]
+//   - [AIApi.deleteConversation]
+//   - [AIApi.getConversationMessages]
+//   - [AIApi.listConversations]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]
