@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ChatResponseType 消息类型
+// ChatResponseType Message type
 type ChatResponseType string
 
 // List of ChatResponseType.
@@ -21,6 +21,9 @@ const (
 	ChatResponseTypeDataInterpretation ChatResponseType = "DataInterpretation"
 	ChatResponseTypeError              ChatResponseType = "Error"
 	ChatResponseTypeThink              ChatResponseType = "Think"
+	ChatResponseTypeToolResult         ChatResponseType = "ToolResult"
+	ChatResponseTypeSessionId          ChatResponseType = "SessionID"
+	ChatResponseTypeToolCall           ChatResponseType = "ToolCall"
 )
 
 var allowedChatResponseTypeEnumValues = []ChatResponseType{
@@ -30,6 +33,9 @@ var allowedChatResponseTypeEnumValues = []ChatResponseType{
 	ChatResponseTypeDataInterpretation,
 	ChatResponseTypeError,
 	ChatResponseTypeThink,
+	ChatResponseTypeToolResult,
+	ChatResponseTypeSessionId,
+	ChatResponseTypeToolCall,
 }
 
 // GetAllowedValues returns the list of possible values.

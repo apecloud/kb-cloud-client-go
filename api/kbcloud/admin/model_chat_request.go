@@ -10,32 +10,34 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ChatRequest 聊天消息请求
+// ChatRequest Chat message request
 type ChatRequest struct {
-	// 组织名称
+	// Organization name
 	OrgName string `json:"orgName"`
-	// 集群名称
+	// Cluster name
 	ClusterName string `json:"clusterName"`
-	// 会话ID
+	// Session ID
 	SessionId string `json:"sessionId"`
-	// 消息ID
+	// Message ID
 	MessageId string `json:"messageID"`
-	// 父消息ID
+	// Parent message ID
 	ParentId string `json:"parentID"`
-	// 问题内容
+	// Query content
 	Query string `json:"query"`
-	// 查询类型
+	// Query type
 	QueryType QueryType `json:"queryType"`
-	// LLM模型
+	// LLM model
 	Model *string `json:"model,omitempty"`
-	// 创建时间
+	// Creation timestamp
 	CreatedAt *int64 `json:"createdAt,omitempty"`
-	// chat涉及的数据库
+	// Database involved in the chat
 	Database *string `json:"database,omitempty"`
-	// chat涉及的schema
+	// Schema involved in the chat
 	Schema *string `json:"schema,omitempty"`
-	// chat涉及的表
+	// Tables involved in the chat
 	Tables []string `json:"tables,omitempty"`
+	// Chat interaction mode,default is interactive,automatic_report is only for analyze
+	Mode ChatRequestMode `json:"mode"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -45,7 +47,7 @@ type ChatRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewChatRequest(orgName string, clusterName string, sessionId string, messageId string, parentId string, query string, queryType QueryType) *ChatRequest {
+func NewChatRequest(orgName string, clusterName string, sessionId string, messageId string, parentId string, query string, queryType QueryType, mode ChatRequestMode) *ChatRequest {
 	this := ChatRequest{}
 	this.OrgName = orgName
 	this.ClusterName = clusterName
@@ -54,6 +56,7 @@ func NewChatRequest(orgName string, clusterName string, sessionId string, messag
 	this.ParentId = parentId
 	this.Query = query
 	this.QueryType = queryType
+	this.Mode = mode
 	return &this
 }
 
@@ -366,6 +369,29 @@ func (o *ChatRequest) SetTables(v []string) {
 	o.Tables = v
 }
 
+// GetMode returns the Mode field value.
+func (o *ChatRequest) GetMode() ChatRequestMode {
+	if o == nil {
+		var ret ChatRequestMode
+		return ret
+	}
+	return o.Mode
+}
+
+// GetModeOk returns a tuple with the Mode field value
+// and a boolean to check if the value has been set.
+func (o *ChatRequest) GetModeOk() (*ChatRequestMode, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Mode, true
+}
+
+// SetMode sets field value.
+func (o *ChatRequest) SetMode(v ChatRequestMode) {
+	o.Mode = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -394,6 +420,7 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	if o.Tables != nil {
 		toSerialize["tables"] = o.Tables
 	}
+	toSerialize["mode"] = o.Mode
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -404,18 +431,19 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName     *string    `json:"orgName"`
-		ClusterName *string    `json:"clusterName"`
-		SessionId   *string    `json:"sessionId"`
-		MessageId   *string    `json:"messageID"`
-		ParentId    *string    `json:"parentID"`
-		Query       *string    `json:"query"`
-		QueryType   *QueryType `json:"queryType"`
-		Model       *string    `json:"model,omitempty"`
-		CreatedAt   *int64     `json:"createdAt,omitempty"`
-		Database    *string    `json:"database,omitempty"`
-		Schema      *string    `json:"schema,omitempty"`
-		Tables      []string   `json:"tables,omitempty"`
+		OrgName     *string          `json:"orgName"`
+		ClusterName *string          `json:"clusterName"`
+		SessionId   *string          `json:"sessionId"`
+		MessageId   *string          `json:"messageID"`
+		ParentId    *string          `json:"parentID"`
+		Query       *string          `json:"query"`
+		QueryType   *QueryType       `json:"queryType"`
+		Model       *string          `json:"model,omitempty"`
+		CreatedAt   *int64           `json:"createdAt,omitempty"`
+		Database    *string          `json:"database,omitempty"`
+		Schema      *string          `json:"schema,omitempty"`
+		Tables      []string         `json:"tables,omitempty"`
+		Mode        *ChatRequestMode `json:"mode"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -441,9 +469,12 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	if all.QueryType == nil {
 		return fmt.Errorf("required field queryType missing")
 	}
+	if all.Mode == nil {
+		return fmt.Errorf("required field mode missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "schema", "tables"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "schema", "tables", "mode"})
 	} else {
 		return err
 	}
@@ -465,6 +496,11 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	o.Database = all.Database
 	o.Schema = all.Schema
 	o.Tables = all.Tables
+	if !all.Mode.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Mode = *all.Mode
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
