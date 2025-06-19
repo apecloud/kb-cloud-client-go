@@ -15635,22 +15635,10 @@ paths:
     get:
       tags:
         - AI
-      summary: List conversations
-      description: Retrieves a list of conversations, optionally filtered by cluster.
+      summary: List conversations by user
+      description: Retrieves a list of conversations filtered by user.
       operationId: listConversations
       parameters:
-        - name: orgName
-          in: query
-          required: true
-          description: Organization name
-          schema:
-            type: string
-        - name: clusterName
-          in: query
-          required: true
-          description: Cluster name
-          schema:
-            type: string
         - name: page
           in: query
           description: Page number for pagination

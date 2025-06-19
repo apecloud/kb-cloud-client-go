@@ -469,9 +469,9 @@ func (r *ListConversationsOptionalParameters) WithPageSize(pageSize int32) *List
 	return r
 }
 
-// ListConversations List conversations.
-// Retrieves a list of conversations, optionally filtered by cluster.
-func (a *AIApi) ListConversations(ctx _context.Context, orgName string, clusterName string, o ...ListConversationsOptionalParameters) (AiConversationListResponse, *_nethttp.Response, error) {
+// ListConversations List conversations by user.
+// Retrieves a list of conversations filtered by user.
+func (a *AIApi) ListConversations(ctx _context.Context, o ...ListConversationsOptionalParameters) (AiConversationListResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -505,8 +505,6 @@ func (a *AIApi) ListConversations(ctx _context.Context, orgName string, clusterN
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
-	localVarQueryParams.Add("clusterName", common.ParameterToString(clusterName, ""))
 	if optionalParams.Page != nil {
 		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
 	}
