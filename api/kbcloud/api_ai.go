@@ -99,11 +99,11 @@ func (a *AIApi) AnalyzeCluster(ctx _context.Context) (interface{}, *_nethttp.Res
 
 // ChatBIV2SSE SSE endpoint for Chat BI V2.
 // Establishes an SSE connection for AI BI conversation.
-func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (interface{}, *_nethttp.Response, error) {
+func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (ChatResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue ChatResponse
 	)
 
 	// Add api info to context
@@ -180,11 +180,11 @@ func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (interface{}
 
 // ChatV2SSE SSE endpoint for Chat V2.
 // Establishes an SSE connection for AI conversation.
-func (a *AIApi) ChatV2SSE(ctx _context.Context, body ChatRequest) (interface{}, *_nethttp.Response, error) {
+func (a *AIApi) ChatV2SSE(ctx _context.Context, body ChatRequest) (ChatResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue ChatResponse
 	)
 
 	// Add api info to context
@@ -287,7 +287,7 @@ func (a *AIApi) DeleteConversation(ctx _context.Context, conversationId uuid.UUI
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
 		ctx,
@@ -315,7 +315,7 @@ func (a *AIApi) DeleteConversation(ctx _context.Context, conversationId uuid.UUI
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v None
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarHTTPResponse, newErr
@@ -395,7 +395,7 @@ func (a *AIApi) GetConversationMessages(ctx _context.Context, conversationId uui
 	if optionalParams.PageSize != nil {
 		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
 	}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
 		ctx,
@@ -423,7 +423,7 @@ func (a *AIApi) GetConversationMessages(ctx _context.Context, conversationId uui
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
-			var v None
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -521,7 +521,7 @@ func (a *AIApi) ListConversations(ctx _context.Context, o ...ListConversationsOp
 	if optionalParams.Type != nil {
 		localVarQueryParams.Add("type", common.ParameterToString(*optionalParams.Type, ""))
 	}
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
 		ctx,
@@ -548,8 +548,8 @@ func (a *AIApi) ListConversations(ctx _context.Context, o ...ListConversationsOp
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
-			var v None
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr
@@ -600,7 +600,7 @@ func (a *AIApi) NewAIConversation(ctx _context.Context, body AIConversationReque
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
 	localVarPostBody = &body
@@ -629,8 +629,8 @@ func (a *AIApi) NewAIConversation(ctx _context.Context, body AIConversationReque
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
-			var v None
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
+			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr

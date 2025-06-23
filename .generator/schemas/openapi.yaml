@@ -11266,53 +11266,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/ai/chat:
-    get:
-      tags:
-        - AI
-      summary: WebSocket endpoint for Chat
-      description: |
-        Establishes a WebSocket connection for AI conversation.
-      operationId: chatBIWebSocket
-      deprecated: true
-      parameters:
-        - name: orgName
-          in: path
-          required: true
-          type: string
-          description: Organization name
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/chatRequest'
-      responses:
-        '101':
-          description: Switching Protocols to websocket
-          headers:
-            Upgrade:
-              schema:
-                type: string
-                example: websocket
-            Connection:
-              schema:
-                type: string
-                example: Upgrade
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/chatResponse'
-        '400':
-          description: Bad Request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-        '500':
-          description: Internal Server Error
   /api/v1/ai/conversations:
     get:
       tags:
@@ -11346,13 +11299,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/aiConversationListResponse'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/401'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500'
     post:
       tags:
         - AI
@@ -11373,13 +11328,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/aiConversation'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/401'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500'
   /api/v1/ai/conversations/{conversationId}/messages:
     get:
       tags:
@@ -11415,15 +11372,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/aiMessageListResponse'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/401'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/403'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500'
   /api/v1/ai/conversations/{conversationId}:
     delete:
       tags:
@@ -11441,17 +11398,18 @@ paths:
             format: uuid
       responses:
         '204':
+          content: {}
           description: Conversation deleted successfully
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/401'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/403'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500'
   /api/v1/ai/chatbi/v2:
     post:
       tags:
@@ -11471,14 +11429,7 @@ paths:
           content:
             text/event-stream:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: string
-                    description: Streamed content
-                  error:
-                    type: string
-                    description: Error message
+                $ref: '#/components/schemas/chatResponse'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -11508,14 +11459,7 @@ paths:
           content:
             text/event-stream:
               schema:
-                type: object
-                properties:
-                  data:
-                    type: string
-                    description: Streamed content
-                  error:
-                    type: string
-                    description: Error message
+                $ref: '#/components/schemas/chatResponse'
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -19838,87 +19782,6 @@ components:
           x-omitempty: false
         message:
           type: string
-    chatRequest:
-      type: object
-      required:
-        - orgName
-        - clusterName
-        - sessionId
-        - query
-        - model
-      description: Chat message request
-      properties:
-        orgName:
-          type: string
-          description: Organization name
-        clusterName:
-          type: string
-          description: Cluster name
-        sessionId:
-          type: string
-          description: Session ID
-        messageID:
-          type: string
-          description: Message ID
-        query:
-          type: string
-          description: Query content
-        model:
-          type: string
-          description: LLM model
-          x-nullable: true
-        database:
-          type: string
-          description: Database involved in the chat
-          x-nullable: true
-        schema:
-          type: string
-          description: Schema involved in the chat
-          x-nullable: true
-        tables:
-          type: array
-          description: Tables involved in the chat
-          items:
-            type: string
-            x-nullable: true
-    chatResponseType:
-      type: string
-      enum:
-        - Message
-        - Graph
-        - Finish
-        - DataInterpretation
-        - Error
-        - Think
-        - ToolResult
-        - SessionID
-        - ToolCall
-      description: Message type
-    chatResponse:
-      type: object
-      required:
-        - data
-        - type
-        - messageID
-        - parentID
-        - sessionId
-      description: Chat message response
-      properties:
-        data:
-          type: object
-          additionalProperties: true
-          description: Arbitrary data
-        type:
-          $ref: '#/components/schemas/chatResponseType'
-        messageID:
-          type: string
-          description: Message ID
-        parentID:
-          type: string
-          description: Parent message ID
-        sessionId:
-          type: string
-          description: Session ID
     aiConversation:
       type: object
       properties:
@@ -20025,6 +19888,87 @@ components:
           type: integer
           format: int64
           description: Total number of messages in the conversation
+    chatRequest:
+      type: object
+      required:
+        - orgName
+        - clusterName
+        - sessionId
+        - query
+        - model
+      description: Chat message request
+      properties:
+        orgName:
+          type: string
+          description: Organization name
+        clusterName:
+          type: string
+          description: Cluster name
+        sessionId:
+          type: string
+          description: Session ID
+        messageID:
+          type: string
+          description: Message ID
+        query:
+          type: string
+          description: Query content
+        model:
+          type: string
+          description: LLM model
+          x-nullable: true
+        database:
+          type: string
+          description: Database involved in the chat
+          x-nullable: true
+        schema:
+          type: string
+          description: Schema involved in the chat
+          x-nullable: true
+        tables:
+          type: array
+          description: Tables involved in the chat
+          items:
+            type: string
+            x-nullable: true
+    chatResponseType:
+      type: string
+      enum:
+        - Message
+        - Graph
+        - Finish
+        - DataInterpretation
+        - Error
+        - Think
+        - ToolResult
+        - SessionID
+        - ToolCall
+      description: Message type
+    chatResponse:
+      type: object
+      required:
+        - data
+        - type
+        - messageID
+        - parentID
+        - sessionId
+      description: Chat message response
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+          description: Arbitrary data
+        type:
+          $ref: '#/components/schemas/chatResponseType'
+        messageID:
+          type: string
+          description: Message ID
+        parentID:
+          type: string
+          description: Parent message ID
+        sessionId:
+          type: string
+          description: Session ID
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
