@@ -110,7 +110,7 @@ func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (interface{}
 	apiInfo := common.APIInfo{
 		Tag:         "AI",
 		OperationID: "chatBIV2SSE",
-		Path:        "/api/v1/ai/chatBI/v2",
+		Path:        "/api/v1/ai/chatbi/v2",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -120,7 +120,7 @@ func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (interface{}
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/ai/chatBI/v2"
+	localVarPath := localBasePath + "/api/v1/ai/chatbi/v2"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -191,7 +191,7 @@ func (a *AIApi) ChatV2SSE(ctx _context.Context, body ChatRequest) (interface{}, 
 	apiInfo := common.APIInfo{
 		Tag:         "AI",
 		OperationID: "chatV2SSE",
-		Path:        "/api/v1/ai/chat/v2",
+		Path:        "/api/v1/ai/chatops/v2",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -201,7 +201,7 @@ func (a *AIApi) ChatV2SSE(ctx _context.Context, body ChatRequest) (interface{}, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/ai/chat/v2"
+	localVarPath := localBasePath + "/api/v1/ai/chatops/v2"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

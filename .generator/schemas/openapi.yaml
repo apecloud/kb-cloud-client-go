@@ -11452,7 +11452,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/v1/ai/chatBI/v2:
+  /api/v1/ai/chatbi/v2:
     post:
       tags:
         - AI
@@ -11489,7 +11489,7 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /api/v1/ai/chat/v2:
+  /api/v1/ai/chatops/v2:
     post:
       tags:
         - AI
