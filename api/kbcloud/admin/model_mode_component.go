@@ -13,12 +13,12 @@ import (
 type ModeComponent struct {
 	Component    string          `json:"component"`
 	Shards       *IntegerOption  `json:"shards,omitempty"`
-	Replicas     IntegerOption   `json:"replicas"`
-	Cpu          FloatOption     `json:"cpu"`
-	Memory       FloatOption     `json:"memory"`
+	Replicas     *IntegerOption  `json:"replicas,omitempty"`
+	Cpu          *FloatOption    `json:"cpu,omitempty"`
+	Memory       *FloatOption    `json:"memory,omitempty"`
 	HideEnpoints bool            `json:"hideEnpoints"`
 	HideOnCreate bool            `json:"hideOnCreate"`
-	Storages     []StorageOption `json:"storages"`
+	Storages     []StorageOption `json:"storages,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -28,15 +28,11 @@ type ModeComponent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeComponent(component string, replicas IntegerOption, cpu FloatOption, memory FloatOption, hideEnpoints bool, hideOnCreate bool, storages []StorageOption) *ModeComponent {
+func NewModeComponent(component string, hideEnpoints bool, hideOnCreate bool) *ModeComponent {
 	this := ModeComponent{}
 	this.Component = component
-	this.Replicas = replicas
-	this.Cpu = cpu
-	this.Memory = memory
 	this.HideEnpoints = hideEnpoints
 	this.HideOnCreate = hideOnCreate
-	this.Storages = storages
 	return &this
 }
 
@@ -99,73 +95,88 @@ func (o *ModeComponent) SetShards(v IntegerOption) {
 	o.Shards = &v
 }
 
-// GetReplicas returns the Replicas field value.
+// GetReplicas returns the Replicas field value if set, zero value otherwise.
 func (o *ModeComponent) GetReplicas() IntegerOption {
-	if o == nil {
+	if o == nil || o.Replicas == nil {
 		var ret IntegerOption
 		return ret
 	}
-	return o.Replicas
+	return *o.Replicas
 }
 
-// GetReplicasOk returns a tuple with the Replicas field value
+// GetReplicasOk returns a tuple with the Replicas field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ModeComponent) GetReplicasOk() (*IntegerOption, bool) {
-	if o == nil {
+	if o == nil || o.Replicas == nil {
 		return nil, false
 	}
-	return &o.Replicas, true
+	return o.Replicas, true
 }
 
-// SetReplicas sets field value.
+// HasReplicas returns a boolean if a field has been set.
+func (o *ModeComponent) HasReplicas() bool {
+	return o != nil && o.Replicas != nil
+}
+
+// SetReplicas gets a reference to the given IntegerOption and assigns it to the Replicas field.
 func (o *ModeComponent) SetReplicas(v IntegerOption) {
-	o.Replicas = v
+	o.Replicas = &v
 }
 
-// GetCpu returns the Cpu field value.
+// GetCpu returns the Cpu field value if set, zero value otherwise.
 func (o *ModeComponent) GetCpu() FloatOption {
-	if o == nil {
+	if o == nil || o.Cpu == nil {
 		var ret FloatOption
 		return ret
 	}
-	return o.Cpu
+	return *o.Cpu
 }
 
-// GetCpuOk returns a tuple with the Cpu field value
+// GetCpuOk returns a tuple with the Cpu field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ModeComponent) GetCpuOk() (*FloatOption, bool) {
-	if o == nil {
+	if o == nil || o.Cpu == nil {
 		return nil, false
 	}
-	return &o.Cpu, true
+	return o.Cpu, true
 }
 
-// SetCpu sets field value.
+// HasCpu returns a boolean if a field has been set.
+func (o *ModeComponent) HasCpu() bool {
+	return o != nil && o.Cpu != nil
+}
+
+// SetCpu gets a reference to the given FloatOption and assigns it to the Cpu field.
 func (o *ModeComponent) SetCpu(v FloatOption) {
-	o.Cpu = v
+	o.Cpu = &v
 }
 
-// GetMemory returns the Memory field value.
+// GetMemory returns the Memory field value if set, zero value otherwise.
 func (o *ModeComponent) GetMemory() FloatOption {
-	if o == nil {
+	if o == nil || o.Memory == nil {
 		var ret FloatOption
 		return ret
 	}
-	return o.Memory
+	return *o.Memory
 }
 
-// GetMemoryOk returns a tuple with the Memory field value
+// GetMemoryOk returns a tuple with the Memory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ModeComponent) GetMemoryOk() (*FloatOption, bool) {
-	if o == nil {
+	if o == nil || o.Memory == nil {
 		return nil, false
 	}
-	return &o.Memory, true
+	return o.Memory, true
 }
 
-// SetMemory sets field value.
+// HasMemory returns a boolean if a field has been set.
+func (o *ModeComponent) HasMemory() bool {
+	return o != nil && o.Memory != nil
+}
+
+// SetMemory gets a reference to the given FloatOption and assigns it to the Memory field.
 func (o *ModeComponent) SetMemory(v FloatOption) {
-	o.Memory = v
+	o.Memory = &v
 }
 
 // GetHideEnpoints returns the HideEnpoints field value.
@@ -214,25 +225,30 @@ func (o *ModeComponent) SetHideOnCreate(v bool) {
 	o.HideOnCreate = v
 }
 
-// GetStorages returns the Storages field value.
+// GetStorages returns the Storages field value if set, zero value otherwise.
 func (o *ModeComponent) GetStorages() []StorageOption {
-	if o == nil {
+	if o == nil || o.Storages == nil {
 		var ret []StorageOption
 		return ret
 	}
 	return o.Storages
 }
 
-// GetStoragesOk returns a tuple with the Storages field value
+// GetStoragesOk returns a tuple with the Storages field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ModeComponent) GetStoragesOk() (*[]StorageOption, bool) {
-	if o == nil {
+	if o == nil || o.Storages == nil {
 		return nil, false
 	}
 	return &o.Storages, true
 }
 
-// SetStorages sets field value.
+// HasStorages returns a boolean if a field has been set.
+func (o *ModeComponent) HasStorages() bool {
+	return o != nil && o.Storages != nil
+}
+
+// SetStorages gets a reference to the given []StorageOption and assigns it to the Storages field.
 func (o *ModeComponent) SetStorages(v []StorageOption) {
 	o.Storages = v
 }
@@ -247,12 +263,20 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 	if o.Shards != nil {
 		toSerialize["shards"] = o.Shards
 	}
-	toSerialize["replicas"] = o.Replicas
-	toSerialize["cpu"] = o.Cpu
-	toSerialize["memory"] = o.Memory
+	if o.Replicas != nil {
+		toSerialize["replicas"] = o.Replicas
+	}
+	if o.Cpu != nil {
+		toSerialize["cpu"] = o.Cpu
+	}
+	if o.Memory != nil {
+		toSerialize["memory"] = o.Memory
+	}
 	toSerialize["hideEnpoints"] = o.HideEnpoints
 	toSerialize["hideOnCreate"] = o.HideOnCreate
-	toSerialize["storages"] = o.Storages
+	if o.Storages != nil {
+		toSerialize["storages"] = o.Storages
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -263,14 +287,14 @@ func (o ModeComponent) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component    *string          `json:"component"`
-		Shards       *IntegerOption   `json:"shards,omitempty"`
-		Replicas     *IntegerOption   `json:"replicas"`
-		Cpu          *FloatOption     `json:"cpu"`
-		Memory       *FloatOption     `json:"memory"`
-		HideEnpoints *bool            `json:"hideEnpoints"`
-		HideOnCreate *bool            `json:"hideOnCreate"`
-		Storages     *[]StorageOption `json:"storages"`
+		Component    *string         `json:"component"`
+		Shards       *IntegerOption  `json:"shards,omitempty"`
+		Replicas     *IntegerOption  `json:"replicas,omitempty"`
+		Cpu          *FloatOption    `json:"cpu,omitempty"`
+		Memory       *FloatOption    `json:"memory,omitempty"`
+		HideEnpoints *bool           `json:"hideEnpoints"`
+		HideOnCreate *bool           `json:"hideOnCreate"`
+		Storages     []StorageOption `json:"storages,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -278,23 +302,11 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Component == nil {
 		return fmt.Errorf("required field component missing")
 	}
-	if all.Replicas == nil {
-		return fmt.Errorf("required field replicas missing")
-	}
-	if all.Cpu == nil {
-		return fmt.Errorf("required field cpu missing")
-	}
-	if all.Memory == nil {
-		return fmt.Errorf("required field memory missing")
-	}
 	if all.HideEnpoints == nil {
 		return fmt.Errorf("required field hideEnpoints missing")
 	}
 	if all.HideOnCreate == nil {
 		return fmt.Errorf("required field hideOnCreate missing")
-	}
-	if all.Storages == nil {
-		return fmt.Errorf("required field storages missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -309,21 +321,21 @@ func (o *ModeComponent) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Shards = all.Shards
-	if all.Replicas.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.Replicas != nil && all.Replicas.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Replicas = *all.Replicas
-	if all.Cpu.UnparsedObject != nil && o.UnparsedObject == nil {
+	o.Replicas = all.Replicas
+	if all.Cpu != nil && all.Cpu.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Cpu = *all.Cpu
-	if all.Memory.UnparsedObject != nil && o.UnparsedObject == nil {
+	o.Cpu = all.Cpu
+	if all.Memory != nil && all.Memory.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.Memory = *all.Memory
+	o.Memory = all.Memory
 	o.HideEnpoints = *all.HideEnpoints
 	o.HideOnCreate = *all.HideOnCreate
-	o.Storages = *all.Storages
+	o.Storages = all.Storages
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
