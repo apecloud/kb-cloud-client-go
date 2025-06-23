@@ -9,6 +9,7 @@
 //   - [AIApi.deleteConversation]
 //   - [AIApi.getConversationMessages]
 //   - [AIApi.listConversations]
+//   - [AIApi.newAIConversation]
 //   - [accountApi.createAccount]
 //   - [accountApi.createAccountOld]
 //   - [accountApi.createMongoDBAccount]

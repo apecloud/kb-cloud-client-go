@@ -22,7 +22,7 @@ type AiConversation struct {
 	OrgName *string `json:"orgName,omitempty"`
 	// Optional title for the conversation
 	Title *string `json:"title,omitempty"`
-	// Type of the conversation, can be bi or analysis.
+	// Type of the conversation, can be chatbi or chatops.
 	Type *string `json:"type,omitempty"`
 	// Timestamp of when the conversation was created
 	CreatedAt *time.Time `json:"createdAt,omitempty"`

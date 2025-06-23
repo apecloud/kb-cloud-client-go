@@ -110,7 +110,7 @@ func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (interface{}
 	apiInfo := common.APIInfo{
 		Tag:         "AI",
 		OperationID: "chatBIV2SSE",
-		Path:        "/admin/v1/ai/chatBI/v2",
+		Path:        "/admin/v1/ai/chatbi/v2",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -120,7 +120,7 @@ func (a *AIApi) ChatBIV2SSE(ctx _context.Context, body ChatRequest) (interface{}
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/ai/chatBI/v2"
+	localVarPath := localBasePath + "/admin/v1/ai/chatbi/v2"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -191,7 +191,7 @@ func (a *AIApi) ChatV2SSE(ctx _context.Context, body ChatRequest) (interface{}, 
 	apiInfo := common.APIInfo{
 		Tag:         "AI",
 		OperationID: "chatV2SSE",
-		Path:        "/admin/v1/ai/chat/v2",
+		Path:        "/admin/v1/ai/chatops/v2",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -201,7 +201,7 @@ func (a *AIApi) ChatV2SSE(ctx _context.Context, body ChatRequest) (interface{}, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/ai/chat/v2"
+	localVarPath := localBasePath + "/admin/v1/ai/chatops/v2"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -449,6 +449,7 @@ func (a *AIApi) GetConversationMessages(ctx _context.Context, conversationId uui
 type ListConversationsOptionalParameters struct {
 	Page     *int32
 	PageSize *int32
+	Type     *string
 }
 
 // NewListConversationsOptionalParameters creates an empty struct for parameters.
@@ -466,6 +467,12 @@ func (r *ListConversationsOptionalParameters) WithPage(page int32) *ListConversa
 // WithPageSize sets the corresponding parameter name and returns the struct.
 func (r *ListConversationsOptionalParameters) WithPageSize(pageSize int32) *ListConversationsOptionalParameters {
 	r.PageSize = &pageSize
+	return r
+}
+
+// WithType sets the corresponding parameter name and returns the struct.
+func (r *ListConversationsOptionalParameters) WithType(typeVar string) *ListConversationsOptionalParameters {
+	r.Type = &typeVar
 	return r
 }
 
@@ -511,8 +518,92 @@ func (a *AIApi) ListConversations(ctx _context.Context, o ...ListConversationsOp
 	if optionalParams.PageSize != nil {
 		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
 	}
+	if optionalParams.Type != nil {
+		localVarQueryParams.Add("type", common.ParameterToString(*optionalParams.Type, ""))
+	}
 	localVarHeaderParams["Accept"] = "*/*"
 
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+			var v None
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// NewAIConversation Create a new conversation.
+// Creates a new conversation.
+func (a *AIApi) NewAIConversation(ctx _context.Context, body AIConversationRequest) (AiConversation, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue AiConversation
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "AI",
+		OperationID: "newAIConversation",
+		Path:        "/admin/v1/ai/conversations",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AIApi.NewAIConversation")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/ai/conversations"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "*/*"
+
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,

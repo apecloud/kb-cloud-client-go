@@ -19,25 +19,17 @@ type ChatRequest struct {
 	// Session ID
 	SessionId string `json:"sessionId"`
 	// Message ID
-	MessageId string `json:"messageID"`
-	// Parent message ID
-	ParentId string `json:"parentID"`
+	MessageId *string `json:"messageID,omitempty"`
 	// Query content
 	Query string `json:"query"`
-	// Query type
-	QueryType QueryType `json:"queryType"`
 	// LLM model
-	Model *string `json:"model,omitempty"`
-	// Creation timestamp
-	CreatedAt *int64 `json:"createdAt,omitempty"`
+	Model string `json:"model"`
 	// Database involved in the chat
 	Database *string `json:"database,omitempty"`
 	// Schema involved in the chat
 	Schema *string `json:"schema,omitempty"`
 	// Tables involved in the chat
 	Tables []string `json:"tables,omitempty"`
-	// Chat interaction mode,default is interactive,automatic_report is only for analyze
-	Mode ChatRequestMode `json:"mode"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -47,16 +39,13 @@ type ChatRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewChatRequest(orgName string, clusterName string, sessionId string, messageId string, parentId string, query string, queryType QueryType, mode ChatRequestMode) *ChatRequest {
+func NewChatRequest(orgName string, clusterName string, sessionId string, query string, model string) *ChatRequest {
 	this := ChatRequest{}
 	this.OrgName = orgName
 	this.ClusterName = clusterName
 	this.SessionId = sessionId
-	this.MessageId = messageId
-	this.ParentId = parentId
 	this.Query = query
-	this.QueryType = queryType
-	this.Mode = mode
+	this.Model = model
 	return &this
 }
 
@@ -137,50 +126,32 @@ func (o *ChatRequest) SetSessionId(v string) {
 	o.SessionId = v
 }
 
-// GetMessageId returns the MessageId field value.
+// GetMessageId returns the MessageId field value if set, zero value otherwise.
 func (o *ChatRequest) GetMessageId() string {
-	if o == nil {
+	if o == nil || o.MessageId == nil {
 		var ret string
 		return ret
 	}
-	return o.MessageId
+	return *o.MessageId
 }
 
-// GetMessageIdOk returns a tuple with the MessageId field value
+// GetMessageIdOk returns a tuple with the MessageId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ChatRequest) GetMessageIdOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.MessageId == nil {
 		return nil, false
 	}
-	return &o.MessageId, true
+	return o.MessageId, true
 }
 
-// SetMessageId sets field value.
+// HasMessageId returns a boolean if a field has been set.
+func (o *ChatRequest) HasMessageId() bool {
+	return o != nil && o.MessageId != nil
+}
+
+// SetMessageId gets a reference to the given string and assigns it to the MessageId field.
 func (o *ChatRequest) SetMessageId(v string) {
-	o.MessageId = v
-}
-
-// GetParentId returns the ParentId field value.
-func (o *ChatRequest) GetParentId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.ParentId
-}
-
-// GetParentIdOk returns a tuple with the ParentId field value
-// and a boolean to check if the value has been set.
-func (o *ChatRequest) GetParentIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ParentId, true
-}
-
-// SetParentId sets field value.
-func (o *ChatRequest) SetParentId(v string) {
-	o.ParentId = v
+	o.MessageId = &v
 }
 
 // GetQuery returns the Query field value.
@@ -206,83 +177,27 @@ func (o *ChatRequest) SetQuery(v string) {
 	o.Query = v
 }
 
-// GetQueryType returns the QueryType field value.
-func (o *ChatRequest) GetQueryType() QueryType {
-	if o == nil {
-		var ret QueryType
-		return ret
-	}
-	return o.QueryType
-}
-
-// GetQueryTypeOk returns a tuple with the QueryType field value
-// and a boolean to check if the value has been set.
-func (o *ChatRequest) GetQueryTypeOk() (*QueryType, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.QueryType, true
-}
-
-// SetQueryType sets field value.
-func (o *ChatRequest) SetQueryType(v QueryType) {
-	o.QueryType = v
-}
-
-// GetModel returns the Model field value if set, zero value otherwise.
+// GetModel returns the Model field value.
 func (o *ChatRequest) GetModel() string {
-	if o == nil || o.Model == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Model
+	return o.Model
 }
 
-// GetModelOk returns a tuple with the Model field value if set, nil otherwise
+// GetModelOk returns a tuple with the Model field value
 // and a boolean to check if the value has been set.
 func (o *ChatRequest) GetModelOk() (*string, bool) {
-	if o == nil || o.Model == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Model, true
+	return &o.Model, true
 }
 
-// HasModel returns a boolean if a field has been set.
-func (o *ChatRequest) HasModel() bool {
-	return o != nil && o.Model != nil
-}
-
-// SetModel gets a reference to the given string and assigns it to the Model field.
+// SetModel sets field value.
 func (o *ChatRequest) SetModel(v string) {
-	o.Model = &v
-}
-
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *ChatRequest) GetCreatedAt() int64 {
-	if o == nil || o.CreatedAt == nil {
-		var ret int64
-		return ret
-	}
-	return *o.CreatedAt
-}
-
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ChatRequest) GetCreatedAtOk() (*int64, bool) {
-	if o == nil || o.CreatedAt == nil {
-		return nil, false
-	}
-	return o.CreatedAt, true
-}
-
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *ChatRequest) HasCreatedAt() bool {
-	return o != nil && o.CreatedAt != nil
-}
-
-// SetCreatedAt gets a reference to the given int64 and assigns it to the CreatedAt field.
-func (o *ChatRequest) SetCreatedAt(v int64) {
-	o.CreatedAt = &v
+	o.Model = v
 }
 
 // GetDatabase returns the Database field value if set, zero value otherwise.
@@ -369,29 +284,6 @@ func (o *ChatRequest) SetTables(v []string) {
 	o.Tables = v
 }
 
-// GetMode returns the Mode field value.
-func (o *ChatRequest) GetMode() ChatRequestMode {
-	if o == nil {
-		var ret ChatRequestMode
-		return ret
-	}
-	return o.Mode
-}
-
-// GetModeOk returns a tuple with the Mode field value
-// and a boolean to check if the value has been set.
-func (o *ChatRequest) GetModeOk() (*ChatRequestMode, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Mode, true
-}
-
-// SetMode sets field value.
-func (o *ChatRequest) SetMode(v ChatRequestMode) {
-	o.Mode = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -401,16 +293,11 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	toSerialize["orgName"] = o.OrgName
 	toSerialize["clusterName"] = o.ClusterName
 	toSerialize["sessionId"] = o.SessionId
-	toSerialize["messageID"] = o.MessageId
-	toSerialize["parentID"] = o.ParentId
+	if o.MessageId != nil {
+		toSerialize["messageID"] = o.MessageId
+	}
 	toSerialize["query"] = o.Query
-	toSerialize["queryType"] = o.QueryType
-	if o.Model != nil {
-		toSerialize["model"] = o.Model
-	}
-	if o.CreatedAt != nil {
-		toSerialize["createdAt"] = o.CreatedAt
-	}
+	toSerialize["model"] = o.Model
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
@@ -420,7 +307,6 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	if o.Tables != nil {
 		toSerialize["tables"] = o.Tables
 	}
-	toSerialize["mode"] = o.Mode
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -431,19 +317,15 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName     *string          `json:"orgName"`
-		ClusterName *string          `json:"clusterName"`
-		SessionId   *string          `json:"sessionId"`
-		MessageId   *string          `json:"messageID"`
-		ParentId    *string          `json:"parentID"`
-		Query       *string          `json:"query"`
-		QueryType   *QueryType       `json:"queryType"`
-		Model       *string          `json:"model,omitempty"`
-		CreatedAt   *int64           `json:"createdAt,omitempty"`
-		Database    *string          `json:"database,omitempty"`
-		Schema      *string          `json:"schema,omitempty"`
-		Tables      []string         `json:"tables,omitempty"`
-		Mode        *ChatRequestMode `json:"mode"`
+		OrgName     *string  `json:"orgName"`
+		ClusterName *string  `json:"clusterName"`
+		SessionId   *string  `json:"sessionId"`
+		MessageId   *string  `json:"messageID,omitempty"`
+		Query       *string  `json:"query"`
+		Model       *string  `json:"model"`
+		Database    *string  `json:"database,omitempty"`
+		Schema      *string  `json:"schema,omitempty"`
+		Tables      []string `json:"tables,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -457,57 +339,30 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	if all.SessionId == nil {
 		return fmt.Errorf("required field sessionId missing")
 	}
-	if all.MessageId == nil {
-		return fmt.Errorf("required field messageID missing")
-	}
-	if all.ParentId == nil {
-		return fmt.Errorf("required field parentID missing")
-	}
 	if all.Query == nil {
 		return fmt.Errorf("required field query missing")
 	}
-	if all.QueryType == nil {
-		return fmt.Errorf("required field queryType missing")
-	}
-	if all.Mode == nil {
-		return fmt.Errorf("required field mode missing")
+	if all.Model == nil {
+		return fmt.Errorf("required field model missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "parentID", "query", "queryType", "model", "createdAt", "database", "schema", "tables", "mode"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "query", "model", "database", "schema", "tables"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.OrgName = *all.OrgName
 	o.ClusterName = *all.ClusterName
 	o.SessionId = *all.SessionId
-	o.MessageId = *all.MessageId
-	o.ParentId = *all.ParentId
+	o.MessageId = all.MessageId
 	o.Query = *all.Query
-	if !all.QueryType.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.QueryType = *all.QueryType
-	}
-	o.Model = all.Model
-	o.CreatedAt = all.CreatedAt
+	o.Model = *all.Model
 	o.Database = all.Database
 	o.Schema = all.Schema
 	o.Tables = all.Tables
-	if !all.Mode.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Mode = *all.Mode
-	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
