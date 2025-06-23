@@ -11452,7 +11452,7 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
-  /api/v1/ai/chatbiv2:
+  /api/v1/ai/chatbi/v2:
     post:
       tags:
         - AI
