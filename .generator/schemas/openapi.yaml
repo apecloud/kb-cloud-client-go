@@ -11256,10 +11256,10 @@ paths:
                 properties:
                   data:
                     type: string
-                    description: 流式返回的内容
+                    description: Streamed content
                   error:
                     type: string
-                    description: 错误信息
+                    description: Error message
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11272,7 +11272,7 @@ paths:
         - AI
       summary: WebSocket endpoint for Chat
       description: |
-        建立 WebSocket 连接进行 AI 对话。
+        Establishes a WebSocket connection for AI conversation.
       operationId: chatBIWebSocket
       deprecated: true
       parameters:
@@ -11280,7 +11280,7 @@ paths:
           in: path
           required: true
           type: string
-          description: 组织名称
+          description: Organization name
       requestBody:
         required: true
         content:
@@ -11313,6 +11313,219 @@ paths:
           description: Not Found
         '500':
           description: Internal Server Error
+  /api/v1/ai/conversations:
+    get:
+      tags:
+        - AI
+      summary: List conversations by user
+      description: Retrieves a list of conversations filtered by user.
+      operationId: listConversations
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 10
+        - name: type
+          in: query
+          description: Type of conversations to filter, can be bi or analysis.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of conversations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiConversationListResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+    post:
+      tags:
+        - AI
+      summary: Create a new conversation
+      description: Creates a new conversation.
+      operationId: newAIConversation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIConversationRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiConversation'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /api/v1/ai/conversations/{conversationId}/messages:
+    get:
+      tags:
+        - AI
+      summary: Get AI conversation messages
+      description: Retrieves all messages for a specific conversation.
+      operationId: getConversationMessages
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          description: ID of the conversation
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of messages for the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiMessageListResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/v1/ai/conversations/{conversationId}:
+    delete:
+      tags:
+        - AI
+      summary: Delete a conversation
+      description: Deletes a specific conversation and all its associated messages.
+      operationId: deleteConversation
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          description: ID of the conversation to delete
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Conversation deleted successfully
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /api/v1/ai/chatbi/v2:
+    post:
+      tags:
+        - AI
+      summary: SSE endpoint for Chat BI V2
+      description: Establishes an SSE connection for AI BI conversation.
+      operationId: chatBIV2SSE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        '200':
+          description: Successful operation, returns an event stream.
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    description: Streamed content
+                  error:
+                    type: string
+                    description: Error message
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /api/v1/ai/chatops/v2:
+    post:
+      tags:
+        - AI
+      summary: SSE endpoint for Chat V2
+      description: Establishes an SSE connection for AI conversation.
+      operationId: chatV2SSE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        '200':
+          description: Successful operation, returns an event stream.
+          content:
+            text/event-stream:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    description: Streamed content
+                  error:
+                    type: string
+                    description: Error message
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /api/v1/keys:
     get:
       tags:
@@ -19625,63 +19838,46 @@ components:
           x-omitempty: false
         message:
           type: string
-    queryType:
-      type: string
-      enum:
-        - Analyze
-        - BI
-      description: 查询类型
     chatRequest:
       type: object
       required:
         - orgName
         - clusterName
         - sessionId
-        - messageID
-        - parentID
         - query
-        - queryType
-      description: 聊天消息请求
+        - model
+      description: Chat message request
       properties:
         orgName:
           type: string
-          description: 组织名称
+          description: Organization name
         clusterName:
           type: string
-          description: 集群名称
+          description: Cluster name
         sessionId:
           type: string
-          description: 会话ID
+          description: Session ID
         messageID:
           type: string
-          description: 消息ID
-        parentID:
-          type: string
-          description: 父消息ID
+          description: Message ID
         query:
           type: string
-          description: 问题内容
-        queryType:
-          $ref: '#/components/schemas/queryType'
+          description: Query content
         model:
           type: string
-          description: LLM模型
+          description: LLM model
           x-nullable: true
-        createdAt:
-          type: integer
-          format: int64
-          description: 创建时间
         database:
           type: string
-          description: chat涉及的数据库
+          description: Database involved in the chat
           x-nullable: true
         schema:
           type: string
-          description: chat涉及的schema
+          description: Schema involved in the chat
           x-nullable: true
         tables:
           type: array
-          description: chat涉及的表
+          description: Tables involved in the chat
           items:
             type: string
             x-nullable: true
@@ -19694,7 +19890,10 @@ components:
         - DataInterpretation
         - Error
         - Think
-      description: 消息类型
+        - ToolResult
+        - SessionID
+        - ToolCall
+      description: Message type
     chatResponse:
       type: object
       required:
@@ -19703,23 +19902,129 @@ components:
         - messageID
         - parentID
         - sessionId
-      description: 聊天消息响应
+      description: Chat message response
       properties:
         data:
           type: object
           additionalProperties: true
-          description: 任意类型的数据
+          description: Arbitrary data
         type:
           $ref: '#/components/schemas/chatResponseType'
         messageID:
           type: string
-          description: 消息ID
+          description: Message ID
         parentID:
           type: string
-          description: 父消息ID
+          description: Parent message ID
         sessionId:
           type: string
-          description: 会话ID
+          description: Session ID
+    aiConversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Conversation ID
+        userId:
+          type: string
+          description: User ID associated with the conversation
+        clusterName:
+          type: string
+          description: Name of the cluster associated with the conversation
+        orgName:
+          type: string
+          description: Name of the organization associated with the conversation
+        title:
+          type: string
+          description: Optional title for the conversation
+          x-nullable: true
+        type:
+          type: string
+          description: Type of the conversation, can be chatbi or chatops.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was last updated
+    aiConversationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiConversation'
+        total:
+          type: integer
+          format: int64
+          description: Total number of conversations
+    AIChatType:
+      type: string
+      enum:
+        - chatbi
+        - chatops
+      description: Query type
+    AIConversationRequest:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AIChatType'
+    senderType:
+      type: string
+      enum:
+        - user
+        - assistant
+        - system
+      description: Type of the sender (user, assistant, or system)
+    metadataObject:
+      type: object
+      additionalProperties: true
+      description: Optional metadata for AI messages (e.g., tool calls, results)
+      x-nullable: true
+    aiMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Message ID
+        conversationId:
+          type: string
+          format: uuid
+          description: ID of the conversation this message belongs to
+        senderType:
+          $ref: '#/components/schemas/senderType'
+        content:
+          type: string
+          description: Content of the message
+        isFavorited:
+          type: boolean
+          description: Whether the message is favorited by user
+          default: false
+        metadata:
+          $ref: '#/components/schemas/metadataObject'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was last updated
+    aiMessageListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiMessage'
+        total:
+          type: integer
+          format: int64
+          description: Total number of messages in the conversation
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
