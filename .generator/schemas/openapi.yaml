@@ -16366,10 +16366,6 @@ components:
       required:
         - name
         - title
-        - min
-        - step
-        - max
-        - default
       properties:
         title:
           $ref: '#/components/schemas/localizedDescription'
