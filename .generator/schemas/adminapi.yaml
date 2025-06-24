@@ -23061,97 +23061,19 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    integerOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
-        excludes:
-          type: array
-          items:
-            type: integer
-    floatOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: number
-          format: double
-        max:
-          type: number
-          format: double
-        default:
-          type: number
-          format: double
-        step:
-          type: number
-          format: double
-    storageOption:
-      type: object
-      required:
-        - name
-        - title
-        - min
-        - step
-        - max
-        - default
-      properties:
-        title:
-          $ref: '#/components/schemas/localizedDescription'
-        name:
-          type: string
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     modeComponent:
       type: object
       required:
         - component
-        - replicas
-        - cpu
-        - memory
-        - storages
         - hideEnpoints
         - hideOnCreate
       properties:
         component:
           type: string
-        shards:
-          $ref: '#/components/schemas/integerOption'
-        replicas:
-          $ref: '#/components/schemas/integerOption'
-        cpu:
-          $ref: '#/components/schemas/floatOption'
-        memory:
-          $ref: '#/components/schemas/floatOption'
         hideEnpoints:
           type: boolean
         hideOnCreate:
           type: boolean
-        storages:
-          type: array
-          items:
-            $ref: '#/components/schemas/storageOption'
     modeOption:
       type: object
       required:
@@ -24267,6 +24189,48 @@ components:
         - enable
         - disable
         - upgrade
+    integerOption:
+      type: object
+      required:
+        - min
+        - max
+        - default
+        - step
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
+    storageOption:
+      type: object
+      required:
+        - name
+        - title
+        - min
+        - step
+        - max
+        - default
+      properties:
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        name:
+          type: string
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
     resourceConstraint:
       type: object
       properties:
