@@ -18594,6 +18594,7 @@ components:
         duration:
           title: duration
           type: integer
+          format: int64
           x-nullable: true
           description: sql executed duration
     DmsQueryHistoryList:
@@ -24066,6 +24067,11 @@ components:
           type: integer
     resourceConstraint:
       type: object
+      required:
+        - id
+        - engine
+        - mode
+        - component
       properties:
         id:
           type: string
