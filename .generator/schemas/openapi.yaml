@@ -10990,9 +10990,9 @@ paths:
       tags:
         - llm
       deprecated: true
-      operationId: getLLM
-      summary: Get LLM
-      description: get user available llm list
+      operationId: ListLLMForOrg
+      summary: List available LLM for org
+      description: available
       parameters:
         - name: orgName
           in: path
@@ -11000,7 +11000,7 @@ paths:
           type: string
       responses:
         '200':
-          description: user available llm list
+          description: available llm list
           content:
             application/json:
               schema:
@@ -11017,9 +11017,9 @@ paths:
       tags:
         - llm
       deprecated: true
-      operationId: addLLM
-      summary: add LLM
-      description: add LLM
+      operationId: addLLMForOrg
+      summary: add LLM for org
+      description: add LLM for org
       parameters:
         - name: orgName
           in: path
@@ -11096,31 +11096,7 @@ paths:
         content:
           application/json:
             schema:
-              description: llmUpdate
-              properties:
-                name:
-                  description: LLM name
-                  title: Name
-                  type: string
-                config:
-                  description: LLM config
-                  title: LLM config
-                  type: object
-                  additionalProperties:
-                    type: object
-                type:
-                  description: Type of LLM
-                  title: Type
-                  type: string
-                enabled:
-                  description: Whether this LLM is enabled
-                  title: Enabled
-                  type: boolean
-              required:
-                - name
-                - config
-                - type
-              type: object
+              $ref: '#/components/schemas/llm'
         required: true
       responses:
         '201':
@@ -11164,9 +11140,9 @@ paths:
       tags:
         - llm
       deprecated: true
-      operationId: checkAPIKey
-      summary: check apikey available
-      description: check apikey available
+      operationId: checkAPIKeyForOrg
+      summary: check apikey available for org
+      description: check apikey available for org
       parameters:
         - name: orgName
           in: path
@@ -11197,7 +11173,6 @@ paths:
     get:
       tags:
         - llm
-      deprecated: true
       operationId: listAvailableModelInOrg
       summary: List available model in org
       parameters:
@@ -17728,6 +17703,7 @@ components:
         duration:
           title: duration
           type: integer
+          format: int64
           x-nullable: true
           description: sql executed duration
     DmsQueryHistoryList:

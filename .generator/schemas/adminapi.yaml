@@ -10570,7 +10570,6 @@ paths:
     post:
       operationId: addLLM
       summary: add LLM
-      deprecated: true
       parameters:
         - description: orgName the LLM belongs to
           in: query
@@ -10604,7 +10603,6 @@ paths:
     get:
       operationId: listLLM
       summary: List LLM
-      deprecated: true
       produces:
         - application/json
       responses:
@@ -10628,7 +10626,6 @@ paths:
     patch:
       operationId: updateLLM
       summary: Update LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10640,31 +10637,7 @@ paths:
         content:
           application/json:
             schema:
-              description: llmUpdate
-              properties:
-                name:
-                  description: LLM name
-                  title: Name
-                  type: string
-                config:
-                  description: LLM config
-                  title: LLM config
-                  type: object
-                  additionalProperties:
-                    type: object
-                type:
-                  description: Type of LLM
-                  title: Type
-                  type: string
-                enabled:
-                  description: Whether this LLM is enabled
-                  title: Enabled
-                  type: boolean
-              required:
-                - name
-                - config
-                - type
-              type: object
+              $ref: '#/components/schemas/llm'
         required: true
       responses:
         '201':
@@ -10683,7 +10656,6 @@ paths:
     delete:
       operationId: deleteLLM
       summary: Delete LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10706,7 +10678,6 @@ paths:
         - llm
       operationId: getLLMByID
       summary: Get LLM by ID
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -18754,6 +18725,7 @@ components:
         duration:
           title: duration
           type: integer
+          format: int64
           x-nullable: true
           description: sql executed duration
     DmsQueryHistoryList:
