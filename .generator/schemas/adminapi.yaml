@@ -2,9 +2,6 @@ openapi: 3.0.1
 info:
   title: Admin API
   version: 1.0.0
-  x-logo:
-    url: https://kubeblocks.io/img/logo.png
-    altText: ApeCloud logo
   description: |
     The Admin API is used to manage the ApeCloud platform.
   contact:
