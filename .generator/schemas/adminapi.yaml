@@ -22943,10 +22943,6 @@ components:
       required:
         - name
         - title
-        - min
-        - step
-        - max
-        - default
       properties:
         title:
           $ref: '#/components/schemas/localizedDescription'
@@ -22964,10 +22960,6 @@ components:
       type: object
       required:
         - component
-        - replicas
-        - cpu
-        - memory
-        - storages
         - hideEnpoints
         - hideOnCreate
       properties:
