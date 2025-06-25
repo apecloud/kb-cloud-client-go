@@ -12,7 +12,7 @@ import (
 
 type ResourceConstraint struct {
 	// resource constraint id
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 	// engine name
 	Engine string `json:"engine"`
 	// engine mode
@@ -31,8 +31,9 @@ type ResourceConstraint struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewResourceConstraint(engine string, mode string, component string) *ResourceConstraint {
+func NewResourceConstraint(id string, engine string, mode string, component string) *ResourceConstraint {
 	this := ResourceConstraint{}
+	this.Id = id
 	this.Engine = engine
 	this.Mode = mode
 	this.Component = component
@@ -47,32 +48,27 @@ func NewResourceConstraintWithDefaults() *ResourceConstraint {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value.
 func (o *ResourceConstraint) GetId() string {
-	if o == nil || o.Id == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Id
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *ResourceConstraint) GetIdOk() (*string, bool) {
-	if o == nil || o.Id == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *ResourceConstraint) HasId() bool {
-	return o != nil && o.Id != nil
-}
-
-// SetId gets a reference to the given string and assigns it to the Id field.
+// SetId sets field value.
 func (o *ResourceConstraint) SetId(v string) {
-	o.Id = &v
+	o.Id = v
 }
 
 // GetEngine returns the Engine field value.
@@ -234,9 +230,7 @@ func (o ResourceConstraint) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
+	toSerialize["id"] = o.Id
 	toSerialize["engine"] = o.Engine
 	toSerialize["mode"] = o.Mode
 	toSerialize["component"] = o.Component
@@ -259,7 +253,7 @@ func (o ResourceConstraint) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ResourceConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *string         `json:"id,omitempty"`
+		Id        *string         `json:"id"`
 		Engine    *string         `json:"engine"`
 		Mode      *string         `json:"mode"`
 		Component *string         `json:"component"`
@@ -269,6 +263,9 @@ func (o *ResourceConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Id == nil {
+		return fmt.Errorf("required field id missing")
 	}
 	if all.Engine == nil {
 		return fmt.Errorf("required field engine missing")
@@ -287,7 +284,7 @@ func (o *ResourceConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.Id = all.Id
+	o.Id = *all.Id
 	o.Engine = *all.Engine
 	o.Mode = *all.Mode
 	o.Component = *all.Component

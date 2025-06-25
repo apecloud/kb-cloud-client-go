@@ -16382,6 +16382,7 @@ components:
     resourceConstraint:
       type: object
       required:
+        - id
         - engine
         - mode
         - component
