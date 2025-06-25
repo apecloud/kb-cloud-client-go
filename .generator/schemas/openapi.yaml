@@ -2,9 +2,6 @@ openapi: 3.0.1
 info:
   title: KubeBlocks Cloud API
   version: 1.0.0
-  x-logo:
-    url: https://kubeblocks.io/img/logo.png
-    altText: ApeCloud logo
   description: |
     ***KubeBlocks Cloud API*** is a RESTful API for managing KubeBlocks Cloud resources.
 
