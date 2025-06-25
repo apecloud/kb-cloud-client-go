@@ -24226,6 +24226,11 @@ components:
           type: integer
     resourceConstraint:
       type: object
+      required:
+        - id
+        - engine
+        - mode
+        - component
       properties:
         id:
           type: string
