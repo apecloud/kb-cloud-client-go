@@ -2,9 +2,6 @@ openapi: 3.0.1
 info:
   title: Admin API
   version: 1.0.0
-  x-logo:
-    url: https://kubeblocks.io/img/logo.png
-    altText: ApeCloud logo
   description: |
     The Admin API is used to manage the ApeCloud platform.
   contact:
@@ -63,6 +60,8 @@ tags:
     description: License APIs
   - name: organizationParameter
     description: Organization Parameter APIs
+  - name: billing
+    description: Billing APIs
 paths:
   /admin/v1/user:
     get:
@@ -166,6 +165,7 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - user
+        - shared
       x-codegen-request-body-name: body
     delete:
       description: delete apikey
@@ -188,6 +188,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - user
+        - shared
   /admin/v1/user/apikeys:
     get:
       description: Get apikeys of the authenticated user
@@ -204,6 +205,7 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - user
+        - shared
     post:
       description: Create apikey of the authenticated user
       summary: Create apikey of the authenticated user
@@ -229,6 +231,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - user
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/administrators:
     post:
@@ -577,6 +580,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+        - shared
     patch:
       description: partially update the specified Org
       summary: Update organization
@@ -613,6 +617,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+        - shared
       x-codegen-request-body-name: body
     delete:
       description: partially delete the specified org
@@ -637,6 +642,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+        - shared
   /admin/v1/organizations/{orgName}/enable:
     post:
       description: enable the organization
@@ -706,6 +712,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - member
+        - shared
     post:
       description: Add organization with specific role
       summary: Add member
@@ -738,6 +745,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - member
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/members/{memberId}:
     delete:
@@ -769,6 +777,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - member
+        - shared
     get:
       description: read the specified OrgMember
       summary: Get member
@@ -801,6 +810,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - member
+        - shared
     patch:
       description: Only authenticated organization admins can update the member's role
       summary: Update member role
@@ -839,6 +849,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - member
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/members/{memberId}/freeze:
     post:
@@ -868,6 +879,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+        - shared
   /admin/v1/organizations/{orgName}/members/{memberId}/unfreeze:
     post:
       description: unfreeze the member in org
@@ -896,10 +908,12 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organization
+        - shared
   /admin/v1/permissions:
     get:
       tags:
         - role
+        - shared
       summary: List all permissions
       description: List all permissions
       operationId: listPermissions
@@ -916,6 +930,7 @@ paths:
     get:
       tags:
         - role
+        - shared
       summary: List roles of a organization
       description: List roles of a organization
       operationId: listRoles
@@ -942,6 +957,7 @@ paths:
     post:
       tags:
         - role
+        - shared
       summary: Create role
       description: Create role
       operationId: createRole
@@ -975,6 +991,7 @@ paths:
     get:
       tags:
         - role
+        - shared
       summary: Get role by name
       description: Get role by name
       operationId: getRoleByName
@@ -1006,6 +1023,7 @@ paths:
     patch:
       tags:
         - role
+        - shared
       summary: Update role by name
       description: Update role by name
       operationId: updateRoleByName
@@ -1043,6 +1061,7 @@ paths:
     delete:
       tags:
         - role
+        - shared
       summary: Delete role by name
       description: Delete role by name
       operationId: deleteRoleByName
@@ -1072,6 +1091,7 @@ paths:
     get:
       tags:
         - role
+        - shared
       summary: List permissions of a role
       description: List permissions of a role
       operationId: listRolePermissions
@@ -1104,6 +1124,7 @@ paths:
     post:
       tags:
         - role
+        - shared
       summary: Batch add permissions to a role
       description: Batch add permissions to a role
       operationId: batchAddRolePermissions
@@ -1144,6 +1165,7 @@ paths:
     delete:
       tags:
         - role
+        - shared
       summary: Batch remove permissions from a role
       description: Batch remove permissions from a role
       operationId: batchRemoveRolePermissions
@@ -1210,7 +1232,8 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
+        - shared
     post:
       operationId: batchUpdateOrgParameters
       summary: Batch update parameters of an organization
@@ -1240,7 +1263,8 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - organization
+        - organizationParameter
+        - shared
   /admin/v1/organizations/{orgName}/parameters/{parameterName}:
     get:
       operationId: getOrgParameter
@@ -1271,6 +1295,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organizationParameter
+        - shared
     patch:
       operationId: patchOrgParameter
       summary: Update a parameter of an organization
@@ -1303,10 +1328,12 @@ paths:
           description: OK
       tags:
         - organizationParameter
+        - shared
   /admin/v1/clusters:
     get:
       tags:
         - cluster
+        - shared
       summary: Get cluster list
       description: Get cluster list
       operationId: listClusters
@@ -1346,6 +1373,7 @@ paths:
     get:
       tags:
         - cluster
+        - shared
       operationId: listCluster
       summary: List clusters in the Org
       parameters:
@@ -1443,6 +1471,39 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/validate:
+    post:
+      operationId: validateClusterCreation
+      summary: Validate cluster creation
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterCreate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Return when cluster creation is validated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}:
     get:
       operationId: getCluster
@@ -1477,6 +1538,7 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - cluster
+        - shared
     patch:
       description: Update the specified Cluster
       summary: Update cluster specified fields
@@ -1509,12 +1571,18 @@ paths:
           description: Returned when project is updated successfully.
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - cluster
+        - shared
       x-codegen-request-body-name: body
     delete:
       tags:
         - cluster
+        - shared
       operationId: deleteCluster
       summary: Delete cluster
       parameters:
@@ -1580,6 +1648,7 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances:
     get:
       operationId: listInstance
@@ -1610,6 +1679,53 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - cluster
+        - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
+    get:
+      operationId: listInstanceEvents
+      summary: List instance events
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+        - description: return number of events
+          in: query
+          name: returnNumber
+          schema:
+            type: integer
+            format: int32
+            default: 10
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceEventList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
     get:
       description: read log of the specified cluster instance
@@ -1665,6 +1781,7 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/endpoints:
     get:
       operationId: listEndpoints
@@ -1701,10 +1818,12 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusterTags:
     get:
       tags:
         - clusterTag
+        - shared
       operationId: getTags
       summary: Get cluster tags
       parameters:
@@ -1733,6 +1852,7 @@ paths:
     delete:
       tags:
         - clusterTag
+        - shared
       description: delete cluster tag
       summary: Delete tag
       operationId: deleteTag
@@ -1760,6 +1880,7 @@ paths:
     patch:
       tags:
         - clusterTag
+        - shared
       description: Update cluster tags
       operationId: updateTag
       parameters:
@@ -1797,6 +1918,7 @@ paths:
     get:
       tags:
         - clusterTag
+        - shared
       description: List tags by organization name.
       operationId: listOrgTags
       summary: List tags by organization name
@@ -1823,6 +1945,7 @@ paths:
     post:
       tags:
         - clusterTag
+        - shared
       description: create tag
       summary: Create cluster tags
       operationId: createTag
@@ -1899,6 +2022,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - account
+        - shared
       x-codegen-request-body-name: body
     post:
       description: create an account in cluster
@@ -1936,6 +2060,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - account
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     delete:
@@ -1974,6 +2099,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - account
+        - shared
     patch:
       deprecated: true
       description: update an account in cluster
@@ -2016,6 +2142,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - account
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/accounts/privileges/{accountName}:
     patch:
@@ -2060,6 +2187,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - account
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/databases:
     get:
@@ -2095,6 +2223,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - database
+        - shared
     post:
       deprecated: true
       description: create a database in cluster
@@ -2131,6 +2260,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - database
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
     delete:
@@ -2169,6 +2299,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - database
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -2196,6 +2327,7 @@ paths:
                 $ref: '#/components/schemas/autohealingList'
       tags:
         - autohealing
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/metrics:
     get:
       description: Query cluster metrics by specified metric name and instance name, support instant and range query
@@ -2243,6 +2375,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/metrics:
     get:
       operationId: getInstacesMetrics
@@ -2277,6 +2410,7 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/tls:
     get:
       operationId: getTLSCertificate
@@ -2309,6 +2443,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - tls
+        - shared
     post:
       operationId: tlsSwitcher
       summary: Enable or disable cluster TLS
@@ -2346,6 +2481,7 @@ paths:
           $ref: '#/components/responses/409'
       tags:
         - tls
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/ipWhitelist:
     get:
@@ -2377,6 +2513,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
+        - shared
     post:
       operationId: createIPWhitelist
       summary: Create IP whitelist
@@ -2431,6 +2568,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/ipWhitelist/{ipWhitelistId}:
     patch:
@@ -2493,6 +2631,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
+        - shared
       x-codegen-request-body-name: body
     delete:
       operationId: deleteIPWhiteList
@@ -2526,6 +2665,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - ipWhitelist
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/haHistory:
     get:
       operationId: describeClusterHaHistory
@@ -2563,6 +2703,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - cluster
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/eventfilter/{filterType}:
     get:
@@ -2724,12 +2865,14 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - event
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/parameters:
     get:
       operationId: listParameterProps
       summary: List parameter properties of the cluster
       tags:
         - parameter
+        - shared
       parameters:
         - description: name of the organization
           in: path
@@ -2807,6 +2950,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - parameter
+        - shared
   /admin/v1/parameterTemplates:
     get:
       operationId: listParameterTemplates
@@ -3035,6 +3179,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - parameterTemplate
+        - shared
     post:
       operationId: exportParameterTemplateFromCluster
       summary: Export parameter template from cluster
@@ -3069,6 +3214,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - parameterTemplate
+        - shared
       x-codegen-request-body-name: body
     patch:
       operationId: updateClusterParameterTemplate
@@ -3104,11 +3250,13 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - parameterTemplate
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/datasource/{id}:
     get:
       tags:
         - dms
+        - shared
       operationId: getDataSourceV2
       summary: get the datasource
       parameters:
@@ -3140,6 +3288,7 @@ paths:
     delete:
       tags:
         - dms
+        - shared
       operationId: deleteDataSourceV2
       summary: delete the datasource
       parameters:
@@ -3175,6 +3324,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       operationId: listDataSourceV2
       summary: list the datasource of a cluster
       parameters:
@@ -3201,6 +3351,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: testDataSourceV2
       summary: test the datasource
       parameters:
@@ -3233,6 +3384,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: createDataSourceV2
       summary: create the datasource
       parameters:
@@ -3265,6 +3417,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: updateDataSourceV2
       summary: update the datasource
       parameters:
@@ -3297,6 +3450,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: query
       summary: create a SQL query
       parameters:
@@ -3335,6 +3489,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: Data Export
       operationId: DataExport
       parameters:
@@ -3374,6 +3529,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: Data Import
       operationId: DataImport
       parameters:
@@ -3425,6 +3581,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: Get the task progress
       operationId: GetTaskProgress
       parameters:
@@ -3469,6 +3626,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: Get the task list
       operationId: GetTaskList
       parameters:
@@ -3507,6 +3665,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       operationId: getSchemaList
       summary: list all databases or schema of the cluster
       parameters:
@@ -3539,6 +3698,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       operationId: ListObjectTypesInSchema
       summary: list the type and number of database objects in the specified database or schema
       parameters:
@@ -3577,6 +3737,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       operationId: ListObjectNamesByType
       summary: list the all name for the specified object type
       parameters:
@@ -3621,6 +3782,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       operationId: GetObjectInfo
       summary: get the detail object info
       parameters:
@@ -3671,6 +3833,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       operationId: listQueryHistory
       summary: list the query History
       parameters:
@@ -3703,6 +3866,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: sqlExplain
       summary: explain a SQL
       parameters:
@@ -3741,6 +3905,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: generateDDL
       summary: support ddl and dml operations
       parameters:
@@ -3779,6 +3944,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       operationId: showData
       summary: read data of table or view
       parameters:
@@ -3818,6 +3984,7 @@ paths:
       deprecated: true
       tags:
         - dms
+        - shared
       summary: list all session for the cluster
       operationId: listSessionsOld
       parameters:
@@ -3857,6 +4024,7 @@ paths:
       deprecated: true
       tags:
         - dms
+        - shared
       summary: close the session for the cluster
       operationId: closeSessions
       parameters:
@@ -3897,6 +4065,87 @@ paths:
           $ref: '#/components/responses/403'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/pod:
+    get:
+      description: Query pod logs of a cluster
+      summary: Query cluster pod logs
+      operationId: queryPodLogs
+      parameters:
+        - in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: componentName
+          schema:
+            type: string
+        - in: query
+          name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  items:
+                    items:
+                      properties:
+                        message:
+                          type: string
+                        timestamp:
+                          type: string
+                      type: object
+                    type: array
+                  pagination:
+                    properties:
+                      endTime:
+                        type: string
+                      limit:
+                        type: string
+                      nextEndTime:
+                        type: string
+                      nextStartTime:
+                        type: string
+                      startTime:
+                        type: string
+                    type: object
+                type: object
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - clusterLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/running:
     get:
       description: Query running logs of a cluster
@@ -3977,6 +4226,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow:
     get:
       description: Query slow logs of a cluster
@@ -4069,6 +4319,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/audit:
     get:
       description: Query audit logs of a cluster
@@ -4161,6 +4412,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/error:
     get:
       description: Query error logs of a cluster
@@ -4241,6 +4493,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterLog
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/reconfigure:
     post:
       operationId: reconfigureCluster
@@ -4279,6 +4532,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/restart:
     post:
@@ -4318,6 +4572,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/rebuildInstance:
     post:
@@ -4357,6 +4612,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/rebuildInstance/availableNodes:
     get:
       operationId: listAvailableNodes
@@ -4395,6 +4651,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/upgrade:
     post:
       operationId: upgradeCluster
@@ -4433,6 +4690,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/upgradeableServiceVersion:
     get:
@@ -4470,7 +4728,8 @@ paths:
         '403':
           $ref: '#/components/responses/403'
       tags:
-        - engineOption
+        - engine
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/volume-expand:
     post:
       operationId: clusterVolumeExpand
@@ -4509,6 +4768,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/vscale:
     post:
@@ -4548,6 +4808,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/hscale:
     post:
@@ -4587,6 +4848,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/promote:
     post:
@@ -4626,6 +4888,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/stop:
     post:
@@ -4659,6 +4922,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/start:
     post:
       operationId: startCluster
@@ -4691,6 +4955,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/expose:
     post:
       operationId: exposeCluster
@@ -4729,6 +4994,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/updateLicense:
     post:
@@ -4768,6 +5034,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/custom-ops:
     post:
@@ -4807,11 +5074,13 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/opsrequests/{opsName}:
     delete:
       tags:
         - opsrequest
+        - shared
       description: delete a OpsRequest
       summary: Delete OpsRequest
       operationId: deleteOps
@@ -4886,10 +5155,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - opsrequest
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
     get:
       tags:
         - opsrequest
+        - shared
       deprecated: true
       description: get a OpsRequest status, deprecated, instead use cluster task api
       summary: Get OpsRequest Status
@@ -4924,6 +5195,7 @@ paths:
     post:
       tags:
         - opsrequest
+        - shared
       operationId: specifyClusterIOQuotas
       summary: Specify IOPS and BPS of cluster volumes
       parameters:
@@ -5318,6 +5590,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - resourceStats
+        - shared
   /admin/v1/environments/{environmentName}/nodes/monitorStatus:
     get:
       operationId: getEnvironmentMetricsMonitorStats
@@ -5973,6 +6246,78 @@ paths:
               schema:
                 type: string
           description: A successful response.
+  /admin/v1/environments/{environmentName}/workflow/{workflowName}/resubmit:
+    post:
+      operationId: resubmitWorkflow
+      summary: retry workflow from failed
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: workflow name
+          in: path
+          name: workflowName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/workflow'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
+  /admin/v1/environments/{environmentName}/workflow/{workflowName}/retry:
+    post:
+      operationId: retryWorkflow
+      summary: retry workflow
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: workflow name
+          in: path
+          name: workflowName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/workflow'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/latestEnvModuleVersion:
     get:
       tags:
@@ -6895,6 +7240,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupRepo
+        - shared
     post:
       operationId: updateBackupRepo
       summary: Update backup repo
@@ -7197,6 +7543,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - backup
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/backupPolicy:
     get:
@@ -7236,6 +7583,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backup
+        - shared
     patch:
       description: partially update the specified Backup Policy
       summary: Update backup policy
@@ -7276,6 +7624,7 @@ paths:
           $ref: '#/components/responses/401'
       tags:
         - backup
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/backups:
     get:
@@ -7392,6 +7741,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backup
+        - shared
     get:
       operationId: getBackup
       summary: Get backup
@@ -7423,6 +7773,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backup
+        - shared
   /admin/v1/organizations/{orgName}/backups/{backupId}/logs:
     get:
       operationId: getBackupLog
@@ -7455,10 +7806,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backup
+        - shared
   /admin/v1/organizations/{orgName}/backups/{backupId}/view:
     post:
       tags:
         - backup
+        - shared
       operationId: viewBackup
       summary: view backup info
       parameters:
@@ -7496,6 +7849,7 @@ paths:
     get:
       tags:
         - backup
+        - shared
       operationId: downloadBackup
       summary: Download full backup
       parameters:
@@ -7522,6 +7876,7 @@ paths:
     post:
       tags:
         - backup
+        - shared
       operationId: downloadMultipleBackups
       summary: Download multiple backup files
       parameters:
@@ -7596,6 +7951,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engine
+        - shared
   /admin/v1/organizations/{orgName}/{engineName}/clusterBackupMethod:
     get:
       operationId: getBackupMethod
@@ -7648,6 +8004,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - backupMethod
+        - shared
   /admin/v1/organizations/{orgName}/clustersWithDelete/restoreTimeRange:
     get:
       operationId: getRestoreTimeRange
@@ -7678,6 +8035,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - restore
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/restore:
     delete:
       operationId: deleteRestoreObject
@@ -7713,6 +8071,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - restore
+        - shared
     get:
       operationId: listClusterRestore
       summary: List restore tasks
@@ -7742,6 +8101,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - restore
+        - shared
     post:
       operationId: doRestore
       summary: Restore current cluster or instance
@@ -7779,6 +8139,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - restore
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/restore/{restoreId}/logs:
     get:
@@ -7816,6 +8177,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - restore
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/markClusterRestoreCompleted:
     post:
@@ -7846,6 +8208,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - markCluster
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/restoreTasks:
     get:
@@ -8076,6 +8439,7 @@ paths:
     get:
       tags:
         - clusterAlertSwitch
+        - shared
       operationId: getClusterAlertDisabled
       summary: Check if cluster alert is disabled
       parameters:
@@ -8107,6 +8471,7 @@ paths:
     patch:
       tags:
         - clusterAlertSwitch
+        - shared
       operationId: setClusterAlertDisabled
       summary: Set cluster alert disabled or enabled
       parameters:
@@ -8144,6 +8509,7 @@ paths:
     get:
       tags:
         - alertReceiver
+        - shared
       summary: List alert receivers
       operationId: listAlertReceivers
       parameters:
@@ -8178,6 +8544,7 @@ paths:
       operationId: batchCheckURLConnectivity
       tags:
         - alert
+        - shared
       requestBody:
         required: true
         content:
@@ -8204,6 +8571,7 @@ paths:
       operationId: alertStatistic
       tags:
         - alert
+        - shared
       parameters:
         - name: orgName
           in: query
@@ -8228,6 +8596,7 @@ paths:
     post:
       tags:
         - alertReceiver
+        - shared
       operationId: createAlertReceiver
       summary: Create alert receiver
       parameters:
@@ -8290,6 +8659,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - alertReceiver
+        - shared
     get:
       operationId: getAlertReceiver
       summary: Get alert receiver
@@ -8362,6 +8732,7 @@ paths:
     get:
       tags:
         - alertStrategy
+        - shared
       operationId: listAlertStrategies
       summary: List alert strategies
       parameters:
@@ -8388,6 +8759,7 @@ paths:
     post:
       tags:
         - alertStrategy
+        - shared
       operationId: createAlertStrategy
       summary: Create alert strategy
       parameters:
@@ -8420,6 +8792,7 @@ paths:
     patch:
       tags:
         - alertStrategy
+        - shared
       operationId: patchAlertStrategy
       summary: Update alert strategy
       parameters:
@@ -8451,6 +8824,7 @@ paths:
     delete:
       tags:
         - alertStrategy
+        - shared
       operationId: deleteAlertStrategy
       summary: Delete alert strategy
       parameters:
@@ -8549,6 +8923,7 @@ paths:
     post:
       tags:
         - alertRule
+        - shared
       operationId: createAlertRule
       summary: Create alert rule
       parameters:
@@ -8588,6 +8963,7 @@ paths:
     get:
       tags:
         - alertRule
+        - shared
       operationId: getAlertRule
       parameters:
         - name: orgName
@@ -8618,6 +8994,7 @@ paths:
     delete:
       tags:
         - alertRule
+        - shared
       operationId: deleteAlertRule
       summary: Delete alert rule
       parameters:
@@ -8647,6 +9024,7 @@ paths:
     patch:
       tags:
         - alertRule
+        - shared
       operationId: updateAlertRule
       summary: Update alert rule
       parameters:
@@ -8686,6 +9064,7 @@ paths:
     get:
       tags:
         - alertRule
+        - shared
       summary: Download organization-specific alert rule configuration file
       description: Downloads the current alert rule configuration for a specific organization as a YAML file.
       operationId: downloadOrgAlertRuleFile
@@ -8716,6 +9095,7 @@ paths:
     put:
       tags:
         - alertRule
+        - shared
       summary: Update alert rule configuration via YAML upload
       description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
       operationId: updateRuleConfig
@@ -8749,6 +9129,7 @@ paths:
     post:
       tags:
         - alertRule
+        - shared
       summary: Restore organization's alert rule configuration to defaults
       description: Restores the alert rule configuration for a specific organization to the system default settings.
       operationId: restoreOrgAlertRuleToDefault
@@ -8784,6 +9165,7 @@ paths:
     get:
       tags:
         - alertMetrics
+        - shared
       operationId: listAlertMetrics
       summary: List alert metric types
       parameters:
@@ -8852,6 +9234,7 @@ paths:
     patch:
       tags:
         - alertObject
+        - shared
       operationId: setAlertObjectsStatus
       summary: Set alert objects status
       parameters:
@@ -8891,6 +9274,7 @@ paths:
     patch:
       tags:
         - alertObject
+        - shared
       operationId: setAlertObjectStatus
       summary: Set alert object status
       parameters:
@@ -8928,6 +9312,7 @@ paths:
     get:
       tags:
         - alertConfig
+        - shared
       operationId: getAlertConfig
       summary: Get alert config
       parameters:
@@ -8953,6 +9338,7 @@ paths:
     patch:
       tags:
         - alertConfig
+        - shared
       operationId: setAlertConfig
       summary: Set alert config
       parameters:
@@ -8985,6 +9371,7 @@ paths:
       tags:
         - alertInhibit
       operationId: listAlertInhibits
+      deprecated: true
       summary: List alert inhibits
       parameters:
         - name: orgName
@@ -9010,6 +9397,7 @@ paths:
     post:
       tags:
         - alertInhibit
+        - shared
       operationId: createAlertInhibit
       summary: Create alert inhibit
       parameters:
@@ -9040,6 +9428,7 @@ paths:
     patch:
       tags:
         - alertInhibit
+        - shared
       operationId: patchAlertInhibit
       summary: Patch alert inhibit
       parameters:
@@ -9071,6 +9460,7 @@ paths:
     get:
       tags:
         - alertInhibit
+        - shared
       operationId: getAlertInhibit
       summary: Get alert inhibit
       parameters:
@@ -9102,6 +9492,7 @@ paths:
     delete:
       tags:
         - alertInhibit
+        - shared
       operationId: deleteAlertInhibit
       summary: Delete alert inhibit
       parameters:
@@ -9199,6 +9590,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineOption
+        - shared
     post:
       description: Create a new engineOption
       summary: Create engineOption
@@ -9256,6 +9648,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - engineOption
+        - shared
     put:
       description: Update a engineOption
       summary: Update engineOption
@@ -9386,6 +9779,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engineLicense
+        - shared
   /admin/v1/engineLicense:
     get:
       description: Get a engineLicense detail
@@ -9516,6 +9910,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engine
+        - shared
   /admin/v1/environments/{environmentName}/engines/{engineName}:
     get:
       operationId: getEngineByNameInEnv
@@ -9687,6 +10082,7 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - engine
+        - shared
     post:
       operationId: createresourceConstraint
       summary: Create engine resource constraint
@@ -9816,6 +10212,7 @@ paths:
     get:
       tags:
         - class
+        - shared
       operationId: listClasses
       summary: List classes
       responses:
@@ -10043,8 +10440,8 @@ paths:
     get:
       tags:
         - provider
-      summary: Get cloud provider list
-      description: Get cloud provider list
+      summary: List cloud providers
+      description: List cloud providers
       operationId: listCloudProviders
       responses:
         '200':
@@ -10169,490 +10566,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions:
-    get:
-      tags:
-        - region
-      summary: Get region list
-      description: Get region list
-      operationId: listRegions
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - region
-      summary: Create a region
-      description: Create a region
-      operationId: createRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionCreate'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/region'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions/{regionName}:
-    get:
-      tags:
-        - region
-      summary: Get region
-      description: Get region
-      operationId: getRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the cloud region
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/region'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - region
-      summary: Update a region
-      description: Update a region
-      operationId: updateRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionUpdate'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/region'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - region
-      summary: Delete a region
-      description: Delete a region
-      operationId: deleteRegion
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          $ref: '#/components/responses/204'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions/{regionName}/zones:
-    get:
-      tags:
-        - zone
-      summary: Get zone list
-      description: Get zone list
-      operationId: listZones
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zoneList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - zone
-      summary: Create a zone
-      description: Create a zone
-      operationId: createZone
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/zoneCreate'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zone'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regions/{regionName}/zones/{zoneName}:
-    get:
-      tags:
-        - zone
-      summary: Get zone
-      description: Get zone
-      operationId: getZones
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: zoneName
-          description: Name of the zone
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zone'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - zone
-      summary: Update a zone
-      description: Update a zone
-      operationId: updateZone
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: zoneName
-          description: Name of the zone
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/zoneUpdate'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/zone'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - zone
-      summary: Delete a zone
-      description: Delete a zone
-      operationId: deleteZone
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionName
-          description: Name of the region
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: zoneName
-          description: Name of the zone
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          $ref: '#/components/responses/204'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regionGroups:
-    get:
-      tags:
-        - regionGroup
-      summary: Get region group list
-      description: Get region group list
-      operationId: listRegionGroups
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionGroupList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - regionGroup
-      summary: Create a region group
-      description: Create a region group
-      operationId: createRegionGroup
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionGroupCreate'
-      responses:
-        '201':
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionGroup'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/providers/{providerName}/regionGroups/{regionGroupName}:
-    patch:
-      tags:
-        - regionGroup
-      summary: Update a region group
-      description: Update a region group
-      operationId: updateRegionGroup
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionGroupName
-          description: Name of the region group
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/regionGroupUpdate'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/regionGroup'
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - regionGroup
-      summary: Delete a region group
-      description: Delete a region
-      operationId: deleteRegionGroup
-      parameters:
-        - in: path
-          name: providerName
-          description: Name of the cloud provider
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: regionGroupName
-          description: Name of the region group
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          $ref: '#/components/responses/204'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/llm:
     post:
       operationId: addLLM
@@ -10724,31 +10637,7 @@ paths:
         content:
           application/json:
             schema:
-              description: llmUpdate
-              properties:
-                name:
-                  description: LLM name
-                  title: Name
-                  type: string
-                config:
-                  description: LLM config
-                  title: LLM config
-                  type: object
-                  additionalProperties:
-                    type: object
-                type:
-                  description: Type of LLM
-                  title: Type
-                  type: string
-                enabled:
-                  description: Whether this LLM is enabled
-                  title: Enabled
-                  type: boolean
-              required:
-                - name
-                - config
-                - type
-              type: object
+              $ref: '#/components/schemas/llm'
         required: true
       responses:
         '201':
@@ -10815,6 +10704,7 @@ paths:
     post:
       tags:
         - llm
+        - shared
       operationId: checkAPIKey
       summary: check apikey available
       description: check apikey available
@@ -10843,6 +10733,7 @@ paths:
     get:
       tags:
         - llm
+        - shared
       operationId: listAvailableModel
       summary: List available model
       responses:
@@ -11093,6 +10984,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - feature
+        - shared
   /admin/v1/featureGroups:
     get:
       description: Get feature group list
@@ -11142,10 +11034,12 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - feature
+        - shared
   /admin/v1/organizations/{orgName}/inspections:
     get:
       tags:
         - inspection
+        - shared
       operationId: listInspections
       summary: list inspections
       parameters:
@@ -11183,6 +11077,7 @@ paths:
     post:
       tags:
         - inspection
+        - shared
       operationId: updateInspection
       summary: Update inspection
       parameters:
@@ -11215,6 +11110,7 @@ paths:
     get:
       tags:
         - inspection
+        - shared
       operationId: listAutoInspection
       summary: list auto inspection
       parameters:
@@ -11240,6 +11136,7 @@ paths:
     post:
       tags:
         - inspection
+        - shared
       operationId: createAutoInspection
       summary: Create auto inspection
       parameters:
@@ -11271,6 +11168,7 @@ paths:
     patch:
       tags:
         - inspection
+        - shared
       operationId: updateAutoInspection
       summary: Update auto inspection
       parameters:
@@ -11303,6 +11201,7 @@ paths:
     get:
       tags:
         - inspection
+        - shared
       operationId: listInspectionScripts
       summary: list inspection scripts
       parameters:
@@ -11335,6 +11234,7 @@ paths:
     post:
       tags:
         - inspection
+        - shared
       operationId: createInspectionScript
       summary: Create inspection script
       parameters:
@@ -11366,6 +11266,7 @@ paths:
     patch:
       tags:
         - inspection
+        - shared
       operationId: updateInspectionScript
       summary: Update inspection script
       parameters:
@@ -11397,6 +11298,7 @@ paths:
     delete:
       tags:
         - inspection
+        - shared
       operationId: deleteInspectionScript
       summary: Delete inspection script
       parameters:
@@ -11664,6 +11566,7 @@ paths:
     get:
       tags:
         - oceanbase
+        - shared
       operationId: listTenants
       summary: list all tenants for the oceanbase cluster
       parameters:
@@ -11696,6 +11599,7 @@ paths:
     get:
       tags:
         - oceanbase
+        - shared
       operationId: getTenant
       summary: get tenants detail information of the oceanbase cluster
       parameters:
@@ -11734,6 +11638,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: list cluster parameters
       operationId: listParameters
       parameters:
@@ -11778,6 +11683,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: alter cluster parameter
       operationId: alterParameter
       parameters:
@@ -11823,6 +11729,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: List parameters history of the Oceanbase tenant
       operationId: tenantParameterHistory
       parameters:
@@ -11871,6 +11778,7 @@ paths:
     get:
       summary: List cluster instances
       description: List instances based on query parameters with constraints.
+      deprecated: true
       operationId: listInstances
       parameters:
         - name: envName
@@ -11918,6 +11826,7 @@ paths:
         - metadb
       operationId: getPostgresClusterInfo
       summary: Get summary of postgresql cluster.
+      deprecated: true
       parameters:
         - name: clusterName
           in: query
@@ -11948,6 +11857,7 @@ paths:
     get:
       operationId: metadbListInstances
       summary: List metadb cluster instances
+      deprecated: true
       responses:
         '200':
           content:
@@ -11965,6 +11875,7 @@ paths:
     get:
       operationId: getMetadbInstancesMetrics
       summary: Get instances metrics in metadb
+      deprecated: true
       responses:
         '200':
           content:
@@ -11988,6 +11899,7 @@ paths:
         - metadb
       operationId: metadbBackup
       summary: Backup metadb to S3(AWS S3 or minio)
+      deprecated: true
       responses:
         '200':
           description: OK
@@ -12006,6 +11918,7 @@ paths:
         - metadb
       operationId: listMetadbBackups
       summary: List all names of backups in S3.
+      deprecated: true
       responses:
         '200':
           description: OK
@@ -12024,6 +11937,7 @@ paths:
         - metadb
       operationId: deleteMetadbBackups
       summary: Delete backups by name or delete all
+      deprecated: true
       parameters:
         - name: backupName
           in: query
@@ -12052,6 +11966,7 @@ paths:
         - metadb
       operationId: metadbBackupGetConfig
       summary: get backup config
+      deprecated: true
       responses:
         '200':
           description: OK
@@ -12070,6 +11985,7 @@ paths:
         - metadb
       operationId: metadbBackupConfig
       summary: set backup config
+      deprecated: true
       requestBody:
         required: true
         content:
@@ -12095,6 +12011,7 @@ paths:
         - metadb
       operationId: metadbRestore
       summary: Restore metadb
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -12118,6 +12035,7 @@ paths:
     post:
       operationId: metadbVolumeExpand
       summary: Expand cluster volume size
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -12145,6 +12063,7 @@ paths:
         - metadb
       operationId: metadbVerticalScale
       summary: vertical scale
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -12214,6 +12133,7 @@ paths:
     get:
       tags:
         - platformParameter
+        - shared
       operationId: getPlatformParameter
       summary: get platformParameter by name
       parameters:
@@ -12241,6 +12161,7 @@ paths:
       tags:
         - recycleBinCluster
       operationId: listRecycleBinClusters
+      deprecated: true
       summary: List all clusters in the Recycle Bin
       responses:
         '200':
@@ -12259,6 +12180,7 @@ paths:
     get:
       tags:
         - recycleBinCluster
+        - shared
       operationId: listRecycleBinCluster
       summary: List clusters in the Recycle Bin of the Org
       parameters:
@@ -12285,6 +12207,7 @@ paths:
     get:
       tags:
         - recycleBinCluster
+        - shared
       operationId: getRecycleBinCluster
       summary: Get cluster in the Recycle Bin of the Org
       parameters:
@@ -12316,6 +12239,7 @@ paths:
     delete:
       tags:
         - recycleBinCluster
+        - shared
       operationId: deleteRecycleBinCluster
       summary: Delete cluster from the Recycle Bin of the Org
       parameters:
@@ -12351,6 +12275,7 @@ paths:
     post:
       tags:
         - recycleBinCluster
+        - shared
       operationId: restoreRecycleBinCluster
       summary: Restore cluster from the Recycle Bin of the Org
       parameters:
@@ -12372,7 +12297,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/recycleBinCluster'
+                $ref: '#/components/schemas/cluster'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12602,10 +12527,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - clusterTask
+        - shared
   /admin/v1/organizations/{orgName}/cluster/{clusterName}/available-relations:
     get:
       tags:
         - relation
+        - shared
       summary: list the available clusters for the organization to create the a relation
       operationId: listAvailableClustersForRelation
       parameters:
@@ -12643,6 +12570,7 @@ paths:
     get:
       tags:
         - relation
+        - shared
       summary: list the clusters that have built a relation to the specified cluster
       operationId: listRelatedClusters
       parameters:
@@ -12674,6 +12602,7 @@ paths:
     post:
       tags:
         - relation
+        - shared
       summary: create a relation between the clusters in the organization
       operationId: createRelation
       parameters:
@@ -12707,6 +12636,7 @@ paths:
     delete:
       tags:
         - relation
+        - shared
       summary: delete a existed relation between the clusters in the organization
       operationId: deleteRelation
       parameters:
@@ -12915,12 +12845,40 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
+  /admin/v1/environments/optional-modules:
+    get:
+      operationId: getOptionalEnvironmentModules
+      summary: get option environment module info
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentModuleList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - environment
   /admin/v1/data/kafka/organizations/{orgName}/clusters/{clusterName}/brokers:
     get:
       summary: Get all brokers in cluster
       operationId: getKafkaBrokers
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -12957,6 +12915,7 @@ paths:
       operationId: getKafkaBrokerConfigs
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -12998,6 +12957,7 @@ paths:
       operationId: updateKafkaBrokerConfig
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13043,6 +13003,7 @@ paths:
       operationId: getKafkaTopics
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13090,6 +13051,7 @@ paths:
       operationId: createKafkaTopic
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13132,6 +13094,7 @@ paths:
       operationId: getKafkaTopicInfos
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13172,6 +13135,7 @@ paths:
       operationId: deleteKafkaTopic
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13210,6 +13174,7 @@ paths:
       operationId: getKafkaTopicBrokers
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13251,6 +13216,7 @@ paths:
       operationId: getKafkaTopicPartitions
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13291,6 +13257,7 @@ paths:
       operationId: expandKafkaTopicPartitions
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13335,6 +13302,7 @@ paths:
       operationId: getKafkaTopicConfig
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13375,6 +13343,7 @@ paths:
       operationId: setKafkaTopicConfig
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13419,6 +13388,7 @@ paths:
       operationId: listKafkaTopicConsumerGroups
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13451,6 +13421,7 @@ paths:
       operationId: listKafkaTopicConsumerOffsets
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13498,6 +13469,7 @@ paths:
       operationId: resetKafkaTopicConsumerOffset
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13549,6 +13521,7 @@ paths:
       operationId: listKafkaTopicMessages
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13618,6 +13591,7 @@ paths:
       operationId: produceKafkaTopicMessage
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13667,6 +13641,7 @@ paths:
       operationId: listKafkaConsumerGroups
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13709,6 +13684,7 @@ paths:
       operationId: getKafkaConsumerGroupDescribe
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13750,6 +13726,7 @@ paths:
       operationId: deleteKafkaConsumerGroup
       tags:
         - kafka
+        - shared
       parameters:
         - name: orgName
           in: path
@@ -13787,6 +13764,7 @@ paths:
     get:
       tags:
         - redis
+        - shared
       summary: list redis accounts
       operationId: listRedisAccounts
       parameters:
@@ -13828,6 +13806,7 @@ paths:
     post:
       tags:
         - redis
+        - shared
       summary: create redis account
       operationId: createRedisAccount
       parameters:
@@ -13876,6 +13855,7 @@ paths:
     delete:
       tags:
         - redis
+        - shared
       summary: delete redis account
       operationId: deleteRedisAccount
       parameters:
@@ -13923,6 +13903,7 @@ paths:
     patch:
       tags:
         - redis
+        - shared
       summary: update redis account
       operationId: updateRedisAccount
       parameters:
@@ -13977,6 +13958,7 @@ paths:
     get:
       tags:
         - dms
+        - shared
       summary: get engine available console
       description: get engine available console
       operationId: getEngineAvailableConsole
@@ -14017,6 +13999,7 @@ paths:
     delete:
       tags:
         - dms
+        - shared
       summary: disable console
       description: disable console
       operationId: disableConsole
@@ -14053,6 +14036,7 @@ paths:
     post:
       tags:
         - dms
+        - shared
       summary: enable console
       description: enable console
       operationId: enableConsole
@@ -14095,6 +14079,7 @@ paths:
     post:
       tags:
         - rdbms
+        - shared
       description: generate demo data
       summary: generate demo data
       operationId: generateDemoData
@@ -14139,6 +14124,7 @@ paths:
     get:
       tags:
         - rdbms
+        - shared
       description: get available options for creating database
       summary: get database options
       operationId: getDatabaseOptions
@@ -14236,6 +14222,7 @@ paths:
       tags:
         - database
         - rdbms
+        - shared
     post:
       description: create a database in cluster
       summary: Create cluster database
@@ -14278,8 +14265,59 @@ paths:
       tags:
         - database
         - rdbms
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/databases/{databaseName}:
+    get:
+      description: get a database info in cluster
+      operationId: getDatabase
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of database
+          in: path
+          name: databaseName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/database'
+          description: Success
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - database
+        - rdbms
+        - shared
     delete:
       description: delete a database in cluster
       summary: Delete cluster database
@@ -14322,6 +14360,59 @@ paths:
       tags:
         - database
         - rdbms
+        - shared
+    patch:
+      description: update a database config in cluster
+      summary: update database config
+      operationId: updateDatabaseConfig
+      parameters:
+        - description: name of the engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of database
+          in: path
+          name: databaseName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+      tags:
+        - database
+        - rdbms
+        - shared
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in cluster
@@ -14365,6 +14456,7 @@ paths:
       tags:
         - account
         - rdbms
+        - shared
       x-codegen-request-body-name: body
     post:
       description: create an account in cluster
@@ -14411,6 +14503,7 @@ paths:
       tags:
         - account
         - rdbms
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     delete:
@@ -14455,6 +14548,7 @@ paths:
       tags:
         - account
         - rdbms
+        - shared
     patch:
       description: update an account in cluster
       summary: update cluster account
@@ -14493,7 +14587,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Returned when project is deleted successfully.
+          description: Update account password successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -14503,6 +14597,7 @@ paths:
       tags:
         - account
         - rdbms
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/root-password:
     get:
@@ -14559,6 +14654,7 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - account
+        - shared
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}/privileges:
     patch:
       description: update account privileges for rdbms engine
@@ -14608,6 +14704,7 @@ paths:
       tags:
         - account
         - rdbms
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions:
     get:
@@ -14655,6 +14752,7 @@ paths:
       tags:
         - session
         - rdbms
+        - shared
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/sessions/{session}:
     delete:
       description: kill a session in cluster
@@ -14703,6 +14801,7 @@ paths:
       tags:
         - session
         - rdbms
+        - shared
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts:
     get:
       description: list accounts in mongodb
@@ -14740,6 +14839,7 @@ paths:
       tags:
         - account
         - mongodb
+        - shared
       x-codegen-request-body-name: body
     post:
       description: create an account in mongodb
@@ -14780,6 +14880,7 @@ paths:
       tags:
         - account
         - mongodb
+        - shared
       x-codegen-request-body-name: body
   /admin/v1/data/mongodb/organizations/{orgName}/clusters/{clusterName}/accounts/{accountName}:
     delete:
@@ -14818,37 +14919,121 @@ paths:
       tags:
         - account
         - mongodb
-  /admin/v1/environments/optional-modules:
-    get:
-      operationId: getOptionalEnvironmentModules
-      summary: get option environment module info
+        - shared
+  /admin/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/accounts:
+    delete:
+      operationId: deleteMssqlAccount
+      summary: delete mssql account compatible with windows account
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the account
+          in: query
+          name: account
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/environmentModuleList'
-        '400':
-          $ref: '#/components/responses/400'
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-        '429':
-          $ref: '#/components/responses/429'
+      tags:
+        - account
+        - mssql
+        - shared
+    patch:
+      operationId: updateMssqlAccount
+      summary: update mssql account compatible with windows account
+      tags:
+        - account
+        - mssql
+        - shared
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account'
+      responses:
+        '204':
+          content: {}
+          description: Update mssql account successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/data/mssql/organizations/{orgName}/clusters/{clusterName}/tde:
+    patch:
+      operationId: manageMssqlTDEDatabase
+      summary: batch modify database tde status
+      tags:
+        - mssql
+        - shared
+      parameters:
+        - description: name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dbTDERequest'
+      responses:
+        '204':
+          content: {}
+          description: Enable mssql database in tde successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-      tags:
-        - environment
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/services/{serviceName}/analyze:
     get:
       operationId: analyzeService
       summary: Analyze service
+      deprecated: true
       parameters:
         - description: name of the Org
           in: path
@@ -14905,6 +15090,7 @@ paths:
       description: Analyze error logs of a cluster
       summary: Analyze cluster error logs
       operationId: analyzeLogs
+      deprecated: true
       parameters:
         - in: path
           name: orgName
@@ -14961,11 +15147,13 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/logs/slow/analyze:
     post:
       description: Analyze slow logs of a cluster
       summary: Analyze cluster slow logs
       operationId: analyzeSlowLogs
+      deprecated: true
       requestBody:
         content:
           application/json:
@@ -15002,11 +15190,13 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+        - shared
   /admin/v1/organizations/paramTpls/{paramTplName}/analyze:
     get:
       description: analyze parameter, deprecated, instead use analyzeParameter
       operationId: analyzeParam
       summary: Analyze parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15056,6 +15246,7 @@ paths:
       description: analyze cluster parameter, deprecated, instead use analyzeClusterParameter
       operationId: analyzeClusterParam
       summary: Analyze cluster parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15104,6 +15295,7 @@ paths:
     get:
       operationId: analyzeParameter
       summary: Analyze parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15152,6 +15344,7 @@ paths:
     get:
       operationId: analyzeClusterParameter
       summary: Analyze cluster parameter
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15201,6 +15394,7 @@ paths:
       description: analyze a OpsRequest
       summary: Analyze OpsRequest
       operationId: analyzeOps
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15246,10 +15440,12 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - analyze
+        - shared
   /admin/v1/organizations/{orgName}/backups/{backupId}/analyze:
     get:
       operationId: analyzeBackup
       summary: Analyze backup
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15287,6 +15483,7 @@ paths:
     get:
       operationId: analyzeClusterRestore
       summary: Analyze cluster restore tasks
+      deprecated: true
       parameters:
         - description: model name
           in: query
@@ -15325,6 +15522,7 @@ paths:
       tags:
         - AI
       summary: Analyze cluster
+      deprecated: true
       description: Analyze cluster
       operationId: analyzeCluster
       parameters:
@@ -15350,24 +15548,167 @@ paths:
                 properties:
                   data:
                     type: string
-                    description: 流式返回的内容
+                    description: Streamed content
                   error:
                     type: string
-                    description: 错误信息
+                    description: Error message
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/ai/chat:
+  /admin/v1/ai/conversations:
     get:
       tags:
         - AI
-      summary: WebSocket endpoint for Chat
-      description: |
-        建立 WebSocket 连接进行 AI 对话。
-      operationId: chatBIWebSocket
+      summary: List conversations by user
+      description: Retrieves a list of conversations filtered by user.
+      operationId: listConversations
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 10
+        - name: type
+          in: query
+          description: Type of conversations to filter, can be bi or analysis.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of conversations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiConversationListResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI
+      summary: Create a new conversation
+      description: Creates a new conversation.
+      operationId: newAIConversation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIConversationRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiConversation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/conversations/{conversationId}/messages:
+    get:
+      tags:
+        - AI
+      summary: Get AI conversation messages
+      description: Retrieves all messages for a specific conversation.
+      operationId: getConversationMessages
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          description: ID of the conversation
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of messages for the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiMessageListResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/conversations/{conversationId}:
+    delete:
+      tags:
+        - AI
+      summary: Delete a conversation
+      description: Deletes a specific conversation and all its associated messages.
+      operationId: deleteConversation
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          description: ID of the conversation to delete
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          content: {}
+          description: Conversation deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/chatbi/v2:
+    post:
+      tags:
+        - AI
+      summary: SSE endpoint for Chat BI V2
+      description: Establishes an SSE connection for AI BI conversation.
+      operationId: chatBIV2SSE
       requestBody:
         required: true
         content:
@@ -15375,35 +15716,57 @@ paths:
             schema:
               $ref: '#/components/schemas/chatRequest'
       responses:
-        '101':
-          description: Switching Protocols to websocket
-          headers:
-            Upgrade:
-              schema:
-                type: string
-                example: websocket
-            Connection:
-              schema:
-                type: string
-                example: Upgrade
+        '200':
+          description: Successful operation, returns an event stream.
           content:
-            application/json:
+            text/event-stream:
               schema:
                 $ref: '#/components/schemas/chatResponse'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/401'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/403'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/chatops/v2:
+    post:
+      tags:
+        - AI
+      summary: SSE endpoint for Chat V2
+      description: Establishes an SSE connection for AI conversation.
+      operationId: chatV2SSE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        '200':
+          description: Successful operation, returns an event stream.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/chatResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/keys:
     get:
       tags:
         - key
+        - shared
       operationId: listKeys
       summary: List Keys
       responses:
@@ -15513,6 +15876,222 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /admin/v1/pricing:
+    get:
+      operationId: getEnvironmentPricing
+      summary: Get the environment pricing
+      deprecated: true
+      parameters:
+        - description: name of the environment
+          in: query
+          name: environmentName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/environmentPricing'
+          description: Retrieve the price of one environment
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    post:
+      operationId: saveEnvironmentPricing
+      summary: Save the environment pricing
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/environmentPricing'
+      responses:
+        '204':
+          description: Returned when information of pricing save successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    delete:
+      operationId: deleteEnvironmentPricing
+      summary: Delete the environment pricing
+      deprecated: true
+      parameters:
+        - description: name of the environment
+          in: query
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when pricing deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+  /admin/v1/pricing/global:
+    get:
+      operationId: getGlobalPricing
+      summary: Get the global information of pricing
+      deprecated: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/globalPricing'
+          description: Retrieve the global information of pricing
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    post:
+      operationId: saveGlobalPricing
+      summary: Save the global information of pricing
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/globalPricing'
+      responses:
+        '204':
+          description: Returned when global information of pricing save successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+  /admin/v1/billing/refresh:
+    post:
+      operationId: refreshBill
+      summary: Refresh bill
+      deprecated: true
+      parameters:
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '204':
+          description: Returned when bill refreshed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicTask'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
+  /admin/v1/billing/overview:
+    get:
+      operationId: queryBillOverview
+      summary: Query bills of all environments and organizations
+      deprecated: true
+      parameters:
+        - description: The type of aggregation time
+          in: query
+          name: aggregationTime
+          schema:
+            $ref: '#/components/schemas/aggregationTimeType'
+        - description: The type of aggregation group
+          in: query
+          name: aggregationGroup
+          schema:
+            $ref: '#/components/schemas/aggregationGroupType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicBillList'
+          description: Retrieve the price of all environments
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
+  /admin/v1/billing/detail:
+    get:
+      operationId: queryBillDetail
+      summary: Query bill details
+      deprecated: true
+      parameters:
+        - description: The ID of the bill
+          in: query
+          name: billID
+          schema:
+            type: string
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: name of the organization
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The type of aggregation time
+          in: query
+          name: aggregationTime
+          schema:
+            $ref: '#/components/schemas/aggregationTimeType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDetailList'
+          description: Retrieve the price detail
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
 components:
   securitySchemes:
     BearerToken:
@@ -16104,8 +16683,7 @@ components:
           type: string
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -16386,6 +16964,7 @@ components:
         - NodePort
         - FixedPodIP
         - HeadlessService
+        - LoadBalancer
       type: string
     clusterCreate:
       required:
@@ -16396,8 +16975,7 @@ components:
       properties:
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         clusterType:
@@ -16541,8 +17119,7 @@ components:
           description: Cluster ID
         parentId:
           title: ParentId
-          type: integer
-          format: int64
+          type: string
           nullable: true
           description: When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
         parentName:
@@ -16820,6 +17397,59 @@ components:
       required:
         - items
       type: object
+    instanceEventItem:
+      description: Instance event
+      properties:
+        clusterName:
+          description: Cluster name of the event
+          type: string
+        instanceName:
+          description: Instance name of the event
+          type: string
+        name:
+          description: Name of the event
+          type: string
+        reason:
+          description: Reason of the event
+          type: string
+        message:
+          description: Message of the event
+          type: string
+        type:
+          description: Type of the event
+          type: string
+        source:
+          description: Source of the event
+          type: string
+        count:
+          description: Count of the event
+          type: integer
+          format: int32
+        eventTime:
+          description: Last timestamp of the event
+          type: string
+          format: date-time
+      required:
+        - clusterName
+        - instanceName
+        - name
+        - reason
+        - message
+        - type
+        - count
+        - eventTime
+      type: object
+    instanceEventList:
+      description: Instance event list
+      properties:
+        items:
+          description: Items is the list of instance event objects in the list
+          items:
+            $ref: '#/components/schemas/instanceEventItem'
+          type: array
+      required:
+        - items
+      type: object
     endpointType:
       description: Type of endpoint
       type: string
@@ -16861,6 +17491,9 @@ components:
         serviceName:
           description: Service name of endpoint
           type: string
+        podService:
+          description: Pod service name of endpoint
+          type: boolean
         portName:
           description: Port name of endpoint
           type: string
@@ -17081,8 +17714,7 @@ components:
           description: Specify the options of database.
           title: options
           type: object
-          additionalProperties:
-            type: string
+          additionalProperties: {}
       required:
         - name
       type: object
@@ -17295,6 +17927,7 @@ components:
     certificateIssuer:
       description: certificate issuer
       type: string
+      default: Apecloud
       enum:
         - Apecloud
         - UserSelf
@@ -18092,6 +18725,7 @@ components:
         duration:
           title: duration
           type: integer
+          format: int64
           x-nullable: true
           description: sql executed duration
     DmsQueryHistoryList:
@@ -19660,6 +20294,14 @@ components:
         - Delete
         - DoNotDelete
       default: DoNotDelete
+    clusterValidationPolicy:
+      type: string
+      description: Cluster operation validation policy, such as create, hscale, vscale, etc.
+      enum:
+        - Disabled
+        - ValidateOnly
+        - ForbiddenExecute
+      default: ValidateOnly
     environment:
       type: object
       description: Environment info
@@ -19737,6 +20379,8 @@ components:
           description: Extra info for environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -19924,9 +20568,6 @@ components:
     environmentDelete:
       description: Environment deletion option
       type: object
-      required:
-        - minio
-        - victoriaMetrics
       properties:
         cleanCloudResources:
           type: boolean
@@ -20005,6 +20646,9 @@ components:
           description: Network modes of the environment
         deletePolicy:
           $ref: '#/components/schemas/environmentDeletePolicy'
+          nullable: true
+        clusterValidationPolicy:
+          $ref: '#/components/schemas/clusterValidationPolicy'
           nullable: true
     environmentStatusHistory:
       description: EventEnvironmentState contains details for the current and previous state of the environment.
@@ -22419,97 +23063,19 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    integerOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
-        excludes:
-          type: array
-          items:
-            type: integer
-    floatOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: number
-          format: double
-        max:
-          type: number
-          format: double
-        default:
-          type: number
-          format: double
-        step:
-          type: number
-          format: double
-    storageOption:
-      type: object
-      required:
-        - name
-        - title
-        - min
-        - step
-        - max
-        - default
-      properties:
-        title:
-          $ref: '#/components/schemas/localizedDescription'
-        name:
-          type: string
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     modeComponent:
       type: object
       required:
         - component
-        - replicas
-        - cpu
-        - memory
-        - storages
         - hideEnpoints
         - hideOnCreate
       properties:
         component:
           type: string
-        shards:
-          $ref: '#/components/schemas/integerOption'
-        replicas:
-          $ref: '#/components/schemas/integerOption'
-        cpu:
-          $ref: '#/components/schemas/floatOption'
-        memory:
-          $ref: '#/components/schemas/floatOption'
         hideEnpoints:
           type: boolean
         hideOnCreate:
           type: boolean
-        storages:
-          type: array
-          items:
-            $ref: '#/components/schemas/storageOption'
     modeOption:
       type: object
       required:
@@ -22598,12 +23164,37 @@ components:
       properties:
         enabled:
           type: boolean
+          x-omitempty: false
+        update:
+          type: boolean
+          x-omitempty: false
         databaseNamePattern:
           type: string
-        availableOptions:
+        listOption:
           type: array
+          description: |
+            The database option information that will be displayed when listing databases
           items:
             type: string
+        availableOptions:
+          type: array
+          description: |
+            The database option cloud be set when creating databases
+          items:
+            type: string
+        availbaleUpdateOptions:
+          type: array
+          description: |
+            The database option name and type cloud be updated when updating databases
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              description:
+                $ref: '#/components/schemas/localizedDescription'
     dmsOption:
       type: object
       required:
@@ -22745,12 +23336,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/networkMode'
+          notSupportedVersions:
+            type: object
+            description: not supported versions, key is the networkMode, value is an array of versions which support major version or mirror version.
+            additionalProperties:
+              type: array
+              items:
+                type: string
           modes:
-            type: array
-            items:
-              type: string
-            nullable: true
-          versions:
             type: array
             items:
               type: string
@@ -22760,6 +23353,11 @@ components:
       required:
         - component
       properties:
+        modes:
+          type: array
+          items:
+            type: string
+          description: List of modes that this component supports. if not set, support all modes.
         component:
           type: string
         disableHA:
@@ -23593,8 +24191,51 @@ components:
         - enable
         - disable
         - upgrade
+    integerOption:
+      type: object
+      required:
+        - min
+        - max
+        - default
+        - step
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
+    storageOption:
+      type: object
+      required:
+        - name
+        - title
+      properties:
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        name:
+          type: string
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
     resourceConstraint:
       type: object
+      required:
+        - id
+        - engine
+        - mode
+        - component
       properties:
         id:
           type: string
@@ -23955,243 +24596,6 @@ components:
         supportARN:
           type: boolean
           description: Whether the cloud provider supports ARN.
-    region:
-      description: The region that the cloud provider has.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - provider
-        - enabled
-        - zoneCount
-        - group
-        - createdAt
-        - updatedAt
-      properties:
-        name:
-          type: string
-          description: The name of the region.
-        nameCN:
-          type: string
-          description: The Chinese name of the region.
-        nameEN:
-          type: string
-          description: The English name of the region.
-        provider:
-          type: string
-          description: The name of the cloud provider.
-        group:
-          type: string
-          description: The group of the region.
-        enabled:
-          type: boolean
-          description: Whether the region is enabled.
-        zoneCount:
-          type: integer
-          description: The number of zones that the region has.
-        createdAt:
-          type: string
-          format: date-time
-          description: The time when the region was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The time when the region was last updated.
-    regionList:
-      description: The list of regions.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/region'
-          description: The list of regions.
-    regionCreate:
-      description: The region that needs to be created.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-        - group
-      properties:
-        name:
-          type: string
-          description: The name of the region.
-        nameCN:
-          type: string
-          description: The Chinese name of the region.
-        nameEN:
-          type: string
-          description: The English name of the region.
-        enabled:
-          type: boolean
-          description: Whether the region is enabled.
-        group:
-          type: string
-          description: The group of the region.
-    regionUpdate:
-      description: The region that needs to be updated.
-      type: object
-      required:
-        - nameCN
-        - nameEN
-        - group
-        - enabled
-      properties:
-        nameCN:
-          type: string
-          description: The Chinese name of the region.
-        nameEN:
-          type: string
-          description: The English name of the region.
-        group:
-          type: string
-          description: The group of the region.
-        enabled:
-          type: boolean
-          description: Whether the region is enabled.
-    zone:
-      description: The zone that the region has.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-        - region
-        - createdAt
-        - updatedAt
-      properties:
-        name:
-          type: string
-          description: The name of the zone.
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-        region:
-          type: string
-          description: The name of the region.
-        createdAt:
-          type: string
-          format: date-time
-          description: The time when the zone was created.
-        updatedAt:
-          type: string
-          format: date-time
-          description: The time when the zone was last updated.
-    zoneList:
-      description: The list of zones.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/zone'
-          description: The list of zones.
-    zoneCreate:
-      description: The zone that needs to be created.
-      type: object
-      required:
-        - name
-        - nameCN
-        - nameEN
-        - enabled
-      properties:
-        name:
-          type: string
-          description: The name of the zone.
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-    zoneUpdate:
-      description: The zone that needs to be updated.
-      type: object
-      required:
-        - nameCN
-        - nameEN
-        - enabled
-      properties:
-        nameCN:
-          type: string
-          description: The Chinese name of the zone.
-        nameEN:
-          type: string
-          description: The English name of the zone.
-        enabled:
-          type: boolean
-          description: Whether the zone is enabled.
-    regionGroup:
-      description: The region group
-      type: object
-      required:
-        - group
-        - groupCN
-        - groupEN
-        - provider
-      properties:
-        group:
-          type: string
-          description: The name of the region group
-        groupCN:
-          type: string
-          description: The Chinese name of the region group.
-        groupEN:
-          type: string
-          description: The English name of the region group.
-        provider:
-          type: string
-          description: The name of the provider.
-    regionGroupList:
-      description: The list of region group.
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: '#/components/schemas/regionGroup'
-          description: The list of region group.
-    regionGroupCreate:
-      description: The region group that needs to be created.
-      type: object
-      required:
-        - group
-        - groupCN
-        - groupEN
-      properties:
-        group:
-          type: string
-          description: The name of the region group.
-        groupCN:
-          type: string
-          description: The Chinese name of the region group.
-        groupEN:
-          type: string
-          description: The English name of the region group.
-    regionGroupUpdate:
-      description: The region group that needs to be updated.
-      type: object
-      properties:
-        groupCN:
-          type: string
-          description: The Chinese name of the region group.
-        groupEN:
-          type: string
-          description: The English name of the region group.
     AccessLevel:
       type: string
       enum:
@@ -25225,8 +25629,7 @@ components:
           type: string
           description: platformParameter value
         description:
-          type: string
-          description: platformParameter description
+          $ref: '#/components/schemas/localizedDescription'
     platformParameterList:
       description: platformParameter list
       type: object
@@ -25784,6 +26187,10 @@ components:
           type: string
           format: date-time
           description: Next timestamp for pagination
+    environmentModuleList:
+      type: array
+      items:
+        $ref: '#/components/schemas/environmentModule'
     Broker:
       x-go-name: KafkaBroker
       type: object
@@ -26348,10 +26755,20 @@ components:
         serviceType:
           $ref: '#/components/schemas/DMSConsoleSvcType'
           description: service type of redis insight
-    environmentModuleList:
-      type: array
-      items:
-        $ref: '#/components/schemas/environmentModule'
+    dbTDERequest:
+      type: object
+      properties:
+        enable:
+          type: array
+          items:
+            type: string
+        disable:
+          type: array
+          items:
+            type: string
+      required:
+        - enable
+        - disable
     analysisResult:
       properties:
         explanation:
@@ -26395,63 +26812,152 @@ components:
         - executionTime
         - command
         - extra
-    queryType:
+    aiConversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Conversation ID
+        userId:
+          type: string
+          description: User ID associated with the conversation
+        clusterName:
+          type: string
+          description: Name of the cluster associated with the conversation
+        orgName:
+          type: string
+          description: Name of the organization associated with the conversation
+        title:
+          type: string
+          description: Optional title for the conversation
+          x-nullable: true
+        type:
+          type: string
+          description: Type of the conversation, can be chatbi or chatops.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was last updated
+    aiConversationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiConversation'
+        total:
+          type: integer
+          format: int64
+          description: Total number of conversations
+    AIChatType:
       type: string
       enum:
-        - Analyze
-        - BI
-      description: 查询类型
+        - chatbi
+        - chatops
+      description: Query type
+    AIConversationRequest:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AIChatType'
+    senderType:
+      type: string
+      enum:
+        - user
+        - assistant
+        - system
+      description: Type of the sender (user, assistant, or system)
+    metadataObject:
+      type: object
+      additionalProperties: true
+      description: Optional metadata for AI messages (e.g., tool calls, results)
+      x-nullable: true
+    aiMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Message ID
+        conversationId:
+          type: string
+          format: uuid
+          description: ID of the conversation this message belongs to
+        senderType:
+          $ref: '#/components/schemas/senderType'
+        content:
+          type: string
+          description: Content of the message
+        isFavorited:
+          type: boolean
+          description: Whether the message is favorited by user
+          default: false
+        metadata:
+          $ref: '#/components/schemas/metadataObject'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was last updated
+    aiMessageListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiMessage'
+        total:
+          type: integer
+          format: int64
+          description: Total number of messages in the conversation
     chatRequest:
       type: object
       required:
         - orgName
         - clusterName
         - sessionId
-        - messageID
-        - parentID
         - query
-        - queryType
-      description: 聊天消息请求
+        - model
+      description: Chat message request
       properties:
         orgName:
           type: string
-          description: 组织名称
+          description: Organization name
         clusterName:
           type: string
-          description: 集群名称
+          description: Cluster name
         sessionId:
           type: string
-          description: 会话ID
+          description: Session ID
         messageID:
           type: string
-          description: 消息ID
-        parentID:
-          type: string
-          description: 父消息ID
+          description: Message ID
         query:
           type: string
-          description: 问题内容
-        queryType:
-          $ref: '#/components/schemas/queryType'
+          description: Query content
         model:
           type: string
-          description: LLM模型
+          description: LLM model
           x-nullable: true
-        createdAt:
-          type: integer
-          format: int64
-          description: 创建时间
         database:
           type: string
-          description: chat涉及的数据库
+          description: Database involved in the chat
           x-nullable: true
         schema:
           type: string
-          description: chat涉及的schema
+          description: Schema involved in the chat
           x-nullable: true
         tables:
           type: array
-          description: chat涉及的表
+          description: Tables involved in the chat
           items:
             type: string
             x-nullable: true
@@ -26464,7 +26970,10 @@ components:
         - DataInterpretation
         - Error
         - Think
-      description: 消息类型
+        - ToolResult
+        - SessionID
+        - ToolCall
+      description: Message type
     chatResponse:
       type: object
       required:
@@ -26473,23 +26982,23 @@ components:
         - messageID
         - parentID
         - sessionId
-      description: 聊天消息响应
+      description: Chat message response
       properties:
         data:
           type: object
           additionalProperties: true
-          description: 任意类型的数据
+          description: Arbitrary data
         type:
           $ref: '#/components/schemas/chatResponseType'
         messageID:
           type: string
-          description: 消息ID
+          description: Message ID
         parentID:
           type: string
-          description: 父消息ID
+          description: Parent message ID
         sessionId:
           type: string
-          description: 会话ID
+          description: Session ID
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
@@ -26556,6 +27065,160 @@ components:
       required:
         - items
       type: object
+    environmentPricing:
+      type: object
+      description: the information of environment pricing
+      properties:
+        envName:
+          description: The environment name
+          type: string
+          nullable: true
+        cpuPrice:
+          description: The price of CPU, the unit is 'Core'
+          type: string
+          nullable: true
+        memoryPrice:
+          description: The price of Memory, the unit is 'GB'
+          type: string
+          nullable: true
+        storagePrice:
+          description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+    currencyUnitType:
+      description: The currency uint for display in bill query
+      enum:
+        - RMB
+      type: string
+      nullable: true
+    globalPricing:
+      type: object
+      description: the global information of pricing
+      properties:
+        enabled:
+          description: Enable global pricing
+          type: boolean
+          x-omitempty: false
+        currencyUnit:
+          $ref: '#/components/schemas/currencyUnitType'
+        billScheduleTime:
+          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM
+          type: string
+          nullable: true
+        cpuPrice:
+          description: The price of CPU, the unit is 'Core'
+          type: string
+          nullable: true
+        memoryPrice:
+          description: The price of Memory, the unit is 'GB'
+          type: string
+          nullable: true
+        storagePrice:
+          description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+    BasicTask:
+      type: object
+      description: Task information
+      properties:
+        taskId:
+          description: Task ID
+          type: integer
+          nullable: true
+      required:
+        - taskId
+    aggregationTimeType:
+      description: The type of aggregation time
+      enum:
+        - yearly
+        - monthly
+        - quarterly
+        - daily
+      type: string
+      nullable: true
+    aggregationGroupType:
+      description: The type of aggregation group
+      enum:
+        - global
+        - organization
+        - project
+      type: string
+      nullable: true
+    BasicBill:
+      type: object
+      description: Basic bill information
+      properties:
+        aggregationGroupName:
+          description: The name of aggregationGroupType
+          type: string
+        dataTime:
+          description: The timestamp of data
+          type: integer
+          format: int64
+        price:
+          description: The total price
+          type: string
+    BasicBillList:
+      type: object
+      description: list price in date range
+      properties:
+        items:
+          description: Items of the bill
+          items:
+            $ref: '#/components/schemas/BasicBill'
+          type: array
+      required:
+        - items
+    BillDetail:
+      type: object
+      description: Task information
+      properties:
+        dataTime:
+          description: The timestamp of data
+          type: integer
+          format: int64
+        price:
+          description: The total price
+          type: string
+        clusterID:
+          description: The ID of cluster
+          type: integer
+          nullable: true
+        clusterName:
+          description: The Name of cluster
+          type: string
+          nullable: true
+        engine:
+          description: Cluster Application Engine
+          type: string
+          nullable: true
+        version:
+          description: Cluster Application Version
+          type: string
+          nullable: true
+        mode:
+          description: Cluster topology mode
+          type: string
+          nullable: true
+        orgName:
+          description: The Name of organization
+          type: string
+          nullable: true
+        projectName:
+          description: The Name of project
+          type: string
+          nullable: true
+    BillDetailList:
+      type: object
+      description: list price details in date range
+      properties:
+        items:
+          description: Items of the price
+          items:
+            $ref: '#/components/schemas/BillDetail'
+          type: array
+      required:
+        - items
   responses:
     '204':
       description: No Content
@@ -26694,3 +27357,7 @@ x-tagGroups:
     tags:
       - engine
       - engineOption
+  - name: billing
+    tags:
+      - pricing
+      - billing

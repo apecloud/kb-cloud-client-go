@@ -34,6 +34,7 @@ func (r *DeleteMetadbBackupsOptionalParameters) WithBackupName(backupName string
 }
 
 // DeleteMetadbBackups Delete backups by name or delete all.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) DeleteMetadbBackups(ctx _context.Context, all string, o ...DeleteMetadbBackupsOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
@@ -113,6 +114,7 @@ func (a *MetadbApi) DeleteMetadbBackups(ctx _context.Context, all string, o ...D
 }
 
 // GetMetadbInstancesMetrics Get instances metrics in metadb.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) GetMetadbInstancesMetrics(ctx _context.Context) (Metadb_instanceMetricsList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -214,6 +216,7 @@ func (r *GetPostgresClusterInfoOptionalParameters) WithNamespace(namespace strin
 }
 
 // GetPostgresClusterInfo Get summary of postgresql cluster..
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgresClusterInfoOptionalParameters) (Summary, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -305,6 +308,7 @@ func (a *MetadbApi) GetPostgresClusterInfo(ctx _context.Context, o ...GetPostgre
 }
 
 // ListMetadbBackups List all names of backups in S3..
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -382,6 +386,7 @@ func (a *MetadbApi) ListMetadbBackups(ctx _context.Context) (Metadb_backupList, 
 }
 
 // MetadbBackup Backup metadb to S3(AWS S3 or minio).
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -459,6 +464,7 @@ func (a *MetadbApi) MetadbBackup(ctx _context.Context) (Metadb_backup, *_nethttp
 }
 
 // MetadbBackupConfig set backup config.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) (BackupConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
@@ -539,6 +545,7 @@ func (a *MetadbApi) MetadbBackupConfig(ctx _context.Context, body BackupConfig) 
 }
 
 // MetadbBackupGetConfig get backup config.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -616,6 +623,7 @@ func (a *MetadbApi) MetadbBackupGetConfig(ctx _context.Context) (BackupConfig, *
 }
 
 // MetadbListInstances List metadb cluster instances.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -693,6 +701,7 @@ func (a *MetadbApi) MetadbListInstances(ctx _context.Context) (Metadb_instanceLi
 }
 
 // MetadbRestore Restore metadb.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Metadb_restore, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -773,6 +782,7 @@ func (a *MetadbApi) MetadbRestore(ctx _context.Context, body Metadb_restore) (Me
 }
 
 // MetadbVerticalScale vertical scale.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vscale, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -853,6 +863,7 @@ func (a *MetadbApi) MetadbVerticalScale(ctx _context.Context, body Vscale) (Vsca
 }
 
 // MetadbVolumeExpand Expand cluster volume size.
+// Deprecated: This API is deprecated.
 func (a *MetadbApi) MetadbVolumeExpand(ctx _context.Context, body VolumeExpand) (VolumeExpand, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost

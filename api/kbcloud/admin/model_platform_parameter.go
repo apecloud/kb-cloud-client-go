@@ -23,9 +23,8 @@ type PlatformParameter struct {
 	// platformParameter constraints including min, max, enum, default value
 	Constraints PlatformParameterConstraints `json:"constraints"`
 	// platformParameter value
-	Value *string `json:"value,omitempty"`
-	// platformParameter description
-	Description string `json:"description"`
+	Value       *string              `json:"value,omitempty"`
+	Description LocalizedDescription `json:"description"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -35,7 +34,7 @@ type PlatformParameter struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPlatformParameter(id string, name string, category PlatformParameterCategory, typeVar string, constraints PlatformParameterConstraints, description string) *PlatformParameter {
+func NewPlatformParameter(id string, name string, category PlatformParameterCategory, typeVar string, constraints PlatformParameterConstraints, description LocalizedDescription) *PlatformParameter {
 	this := PlatformParameter{}
 	this.Id = id
 	this.Name = name
@@ -198,9 +197,9 @@ func (o *PlatformParameter) SetValue(v string) {
 }
 
 // GetDescription returns the Description field value.
-func (o *PlatformParameter) GetDescription() string {
+func (o *PlatformParameter) GetDescription() LocalizedDescription {
 	if o == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return o.Description
@@ -208,7 +207,7 @@ func (o *PlatformParameter) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
-func (o *PlatformParameter) GetDescriptionOk() (*string, bool) {
+func (o *PlatformParameter) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -216,7 +215,7 @@ func (o *PlatformParameter) GetDescriptionOk() (*string, bool) {
 }
 
 // SetDescription sets field value.
-func (o *PlatformParameter) SetDescription(v string) {
+func (o *PlatformParameter) SetDescription(v LocalizedDescription) {
 	o.Description = v
 }
 
@@ -251,7 +250,7 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 		Type        *string                       `json:"type"`
 		Constraints *PlatformParameterConstraints `json:"constraints"`
 		Value       *string                       `json:"value,omitempty"`
-		Description *string                       `json:"description"`
+		Description *LocalizedDescription         `json:"description"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -295,6 +294,9 @@ func (o *PlatformParameter) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Constraints = *all.Constraints
 	o.Value = all.Value
+	if all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = *all.Description
 
 	if len(additionalProperties) > 0 {

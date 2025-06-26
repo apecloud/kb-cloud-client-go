@@ -301,6 +301,7 @@ func (r *ListAlertInhibitsOptionalParameters) WithOrgName(orgName string) *ListA
 }
 
 // ListAlertInhibits List alert inhibits.
+// Deprecated: This API is deprecated.
 func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, o ...ListAlertInhibitsOptionalParameters) (AlertInhibitList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

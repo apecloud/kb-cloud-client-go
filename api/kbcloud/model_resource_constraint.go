@@ -4,17 +4,21 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type ResourceConstraint struct {
 	// resource constraint id
-	Id *string `json:"id,omitempty"`
+	Id string `json:"id"`
 	// engine name
-	Engine *string `json:"engine,omitempty"`
+	Engine string `json:"engine"`
 	// engine mode
-	Mode *string `json:"mode,omitempty"`
+	Mode string `json:"mode"`
 	// engine component
-	Component *string         `json:"component,omitempty"`
+	Component string          `json:"component"`
 	Replicas  *IntegerOption  `json:"replicas,omitempty"`
 	Shards    *IntegerOption  `json:"shards,omitempty"`
 	Volumes   []StorageOption `json:"volumes,omitempty"`
@@ -27,8 +31,12 @@ type ResourceConstraint struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewResourceConstraint() *ResourceConstraint {
+func NewResourceConstraint(id string, engine string, mode string, component string) *ResourceConstraint {
 	this := ResourceConstraint{}
+	this.Id = id
+	this.Engine = engine
+	this.Mode = mode
+	this.Component = component
 	return &this
 }
 
@@ -40,116 +48,96 @@ func NewResourceConstraintWithDefaults() *ResourceConstraint {
 	return &this
 }
 
-// GetId returns the Id field value if set, zero value otherwise.
+// GetId returns the Id field value.
 func (o *ResourceConstraint) GetId() string {
-	if o == nil || o.Id == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Id
+	return o.Id
 }
 
-// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *ResourceConstraint) GetIdOk() (*string, bool) {
-	if o == nil || o.Id == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Id, true
+	return &o.Id, true
 }
 
-// HasId returns a boolean if a field has been set.
-func (o *ResourceConstraint) HasId() bool {
-	return o != nil && o.Id != nil
-}
-
-// SetId gets a reference to the given string and assigns it to the Id field.
+// SetId sets field value.
 func (o *ResourceConstraint) SetId(v string) {
-	o.Id = &v
+	o.Id = v
 }
 
-// GetEngine returns the Engine field value if set, zero value otherwise.
+// GetEngine returns the Engine field value.
 func (o *ResourceConstraint) GetEngine() string {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Engine
+	return o.Engine
 }
 
-// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// GetEngineOk returns a tuple with the Engine field value
 // and a boolean to check if the value has been set.
 func (o *ResourceConstraint) GetEngineOk() (*string, bool) {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Engine, true
+	return &o.Engine, true
 }
 
-// HasEngine returns a boolean if a field has been set.
-func (o *ResourceConstraint) HasEngine() bool {
-	return o != nil && o.Engine != nil
-}
-
-// SetEngine gets a reference to the given string and assigns it to the Engine field.
+// SetEngine sets field value.
 func (o *ResourceConstraint) SetEngine(v string) {
-	o.Engine = &v
+	o.Engine = v
 }
 
-// GetMode returns the Mode field value if set, zero value otherwise.
+// GetMode returns the Mode field value.
 func (o *ResourceConstraint) GetMode() string {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Mode
+	return o.Mode
 }
 
-// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// GetModeOk returns a tuple with the Mode field value
 // and a boolean to check if the value has been set.
 func (o *ResourceConstraint) GetModeOk() (*string, bool) {
-	if o == nil || o.Mode == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Mode, true
+	return &o.Mode, true
 }
 
-// HasMode returns a boolean if a field has been set.
-func (o *ResourceConstraint) HasMode() bool {
-	return o != nil && o.Mode != nil
-}
-
-// SetMode gets a reference to the given string and assigns it to the Mode field.
+// SetMode sets field value.
 func (o *ResourceConstraint) SetMode(v string) {
-	o.Mode = &v
+	o.Mode = v
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *ResourceConstraint) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *ResourceConstraint) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *ResourceConstraint) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *ResourceConstraint) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise.
@@ -242,18 +230,10 @@ func (o ResourceConstraint) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Id != nil {
-		toSerialize["id"] = o.Id
-	}
-	if o.Engine != nil {
-		toSerialize["engine"] = o.Engine
-	}
-	if o.Mode != nil {
-		toSerialize["mode"] = o.Mode
-	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["id"] = o.Id
+	toSerialize["engine"] = o.Engine
+	toSerialize["mode"] = o.Mode
+	toSerialize["component"] = o.Component
 	if o.Replicas != nil {
 		toSerialize["replicas"] = o.Replicas
 	}
@@ -273,16 +253,28 @@ func (o ResourceConstraint) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ResourceConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id        *string         `json:"id,omitempty"`
-		Engine    *string         `json:"engine,omitempty"`
-		Mode      *string         `json:"mode,omitempty"`
-		Component *string         `json:"component,omitempty"`
+		Id        *string         `json:"id"`
+		Engine    *string         `json:"engine"`
+		Mode      *string         `json:"mode"`
+		Component *string         `json:"component"`
 		Replicas  *IntegerOption  `json:"replicas,omitempty"`
 		Shards    *IntegerOption  `json:"shards,omitempty"`
 		Volumes   []StorageOption `json:"volumes,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Id == nil {
+		return fmt.Errorf("required field id missing")
+	}
+	if all.Engine == nil {
+		return fmt.Errorf("required field engine missing")
+	}
+	if all.Mode == nil {
+		return fmt.Errorf("required field mode missing")
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -292,10 +284,10 @@ func (o *ResourceConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	hasInvalidField := false
-	o.Id = all.Id
-	o.Engine = all.Engine
-	o.Mode = all.Mode
-	o.Component = all.Component
+	o.Id = *all.Id
+	o.Engine = *all.Engine
+	o.Mode = *all.Mode
+	o.Component = *all.Component
 	if all.Replicas != nil && all.Replicas.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

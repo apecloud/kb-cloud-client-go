@@ -13,10 +13,10 @@ import (
 type StorageOption struct {
 	Title   LocalizedDescription `json:"title"`
 	Name    string               `json:"name"`
-	Min     int32                `json:"min"`
-	Max     int32                `json:"max"`
-	Default int32                `json:"default"`
-	Step    int32                `json:"step"`
+	Min     *int32               `json:"min,omitempty"`
+	Max     *int32               `json:"max,omitempty"`
+	Default *int32               `json:"default,omitempty"`
+	Step    *int32               `json:"step,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -26,14 +26,10 @@ type StorageOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageOption(title LocalizedDescription, name string, min int32, max int32, defaultVar int32, step int32) *StorageOption {
+func NewStorageOption(title LocalizedDescription, name string) *StorageOption {
 	this := StorageOption{}
 	this.Title = title
 	this.Name = name
-	this.Min = min
-	this.Max = max
-	this.Default = defaultVar
-	this.Step = step
 	return &this
 }
 
@@ -91,96 +87,116 @@ func (o *StorageOption) SetName(v string) {
 	o.Name = v
 }
 
-// GetMin returns the Min field value.
+// GetMin returns the Min field value if set, zero value otherwise.
 func (o *StorageOption) GetMin() int32 {
-	if o == nil {
+	if o == nil || o.Min == nil {
 		var ret int32
 		return ret
 	}
-	return o.Min
+	return *o.Min
 }
 
-// GetMinOk returns a tuple with the Min field value
+// GetMinOk returns a tuple with the Min field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageOption) GetMinOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Min == nil {
 		return nil, false
 	}
-	return &o.Min, true
+	return o.Min, true
 }
 
-// SetMin sets field value.
+// HasMin returns a boolean if a field has been set.
+func (o *StorageOption) HasMin() bool {
+	return o != nil && o.Min != nil
+}
+
+// SetMin gets a reference to the given int32 and assigns it to the Min field.
 func (o *StorageOption) SetMin(v int32) {
-	o.Min = v
+	o.Min = &v
 }
 
-// GetMax returns the Max field value.
+// GetMax returns the Max field value if set, zero value otherwise.
 func (o *StorageOption) GetMax() int32 {
-	if o == nil {
+	if o == nil || o.Max == nil {
 		var ret int32
 		return ret
 	}
-	return o.Max
+	return *o.Max
 }
 
-// GetMaxOk returns a tuple with the Max field value
+// GetMaxOk returns a tuple with the Max field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageOption) GetMaxOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Max == nil {
 		return nil, false
 	}
-	return &o.Max, true
+	return o.Max, true
 }
 
-// SetMax sets field value.
+// HasMax returns a boolean if a field has been set.
+func (o *StorageOption) HasMax() bool {
+	return o != nil && o.Max != nil
+}
+
+// SetMax gets a reference to the given int32 and assigns it to the Max field.
 func (o *StorageOption) SetMax(v int32) {
-	o.Max = v
+	o.Max = &v
 }
 
-// GetDefault returns the Default field value.
+// GetDefault returns the Default field value if set, zero value otherwise.
 func (o *StorageOption) GetDefault() int32 {
-	if o == nil {
+	if o == nil || o.Default == nil {
 		var ret int32
 		return ret
 	}
-	return o.Default
+	return *o.Default
 }
 
-// GetDefaultOk returns a tuple with the Default field value
+// GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageOption) GetDefaultOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Default == nil {
 		return nil, false
 	}
-	return &o.Default, true
+	return o.Default, true
 }
 
-// SetDefault sets field value.
+// HasDefault returns a boolean if a field has been set.
+func (o *StorageOption) HasDefault() bool {
+	return o != nil && o.Default != nil
+}
+
+// SetDefault gets a reference to the given int32 and assigns it to the Default field.
 func (o *StorageOption) SetDefault(v int32) {
-	o.Default = v
+	o.Default = &v
 }
 
-// GetStep returns the Step field value.
+// GetStep returns the Step field value if set, zero value otherwise.
 func (o *StorageOption) GetStep() int32 {
-	if o == nil {
+	if o == nil || o.Step == nil {
 		var ret int32
 		return ret
 	}
-	return o.Step
+	return *o.Step
 }
 
-// GetStepOk returns a tuple with the Step field value
+// GetStepOk returns a tuple with the Step field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *StorageOption) GetStepOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Step == nil {
 		return nil, false
 	}
-	return &o.Step, true
+	return o.Step, true
 }
 
-// SetStep sets field value.
+// HasStep returns a boolean if a field has been set.
+func (o *StorageOption) HasStep() bool {
+	return o != nil && o.Step != nil
+}
+
+// SetStep gets a reference to the given int32 and assigns it to the Step field.
 func (o *StorageOption) SetStep(v int32) {
-	o.Step = v
+	o.Step = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -191,10 +207,18 @@ func (o StorageOption) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["name"] = o.Name
-	toSerialize["min"] = o.Min
-	toSerialize["max"] = o.Max
-	toSerialize["default"] = o.Default
-	toSerialize["step"] = o.Step
+	if o.Min != nil {
+		toSerialize["min"] = o.Min
+	}
+	if o.Max != nil {
+		toSerialize["max"] = o.Max
+	}
+	if o.Default != nil {
+		toSerialize["default"] = o.Default
+	}
+	if o.Step != nil {
+		toSerialize["step"] = o.Step
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -207,10 +231,10 @@ func (o *StorageOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Title   *LocalizedDescription `json:"title"`
 		Name    *string               `json:"name"`
-		Min     *int32                `json:"min"`
-		Max     *int32                `json:"max"`
-		Default *int32                `json:"default"`
-		Step    *int32                `json:"step"`
+		Min     *int32                `json:"min,omitempty"`
+		Max     *int32                `json:"max,omitempty"`
+		Default *int32                `json:"default,omitempty"`
+		Step    *int32                `json:"step,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -220,18 +244,6 @@ func (o *StorageOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
-	}
-	if all.Min == nil {
-		return fmt.Errorf("required field min missing")
-	}
-	if all.Max == nil {
-		return fmt.Errorf("required field max missing")
-	}
-	if all.Default == nil {
-		return fmt.Errorf("required field default missing")
-	}
-	if all.Step == nil {
-		return fmt.Errorf("required field step missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -246,10 +258,10 @@ func (o *StorageOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Title = *all.Title
 	o.Name = *all.Name
-	o.Min = *all.Min
-	o.Max = *all.Max
-	o.Default = *all.Default
-	o.Step = *all.Step
+	o.Min = all.Min
+	o.Max = all.Max
+	o.Default = all.Default
+	o.Step = all.Step
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

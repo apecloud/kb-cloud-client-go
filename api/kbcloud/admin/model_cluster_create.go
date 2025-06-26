@@ -13,7 +13,7 @@ import (
 // ClusterCreate KubeBlocks cluster information
 type ClusterCreate struct {
 	// When two clusters have a relationship, parentId records the parent cluster id.Can be empty when there is no relationship
-	ParentId common.NullableInt64 `json:"parentId,omitempty"`
+	ParentId common.NullableString `json:"parentId,omitempty"`
 	// Describes the type of cluster, [Normal] normal cluster; [DisasterRecovery] disaster recovery cluster
 	ClusterType NullableClusterType `json:"clusterType,omitempty"`
 	// Org Name
@@ -96,9 +96,9 @@ func NewClusterCreateWithDefaults() *ClusterCreate {
 }
 
 // GetParentId returns the ParentId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterCreate) GetParentId() int64 {
+func (o *ClusterCreate) GetParentId() string {
 	if o == nil || o.ParentId.Get() == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 	return *o.ParentId.Get()
@@ -107,7 +107,7 @@ func (o *ClusterCreate) GetParentId() int64 {
 // GetParentIdOk returns a tuple with the ParentId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterCreate) GetParentIdOk() (*int64, bool) {
+func (o *ClusterCreate) GetParentIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -119,8 +119,8 @@ func (o *ClusterCreate) HasParentId() bool {
 	return o != nil && o.ParentId.IsSet()
 }
 
-// SetParentId gets a reference to the given common.NullableInt64 and assigns it to the ParentId field.
-func (o *ClusterCreate) SetParentId(v int64) {
+// SetParentId gets a reference to the given common.NullableString and assigns it to the ParentId field.
+func (o *ClusterCreate) SetParentId(v string) {
 	o.ParentId.Set(&v)
 }
 
@@ -805,7 +805,7 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ParentId          common.NullableInt64      `json:"parentId,omitempty"`
+		ParentId          common.NullableString     `json:"parentId,omitempty"`
 		ClusterType       NullableClusterType       `json:"clusterType,omitempty"`
 		OrgName           *string                   `json:"orgName,omitempty"`
 		EnvironmentName   *string                   `json:"environmentName"`

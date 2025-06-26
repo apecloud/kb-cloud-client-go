@@ -507,7 +507,7 @@ func (a *LlmApi) ListLLM(ctx _context.Context) (LlmList, *_nethttp.Response, err
 }
 
 // UpdateLLM Update LLM.
-func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body interface{}) (Llm, *_nethttp.Response, error) {
+func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body Llm) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
