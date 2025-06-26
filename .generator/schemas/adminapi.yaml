@@ -25057,6 +25057,14 @@ components:
         type:
           type: string
           description: type of the parameter
+    storageDisplayName:
+      type: object
+      description: the storage displayName
+      properties:
+        zh:
+          type: string
+        en:
+          type: string
     storageProvider:
       type: object
       description: Storage Provider comprises specifications that provide guidance accessing remote storage.
@@ -25082,6 +25090,14 @@ components:
           description: defines which parameters are required
           items:
             type: string
+        displayName:
+          type: object
+          description: the displayName
+          $ref: '#/components/schemas/storageDisplayName'
+        isLocal:
+          type: boolean
+          default: false
+          description: defines whether the storage is local
     storageProviderList:
       type: array
       items:
