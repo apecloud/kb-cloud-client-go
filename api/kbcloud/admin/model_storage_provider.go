@@ -18,6 +18,8 @@ type StorageProvider struct {
 	Schema map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
 	// defines which parameters are required
 	Required []string `json:"required,omitempty"`
+	// defines whether the storage is local
+	IsLocal *bool `json:"isLocal,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,6 +31,8 @@ type StorageProvider struct {
 // will change when the set of required properties is changed.
 func NewStorageProvider() *StorageProvider {
 	this := StorageProvider{}
+	var isLocal bool = false
+	this.IsLocal = &isLocal
 	return &this
 }
 
@@ -37,6 +41,8 @@ func NewStorageProvider() *StorageProvider {
 // but it doesn't guarantee that properties required by API are set.
 func NewStorageProviderWithDefaults() *StorageProvider {
 	this := StorageProvider{}
+	var isLocal bool = false
+	this.IsLocal = &isLocal
 	return &this
 }
 
@@ -180,6 +186,34 @@ func (o *StorageProvider) SetRequired(v []string) {
 	o.Required = v
 }
 
+// GetIsLocal returns the IsLocal field value if set, zero value otherwise.
+func (o *StorageProvider) GetIsLocal() bool {
+	if o == nil || o.IsLocal == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsLocal
+}
+
+// GetIsLocalOk returns a tuple with the IsLocal field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageProvider) GetIsLocalOk() (*bool, bool) {
+	if o == nil || o.IsLocal == nil {
+		return nil, false
+	}
+	return o.IsLocal, true
+}
+
+// HasIsLocal returns a boolean if a field has been set.
+func (o *StorageProvider) HasIsLocal() bool {
+	return o != nil && o.IsLocal != nil
+}
+
+// SetIsLocal gets a reference to the given bool and assigns it to the IsLocal field.
+func (o *StorageProvider) SetIsLocal(v bool) {
+	o.IsLocal = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProvider) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -201,6 +235,9 @@ func (o StorageProvider) MarshalJSON() ([]byte, error) {
 	if o.Required != nil {
 		toSerialize["required"] = o.Required
 	}
+	if o.IsLocal != nil {
+		toSerialize["isLocal"] = o.IsLocal
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -216,13 +253,14 @@ func (o *StorageProvider) UnmarshalJSON(bytes []byte) (err error) {
 		Credential []string                              `json:"credential,omitempty"`
 		Schema     map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
 		Required   []string                              `json:"required,omitempty"`
+		IsLocal    *bool                                 `json:"isLocal,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "credential", "schema", "required"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "credential", "schema", "required", "isLocal"})
 	} else {
 		return err
 	}
@@ -231,6 +269,7 @@ func (o *StorageProvider) UnmarshalJSON(bytes []byte) (err error) {
 	o.Credential = all.Credential
 	o.Schema = all.Schema
 	o.Required = all.Required
+	o.IsLocal = all.IsLocal
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

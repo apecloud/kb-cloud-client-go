@@ -25082,6 +25082,10 @@ components:
           description: defines which parameters are required
           items:
             type: string
+        isLocal:
+          type: boolean
+          default: false
+          description: defines whether the storage is local
     storageProviderList:
       type: array
       items:
