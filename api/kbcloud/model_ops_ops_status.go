@@ -2,11 +2,11 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-type OpsStatus struct {
+type Ops_opsStatus struct {
 	Status  interface{} `json:"Status,omitempty"`
 	Message *string     `json:"message,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -14,25 +14,25 @@ type OpsStatus struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewOpsStatus instantiates a new OpsStatus object.
+// NewOps_opsStatus instantiates a new Ops_opsStatus object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsStatus() *OpsStatus {
-	this := OpsStatus{}
+func NewOps_opsStatus() *Ops_opsStatus {
+	this := Ops_opsStatus{}
 	return &this
 }
 
-// NewOpsStatusWithDefaults instantiates a new OpsStatus object.
+// NewOps_opsStatusWithDefaults instantiates a new Ops_opsStatus object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewOpsStatusWithDefaults() *OpsStatus {
-	this := OpsStatus{}
+func NewOps_opsStatusWithDefaults() *Ops_opsStatus {
+	this := Ops_opsStatus{}
 	return &this
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *OpsStatus) GetStatus() interface{} {
+func (o *Ops_opsStatus) GetStatus() interface{} {
 	if o == nil || o.Status == nil {
 		var ret interface{}
 		return ret
@@ -42,7 +42,7 @@ func (o *OpsStatus) GetStatus() interface{} {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OpsStatus) GetStatusOk() (*interface{}, bool) {
+func (o *Ops_opsStatus) GetStatusOk() (*interface{}, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -50,17 +50,17 @@ func (o *OpsStatus) GetStatusOk() (*interface{}, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *OpsStatus) HasStatus() bool {
+func (o *Ops_opsStatus) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given interface{} and assigns it to the Status field.
-func (o *OpsStatus) SetStatus(v interface{}) {
+func (o *Ops_opsStatus) SetStatus(v interface{}) {
 	o.Status = v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *OpsStatus) GetMessage() string {
+func (o *Ops_opsStatus) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -70,7 +70,7 @@ func (o *OpsStatus) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OpsStatus) GetMessageOk() (*string, bool) {
+func (o *Ops_opsStatus) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -78,17 +78,17 @@ func (o *OpsStatus) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *OpsStatus) HasMessage() bool {
+func (o *Ops_opsStatus) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *OpsStatus) SetMessage(v string) {
+func (o *Ops_opsStatus) SetMessage(v string) {
 	o.Message = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o OpsStatus) MarshalJSON() ([]byte, error) {
+func (o Ops_opsStatus) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -107,7 +107,7 @@ func (o OpsStatus) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *OpsStatus) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Ops_opsStatus) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Status  interface{} `json:"Status,omitempty"`
 		Message *string     `json:"message,omitempty"`

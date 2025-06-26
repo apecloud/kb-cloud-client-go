@@ -2,9 +2,6 @@ openapi: 3.0.1
 info:
   title: Admin API
   version: 1.0.0
-  x-logo:
-    url: https://kubeblocks.io/img/logo.png
-    altText: ApeCloud logo
   description: |
     The Admin API is used to manage the ApeCloud platform.
   contact:
@@ -5159,6 +5156,41 @@ paths:
       tags:
         - opsrequest
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
+    get:
+      tags:
+        - opsrequest
+        - shared
+      deprecated: true
+      description: get a OpsRequest status, deprecated, instead use cluster task api
+      summary: Get OpsRequest Status
+      operationId: getOpsRequestStatus
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the OpsRequest
+          in: path
+          name: opsName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opsStatus'
+          description: Successful operation
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/volumes/io-quotas:
     post:
       tags:
@@ -10538,7 +10570,6 @@ paths:
     post:
       operationId: addLLM
       summary: add LLM
-      deprecated: true
       parameters:
         - description: orgName the LLM belongs to
           in: query
@@ -10572,7 +10603,6 @@ paths:
     get:
       operationId: listLLM
       summary: List LLM
-      deprecated: true
       produces:
         - application/json
       responses:
@@ -10596,7 +10626,6 @@ paths:
     patch:
       operationId: updateLLM
       summary: Update LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10608,31 +10637,7 @@ paths:
         content:
           application/json:
             schema:
-              description: llmUpdate
-              properties:
-                name:
-                  description: LLM name
-                  title: Name
-                  type: string
-                config:
-                  description: LLM config
-                  title: LLM config
-                  type: object
-                  additionalProperties:
-                    type: object
-                type:
-                  description: Type of LLM
-                  title: Type
-                  type: string
-                enabled:
-                  description: Whether this LLM is enabled
-                  title: Enabled
-                  type: boolean
-              required:
-                - name
-                - config
-                - type
-              type: object
+              $ref: '#/components/schemas/llm'
         required: true
       responses:
         '201':
@@ -10651,7 +10656,6 @@ paths:
     delete:
       operationId: deleteLLM
       summary: Delete LLM
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -10674,7 +10678,6 @@ paths:
         - llm
       operationId: getLLMByID
       summary: Get LLM by ID
-      deprecated: true
       parameters:
         - description: ID of the LLM
           in: path
@@ -12466,7 +12469,7 @@ paths:
           in: query
           name: status
           schema:
-            $ref: '#/components/schemas/opsStatus'
+            $ref: '#/components/schemas/cluster_opsStatus'
         - description: You want to check the type of the task. If not passed, all selected by default
           in: query
           name: clusterTaskType
@@ -15545,25 +15548,167 @@ paths:
                 properties:
                   data:
                     type: string
-                    description: 流式返回的内容
+                    description: Streamed content
                   error:
                     type: string
-                    description: 错误信息
+                    description: Error message
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/ai/chat:
+  /admin/v1/ai/conversations:
     get:
       tags:
         - AI
-      summary: WebSocket endpoint for Chat
-      description: |
-        建立 WebSocket 连接进行 AI 对话。
-      operationId: chatBIWebSocket
-      deprecated: true
+      summary: List conversations by user
+      description: Retrieves a list of conversations filtered by user.
+      operationId: listConversations
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 10
+        - name: type
+          in: query
+          description: Type of conversations to filter, can be bi or analysis.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of conversations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiConversationListResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - AI
+      summary: Create a new conversation
+      description: Creates a new conversation.
+      operationId: newAIConversation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AIConversationRequest'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiConversation'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/conversations/{conversationId}/messages:
+    get:
+      tags:
+        - AI
+      summary: Get AI conversation messages
+      description: Retrieves all messages for a specific conversation.
+      operationId: getConversationMessages
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          description: ID of the conversation
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: Number of items per page
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: A list of messages for the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aiMessageListResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/conversations/{conversationId}:
+    delete:
+      tags:
+        - AI
+      summary: Delete a conversation
+      description: Deletes a specific conversation and all its associated messages.
+      operationId: deleteConversation
+      parameters:
+        - name: conversationId
+          in: path
+          required: true
+          description: ID of the conversation to delete
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          content: {}
+          description: Conversation deleted successfully
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/chatbi/v2:
+    post:
+      tags:
+        - AI
+      summary: SSE endpoint for Chat BI V2
+      description: Establishes an SSE connection for AI BI conversation.
+      operationId: chatBIV2SSE
       requestBody:
         required: true
         content:
@@ -15571,31 +15716,52 @@ paths:
             schema:
               $ref: '#/components/schemas/chatRequest'
       responses:
-        '101':
-          description: Switching Protocols to websocket
-          headers:
-            Upgrade:
-              schema:
-                type: string
-                example: websocket
-            Connection:
-              schema:
-                type: string
-                example: Upgrade
+        '200':
+          description: Successful operation, returns an event stream.
           content:
-            application/json:
+            text/event-stream:
               schema:
                 $ref: '#/components/schemas/chatResponse'
         '400':
-          description: Bad Request
+          $ref: '#/components/responses/400'
         '401':
-          description: Unauthorized
+          $ref: '#/components/responses/401'
         '403':
-          description: Forbidden
+          $ref: '#/components/responses/403'
         '404':
-          description: Not Found
+          $ref: '#/components/responses/404'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/500'
+  /admin/v1/ai/chatops/v2:
+    post:
+      tags:
+        - AI
+      summary: SSE endpoint for Chat V2
+      description: Establishes an SSE connection for AI conversation.
+      operationId: chatV2SSE
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/chatRequest'
+      responses:
+        '200':
+          description: Successful operation, returns an event stream.
+          content:
+            text/event-stream:
+              schema:
+                $ref: '#/components/schemas/chatResponse'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/keys:
     get:
       tags:
@@ -16682,6 +16848,8 @@ components:
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
+      required:
+        - component
       properties:
         component:
           type: string
@@ -18559,6 +18727,7 @@ components:
         duration:
           title: duration
           type: integer
+          format: int64
           x-nullable: true
           description: sql executed duration
     DmsQueryHistoryList:
@@ -19368,7 +19537,7 @@ components:
             x-go-type:
               type: Parameter
               import:
-                package: github.com/apecloud/kubeblocks/apis/operations/v1alpha1
+                package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
               hints:
                 kind: interface
       type: object
@@ -19527,6 +19696,20 @@ components:
           format: date-time
           description: Time when the task completed or failed
           nullable: true
+    opsStatus:
+      type: object
+      x-go-name: OpsRequestStatus
+      properties:
+        Status:
+          type: object
+          x-go-type:
+            type: OpsRequestStatus
+            import:
+              package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
+            hints:
+              kind: interface
+        message:
+          type: string
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
       properties:
@@ -22849,97 +23032,19 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
-    integerOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
-        excludes:
-          type: array
-          items:
-            type: integer
-    floatOption:
-      type: object
-      required:
-        - min
-        - max
-        - default
-        - step
-      properties:
-        min:
-          type: number
-          format: double
-        max:
-          type: number
-          format: double
-        default:
-          type: number
-          format: double
-        step:
-          type: number
-          format: double
-    storageOption:
-      type: object
-      required:
-        - name
-        - title
-        - min
-        - step
-        - max
-        - default
-      properties:
-        title:
-          $ref: '#/components/schemas/localizedDescription'
-        name:
-          type: string
-        min:
-          type: integer
-        max:
-          type: integer
-        default:
-          type: integer
-        step:
-          type: integer
     modeComponent:
       type: object
       required:
         - component
-        - replicas
-        - cpu
-        - memory
-        - storages
         - hideEnpoints
         - hideOnCreate
       properties:
         component:
           type: string
-        shards:
-          $ref: '#/components/schemas/integerOption'
-        replicas:
-          $ref: '#/components/schemas/integerOption'
-        cpu:
-          $ref: '#/components/schemas/floatOption'
-        memory:
-          $ref: '#/components/schemas/floatOption'
         hideEnpoints:
           type: boolean
         hideOnCreate:
           type: boolean
-        storages:
-          type: array
-          items:
-            $ref: '#/components/schemas/storageOption'
     modeOption:
       type: object
       required:
@@ -24055,8 +24160,51 @@ components:
         - enable
         - disable
         - upgrade
+    integerOption:
+      type: object
+      required:
+        - min
+        - max
+        - default
+        - step
+      properties:
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
+        excludes:
+          type: array
+          items:
+            type: integer
+    storageOption:
+      type: object
+      required:
+        - name
+        - title
+      properties:
+        title:
+          $ref: '#/components/schemas/localizedDescription'
+        name:
+          type: string
+        min:
+          type: integer
+        max:
+          type: integer
+        default:
+          type: integer
+        step:
+          type: integer
     resourceConstraint:
       type: object
+      required:
+        - id
+        - engine
+        - mode
+        - component
       properties:
         id:
           type: string
@@ -25698,7 +25846,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/task'
-    opsStatus:
+    cluster_opsStatus:
       enum:
         - Pending
         - Creating
@@ -26633,63 +26781,152 @@ components:
         - executionTime
         - command
         - extra
-    queryType:
+    aiConversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Conversation ID
+        userId:
+          type: string
+          description: User ID associated with the conversation
+        clusterName:
+          type: string
+          description: Name of the cluster associated with the conversation
+        orgName:
+          type: string
+          description: Name of the organization associated with the conversation
+        title:
+          type: string
+          description: Optional title for the conversation
+          x-nullable: true
+        type:
+          type: string
+          description: Type of the conversation, can be chatbi or chatops.
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the conversation was last updated
+    aiConversationListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiConversation'
+        total:
+          type: integer
+          format: int64
+          description: Total number of conversations
+    AIChatType:
       type: string
       enum:
-        - Analyze
-        - BI
-      description: 查询类型
+        - chatbi
+        - chatops
+      description: Query type
+    AIConversationRequest:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/AIChatType'
+    senderType:
+      type: string
+      enum:
+        - user
+        - assistant
+        - system
+      description: Type of the sender (user, assistant, or system)
+    metadataObject:
+      type: object
+      additionalProperties: true
+      description: Optional metadata for AI messages (e.g., tool calls, results)
+      x-nullable: true
+    aiMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Message ID
+        conversationId:
+          type: string
+          format: uuid
+          description: ID of the conversation this message belongs to
+        senderType:
+          $ref: '#/components/schemas/senderType'
+        content:
+          type: string
+          description: Content of the message
+        isFavorited:
+          type: boolean
+          description: Whether the message is favorited by user
+          default: false
+        metadata:
+          $ref: '#/components/schemas/metadataObject'
+        createdAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was created
+        updatedAt:
+          type: string
+          format: date-time
+          description: Timestamp of when the message was last updated
+    aiMessageListResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aiMessage'
+        total:
+          type: integer
+          format: int64
+          description: Total number of messages in the conversation
     chatRequest:
       type: object
       required:
         - orgName
         - clusterName
         - sessionId
-        - messageID
-        - parentID
         - query
-        - queryType
-      description: 聊天消息请求
+        - model
+      description: Chat message request
       properties:
         orgName:
           type: string
-          description: 组织名称
+          description: Organization name
         clusterName:
           type: string
-          description: 集群名称
+          description: Cluster name
         sessionId:
           type: string
-          description: 会话ID
+          description: Session ID
         messageID:
           type: string
-          description: 消息ID
-        parentID:
-          type: string
-          description: 父消息ID
+          description: Message ID
         query:
           type: string
-          description: 问题内容
-        queryType:
-          $ref: '#/components/schemas/queryType'
+          description: Query content
         model:
           type: string
-          description: LLM模型
+          description: LLM model
           x-nullable: true
-        createdAt:
-          type: integer
-          format: int64
-          description: 创建时间
         database:
           type: string
-          description: chat涉及的数据库
+          description: Database involved in the chat
           x-nullable: true
         schema:
           type: string
-          description: chat涉及的schema
+          description: Schema involved in the chat
           x-nullable: true
         tables:
           type: array
-          description: chat涉及的表
+          description: Tables involved in the chat
           items:
             type: string
             x-nullable: true
@@ -26702,7 +26939,10 @@ components:
         - DataInterpretation
         - Error
         - Think
-      description: 消息类型
+        - ToolResult
+        - SessionID
+        - ToolCall
+      description: Message type
     chatResponse:
       type: object
       required:
@@ -26711,23 +26951,23 @@ components:
         - messageID
         - parentID
         - sessionId
-      description: 聊天消息响应
+      description: Chat message response
       properties:
         data:
           type: object
           additionalProperties: true
-          description: 任意类型的数据
+          description: Arbitrary data
         type:
           $ref: '#/components/schemas/chatResponseType'
         messageID:
           type: string
-          description: 消息ID
+          description: Message ID
         parentID:
           type: string
-          description: 父消息ID
+          description: Parent message ID
         sessionId:
           type: string
-          description: 会话ID
+          description: Session ID
     encryptionAlgorithm:
       description: the encryption algorithm
       type: string
