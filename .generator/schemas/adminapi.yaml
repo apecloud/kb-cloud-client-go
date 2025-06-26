@@ -10215,6 +10215,13 @@ paths:
         - shared
       operationId: listClasses
       summary: List classes
+      parameters:
+        - name: engineName
+          in: query
+          description: filter by engine name
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
