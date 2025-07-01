@@ -19,6 +19,7 @@ type ModeOption struct {
 	Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
 	Versions         []string                    `json:"versions,omitempty"`
 	Extra            map[string]interface{}      `json:"extra,omitempty"`
+	ServiceRefs      []ModeServiceRef            `json:"serviceRefs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -249,6 +250,34 @@ func (o *ModeOption) SetExtra(v map[string]interface{}) {
 	o.Extra = v
 }
 
+// GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
+func (o *ModeOption) GetServiceRefs() []ModeServiceRef {
+	if o == nil || o.ServiceRefs == nil {
+		var ret []ModeServiceRef
+		return ret
+	}
+	return o.ServiceRefs
+}
+
+// GetServiceRefsOk returns a tuple with the ServiceRefs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetServiceRefsOk() (*[]ModeServiceRef, bool) {
+	if o == nil || o.ServiceRefs == nil {
+		return nil, false
+	}
+	return &o.ServiceRefs, true
+}
+
+// HasServiceRefs returns a boolean if a field has been set.
+func (o *ModeOption) HasServiceRefs() bool {
+	return o != nil && o.ServiceRefs != nil
+}
+
+// SetServiceRefs gets a reference to the given []ModeServiceRef and assigns it to the ServiceRefs field.
+func (o *ModeOption) SetServiceRefs(v []ModeServiceRef) {
+	o.ServiceRefs = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -271,6 +300,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.Extra != nil {
 		toSerialize["extra"] = o.Extra
 	}
+	if o.ServiceRefs != nil {
+		toSerialize["serviceRefs"] = o.ServiceRefs
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -289,6 +321,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
 		Versions         []string                    `json:"versions,omitempty"`
 		Extra            map[string]interface{}      `json:"extra,omitempty"`
+		ServiceRefs      []ModeServiceRef            `json:"serviceRefs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -307,7 +340,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra", "serviceRefs"})
 	} else {
 		return err
 	}
@@ -333,6 +366,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Proxy = all.Proxy
 	o.Versions = all.Versions
 	o.Extra = all.Extra
+	o.ServiceRefs = all.ServiceRefs
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

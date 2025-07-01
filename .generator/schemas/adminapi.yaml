@@ -16968,6 +16968,29 @@ components:
         - HeadlessService
         - LoadBalancer
       type: string
+    serviceRef:
+      type: object
+      description: defines a serviceRef that references service provided by other cluster or external service
+      required:
+        - name
+        - namespace
+      properties:
+        name:
+          type: string
+          description: refers to the serviceRef name defined in engineoption
+        namespace:
+          type: string
+          description: refer to engineoption for more information
+        cluster:
+          type: string
+          description: |
+            refer to engineoption for more information. Only one of cluster or serviceDescriptor should
+            be provided.
+        serviceDescriptor:
+          type: string
+          description: |
+            refer to engineoption for more information. Only one of cluster or serviceDescriptor should
+            be provided.
     clusterCreate:
       required:
         - engine
@@ -17025,7 +17048,7 @@ components:
           additionalProperties:
             type: object
             properties: {}
-          description: Extra configuration for cluster
+          description: Extra configuration for cluster. This will be added to helm values to render the cluster chart.
         initOptions:
           $ref: '#/components/schemas/initOptions'
         singleZone:
@@ -17056,6 +17079,10 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -23045,6 +23072,35 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+    modeServiceRef:
+      type: object
+      description: |
+        Defines a ServiceRef for a cluster, enabling access to both external services and
+        Services provided by other Clusters. The defined serviceRef must be provided when creating cluster.
+      required:
+        - helmValuePath
+        - name
+      properties:
+        name:
+          type: string
+          description: The name will be referenced in clusterCreate request.
+        helmValuePath:
+          type: object
+          description: separate values with commas.
+          required:
+            - namespace
+          properties:
+            namespace:
+              type: string
+              description: the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
+            cluster:
+              type: string
+              description: |
+                the name of the referenced Cluster. Other options (like serivce or port name) are omitted 
+                because it is assumed to be defined in the cluster chart.
+            serviceDescriptor:
+              type: string
+              description: the name of the referenced ServiceDescriptor
     modeOption:
       type: object
       required:
@@ -23087,6 +23143,10 @@ components:
         extra:
           type: object
           additionalProperties: true
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/modeServiceRef'
     accountOption:
       type: object
       required:
