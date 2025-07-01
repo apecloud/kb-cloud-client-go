@@ -60,6 +60,8 @@ type ClusterListItem struct {
 	CodeShort *string `json:"codeShort,omitempty"`
 	// Org Name
 	OrgName *string `json:"orgName,omitempty"`
+	// If cluster is static cluster
+	Static bool `json:"static"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -69,7 +71,7 @@ type ClusterListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterListItem(cloudProvider string, createdAt time.Time, engine string, environmentName string, id string, name string, status string, terminationPolicy string, updatedAt time.Time, version string) *ClusterListItem {
+func NewClusterListItem(cloudProvider string, createdAt time.Time, engine string, environmentName string, id string, name string, status string, terminationPolicy string, updatedAt time.Time, version string, static bool) *ClusterListItem {
 	this := ClusterListItem{}
 	this.CloudProvider = cloudProvider
 	this.CreatedAt = createdAt
@@ -83,6 +85,7 @@ func NewClusterListItem(cloudProvider string, createdAt time.Time, engine string
 	this.TerminationPolicy = terminationPolicy
 	this.UpdatedAt = updatedAt
 	this.Version = version
+	this.Static = static
 	return &this
 }
 
@@ -773,6 +776,29 @@ func (o *ClusterListItem) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+// GetStatic returns the Static field value.
+func (o *ClusterListItem) GetStatic() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+	return o.Static
+}
+
+// GetStaticOk returns a tuple with the Static field value
+// and a boolean to check if the value has been set.
+func (o *ClusterListItem) GetStaticOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Static, true
+}
+
+// SetStatic sets field value.
+func (o *ClusterListItem) SetStatic(v bool) {
+	o.Static = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -839,6 +865,7 @@ func (o ClusterListItem) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	toSerialize["static"] = o.Static
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -873,6 +900,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 		Storage                *string                `json:"storage,omitempty"`
 		CodeShort              *string                `json:"codeShort,omitempty"`
 		OrgName                *string                `json:"orgName,omitempty"`
+		Static                 *bool                  `json:"static"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -907,9 +935,12 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Version == nil {
 		return fmt.Errorf("required field version missing")
 	}
+	if all.Static == nil {
+		return fmt.Errorf("required field static missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName"})
+		common.DeleteKeys(additionalProperties, &[]string{"cloudProvider", "cloudRegion", "availabilityZones", "createdAt", "displayName", "engine", "mode", "environmentName", "environmentDisplayName", "id", "name", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "status", "terminationPolicy", "updatedAt", "version", "classCode", "storage", "codeShort", "orgName", "static"})
 	} else {
 		return err
 	}
@@ -943,6 +974,7 @@ func (o *ClusterListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Storage = all.Storage
 	o.CodeShort = all.CodeShort
 	o.OrgName = all.OrgName
+	o.Static = *all.Static
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

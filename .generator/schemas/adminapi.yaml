@@ -16735,6 +16735,9 @@ components:
         orgName:
           description: Org Name
           type: string
+        static:
+          description: If cluster is static cluster
+          type: boolean
       required:
         - cloudProvider
         - createdAt
@@ -16746,6 +16749,7 @@ components:
         - terminationPolicy
         - updatedAt
         - version
+        - static
       type: object
     clusterList:
       description: ClusterList is a list of KubeBlocks clusters
@@ -16855,6 +16859,8 @@ components:
     componentItemCreate:
       type: object
       description: ComponentItem is the information of a component
+      required:
+        - component
       properties:
         component:
           type: string
@@ -19542,7 +19548,7 @@ components:
             x-go-type:
               type: Parameter
               import:
-                package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+                package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
               hints:
                 kind: interface
       type: object
@@ -19710,7 +19716,7 @@ components:
           x-go-type:
             type: OpsRequestStatus
             import:
-              package: github.com/apecloud/kubeblocks/apis/apps/v1alpha1
+              package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
             hints:
               kind: interface
         message:
