@@ -330,8 +330,7 @@ func (a *AIApi) DeleteConversation(ctx _context.Context, conversationId uuid.UUI
 
 // GetConversationMessagesOptionalParameters holds optional parameters for GetConversationMessages.
 type GetConversationMessagesOptionalParameters struct {
-	Page     *int32
-	PageSize *int32
+	Pre *string
 }
 
 // NewGetConversationMessagesOptionalParameters creates an empty struct for parameters.
@@ -340,20 +339,14 @@ func NewGetConversationMessagesOptionalParameters() *GetConversationMessagesOpti
 	return &this
 }
 
-// WithPage sets the corresponding parameter name and returns the struct.
-func (r *GetConversationMessagesOptionalParameters) WithPage(page int32) *GetConversationMessagesOptionalParameters {
-	r.Page = &page
-	return r
-}
-
-// WithPageSize sets the corresponding parameter name and returns the struct.
-func (r *GetConversationMessagesOptionalParameters) WithPageSize(pageSize int32) *GetConversationMessagesOptionalParameters {
-	r.PageSize = &pageSize
+// WithPre sets the corresponding parameter name and returns the struct.
+func (r *GetConversationMessagesOptionalParameters) WithPre(pre string) *GetConversationMessagesOptionalParameters {
+	r.Pre = &pre
 	return r
 }
 
 // GetConversationMessages Get AI conversation messages.
-// Retrieves all messages for a specific conversation.
+// Retrieves ai messages for a specific conversation. If pre is not provided, returns the last 10 turn messages. If pre is provided, returns 10 turn messages after the pre message.
 func (a *AIApi) GetConversationMessages(ctx _context.Context, conversationId uuid.UUID, o ...GetConversationMessagesOptionalParameters) (AiMessageListResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
@@ -389,11 +382,8 @@ func (a *AIApi) GetConversationMessages(ctx _context.Context, conversationId uui
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.Page != nil {
-		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
-	}
-	if optionalParams.PageSize != nil {
-		localVarQueryParams.Add("pageSize", common.ParameterToString(*optionalParams.PageSize, ""))
+	if optionalParams.Pre != nil {
+		localVarQueryParams.Add("pre", common.ParameterToString(*optionalParams.Pre, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
