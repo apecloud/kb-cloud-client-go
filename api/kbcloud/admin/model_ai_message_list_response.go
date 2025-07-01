@@ -8,8 +8,6 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AiMessageListResponse struct {
 	Items []AiMessage `json:"items,omitempty"`
-	// Total number of messages in the conversation
-	Total *int64 `json:"total,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,34 +58,6 @@ func (o *AiMessageListResponse) SetItems(v []AiMessage) {
 	o.Items = v
 }
 
-// GetTotal returns the Total field value if set, zero value otherwise.
-func (o *AiMessageListResponse) GetTotal() int64 {
-	if o == nil || o.Total == nil {
-		var ret int64
-		return ret
-	}
-	return *o.Total
-}
-
-// GetTotalOk returns a tuple with the Total field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AiMessageListResponse) GetTotalOk() (*int64, bool) {
-	if o == nil || o.Total == nil {
-		return nil, false
-	}
-	return o.Total, true
-}
-
-// HasTotal returns a boolean if a field has been set.
-func (o *AiMessageListResponse) HasTotal() bool {
-	return o != nil && o.Total != nil
-}
-
-// SetTotal gets a reference to the given int64 and assigns it to the Total field.
-func (o *AiMessageListResponse) SetTotal(v int64) {
-	o.Total = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AiMessageListResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -96,9 +66,6 @@ func (o AiMessageListResponse) MarshalJSON() ([]byte, error) {
 	}
 	if o.Items != nil {
 		toSerialize["items"] = o.Items
-	}
-	if o.Total != nil {
-		toSerialize["total"] = o.Total
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -111,19 +78,17 @@ func (o AiMessageListResponse) MarshalJSON() ([]byte, error) {
 func (o *AiMessageListResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Items []AiMessage `json:"items,omitempty"`
-		Total *int64      `json:"total,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items", "total"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
 	o.Items = all.Items
-	o.Total = all.Total
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
