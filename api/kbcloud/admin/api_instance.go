@@ -56,6 +56,7 @@ func (r *ListInstancesOptionalParameters) WithClusterName(clusterName string) *L
 
 // ListInstances List cluster instances.
 // List instances based on query parameters with constraints.
+// Deprecated: This API is deprecated.
 func (a *InstanceApi) ListInstances(ctx _context.Context, o ...ListInstancesOptionalParameters) (InstanceList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

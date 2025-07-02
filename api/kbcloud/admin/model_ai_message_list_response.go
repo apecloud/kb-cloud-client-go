@@ -6,36 +6,34 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// ZoneList The list of zones.
-type ZoneList struct {
-	// The list of zones.
-	Items []Zone `json:"items,omitempty"`
+type AiMessageListResponse struct {
+	Items []AiMessage `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewZoneList instantiates a new ZoneList object.
+// NewAiMessageListResponse instantiates a new AiMessageListResponse object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewZoneList() *ZoneList {
-	this := ZoneList{}
+func NewAiMessageListResponse() *AiMessageListResponse {
+	this := AiMessageListResponse{}
 	return &this
 }
 
-// NewZoneListWithDefaults instantiates a new ZoneList object.
+// NewAiMessageListResponseWithDefaults instantiates a new AiMessageListResponse object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewZoneListWithDefaults() *ZoneList {
-	this := ZoneList{}
+func NewAiMessageListResponseWithDefaults() *AiMessageListResponse {
+	this := AiMessageListResponse{}
 	return &this
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
-func (o *ZoneList) GetItems() []Zone {
+func (o *AiMessageListResponse) GetItems() []AiMessage {
 	if o == nil || o.Items == nil {
-		var ret []Zone
+		var ret []AiMessage
 		return ret
 	}
 	return o.Items
@@ -43,7 +41,7 @@ func (o *ZoneList) GetItems() []Zone {
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ZoneList) GetItemsOk() (*[]Zone, bool) {
+func (o *AiMessageListResponse) GetItemsOk() (*[]AiMessage, bool) {
 	if o == nil || o.Items == nil {
 		return nil, false
 	}
@@ -51,17 +49,17 @@ func (o *ZoneList) GetItemsOk() (*[]Zone, bool) {
 }
 
 // HasItems returns a boolean if a field has been set.
-func (o *ZoneList) HasItems() bool {
+func (o *AiMessageListResponse) HasItems() bool {
 	return o != nil && o.Items != nil
 }
 
-// SetItems gets a reference to the given []Zone and assigns it to the Items field.
-func (o *ZoneList) SetItems(v []Zone) {
+// SetItems gets a reference to the given []AiMessage and assigns it to the Items field.
+func (o *AiMessageListResponse) SetItems(v []AiMessage) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ZoneList) MarshalJSON() ([]byte, error) {
+func (o AiMessageListResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -77,9 +75,9 @@ func (o ZoneList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ZoneList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *AiMessageListResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []Zone `json:"items,omitempty"`
+		Items []AiMessage `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

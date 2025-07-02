@@ -10,17 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ChatResponse 聊天消息响应
+// ChatResponse Chat message response
 type ChatResponse struct {
-	// 任意类型的数据
+	// Arbitrary data
 	Data map[string]interface{} `json:"data"`
-	// 消息类型
+	// Message type
 	Type ChatResponseType `json:"type"`
-	// 消息ID
+	// Message ID
 	MessageId string `json:"messageID"`
-	// 父消息ID
+	// Parent message ID
 	ParentId string `json:"parentID"`
-	// 会话ID
+	// Session ID
 	SessionId string `json:"sessionId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

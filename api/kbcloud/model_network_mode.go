@@ -18,6 +18,7 @@ const (
 	NetworkModeNodePort        NetworkMode = "NodePort"
 	NetworkModeFixedPodIp      NetworkMode = "FixedPodIP"
 	NetworkModeHeadlessService NetworkMode = "HeadlessService"
+	NetworkModeLoadBalancer    NetworkMode = "LoadBalancer"
 )
 
 var allowedNetworkModeEnumValues = []NetworkMode{
@@ -25,6 +26,7 @@ var allowedNetworkModeEnumValues = []NetworkMode{
 	NetworkModeNodePort,
 	NetworkModeFixedPodIp,
 	NetworkModeHeadlessService,
+	NetworkModeLoadBalancer,
 }
 
 // GetAllowedValues returns the list of possible values.

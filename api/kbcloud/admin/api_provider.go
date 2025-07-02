@@ -246,8 +246,8 @@ func (a *ProviderApi) GetCloudProvider(ctx _context.Context, providerName string
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListCloudProviders Get cloud provider list.
-// Get cloud provider list
+// ListCloudProviders List cloud providers.
+// List cloud providers
 func (a *ProviderApi) ListCloudProviders(ctx _context.Context) (ProviderList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
