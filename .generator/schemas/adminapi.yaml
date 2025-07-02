@@ -23080,10 +23080,14 @@ components:
       required:
         - helmValuePath
         - name
+        - engineName
       properties:
         name:
           type: string
           description: The name will be referenced in clusterCreate request.
+        engineName:
+          type: string
+          description: The engine to be used in serviceRef. Frontend can use this field to filter clusters.
         helmValuePath:
           type: object
           description: separate values with commas.

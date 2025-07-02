@@ -15,6 +15,8 @@ import (
 type ModeServiceRef struct {
 	// The name will be referenced in clusterCreate request.
 	Name string `json:"name"`
+	// The engine to be used in serviceRef. Frontend can use this field to filter clusters.
+	EngineName string `json:"engineName"`
 	// separate values with commas.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -26,9 +28,10 @@ type ModeServiceRef struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeServiceRef(name string, helmValuePath ModeServiceRefHelmValuePath) *ModeServiceRef {
+func NewModeServiceRef(name string, engineName string, helmValuePath ModeServiceRefHelmValuePath) *ModeServiceRef {
 	this := ModeServiceRef{}
 	this.Name = name
+	this.EngineName = engineName
 	this.HelmValuePath = helmValuePath
 	return &this
 }
@@ -64,6 +67,29 @@ func (o *ModeServiceRef) SetName(v string) {
 	o.Name = v
 }
 
+// GetEngineName returns the EngineName field value.
+func (o *ModeServiceRef) GetEngineName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.EngineName
+}
+
+// GetEngineNameOk returns a tuple with the EngineName field value
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetEngineNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.EngineName, true
+}
+
+// SetEngineName sets field value.
+func (o *ModeServiceRef) SetEngineName(v string) {
+	o.EngineName = v
+}
+
 // GetHelmValuePath returns the HelmValuePath field value.
 func (o *ModeServiceRef) GetHelmValuePath() ModeServiceRefHelmValuePath {
 	if o == nil {
@@ -94,6 +120,7 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
+	toSerialize["engineName"] = o.EngineName
 	toSerialize["helmValuePath"] = o.HelmValuePath
 
 	for key, value := range o.AdditionalProperties {
@@ -106,6 +133,7 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name          *string                      `json:"name"`
+		EngineName    *string                      `json:"engineName"`
 		HelmValuePath *ModeServiceRefHelmValuePath `json:"helmValuePath"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -114,18 +142,22 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
+	if all.EngineName == nil {
+		return fmt.Errorf("required field engineName missing")
+	}
 	if all.HelmValuePath == nil {
 		return fmt.Errorf("required field helmValuePath missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "helmValuePath"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "helmValuePath"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Name = *all.Name
+	o.EngineName = *all.EngineName
 	if all.HelmValuePath.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
