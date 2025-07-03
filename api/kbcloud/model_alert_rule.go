@@ -11,18 +11,19 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// AlertRule Alert rule information
+// AlertRule Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
 type AlertRule struct {
-	Description *string       `json:"description,omitempty"`
-	Summary     *string       `json:"summary,omitempty"`
-	AlertName   string        `json:"alertName"`
-	Expr        string        `json:"expr"`
-	For         string        `json:"for"`
-	GroupName   string        `json:"groupName"`
-	Disabled    *bool         `json:"disabled,omitempty"`
-	Severity    AlertSeverity `json:"severity"`
-	CreatedAt   *time.Time    `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time    `json:"updatedAt,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Summary     *string `json:"summary,omitempty"`
+	AlertName   string  `json:"alertName"`
+	// Expression. Required if metric is not provided.
+	Expr      *string       `json:"expr,omitempty"`
+	For       string        `json:"for"`
+	GroupName string        `json:"groupName"`
+	Disabled  *bool         `json:"disabled,omitempty"`
+	Severity  AlertSeverity `json:"severity"`
+	CreatedAt *time.Time    `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time    `json:"updatedAt,omitempty"`
 	// Alert metric information
 	Metric  *AlertMetric `json:"metric,omitempty"`
 	OrgName string       `json:"orgName"`
@@ -35,10 +36,9 @@ type AlertRule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertRule(alertName string, expr string, forVar string, groupName string, severity AlertSeverity, orgName string) *AlertRule {
+func NewAlertRule(alertName string, forVar string, groupName string, severity AlertSeverity, orgName string) *AlertRule {
 	this := AlertRule{}
 	this.AlertName = alertName
-	this.Expr = expr
 	this.For = forVar
 	this.GroupName = groupName
 	var disabled bool = false
@@ -137,27 +137,32 @@ func (o *AlertRule) SetAlertName(v string) {
 	o.AlertName = v
 }
 
-// GetExpr returns the Expr field value.
+// GetExpr returns the Expr field value if set, zero value otherwise.
 func (o *AlertRule) GetExpr() string {
-	if o == nil {
+	if o == nil || o.Expr == nil {
 		var ret string
 		return ret
 	}
-	return o.Expr
+	return *o.Expr
 }
 
-// GetExprOk returns a tuple with the Expr field value
+// GetExprOk returns a tuple with the Expr field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetExprOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Expr == nil {
 		return nil, false
 	}
-	return &o.Expr, true
+	return o.Expr, true
 }
 
-// SetExpr sets field value.
+// HasExpr returns a boolean if a field has been set.
+func (o *AlertRule) HasExpr() bool {
+	return o != nil && o.Expr != nil
+}
+
+// SetExpr gets a reference to the given string and assigns it to the Expr field.
 func (o *AlertRule) SetExpr(v string) {
-	o.Expr = v
+	o.Expr = &v
 }
 
 // GetFor returns the For field value.
@@ -377,7 +382,9 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 		toSerialize["summary"] = o.Summary
 	}
 	toSerialize["alertName"] = o.AlertName
-	toSerialize["expr"] = o.Expr
+	if o.Expr != nil {
+		toSerialize["expr"] = o.Expr
+	}
 	toSerialize["for"] = o.For
 	toSerialize["groupName"] = o.GroupName
 	if o.Disabled != nil {
@@ -415,7 +422,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string        `json:"description,omitempty"`
 		Summary     *string        `json:"summary,omitempty"`
 		AlertName   *string        `json:"alertName"`
-		Expr        *string        `json:"expr"`
+		Expr        *string        `json:"expr,omitempty"`
 		For         *string        `json:"for"`
 		GroupName   *string        `json:"groupName"`
 		Disabled    *bool          `json:"disabled,omitempty"`
@@ -430,9 +437,6 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.AlertName == nil {
 		return fmt.Errorf("required field alertName missing")
-	}
-	if all.Expr == nil {
-		return fmt.Errorf("required field expr missing")
 	}
 	if all.For == nil {
 		return fmt.Errorf("required field for missing")
@@ -457,7 +461,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = all.Description
 	o.Summary = all.Summary
 	o.AlertName = *all.AlertName
-	o.Expr = *all.Expr
+	o.Expr = all.Expr
 	o.For = *all.For
 	o.GroupName = *all.GroupName
 	o.Disabled = all.Disabled
