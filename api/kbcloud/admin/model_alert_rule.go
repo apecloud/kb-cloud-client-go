@@ -13,19 +13,19 @@ import (
 
 // AlertRule Alert rule information
 type AlertRule struct {
-	Description *string        `json:"description,omitempty"`
-	Summary     *string        `json:"summary,omitempty"`
-	AlertName   string         `json:"alertName"`
-	Expr        *string        `json:"expr,omitempty"`
-	For         *string        `json:"for,omitempty"`
-	GroupName   *string        `json:"groupName,omitempty"`
-	Disabled    *bool          `json:"disabled,omitempty"`
-	Severity    *AlertSeverity `json:"severity,omitempty"`
-	CreatedAt   *time.Time     `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
+	Description *string       `json:"description,omitempty"`
+	Summary     *string       `json:"summary,omitempty"`
+	AlertName   string        `json:"alertName"`
+	Expr        string        `json:"expr"`
+	For         string        `json:"for"`
+	GroupName   string        `json:"groupName"`
+	Disabled    *bool         `json:"disabled,omitempty"`
+	Severity    AlertSeverity `json:"severity"`
+	CreatedAt   *time.Time    `json:"createdAt,omitempty"`
+	UpdatedAt   *time.Time    `json:"updatedAt,omitempty"`
 	// Alert metric information
 	Metric  *AlertMetric `json:"metric,omitempty"`
-	OrgName *string      `json:"orgName,omitempty"`
+	OrgName string       `json:"orgName"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -35,11 +35,16 @@ type AlertRule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertRule(alertName string) *AlertRule {
+func NewAlertRule(alertName string, expr string, forVar string, groupName string, severity AlertSeverity, orgName string) *AlertRule {
 	this := AlertRule{}
 	this.AlertName = alertName
+	this.Expr = expr
+	this.For = forVar
+	this.GroupName = groupName
 	var disabled bool = false
 	this.Disabled = &disabled
+	this.Severity = severity
+	this.OrgName = orgName
 	return &this
 }
 
@@ -132,88 +137,73 @@ func (o *AlertRule) SetAlertName(v string) {
 	o.AlertName = v
 }
 
-// GetExpr returns the Expr field value if set, zero value otherwise.
+// GetExpr returns the Expr field value.
 func (o *AlertRule) GetExpr() string {
-	if o == nil || o.Expr == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Expr
+	return o.Expr
 }
 
-// GetExprOk returns a tuple with the Expr field value if set, nil otherwise
+// GetExprOk returns a tuple with the Expr field value
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetExprOk() (*string, bool) {
-	if o == nil || o.Expr == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Expr, true
+	return &o.Expr, true
 }
 
-// HasExpr returns a boolean if a field has been set.
-func (o *AlertRule) HasExpr() bool {
-	return o != nil && o.Expr != nil
-}
-
-// SetExpr gets a reference to the given string and assigns it to the Expr field.
+// SetExpr sets field value.
 func (o *AlertRule) SetExpr(v string) {
-	o.Expr = &v
+	o.Expr = v
 }
 
-// GetFor returns the For field value if set, zero value otherwise.
+// GetFor returns the For field value.
 func (o *AlertRule) GetFor() string {
-	if o == nil || o.For == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.For
+	return o.For
 }
 
-// GetForOk returns a tuple with the For field value if set, nil otherwise
+// GetForOk returns a tuple with the For field value
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetForOk() (*string, bool) {
-	if o == nil || o.For == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.For, true
+	return &o.For, true
 }
 
-// HasFor returns a boolean if a field has been set.
-func (o *AlertRule) HasFor() bool {
-	return o != nil && o.For != nil
-}
-
-// SetFor gets a reference to the given string and assigns it to the For field.
+// SetFor sets field value.
 func (o *AlertRule) SetFor(v string) {
-	o.For = &v
+	o.For = v
 }
 
-// GetGroupName returns the GroupName field value if set, zero value otherwise.
+// GetGroupName returns the GroupName field value.
 func (o *AlertRule) GetGroupName() string {
-	if o == nil || o.GroupName == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.GroupName
+	return o.GroupName
 }
 
-// GetGroupNameOk returns a tuple with the GroupName field value if set, nil otherwise
+// GetGroupNameOk returns a tuple with the GroupName field value
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetGroupNameOk() (*string, bool) {
-	if o == nil || o.GroupName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.GroupName, true
+	return &o.GroupName, true
 }
 
-// HasGroupName returns a boolean if a field has been set.
-func (o *AlertRule) HasGroupName() bool {
-	return o != nil && o.GroupName != nil
-}
-
-// SetGroupName gets a reference to the given string and assigns it to the GroupName field.
+// SetGroupName sets field value.
 func (o *AlertRule) SetGroupName(v string) {
-	o.GroupName = &v
+	o.GroupName = v
 }
 
 // GetDisabled returns the Disabled field value if set, zero value otherwise.
@@ -244,32 +234,27 @@ func (o *AlertRule) SetDisabled(v bool) {
 	o.Disabled = &v
 }
 
-// GetSeverity returns the Severity field value if set, zero value otherwise.
+// GetSeverity returns the Severity field value.
 func (o *AlertRule) GetSeverity() AlertSeverity {
-	if o == nil || o.Severity == nil {
+	if o == nil {
 		var ret AlertSeverity
 		return ret
 	}
-	return *o.Severity
+	return o.Severity
 }
 
-// GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
+// GetSeverityOk returns a tuple with the Severity field value
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetSeverityOk() (*AlertSeverity, bool) {
-	if o == nil || o.Severity == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Severity, true
+	return &o.Severity, true
 }
 
-// HasSeverity returns a boolean if a field has been set.
-func (o *AlertRule) HasSeverity() bool {
-	return o != nil && o.Severity != nil
-}
-
-// SetSeverity gets a reference to the given AlertSeverity and assigns it to the Severity field.
+// SetSeverity sets field value.
 func (o *AlertRule) SetSeverity(v AlertSeverity) {
-	o.Severity = &v
+	o.Severity = v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
@@ -356,32 +341,27 @@ func (o *AlertRule) SetMetric(v AlertMetric) {
 	o.Metric = &v
 }
 
-// GetOrgName returns the OrgName field value if set, zero value otherwise.
+// GetOrgName returns the OrgName field value.
 func (o *AlertRule) GetOrgName() string {
-	if o == nil || o.OrgName == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.OrgName
+	return o.OrgName
 }
 
-// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// GetOrgNameOk returns a tuple with the OrgName field value
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetOrgNameOk() (*string, bool) {
-	if o == nil || o.OrgName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.OrgName, true
+	return &o.OrgName, true
 }
 
-// HasOrgName returns a boolean if a field has been set.
-func (o *AlertRule) HasOrgName() bool {
-	return o != nil && o.OrgName != nil
-}
-
-// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
+// SetOrgName sets field value.
 func (o *AlertRule) SetOrgName(v string) {
-	o.OrgName = &v
+	o.OrgName = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -397,21 +377,13 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 		toSerialize["summary"] = o.Summary
 	}
 	toSerialize["alertName"] = o.AlertName
-	if o.Expr != nil {
-		toSerialize["expr"] = o.Expr
-	}
-	if o.For != nil {
-		toSerialize["for"] = o.For
-	}
-	if o.GroupName != nil {
-		toSerialize["groupName"] = o.GroupName
-	}
+	toSerialize["expr"] = o.Expr
+	toSerialize["for"] = o.For
+	toSerialize["groupName"] = o.GroupName
 	if o.Disabled != nil {
 		toSerialize["disabled"] = o.Disabled
 	}
-	if o.Severity != nil {
-		toSerialize["severity"] = o.Severity
-	}
+	toSerialize["severity"] = o.Severity
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -429,9 +401,7 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 	if o.Metric != nil {
 		toSerialize["metric"] = o.Metric
 	}
-	if o.OrgName != nil {
-		toSerialize["orgName"] = o.OrgName
-	}
+	toSerialize["orgName"] = o.OrgName
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -445,21 +415,36 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string        `json:"description,omitempty"`
 		Summary     *string        `json:"summary,omitempty"`
 		AlertName   *string        `json:"alertName"`
-		Expr        *string        `json:"expr,omitempty"`
-		For         *string        `json:"for,omitempty"`
-		GroupName   *string        `json:"groupName,omitempty"`
+		Expr        *string        `json:"expr"`
+		For         *string        `json:"for"`
+		GroupName   *string        `json:"groupName"`
 		Disabled    *bool          `json:"disabled,omitempty"`
-		Severity    *AlertSeverity `json:"severity,omitempty"`
+		Severity    *AlertSeverity `json:"severity"`
 		CreatedAt   *time.Time     `json:"createdAt,omitempty"`
 		UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
 		Metric      *AlertMetric   `json:"metric,omitempty"`
-		OrgName     *string        `json:"orgName,omitempty"`
+		OrgName     *string        `json:"orgName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.AlertName == nil {
 		return fmt.Errorf("required field alertName missing")
+	}
+	if all.Expr == nil {
+		return fmt.Errorf("required field expr missing")
+	}
+	if all.For == nil {
+		return fmt.Errorf("required field for missing")
+	}
+	if all.GroupName == nil {
+		return fmt.Errorf("required field groupName missing")
+	}
+	if all.Severity == nil {
+		return fmt.Errorf("required field severity missing")
+	}
+	if all.OrgName == nil {
+		return fmt.Errorf("required field orgName missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -472,14 +457,14 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = all.Description
 	o.Summary = all.Summary
 	o.AlertName = *all.AlertName
-	o.Expr = all.Expr
-	o.For = all.For
-	o.GroupName = all.GroupName
+	o.Expr = *all.Expr
+	o.For = *all.For
+	o.GroupName = *all.GroupName
 	o.Disabled = all.Disabled
-	if all.Severity != nil && !all.Severity.IsValid() {
+	if !all.Severity.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Severity = all.Severity
+		o.Severity = *all.Severity
 	}
 	o.CreatedAt = all.CreatedAt
 	o.UpdatedAt = all.UpdatedAt
@@ -487,7 +472,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Metric = all.Metric
-	o.OrgName = all.OrgName
+	o.OrgName = *all.OrgName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -22650,6 +22650,11 @@ components:
     alertRule:
       required:
         - alertName
+        - expr
+        - for
+        - groupName
+        - severity
+        - orgName
       type: object
       properties:
         description:
