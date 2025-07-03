@@ -88,6 +88,10 @@ type Cluster struct {
 	// if cluster is static cluster
 	Static      *bool        `json:"static,omitempty"`
 	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
+	// serviceRefs used by this cluster
+	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
+	// this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
+	ReferencedBy []ServiceRef `json:"referencedBy,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1288,6 +1292,62 @@ func (o *Cluster) SetNetworkMode(v NetworkMode) {
 	o.NetworkMode = &v
 }
 
+// GetServiceRefs returns the ServiceRefs field value if set, zero value otherwise.
+func (o *Cluster) GetServiceRefs() []ServiceRef {
+	if o == nil || o.ServiceRefs == nil {
+		var ret []ServiceRef
+		return ret
+	}
+	return o.ServiceRefs
+}
+
+// GetServiceRefsOk returns a tuple with the ServiceRefs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetServiceRefsOk() (*[]ServiceRef, bool) {
+	if o == nil || o.ServiceRefs == nil {
+		return nil, false
+	}
+	return &o.ServiceRefs, true
+}
+
+// HasServiceRefs returns a boolean if a field has been set.
+func (o *Cluster) HasServiceRefs() bool {
+	return o != nil && o.ServiceRefs != nil
+}
+
+// SetServiceRefs gets a reference to the given []ServiceRef and assigns it to the ServiceRefs field.
+func (o *Cluster) SetServiceRefs(v []ServiceRef) {
+	o.ServiceRefs = v
+}
+
+// GetReferencedBy returns the ReferencedBy field value if set, zero value otherwise.
+func (o *Cluster) GetReferencedBy() []ServiceRef {
+	if o == nil || o.ReferencedBy == nil {
+		var ret []ServiceRef
+		return ret
+	}
+	return o.ReferencedBy
+}
+
+// GetReferencedByOk returns a tuple with the ReferencedBy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetReferencedByOk() (*[]ServiceRef, bool) {
+	if o == nil || o.ReferencedBy == nil {
+		return nil, false
+	}
+	return &o.ReferencedBy, true
+}
+
+// HasReferencedBy returns a boolean if a field has been set.
+func (o *Cluster) HasReferencedBy() bool {
+	return o != nil && o.ReferencedBy != nil
+}
+
+// SetReferencedBy gets a reference to the given []ServiceRef and assigns it to the ReferencedBy field.
+func (o *Cluster) SetReferencedBy(v []ServiceRef) {
+	o.ReferencedBy = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1413,6 +1473,12 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.NetworkMode != nil {
 		toSerialize["networkMode"] = o.NetworkMode
 	}
+	if o.ServiceRefs != nil {
+		toSerialize["serviceRefs"] = o.ServiceRefs
+	}
+	if o.ReferencedBy != nil {
+		toSerialize["referencedBy"] = o.ReferencedBy
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1462,6 +1528,8 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		DisplayName            *string                   `json:"displayName,omitempty"`
 		Static                 *bool                     `json:"static,omitempty"`
 		NetworkMode            *NetworkMode              `json:"networkMode,omitempty"`
+		ServiceRefs            []ServiceRef              `json:"serviceRefs,omitempty"`
+		ReferencedBy           []ServiceRef              `json:"referencedBy,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1477,7 +1545,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy"})
 	} else {
 		return err
 	}
@@ -1540,6 +1608,8 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.NetworkMode = all.NetworkMode
 	}
+	o.ServiceRefs = all.ServiceRefs
+	o.ReferencedBy = all.ReferencedBy
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

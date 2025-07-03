@@ -10,7 +10,7 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ModeServiceRefHelmValuePath separate values with commas.
+// ModeServiceRefHelmValuePath The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 type ModeServiceRefHelmValuePath struct {
 	// the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
 	Namespace string `json:"namespace"`
@@ -18,8 +18,6 @@ type ModeServiceRefHelmValuePath struct {
 	// because it is assumed to be defined in the cluster chart.
 	//
 	Cluster *string `json:"cluster,omitempty"`
-	// the name of the referenced ServiceDescriptor
-	ServiceDescriptor *string `json:"serviceDescriptor,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -94,34 +92,6 @@ func (o *ModeServiceRefHelmValuePath) SetCluster(v string) {
 	o.Cluster = &v
 }
 
-// GetServiceDescriptor returns the ServiceDescriptor field value if set, zero value otherwise.
-func (o *ModeServiceRefHelmValuePath) GetServiceDescriptor() string {
-	if o == nil || o.ServiceDescriptor == nil {
-		var ret string
-		return ret
-	}
-	return *o.ServiceDescriptor
-}
-
-// GetServiceDescriptorOk returns a tuple with the ServiceDescriptor field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ModeServiceRefHelmValuePath) GetServiceDescriptorOk() (*string, bool) {
-	if o == nil || o.ServiceDescriptor == nil {
-		return nil, false
-	}
-	return o.ServiceDescriptor, true
-}
-
-// HasServiceDescriptor returns a boolean if a field has been set.
-func (o *ModeServiceRefHelmValuePath) HasServiceDescriptor() bool {
-	return o != nil && o.ServiceDescriptor != nil
-}
-
-// SetServiceDescriptor gets a reference to the given string and assigns it to the ServiceDescriptor field.
-func (o *ModeServiceRefHelmValuePath) SetServiceDescriptor(v string) {
-	o.ServiceDescriptor = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -131,9 +101,6 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize["namespace"] = o.Namespace
 	if o.Cluster != nil {
 		toSerialize["cluster"] = o.Cluster
-	}
-	if o.ServiceDescriptor != nil {
-		toSerialize["serviceDescriptor"] = o.ServiceDescriptor
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -145,9 +112,8 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Namespace         *string `json:"namespace"`
-		Cluster           *string `json:"cluster,omitempty"`
-		ServiceDescriptor *string `json:"serviceDescriptor,omitempty"`
+		Namespace *string `json:"namespace"`
+		Cluster   *string `json:"cluster,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -157,13 +123,12 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "serviceDescriptor"})
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster"})
 	} else {
 		return err
 	}
 	o.Namespace = *all.Namespace
 	o.Cluster = all.Cluster
-	o.ServiceDescriptor = all.ServiceDescriptor
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -13290,24 +13290,15 @@ components:
       description: defines a serviceRef that references service provided by other cluster or external service
       required:
         - name
-        - namespace
       properties:
         name:
           type: string
           description: refers to the serviceRef name defined in engineoption
-        namespace:
-          type: string
-          description: refer to engineoption for more information
         cluster:
           type: string
           description: |
-            refer to engineoption for more information. Only one of cluster or serviceDescriptor should
-            be provided.
-        serviceDescriptor:
-          type: string
-          description: |
-            refer to engineoption for more information. Only one of cluster or serviceDescriptor should
-            be provided.
+            the cluster name that will be used in serviceRef. The referenced cluster should 
+            be at the same orgnazation as the current cluster.
     clusterCreate:
       required:
         - engine
@@ -13616,6 +13607,16 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        serviceRefs:
+          description: serviceRefs used by this cluster
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceRef'
+        referencedBy:
+          description: this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: KubeBlocks cluster details
     clusterUpdate:
       type: object
@@ -16521,10 +16522,10 @@ components:
           description: The name will be referenced in clusterCreate request.
         engineName:
           type: string
-          description: The engine to be used in serviceRef. Frontend can use this field to filter clusters.
+          description: The engine to be used in serviceRef. This field is used to filter clusters.
         helmValuePath:
           type: object
-          description: separate values with commas.
+          description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
           required:
             - namespace
           properties:
@@ -16536,9 +16537,6 @@ components:
               description: |
                 the name of the referenced Cluster. Other options (like serivce or port name) are omitted 
                 because it is assumed to be defined in the cluster chart.
-            serviceDescriptor:
-              type: string
-              description: the name of the referenced ServiceDescriptor
     modeOption:
       type: object
       required:

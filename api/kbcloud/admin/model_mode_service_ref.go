@@ -15,9 +15,9 @@ import (
 type ModeServiceRef struct {
 	// The name will be referenced in clusterCreate request.
 	Name string `json:"name"`
-	// The engine to be used in serviceRef. Frontend can use this field to filter clusters.
+	// The engine to be used in serviceRef. This field is used to filter clusters.
 	EngineName string `json:"engineName"`
-	// separate values with commas.
+	// The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
