@@ -13,7 +13,8 @@ type StorageUpdate struct {
 	// the parameters to create the storage
 	Params map[string]string `json:"params,omitempty"`
 	// the tags for the storage
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags    map[string]string `json:"tags,omitempty"`
+	Engines []string          `json:"engines,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -120,6 +121,34 @@ func (o *StorageUpdate) SetTags(v map[string]string) {
 	o.Tags = v
 }
 
+// GetEngines returns the Engines field value if set, zero value otherwise.
+func (o *StorageUpdate) GetEngines() []string {
+	if o == nil || o.Engines == nil {
+		var ret []string
+		return ret
+	}
+	return o.Engines
+}
+
+// GetEnginesOk returns a tuple with the Engines field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageUpdate) GetEnginesOk() (*[]string, bool) {
+	if o == nil || o.Engines == nil {
+		return nil, false
+	}
+	return &o.Engines, true
+}
+
+// HasEngines returns a boolean if a field has been set.
+func (o *StorageUpdate) HasEngines() bool {
+	return o != nil && o.Engines != nil
+}
+
+// SetEngines gets a reference to the given []string and assigns it to the Engines field.
+func (o *StorageUpdate) SetEngines(v []string) {
+	o.Engines = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -135,6 +164,9 @@ func (o StorageUpdate) MarshalJSON() ([]byte, error) {
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags
 	}
+	if o.Engines != nil {
+		toSerialize["engines"] = o.Engines
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -148,19 +180,21 @@ func (o *StorageUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		StorageId *string           `json:"storageID,omitempty"`
 		Params    map[string]string `json:"params,omitempty"`
 		Tags      map[string]string `json:"tags,omitempty"`
+		Engines   []string          `json:"engines,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"storageID", "params", "tags"})
+		common.DeleteKeys(additionalProperties, &[]string{"storageID", "params", "tags", "engines"})
 	} else {
 		return err
 	}
 	o.StorageId = all.StorageId
 	o.Params = all.Params
 	o.Tags = all.Tags
+	o.Engines = all.Engines
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
