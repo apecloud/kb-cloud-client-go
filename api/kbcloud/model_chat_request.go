@@ -24,6 +24,8 @@ type ChatRequest struct {
 	Query string `json:"query"`
 	// LLM model
 	Model string `json:"model"`
+	// Datasource name
+	DatasourceName *string `json:"datasourceName,omitempty"`
 	// Database involved in the chat
 	Database *string `json:"database,omitempty"`
 	// Schema involved in the chat
@@ -200,6 +202,34 @@ func (o *ChatRequest) SetModel(v string) {
 	o.Model = v
 }
 
+// GetDatasourceName returns the DatasourceName field value if set, zero value otherwise.
+func (o *ChatRequest) GetDatasourceName() string {
+	if o == nil || o.DatasourceName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DatasourceName
+}
+
+// GetDatasourceNameOk returns a tuple with the DatasourceName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ChatRequest) GetDatasourceNameOk() (*string, bool) {
+	if o == nil || o.DatasourceName == nil {
+		return nil, false
+	}
+	return o.DatasourceName, true
+}
+
+// HasDatasourceName returns a boolean if a field has been set.
+func (o *ChatRequest) HasDatasourceName() bool {
+	return o != nil && o.DatasourceName != nil
+}
+
+// SetDatasourceName gets a reference to the given string and assigns it to the DatasourceName field.
+func (o *ChatRequest) SetDatasourceName(v string) {
+	o.DatasourceName = &v
+}
+
 // GetDatabase returns the Database field value if set, zero value otherwise.
 func (o *ChatRequest) GetDatabase() string {
 	if o == nil || o.Database == nil {
@@ -298,6 +328,9 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["query"] = o.Query
 	toSerialize["model"] = o.Model
+	if o.DatasourceName != nil {
+		toSerialize["datasourceName"] = o.DatasourceName
+	}
 	if o.Database != nil {
 		toSerialize["database"] = o.Database
 	}
@@ -317,15 +350,16 @@ func (o ChatRequest) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		OrgName     *string  `json:"orgName"`
-		ClusterName *string  `json:"clusterName"`
-		SessionId   *string  `json:"sessionId"`
-		MessageId   *string  `json:"messageID,omitempty"`
-		Query       *string  `json:"query"`
-		Model       *string  `json:"model"`
-		Database    *string  `json:"database,omitempty"`
-		Schema      *string  `json:"schema,omitempty"`
-		Tables      []string `json:"tables,omitempty"`
+		OrgName        *string  `json:"orgName"`
+		ClusterName    *string  `json:"clusterName"`
+		SessionId      *string  `json:"sessionId"`
+		MessageId      *string  `json:"messageID,omitempty"`
+		Query          *string  `json:"query"`
+		Model          *string  `json:"model"`
+		DatasourceName *string  `json:"datasourceName,omitempty"`
+		Database       *string  `json:"database,omitempty"`
+		Schema         *string  `json:"schema,omitempty"`
+		Tables         []string `json:"tables,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -347,7 +381,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "query", "model", "database", "schema", "tables"})
+		common.DeleteKeys(additionalProperties, &[]string{"orgName", "clusterName", "sessionId", "messageID", "query", "model", "datasourceName", "database", "schema", "tables"})
 	} else {
 		return err
 	}
@@ -357,6 +391,7 @@ func (o *ChatRequest) UnmarshalJSON(bytes []byte) (err error) {
 	o.MessageId = all.MessageId
 	o.Query = *all.Query
 	o.Model = *all.Model
+	o.DatasourceName = all.DatasourceName
 	o.Database = all.Database
 	o.Schema = all.Schema
 	o.Tables = all.Tables

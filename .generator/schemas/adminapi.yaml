@@ -26934,6 +26934,10 @@ components:
           type: string
           description: LLM model
           x-nullable: true
+        datasourceName:
+          type: string
+          description: Datasource name
+          x-nullable: true
         database:
           type: string
           description: Database involved in the chat
