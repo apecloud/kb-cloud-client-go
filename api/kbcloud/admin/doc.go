@@ -3,7 +3,6 @@
 // Copyright 2022-Present ApeCloud Co., Ltd
 
 // List of APIs:
-//   - [AIApi.analyzeCluster]
 //   - [AIApi.chatBIV2SSE]
 //   - [AIApi.chatV2SSE]
 //   - [AIApi.deleteConversation]
@@ -71,16 +70,6 @@
 //   - [alertTemplateApi.getAlertTemplate]
 //   - [alertTemplateApi.listAlertTemplates]
 //   - [alertTemplateApi.patchAlertTemplate]
-//   - [analyzeApi.analyzeBackup]
-//   - [analyzeApi.analyzeClusterParam]
-//   - [analyzeApi.analyzeClusterParameter]
-//   - [analyzeApi.analyzeClusterRestore]
-//   - [analyzeApi.analyzeLogs]
-//   - [analyzeApi.analyzeOps]
-//   - [analyzeApi.analyzeParam]
-//   - [analyzeApi.analyzeParameter]
-//   - [analyzeApi.analyzeService]
-//   - [analyzeApi.analyzeSlowLogs]
 //   - [autohealingApi.getAutohealing]
 //   - [backupApi.createClusterBackup]
 //   - [backupApi.deleteBackup]
