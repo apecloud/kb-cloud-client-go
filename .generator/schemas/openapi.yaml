@@ -15820,6 +15820,9 @@ components:
     alertRule:
       required:
         - alertName
+        - for
+        - severity
+        - groupName
       type: object
       properties:
         description:
@@ -15830,6 +15833,7 @@ components:
           type: string
         expr:
           type: string
+          description: Expression. Required if metric is not provided.
         for:
           type: string
         groupName:
@@ -15847,9 +15851,10 @@ components:
           format: date-time
         metric:
           $ref: '#/components/schemas/alertMetric'
+          description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
-      description: Alert rule information
+      description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
     alertStrategy:
       required:
         - receiverIds
