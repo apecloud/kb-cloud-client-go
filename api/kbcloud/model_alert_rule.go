@@ -26,7 +26,7 @@ type AlertRule struct {
 	UpdatedAt *time.Time    `json:"updatedAt,omitempty"`
 	// Alert metric information
 	Metric  *AlertMetric `json:"metric,omitempty"`
-	OrgName string       `json:"orgName"`
+	OrgName *string      `json:"orgName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -36,7 +36,7 @@ type AlertRule struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAlertRule(alertName string, forVar string, groupName string, severity AlertSeverity, orgName string) *AlertRule {
+func NewAlertRule(alertName string, forVar string, groupName string, severity AlertSeverity) *AlertRule {
 	this := AlertRule{}
 	this.AlertName = alertName
 	this.For = forVar
@@ -44,7 +44,6 @@ func NewAlertRule(alertName string, forVar string, groupName string, severity Al
 	var disabled bool = false
 	this.Disabled = &disabled
 	this.Severity = severity
-	this.OrgName = orgName
 	return &this
 }
 
@@ -346,27 +345,32 @@ func (o *AlertRule) SetMetric(v AlertMetric) {
 	o.Metric = &v
 }
 
-// GetOrgName returns the OrgName field value.
+// GetOrgName returns the OrgName field value if set, zero value otherwise.
 func (o *AlertRule) GetOrgName() string {
-	if o == nil {
+	if o == nil || o.OrgName == nil {
 		var ret string
 		return ret
 	}
-	return o.OrgName
+	return *o.OrgName
 }
 
-// GetOrgNameOk returns a tuple with the OrgName field value
+// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AlertRule) GetOrgNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.OrgName == nil {
 		return nil, false
 	}
-	return &o.OrgName, true
+	return o.OrgName, true
 }
 
-// SetOrgName sets field value.
+// HasOrgName returns a boolean if a field has been set.
+func (o *AlertRule) HasOrgName() bool {
+	return o != nil && o.OrgName != nil
+}
+
+// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
 func (o *AlertRule) SetOrgName(v string) {
-	o.OrgName = v
+	o.OrgName = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -408,7 +412,9 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 	if o.Metric != nil {
 		toSerialize["metric"] = o.Metric
 	}
-	toSerialize["orgName"] = o.OrgName
+	if o.OrgName != nil {
+		toSerialize["orgName"] = o.OrgName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -430,7 +436,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt   *time.Time     `json:"createdAt,omitempty"`
 		UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
 		Metric      *AlertMetric   `json:"metric,omitempty"`
-		OrgName     *string        `json:"orgName"`
+		OrgName     *string        `json:"orgName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -446,9 +452,6 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.Severity == nil {
 		return fmt.Errorf("required field severity missing")
-	}
-	if all.OrgName == nil {
-		return fmt.Errorf("required field orgName missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -476,7 +479,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Metric = all.Metric
-	o.OrgName = *all.OrgName
+	o.OrgName = all.OrgName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
