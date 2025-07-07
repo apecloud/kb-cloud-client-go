@@ -13,7 +13,9 @@ import (
 // ModeServiceRef Defines a ServiceRef for a cluster, enabling access to both external services and
 // Services provided by other Clusters. The defined serviceRef must be provided when creating cluster.
 type ModeServiceRef struct {
-	// The name will be referenced in clusterCreate request.
+	// The name will be referenced in clusterCreate request. The name should also be defined in `.components`
+	// so that frontend can use it to get proper localized title.
+	//
 	Name string `json:"name"`
 	// The engine to be used in serviceRef. This field is used to filter clusters.
 	EngineName string `json:"engineName"`

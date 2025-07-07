@@ -22678,6 +22678,9 @@ components:
     alertRule:
       required:
         - alertName
+        - for
+        - groupName
+        - severity
       type: object
       properties:
         description:
@@ -22688,6 +22691,7 @@ components:
           type: string
         expr:
           type: string
+          description: Expression. Required if metric is not provided.
         for:
           type: string
         groupName:
@@ -22705,9 +22709,10 @@ components:
           format: date-time
         metric:
           $ref: '#/components/schemas/alertMetric'
+          description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
-      description: Alert rule information
+      description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
     alertStrategy:
       required:
         - receiverIds
@@ -23085,7 +23090,9 @@ components:
       properties:
         name:
           type: string
-          description: The name will be referenced in clusterCreate request.
+          description: |
+            The name will be referenced in clusterCreate request. The name should also be defined in `.components`
+            so that frontend can use it to get proper localized title.
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
@@ -26989,6 +26996,10 @@ components:
         model:
           type: string
           description: LLM model
+          x-nullable: true
+        datasourceName:
+          type: string
+          description: Datasource name
           x-nullable: true
         database:
           type: string
