@@ -18,6 +18,10 @@ type StorageProvider struct {
 	Schema map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
 	// defines which parameters are required
 	Required []string `json:"required,omitempty"`
+	// the storage displayName
+	DisplayName *StorageDisplayName `json:"displayName,omitempty"`
+	// defines whether the storage is local
+	IsLocal *bool `json:"isLocal,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -29,6 +33,8 @@ type StorageProvider struct {
 // will change when the set of required properties is changed.
 func NewStorageProvider() *StorageProvider {
 	this := StorageProvider{}
+	var isLocal bool = false
+	this.IsLocal = &isLocal
 	return &this
 }
 
@@ -37,6 +43,8 @@ func NewStorageProvider() *StorageProvider {
 // but it doesn't guarantee that properties required by API are set.
 func NewStorageProviderWithDefaults() *StorageProvider {
 	this := StorageProvider{}
+	var isLocal bool = false
+	this.IsLocal = &isLocal
 	return &this
 }
 
@@ -180,6 +188,62 @@ func (o *StorageProvider) SetRequired(v []string) {
 	o.Required = v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *StorageProvider) GetDisplayName() StorageDisplayName {
+	if o == nil || o.DisplayName == nil {
+		var ret StorageDisplayName
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageProvider) GetDisplayNameOk() (*StorageDisplayName, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *StorageProvider) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given StorageDisplayName and assigns it to the DisplayName field.
+func (o *StorageProvider) SetDisplayName(v StorageDisplayName) {
+	o.DisplayName = &v
+}
+
+// GetIsLocal returns the IsLocal field value if set, zero value otherwise.
+func (o *StorageProvider) GetIsLocal() bool {
+	if o == nil || o.IsLocal == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IsLocal
+}
+
+// GetIsLocalOk returns a tuple with the IsLocal field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageProvider) GetIsLocalOk() (*bool, bool) {
+	if o == nil || o.IsLocal == nil {
+		return nil, false
+	}
+	return o.IsLocal, true
+}
+
+// HasIsLocal returns a boolean if a field has been set.
+func (o *StorageProvider) HasIsLocal() bool {
+	return o != nil && o.IsLocal != nil
+}
+
+// SetIsLocal gets a reference to the given bool and assigns it to the IsLocal field.
+func (o *StorageProvider) SetIsLocal(v bool) {
+	o.IsLocal = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageProvider) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -201,6 +265,12 @@ func (o StorageProvider) MarshalJSON() ([]byte, error) {
 	if o.Required != nil {
 		toSerialize["required"] = o.Required
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
+	if o.IsLocal != nil {
+		toSerialize["isLocal"] = o.IsLocal
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -211,29 +281,42 @@ func (o StorageProvider) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageProvider) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id         *string                               `json:"id,omitempty"`
-		Name       *string                               `json:"name,omitempty"`
-		Credential []string                              `json:"credential,omitempty"`
-		Schema     map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
-		Required   []string                              `json:"required,omitempty"`
+		Id          *string                               `json:"id,omitempty"`
+		Name        *string                               `json:"name,omitempty"`
+		Credential  []string                              `json:"credential,omitempty"`
+		Schema      map[string]StorageProviderSchemaProps `json:"schema,omitempty"`
+		Required    []string                              `json:"required,omitempty"`
+		DisplayName *StorageDisplayName                   `json:"displayName,omitempty"`
+		IsLocal     *bool                                 `json:"isLocal,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "credential", "schema", "required"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "credential", "schema", "required", "displayName", "isLocal"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Id = all.Id
 	o.Name = all.Name
 	o.Credential = all.Credential
 	o.Schema = all.Schema
 	o.Required = all.Required
+	if all.DisplayName != nil && all.DisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DisplayName = all.DisplayName
+	o.IsLocal = all.IsLocal
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
