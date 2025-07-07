@@ -16439,6 +16439,20 @@ components:
         - HeadlessService
         - LoadBalancer
       type: string
+    serviceRef:
+      type: object
+      description: defines a serviceRef that references service provided by other cluster or external service
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: refers to the serviceRef name defined in engineoption
+        cluster:
+          type: string
+          description: |
+            the cluster name that will be used in serviceRef. The referenced cluster should 
+            be at the same orgnazation as the current cluster.
     clusterCreate:
       required:
         - engine
@@ -16496,7 +16510,7 @@ components:
           additionalProperties:
             type: object
             properties: {}
-          description: Extra configuration for cluster
+          description: Extra configuration for cluster. This will be added to helm values to render the cluster chart.
         initOptions:
           $ref: '#/components/schemas/initOptions'
         singleZone:
@@ -16527,6 +16541,10 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -16743,6 +16761,16 @@ components:
         networkMode:
           description: Specify the network mode for intra-cluster communication
           $ref: '#/components/schemas/networkMode'
+        serviceRefs:
+          description: serviceRefs used by this cluster
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceRef'
+        referencedBy:
+          description: this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
+          type: array
+          items:
+            $ref: '#/components/schemas/serviceRef'
       description: KubeBlocks cluster details
     clusterUpdate:
       type: object
@@ -22521,6 +22549,38 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+    modeServiceRef:
+      type: object
+      description: |
+        Defines a ServiceRef for a cluster, enabling access to both external services and
+        Services provided by other Clusters. The defined serviceRef must be provided when creating cluster.
+      required:
+        - helmValuePath
+        - name
+        - engineName
+      properties:
+        name:
+          type: string
+          description: |
+            The name will be referenced in clusterCreate request. The name should also be defined in `.components`
+            so that frontend can use it to get proper localized title.
+        engineName:
+          type: string
+          description: The engine to be used in serviceRef. This field is used to filter clusters.
+        helmValuePath:
+          type: object
+          description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
+          required:
+            - namespace
+          properties:
+            namespace:
+              type: string
+              description: the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
+            cluster:
+              type: string
+              description: |
+                the name of the referenced Cluster. Other options (like serivce or port name) are omitted 
+                because it is assumed to be defined in the cluster chart.
     modeOption:
       type: object
       required:
@@ -22563,6 +22623,10 @@ components:
         extra:
           type: object
           additionalProperties: true
+        serviceRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/modeServiceRef'
     accountOption:
       type: object
       required:
