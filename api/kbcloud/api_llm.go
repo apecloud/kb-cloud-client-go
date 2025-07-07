@@ -31,7 +31,7 @@ func (a *LlmApi) ListLLMForOrg(ctx _context.Context) (LlmList, *_nethttp.Respons
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "ListLLMForOrg",
-		Path:        "/api/v1/organizations/{orgName}/llms",
+		Path:        "/api/v1/organizations/{orgName}/llm",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -41,7 +41,7 @@ func (a *LlmApi) ListLLMForOrg(ctx _context.Context) (LlmList, *_nethttp.Respons
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -109,7 +109,7 @@ func (a *LlmApi) AddLLMForOrg(ctx _context.Context, body Llm) (*_nethttp.Respons
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "addLLMForOrg",
-		Path:        "/api/v1/organizations/{orgName}/llms",
+		Path:        "/api/v1/organizations/{orgName}/llm",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -119,7 +119,7 @@ func (a *LlmApi) AddLLMForOrg(ctx _context.Context, body Llm) (*_nethttp.Respons
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -182,7 +182,7 @@ func (a *LlmApi) CheckAPIKeyForOrg(ctx _context.Context, body CheckAPIKey) (bool
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "checkAPIKeyForOrg",
-		Path:        "/api/v1/organizations/{orgName}/llms/check",
+		Path:        "/api/v1/organizations/{orgName}/llm/check",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -192,7 +192,7 @@ func (a *LlmApi) CheckAPIKeyForOrg(ctx _context.Context, body CheckAPIKey) (bool
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/check"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/check"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -262,7 +262,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "deleteLLM",
-		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
+		Path:        "/api/v1/organizations/{orgName}/llm/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -272,7 +272,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -332,7 +332,7 @@ func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethtt
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "getLLMByIDInOrg",
-		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
+		Path:        "/api/v1/organizations/{orgName}/llm/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -342,7 +342,7 @@ func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethtt
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -488,7 +488,7 @@ func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body Llm) (Llm, *_ne
 	apiInfo := common.APIInfo{
 		Tag:         "llm",
 		OperationID: "updateLLM",
-		Path:        "/api/v1/organizations/{orgName}/llms/{id}",
+		Path:        "/api/v1/organizations/{orgName}/llm/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -498,7 +498,7 @@ func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body Llm) (Llm, *_ne
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llms/{id}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
