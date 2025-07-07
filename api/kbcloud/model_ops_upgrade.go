@@ -12,8 +12,8 @@ import (
 
 // OpsUpgrade OpsUpgrade is the payload to upgrade a KubeBlocks cluster
 type OpsUpgrade struct {
-	Version   string  `json:"version"`
-	Component *string `json:"component,omitempty"`
+	Version   string `json:"version"`
+	Component string `json:"component"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,9 +23,10 @@ type OpsUpgrade struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOpsUpgrade(version string) *OpsUpgrade {
+func NewOpsUpgrade(version string, component string) *OpsUpgrade {
 	this := OpsUpgrade{}
 	this.Version = version
+	this.Component = component
 	return &this
 }
 
@@ -60,32 +61,27 @@ func (o *OpsUpgrade) SetVersion(v string) {
 	o.Version = v
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *OpsUpgrade) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *OpsUpgrade) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *OpsUpgrade) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *OpsUpgrade) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -95,9 +91,7 @@ func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["version"] = o.Version
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["component"] = o.Component
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -109,13 +103,16 @@ func (o OpsUpgrade) MarshalJSON() ([]byte, error) {
 func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Version   *string `json:"version"`
-		Component *string `json:"component,omitempty"`
+		Component *string `json:"component"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	if all.Version == nil {
 		return fmt.Errorf("required field version missing")
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -124,7 +121,7 @@ func (o *OpsUpgrade) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.Version = *all.Version
-	o.Component = all.Component
+	o.Component = *all.Component
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
