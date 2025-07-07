@@ -15947,7 +15947,6 @@ components:
         - for
         - groupName
         - severity
-        - orgName
       type: object
       properties:
         description:
