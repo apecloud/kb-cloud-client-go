@@ -44,8 +44,6 @@ tags:
     description: Cluster Ops APIs
   - name: clusterTag
     description: Cluster Tag APIs
-  - name: analyze
-    description: Analyze APIs
   - name: tls
     description: Cluster TLS APIs
   - name: ipWhitelist
@@ -19594,9 +19592,6 @@ x-tagGroups:
   - name: Benchmark
     tags:
       - benchmark
-  - name: Analyze
-    tags:
-      - analyze
   - name: Feature
     tags:
       - feature
