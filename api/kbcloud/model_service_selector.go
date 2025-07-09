@@ -13,7 +13,7 @@ import (
 // ServiceSelector This definition of component/service/port is in line with kubeblocks api
 // appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
 type ServiceSelector struct {
-	// cluster's mode
+	// referenced cluster's mode
 	Mode      string `json:"mode"`
 	Component string `json:"component"`
 	Service   string `json:"service"`

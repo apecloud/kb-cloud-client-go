@@ -22580,7 +22580,7 @@ components:
       properties:
         mode:
           type: string
-          description: cluster's mode
+          description: referenced cluster's mode
         component:
           type: string
         service:
