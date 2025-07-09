@@ -52,9 +52,10 @@ type ClusterCreate struct {
 	// Display name of cluster.
 	DisplayName *string `json:"displayName,omitempty"`
 	// if cluster is static cluster
-	Static      *bool        `json:"static,omitempty"`
-	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
-	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
+	Static        *bool                 `json:"static,omitempty"`
+	NetworkMode   *NetworkMode          `json:"networkMode,omitempty"`
+	ServiceRefs   []ServiceRef          `json:"serviceRefs,omitempty"`
+	StorageConfig *ClusterStorageConfig `json:"storageConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -758,6 +759,34 @@ func (o *ClusterCreate) SetServiceRefs(v []ServiceRef) {
 	o.ServiceRefs = v
 }
 
+// GetStorageConfig returns the StorageConfig field value if set, zero value otherwise.
+func (o *ClusterCreate) GetStorageConfig() ClusterStorageConfig {
+	if o == nil || o.StorageConfig == nil {
+		var ret ClusterStorageConfig
+		return ret
+	}
+	return *o.StorageConfig
+}
+
+// GetStorageConfigOk returns a tuple with the StorageConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterCreate) GetStorageConfigOk() (*ClusterStorageConfig, bool) {
+	if o == nil || o.StorageConfig == nil {
+		return nil, false
+	}
+	return o.StorageConfig, true
+}
+
+// HasStorageConfig returns a boolean if a field has been set.
+func (o *ClusterCreate) HasStorageConfig() bool {
+	return o != nil && o.StorageConfig != nil
+}
+
+// SetStorageConfig gets a reference to the given ClusterStorageConfig and assigns it to the StorageConfig field.
+func (o *ClusterCreate) SetStorageConfig(v ClusterStorageConfig) {
+	o.StorageConfig = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -827,6 +856,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.ServiceRefs != nil {
 		toSerialize["serviceRefs"] = o.ServiceRefs
 	}
+	if o.StorageConfig != nil {
+		toSerialize["storageConfig"] = o.StorageConfig
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -860,6 +892,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Static            *bool                     `json:"static,omitempty"`
 		NetworkMode       *NetworkMode              `json:"networkMode,omitempty"`
 		ServiceRefs       []ServiceRef              `json:"serviceRefs,omitempty"`
+		StorageConfig     *ClusterStorageConfig     `json:"storageConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -875,7 +908,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "storageConfig"})
 	} else {
 		return err
 	}
@@ -922,6 +955,10 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		o.NetworkMode = all.NetworkMode
 	}
 	o.ServiceRefs = all.ServiceRefs
+	if all.StorageConfig != nil && all.StorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.StorageConfig = all.StorageConfig
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

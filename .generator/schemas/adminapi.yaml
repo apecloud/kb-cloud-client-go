@@ -16453,6 +16453,17 @@ components:
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
             be at the same orgnazation as the current cluster.
+    clusterStorageConfig:
+      type: object
+      required:
+        - storageName
+      properties:
+        storageName:
+          type: string
+          description: the name of storage
+        bucket:
+          type: string
+          description: the bucket name for the storage
     clusterCreate:
       required:
         - engine
@@ -16545,6 +16556,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
+        storageConfig:
+          description: Specify the storage config for cluster like starrocks
+          $ref: '#/components/schemas/clusterStorageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -19557,6 +19571,10 @@ components:
           type: object
           description: the tags for the storage
           additionalProperties:
+            type: string
+        engines:
+          type: array
+          items:
             type: string
     staticCluster:
       properties:
@@ -23505,6 +23523,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
+        useStorage:
+          type: boolean
+          description: Indicate whether the current cluster requires users to select storage
     engineOptionList:
       required:
         - items
@@ -24675,6 +24696,10 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+        engines:
+          type: array
+          items:
+            type: string
     storageList:
       type: array
       items:
@@ -24683,9 +24708,6 @@ components:
       description: storageUpdate is the schema for storage update request
       type: object
       properties:
-        storageID:
-          type: string
-          description: the name of storage
         params:
           type: object
           description: the parameters to create the storage
@@ -24696,6 +24718,14 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+        engines:
+          type: array
+          items:
+            type: string
+        storageName:
+          type: string
+        envName:
+          type: string
     storageCheckResult:
       description: storageCheck is the result when checking storage connectivity
       type: object

@@ -12768,6 +12768,17 @@ components:
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
             be at the same orgnazation as the current cluster.
+    clusterStorageConfig:
+      type: object
+      required:
+        - storageName
+      properties:
+        storageName:
+          type: string
+          description: the name of storage
+        bucket:
+          type: string
+          description: the bucket name for the storage
     clusterCreate:
       required:
         - engine
@@ -12860,6 +12871,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
+        storageConfig:
+          description: Specify the storage config for cluster like starrocks
+          $ref: '#/components/schemas/clusterStorageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -16937,6 +16951,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
+        useStorage:
+          type: boolean
+          description: Indicate whether the current cluster requires users to select storage
     engineOptionList:
       required:
         - items
