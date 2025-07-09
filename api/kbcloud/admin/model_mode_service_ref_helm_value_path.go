@@ -14,10 +14,14 @@ import (
 type ModeServiceRefHelmValuePath struct {
 	// the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
 	Namespace string `json:"namespace"`
-	// the name of the referenced Cluster. Other options (like serivce or port name) are omitted
-	// because it is assumed to be defined in the cluster chart.
-	//
+	// the name of the referenced Cluster
 	Cluster *string `json:"cluster,omitempty"`
+	// see serviceSelectors
+	Component *string `json:"component,omitempty"`
+	// see serviceSelectors
+	Service *string `json:"service,omitempty"`
+	// see serviceSelectors
+	Port *string `json:"port,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -92,6 +96,90 @@ func (o *ModeServiceRefHelmValuePath) SetCluster(v string) {
 	o.Cluster = &v
 }
 
+// GetComponent returns the Component field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetComponent() string {
+	if o == nil || o.Component == nil {
+		var ret string
+		return ret
+	}
+	return *o.Component
+}
+
+// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetComponentOk() (*string, bool) {
+	if o == nil || o.Component == nil {
+		return nil, false
+	}
+	return o.Component, true
+}
+
+// HasComponent returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasComponent() bool {
+	return o != nil && o.Component != nil
+}
+
+// SetComponent gets a reference to the given string and assigns it to the Component field.
+func (o *ModeServiceRefHelmValuePath) SetComponent(v string) {
+	o.Component = &v
+}
+
+// GetService returns the Service field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetService() string {
+	if o == nil || o.Service == nil {
+		var ret string
+		return ret
+	}
+	return *o.Service
+}
+
+// GetServiceOk returns a tuple with the Service field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetServiceOk() (*string, bool) {
+	if o == nil || o.Service == nil {
+		return nil, false
+	}
+	return o.Service, true
+}
+
+// HasService returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasService() bool {
+	return o != nil && o.Service != nil
+}
+
+// SetService gets a reference to the given string and assigns it to the Service field.
+func (o *ModeServiceRefHelmValuePath) SetService(v string) {
+	o.Service = &v
+}
+
+// GetPort returns the Port field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetPort() string {
+	if o == nil || o.Port == nil {
+		var ret string
+		return ret
+	}
+	return *o.Port
+}
+
+// GetPortOk returns a tuple with the Port field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetPortOk() (*string, bool) {
+	if o == nil || o.Port == nil {
+		return nil, false
+	}
+	return o.Port, true
+}
+
+// HasPort returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasPort() bool {
+	return o != nil && o.Port != nil
+}
+
+// SetPort gets a reference to the given string and assigns it to the Port field.
+func (o *ModeServiceRefHelmValuePath) SetPort(v string) {
+	o.Port = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -101,6 +189,15 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize["namespace"] = o.Namespace
 	if o.Cluster != nil {
 		toSerialize["cluster"] = o.Cluster
+	}
+	if o.Component != nil {
+		toSerialize["component"] = o.Component
+	}
+	if o.Service != nil {
+		toSerialize["service"] = o.Service
+	}
+	if o.Port != nil {
+		toSerialize["port"] = o.Port
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -114,6 +211,9 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Namespace *string `json:"namespace"`
 		Cluster   *string `json:"cluster,omitempty"`
+		Component *string `json:"component,omitempty"`
+		Service   *string `json:"service,omitempty"`
+		Port      *string `json:"port,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -123,12 +223,15 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster"})
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port"})
 	} else {
 		return err
 	}
 	o.Namespace = *all.Namespace
 	o.Cluster = all.Cluster
+	o.Component = all.Component
+	o.Service = all.Service
+	o.Port = all.Port
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -16453,6 +16453,17 @@ components:
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
             be at the same orgnazation as the current cluster.
+    clusterStorageConfig:
+      type: object
+      required:
+        - storageName
+      properties:
+        storageName:
+          type: string
+          description: the name of storage
+        bucket:
+          type: string
+          description: the bucket name for the storage
     clusterCreate:
       required:
         - engine
@@ -16545,6 +16556,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
+        storageConfig:
+          description: Specify the storage config for cluster like starrocks
+          $ref: '#/components/schemas/clusterStorageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -19559,6 +19573,10 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+        engines:
+          type: array
+          items:
+            type: string
     staticCluster:
       properties:
         replicas:
@@ -22550,6 +22568,26 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+    serviceSelector:
+      type: object
+      required:
+        - mode
+        - component
+        - service
+        - port
+      description: |
+        This definition of component/service/port is in line with kubeblocks api 
+        appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
+      properties:
+        mode:
+          type: string
+          description: referenced cluster's mode
+        component:
+          type: string
+        service:
+          type: string
+        port:
+          type: string
     modeServiceRef:
       type: object
       description: |
@@ -22579,9 +22617,23 @@ components:
               description: the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
             cluster:
               type: string
-              description: |
-                the name of the referenced Cluster. Other options (like serivce or port name) are omitted 
-                because it is assumed to be defined in the cluster chart.
+              description: the name of the referenced Cluster
+            component:
+              type: string
+              description: see serviceSelectors
+            service:
+              type: string
+              description: see serviceSelectors
+            port:
+              type: string
+              description: see serviceSelectors
+        serviceSelectors:
+          type: array
+          description: |
+            ServiceSelectors will map cluster's mode to a serviceSelector.
+            If no serviceSelector is matched, the corresponding helm value will not be set.
+          items:
+            $ref: '#/components/schemas/serviceSelector'
     modeOption:
       type: object
       required:
@@ -23506,6 +23558,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
+        useStorage:
+          type: boolean
+          description: Indicate whether the current cluster requires users to select storage
     engineOptionList:
       required:
         - items
@@ -24676,6 +24731,10 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+        engines:
+          type: array
+          items:
+            type: string
     storageList:
       type: array
       items:
@@ -24684,9 +24743,6 @@ components:
       description: storageUpdate is the schema for storage update request
       type: object
       properties:
-        storageID:
-          type: string
-          description: the name of storage
         params:
           type: object
           description: the parameters to create the storage
@@ -24697,6 +24753,14 @@ components:
           description: the tags for the storage
           additionalProperties:
             type: string
+        engines:
+          type: array
+          items:
+            type: string
+        storageName:
+          type: string
+        envName:
+          type: string
     storageCheckResult:
       description: storageCheck is the result when checking storage connectivity
       type: object
