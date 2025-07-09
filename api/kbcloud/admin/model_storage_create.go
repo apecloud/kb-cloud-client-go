@@ -17,7 +17,8 @@ type StorageCreate struct {
 	// the id of cluster that storage used
 	ClusterId *string `json:"clusterID,omitempty"`
 	// the tags for the storage
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags    map[string]string `json:"tags,omitempty"`
+	Engines []string          `json:"engines,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -180,6 +181,34 @@ func (o *StorageCreate) SetTags(v map[string]string) {
 	o.Tags = v
 }
 
+// GetEngines returns the Engines field value if set, zero value otherwise.
+func (o *StorageCreate) GetEngines() []string {
+	if o == nil || o.Engines == nil {
+		var ret []string
+		return ret
+	}
+	return o.Engines
+}
+
+// GetEnginesOk returns a tuple with the Engines field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StorageCreate) GetEnginesOk() (*[]string, bool) {
+	if o == nil || o.Engines == nil {
+		return nil, false
+	}
+	return &o.Engines, true
+}
+
+// HasEngines returns a boolean if a field has been set.
+func (o *StorageCreate) HasEngines() bool {
+	return o != nil && o.Engines != nil
+}
+
+// SetEngines gets a reference to the given []string and assigns it to the Engines field.
+func (o *StorageCreate) SetEngines(v []string) {
+	o.Engines = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -201,6 +230,9 @@ func (o StorageCreate) MarshalJSON() ([]byte, error) {
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags
 	}
+	if o.Engines != nil {
+		toSerialize["engines"] = o.Engines
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -216,13 +248,14 @@ func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Params          map[string]string `json:"params,omitempty"`
 		ClusterId       *string           `json:"clusterID,omitempty"`
 		Tags            map[string]string `json:"tags,omitempty"`
+		Engines         []string          `json:"engines,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "storageProvider", "params", "clusterID", "tags"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "storageProvider", "params", "clusterID", "tags", "engines"})
 	} else {
 		return err
 	}
@@ -231,6 +264,7 @@ func (o *StorageCreate) UnmarshalJSON(bytes []byte) (err error) {
 	o.Params = all.Params
 	o.ClusterId = all.ClusterId
 	o.Tags = all.Tags
+	o.Engines = all.Engines
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

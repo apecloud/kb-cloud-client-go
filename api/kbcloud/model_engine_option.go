@@ -44,6 +44,8 @@ type EngineOption struct {
 	Parameters       []ParameterOption       `json:"parameters"`
 	DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
 	Cdc              []CdcOption             `json:"cdc,omitempty"`
+	// Indicate whether the current cluster requires users to select storage
+	UseStorage *bool `json:"useStorage,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -870,6 +872,34 @@ func (o *EngineOption) SetCdc(v []CdcOption) {
 	o.Cdc = v
 }
 
+// GetUseStorage returns the UseStorage field value if set, zero value otherwise.
+func (o *EngineOption) GetUseStorage() bool {
+	if o == nil || o.UseStorage == nil {
+		var ret bool
+		return ret
+	}
+	return *o.UseStorage
+}
+
+// GetUseStorageOk returns a tuple with the UseStorage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetUseStorageOk() (*bool, bool) {
+	if o == nil || o.UseStorage == nil {
+		return nil, false
+	}
+	return o.UseStorage, true
+}
+
+// HasUseStorage returns a boolean if a field has been set.
+func (o *EngineOption) HasUseStorage() bool {
+	return o != nil && o.UseStorage != nil
+}
+
+// SetUseStorage gets a reference to the given bool and assigns it to the UseStorage field.
+func (o *EngineOption) SetUseStorage(v bool) {
+	o.UseStorage = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -935,6 +965,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Cdc != nil {
 		toSerialize["cdc"] = o.Cdc
 	}
+	if o.UseStorage != nil {
+		toSerialize["useStorage"] = o.UseStorage
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -976,6 +1009,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Parameters       *[]ParameterOption      `json:"parameters"`
 		DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
 		Cdc              []CdcOption             `json:"cdc,omitempty"`
+		UseStorage       *bool                   `json:"useStorage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1033,7 +1067,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "status", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "status", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc", "useStorage"})
 	} else {
 		return err
 	}
@@ -1101,6 +1135,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.DisasterRecovery = all.DisasterRecovery
 	o.Cdc = all.Cdc
+	o.UseStorage = all.UseStorage
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
