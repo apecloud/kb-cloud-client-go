@@ -14,37 +14,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTypesApi service type
-type InstanceTypesApi common.Service
+// ClassTypesApi service type
+type ClassTypesApi common.Service
 
-// CreateInstanceTypeOptionalParameters holds optional parameters for CreateInstanceType.
-type CreateInstanceTypeOptionalParameters struct {
-	Body *CreateInstanceType
+// CreateClassTypeOptionalParameters holds optional parameters for CreateClassType.
+type CreateClassTypeOptionalParameters struct {
+	Body *CreateClassType
 }
 
-// NewCreateInstanceTypeOptionalParameters creates an empty struct for parameters.
-func NewCreateInstanceTypeOptionalParameters() *CreateInstanceTypeOptionalParameters {
-	this := CreateInstanceTypeOptionalParameters{}
+// NewCreateClassTypeOptionalParameters creates an empty struct for parameters.
+func NewCreateClassTypeOptionalParameters() *CreateClassTypeOptionalParameters {
+	this := CreateClassTypeOptionalParameters{}
 	return &this
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *CreateInstanceTypeOptionalParameters) WithBody(body CreateInstanceType) *CreateInstanceTypeOptionalParameters {
+func (r *CreateClassTypeOptionalParameters) WithBody(body CreateClassType) *CreateClassTypeOptionalParameters {
 	r.Body = &body
 	return r
 }
 
-// CreateInstanceType Create a new instance type.
-func (a *InstanceTypesApi) CreateInstanceType(ctx _context.Context, o ...CreateInstanceTypeOptionalParameters) (InstanceTypes, *_nethttp.Response, error) {
+// CreateClassType Create a new class type.
+func (a *ClassTypesApi) CreateClassType(ctx _context.Context, o ...CreateClassTypeOptionalParameters) (ClassType, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue InstanceTypes
-		optionalParams      CreateInstanceTypeOptionalParameters
+		localVarReturnValue ClassType
+		optionalParams      CreateClassTypeOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateInstanceTypeOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateClassTypeOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -52,19 +52,19 @@ func (a *InstanceTypesApi) CreateInstanceType(ctx _context.Context, o ...CreateI
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "createInstanceType",
-		Path:        "/admin/v1/instance-types",
+		Tag:         "classTypes",
+		OperationID: "createClassType",
+		Path:        "/admin/v1/classTypes",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.CreateInstanceType")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.CreateClassType")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/instance-types"
+	localVarPath := localBasePath + "/admin/v1/classTypes"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -124,8 +124,8 @@ func (a *InstanceTypesApi) CreateInstanceType(ctx _context.Context, o ...CreateI
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteInstanceType Delete an instance type by ID.
-func (a *InstanceTypesApi) DeleteInstanceType(ctx _context.Context, id string) (*_nethttp.Response, error) {
+// DeleteClassType Delete a class type by ID.
+func (a *ClassTypesApi) DeleteClassType(ctx _context.Context, id string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -133,19 +133,19 @@ func (a *InstanceTypesApi) DeleteInstanceType(ctx _context.Context, id string) (
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "deleteInstanceType",
-		Path:        "/admin/v1/instance-types/{id}",
+		Tag:         "classTypes",
+		OperationID: "deleteClassType",
+		Path:        "/admin/v1/classTypes/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.DeleteInstanceType")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.DeleteClassType")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/instance-types/{id}"
+	localVarPath := localBasePath + "/admin/v1/classTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -192,29 +192,29 @@ func (a *InstanceTypesApi) DeleteInstanceType(ctx _context.Context, id string) (
 	return localVarHTTPResponse, nil
 }
 
-// GetInstanceTypeById Get an instance type by ID.
-func (a *InstanceTypesApi) GetInstanceTypeById(ctx _context.Context, id string) (InstanceTypes, *_nethttp.Response, error) {
+// GetClassType Get a class type by ID.
+func (a *ClassTypesApi) GetClassType(ctx _context.Context, id string) (ClassType, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue InstanceTypes
+		localVarReturnValue ClassType
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "getInstanceTypeById",
-		Path:        "/admin/v1/instance-types/{id}",
+		Tag:         "classTypes",
+		OperationID: "getClassType",
+		Path:        "/admin/v1/classTypes/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.GetInstanceTypeById")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.GetClassType")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/instance-types/{id}"
+	localVarPath := localBasePath + "/admin/v1/classTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -270,29 +270,29 @@ func (a *InstanceTypesApi) GetInstanceTypeById(ctx _context.Context, id string) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetInstanceTypes Get all instance types.
-func (a *InstanceTypesApi) GetInstanceTypes(ctx _context.Context) ([]InstanceTypes, *_nethttp.Response, error) {
+// GetClassTypes Get all class types.
+func (a *ClassTypesApi) GetClassTypes(ctx _context.Context) ([]ClassType, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []InstanceTypes
+		localVarReturnValue []ClassType
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "getInstanceTypes",
-		Path:        "/admin/v1/instance-types",
+		Tag:         "classTypes",
+		OperationID: "getClassTypes",
+		Path:        "/admin/v1/classTypes",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.GetInstanceTypes")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.GetClassTypes")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/instance-types"
+	localVarPath := localBasePath + "/admin/v1/classTypes"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -347,34 +347,34 @@ func (a *InstanceTypesApi) GetInstanceTypes(ctx _context.Context) ([]InstanceTyp
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateInstanceTypeOptionalParameters holds optional parameters for UpdateInstanceType.
-type UpdateInstanceTypeOptionalParameters struct {
-	Body *InstanceTypes
+// UpdateClassTypeOptionalParameters holds optional parameters for UpdateClassType.
+type UpdateClassTypeOptionalParameters struct {
+	Body *CreateClassType
 }
 
-// NewUpdateInstanceTypeOptionalParameters creates an empty struct for parameters.
-func NewUpdateInstanceTypeOptionalParameters() *UpdateInstanceTypeOptionalParameters {
-	this := UpdateInstanceTypeOptionalParameters{}
+// NewUpdateClassTypeOptionalParameters creates an empty struct for parameters.
+func NewUpdateClassTypeOptionalParameters() *UpdateClassTypeOptionalParameters {
+	this := UpdateClassTypeOptionalParameters{}
 	return &this
 }
 
 // WithBody sets the corresponding parameter name and returns the struct.
-func (r *UpdateInstanceTypeOptionalParameters) WithBody(body InstanceTypes) *UpdateInstanceTypeOptionalParameters {
+func (r *UpdateClassTypeOptionalParameters) WithBody(body CreateClassType) *UpdateClassTypeOptionalParameters {
 	r.Body = &body
 	return r
 }
 
-// UpdateInstanceType Update an instance type by ID.
-func (a *InstanceTypesApi) UpdateInstanceType(ctx _context.Context, id string, o ...UpdateInstanceTypeOptionalParameters) (InstanceTypes, *_nethttp.Response, error) {
+// UpdateClassType Update a class type by ID.
+func (a *ClassTypesApi) UpdateClassType(ctx _context.Context, id string, o ...UpdateClassTypeOptionalParameters) (ClassType, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue InstanceTypes
-		optionalParams      UpdateInstanceTypeOptionalParameters
+		localVarReturnValue ClassType
+		optionalParams      UpdateClassTypeOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateInstanceTypeOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateClassTypeOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -382,19 +382,19 @@ func (a *InstanceTypesApi) UpdateInstanceType(ctx _context.Context, id string, o
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "updateInstanceType",
-		Path:        "/admin/v1/instance-types/{id}",
+		Tag:         "classTypes",
+		OperationID: "updateClassType",
+		Path:        "/admin/v1/classTypes/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.UpdateInstanceType")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.UpdateClassType")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/instance-types/{id}"
+	localVarPath := localBasePath + "/admin/v1/classTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -455,9 +455,9 @@ func (a *InstanceTypesApi) UpdateInstanceType(ctx _context.Context, id string, o
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewInstanceTypesApi Returns NewInstanceTypesApi.
-func NewInstanceTypesApi(client *common.APIClient) *InstanceTypesApi {
-	return &InstanceTypesApi{
+// NewClassTypesApi Returns NewClassTypesApi.
+func NewClassTypesApi(client *common.APIClient) *ClassTypesApi {
+	return &ClassTypesApi{
 		Client: client,
 	}
 }

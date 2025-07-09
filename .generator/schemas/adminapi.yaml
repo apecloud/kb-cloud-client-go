@@ -10327,12 +10327,12 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/instance-types:
+  /admin/v1/classTypes:
     get:
       tags:
-        - instanceTypes
-      operationId: getInstanceTypes
-      summary: Get all instance types
+        - classTypes
+      operationId: getClassTypes
+      summary: Get all class types
       responses:
         '200':
           description: A successful response.
@@ -10341,7 +10341,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/instanceTypes'
+                  $ref: '#/components/schemas/classType'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10350,31 +10350,31 @@ paths:
           $ref: '#/components/responses/404'
     post:
       tags:
-        - instanceTypes
-      operationId: createInstanceType
-      summary: Create a new instance type
+        - classTypes
+      operationId: createClassType
+      summary: Create a new class type
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createInstanceType'
+              $ref: '#/components/schemas/createClassType'
       responses:
         '201':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/instanceTypes'
+                $ref: '#/components/schemas/classType'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-  /admin/v1/instance-types/{id}:
+  /admin/v1/classTypes/{id}:
     get:
       tags:
-        - instanceTypes
-      operationId: getInstanceTypeById
-      summary: Get an instance type by ID
+        - classTypes
+      operationId: getClassType
+      summary: Get a class type by ID
       parameters:
         - name: id
           in: path
@@ -10387,7 +10387,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/instanceTypes'
+                $ref: '#/components/schemas/classType'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10396,9 +10396,9 @@ paths:
           $ref: '#/components/responses/404'
     patch:
       tags:
-        - instanceTypes
-      operationId: updateInstanceType
-      summary: Update an instance type by ID
+        - classTypes
+      operationId: updateClassType
+      summary: Update a class type by ID
       parameters:
         - name: id
           in: path
@@ -10409,14 +10409,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/instanceTypes'
+              $ref: '#/components/schemas/createClassType'
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/instanceTypes'
+                $ref: '#/components/schemas/classType'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10425,9 +10425,9 @@ paths:
           $ref: '#/components/responses/404'
     delete:
       tags:
-        - instanceTypes
-      operationId: deleteInstanceType
-      summary: Delete an instance type by ID
+        - classTypes
+      operationId: deleteClassType
+      summary: Delete a class type by ID
       parameters:
         - name: id
           in: path
@@ -16579,8 +16579,6 @@ components:
           type: integer
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         classCode:
-          type: string
-        classSeries:
           type: string
         cpu:
           title: CPU
@@ -23925,7 +23923,7 @@ components:
           format: double
         component:
           type: string
-        instanceType:
+        classType:
           type: string
     classBatch:
       type: object
@@ -23936,7 +23934,7 @@ components:
           type: string
         component:
           type: string
-        instanceType:
+        classType:
           type: string
         cpuOverCommit:
           type: number
@@ -23946,72 +23944,48 @@ components:
           type: number
           multipleOf: 0.1
           format: double
-    OccupationType:
-      type: string
-      enum:
-        - general
-        - exclusive
-    serverConfiguration:
-      type: object
-      properties:
-        architectureType:
-          type: string
-          description: Server architecture type, can be empty.
-    instanceTypes:
+    classType:
       type: object
       properties:
         id:
           type: string
-          description: The unique identifier for the instance type.
+          description: The unique identifier for the class type.
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the class type name.
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         createdAt:
           type: string
           format: date-time
           description: Creation time.
-        description:
-          type: string
-          maxLength: 255
-          description: Any characters, no more than 255 characters long.
-        displayName:
-          type: string
-          maxLength: 63
-          description: Any characters, no more than 63 characters long.
-        occupationType:
-          $ref: '#/components/schemas/OccupationType'
-        name:
-          type: string
-          pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
-        serverConfiguration:
-          $ref: '#/components/schemas/serverConfiguration'
-    createInstanceType:
+    createClassType:
       type: object
       properties:
-        description:
-          type: string
-          maxLength: 255
-          description: Any characters, no more than 255 characters long.
-        displayName:
-          type: string
-          maxLength: 63
-          description: Any characters, no more than 63 characters long.
-        occupationType:
-          $ref: '#/components/schemas/OccupationType'
         name:
           type: string
           pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
-        serverConfiguration:
-          $ref: '#/components/schemas/serverConfiguration'
-        engines:
-          type: array
-          items:
-            type: string
-          description: List of engine names supported by this instance type.
-        sourceInstanceTypeName:
-          type: array
-          items:
-            type: string
-          description: The Names of the instance types to be copied. All specifications of these instances will be copied to the new instance type.
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the class type name.
+        description:
+          type: string
+          description: The description of the class type. Optional.
+        displayName:
+          type: string
+          description: The display name of the class type. Optional.
+        displayNameEn:
+          type: string
+          description: The display name of the class type in English. Optional. If you switch the language to English, the display name will be displaynameEn.
+        descriptionEn:
+          type: string
+          description: The description of the class type in English. Optional. If you switch the language to English, the description will be descriptionEn.
+        sourceClassType:
+          type: string
+          description: Support to copy classes from the source class type. Optional.
+      required:
+        - name
     provider:
       description: The cloud provider that the environment is running on.
       type: object
