@@ -15995,6 +15995,26 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+    serviceSelector:
+      type: object
+      required:
+        - mode
+        - component
+        - service
+        - port
+      description: |
+        This definition of component/service/port is in line with kubeblocks api 
+        appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
+      properties:
+        mode:
+          type: string
+          description: cluster's mode
+        component:
+          type: string
+        service:
+          type: string
+        port:
+          type: string
     modeServiceRef:
       type: object
       description: |
@@ -16024,9 +16044,23 @@ components:
               description: the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
             cluster:
               type: string
-              description: |
-                the name of the referenced Cluster. Other options (like serivce or port name) are omitted 
-                because it is assumed to be defined in the cluster chart.
+              description: the name of the referenced Cluster
+            component:
+              type: string
+              description: see serviceSelectors
+            service:
+              type: string
+              description: see serviceSelectors
+            port:
+              type: string
+              description: see serviceSelectors
+        serviceSelectors:
+          type: array
+          description: |
+            ServiceSelectors will map cluster's mode to a serviceSelector.
+            If no serviceSelector is matched, the corresponding helm value will not be set.
+          items:
+            $ref: '#/components/schemas/serviceSelector'
     modeOption:
       type: object
       required:
