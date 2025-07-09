@@ -21,6 +21,10 @@ type ModeServiceRef struct {
 	EngineName string `json:"engineName"`
 	// The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
+	// ServiceSelectors will map cluster's mode to a serviceSelector.
+	// If no serviceSelector is matched, the corresponding helm value will not be set.
+	//
+	ServiceSelectors []ServiceSelector `json:"serviceSelectors,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -115,6 +119,34 @@ func (o *ModeServiceRef) SetHelmValuePath(v ModeServiceRefHelmValuePath) {
 	o.HelmValuePath = v
 }
 
+// GetServiceSelectors returns the ServiceSelectors field value if set, zero value otherwise.
+func (o *ModeServiceRef) GetServiceSelectors() []ServiceSelector {
+	if o == nil || o.ServiceSelectors == nil {
+		var ret []ServiceSelector
+		return ret
+	}
+	return o.ServiceSelectors
+}
+
+// GetServiceSelectorsOk returns a tuple with the ServiceSelectors field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetServiceSelectorsOk() (*[]ServiceSelector, bool) {
+	if o == nil || o.ServiceSelectors == nil {
+		return nil, false
+	}
+	return &o.ServiceSelectors, true
+}
+
+// HasServiceSelectors returns a boolean if a field has been set.
+func (o *ModeServiceRef) HasServiceSelectors() bool {
+	return o != nil && o.ServiceSelectors != nil
+}
+
+// SetServiceSelectors gets a reference to the given []ServiceSelector and assigns it to the ServiceSelectors field.
+func (o *ModeServiceRef) SetServiceSelectors(v []ServiceSelector) {
+	o.ServiceSelectors = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -124,6 +156,9 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["engineName"] = o.EngineName
 	toSerialize["helmValuePath"] = o.HelmValuePath
+	if o.ServiceSelectors != nil {
+		toSerialize["serviceSelectors"] = o.ServiceSelectors
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -134,9 +169,10 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name          *string                      `json:"name"`
-		EngineName    *string                      `json:"engineName"`
-		HelmValuePath *ModeServiceRefHelmValuePath `json:"helmValuePath"`
+		Name             *string                      `json:"name"`
+		EngineName       *string                      `json:"engineName"`
+		HelmValuePath    *ModeServiceRefHelmValuePath `json:"helmValuePath"`
+		ServiceSelectors []ServiceSelector            `json:"serviceSelectors,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -152,7 +188,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "helmValuePath"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "helmValuePath", "serviceSelectors"})
 	} else {
 		return err
 	}
@@ -164,6 +200,7 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.HelmValuePath = *all.HelmValuePath
+	o.ServiceSelectors = all.ServiceSelectors
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
