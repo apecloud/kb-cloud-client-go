@@ -18867,6 +18867,7 @@ components:
           type: string
       required:
         - version
+        - component
       type: object
     engineServiceVersions:
       type: object
