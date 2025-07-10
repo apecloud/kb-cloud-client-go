@@ -1457,6 +1457,11 @@ paths:
           description: license id
           schema:
             type: integer
+        - name: refClusterName
+          in: query
+          description: list clusters referenced by this cluster
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -13623,6 +13628,7 @@ components:
           type: string
       required:
         - version
+        - component
       type: object
     engineServiceVersions:
       type: object
