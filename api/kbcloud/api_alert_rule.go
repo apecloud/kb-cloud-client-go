@@ -7,6 +7,7 @@ package kbcloud
 import (
 	"context"
 	_context "context"
+	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
@@ -179,11 +180,11 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, ale
 
 // DownloadOrgAlertRuleFile Download organization-specific alert rule configuration file.
 // Downloads the current alert rule configuration for a specific organization as a YAML file.
-func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (AlertRuleConfig, *_nethttp.Response, error) {
+func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue AlertRuleConfig
+		localVarReturnValue _io.Reader
 	)
 
 	// Add api info to context
@@ -223,12 +224,12 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
 	if localVarHTTPResponse.StatusCode >= 300 {
+
+		localVarBody, err := common.ReadBody(localVarHTTPResponse)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 		newErr := common.GenericOpenAPIError{
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
@@ -243,15 +244,7 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
+	localVarReturnValue = localVarHTTPResponse.Body
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -604,7 +597,7 @@ func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, ale
 
 // UpdateRuleConfig Update alert rule configuration via YAML upload.
 // Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, body AlertRuleConfig) (*_nethttp.Response, error) {
+func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, body _io.Reader) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
