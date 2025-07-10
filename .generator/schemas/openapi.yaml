@@ -5996,11 +5996,9 @@ paths:
       requestBody:
         required: true
         content:
-          application/yaml:
+          multipart/form-data:
             schema:
-              type: string
-              format: binary
-              description: YAML file content containing the new alert rule configuration
+              $ref: '#/components/schemas/alertRuleConfig'
       responses:
         '204':
           description: Alert rule configuration updated successfully.
@@ -15744,6 +15742,13 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
+    alertRuleConfig:
+      type: object
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     engineType:
       type: string
       description: engine type
