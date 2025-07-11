@@ -10,7 +10,7 @@ type ClassBatch struct {
 	Engine           *string  `json:"engine,omitempty"`
 	Mode             *string  `json:"mode,omitempty"`
 	Component        *string  `json:"component,omitempty"`
-	InstanceType     *string  `json:"instanceType,omitempty"`
+	ClassType        *string  `json:"classType,omitempty"`
 	CpuOverCommit    *float64 `json:"cpuOverCommit,omitempty"`
 	MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -119,32 +119,32 @@ func (o *ClassBatch) SetComponent(v string) {
 	o.Component = &v
 }
 
-// GetInstanceType returns the InstanceType field value if set, zero value otherwise.
-func (o *ClassBatch) GetInstanceType() string {
-	if o == nil || o.InstanceType == nil {
+// GetClassType returns the ClassType field value if set, zero value otherwise.
+func (o *ClassBatch) GetClassType() string {
+	if o == nil || o.ClassType == nil {
 		var ret string
 		return ret
 	}
-	return *o.InstanceType
+	return *o.ClassType
 }
 
-// GetInstanceTypeOk returns a tuple with the InstanceType field value if set, nil otherwise
+// GetClassTypeOk returns a tuple with the ClassType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClassBatch) GetInstanceTypeOk() (*string, bool) {
-	if o == nil || o.InstanceType == nil {
+func (o *ClassBatch) GetClassTypeOk() (*string, bool) {
+	if o == nil || o.ClassType == nil {
 		return nil, false
 	}
-	return o.InstanceType, true
+	return o.ClassType, true
 }
 
-// HasInstanceType returns a boolean if a field has been set.
-func (o *ClassBatch) HasInstanceType() bool {
-	return o != nil && o.InstanceType != nil
+// HasClassType returns a boolean if a field has been set.
+func (o *ClassBatch) HasClassType() bool {
+	return o != nil && o.ClassType != nil
 }
 
-// SetInstanceType gets a reference to the given string and assigns it to the InstanceType field.
-func (o *ClassBatch) SetInstanceType(v string) {
-	o.InstanceType = &v
+// SetClassType gets a reference to the given string and assigns it to the ClassType field.
+func (o *ClassBatch) SetClassType(v string) {
+	o.ClassType = &v
 }
 
 // GetCpuOverCommit returns the CpuOverCommit field value if set, zero value otherwise.
@@ -218,8 +218,8 @@ func (o ClassBatch) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
-	if o.InstanceType != nil {
-		toSerialize["instanceType"] = o.InstanceType
+	if o.ClassType != nil {
+		toSerialize["classType"] = o.ClassType
 	}
 	if o.CpuOverCommit != nil {
 		toSerialize["cpuOverCommit"] = o.CpuOverCommit
@@ -240,7 +240,7 @@ func (o *ClassBatch) UnmarshalJSON(bytes []byte) (err error) {
 		Engine           *string  `json:"engine,omitempty"`
 		Mode             *string  `json:"mode,omitempty"`
 		Component        *string  `json:"component,omitempty"`
-		InstanceType     *string  `json:"instanceType,omitempty"`
+		ClassType        *string  `json:"classType,omitempty"`
 		CpuOverCommit    *float64 `json:"cpuOverCommit,omitempty"`
 		MemoryOverCommit *float64 `json:"memoryOverCommit,omitempty"`
 	}{}
@@ -249,14 +249,14 @@ func (o *ClassBatch) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engine", "mode", "component", "instanceType", "cpuOverCommit", "memoryOverCommit"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "mode", "component", "classType", "cpuOverCommit", "memoryOverCommit"})
 	} else {
 		return err
 	}
 	o.Engine = all.Engine
 	o.Mode = all.Mode
 	o.Component = all.Component
-	o.InstanceType = all.InstanceType
+	o.ClassType = all.ClassType
 	o.CpuOverCommit = all.CpuOverCommit
 	o.MemoryOverCommit = all.MemoryOverCommit
 

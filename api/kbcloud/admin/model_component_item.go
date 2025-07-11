@@ -15,9 +15,8 @@ type ComponentItem struct {
 	// number of components
 	CompNum *int32 `json:"compNum,omitempty"`
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
-	Replicas    *int32  `json:"replicas,omitempty"`
-	ClassCode   *string `json:"classCode,omitempty"`
-	ClassSeries *string `json:"classSeries,omitempty"`
+	Replicas  *int32  `json:"replicas,omitempty"`
+	ClassCode *string `json:"classCode,omitempty"`
 	// CPU cores.
 	Cpu *float64 `json:"cpu,omitempty"`
 	// Memory, the unit is Gi.
@@ -189,34 +188,6 @@ func (o *ComponentItem) HasClassCode() bool {
 // SetClassCode gets a reference to the given string and assigns it to the ClassCode field.
 func (o *ComponentItem) SetClassCode(v string) {
 	o.ClassCode = &v
-}
-
-// GetClassSeries returns the ClassSeries field value if set, zero value otherwise.
-func (o *ComponentItem) GetClassSeries() string {
-	if o == nil || o.ClassSeries == nil {
-		var ret string
-		return ret
-	}
-	return *o.ClassSeries
-}
-
-// GetClassSeriesOk returns a tuple with the ClassSeries field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentItem) GetClassSeriesOk() (*string, bool) {
-	if o == nil || o.ClassSeries == nil {
-		return nil, false
-	}
-	return o.ClassSeries, true
-}
-
-// HasClassSeries returns a boolean if a field has been set.
-func (o *ComponentItem) HasClassSeries() bool {
-	return o != nil && o.ClassSeries != nil
-}
-
-// SetClassSeries gets a reference to the given string and assigns it to the ClassSeries field.
-func (o *ComponentItem) SetClassSeries(v string) {
-	o.ClassSeries = &v
 }
 
 // GetCpu returns the Cpu field value if set, zero value otherwise.
@@ -408,9 +379,6 @@ func (o ComponentItem) MarshalJSON() ([]byte, error) {
 	if o.ClassCode != nil {
 		toSerialize["classCode"] = o.ClassCode
 	}
-	if o.ClassSeries != nil {
-		toSerialize["classSeries"] = o.ClassSeries
-	}
 	if o.Cpu != nil {
 		toSerialize["cpu"] = o.Cpu
 	}
@@ -444,7 +412,6 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 		CompNum                 *int32                `json:"compNum,omitempty"`
 		Replicas                *int32                `json:"replicas,omitempty"`
 		ClassCode               *string               `json:"classCode,omitempty"`
-		ClassSeries             *string               `json:"classSeries,omitempty"`
 		Cpu                     *float64              `json:"cpu,omitempty"`
 		Memory                  *float64              `json:"memory,omitempty"`
 		StorageClass            *string               `json:"storageClass,omitempty"`
@@ -457,7 +424,7 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "classSeries", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "codeShort", "systemAccountSecretName"})
 	} else {
 		return err
 	}
@@ -466,7 +433,6 @@ func (o *ComponentItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
 	o.ClassCode = all.ClassCode
-	o.ClassSeries = all.ClassSeries
 	o.Cpu = all.Cpu
 	o.Memory = all.Memory
 	o.StorageClass = all.StorageClass

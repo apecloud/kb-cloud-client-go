@@ -7521,12 +7521,12 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/instance-types:
+  /api/v1/classTypes:
     get:
       tags:
-        - instanceTypes
-      operationId: getInstanceTypes
-      summary: Get all instance types
+        - classTypes
+      operationId: getClassTypes
+      summary: Get all class types
       responses:
         '200':
           description: A successful response.
@@ -7535,19 +7535,19 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/instanceTypes'
+                  $ref: '#/components/schemas/classType'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/instance-types/{id}:
+  /api/v1/classTypes/{id}:
     get:
       tags:
-        - instanceTypes
-      operationId: getInstanceTypeById
-      summary: Get an instance type by ID
+        - classTypes
+      operationId: getClassType
+      summary: Get a class type by ID
       parameters:
         - name: id
           in: path
@@ -7560,7 +7560,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/instanceTypes'
+                $ref: '#/components/schemas/classType'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12907,8 +12907,6 @@ components:
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         classCode:
           type: string
-        classSeries:
-          type: string
         cpu:
           title: CPU
           type: number
@@ -17870,45 +17868,26 @@ components:
           format: double
         component:
           type: string
-        instanceType:
+        classType:
           type: string
-    OccupationType:
-      type: string
-      enum:
-        - general
-        - exclusive
-    serverConfiguration:
-      type: object
-      properties:
-        architectureType:
-          type: string
-          description: Server architecture type, can be empty.
-    instanceTypes:
+    classType:
       type: object
       properties:
         id:
           type: string
-          description: The unique identifier for the instance type.
+          description: The unique identifier for the class type.
+        name:
+          type: string
+          pattern: ^[a-z0-9]{1,8}$
+          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the class type name.
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         createdAt:
           type: string
           format: date-time
           description: Creation time.
-        description:
-          type: string
-          maxLength: 255
-          description: Any characters, no more than 255 characters long.
-        displayName:
-          type: string
-          maxLength: 63
-          description: Any characters, no more than 63 characters long.
-        occupationType:
-          $ref: '#/components/schemas/OccupationType'
-        name:
-          type: string
-          pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the specification code.
-        serverConfiguration:
-          $ref: '#/components/schemas/serverConfiguration'
     featurePreReleaseType:
       type: string
       description: Indicates the maturity level of a feature
