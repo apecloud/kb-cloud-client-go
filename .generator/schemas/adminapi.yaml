@@ -9086,7 +9086,14 @@ paths:
           content:
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/alertRuleConfig'
+                type: string
+                format: binary
+                description: YAML file content containing the new alert rule configuration
+            application/json:
+              schema:
+                type: string
+                format: binary
+                description: JSON file content containing the new alert rule configuration
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -9114,7 +9121,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/yaml:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/alertRuleConfig'
       responses:
@@ -22320,8 +22327,6 @@ components:
       description: AlertRuleList is a list of alert rules
     alertRuleConfig:
       type: object
-      required:
-        - content
       properties:
         content:
           type: string

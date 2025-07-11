@@ -7,6 +7,7 @@ package kbcloud
 import (
 	"context"
 	_context "context"
+	_io "io"
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
@@ -179,11 +180,11 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, ale
 
 // DownloadOrgAlertRuleFile Download organization-specific alert rule configuration file.
 // Downloads the current alert rule configuration for a specific organization as a YAML file.
-func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (AlertRuleConfig, *_nethttp.Response, error) {
+func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue AlertRuleConfig
+		localVarReturnValue _io.Reader
 	)
 
 	// Add api info to context
@@ -223,12 +224,12 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
 	if localVarHTTPResponse.StatusCode >= 300 {
+
+		localVarBody, err := common.ReadBody(localVarHTTPResponse)
+		if err != nil {
+			return localVarReturnValue, localVarHTTPResponse, err
+		}
 		newErr := common.GenericOpenAPIError{
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
@@ -243,15 +244,7 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
+	localVarReturnValue = localVarHTTPResponse.Body
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
@@ -602,13 +595,38 @@ func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, ale
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// UpdateRuleConfigOptionalParameters holds optional parameters for UpdateRuleConfig.
+type UpdateRuleConfigOptionalParameters struct {
+	Content *_io.Reader
+}
+
+// NewUpdateRuleConfigOptionalParameters creates an empty struct for parameters.
+func NewUpdateRuleConfigOptionalParameters() *UpdateRuleConfigOptionalParameters {
+	this := UpdateRuleConfigOptionalParameters{}
+	return &this
+}
+
+// WithContent sets the corresponding parameter name and returns the struct.
+func (r *UpdateRuleConfigOptionalParameters) WithContent(content _io.Reader) *UpdateRuleConfigOptionalParameters {
+	r.Content = &content
+	return r
+}
+
 // UpdateRuleConfig Update alert rule configuration via YAML upload.
 // Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, body AlertRuleConfig) (*_nethttp.Response, error) {
+func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, o ...UpdateRuleConfigOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
+		optionalParams     UpdateRuleConfigOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type UpdateRuleConfigOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -630,17 +648,26 @@ func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, bo
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/yaml"
+	localVarHeaderParams["Content-Type"] = "multipart/form-data"
 	localVarHeaderParams["Accept"] = "*/*"
 
-	// body params
-	localVarPostBody = &body
+	formFile := common.FormFile{}
+	formFile.FormFileName = "content"
+	var localVarFile _io.Reader
+	if optionalParams.Content != nil {
+		localVarFile = *optionalParams.Content
+	}
+	if localVarFile != nil {
+		fbs, _ := _io.ReadAll(localVarFile)
+		formFile.FileBytes = fbs
+	}
+
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
 		[2]string{"BearerToken", "authorization"},
 	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, &formFile)
 	if err != nil {
 		return nil, err
 	}
