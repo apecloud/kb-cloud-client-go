@@ -12900,6 +12900,8 @@ components:
           description: The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
         classCode:
           type: string
+        classType:
+          type: string
         cpu:
           title: CPU
           type: number
