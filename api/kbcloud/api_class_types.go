@@ -14,32 +14,32 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// InstanceTypesApi service type
-type InstanceTypesApi common.Service
+// ClassTypesApi service type
+type ClassTypesApi common.Service
 
-// GetInstanceTypeById Get an instance type by ID.
-func (a *InstanceTypesApi) GetInstanceTypeById(ctx _context.Context, id string) (InstanceTypes, *_nethttp.Response, error) {
+// GetClassType Get a class type by ID.
+func (a *ClassTypesApi) GetClassType(ctx _context.Context, id string) (ClassType, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue InstanceTypes
+		localVarReturnValue ClassType
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "getInstanceTypeById",
-		Path:        "/api/v1/instance-types/{id}",
+		Tag:         "classTypes",
+		OperationID: "getClassType",
+		Path:        "/api/v1/classTypes/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.GetInstanceTypeById")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.GetClassType")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/instance-types/{id}"
+	localVarPath := localBasePath + "/api/v1/classTypes/{id}"
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -95,29 +95,29 @@ func (a *InstanceTypesApi) GetInstanceTypeById(ctx _context.Context, id string) 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetInstanceTypes Get all instance types.
-func (a *InstanceTypesApi) GetInstanceTypes(ctx _context.Context) ([]InstanceTypes, *_nethttp.Response, error) {
+// GetClassTypes Get all class types.
+func (a *ClassTypesApi) GetClassTypes(ctx _context.Context) ([]ClassType, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []InstanceTypes
+		localVarReturnValue []ClassType
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "instanceTypes",
-		OperationID: "getInstanceTypes",
-		Path:        "/api/v1/instance-types",
+		Tag:         "classTypes",
+		OperationID: "getClassTypes",
+		Path:        "/api/v1/classTypes",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InstanceTypesApi.GetInstanceTypes")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClassTypesApi.GetClassTypes")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/instance-types"
+	localVarPath := localBasePath + "/api/v1/classTypes"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -172,9 +172,9 @@ func (a *InstanceTypesApi) GetInstanceTypes(ctx _context.Context) ([]InstanceTyp
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewInstanceTypesApi Returns NewInstanceTypesApi.
-func NewInstanceTypesApi(client *common.APIClient) *InstanceTypesApi {
-	return &InstanceTypesApi{
+// NewClassTypesApi Returns NewClassTypesApi.
+func NewClassTypesApi(client *common.APIClient) *ClassTypesApi {
+	return &ClassTypesApi{
 		Client: client,
 	}
 }
