@@ -19,8 +19,12 @@ type ParameterConstraint struct {
 	Versions []string `json:"versions,omitempty"`
 	// name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
 	ConfigSpecName string `json:"configSpecName"`
-	// constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
+	// used in KB version < 1.0, constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
 	ConstraintRef *string `json:"constraintRef,omitempty"`
+	// used in KB version >= 1.0, name of ParamConfigRenderer
+	ConfigRendererRef *string `json:"configRendererRef,omitempty"`
+	// used in KB version >= 1.0, name of ParameterDefinition
+	ParameterDefRef *string `json:"parameterDefRef,omitempty"`
 	// regular expression of the parameters, mainly used by the frontend for parameter parsing.
 	Regex string `json:"regex"`
 	// name of configuration file
@@ -177,6 +181,62 @@ func (o *ParameterConstraint) SetConstraintRef(v string) {
 	o.ConstraintRef = &v
 }
 
+// GetConfigRendererRef returns the ConfigRendererRef field value if set, zero value otherwise.
+func (o *ParameterConstraint) GetConfigRendererRef() string {
+	if o == nil || o.ConfigRendererRef == nil {
+		var ret string
+		return ret
+	}
+	return *o.ConfigRendererRef
+}
+
+// GetConfigRendererRefOk returns a tuple with the ConfigRendererRef field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterConstraint) GetConfigRendererRefOk() (*string, bool) {
+	if o == nil || o.ConfigRendererRef == nil {
+		return nil, false
+	}
+	return o.ConfigRendererRef, true
+}
+
+// HasConfigRendererRef returns a boolean if a field has been set.
+func (o *ParameterConstraint) HasConfigRendererRef() bool {
+	return o != nil && o.ConfigRendererRef != nil
+}
+
+// SetConfigRendererRef gets a reference to the given string and assigns it to the ConfigRendererRef field.
+func (o *ParameterConstraint) SetConfigRendererRef(v string) {
+	o.ConfigRendererRef = &v
+}
+
+// GetParameterDefRef returns the ParameterDefRef field value if set, zero value otherwise.
+func (o *ParameterConstraint) GetParameterDefRef() string {
+	if o == nil || o.ParameterDefRef == nil {
+		var ret string
+		return ret
+	}
+	return *o.ParameterDefRef
+}
+
+// GetParameterDefRefOk returns a tuple with the ParameterDefRef field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ParameterConstraint) GetParameterDefRefOk() (*string, bool) {
+	if o == nil || o.ParameterDefRef == nil {
+		return nil, false
+	}
+	return o.ParameterDefRef, true
+}
+
+// HasParameterDefRef returns a boolean if a field has been set.
+func (o *ParameterConstraint) HasParameterDefRef() bool {
+	return o != nil && o.ParameterDefRef != nil
+}
+
+// SetParameterDefRef gets a reference to the given string and assigns it to the ParameterDefRef field.
+func (o *ParameterConstraint) SetParameterDefRef(v string) {
+	o.ParameterDefRef = &v
+}
+
 // GetRegex returns the Regex field value.
 func (o *ParameterConstraint) GetRegex() string {
 	if o == nil {
@@ -238,6 +298,12 @@ func (o ParameterConstraint) MarshalJSON() ([]byte, error) {
 	if o.ConstraintRef != nil {
 		toSerialize["constraintRef"] = o.ConstraintRef
 	}
+	if o.ConfigRendererRef != nil {
+		toSerialize["configRendererRef"] = o.ConfigRendererRef
+	}
+	if o.ParameterDefRef != nil {
+		toSerialize["parameterDefRef"] = o.ParameterDefRef
+	}
 	toSerialize["regex"] = o.Regex
 	toSerialize["configFileName"] = o.ConfigFileName
 
@@ -250,13 +316,15 @@ func (o ParameterConstraint) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Family         *string  `json:"family"`
-		MajorVersion   *string  `json:"majorVersion"`
-		Versions       []string `json:"versions,omitempty"`
-		ConfigSpecName *string  `json:"configSpecName"`
-		ConstraintRef  *string  `json:"constraintRef,omitempty"`
-		Regex          *string  `json:"regex"`
-		ConfigFileName *string  `json:"configFileName"`
+		Family            *string  `json:"family"`
+		MajorVersion      *string  `json:"majorVersion"`
+		Versions          []string `json:"versions,omitempty"`
+		ConfigSpecName    *string  `json:"configSpecName"`
+		ConstraintRef     *string  `json:"constraintRef,omitempty"`
+		ConfigRendererRef *string  `json:"configRendererRef,omitempty"`
+		ParameterDefRef   *string  `json:"parameterDefRef,omitempty"`
+		Regex             *string  `json:"regex"`
+		ConfigFileName    *string  `json:"configFileName"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -278,7 +346,7 @@ func (o *ParameterConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"family", "majorVersion", "versions", "configSpecName", "constraintRef", "regex", "configFileName"})
+		common.DeleteKeys(additionalProperties, &[]string{"family", "majorVersion", "versions", "configSpecName", "constraintRef", "configRendererRef", "parameterDefRef", "regex", "configFileName"})
 	} else {
 		return err
 	}
@@ -287,6 +355,8 @@ func (o *ParameterConstraint) UnmarshalJSON(bytes []byte) (err error) {
 	o.Versions = all.Versions
 	o.ConfigSpecName = *all.ConfigSpecName
 	o.ConstraintRef = all.ConstraintRef
+	o.ConfigRendererRef = all.ConfigRendererRef
+	o.ParameterDefRef = all.ParameterDefRef
 	o.Regex = *all.Regex
 	o.ConfigFileName = *all.ConfigFileName
 
