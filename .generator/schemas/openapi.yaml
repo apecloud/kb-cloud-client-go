@@ -10960,6 +10960,165 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/environments/{environmentName}/storages:
+    get:
+      operationId: listStorages
+      summary: List storages
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - name: name
+          description: the search key to search storage's name
+          in: query
+          schema:
+            type: string
+        - name: key
+          description: key to search storage's tag
+          in: query
+          schema:
+            type: string
+        - name: value
+          description: value to search storage's tag
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/storageList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
+    post:
+      operationId: createStorage
+      summary: Create a storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/storageCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/storage'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
+  /api/v1/environments/{environmentName}/storages/{storageName}:
+    get:
+      operationId: getStorage
+      summary: Get a storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/storage'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
+    post:
+      operationId: updateStorage
+      summary: Update a storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/storageUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/storage'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
+    delete:
+      operationId: deleteStorage
+      summary: Delete a storage
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: name of the storage
+          in: path
+          name: storageName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content: {}
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - storage
 components:
   securitySchemes:
     BearerToken:
@@ -19560,6 +19719,101 @@ components:
           description: platformParameter value
         description:
           $ref: '#/components/schemas/localizedDescription'
+    storage:
+      type: object
+      description: Storage is a specification that provides guidance accessing remote storage.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the storage
+        name:
+          type: string
+          description: Name of the storage
+        storageProvider:
+          type: string
+          description: Name of the storage provider
+        params:
+          type: object
+          description: the parameters for the storage
+          additionalProperties:
+            type: string
+        envName:
+          type: string
+          description: the environment name that storage belongs to
+        createdBy:
+          type: string
+          description: User who created the storage
+          format: date-time
+        clusterID:
+          type: string
+          description: the id of cluster that storage used
+          nullable: true
+        updatedBy:
+          type: string
+          description: User who updated the storage
+          format: date-time
+        tags:
+          type: object
+          description: the tags for the storage
+          additionalProperties:
+            type: string
+        engines:
+          type: array
+          items:
+            type: string
+    storageList:
+      type: array
+      items:
+        $ref: '#/components/schemas/storage'
+    storageCreate:
+      description: storageCreate is the schema for the storage create request
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the storage
+        storageProvider:
+          type: string
+          description: Name of the storage provider
+        params:
+          type: object
+          description: the parameters to create the storage
+          additionalProperties:
+            type: string
+        clusterID:
+          type: string
+          description: the id of cluster that storage used
+        tags:
+          type: object
+          description: the tags for the storage
+          additionalProperties:
+            type: string
+        engines:
+          type: array
+          items:
+            type: string
+    storageUpdate:
+      description: storageUpdate is the schema for storage update request
+      type: object
+      properties:
+        params:
+          type: object
+          description: the parameters to create the storage
+          additionalProperties:
+            type: string
+        tags:
+          type: object
+          description: the tags for the storage
+          additionalProperties:
+            type: string
+        engines:
+          type: array
+          items:
+            type: string
+        storageName:
+          type: string
+        envName:
+          type: string
   responses:
     '400':
       content:
