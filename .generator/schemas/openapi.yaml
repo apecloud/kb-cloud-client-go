@@ -15623,6 +15623,7 @@ components:
         - reconfigure
         - backup
         - network unavailable
+        - rebuild instance
     alertStrategy:
       required:
         - receiverIds

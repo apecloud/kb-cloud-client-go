@@ -25,6 +25,7 @@ const (
 	AlterEventReconfigure        AlterEvent = "reconfigure"
 	AlterEventBackup             AlterEvent = "backup"
 	AlterEventNetworkUnavailable AlterEvent = "network unavailable"
+	AlterEventRebuildInstance    AlterEvent = "rebuild instance"
 )
 
 var allowedAlterEventEnumValues = []AlterEvent{
@@ -38,6 +39,7 @@ var allowedAlterEventEnumValues = []AlterEvent{
 	AlterEventReconfigure,
 	AlterEventBackup,
 	AlterEventNetworkUnavailable,
+	AlterEventRebuildInstance,
 }
 
 // GetAllowedValues returns the list of possible values.
