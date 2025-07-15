@@ -15609,6 +15609,20 @@ components:
           type: string
         alertName:
           type: string
+    alterEvent:
+      type: string
+      description: Alert event type
+      enum:
+        - failover
+        - switchover
+        - restart
+        - upgrade
+        - volume expand
+        - vscale
+        - hscale
+        - reconfigure
+        - backup
+        - network unavailable
     alertStrategy:
       required:
         - receiverIds
@@ -15685,6 +15699,10 @@ components:
             onceMinutes:
               type: integer
               description: Only mute once for `onceMinutes` minutes
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/alterEvent'
       description: Alert strategy information
     alertStrategyList:
       required:

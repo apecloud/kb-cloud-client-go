@@ -30,6 +30,7 @@ type AlertStrategy struct {
 	Disabled         *bool                          `json:"disabled,omitempty"`
 	RepeatInterval   *string                        `json:"repeatInterval,omitempty"`
 	MuteTimeInterval *AlertStrategyMuteTimeInterval `json:"muteTimeInterval,omitempty"`
+	Events           []AlterEvent                   `json:"events,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -528,6 +529,34 @@ func (o *AlertStrategy) SetMuteTimeInterval(v AlertStrategyMuteTimeInterval) {
 	o.MuteTimeInterval = &v
 }
 
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *AlertStrategy) GetEvents() []AlterEvent {
+	if o == nil || o.Events == nil {
+		var ret []AlterEvent
+		return ret
+	}
+	return o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertStrategy) GetEventsOk() (*[]AlterEvent, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return &o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *AlertStrategy) HasEvents() bool {
+	return o != nil && o.Events != nil
+}
+
+// SetEvents gets a reference to the given []AlterEvent and assigns it to the Events field.
+func (o *AlertStrategy) SetEvents(v []AlterEvent) {
+	o.Events = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertStrategy) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -591,6 +620,9 @@ func (o AlertStrategy) MarshalJSON() ([]byte, error) {
 	if o.MuteTimeInterval != nil {
 		toSerialize["muteTimeInterval"] = o.MuteTimeInterval
 	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -618,6 +650,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 		Disabled         *bool                          `json:"disabled,omitempty"`
 		RepeatInterval   *string                        `json:"repeatInterval,omitempty"`
 		MuteTimeInterval *AlertStrategyMuteTimeInterval `json:"muteTimeInterval,omitempty"`
+		Events           []AlterEvent                   `json:"events,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -627,7 +660,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "name", "description", "createdAt", "updatedAt", "receiverIds", "receivers", "envs", "severities", "rules", "ruleObjs", "engines", "clusters", "disabled", "repeatInterval", "muteTimeInterval"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "name", "description", "createdAt", "updatedAt", "receiverIds", "receivers", "envs", "severities", "rules", "ruleObjs", "engines", "clusters", "disabled", "repeatInterval", "muteTimeInterval", "events"})
 	} else {
 		return err
 	}
@@ -653,6 +686,7 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.MuteTimeInterval = all.MuteTimeInterval
+	o.Events = all.Events
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
