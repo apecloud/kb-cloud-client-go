@@ -2728,6 +2728,12 @@ paths:
           required: true
           schema:
             type: string
+        - description: The resource type you want to obtain.
+          in: query
+          name: resourceType
+          required: false
+          schema:
+            type: string
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
