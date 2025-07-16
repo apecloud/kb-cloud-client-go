@@ -19762,6 +19762,10 @@ components:
           type: string
           description: the id of cluster that storage used
           nullable: true
+        clusterMetadataAddress:
+          type: string
+          description: the address of cluster
+          nullable: true
         updatedBy:
           type: string
           description: User who updated the storage
