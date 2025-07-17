@@ -10067,7 +10067,7 @@ paths:
         - engine
   /admin/v1/engines/resourceConstraints:
     get:
-      operationId: listEngineRsourceConstraints
+      operationId: listEngineResourceConstraints
       summary: List engine resource constraints
       parameters:
         - description: engine name
@@ -10102,7 +10102,7 @@ paths:
         - engine
         - shared
     post:
-      operationId: createresourceConstraint
+      operationId: createEngineResourceConstraint
       summary: Create engine resource constraint
       requestBody:
         description: Request body for engine resource constraint
@@ -10128,7 +10128,7 @@ paths:
         - engine
   /admin/v1/engines/resourceConstraints/{id}:
     patch:
-      operationId: updateresourceConstraint
+      operationId: updateEngineResourceConstraint
       summary: Update engine resource constraint
       parameters:
         - description: id of the engine resource constraint
@@ -10160,7 +10160,7 @@ paths:
       tags:
         - engine
     delete:
-      operationId: deleteresourceConstraint
+      operationId: deleteEngineResourceConstraint
       summary: Delete engine resource constraint
       parameters:
         - description: id of the engine resource constraint
