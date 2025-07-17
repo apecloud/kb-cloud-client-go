@@ -6108,7 +6108,7 @@ paths:
         - shared
   /api/v1/engines/resourceConstraints:
     get:
-      operationId: listEngineRsourceConstraints
+      operationId: listEngineResourceConstraints
       summary: List engine resource constraints
       parameters:
         - description: engine name
