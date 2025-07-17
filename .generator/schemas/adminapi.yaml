@@ -16457,9 +16457,26 @@ components:
         - HeadlessService
         - LoadBalancer
       type: string
+    serviceDescriptor:
+      type: object
+      description: serviceDescriptor that will be used in serviceRef.
+      required:
+        - host
+        - port
+      properties:
+        host:
+          type: string
+        port:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
     serviceRef:
       type: object
-      description: defines a serviceRef that references service provided by other cluster or external service
+      description: |
+        defines a serviceRef that references service provided by other cluster or external service.
+        Only one of cluster or serviceDescriptor field should be set.
       required:
         - name
       properties:
@@ -16470,18 +16487,27 @@ components:
           type: string
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
-            be at the same orgnazation as the current cluster.
-    clusterStorageConfig:
+            be at the same organization as the current cluster.
+        serviceDescriptor:
+          $ref: '#/components/schemas/serviceDescriptor'
+    clusterObjectStorageConfig:
       type: object
+      description: Specify the object storage config for cluster like starrocks
       required:
-        - storageName
+        - serviceRef
+        - bucket
       properties:
-        storageName:
-          type: string
-          description: the name of storage
+        serviceRef:
+          $ref: '#/components/schemas/serviceRef'
         bucket:
           type: string
-          description: the bucket name for the storage
+          description: the bucket name for the object storage
+        path:
+          type: string
+          description: root path where cluster stores data in the bucket. Default to `{environmentID}/{kubernetesNamespace}/{kubernetesClusterName}`
+        usePathStyle:
+          type: boolean
+          description: whether the object storage is using path-style. If false, virtual host style will be used.
     clusterCreate:
       required:
         - engine
@@ -16575,8 +16601,7 @@ components:
           items:
             $ref: '#/components/schemas/serviceRef'
         storageConfig:
-          description: Specify the storage config for cluster like starrocks
-          $ref: '#/components/schemas/clusterStorageConfig'
+          $ref: '#/components/schemas/clusterObjectStorageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -22633,6 +22658,8 @@ components:
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
           required:
             - namespace
+            - cluster
+            - serviceDescriptor
           properties:
             namespace:
               type: string
@@ -22649,6 +22676,9 @@ components:
             port:
               type: string
               description: see serviceSelectors
+            serviceDescriptor:
+              type: string
+              description: the name of the referenced serviceDescriptor
         serviceSelectors:
           type: array
           description: |
@@ -22656,6 +22686,29 @@ components:
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+    modeObjectStorage:
+      type: object
+      description: |
+        object storage related configs
+      properties:
+        enabled:
+          type: boolean
+          description: if object storage is enabled for this mode
+        serviceRef:
+          $ref: '#/components/schemas/modeServiceRef'
+        additionalHelmValuePath:
+          type: object
+          description: The path in helm values that some object storage config will use.
+          required:
+            - bucket
+            - path
+          properties:
+            bucket:
+              type: string
+              description: the bucket name for the object storage
+            path:
+              type: string
+              description: root path where cluster stores data in the bucket
     modeOption:
       type: object
       required:
@@ -22702,6 +22755,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeServiceRef'
+        objectStorage:
+          $ref: '#/components/schemas/modeObjectStorage'
     accountOption:
       type: object
       required:
@@ -23601,9 +23656,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
-        useStorage:
-          type: boolean
-          description: Indicate whether the current cluster requires users to select storage
     engineOptionList:
       required:
         - items
