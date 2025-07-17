@@ -207,6 +207,86 @@ func (a *EngineApi) ListUpgradeableServiceVersion(ctx _context.Context, clusterN
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// CreateEngineResourceConstraint Create engine resource constraint.
+func (a *EngineApi) CreateEngineResourceConstraint(ctx _context.Context, body ResourceConstraintCreate) (ResourceConstraint, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodPost
+		localVarPostBody    interface{}
+		localVarReturnValue ResourceConstraint
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "engine",
+		OperationID: "createEngineResourceConstraint",
+		Path:        "/admin/v1/engines/resourceConstraints",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.CreateEngineResourceConstraint")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/engines/resourceConstraints"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
+	localVarHeaderParams["Accept"] = "application/json"
+
+	// body params
+	localVarPostBody = &body
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // CreateEngineVersion Create engine version.
 // Create engine version
 func (a *EngineApi) CreateEngineVersion(ctx _context.Context, body EngineVersionCreate) (EngineVersion, *_nethttp.Response, error) {
@@ -288,38 +368,35 @@ func (a *EngineApi) CreateEngineVersion(ctx _context.Context, body EngineVersion
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// CreateresourceConstraint Create engine resource constraint.
-func (a *EngineApi) CreateresourceConstraint(ctx _context.Context, body ResourceConstraintCreate) (ResourceConstraint, *_nethttp.Response, error) {
+// DeleteEngineResourceConstraint Delete engine resource constraint.
+func (a *EngineApi) DeleteEngineResourceConstraint(ctx _context.Context, id string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodPost
-		localVarPostBody    interface{}
-		localVarReturnValue ResourceConstraint
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
-		OperationID: "createresourceConstraint",
-		Path:        "/admin/v1/engines/resourceConstraints",
+		OperationID: "deleteEngineResourceConstraint",
+		Path:        "/admin/v1/engines/resourceConstraints/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.CreateresourceConstraint")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.DeleteEngineResourceConstraint")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/engines/resourceConstraints"
+	localVarPath := localBasePath + "/admin/v1/engines/resourceConstraints/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -327,17 +404,17 @@ func (a *EngineApi) CreateresourceConstraint(ctx _context.Context, body Resource
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -349,23 +426,14 @@ func (a *EngineApi) CreateresourceConstraint(ctx _context.Context, body Resource
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // DeleteEngineVersionOptionalParameters holds optional parameters for DeleteEngineVersion.
@@ -426,74 +494,6 @@ func (a *EngineApi) DeleteEngineVersion(ctx _context.Context, o ...DeleteEngineV
 	if optionalParams.Body != nil {
 		localVarPostBody = &optionalParams.Body
 	}
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
-// DeleteresourceConstraint Delete engine resource constraint.
-func (a *EngineApi) DeleteresourceConstraint(ctx _context.Context, id string) (*_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "engine",
-		OperationID: "deleteresourceConstraint",
-		Path:        "/admin/v1/engines/resourceConstraints/{id}",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.DeleteresourceConstraint")
-	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/engines/resourceConstraints/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -840,48 +840,48 @@ func (a *EngineApi) ListAllEngines(ctx _context.Context, o ...ListAllEnginesOpti
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListEngineRsourceConstraintsOptionalParameters holds optional parameters for ListEngineRsourceConstraints.
-type ListEngineRsourceConstraintsOptionalParameters struct {
+// ListEngineResourceConstraintsOptionalParameters holds optional parameters for ListEngineResourceConstraints.
+type ListEngineResourceConstraintsOptionalParameters struct {
 	Engine    *string
 	Mode      *string
 	Component *string
 }
 
-// NewListEngineRsourceConstraintsOptionalParameters creates an empty struct for parameters.
-func NewListEngineRsourceConstraintsOptionalParameters() *ListEngineRsourceConstraintsOptionalParameters {
-	this := ListEngineRsourceConstraintsOptionalParameters{}
+// NewListEngineResourceConstraintsOptionalParameters creates an empty struct for parameters.
+func NewListEngineResourceConstraintsOptionalParameters() *ListEngineResourceConstraintsOptionalParameters {
+	this := ListEngineResourceConstraintsOptionalParameters{}
 	return &this
 }
 
 // WithEngine sets the corresponding parameter name and returns the struct.
-func (r *ListEngineRsourceConstraintsOptionalParameters) WithEngine(engine string) *ListEngineRsourceConstraintsOptionalParameters {
+func (r *ListEngineResourceConstraintsOptionalParameters) WithEngine(engine string) *ListEngineResourceConstraintsOptionalParameters {
 	r.Engine = &engine
 	return r
 }
 
 // WithMode sets the corresponding parameter name and returns the struct.
-func (r *ListEngineRsourceConstraintsOptionalParameters) WithMode(mode string) *ListEngineRsourceConstraintsOptionalParameters {
+func (r *ListEngineResourceConstraintsOptionalParameters) WithMode(mode string) *ListEngineResourceConstraintsOptionalParameters {
 	r.Mode = &mode
 	return r
 }
 
 // WithComponent sets the corresponding parameter name and returns the struct.
-func (r *ListEngineRsourceConstraintsOptionalParameters) WithComponent(component string) *ListEngineRsourceConstraintsOptionalParameters {
+func (r *ListEngineResourceConstraintsOptionalParameters) WithComponent(component string) *ListEngineResourceConstraintsOptionalParameters {
 	r.Component = &component
 	return r
 }
 
-// ListEngineRsourceConstraints List engine resource constraints.
-func (a *EngineApi) ListEngineRsourceConstraints(ctx _context.Context, o ...ListEngineRsourceConstraintsOptionalParameters) (ResourceConstraintList, *_nethttp.Response, error) {
+// ListEngineResourceConstraints List engine resource constraints.
+func (a *EngineApi) ListEngineResourceConstraints(ctx _context.Context, o ...ListEngineResourceConstraintsOptionalParameters) (ResourceConstraintList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue ResourceConstraintList
-		optionalParams      ListEngineRsourceConstraintsOptionalParameters
+		optionalParams      ListEngineResourceConstraintsOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineRsourceConstraintsOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineResourceConstraintsOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -890,13 +890,13 @@ func (a *EngineApi) ListEngineRsourceConstraints(ctx _context.Context, o ...List
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
-		OperationID: "listEngineRsourceConstraints",
+		OperationID: "listEngineResourceConstraints",
 		Path:        "/admin/v1/engines/resourceConstraints",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEngineRsourceConstraints")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEngineResourceConstraints")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -1271,8 +1271,8 @@ func (a *EngineApi) PatchEngineVersion(ctx _context.Context, body EngineVersionU
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateresourceConstraint Update engine resource constraint.
-func (a *EngineApi) UpdateresourceConstraint(ctx _context.Context, id string, body ResourceConstraintUpdate) (ResourceConstraint, *_nethttp.Response, error) {
+// UpdateEngineResourceConstraint Update engine resource constraint.
+func (a *EngineApi) UpdateEngineResourceConstraint(ctx _context.Context, id string, body ResourceConstraintUpdate) (ResourceConstraint, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -1282,13 +1282,13 @@ func (a *EngineApi) UpdateresourceConstraint(ctx _context.Context, id string, bo
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
-		OperationID: "updateresourceConstraint",
+		OperationID: "updateEngineResourceConstraint",
 		Path:        "/admin/v1/engines/resourceConstraints/{id}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.UpdateresourceConstraint")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.UpdateEngineResourceConstraint")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

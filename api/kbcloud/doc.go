@@ -151,7 +151,7 @@
 //   - [engineApi.ListServiceVersion]
 //   - [engineApi.ListUpgradeableServiceVersion]
 //   - [engineApi.listEngineLicenses]
-//   - [engineApi.listEngineRsourceConstraints]
+//   - [engineApi.listEngineResourceConstraints]
 //   - [engineApi.listEnginesInEnv]
 //   - [engineOptionApi.getEngineOption]
 //   - [engineOptionApi.listEngineOptions]
