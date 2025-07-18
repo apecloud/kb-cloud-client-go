@@ -16222,6 +16222,10 @@ components:
           type: string
         port:
           type: string
+        credentialComponent:
+          type: string
+        credentialName:
+          type: string
     modeServiceRef:
       type: object
       description: |
@@ -16263,13 +16267,20 @@ components:
             port:
               type: string
               description: see serviceSelectors
+            credentialComponent:
+              type: string
+              description: see serviceSelectors
+            credentialName:
+              type: string
+              description: see serviceSelectors
             serviceDescriptor:
               type: string
               description: the name of the referenced serviceDescriptor
         serviceSelectors:
           type: array
           description: |
-            ServiceSelectors will map cluster's mode to a serviceSelector.
+            ServiceSelectors will map cluster's mode to a serviceSelector. The serviceSelector
+            will be used to provide the corresponding helm values.
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'

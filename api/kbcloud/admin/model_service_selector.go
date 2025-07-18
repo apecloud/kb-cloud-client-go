@@ -14,10 +14,12 @@ import (
 // appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
 type ServiceSelector struct {
 	// referenced cluster's mode
-	Mode      string `json:"mode"`
-	Component string `json:"component"`
-	Service   string `json:"service"`
-	Port      string `json:"port"`
+	Mode                string  `json:"mode"`
+	Component           string  `json:"component"`
+	Service             string  `json:"service"`
+	Port                string  `json:"port"`
+	CredentialComponent *string `json:"credentialComponent,omitempty"`
+	CredentialName      *string `json:"credentialName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -136,6 +138,62 @@ func (o *ServiceSelector) SetPort(v string) {
 	o.Port = v
 }
 
+// GetCredentialComponent returns the CredentialComponent field value if set, zero value otherwise.
+func (o *ServiceSelector) GetCredentialComponent() string {
+	if o == nil || o.CredentialComponent == nil {
+		var ret string
+		return ret
+	}
+	return *o.CredentialComponent
+}
+
+// GetCredentialComponentOk returns a tuple with the CredentialComponent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceSelector) GetCredentialComponentOk() (*string, bool) {
+	if o == nil || o.CredentialComponent == nil {
+		return nil, false
+	}
+	return o.CredentialComponent, true
+}
+
+// HasCredentialComponent returns a boolean if a field has been set.
+func (o *ServiceSelector) HasCredentialComponent() bool {
+	return o != nil && o.CredentialComponent != nil
+}
+
+// SetCredentialComponent gets a reference to the given string and assigns it to the CredentialComponent field.
+func (o *ServiceSelector) SetCredentialComponent(v string) {
+	o.CredentialComponent = &v
+}
+
+// GetCredentialName returns the CredentialName field value if set, zero value otherwise.
+func (o *ServiceSelector) GetCredentialName() string {
+	if o == nil || o.CredentialName == nil {
+		var ret string
+		return ret
+	}
+	return *o.CredentialName
+}
+
+// GetCredentialNameOk returns a tuple with the CredentialName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceSelector) GetCredentialNameOk() (*string, bool) {
+	if o == nil || o.CredentialName == nil {
+		return nil, false
+	}
+	return o.CredentialName, true
+}
+
+// HasCredentialName returns a boolean if a field has been set.
+func (o *ServiceSelector) HasCredentialName() bool {
+	return o != nil && o.CredentialName != nil
+}
+
+// SetCredentialName gets a reference to the given string and assigns it to the CredentialName field.
+func (o *ServiceSelector) SetCredentialName(v string) {
+	o.CredentialName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ServiceSelector) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -146,6 +204,12 @@ func (o ServiceSelector) MarshalJSON() ([]byte, error) {
 	toSerialize["component"] = o.Component
 	toSerialize["service"] = o.Service
 	toSerialize["port"] = o.Port
+	if o.CredentialComponent != nil {
+		toSerialize["credentialComponent"] = o.CredentialComponent
+	}
+	if o.CredentialName != nil {
+		toSerialize["credentialName"] = o.CredentialName
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -156,10 +220,12 @@ func (o ServiceSelector) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ServiceSelector) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Mode      *string `json:"mode"`
-		Component *string `json:"component"`
-		Service   *string `json:"service"`
-		Port      *string `json:"port"`
+		Mode                *string `json:"mode"`
+		Component           *string `json:"component"`
+		Service             *string `json:"service"`
+		Port                *string `json:"port"`
+		CredentialComponent *string `json:"credentialComponent,omitempty"`
+		CredentialName      *string `json:"credentialName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -178,7 +244,7 @@ func (o *ServiceSelector) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"mode", "component", "service", "port"})
+		common.DeleteKeys(additionalProperties, &[]string{"mode", "component", "service", "port", "credentialComponent", "credentialName"})
 	} else {
 		return err
 	}
@@ -186,6 +252,8 @@ func (o *ServiceSelector) UnmarshalJSON(bytes []byte) (err error) {
 	o.Component = *all.Component
 	o.Service = *all.Service
 	o.Port = *all.Port
+	o.CredentialComponent = all.CredentialComponent
+	o.CredentialName = all.CredentialName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

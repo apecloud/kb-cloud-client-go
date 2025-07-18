@@ -21,7 +21,8 @@ type ModeServiceRef struct {
 	EngineName string `json:"engineName"`
 	// The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
-	// ServiceSelectors will map cluster's mode to a serviceSelector.
+	// ServiceSelectors will map cluster's mode to a serviceSelector. The serviceSelector
+	// will be used to provide the corresponding helm values.
 	// If no serviceSelector is matched, the corresponding helm value will not be set.
 	//
 	ServiceSelectors []ServiceSelector `json:"serviceSelectors,omitempty"`
