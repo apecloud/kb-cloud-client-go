@@ -16111,6 +16111,21 @@ components:
         compatibleMethod:
           description: The compatible full backup method for incremental backup method
           type: string
+        restoreOption:
+          type: object
+          properties:
+            restoreOnComponents:
+              type: array
+              description: |
+                If this backup needs to be restored on multiple components, the names of those components must be specified. 
+                If the restore is only required on the backed-up component itself, then no configuration is needed.
+              items:
+                type: string
+            deferPostReadyUntilClusterRunning:
+              type: boolean
+              description: |
+                If set to true, the restore will be ready after the cluster is running.
+                If set to false, the restore will be ready after the cluster is created.
         description:
           $ref: '#/components/schemas/localizedDescription'
     backupOption:
