@@ -56,7 +56,7 @@ type ClusterCreate struct {
 	NetworkMode *NetworkMode `json:"networkMode,omitempty"`
 	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
 	// Specify the object storage config for cluster like starrocks
-	StorageConfig *ClusterObjectStorageConfig `json:"storageConfig,omitempty"`
+	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -760,32 +760,32 @@ func (o *ClusterCreate) SetServiceRefs(v []ServiceRef) {
 	o.ServiceRefs = v
 }
 
-// GetStorageConfig returns the StorageConfig field value if set, zero value otherwise.
-func (o *ClusterCreate) GetStorageConfig() ClusterObjectStorageConfig {
-	if o == nil || o.StorageConfig == nil {
+// GetObjectStorageConfig returns the ObjectStorageConfig field value if set, zero value otherwise.
+func (o *ClusterCreate) GetObjectStorageConfig() ClusterObjectStorageConfig {
+	if o == nil || o.ObjectStorageConfig == nil {
 		var ret ClusterObjectStorageConfig
 		return ret
 	}
-	return *o.StorageConfig
+	return *o.ObjectStorageConfig
 }
 
-// GetStorageConfigOk returns a tuple with the StorageConfig field value if set, nil otherwise
+// GetObjectStorageConfigOk returns a tuple with the ObjectStorageConfig field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterCreate) GetStorageConfigOk() (*ClusterObjectStorageConfig, bool) {
-	if o == nil || o.StorageConfig == nil {
+func (o *ClusterCreate) GetObjectStorageConfigOk() (*ClusterObjectStorageConfig, bool) {
+	if o == nil || o.ObjectStorageConfig == nil {
 		return nil, false
 	}
-	return o.StorageConfig, true
+	return o.ObjectStorageConfig, true
 }
 
-// HasStorageConfig returns a boolean if a field has been set.
-func (o *ClusterCreate) HasStorageConfig() bool {
-	return o != nil && o.StorageConfig != nil
+// HasObjectStorageConfig returns a boolean if a field has been set.
+func (o *ClusterCreate) HasObjectStorageConfig() bool {
+	return o != nil && o.ObjectStorageConfig != nil
 }
 
-// SetStorageConfig gets a reference to the given ClusterObjectStorageConfig and assigns it to the StorageConfig field.
-func (o *ClusterCreate) SetStorageConfig(v ClusterObjectStorageConfig) {
-	o.StorageConfig = &v
+// SetObjectStorageConfig gets a reference to the given ClusterObjectStorageConfig and assigns it to the ObjectStorageConfig field.
+func (o *ClusterCreate) SetObjectStorageConfig(v ClusterObjectStorageConfig) {
+	o.ObjectStorageConfig = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -857,8 +857,8 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.ServiceRefs != nil {
 		toSerialize["serviceRefs"] = o.ServiceRefs
 	}
-	if o.StorageConfig != nil {
-		toSerialize["storageConfig"] = o.StorageConfig
+	if o.ObjectStorageConfig != nil {
+		toSerialize["objectStorageConfig"] = o.ObjectStorageConfig
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -870,30 +870,30 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ParentId          common.NullableString       `json:"parentId,omitempty"`
-		ClusterType       NullableClusterType         `json:"clusterType,omitempty"`
-		OrgName           *string                     `json:"orgName,omitempty"`
-		EnvironmentName   *string                     `json:"environmentName"`
-		Project           *string                     `json:"project,omitempty"`
-		Name              *string                     `json:"name"`
-		Engine            *string                     `json:"engine"`
-		License           *ClusterLicense             `json:"license,omitempty"`
-		ParamTpls         []ParamTplsItem             `json:"paramTpls,omitempty"`
-		Version           *string                     `json:"version,omitempty"`
-		TerminationPolicy *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
-		Mode              *string                     `json:"mode,omitempty"`
-		Components        []ComponentItemCreate       `json:"components,omitempty"`
-		Extra             map[string]interface{}      `json:"extra,omitempty"`
-		InitOptions       []InitOptionItem            `json:"initOptions,omitempty"`
-		SingleZone        *bool                       `json:"singleZone,omitempty"`
-		AvailabilityZones []string                    `json:"availabilityZones,omitempty"`
-		Backup            *ClusterBackup              `json:"backup,omitempty"`
-		NodeGroup         common.NullableString       `json:"nodeGroup,omitempty"`
-		DisplayName       *string                     `json:"displayName,omitempty"`
-		Static            *bool                       `json:"static,omitempty"`
-		NetworkMode       *NetworkMode                `json:"networkMode,omitempty"`
-		ServiceRefs       []ServiceRef                `json:"serviceRefs,omitempty"`
-		StorageConfig     *ClusterObjectStorageConfig `json:"storageConfig,omitempty"`
+		ParentId            common.NullableString       `json:"parentId,omitempty"`
+		ClusterType         NullableClusterType         `json:"clusterType,omitempty"`
+		OrgName             *string                     `json:"orgName,omitempty"`
+		EnvironmentName     *string                     `json:"environmentName"`
+		Project             *string                     `json:"project,omitempty"`
+		Name                *string                     `json:"name"`
+		Engine              *string                     `json:"engine"`
+		License             *ClusterLicense             `json:"license,omitempty"`
+		ParamTpls           []ParamTplsItem             `json:"paramTpls,omitempty"`
+		Version             *string                     `json:"version,omitempty"`
+		TerminationPolicy   *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
+		Mode                *string                     `json:"mode,omitempty"`
+		Components          []ComponentItemCreate       `json:"components,omitempty"`
+		Extra               map[string]interface{}      `json:"extra,omitempty"`
+		InitOptions         []InitOptionItem            `json:"initOptions,omitempty"`
+		SingleZone          *bool                       `json:"singleZone,omitempty"`
+		AvailabilityZones   []string                    `json:"availabilityZones,omitempty"`
+		Backup              *ClusterBackup              `json:"backup,omitempty"`
+		NodeGroup           common.NullableString       `json:"nodeGroup,omitempty"`
+		DisplayName         *string                     `json:"displayName,omitempty"`
+		Static              *bool                       `json:"static,omitempty"`
+		NetworkMode         *NetworkMode                `json:"networkMode,omitempty"`
+		ServiceRefs         []ServiceRef                `json:"serviceRefs,omitempty"`
+		ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -909,7 +909,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "storageConfig"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig"})
 	} else {
 		return err
 	}
@@ -956,10 +956,10 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		o.NetworkMode = all.NetworkMode
 	}
 	o.ServiceRefs = all.ServiceRefs
-	if all.StorageConfig != nil && all.StorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+	if all.ObjectStorageConfig != nil && all.ObjectStorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
-	o.StorageConfig = all.StorageConfig
+	o.ObjectStorageConfig = all.ObjectStorageConfig
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

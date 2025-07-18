@@ -16600,7 +16600,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
-        storageConfig:
+        objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
       description: KubeBlocks cluster information
     componentItem:
