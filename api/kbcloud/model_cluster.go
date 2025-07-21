@@ -92,6 +92,8 @@ type Cluster struct {
 	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
 	// this list of objects (currently, object is a cluster) that uses this cluster as a serviceRef
 	ReferencedBy []ServiceRef `json:"referencedBy,omitempty"`
+	// Specify the object storage config for cluster like starrocks
+	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1348,6 +1350,34 @@ func (o *Cluster) SetReferencedBy(v []ServiceRef) {
 	o.ReferencedBy = v
 }
 
+// GetObjectStorageConfig returns the ObjectStorageConfig field value if set, zero value otherwise.
+func (o *Cluster) GetObjectStorageConfig() ClusterObjectStorageConfig {
+	if o == nil || o.ObjectStorageConfig == nil {
+		var ret ClusterObjectStorageConfig
+		return ret
+	}
+	return *o.ObjectStorageConfig
+}
+
+// GetObjectStorageConfigOk returns a tuple with the ObjectStorageConfig field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetObjectStorageConfigOk() (*ClusterObjectStorageConfig, bool) {
+	if o == nil || o.ObjectStorageConfig == nil {
+		return nil, false
+	}
+	return o.ObjectStorageConfig, true
+}
+
+// HasObjectStorageConfig returns a boolean if a field has been set.
+func (o *Cluster) HasObjectStorageConfig() bool {
+	return o != nil && o.ObjectStorageConfig != nil
+}
+
+// SetObjectStorageConfig gets a reference to the given ClusterObjectStorageConfig and assigns it to the ObjectStorageConfig field.
+func (o *Cluster) SetObjectStorageConfig(v ClusterObjectStorageConfig) {
+	o.ObjectStorageConfig = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1479,6 +1509,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.ReferencedBy != nil {
 		toSerialize["referencedBy"] = o.ReferencedBy
 	}
+	if o.ObjectStorageConfig != nil {
+		toSerialize["objectStorageConfig"] = o.ObjectStorageConfig
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1489,47 +1522,48 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                     *string                   `json:"id,omitempty"`
-		ParentId               common.NullableString     `json:"parentId,omitempty"`
-		ParentName             common.NullableString     `json:"parentName,omitempty"`
-		ParentDisplayName      common.NullableString     `json:"parentDisplayName,omitempty"`
-		ClusterType            NullableClusterType       `json:"clusterType,omitempty"`
-		Delay                  common.NullableFloat64    `json:"delay,omitempty"`
-		OrgName                *string                   `json:"orgName,omitempty"`
-		CloudProvider          *string                   `json:"cloudProvider,omitempty"`
-		EnvironmentId          *string                   `json:"environmentId,omitempty"`
-		EnvironmentName        *string                   `json:"environmentName"`
-		EnvironmentType        *string                   `json:"environmentType,omitempty"`
-		CloudRegion            *string                   `json:"cloudRegion,omitempty"`
-		Project                *string                   `json:"project,omitempty"`
-		Name                   *string                   `json:"name"`
-		Hash                   *string                   `json:"hash,omitempty"`
-		Engine                 *string                   `json:"engine"`
-		License                *ClusterLicense           `json:"license,omitempty"`
-		ParamTpls              []ParamTplsItem           `json:"paramTpls,omitempty"`
-		Version                *string                   `json:"version,omitempty"`
-		TerminationPolicy      *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		TlsEnabled             *bool                     `json:"tlsEnabled,omitempty"`
-		NodePortEnabled        *bool                     `json:"nodePortEnabled,omitempty"`
-		Status                 *string                   `json:"status,omitempty"`
-		CreatedAt              *time.Time                `json:"createdAt,omitempty"`
-		UpdatedAt              *time.Time                `json:"updatedAt,omitempty"`
-		Mode                   *string                   `json:"mode,omitempty"`
-		ProxyEnabled           *bool                     `json:"proxyEnabled,omitempty"`
-		Components             []ComponentItem           `json:"components,omitempty"`
-		Extra                  map[string]interface{}    `json:"extra,omitempty"`
-		InitOptions            []InitOptionItem          `json:"initOptions,omitempty"`
-		SingleZone             *bool                     `json:"singleZone,omitempty"`
-		AvailabilityZones      []string                  `json:"availabilityZones,omitempty"`
-		PodAntiAffinityEnabled *bool                     `json:"podAntiAffinityEnabled,omitempty"`
-		Backup                 *ClusterBackup            `json:"backup,omitempty"`
-		NodeGroup              common.NullableString     `json:"nodeGroup,omitempty"`
-		CodeShort              *string                   `json:"codeShort,omitempty"`
-		DisplayName            *string                   `json:"displayName,omitempty"`
-		Static                 *bool                     `json:"static,omitempty"`
-		NetworkMode            *NetworkMode              `json:"networkMode,omitempty"`
-		ServiceRefs            []ServiceRef              `json:"serviceRefs,omitempty"`
-		ReferencedBy           []ServiceRef              `json:"referencedBy,omitempty"`
+		Id                     *string                     `json:"id,omitempty"`
+		ParentId               common.NullableString       `json:"parentId,omitempty"`
+		ParentName             common.NullableString       `json:"parentName,omitempty"`
+		ParentDisplayName      common.NullableString       `json:"parentDisplayName,omitempty"`
+		ClusterType            NullableClusterType         `json:"clusterType,omitempty"`
+		Delay                  common.NullableFloat64      `json:"delay,omitempty"`
+		OrgName                *string                     `json:"orgName,omitempty"`
+		CloudProvider          *string                     `json:"cloudProvider,omitempty"`
+		EnvironmentId          *string                     `json:"environmentId,omitempty"`
+		EnvironmentName        *string                     `json:"environmentName"`
+		EnvironmentType        *string                     `json:"environmentType,omitempty"`
+		CloudRegion            *string                     `json:"cloudRegion,omitempty"`
+		Project                *string                     `json:"project,omitempty"`
+		Name                   *string                     `json:"name"`
+		Hash                   *string                     `json:"hash,omitempty"`
+		Engine                 *string                     `json:"engine"`
+		License                *ClusterLicense             `json:"license,omitempty"`
+		ParamTpls              []ParamTplsItem             `json:"paramTpls,omitempty"`
+		Version                *string                     `json:"version,omitempty"`
+		TerminationPolicy      *ClusterTerminationPolicy   `json:"terminationPolicy,omitempty"`
+		TlsEnabled             *bool                       `json:"tlsEnabled,omitempty"`
+		NodePortEnabled        *bool                       `json:"nodePortEnabled,omitempty"`
+		Status                 *string                     `json:"status,omitempty"`
+		CreatedAt              *time.Time                  `json:"createdAt,omitempty"`
+		UpdatedAt              *time.Time                  `json:"updatedAt,omitempty"`
+		Mode                   *string                     `json:"mode,omitempty"`
+		ProxyEnabled           *bool                       `json:"proxyEnabled,omitempty"`
+		Components             []ComponentItem             `json:"components,omitempty"`
+		Extra                  map[string]interface{}      `json:"extra,omitempty"`
+		InitOptions            []InitOptionItem            `json:"initOptions,omitempty"`
+		SingleZone             *bool                       `json:"singleZone,omitempty"`
+		AvailabilityZones      []string                    `json:"availabilityZones,omitempty"`
+		PodAntiAffinityEnabled *bool                       `json:"podAntiAffinityEnabled,omitempty"`
+		Backup                 *ClusterBackup              `json:"backup,omitempty"`
+		NodeGroup              common.NullableString       `json:"nodeGroup,omitempty"`
+		CodeShort              *string                     `json:"codeShort,omitempty"`
+		DisplayName            *string                     `json:"displayName,omitempty"`
+		Static                 *bool                       `json:"static,omitempty"`
+		NetworkMode            *NetworkMode                `json:"networkMode,omitempty"`
+		ServiceRefs            []ServiceRef                `json:"serviceRefs,omitempty"`
+		ReferencedBy           []ServiceRef                `json:"referencedBy,omitempty"`
+		ObjectStorageConfig    *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1545,7 +1579,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig"})
 	} else {
 		return err
 	}
@@ -1610,6 +1644,10 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ServiceRefs = all.ServiceRefs
 	o.ReferencedBy = all.ReferencedBy
+	if all.ObjectStorageConfig != nil && all.ObjectStorageConfig.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ObjectStorageConfig = all.ObjectStorageConfig
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

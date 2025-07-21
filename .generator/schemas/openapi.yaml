@@ -13300,6 +13300,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
+        objectStorageConfig:
+          $ref: '#/components/schemas/clusterObjectStorageConfig'
       description: KubeBlocks cluster details
     clusterUpdate:
       type: object
