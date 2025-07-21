@@ -10,12 +10,14 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ModeObjectStorageAdditionalHelmValuePath The path in helm values that some object storage config will use.
+// ModeObjectStorageAdditionalHelmValuePath The path in helm values that some object storage config will use. If empty, the values will not be set.
 type ModeObjectStorageAdditionalHelmValuePath struct {
 	// the bucket name for the object storage
 	Bucket string `json:"bucket"`
 	// root path where cluster stores data in the bucket
-	Path string `json:"path"`
+	Path *string `json:"path,omitempty"`
+	// whether the object storage is using path style or virtual host style.
+	UsePathStyle *string `json:"usePathStyle,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -25,10 +27,9 @@ type ModeObjectStorageAdditionalHelmValuePath struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeObjectStorageAdditionalHelmValuePath(bucket string, path string) *ModeObjectStorageAdditionalHelmValuePath {
+func NewModeObjectStorageAdditionalHelmValuePath(bucket string) *ModeObjectStorageAdditionalHelmValuePath {
 	this := ModeObjectStorageAdditionalHelmValuePath{}
 	this.Bucket = bucket
-	this.Path = path
 	return &this
 }
 
@@ -63,27 +64,60 @@ func (o *ModeObjectStorageAdditionalHelmValuePath) SetBucket(v string) {
 	o.Bucket = v
 }
 
-// GetPath returns the Path field value.
+// GetPath returns the Path field value if set, zero value otherwise.
 func (o *ModeObjectStorageAdditionalHelmValuePath) GetPath() string {
-	if o == nil {
+	if o == nil || o.Path == nil {
 		var ret string
 		return ret
 	}
-	return o.Path
+	return *o.Path
 }
 
-// GetPathOk returns a tuple with the Path field value
+// GetPathOk returns a tuple with the Path field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ModeObjectStorageAdditionalHelmValuePath) GetPathOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Path == nil {
 		return nil, false
 	}
-	return &o.Path, true
+	return o.Path, true
 }
 
-// SetPath sets field value.
+// HasPath returns a boolean if a field has been set.
+func (o *ModeObjectStorageAdditionalHelmValuePath) HasPath() bool {
+	return o != nil && o.Path != nil
+}
+
+// SetPath gets a reference to the given string and assigns it to the Path field.
 func (o *ModeObjectStorageAdditionalHelmValuePath) SetPath(v string) {
-	o.Path = v
+	o.Path = &v
+}
+
+// GetUsePathStyle returns the UsePathStyle field value if set, zero value otherwise.
+func (o *ModeObjectStorageAdditionalHelmValuePath) GetUsePathStyle() string {
+	if o == nil || o.UsePathStyle == nil {
+		var ret string
+		return ret
+	}
+	return *o.UsePathStyle
+}
+
+// GetUsePathStyleOk returns a tuple with the UsePathStyle field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeObjectStorageAdditionalHelmValuePath) GetUsePathStyleOk() (*string, bool) {
+	if o == nil || o.UsePathStyle == nil {
+		return nil, false
+	}
+	return o.UsePathStyle, true
+}
+
+// HasUsePathStyle returns a boolean if a field has been set.
+func (o *ModeObjectStorageAdditionalHelmValuePath) HasUsePathStyle() bool {
+	return o != nil && o.UsePathStyle != nil
+}
+
+// SetUsePathStyle gets a reference to the given string and assigns it to the UsePathStyle field.
+func (o *ModeObjectStorageAdditionalHelmValuePath) SetUsePathStyle(v string) {
+	o.UsePathStyle = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -93,7 +127,12 @@ func (o ModeObjectStorageAdditionalHelmValuePath) MarshalJSON() ([]byte, error) 
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["bucket"] = o.Bucket
-	toSerialize["path"] = o.Path
+	if o.Path != nil {
+		toSerialize["path"] = o.Path
+	}
+	if o.UsePathStyle != nil {
+		toSerialize["usePathStyle"] = o.UsePathStyle
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -104,8 +143,9 @@ func (o ModeObjectStorageAdditionalHelmValuePath) MarshalJSON() ([]byte, error) 
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeObjectStorageAdditionalHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Bucket *string `json:"bucket"`
-		Path   *string `json:"path"`
+		Bucket       *string `json:"bucket"`
+		Path         *string `json:"path,omitempty"`
+		UsePathStyle *string `json:"usePathStyle,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -113,17 +153,15 @@ func (o *ModeObjectStorageAdditionalHelmValuePath) UnmarshalJSON(bytes []byte) (
 	if all.Bucket == nil {
 		return fmt.Errorf("required field bucket missing")
 	}
-	if all.Path == nil {
-		return fmt.Errorf("required field path missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"bucket", "path"})
+		common.DeleteKeys(additionalProperties, &[]string{"bucket", "path", "usePathStyle"})
 	} else {
 		return err
 	}
 	o.Bucket = *all.Bucket
-	o.Path = *all.Path
+	o.Path = all.Path
+	o.UsePathStyle = all.UsePathStyle
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

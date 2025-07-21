@@ -22709,10 +22709,9 @@ components:
           $ref: '#/components/schemas/modeServiceRef'
         additionalHelmValuePath:
           type: object
-          description: The path in helm values that some object storage config will use.
+          description: The path in helm values that some object storage config will use. If empty, the values will not be set.
           required:
             - bucket
-            - path
           properties:
             bucket:
               type: string
@@ -22720,6 +22719,9 @@ components:
             path:
               type: string
               description: root path where cluster stores data in the bucket
+            usePathStyle:
+              type: string
+              description: whether the object storage is using path style or virtual host style.
     modeOption:
       type: object
       required:
@@ -23254,12 +23256,6 @@ components:
         constraintRef:
           type: string
           description: used in KB version < 1.0, constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
-        configRendererRef:
-          type: string
-          description: used in KB version >= 1.0, name of ParamConfigRenderer
-        parameterDefRef:
-          type: string
-          description: used in KB version >= 1.0, name of ParameterDefinition
         regex:
           type: string
           description: regular expression of the parameters, mainly used by the frontend for parameter parsing.

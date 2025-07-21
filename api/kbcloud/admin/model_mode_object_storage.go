@@ -14,7 +14,7 @@ type ModeObjectStorage struct {
 	// Services provided by other Clusters. The defined serviceRef must be provided when creating cluster.
 	//
 	ServiceRef *ModeServiceRef `json:"serviceRef,omitempty"`
-	// The path in helm values that some object storage config will use.
+	// The path in helm values that some object storage config will use. If empty, the values will not be set.
 	AdditionalHelmValuePath *ModeObjectStorageAdditionalHelmValuePath `json:"additionalHelmValuePath,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
