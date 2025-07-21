@@ -19100,6 +19100,7 @@ components:
           description: start time of the task progress
           format: date-time
           type: string
+          nullable: true
         endTime:
           description: end time of the task progress
           format: date-time
