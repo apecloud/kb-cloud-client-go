@@ -20,6 +20,9 @@ type ModeOption struct {
 	Versions         []string                    `json:"versions,omitempty"`
 	Extra            map[string]interface{}      `json:"extra,omitempty"`
 	ServiceRefs      []ModeServiceRef            `json:"serviceRefs,omitempty"`
+	// object storage related configs
+	//
+	ObjectStorage *ModeObjectStorage `json:"objectStorage,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -278,6 +281,34 @@ func (o *ModeOption) SetServiceRefs(v []ModeServiceRef) {
 	o.ServiceRefs = v
 }
 
+// GetObjectStorage returns the ObjectStorage field value if set, zero value otherwise.
+func (o *ModeOption) GetObjectStorage() ModeObjectStorage {
+	if o == nil || o.ObjectStorage == nil {
+		var ret ModeObjectStorage
+		return ret
+	}
+	return *o.ObjectStorage
+}
+
+// GetObjectStorageOk returns a tuple with the ObjectStorage field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetObjectStorageOk() (*ModeObjectStorage, bool) {
+	if o == nil || o.ObjectStorage == nil {
+		return nil, false
+	}
+	return o.ObjectStorage, true
+}
+
+// HasObjectStorage returns a boolean if a field has been set.
+func (o *ModeOption) HasObjectStorage() bool {
+	return o != nil && o.ObjectStorage != nil
+}
+
+// SetObjectStorage gets a reference to the given ModeObjectStorage and assigns it to the ObjectStorage field.
+func (o *ModeOption) SetObjectStorage(v ModeObjectStorage) {
+	o.ObjectStorage = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -303,6 +334,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.ServiceRefs != nil {
 		toSerialize["serviceRefs"] = o.ServiceRefs
 	}
+	if o.ObjectStorage != nil {
+		toSerialize["objectStorage"] = o.ObjectStorage
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -322,6 +356,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		Versions         []string                    `json:"versions,omitempty"`
 		Extra            map[string]interface{}      `json:"extra,omitempty"`
 		ServiceRefs      []ModeServiceRef            `json:"serviceRefs,omitempty"`
+		ObjectStorage    *ModeObjectStorage          `json:"objectStorage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -340,7 +375,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra", "serviceRefs"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage"})
 	} else {
 		return err
 	}
@@ -367,6 +402,10 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.Versions = all.Versions
 	o.Extra = all.Extra
 	o.ServiceRefs = all.ServiceRefs
+	if all.ObjectStorage != nil && all.ObjectStorage.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ObjectStorage = all.ObjectStorage
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
