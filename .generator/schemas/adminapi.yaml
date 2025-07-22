@@ -22135,6 +22135,103 @@ components:
           type: integer
         info:
           type: integer
+    alterRuleRef:
+      type: object
+      properties:
+        groupName:
+          type: string
+        alertName:
+          type: string
+    alertStrategy:
+      required:
+        - receiverIds
+      type: object
+      properties:
+        id:
+          type: integer
+        orgName:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        receiverIds:
+          type: array
+          items:
+            type: integer
+        receivers:
+          type: array
+          items:
+            $ref: '#/components/schemas/alertReceiver'
+        envs:
+          type: array
+          items:
+            type: string
+        severities:
+          type: array
+          items:
+            type: string
+        rules:
+          type: array
+          items:
+            type: string
+        ruleObjs:
+          type: array
+          items:
+            $ref: '#/components/schemas/alterRuleRef'
+        engines:
+          type: array
+          items:
+            type: string
+        clusters:
+          type: array
+          items:
+            type: string
+        disabled:
+          type: boolean
+          default: false
+        repeatInterval:
+          type: string
+        muteTimeInterval:
+          type: object
+          properties:
+            weekdays:
+              type: array
+              items:
+                type: integer
+                description: Days should be between [0, 6] where 0 = Sunday.
+            times:
+              type: object
+              properties:
+                startTime:
+                  type: string
+                  description: Mute start time, e.g. '17:00', should be in UTC time.
+                endTime:
+                  type: string
+                  description: Mute end time, e.g. '24:00', should be in UTC time.
+            onceMinutes:
+              type: integer
+              description: Only mute once for `onceMinutes` minutes
+      description: Alert strategy information
+    alertStrategyList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert strategy objects in the list
+          items:
+            $ref: '#/components/schemas/alertStrategy'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertStrategyList is a list of alert strategies
     alertSeverity:
       enum:
         - critical
@@ -22193,96 +22290,6 @@ components:
         orgName:
           type: string
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
-    alertStrategy:
-      required:
-        - receiverIds
-      type: object
-      properties:
-        id:
-          type: integer
-        orgName:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        receiverIds:
-          type: array
-          items:
-            type: integer
-        receivers:
-          type: array
-          items:
-            $ref: '#/components/schemas/alertReceiver'
-        envs:
-          type: array
-          items:
-            type: string
-        severities:
-          type: array
-          items:
-            type: string
-        rules:
-          type: array
-          items:
-            type: string
-        ruleObjs:
-          type: array
-          items:
-            $ref: '#/components/schemas/alertRule'
-        engines:
-          type: array
-          items:
-            type: string
-        clusters:
-          type: array
-          items:
-            type: string
-        disabled:
-          type: boolean
-          default: false
-        repeatInterval:
-          type: string
-        muteTimeInterval:
-          type: object
-          properties:
-            weekdays:
-              type: array
-              items:
-                type: integer
-                description: Days should be between [0, 6] where 0 = Sunday.
-            times:
-              type: object
-              properties:
-                startTime:
-                  type: string
-                  description: Mute start time, e.g. '17:00', should be in UTC time.
-                endTime:
-                  type: string
-                  description: Mute end time, e.g. '24:00', should be in UTC time.
-            onceMinutes:
-              type: integer
-              description: Only mute once for `onceMinutes` minutes
-      description: Alert strategy information
-    alertStrategyList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert strategy objects in the list
-          items:
-            $ref: '#/components/schemas/alertStrategy'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertStrategyList is a list of alert strategies
     alertRuleGroup:
       type: object
       properties:
