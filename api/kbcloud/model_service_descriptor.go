@@ -4,16 +4,13 @@
 
 package kbcloud
 
-import (
-	"fmt"
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
-
-// ServiceDescriptor serviceDescriptor that will be used in serviceRef.
+// ServiceDescriptor serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
 type ServiceDescriptor struct {
-	Host     string  `json:"host"`
-	Port     string  `json:"port"`
+	Host     *string `json:"host,omitempty"`
+	Port     *string `json:"port,omitempty"`
+	Endpoint *string `json:"endpoint,omitempty"`
 	Username *string `json:"username,omitempty"`
 	Password *string `json:"password,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -25,10 +22,8 @@ type ServiceDescriptor struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewServiceDescriptor(host string, port string) *ServiceDescriptor {
+func NewServiceDescriptor() *ServiceDescriptor {
 	this := ServiceDescriptor{}
-	this.Host = host
-	this.Port = port
 	return &this
 }
 
@@ -40,50 +35,88 @@ func NewServiceDescriptorWithDefaults() *ServiceDescriptor {
 	return &this
 }
 
-// GetHost returns the Host field value.
+// GetHost returns the Host field value if set, zero value otherwise.
 func (o *ServiceDescriptor) GetHost() string {
-	if o == nil {
+	if o == nil || o.Host == nil {
 		var ret string
 		return ret
 	}
-	return o.Host
+	return *o.Host
 }
 
-// GetHostOk returns a tuple with the Host field value
+// GetHostOk returns a tuple with the Host field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ServiceDescriptor) GetHostOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Host == nil {
 		return nil, false
 	}
-	return &o.Host, true
+	return o.Host, true
 }
 
-// SetHost sets field value.
+// HasHost returns a boolean if a field has been set.
+func (o *ServiceDescriptor) HasHost() bool {
+	return o != nil && o.Host != nil
+}
+
+// SetHost gets a reference to the given string and assigns it to the Host field.
 func (o *ServiceDescriptor) SetHost(v string) {
-	o.Host = v
+	o.Host = &v
 }
 
-// GetPort returns the Port field value.
+// GetPort returns the Port field value if set, zero value otherwise.
 func (o *ServiceDescriptor) GetPort() string {
-	if o == nil {
+	if o == nil || o.Port == nil {
 		var ret string
 		return ret
 	}
-	return o.Port
+	return *o.Port
 }
 
-// GetPortOk returns a tuple with the Port field value
+// GetPortOk returns a tuple with the Port field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ServiceDescriptor) GetPortOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Port == nil {
 		return nil, false
 	}
-	return &o.Port, true
+	return o.Port, true
 }
 
-// SetPort sets field value.
+// HasPort returns a boolean if a field has been set.
+func (o *ServiceDescriptor) HasPort() bool {
+	return o != nil && o.Port != nil
+}
+
+// SetPort gets a reference to the given string and assigns it to the Port field.
 func (o *ServiceDescriptor) SetPort(v string) {
-	o.Port = v
+	o.Port = &v
+}
+
+// GetEndpoint returns the Endpoint field value if set, zero value otherwise.
+func (o *ServiceDescriptor) GetEndpoint() string {
+	if o == nil || o.Endpoint == nil {
+		var ret string
+		return ret
+	}
+	return *o.Endpoint
+}
+
+// GetEndpointOk returns a tuple with the Endpoint field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceDescriptor) GetEndpointOk() (*string, bool) {
+	if o == nil || o.Endpoint == nil {
+		return nil, false
+	}
+	return o.Endpoint, true
+}
+
+// HasEndpoint returns a boolean if a field has been set.
+func (o *ServiceDescriptor) HasEndpoint() bool {
+	return o != nil && o.Endpoint != nil
+}
+
+// SetEndpoint gets a reference to the given string and assigns it to the Endpoint field.
+func (o *ServiceDescriptor) SetEndpoint(v string) {
+	o.Endpoint = &v
 }
 
 // GetUsername returns the Username field value if set, zero value otherwise.
@@ -148,8 +181,15 @@ func (o ServiceDescriptor) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["host"] = o.Host
-	toSerialize["port"] = o.Port
+	if o.Host != nil {
+		toSerialize["host"] = o.Host
+	}
+	if o.Port != nil {
+		toSerialize["port"] = o.Port
+	}
+	if o.Endpoint != nil {
+		toSerialize["endpoint"] = o.Endpoint
+	}
 	if o.Username != nil {
 		toSerialize["username"] = o.Username
 	}
@@ -166,28 +206,24 @@ func (o ServiceDescriptor) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ServiceDescriptor) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Host     *string `json:"host"`
-		Port     *string `json:"port"`
+		Host     *string `json:"host,omitempty"`
+		Port     *string `json:"port,omitempty"`
+		Endpoint *string `json:"endpoint,omitempty"`
 		Username *string `json:"username,omitempty"`
 		Password *string `json:"password,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Host == nil {
-		return fmt.Errorf("required field host missing")
-	}
-	if all.Port == nil {
-		return fmt.Errorf("required field port missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"host", "port", "username", "password"})
+		common.DeleteKeys(additionalProperties, &[]string{"host", "port", "endpoint", "username", "password"})
 	} else {
 		return err
 	}
-	o.Host = *all.Host
-	o.Port = *all.Port
+	o.Host = all.Host
+	o.Port = all.Port
+	o.Endpoint = all.Endpoint
 	o.Username = all.Username
 	o.Password = all.Password
 

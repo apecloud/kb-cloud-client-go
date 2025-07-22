@@ -18,8 +18,6 @@ type ClusterObjectStorageConfig struct {
 	ServiceRef ServiceRef `json:"serviceRef"`
 	// the bucket name for the object storage
 	Bucket string `json:"bucket"`
-	// root path where cluster stores data in the bucket. Default to `{environmentID}/{kubernetesNamespace}/{kubernetesClusterName}`
-	Path *string `json:"path,omitempty"`
 	// whether the object storage is using path-style. If false, virtual host style will be used.
 	UsePathStyle *bool `json:"usePathStyle,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -92,34 +90,6 @@ func (o *ClusterObjectStorageConfig) SetBucket(v string) {
 	o.Bucket = v
 }
 
-// GetPath returns the Path field value if set, zero value otherwise.
-func (o *ClusterObjectStorageConfig) GetPath() string {
-	if o == nil || o.Path == nil {
-		var ret string
-		return ret
-	}
-	return *o.Path
-}
-
-// GetPathOk returns a tuple with the Path field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClusterObjectStorageConfig) GetPathOk() (*string, bool) {
-	if o == nil || o.Path == nil {
-		return nil, false
-	}
-	return o.Path, true
-}
-
-// HasPath returns a boolean if a field has been set.
-func (o *ClusterObjectStorageConfig) HasPath() bool {
-	return o != nil && o.Path != nil
-}
-
-// SetPath gets a reference to the given string and assigns it to the Path field.
-func (o *ClusterObjectStorageConfig) SetPath(v string) {
-	o.Path = &v
-}
-
 // GetUsePathStyle returns the UsePathStyle field value if set, zero value otherwise.
 func (o *ClusterObjectStorageConfig) GetUsePathStyle() bool {
 	if o == nil || o.UsePathStyle == nil {
@@ -156,9 +126,6 @@ func (o ClusterObjectStorageConfig) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["serviceRef"] = o.ServiceRef
 	toSerialize["bucket"] = o.Bucket
-	if o.Path != nil {
-		toSerialize["path"] = o.Path
-	}
 	if o.UsePathStyle != nil {
 		toSerialize["usePathStyle"] = o.UsePathStyle
 	}
@@ -174,7 +141,6 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ServiceRef   *ServiceRef `json:"serviceRef"`
 		Bucket       *string     `json:"bucket"`
-		Path         *string     `json:"path,omitempty"`
 		UsePathStyle *bool       `json:"usePathStyle,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -188,7 +154,7 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"serviceRef", "bucket", "path", "usePathStyle"})
+		common.DeleteKeys(additionalProperties, &[]string{"serviceRef", "bucket", "usePathStyle"})
 	} else {
 		return err
 	}
@@ -199,7 +165,6 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ServiceRef = *all.ServiceRef
 	o.Bucket = *all.Bucket
-	o.Path = all.Path
 	o.UsePathStyle = all.UsePathStyle
 
 	if len(additionalProperties) > 0 {

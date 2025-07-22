@@ -19,7 +19,7 @@ type ServiceRef struct {
 	// be at the same organization as the current cluster.
 	//
 	Cluster *string `json:"cluster,omitempty"`
-	// serviceDescriptor that will be used in serviceRef.
+	// serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
 	ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

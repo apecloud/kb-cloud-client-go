@@ -16459,14 +16459,13 @@ components:
       type: string
     serviceDescriptor:
       type: object
-      description: serviceDescriptor that will be used in serviceRef.
-      required:
-        - host
-        - port
+      description: serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
       properties:
         host:
           type: string
         port:
+          type: string
+        endpoint:
           type: string
         username:
           type: string
@@ -16502,9 +16501,6 @@ components:
         bucket:
           type: string
           description: the bucket name for the object storage
-        path:
-          type: string
-          description: root path where cluster stores data in the bucket. Default to `{environmentID}/{kubernetesNamespace}/{kubernetesClusterName}`
         usePathStyle:
           type: boolean
           description: whether the object storage is using path-style. If false, virtual host style will be used.
@@ -22617,6 +22613,16 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+    serviceDescriptorAddressStyle:
+      type: string
+      description: |
+        specify the style that will be used in servicedescriptor. 
+        "hostport" will ask user to provide both host and port.
+        "endpoint" will ask user to provide an endpoint.
+        When using a serviceSelector, this option will not be effective.
+      enum:
+        - hostport
+        - endpoint
     serviceSelector:
       type: object
       required:
@@ -22650,6 +22656,7 @@ components:
         - helmValuePath
         - name
         - engineName
+        - addressStyle
       properties:
         name:
           type: string
@@ -22659,6 +22666,8 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        addressStyle:
+          $ref: '#/components/schemas/serviceDescriptorAddressStyle'
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
@@ -22720,7 +22729,9 @@ components:
               description: the bucket name for the object storage
             path:
               type: string
-              description: root path where cluster stores data in the bucket
+              description: |
+                root path where cluster stores data in the bucket. This field is not user-provided.
+                It is always set to cluster id.
             usePathStyle:
               type: string
               description: whether the object storage is using path style or virtual host style.

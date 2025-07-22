@@ -14,7 +14,9 @@ import (
 type ModeObjectStorageAdditionalHelmValuePath struct {
 	// the bucket name for the object storage
 	Bucket string `json:"bucket"`
-	// root path where cluster stores data in the bucket
+	// root path where cluster stores data in the bucket. This field is not user-provided.
+	// It is always set to cluster id.
+	//
 	Path *string `json:"path,omitempty"`
 	// whether the object storage is using path style or virtual host style.
 	UsePathStyle *string `json:"usePathStyle,omitempty"`

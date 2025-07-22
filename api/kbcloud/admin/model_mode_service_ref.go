@@ -19,6 +19,12 @@ type ModeServiceRef struct {
 	Name string `json:"name"`
 	// The engine to be used in serviceRef. This field is used to filter clusters.
 	EngineName string `json:"engineName"`
+	// specify the style that will be used in servicedescriptor.
+	// "hostport" will ask user to provide both host and port.
+	// "endpoint" will ask user to provide an endpoint.
+	// When using a serviceSelector, this option will not be effective.
+	//
+	AddressStyle ServiceDescriptorAddressStyle `json:"addressStyle"`
 	// The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
 	HelmValuePath ModeServiceRefHelmValuePath `json:"helmValuePath"`
 	// ServiceSelectors will map cluster's mode to a serviceSelector. The serviceSelector
@@ -35,10 +41,11 @@ type ModeServiceRef struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeServiceRef(name string, engineName string, helmValuePath ModeServiceRefHelmValuePath) *ModeServiceRef {
+func NewModeServiceRef(name string, engineName string, addressStyle ServiceDescriptorAddressStyle, helmValuePath ModeServiceRefHelmValuePath) *ModeServiceRef {
 	this := ModeServiceRef{}
 	this.Name = name
 	this.EngineName = engineName
+	this.AddressStyle = addressStyle
 	this.HelmValuePath = helmValuePath
 	return &this
 }
@@ -95,6 +102,29 @@ func (o *ModeServiceRef) GetEngineNameOk() (*string, bool) {
 // SetEngineName sets field value.
 func (o *ModeServiceRef) SetEngineName(v string) {
 	o.EngineName = v
+}
+
+// GetAddressStyle returns the AddressStyle field value.
+func (o *ModeServiceRef) GetAddressStyle() ServiceDescriptorAddressStyle {
+	if o == nil {
+		var ret ServiceDescriptorAddressStyle
+		return ret
+	}
+	return o.AddressStyle
+}
+
+// GetAddressStyleOk returns a tuple with the AddressStyle field value
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRef) GetAddressStyleOk() (*ServiceDescriptorAddressStyle, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.AddressStyle, true
+}
+
+// SetAddressStyle sets field value.
+func (o *ModeServiceRef) SetAddressStyle(v ServiceDescriptorAddressStyle) {
+	o.AddressStyle = v
 }
 
 // GetHelmValuePath returns the HelmValuePath field value.
@@ -156,6 +186,7 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["engineName"] = o.EngineName
+	toSerialize["addressStyle"] = o.AddressStyle
 	toSerialize["helmValuePath"] = o.HelmValuePath
 	if o.ServiceSelectors != nil {
 		toSerialize["serviceSelectors"] = o.ServiceSelectors
@@ -170,10 +201,11 @@ func (o ModeServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                      `json:"name"`
-		EngineName       *string                      `json:"engineName"`
-		HelmValuePath    *ModeServiceRefHelmValuePath `json:"helmValuePath"`
-		ServiceSelectors []ServiceSelector            `json:"serviceSelectors,omitempty"`
+		Name             *string                        `json:"name"`
+		EngineName       *string                        `json:"engineName"`
+		AddressStyle     *ServiceDescriptorAddressStyle `json:"addressStyle"`
+		HelmValuePath    *ModeServiceRefHelmValuePath   `json:"helmValuePath"`
+		ServiceSelectors []ServiceSelector              `json:"serviceSelectors,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -184,12 +216,15 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	if all.EngineName == nil {
 		return fmt.Errorf("required field engineName missing")
 	}
+	if all.AddressStyle == nil {
+		return fmt.Errorf("required field addressStyle missing")
+	}
 	if all.HelmValuePath == nil {
 		return fmt.Errorf("required field helmValuePath missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "helmValuePath", "serviceSelectors"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "addressStyle", "helmValuePath", "serviceSelectors"})
 	} else {
 		return err
 	}
@@ -197,6 +232,11 @@ func (o *ModeServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = *all.Name
 	o.EngineName = *all.EngineName
+	if !all.AddressStyle.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.AddressStyle = *all.AddressStyle
+	}
 	if all.HelmValuePath.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
