@@ -18012,6 +18012,10 @@ components:
           type: string
     class:
       type: object
+      required:
+        - engine
+        - mode
+        - classType
       properties:
         engine:
           type: string

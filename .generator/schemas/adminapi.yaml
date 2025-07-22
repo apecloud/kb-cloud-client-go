@@ -23953,6 +23953,10 @@ components:
           description: License key
     class:
       type: object
+      required:
+        - engine
+        - mode
+        - classType
       properties:
         engine:
           type: string
