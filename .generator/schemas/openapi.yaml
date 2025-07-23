@@ -98,6 +98,8 @@ tags:
     description: LLM APIs
   - name: organizationParameter
     description: Organization Parameter APIs
+  - name: inspection
+    description: Inspection APIs
 paths:
   /api/v1/user:
     get:
@@ -11125,6 +11127,33 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /api/v1/organizations/{orgName}/inspectionTasks:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionTasks
+      summary: list inspection tasks
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskByEngine'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -19923,6 +19952,64 @@ components:
           type: string
         envName:
           type: string
+    inspectionTaskType:
+      type: string
+      description: Specifies the type of inspection task.
+      default: cluster
+      enum:
+        - cluster
+        - node
+    inspectionTask:
+      properties:
+        id:
+          type: integer
+        orgName:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        creator:
+          type: string
+        resourceType:
+          $ref: '#/components/schemas/inspectionTaskType'
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+        clusterEngine:
+          type: string
+        nodeName:
+          type: string
+        severity:
+          type: string
+        scenario:
+          type: string
+        status:
+          type: string
+        score:
+          type: string
+        result:
+          type: string
+    inspectionTaskByEngine:
+      properties:
+        engine:
+          type: string
+        summary:
+          type: object
+          properties:
+            error:
+              type: integer
+            warning:
+              type: integer
+            normal:
+              type: integer
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/inspectionTask'
   responses:
     '400':
       content:
@@ -20071,3 +20158,6 @@ x-tagGroups:
   - name: disasterRecovery
     tags:
       - disasterRecovery
+  - name: Inspection
+    tags:
+      - inspection

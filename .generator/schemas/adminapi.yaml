@@ -62,6 +62,8 @@ tags:
     description: Organization Parameter APIs
   - name: billing
     description: Billing APIs
+  - name: inspection
+    description: Inspection APIs
 paths:
   /admin/v1/user:
     get:
@@ -11060,6 +11062,38 @@ paths:
       tags:
         - feature
         - shared
+  /admin/v1/inspectionTasks:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionTasks
+      summary: list inspection tasks
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          type: string
+        - description: type of the inspection task
+          in: query
+          name: resourceType
+          default: cluster
+          schema:
+            $ref: '#/components/schemas/inspectionTaskType'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskByEngine'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/inspections:
     get:
       tags:
@@ -11103,8 +11137,8 @@ paths:
       tags:
         - inspection
         - shared
-      operationId: updateInspection
-      summary: Update inspection
+      operationId: createInspection
+      summary: Create inspection
       parameters:
         - description: name of the Org
           in: path
@@ -11119,12 +11153,9 @@ paths:
               $ref: '#/components/schemas/inspection'
         required: true
       responses:
-        '200':
+        '204':
           description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inspection'
+          content: {}
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11178,7 +11209,7 @@ paths:
               $ref: '#/components/schemas/autoInspection'
         required: true
       responses:
-        '200':
+        '201':
           description: A successful response.
           content:
             application/json:
@@ -11323,7 +11354,6 @@ paths:
     delete:
       tags:
         - inspection
-        - shared
       operationId: deleteInspectionScript
       summary: Delete inspection script
       parameters:
@@ -24613,6 +24643,64 @@ components:
       required:
         - items
       type: object
+    inspectionTaskType:
+      type: string
+      description: Specifies the type of inspection task.
+      default: cluster
+      enum:
+        - cluster
+        - node
+    inspectionTask:
+      properties:
+        id:
+          type: integer
+        orgName:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        creator:
+          type: string
+        resourceType:
+          $ref: '#/components/schemas/inspectionTaskType'
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+        clusterEngine:
+          type: string
+        nodeName:
+          type: string
+        severity:
+          type: string
+        scenario:
+          type: string
+        status:
+          type: string
+        score:
+          type: string
+        result:
+          type: string
+    inspectionTaskByEngine:
+      properties:
+        engine:
+          type: string
+        summary:
+          type: object
+          properties:
+            error:
+              type: integer
+            warning:
+              type: integer
+            normal:
+              type: integer
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/inspectionTask'
     inspection:
       description: inspection
       properties:
@@ -27007,3 +27095,6 @@ x-tagGroups:
     tags:
       - pricing
       - billing
+  - name: Inspection
+    tags:
+      - inspection

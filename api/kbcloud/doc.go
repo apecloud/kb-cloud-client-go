@@ -167,6 +167,7 @@
 //   - [eventApi.listOrgEvents]
 //   - [featureApi.listFeature]
 //   - [featureApi.readFeature]
+//   - [inspectionApi.listInspectionTasks]
 //   - [ipWhitelistApi.createIPWhitelist]
 //   - [ipWhitelistApi.deleteIPWhiteList]
 //   - [ipWhitelistApi.listIPWhitelist]
