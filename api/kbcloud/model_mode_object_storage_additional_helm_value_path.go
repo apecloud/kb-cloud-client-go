@@ -15,10 +15,12 @@ type ModeObjectStorageAdditionalHelmValuePath struct {
 	// the bucket name for the object storage
 	Bucket string `json:"bucket"`
 	// root path where cluster stores data in the bucket. This field is not user-provided.
-	// It is always set to cluster id.
+	// It is always set to cluster id. If not set, it means the engine does not support specify a path.
 	//
 	Path *string `json:"path,omitempty"`
 	// whether the object storage is using path style or virtual host style.
+	// If not set, it means the engine does not need this option.
+	//
 	UsePathStyle *string `json:"usePathStyle,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

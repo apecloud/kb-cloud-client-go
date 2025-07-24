@@ -22731,10 +22731,12 @@ components:
               type: string
               description: |
                 root path where cluster stores data in the bucket. This field is not user-provided.
-                It is always set to cluster id.
+                It is always set to cluster id. If not set, it means the engine does not support specify a path.
             usePathStyle:
               type: string
-              description: whether the object storage is using path style or virtual host style.
+              description: |
+                whether the object storage is using path style or virtual host style.
+                If not set, it means the engine does not need this option.
     modeOption:
       type: object
       required:
