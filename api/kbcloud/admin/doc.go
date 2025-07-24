@@ -456,6 +456,7 @@
 //   - [userApi.updateAuthenticatedUserPassword]
 //   - [userApi.updateUserPassword]
 //   - [vaultApi.listVaultEngine]
+//   - [vaultApi.listVaultEngineKeys]
 //   - [vipPoolApi.createVIPPool]
 //   - [vipPoolApi.deleteVIPPool]
 //   - [vipPoolApi.listVIPPool]
