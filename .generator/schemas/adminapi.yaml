@@ -15581,6 +15581,23 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /admin/v1/vault/engine:
+    get:
+      operationId: listVaultEngine
+      summary: list vault engine
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vaultEngineList'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - vault
 components:
   securitySchemes:
     BearerToken:
@@ -26867,6 +26884,24 @@ components:
           type: array
       required:
         - items
+    vaultEngine:
+      properties:
+        type:
+          type: string
+        name:
+          type: string
+    vaultEngineList:
+      properties:
+        items:
+          description: items is the list of vault engine
+          items:
+            $ref: '#/components/schemas/vaultEngine'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
   responses:
     '204':
       description: No Content
