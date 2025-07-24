@@ -331,24 +331,49 @@ func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, orgName str
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAutoInspection list auto inspection.
-func (a *InspectionApi) ListAutoInspection(ctx _context.Context, orgName string) (AutoInspection, *_nethttp.Response, error) {
+// GetAutoInspectionOptionalParameters holds optional parameters for GetAutoInspection.
+type GetAutoInspectionOptionalParameters struct {
+	ClusterId *string
+}
+
+// NewGetAutoInspectionOptionalParameters creates an empty struct for parameters.
+func NewGetAutoInspectionOptionalParameters() *GetAutoInspectionOptionalParameters {
+	this := GetAutoInspectionOptionalParameters{}
+	return &this
+}
+
+// WithClusterId sets the corresponding parameter name and returns the struct.
+func (r *GetAutoInspectionOptionalParameters) WithClusterId(clusterId string) *GetAutoInspectionOptionalParameters {
+	r.ClusterId = &clusterId
+	return r
+}
+
+// GetAutoInspection get auto inspection.
+func (a *InspectionApi) GetAutoInspection(ctx _context.Context, orgName string, o ...GetAutoInspectionOptionalParameters) (AutoInspection, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AutoInspection
+		optionalParams      GetAutoInspectionOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAutoInspectionOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "inspection",
-		OperationID: "listAutoInspection",
+		OperationID: "getAutoInspection",
 		Path:        "/admin/v1/organizations/{orgName}/autoInspection",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.ListAutoInspection")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.GetAutoInspection")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -359,6 +384,9 @@ func (a *InspectionApi) ListAutoInspection(ctx _context.Context, orgName string)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.ClusterId != nil {
+		localVarQueryParams.Add("clusterID", common.ParameterToString(*optionalParams.ClusterId, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

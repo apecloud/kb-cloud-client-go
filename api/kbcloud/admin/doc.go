@@ -255,7 +255,7 @@
 //   - [inspectionApi.createInspection]
 //   - [inspectionApi.createInspectionScript]
 //   - [inspectionApi.deleteInspectionScript]
-//   - [inspectionApi.listAutoInspection]
+//   - [inspectionApi.getAutoInspection]
 //   - [inspectionApi.listInspectionScripts]
 //   - [inspectionApi.listInspectionTasks]
 //   - [inspectionApi.listInspections]

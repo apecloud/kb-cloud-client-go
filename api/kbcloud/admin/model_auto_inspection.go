@@ -11,12 +11,15 @@ import (
 )
 
 type AutoInspection struct {
-	Id        *int32     `json:"id,omitempty"`
-	OrgName   *string    `json:"orgName,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Creator   *string    `json:"creator,omitempty"`
-	Schedule  *string    `json:"schedule,omitempty"`
+	Id      *int32  `json:"id,omitempty"`
+	OrgName *string `json:"orgName,omitempty"`
+	// Specifies the level of the auto inspection.
+	Level     *AutoInspectionLevel `json:"level,omitempty"`
+	ClusterId *int32               `json:"clusterID,omitempty"`
+	UpdatedAt *time.Time           `json:"updatedAt,omitempty"`
+	CreatedAt *time.Time           `json:"createdAt,omitempty"`
+	Creator   *string              `json:"creator,omitempty"`
+	Schedule  *string              `json:"schedule,omitempty"`
 	// Specifies the unit of time for the auto inspection schedule.
 	RunEvery    *AutoInspectionRunUnit `json:"runEvery,omitempty"`
 	DaysOfWeek  []int32                `json:"daysOfWeek,omitempty"`
@@ -102,6 +105,62 @@ func (o *AutoInspection) HasOrgName() bool {
 // SetOrgName gets a reference to the given string and assigns it to the OrgName field.
 func (o *AutoInspection) SetOrgName(v string) {
 	o.OrgName = &v
+}
+
+// GetLevel returns the Level field value if set, zero value otherwise.
+func (o *AutoInspection) GetLevel() AutoInspectionLevel {
+	if o == nil || o.Level == nil {
+		var ret AutoInspectionLevel
+		return ret
+	}
+	return *o.Level
+}
+
+// GetLevelOk returns a tuple with the Level field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AutoInspection) GetLevelOk() (*AutoInspectionLevel, bool) {
+	if o == nil || o.Level == nil {
+		return nil, false
+	}
+	return o.Level, true
+}
+
+// HasLevel returns a boolean if a field has been set.
+func (o *AutoInspection) HasLevel() bool {
+	return o != nil && o.Level != nil
+}
+
+// SetLevel gets a reference to the given AutoInspectionLevel and assigns it to the Level field.
+func (o *AutoInspection) SetLevel(v AutoInspectionLevel) {
+	o.Level = &v
+}
+
+// GetClusterId returns the ClusterId field value if set, zero value otherwise.
+func (o *AutoInspection) GetClusterId() int32 {
+	if o == nil || o.ClusterId == nil {
+		var ret int32
+		return ret
+	}
+	return *o.ClusterId
+}
+
+// GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AutoInspection) GetClusterIdOk() (*int32, bool) {
+	if o == nil || o.ClusterId == nil {
+		return nil, false
+	}
+	return o.ClusterId, true
+}
+
+// HasClusterId returns a boolean if a field has been set.
+func (o *AutoInspection) HasClusterId() bool {
+	return o != nil && o.ClusterId != nil
+}
+
+// SetClusterId gets a reference to the given int32 and assigns it to the ClusterId field.
+func (o *AutoInspection) SetClusterId(v int32) {
+	o.ClusterId = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
@@ -452,6 +511,12 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.Level != nil {
+		toSerialize["level"] = o.Level
+	}
+	if o.ClusterId != nil {
+		toSerialize["clusterID"] = o.ClusterId
+	}
 	if o.UpdatedAt != nil {
 		if o.UpdatedAt.Nanosecond() == 0 {
 			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -512,6 +577,8 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id          *int32                 `json:"id,omitempty"`
 		OrgName     *string                `json:"orgName,omitempty"`
+		Level       *AutoInspectionLevel   `json:"level,omitempty"`
+		ClusterId   *int32                 `json:"clusterID,omitempty"`
 		UpdatedAt   *time.Time             `json:"updatedAt,omitempty"`
 		CreatedAt   *time.Time             `json:"createdAt,omitempty"`
 		Creator     *string                `json:"creator,omitempty"`
@@ -530,7 +597,7 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "updatedAt", "createdAt", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "level", "clusterID", "updatedAt", "createdAt", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
 	} else {
 		return err
 	}
@@ -538,6 +605,12 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Id = all.Id
 	o.OrgName = all.OrgName
+	if all.Level != nil && !all.Level.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Level = all.Level
+	}
+	o.ClusterId = all.ClusterId
 	o.UpdatedAt = all.UpdatedAt
 	o.CreatedAt = all.CreatedAt
 	o.Creator = all.Creator

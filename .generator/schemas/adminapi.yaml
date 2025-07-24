@@ -11167,13 +11167,18 @@ paths:
       tags:
         - inspection
         - shared
-      operationId: listAutoInspection
-      summary: list auto inspection
+      operationId: getAutoInspection
+      summary: get auto inspection
       parameters:
         - description: name of the Org
           in: path
           name: orgName
           required: true
+          schema:
+            type: string
+        - description: cluster ID
+          in: query
+          name: clusterID
           schema:
             type: string
       responses:
@@ -22761,10 +22766,12 @@ components:
               type: string
               description: |
                 root path where cluster stores data in the bucket. This field is not user-provided.
-                It is always set to cluster id.
+                It is always set to cluster id. If not set, it means the engine does not support specify a path.
             usePathStyle:
               type: string
-              description: whether the object storage is using path style or virtual host style.
+              description: |
+                whether the object storage is using path style or virtual host style.
+                If not set, it means the engine does not need this option.
     modeOption:
       type: object
       required:
@@ -24743,6 +24750,12 @@ components:
         unit:
           type: string
       type: object
+    autoInspectionLevel:
+      type: string
+      description: Specifies the level of the auto inspection.
+      enum:
+        - org
+        - cluster
     autoInspectionRunUnit:
       type: string
       description: Specifies the unit of time for the auto inspection schedule.
@@ -24757,6 +24770,10 @@ components:
           type: integer
         orgName:
           type: string
+        level:
+          $ref: '#/components/schemas/autoInspectionLevel'
+        clusterID:
+          type: integer
         updatedAt:
           format: date-time
           type: string
