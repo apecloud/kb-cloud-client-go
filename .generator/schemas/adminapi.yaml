@@ -15602,6 +15602,13 @@ paths:
     get:
       operationId: listVaultEngineKeys
       summary: list vault engine
+      parameters:
+        - description: name of engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -24159,8 +24166,8 @@ components:
       properties:
         name:
           type: string
-          pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the class type name.
+          pattern: ^[a-z0-9]{1,16}$
+          description: Consists of lowercase English letters and numbers, 1-16 characters long. Used to add to the class type name.
         description:
           type: string
           description: The description of the class type. Optional.

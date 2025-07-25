@@ -11,7 +11,7 @@ import (
 )
 
 type CreateClassType struct {
-	// Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the class type name.
+	// Consists of lowercase English letters and numbers, 1-16 characters long. Used to add to the class type name.
 	Name string `json:"name"`
 	// The description of the class type. Optional.
 	Description *string `json:"description,omitempty"`

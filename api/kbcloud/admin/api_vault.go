@@ -9,6 +9,7 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -94,7 +95,7 @@ func (a *VaultApi) ListVaultEngine(ctx _context.Context) (VaultEngineList, *_net
 }
 
 // ListVaultEngineKeys list vault engine.
-func (a *VaultApi) ListVaultEngineKeys(ctx _context.Context) (VaultKeyList, *_nethttp.Response, error) {
+func (a *VaultApi) ListVaultEngineKeys(ctx _context.Context, engineName string) (VaultKeyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -116,6 +117,7 @@ func (a *VaultApi) ListVaultEngineKeys(ctx _context.Context) (VaultKeyList, *_ne
 	}
 
 	localVarPath := localBasePath + "/admin/v1/vault/engine/keys"
+	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
