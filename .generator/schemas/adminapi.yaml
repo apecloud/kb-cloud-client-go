@@ -16625,6 +16625,9 @@ components:
         usePathStyle:
           type: boolean
           description: whether the object storage is using path-style. If false, virtual host style will be used.
+        region:
+          type: string
+          description: region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
     clusterCreate:
       required:
         - engine
@@ -22858,6 +22861,10 @@ components:
               description: |
                 whether the object storage is using path style or virtual host style.
                 If not set, it means the engine does not need this option.
+            region:
+              type: string
+              description: |
+                Region to use. If not set, it means the engine does not need this option.
     modeOption:
       type: object
       required:
