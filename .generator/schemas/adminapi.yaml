@@ -15646,6 +15646,62 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - vault
+  /admin/v1/vault/engine/{engineName}/key/{keyName}:
+    get:
+      operationId: getVaultEngineKey
+      summary: get vault engine key
+      parameters:
+        - description: name of engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of key
+          in: path
+          name: keyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vaultKey'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - vault
+    delete:
+      operationId: deleteVaultEngineKey
+      summary: delete vault engine key
+      parameters:
+        - description: name of engine
+          in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+        - description: name of key
+          in: path
+          name: keyName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - vault
 components:
   securitySchemes:
     BearerToken:

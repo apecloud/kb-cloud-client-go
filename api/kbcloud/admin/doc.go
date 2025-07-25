@@ -455,6 +455,8 @@
 //   - [userApi.readUserApikeys]
 //   - [userApi.updateAuthenticatedUserPassword]
 //   - [userApi.updateUserPassword]
+//   - [vaultApi.deleteVaultEngineKey]
+//   - [vaultApi.getVaultEngineKey]
 //   - [vaultApi.listVaultEngine]
 //   - [vaultApi.listVaultEngineKeys]
 //   - [vaultApi.writeVaultSecret]
