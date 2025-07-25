@@ -20,6 +20,8 @@ type ClusterObjectStorageConfig struct {
 	Bucket string `json:"bucket"`
 	// whether the object storage is using path-style. If false, virtual host style will be used.
 	UsePathStyle *bool `json:"usePathStyle,omitempty"`
+	// region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
+	Region *string `json:"region,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -118,6 +120,34 @@ func (o *ClusterObjectStorageConfig) SetUsePathStyle(v bool) {
 	o.UsePathStyle = &v
 }
 
+// GetRegion returns the Region field value if set, zero value otherwise.
+func (o *ClusterObjectStorageConfig) GetRegion() string {
+	if o == nil || o.Region == nil {
+		var ret string
+		return ret
+	}
+	return *o.Region
+}
+
+// GetRegionOk returns a tuple with the Region field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterObjectStorageConfig) GetRegionOk() (*string, bool) {
+	if o == nil || o.Region == nil {
+		return nil, false
+	}
+	return o.Region, true
+}
+
+// HasRegion returns a boolean if a field has been set.
+func (o *ClusterObjectStorageConfig) HasRegion() bool {
+	return o != nil && o.Region != nil
+}
+
+// SetRegion gets a reference to the given string and assigns it to the Region field.
+func (o *ClusterObjectStorageConfig) SetRegion(v string) {
+	o.Region = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterObjectStorageConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -128,6 +158,9 @@ func (o ClusterObjectStorageConfig) MarshalJSON() ([]byte, error) {
 	toSerialize["bucket"] = o.Bucket
 	if o.UsePathStyle != nil {
 		toSerialize["usePathStyle"] = o.UsePathStyle
+	}
+	if o.Region != nil {
+		toSerialize["region"] = o.Region
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -142,6 +175,7 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 		ServiceRef   *ServiceRef `json:"serviceRef"`
 		Bucket       *string     `json:"bucket"`
 		UsePathStyle *bool       `json:"usePathStyle,omitempty"`
+		Region       *string     `json:"region,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -154,7 +188,7 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"serviceRef", "bucket", "usePathStyle"})
+		common.DeleteKeys(additionalProperties, &[]string{"serviceRef", "bucket", "usePathStyle", "region"})
 	} else {
 		return err
 	}
@@ -166,6 +200,7 @@ func (o *ClusterObjectStorageConfig) UnmarshalJSON(bytes []byte) (err error) {
 	o.ServiceRef = *all.ServiceRef
 	o.Bucket = *all.Bucket
 	o.UsePathStyle = all.UsePathStyle
+	o.Region = all.Region
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
