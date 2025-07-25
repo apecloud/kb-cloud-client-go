@@ -106,7 +106,7 @@ func (a *VaultApi) ListVaultEngineKeys(ctx _context.Context, engineName string) 
 	apiInfo := common.APIInfo{
 		Tag:         "vault",
 		OperationID: "listVaultEngineKeys",
-		Path:        "/admin/v1/vault/engine/keys",
+		Path:        "/admin/v1/vault/engine/{engineName}/keys",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -116,7 +116,7 @@ func (a *VaultApi) ListVaultEngineKeys(ctx _context.Context, engineName string) 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/vault/engine/keys"
+	localVarPath := localBasePath + "/admin/v1/vault/engine/{engineName}/keys"
 	localVarPath = strings.Replace(localVarPath, "{"+"engineName"+"}", _neturl.PathEscape(common.ParameterToString(engineName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

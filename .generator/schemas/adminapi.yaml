@@ -15598,7 +15598,7 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - vault
-  /admin/v1/vault/engine/keys:
+  /admin/v1/vault/engine/{engineName}/keys:
     get:
       operationId: listVaultEngineKeys
       summary: list vault engine
