@@ -2728,6 +2728,12 @@ paths:
           required: true
           schema:
             type: string
+        - description: The resource type you want to obtain.
+          in: query
+          name: resourceType
+          required: false
+          schema:
+            type: string
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -10061,7 +10067,7 @@ paths:
         - engine
   /admin/v1/engines/resourceConstraints:
     get:
-      operationId: listEngineRsourceConstraints
+      operationId: listEngineResourceConstraints
       summary: List engine resource constraints
       parameters:
         - description: engine name
@@ -10096,7 +10102,7 @@ paths:
         - engine
         - shared
     post:
-      operationId: createresourceConstraint
+      operationId: createEngineResourceConstraint
       summary: Create engine resource constraint
       requestBody:
         description: Request body for engine resource constraint
@@ -10122,7 +10128,7 @@ paths:
         - engine
   /admin/v1/engines/resourceConstraints/{id}:
     patch:
-      operationId: updateresourceConstraint
+      operationId: updateEngineResourceConstraint
       summary: Update engine resource constraint
       parameters:
         - description: id of the engine resource constraint
@@ -10154,7 +10160,7 @@ paths:
       tags:
         - engine
     delete:
-      operationId: deleteresourceConstraint
+      operationId: deleteEngineResourceConstraint
       summary: Delete engine resource constraint
       parameters:
         - description: id of the engine resource constraint
@@ -16451,9 +16457,25 @@ components:
         - HeadlessService
         - LoadBalancer
       type: string
+    serviceDescriptor:
+      type: object
+      description: serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
+      properties:
+        host:
+          type: string
+        port:
+          type: string
+        endpoint:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
     serviceRef:
       type: object
-      description: defines a serviceRef that references service provided by other cluster or external service
+      description: |
+        defines a serviceRef that references service provided by other cluster or external service.
+        Only one of cluster or serviceDescriptor field should be set.
       required:
         - name
       properties:
@@ -16464,18 +16486,24 @@ components:
           type: string
           description: |
             the cluster name that will be used in serviceRef. The referenced cluster should 
-            be at the same orgnazation as the current cluster.
-    clusterStorageConfig:
+            be at the same organization as the current cluster.
+        serviceDescriptor:
+          $ref: '#/components/schemas/serviceDescriptor'
+    clusterObjectStorageConfig:
       type: object
+      description: Specify the object storage config for cluster like starrocks
       required:
-        - storageName
+        - serviceRef
+        - bucket
       properties:
-        storageName:
-          type: string
-          description: the name of storage
+        serviceRef:
+          $ref: '#/components/schemas/serviceRef'
         bucket:
           type: string
-          description: the bucket name for the storage
+          description: the bucket name for the object storage
+        usePathStyle:
+          type: boolean
+          description: whether the object storage is using path-style. If false, virtual host style will be used.
     clusterCreate:
       required:
         - engine
@@ -16568,9 +16596,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
-        storageConfig:
-          description: Specify the storage config for cluster like starrocks
-          $ref: '#/components/schemas/clusterStorageConfig'
+        objectStorageConfig:
+          $ref: '#/components/schemas/clusterObjectStorageConfig'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -16795,6 +16822,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/serviceRef'
+        objectStorageConfig:
+          $ref: '#/components/schemas/clusterObjectStorageConfig'
       description: KubeBlocks cluster details
     clusterUpdate:
       type: object
@@ -19117,6 +19146,7 @@ components:
           description: start time of the task progress
           format: date-time
           type: string
+          nullable: true
         endTime:
           description: end time of the task progress
           format: date-time
@@ -22602,6 +22632,16 @@ components:
           type: boolean
         hideOnCreate:
           type: boolean
+    serviceDescriptorAddressStyle:
+      type: string
+      description: |
+        specify the style that will be used in servicedescriptor. 
+        "hostport" will ask user to provide both host and port.
+        "endpoint" will ask user to provide an endpoint.
+        When using a serviceSelector, this option will not be effective.
+      enum:
+        - hostport
+        - endpoint
     serviceSelector:
       type: object
       required:
@@ -22622,6 +22662,10 @@ components:
           type: string
         port:
           type: string
+        credentialComponent:
+          type: string
+        credentialName:
+          type: string
     modeServiceRef:
       type: object
       description: |
@@ -22631,6 +22675,7 @@ components:
         - helmValuePath
         - name
         - engineName
+        - addressStyle
       properties:
         name:
           type: string
@@ -22640,11 +22685,15 @@ components:
         engineName:
           type: string
           description: The engine to be used in serviceRef. This field is used to filter clusters.
+        addressStyle:
+          $ref: '#/components/schemas/serviceDescriptorAddressStyle'
         helmValuePath:
           type: object
           description: The path to be used in values. Separated with commas. ClusterCreate API will use these path to override values in the cluster chart.
           required:
             - namespace
+            - cluster
+            - serviceDescriptor
           properties:
             namespace:
               type: string
@@ -22661,13 +22710,52 @@ components:
             port:
               type: string
               description: see serviceSelectors
+            credentialComponent:
+              type: string
+              description: see serviceSelectors
+            credentialName:
+              type: string
+              description: see serviceSelectors
+            serviceDescriptor:
+              type: string
+              description: the name of the referenced serviceDescriptor
         serviceSelectors:
           type: array
           description: |
-            ServiceSelectors will map cluster's mode to a serviceSelector.
+            ServiceSelectors will map cluster's mode to a serviceSelector. The serviceSelector
+            will be used to provide the corresponding helm values.
             If no serviceSelector is matched, the corresponding helm value will not be set.
           items:
             $ref: '#/components/schemas/serviceSelector'
+    modeObjectStorage:
+      type: object
+      description: |
+        object storage related configs
+      properties:
+        enabled:
+          type: boolean
+          description: if object storage is enabled for this mode
+        serviceRef:
+          $ref: '#/components/schemas/modeServiceRef'
+        additionalHelmValuePath:
+          type: object
+          description: The path in helm values that some object storage config will use. If empty, the values will not be set.
+          required:
+            - bucket
+          properties:
+            bucket:
+              type: string
+              description: the bucket name for the object storage
+            path:
+              type: string
+              description: |
+                root path where cluster stores data in the bucket. This field is not user-provided.
+                It is always set to cluster id. If not set, it means the engine does not support specify a path.
+            usePathStyle:
+              type: string
+              description: |
+                whether the object storage is using path style or virtual host style.
+                If not set, it means the engine does not need this option.
     modeOption:
       type: object
       required:
@@ -22714,6 +22802,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/modeServiceRef'
+        objectStorage:
+          $ref: '#/components/schemas/modeObjectStorage'
     accountOption:
       type: object
       required:
@@ -22821,6 +22911,21 @@ components:
         compatibleMethod:
           description: The compatible full backup method for incremental backup method
           type: string
+        restoreOption:
+          type: object
+          properties:
+            restoreOnComponents:
+              type: array
+              description: |
+                If this backup needs to be restored on multiple components, the names of those components must be specified. 
+                If the restore is only required on the backed-up component itself, then no configuration is needed.
+              items:
+                type: string
+            deferPostReadyUntilClusterRunning:
+              type: boolean
+              description: |
+                If set to true, the restore will be ready after the cluster is running.
+                If set to false, the restore will be ready after the cluster is created.
         description:
           $ref: '#/components/schemas/localizedDescription'
     backupOption:
@@ -23185,12 +23290,6 @@ components:
         constraintRef:
           type: string
           description: used in KB version < 1.0, constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
-        configRendererRef:
-          type: string
-          description: used in KB version >= 1.0, name of ParamConfigRenderer
-        parameterDefRef:
-          type: string
-          description: used in KB version >= 1.0, name of ParameterDefinition
         regex:
           type: string
           description: regular expression of the parameters, mainly used by the frontend for parameter parsing.
@@ -23598,9 +23697,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
-        useStorage:
-          type: boolean
-          description: Indicate whether the current cluster requires users to select storage
     engineOptionList:
       required:
         - items
@@ -23956,6 +24052,10 @@ components:
           description: License key
     class:
       type: object
+      required:
+        - engine
+        - mode
+        - classType
       properties:
         engine:
           type: string
@@ -24044,8 +24144,8 @@ components:
       properties:
         name:
           type: string
-          pattern: ^[a-z0-9]{1,8}$
-          description: Consists of lowercase English letters and numbers, 1-8 characters long. Used to add to the class type name.
+          pattern: ^[a-z0-9]{1,16}$
+          description: Consists of lowercase English letters and numbers, 1-16 characters long. Used to add to the class type name.
         description:
           type: string
           description: The description of the class type. Optional.
@@ -24737,6 +24837,10 @@ components:
         clusterID:
           type: string
           description: the id of cluster that storage used
+          nullable: true
+        clusterMetadataAddress:
+          type: string
+          description: the address of cluster
           nullable: true
         updatedBy:
           type: string

@@ -15,13 +15,19 @@ type ModeServiceRefHelmValuePath struct {
 	// the namespace of the referenced Cluster or the namespace of the referenced ServiceDescriptor object.
 	Namespace string `json:"namespace"`
 	// the name of the referenced Cluster
-	Cluster *string `json:"cluster,omitempty"`
+	Cluster string `json:"cluster"`
 	// see serviceSelectors
 	Component *string `json:"component,omitempty"`
 	// see serviceSelectors
 	Service *string `json:"service,omitempty"`
 	// see serviceSelectors
 	Port *string `json:"port,omitempty"`
+	// see serviceSelectors
+	CredentialComponent *string `json:"credentialComponent,omitempty"`
+	// see serviceSelectors
+	CredentialName *string `json:"credentialName,omitempty"`
+	// the name of the referenced serviceDescriptor
+	ServiceDescriptor string `json:"serviceDescriptor"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,9 +37,11 @@ type ModeServiceRefHelmValuePath struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewModeServiceRefHelmValuePath(namespace string) *ModeServiceRefHelmValuePath {
+func NewModeServiceRefHelmValuePath(namespace string, cluster string, serviceDescriptor string) *ModeServiceRefHelmValuePath {
 	this := ModeServiceRefHelmValuePath{}
 	this.Namespace = namespace
+	this.Cluster = cluster
+	this.ServiceDescriptor = serviceDescriptor
 	return &this
 }
 
@@ -68,32 +76,27 @@ func (o *ModeServiceRefHelmValuePath) SetNamespace(v string) {
 	o.Namespace = v
 }
 
-// GetCluster returns the Cluster field value if set, zero value otherwise.
+// GetCluster returns the Cluster field value.
 func (o *ModeServiceRefHelmValuePath) GetCluster() string {
-	if o == nil || o.Cluster == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Cluster
+	return o.Cluster
 }
 
-// GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
+// GetClusterOk returns a tuple with the Cluster field value
 // and a boolean to check if the value has been set.
 func (o *ModeServiceRefHelmValuePath) GetClusterOk() (*string, bool) {
-	if o == nil || o.Cluster == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Cluster, true
+	return &o.Cluster, true
 }
 
-// HasCluster returns a boolean if a field has been set.
-func (o *ModeServiceRefHelmValuePath) HasCluster() bool {
-	return o != nil && o.Cluster != nil
-}
-
-// SetCluster gets a reference to the given string and assigns it to the Cluster field.
+// SetCluster sets field value.
 func (o *ModeServiceRefHelmValuePath) SetCluster(v string) {
-	o.Cluster = &v
+	o.Cluster = v
 }
 
 // GetComponent returns the Component field value if set, zero value otherwise.
@@ -180,6 +183,85 @@ func (o *ModeServiceRefHelmValuePath) SetPort(v string) {
 	o.Port = &v
 }
 
+// GetCredentialComponent returns the CredentialComponent field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetCredentialComponent() string {
+	if o == nil || o.CredentialComponent == nil {
+		var ret string
+		return ret
+	}
+	return *o.CredentialComponent
+}
+
+// GetCredentialComponentOk returns a tuple with the CredentialComponent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetCredentialComponentOk() (*string, bool) {
+	if o == nil || o.CredentialComponent == nil {
+		return nil, false
+	}
+	return o.CredentialComponent, true
+}
+
+// HasCredentialComponent returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasCredentialComponent() bool {
+	return o != nil && o.CredentialComponent != nil
+}
+
+// SetCredentialComponent gets a reference to the given string and assigns it to the CredentialComponent field.
+func (o *ModeServiceRefHelmValuePath) SetCredentialComponent(v string) {
+	o.CredentialComponent = &v
+}
+
+// GetCredentialName returns the CredentialName field value if set, zero value otherwise.
+func (o *ModeServiceRefHelmValuePath) GetCredentialName() string {
+	if o == nil || o.CredentialName == nil {
+		var ret string
+		return ret
+	}
+	return *o.CredentialName
+}
+
+// GetCredentialNameOk returns a tuple with the CredentialName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetCredentialNameOk() (*string, bool) {
+	if o == nil || o.CredentialName == nil {
+		return nil, false
+	}
+	return o.CredentialName, true
+}
+
+// HasCredentialName returns a boolean if a field has been set.
+func (o *ModeServiceRefHelmValuePath) HasCredentialName() bool {
+	return o != nil && o.CredentialName != nil
+}
+
+// SetCredentialName gets a reference to the given string and assigns it to the CredentialName field.
+func (o *ModeServiceRefHelmValuePath) SetCredentialName(v string) {
+	o.CredentialName = &v
+}
+
+// GetServiceDescriptor returns the ServiceDescriptor field value.
+func (o *ModeServiceRefHelmValuePath) GetServiceDescriptor() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.ServiceDescriptor
+}
+
+// GetServiceDescriptorOk returns a tuple with the ServiceDescriptor field value
+// and a boolean to check if the value has been set.
+func (o *ModeServiceRefHelmValuePath) GetServiceDescriptorOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ServiceDescriptor, true
+}
+
+// SetServiceDescriptor sets field value.
+func (o *ModeServiceRefHelmValuePath) SetServiceDescriptor(v string) {
+	o.ServiceDescriptor = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -187,9 +269,7 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["namespace"] = o.Namespace
-	if o.Cluster != nil {
-		toSerialize["cluster"] = o.Cluster
-	}
+	toSerialize["cluster"] = o.Cluster
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
@@ -199,6 +279,13 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 	if o.Port != nil {
 		toSerialize["port"] = o.Port
 	}
+	if o.CredentialComponent != nil {
+		toSerialize["credentialComponent"] = o.CredentialComponent
+	}
+	if o.CredentialName != nil {
+		toSerialize["credentialName"] = o.CredentialName
+	}
+	toSerialize["serviceDescriptor"] = o.ServiceDescriptor
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -209,11 +296,14 @@ func (o ModeServiceRefHelmValuePath) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Namespace *string `json:"namespace"`
-		Cluster   *string `json:"cluster,omitempty"`
-		Component *string `json:"component,omitempty"`
-		Service   *string `json:"service,omitempty"`
-		Port      *string `json:"port,omitempty"`
+		Namespace           *string `json:"namespace"`
+		Cluster             *string `json:"cluster"`
+		Component           *string `json:"component,omitempty"`
+		Service             *string `json:"service,omitempty"`
+		Port                *string `json:"port,omitempty"`
+		CredentialComponent *string `json:"credentialComponent,omitempty"`
+		CredentialName      *string `json:"credentialName,omitempty"`
+		ServiceDescriptor   *string `json:"serviceDescriptor"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -221,17 +311,26 @@ func (o *ModeServiceRefHelmValuePath) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Namespace == nil {
 		return fmt.Errorf("required field namespace missing")
 	}
+	if all.Cluster == nil {
+		return fmt.Errorf("required field cluster missing")
+	}
+	if all.ServiceDescriptor == nil {
+		return fmt.Errorf("required field serviceDescriptor missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port"})
+		common.DeleteKeys(additionalProperties, &[]string{"namespace", "cluster", "component", "service", "port", "credentialComponent", "credentialName", "serviceDescriptor"})
 	} else {
 		return err
 	}
 	o.Namespace = *all.Namespace
-	o.Cluster = all.Cluster
+	o.Cluster = *all.Cluster
 	o.Component = all.Component
 	o.Service = all.Service
 	o.Port = all.Port
+	o.CredentialComponent = all.CredentialComponent
+	o.CredentialName = all.CredentialName
+	o.ServiceDescriptor = *all.ServiceDescriptor
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -23,7 +23,7 @@ type ClusterTaskProgress struct {
 	// status of the task progress
 	Status *string `json:"status,omitempty"`
 	// start time of the task progress
-	StartTime *time.Time `json:"startTime,omitempty"`
+	StartTime common.NullableTime `json:"startTime,omitempty"`
 	// end time of the task progress
 	EndTime common.NullableTime `json:"endTime,omitempty"`
 	// Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
@@ -203,32 +203,43 @@ func (o *ClusterTaskProgress) SetStatus(v string) {
 	o.Status = &v
 }
 
-// GetStartTime returns the StartTime field value if set, zero value otherwise.
+// GetStartTime returns the StartTime field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ClusterTaskProgress) GetStartTime() time.Time {
-	if o == nil || o.StartTime == nil {
+	if o == nil || o.StartTime.Get() == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.StartTime
+	return *o.StartTime.Get()
 }
 
 // GetStartTimeOk returns a tuple with the StartTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
 func (o *ClusterTaskProgress) GetStartTimeOk() (*time.Time, bool) {
-	if o == nil || o.StartTime == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.StartTime, true
+	return o.StartTime.Get(), o.StartTime.IsSet()
 }
 
 // HasStartTime returns a boolean if a field has been set.
 func (o *ClusterTaskProgress) HasStartTime() bool {
-	return o != nil && o.StartTime != nil
+	return o != nil && o.StartTime.IsSet()
 }
 
-// SetStartTime gets a reference to the given time.Time and assigns it to the StartTime field.
+// SetStartTime gets a reference to the given common.NullableTime and assigns it to the StartTime field.
 func (o *ClusterTaskProgress) SetStartTime(v time.Time) {
-	o.StartTime = &v
+	o.StartTime.Set(&v)
+}
+
+// SetStartTimeNil sets the value for StartTime to be an explicit nil.
+func (o *ClusterTaskProgress) SetStartTimeNil() {
+	o.StartTime.Set(nil)
+}
+
+// UnsetStartTime ensures that no value is present for StartTime, not even an explicit nil.
+func (o *ClusterTaskProgress) UnsetStartTime() {
+	o.StartTime.Unset()
 }
 
 // GetEndTime returns the EndTime field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -358,12 +369,8 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
-	if o.StartTime != nil {
-		if o.StartTime.Nanosecond() == 0 {
-			toSerialize["startTime"] = o.StartTime.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["startTime"] = o.StartTime.Format("2006-01-02T15:04:05.000Z07:00")
-		}
+	if o.StartTime.IsSet() {
+		toSerialize["startTime"] = o.StartTime.Get()
 	}
 	if o.EndTime.IsSet() {
 		toSerialize["endTime"] = o.EndTime.Get()
@@ -389,7 +396,7 @@ func (o *ClusterTaskProgress) UnmarshalJSON(bytes []byte) (err error) {
 		ObjectKey      common.NullableString `json:"objectKey,omitempty"`
 		Message        *string               `json:"message,omitempty"`
 		Status         *string               `json:"status,omitempty"`
-		StartTime      *time.Time            `json:"startTime,omitempty"`
+		StartTime      common.NullableTime   `json:"startTime,omitempty"`
 		EndTime        common.NullableTime   `json:"endTime,omitempty"`
 		CustomOpsName  common.NullableString `json:"customOpsName,omitempty"`
 		CustomOpsTasks *CustomOpsTasks       `json:"customOpsTasks,omitempty"`

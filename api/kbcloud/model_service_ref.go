@@ -10,14 +10,17 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ServiceRef defines a serviceRef that references service provided by other cluster or external service
+// ServiceRef defines a serviceRef that references service provided by other cluster or external service.
+// Only one of cluster or serviceDescriptor field should be set.
 type ServiceRef struct {
 	// refers to the serviceRef name defined in engineoption
 	Name string `json:"name"`
 	// the cluster name that will be used in serviceRef. The referenced cluster should
-	// be at the same orgnazation as the current cluster.
+	// be at the same organization as the current cluster.
 	//
 	Cluster *string `json:"cluster,omitempty"`
+	// serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
+	ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -92,6 +95,34 @@ func (o *ServiceRef) SetCluster(v string) {
 	o.Cluster = &v
 }
 
+// GetServiceDescriptor returns the ServiceDescriptor field value if set, zero value otherwise.
+func (o *ServiceRef) GetServiceDescriptor() ServiceDescriptor {
+	if o == nil || o.ServiceDescriptor == nil {
+		var ret ServiceDescriptor
+		return ret
+	}
+	return *o.ServiceDescriptor
+}
+
+// GetServiceDescriptorOk returns a tuple with the ServiceDescriptor field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceRef) GetServiceDescriptorOk() (*ServiceDescriptor, bool) {
+	if o == nil || o.ServiceDescriptor == nil {
+		return nil, false
+	}
+	return o.ServiceDescriptor, true
+}
+
+// HasServiceDescriptor returns a boolean if a field has been set.
+func (o *ServiceRef) HasServiceDescriptor() bool {
+	return o != nil && o.ServiceDescriptor != nil
+}
+
+// SetServiceDescriptor gets a reference to the given ServiceDescriptor and assigns it to the ServiceDescriptor field.
+func (o *ServiceRef) SetServiceDescriptor(v ServiceDescriptor) {
+	o.ServiceDescriptor = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -101,6 +132,9 @@ func (o ServiceRef) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	if o.Cluster != nil {
 		toSerialize["cluster"] = o.Cluster
+	}
+	if o.ServiceDescriptor != nil {
+		toSerialize["serviceDescriptor"] = o.ServiceDescriptor
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -112,8 +146,9 @@ func (o ServiceRef) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name    *string `json:"name"`
-		Cluster *string `json:"cluster,omitempty"`
+		Name              *string            `json:"name"`
+		Cluster           *string            `json:"cluster,omitempty"`
+		ServiceDescriptor *ServiceDescriptor `json:"serviceDescriptor,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -123,15 +158,25 @@ func (o *ServiceRef) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "cluster"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "cluster", "serviceDescriptor"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
 	o.Cluster = all.Cluster
+	if all.ServiceDescriptor != nil && all.ServiceDescriptor.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ServiceDescriptor = all.ServiceDescriptor
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
