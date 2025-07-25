@@ -7,8 +7,9 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type VaultKey struct {
-	Type *string `json:"type,omitempty"`
-	Name *string `json:"name,omitempty"`
+	Engine *string                `json:"engine,omitempty"`
+	Key    *string                `json:"key,omitempty"`
+	Data   map[string]interface{} `json:"data,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -31,60 +32,88 @@ func NewVaultKeyWithDefaults() *VaultKey {
 	return &this
 }
 
-// GetType returns the Type field value if set, zero value otherwise.
-func (o *VaultKey) GetType() string {
-	if o == nil || o.Type == nil {
+// GetEngine returns the Engine field value if set, zero value otherwise.
+func (o *VaultKey) GetEngine() string {
+	if o == nil || o.Engine == nil {
 		var ret string
 		return ret
 	}
-	return *o.Type
+	return *o.Engine
 }
 
-// GetTypeOk returns a tuple with the Type field value if set, nil otherwise
+// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VaultKey) GetTypeOk() (*string, bool) {
-	if o == nil || o.Type == nil {
+func (o *VaultKey) GetEngineOk() (*string, bool) {
+	if o == nil || o.Engine == nil {
 		return nil, false
 	}
-	return o.Type, true
+	return o.Engine, true
 }
 
-// HasType returns a boolean if a field has been set.
-func (o *VaultKey) HasType() bool {
-	return o != nil && o.Type != nil
+// HasEngine returns a boolean if a field has been set.
+func (o *VaultKey) HasEngine() bool {
+	return o != nil && o.Engine != nil
 }
 
-// SetType gets a reference to the given string and assigns it to the Type field.
-func (o *VaultKey) SetType(v string) {
-	o.Type = &v
+// SetEngine gets a reference to the given string and assigns it to the Engine field.
+func (o *VaultKey) SetEngine(v string) {
+	o.Engine = &v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *VaultKey) GetName() string {
-	if o == nil || o.Name == nil {
+// GetKey returns the Key field value if set, zero value otherwise.
+func (o *VaultKey) GetKey() string {
+	if o == nil || o.Key == nil {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return *o.Key
 }
 
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
+// GetKeyOk returns a tuple with the Key field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *VaultKey) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+func (o *VaultKey) GetKeyOk() (*string, bool) {
+	if o == nil || o.Key == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return o.Key, true
 }
 
-// HasName returns a boolean if a field has been set.
-func (o *VaultKey) HasName() bool {
-	return o != nil && o.Name != nil
+// HasKey returns a boolean if a field has been set.
+func (o *VaultKey) HasKey() bool {
+	return o != nil && o.Key != nil
 }
 
-// SetName gets a reference to the given string and assigns it to the Name field.
-func (o *VaultKey) SetName(v string) {
-	o.Name = &v
+// SetKey gets a reference to the given string and assigns it to the Key field.
+func (o *VaultKey) SetKey(v string) {
+	o.Key = &v
+}
+
+// GetData returns the Data field value if set, zero value otherwise.
+func (o *VaultKey) GetData() map[string]interface{} {
+	if o == nil || o.Data == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Data
+}
+
+// GetDataOk returns a tuple with the Data field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VaultKey) GetDataOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Data == nil {
+		return nil, false
+	}
+	return &o.Data, true
+}
+
+// HasData returns a boolean if a field has been set.
+func (o *VaultKey) HasData() bool {
+	return o != nil && o.Data != nil
+}
+
+// SetData gets a reference to the given map[string]interface{} and assigns it to the Data field.
+func (o *VaultKey) SetData(v map[string]interface{}) {
+	o.Data = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -93,11 +122,14 @@ func (o VaultKey) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Type != nil {
-		toSerialize["type"] = o.Type
+	if o.Engine != nil {
+		toSerialize["engine"] = o.Engine
 	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
+	if o.Key != nil {
+		toSerialize["key"] = o.Key
+	}
+	if o.Data != nil {
+		toSerialize["data"] = o.Data
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -109,20 +141,22 @@ func (o VaultKey) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VaultKey) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Type *string `json:"type,omitempty"`
-		Name *string `json:"name,omitempty"`
+		Engine *string                `json:"engine,omitempty"`
+		Key    *string                `json:"key,omitempty"`
+		Data   map[string]interface{} `json:"data,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"type", "name"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "key", "data"})
 	} else {
 		return err
 	}
-	o.Type = all.Type
-	o.Name = all.Name
+	o.Engine = all.Engine
+	o.Key = all.Key
+	o.Data = all.Data
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

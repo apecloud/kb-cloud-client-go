@@ -15622,6 +15622,30 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - vault
+    post:
+      operationId: writeVaultSecret
+      summary: write vault secret
+      parameters:
+        - in: path
+          name: engineName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vaultKey'
+      responses:
+        '204':
+          description: Secret written successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - vault
 components:
   securitySchemes:
     BearerToken:
@@ -26928,10 +26952,13 @@ components:
       type: object
     vaultKey:
       properties:
-        type:
+        engine:
           type: string
-        name:
+        key:
           type: string
+        data:
+          type: object
+          additionalProperties: true
     vaultKeyList:
       properties:
         items:
