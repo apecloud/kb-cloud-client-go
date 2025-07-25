@@ -22,6 +22,9 @@ type ModeObjectStorageAdditionalHelmValuePath struct {
 	// If not set, it means the engine does not need this option.
 	//
 	UsePathStyle *string `json:"usePathStyle,omitempty"`
+	// Region to use. If not set, it means the engine does not need this option.
+	//
+	Region *string `json:"region,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -124,6 +127,34 @@ func (o *ModeObjectStorageAdditionalHelmValuePath) SetUsePathStyle(v string) {
 	o.UsePathStyle = &v
 }
 
+// GetRegion returns the Region field value if set, zero value otherwise.
+func (o *ModeObjectStorageAdditionalHelmValuePath) GetRegion() string {
+	if o == nil || o.Region == nil {
+		var ret string
+		return ret
+	}
+	return *o.Region
+}
+
+// GetRegionOk returns a tuple with the Region field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeObjectStorageAdditionalHelmValuePath) GetRegionOk() (*string, bool) {
+	if o == nil || o.Region == nil {
+		return nil, false
+	}
+	return o.Region, true
+}
+
+// HasRegion returns a boolean if a field has been set.
+func (o *ModeObjectStorageAdditionalHelmValuePath) HasRegion() bool {
+	return o != nil && o.Region != nil
+}
+
+// SetRegion gets a reference to the given string and assigns it to the Region field.
+func (o *ModeObjectStorageAdditionalHelmValuePath) SetRegion(v string) {
+	o.Region = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeObjectStorageAdditionalHelmValuePath) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -136,6 +167,9 @@ func (o ModeObjectStorageAdditionalHelmValuePath) MarshalJSON() ([]byte, error) 
 	}
 	if o.UsePathStyle != nil {
 		toSerialize["usePathStyle"] = o.UsePathStyle
+	}
+	if o.Region != nil {
+		toSerialize["region"] = o.Region
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -150,6 +184,7 @@ func (o *ModeObjectStorageAdditionalHelmValuePath) UnmarshalJSON(bytes []byte) (
 		Bucket       *string `json:"bucket"`
 		Path         *string `json:"path,omitempty"`
 		UsePathStyle *string `json:"usePathStyle,omitempty"`
+		Region       *string `json:"region,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -159,13 +194,14 @@ func (o *ModeObjectStorageAdditionalHelmValuePath) UnmarshalJSON(bytes []byte) (
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"bucket", "path", "usePathStyle"})
+		common.DeleteKeys(additionalProperties, &[]string{"bucket", "path", "usePathStyle", "region"})
 	} else {
 		return err
 	}
 	o.Bucket = *all.Bucket
 	o.Path = all.Path
 	o.UsePathStyle = all.UsePathStyle
+	o.Region = all.Region
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
