@@ -20,6 +20,7 @@ type DataChannelItem struct {
 	Target             *DataChannelListEndpoint `json:"target,omitempty"`
 	ReplicationObjects *DataChannelObject       `json:"replicationObjects,omitempty"`
 	Modules            []string                 `json:"modules,omitempty"`
+	Events             []EventObject            `json:"events,omitempty"`
 	CreatedAt          *time.Time               `json:"createdAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -295,6 +296,34 @@ func (o *DataChannelItem) SetModules(v []string) {
 	o.Modules = v
 }
 
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *DataChannelItem) GetEvents() []EventObject {
+	if o == nil || o.Events == nil {
+		var ret []EventObject
+		return ret
+	}
+	return o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelItem) GetEventsOk() (*[]EventObject, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return &o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *DataChannelItem) HasEvents() bool {
+	return o != nil && o.Events != nil
+}
+
+// SetEvents gets a reference to the given []EventObject and assigns it to the Events field.
+func (o *DataChannelItem) SetEvents(v []EventObject) {
+	o.Events = v
+}
+
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
 func (o *DataChannelItem) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
@@ -356,6 +385,9 @@ func (o DataChannelItem) MarshalJSON() ([]byte, error) {
 	if o.Modules != nil {
 		toSerialize["modules"] = o.Modules
 	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
+	}
 	if o.CreatedAt != nil {
 		if o.CreatedAt.Nanosecond() == 0 {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
@@ -382,6 +414,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 		Target             *DataChannelListEndpoint `json:"target,omitempty"`
 		ReplicationObjects *DataChannelObject       `json:"replicationObjects,omitempty"`
 		Modules            []string                 `json:"modules,omitempty"`
+		Events             []EventObject            `json:"events,omitempty"`
 		CreatedAt          *time.Time               `json:"createdAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -389,7 +422,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "source", "target", "replicationObjects", "modules", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "source", "target", "replicationObjects", "modules", "events", "createdAt"})
 	} else {
 		return err
 	}
@@ -417,6 +450,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.ReplicationObjects = all.ReplicationObjects
 	o.Modules = all.Modules
+	o.Events = all.Events
 	o.CreatedAt = all.CreatedAt
 
 	if len(additionalProperties) > 0 {

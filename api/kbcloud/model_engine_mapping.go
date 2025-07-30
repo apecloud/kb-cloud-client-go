@@ -10,6 +10,7 @@ type EngineMapping struct {
 	Source       *string             `json:"source,omitempty"`
 	Target       *string             `json:"target,omitempty"`
 	Modules      []string            `json:"modules,omitempty"`
+	Events       [][]EventObject     `json:"events,omitempty"`
 	Descriptions *MappingDescription `json:"descriptions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -117,6 +118,34 @@ func (o *EngineMapping) SetModules(v []string) {
 	o.Modules = v
 }
 
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *EngineMapping) GetEvents() [][]EventObject {
+	if o == nil || o.Events == nil {
+		var ret [][]EventObject
+		return ret
+	}
+	return o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineMapping) GetEventsOk() (*[][]EventObject, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return &o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *EngineMapping) HasEvents() bool {
+	return o != nil && o.Events != nil
+}
+
+// SetEvents gets a reference to the given [][]EventObject and assigns it to the Events field.
+func (o *EngineMapping) SetEvents(v [][]EventObject) {
+	o.Events = v
+}
+
 // GetDescriptions returns the Descriptions field value if set, zero value otherwise.
 func (o *EngineMapping) GetDescriptions() MappingDescription {
 	if o == nil || o.Descriptions == nil {
@@ -160,6 +189,9 @@ func (o EngineMapping) MarshalJSON() ([]byte, error) {
 	if o.Modules != nil {
 		toSerialize["modules"] = o.Modules
 	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
+	}
 	if o.Descriptions != nil {
 		toSerialize["descriptions"] = o.Descriptions
 	}
@@ -176,6 +208,7 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 		Source       *string             `json:"source,omitempty"`
 		Target       *string             `json:"target,omitempty"`
 		Modules      []string            `json:"modules,omitempty"`
+		Events       [][]EventObject     `json:"events,omitempty"`
 		Descriptions *MappingDescription `json:"descriptions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -183,7 +216,7 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "descriptions"})
+		common.DeleteKeys(additionalProperties, &[]string{"source", "target", "modules", "events", "descriptions"})
 	} else {
 		return err
 	}
@@ -192,6 +225,7 @@ func (o *EngineMapping) UnmarshalJSON(bytes []byte) (err error) {
 	o.Source = all.Source
 	o.Target = all.Target
 	o.Modules = all.Modules
+	o.Events = all.Events
 	if all.Descriptions != nil && all.Descriptions.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

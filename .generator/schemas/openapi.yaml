@@ -11356,6 +11356,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
       tags:
         - dataReplication
       x-codegen-request-body-name: body
@@ -17590,6 +17592,19 @@ components:
           $ref: '#/components/schemas/engineDefinitionDetail'
         target:
           $ref: '#/components/schemas/engineDefinitionDetail'
+    eventType:
+      enum:
+        - dml
+        - ddl
+        - dcl
+      type: string
+    eventObject:
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/eventType'
+        eventValue:
+          type: string
     mappingDescription:
       type: object
       properties:
@@ -17607,6 +17622,13 @@ components:
           type: array
           items:
             type: string
+        events:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/eventObject'
+            description: the events of the engine mapping, the first one is the default event
         descriptions:
           $ref: '#/components/schemas/mappingDescription'
     standardResource:
@@ -20533,6 +20555,10 @@ components:
           type: array
           items:
             type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/eventObject'
         createdAt:
           type: string
           format: date-time
@@ -20602,6 +20628,10 @@ components:
           $ref: '#/components/schemas/dataChannelEndpointCreate'
         replicationObjects:
           $ref: '#/components/schemas/dataChannelObject'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/eventObject'
     dataChannelResponse:
       type: object
       properties:
@@ -20814,6 +20844,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Internal server error
+    '501':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Not Implemented
   parameters:
     startTime:
       name: start

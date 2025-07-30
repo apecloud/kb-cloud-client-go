@@ -15,6 +15,7 @@ type DataReplicationCreate struct {
 	Source             *DataChannelEndpointCreate `json:"source,omitempty"`
 	Target             *DataChannelEndpointCreate `json:"target,omitempty"`
 	ReplicationObjects *DataChannelObject         `json:"replicationObjects,omitempty"`
+	Events             []EventObject              `json:"events,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -265,6 +266,34 @@ func (o *DataReplicationCreate) SetReplicationObjects(v DataChannelObject) {
 	o.ReplicationObjects = &v
 }
 
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *DataReplicationCreate) GetEvents() []EventObject {
+	if o == nil || o.Events == nil {
+		var ret []EventObject
+		return ret
+	}
+	return o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataReplicationCreate) GetEventsOk() (*[]EventObject, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return &o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *DataReplicationCreate) HasEvents() bool {
+	return o != nil && o.Events != nil
+}
+
+// SetEvents gets a reference to the given []EventObject and assigns it to the Events field.
+func (o *DataReplicationCreate) SetEvents(v []EventObject) {
+	o.Events = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DataReplicationCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -295,6 +324,9 @@ func (o DataReplicationCreate) MarshalJSON() ([]byte, error) {
 	if o.ReplicationObjects != nil {
 		toSerialize["replicationObjects"] = o.ReplicationObjects
 	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -313,13 +345,14 @@ func (o *DataReplicationCreate) UnmarshalJSON(bytes []byte) (err error) {
 		Source             *DataChannelEndpointCreate `json:"source,omitempty"`
 		Target             *DataChannelEndpointCreate `json:"target,omitempty"`
 		ReplicationObjects *DataChannelObject         `json:"replicationObjects,omitempty"`
+		Events             []EventObject              `json:"events,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelName", "modules", "environmentID", "project", "standardDefinition", "source", "target", "replicationObjects"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelName", "modules", "environmentID", "project", "standardDefinition", "source", "target", "replicationObjects", "events"})
 	} else {
 		return err
 	}
@@ -342,6 +375,7 @@ func (o *DataReplicationCreate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ReplicationObjects = all.ReplicationObjects
+	o.Events = all.Events
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
