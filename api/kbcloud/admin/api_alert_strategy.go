@@ -163,7 +163,7 @@ func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, level Alert
 	apiInfo := common.APIInfo{
 		Tag:         "alertStrategy",
 		OperationID: "deleteAlertStrategy",
-		Path:        "/admin/v1/alerts/strategies",
+		Path:        "/admin/v1/alerts/strategies/{strategyId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -173,13 +173,13 @@ func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, level Alert
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/alerts/strategies"
+	localVarPath := localBasePath + "/admin/v1/alerts/strategies/{strategyId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"strategyId"+"}", _neturl.PathEscape(common.ParameterToString(strategyId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	localVarQueryParams.Add("strategyId", common.ParameterToString(strategyId, ""))
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -436,7 +436,7 @@ func (r *PatchAlertStrategyOptionalParameters) WithOrgName(orgName string) *Patc
 }
 
 // PatchAlertStrategy Update alert strategy.
-func (a *AlertStrategyApi) PatchAlertStrategy(ctx _context.Context, level AlertLevel, strategyId string, body AlertStrategy, o ...PatchAlertStrategyOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *AlertStrategyApi) PatchAlertStrategy(ctx _context.Context, level AlertLevel, body AlertStrategy, o ...PatchAlertStrategyOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -471,7 +471,6 @@ func (a *AlertStrategyApi) PatchAlertStrategy(ctx _context.Context, level AlertL
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	localVarQueryParams.Add("strategyId", common.ParameterToString(strategyId, ""))
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}

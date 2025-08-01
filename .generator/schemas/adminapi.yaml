@@ -8739,155 +8739,6 @@ paths:
       tags:
         - alertReceiver
       x-codegen-request-body-name: body
-  /admin/v1/alerts/strategies:
-    get:
-      tags:
-        - alertStrategy
-      operationId: listAlertStrategies
-      summary: List alert strategies
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertStrategyList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - alertStrategy
-      operationId: createAlertStrategy
-      summary: Create alert strategy
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertStrategy'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertStrategy'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
-    patch:
-      tags:
-        - alertStrategy
-      operationId: patchAlertStrategy
-      summary: Update alert strategy
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-        - name: strategyId
-          in: query
-          description: id of the alert strategy
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertStrategy'
-        required: true
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
-    delete:
-      tags:
-        - alertStrategy
-      operationId: deleteAlertStrategy
-      summary: Delete alert strategy
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-        - name: strategyId
-          in: query
-          description: id of the alert strategy
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/alerts/rules:
     get:
       tags:
@@ -9210,6 +9061,150 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alerts/strategies:
+    get:
+      tags:
+        - alertStrategy
+      operationId: listAlertStrategies
+      summary: List alert strategies
+      parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertStrategyList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - alertStrategy
+      operationId: createAlertStrategy
+      summary: Create alert strategy
+      parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertStrategy'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertStrategy'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+    patch:
+      tags:
+        - alertStrategy
+      operationId: patchAlertStrategy
+      summary: Update alert strategy
+      parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertStrategy'
+        required: true
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+  /admin/v1/alerts/strategies/{strategyId}:
+    delete:
+      tags:
+        - alertStrategy
+      operationId: deleteAlertStrategy
+      summary: Delete alert strategy
+      parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: strategyId
+          in: path
+          description: id of the alert strategy
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/alerts/strategies/{strategyId}:
     delete:
       tags:
@@ -22284,105 +22279,6 @@ components:
         - global
         - organization
       type: string
-    alterRuleRef:
-      type: object
-      properties:
-        groupName:
-          type: string
-        alertName:
-          type: string
-    alertStrategy:
-      required:
-        - receiverIds
-      type: object
-      properties:
-        id:
-          type: integer
-        level:
-          $ref: '#/components/schemas/alertLevel'
-        orgName:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        receiverIds:
-          type: array
-          items:
-            type: integer
-        receivers:
-          type: array
-          items:
-            $ref: '#/components/schemas/alertReceiver'
-        envs:
-          type: array
-          items:
-            type: string
-        severities:
-          type: array
-          items:
-            type: string
-        rules:
-          type: array
-          items:
-            type: string
-        ruleObjs:
-          type: array
-          items:
-            $ref: '#/components/schemas/alterRuleRef'
-        engines:
-          type: array
-          items:
-            type: string
-        clusters:
-          type: array
-          items:
-            type: string
-        disabled:
-          type: boolean
-          default: false
-        repeatInterval:
-          type: string
-        muteTimeInterval:
-          type: object
-          properties:
-            weekdays:
-              type: array
-              items:
-                type: integer
-                description: Days should be between [0, 6] where 0 = Sunday.
-            times:
-              type: object
-              properties:
-                startTime:
-                  type: string
-                  description: Mute start time, e.g. '17:00', should be in UTC time.
-                endTime:
-                  type: string
-                  description: Mute end time, e.g. '24:00', should be in UTC time.
-            onceMinutes:
-              type: integer
-              description: Only mute once for `onceMinutes` minutes
-      description: Alert strategy information
-    alertStrategyList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert strategy objects in the list
-          items:
-            $ref: '#/components/schemas/alertStrategy'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertStrategyList is a list of alert strategies
     alertSeverity:
       enum:
         - critical
@@ -22523,6 +22419,105 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertObjectList is a list of alert object
+    alterRuleRef:
+      type: object
+      properties:
+        groupName:
+          type: string
+        alertName:
+          type: string
+    alertStrategy:
+      required:
+        - receiverIds
+      type: object
+      properties:
+        id:
+          type: integer
+        level:
+          $ref: '#/components/schemas/alertLevel'
+        orgName:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        receiverIds:
+          type: array
+          items:
+            type: integer
+        receivers:
+          type: array
+          items:
+            $ref: '#/components/schemas/alertReceiver'
+        envs:
+          type: array
+          items:
+            type: string
+        severities:
+          type: array
+          items:
+            type: string
+        rules:
+          type: array
+          items:
+            type: string
+        ruleObjs:
+          type: array
+          items:
+            $ref: '#/components/schemas/alterRuleRef'
+        engines:
+          type: array
+          items:
+            type: string
+        clusters:
+          type: array
+          items:
+            type: string
+        disabled:
+          type: boolean
+          default: false
+        repeatInterval:
+          type: string
+        muteTimeInterval:
+          type: object
+          properties:
+            weekdays:
+              type: array
+              items:
+                type: integer
+                description: Days should be between [0, 6] where 0 = Sunday.
+            times:
+              type: object
+              properties:
+                startTime:
+                  type: string
+                  description: Mute start time, e.g. '17:00', should be in UTC time.
+                endTime:
+                  type: string
+                  description: Mute end time, e.g. '24:00', should be in UTC time.
+            onceMinutes:
+              type: integer
+              description: Only mute once for `onceMinutes` minutes
+      description: Alert strategy information
+    alertStrategyList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert strategy objects in the list
+          items:
+            $ref: '#/components/schemas/alertStrategy'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertStrategyList is a list of alert strategies
     alertRuleConfig:
       type: object
       properties:
