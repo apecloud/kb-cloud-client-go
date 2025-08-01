@@ -15937,6 +15937,8 @@ components:
           type: array
           items:
             type: string
+        level:
+          $ref: '#/components/schemas/alertLevel'
       description: Alert object information
     alertInhibitList:
       required:

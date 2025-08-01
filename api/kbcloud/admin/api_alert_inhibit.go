@@ -19,7 +19,8 @@ type AlertInhibitApi common.Service
 
 // CreateAlertInhibitOptionalParameters holds optional parameters for CreateAlertInhibit.
 type CreateAlertInhibitOptionalParameters struct {
-	Body *AlertInhibit
+	Body    *AlertInhibit
+	OrgName *string
 }
 
 // NewCreateAlertInhibitOptionalParameters creates an empty struct for parameters.
@@ -34,8 +35,14 @@ func (r *CreateAlertInhibitOptionalParameters) WithBody(body AlertInhibit) *Crea
 	return r
 }
 
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *CreateAlertInhibitOptionalParameters) WithOrgName(orgName string) *CreateAlertInhibitOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // CreateAlertInhibit Create alert inhibit.
-func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName string, o ...CreateAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
+func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, level AlertLevel, o ...CreateAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -54,7 +61,7 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 	apiInfo := common.APIInfo{
 		Tag:         "alertInhibit",
 		OperationID: "createAlertInhibit",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/inhibits",
+		Path:        "/admin/v1/alerts/inhibits",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -64,12 +71,15 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/inhibits"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/inhibits"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -125,19 +135,44 @@ func (a *AlertInhibitApi) CreateAlertInhibit(ctx _context.Context, orgName strin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// DeleteAlertInhibitOptionalParameters holds optional parameters for DeleteAlertInhibit.
+type DeleteAlertInhibitOptionalParameters struct {
+	OrgName *string
+}
+
+// NewDeleteAlertInhibitOptionalParameters creates an empty struct for parameters.
+func NewDeleteAlertInhibitOptionalParameters() *DeleteAlertInhibitOptionalParameters {
+	this := DeleteAlertInhibitOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *DeleteAlertInhibitOptionalParameters) WithOrgName(orgName string) *DeleteAlertInhibitOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // DeleteAlertInhibit Delete alert inhibit.
-func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName string, inhibitId string) (interface{}, *_nethttp.Response, error) {
+func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, level AlertLevel, inhibitId string, o ...DeleteAlertInhibitOptionalParameters) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
+		optionalParams      DeleteAlertInhibitOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteAlertInhibitOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertInhibit",
 		OperationID: "deleteAlertInhibit",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}",
+		Path:        "/admin/v1/alerts/inhibits/{inhibitId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -147,13 +182,16 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/inhibits/{inhibitId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"inhibitId"+"}", _neturl.PathEscape(common.ParameterToString(inhibitId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -204,19 +242,44 @@ func (a *AlertInhibitApi) DeleteAlertInhibit(ctx _context.Context, orgName strin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetAlertInhibitOptionalParameters holds optional parameters for GetAlertInhibit.
+type GetAlertInhibitOptionalParameters struct {
+	OrgName *string
+}
+
+// NewGetAlertInhibitOptionalParameters creates an empty struct for parameters.
+func NewGetAlertInhibitOptionalParameters() *GetAlertInhibitOptionalParameters {
+	this := GetAlertInhibitOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *GetAlertInhibitOptionalParameters) WithOrgName(orgName string) *GetAlertInhibitOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // GetAlertInhibit Get alert inhibit.
-func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, inhibitId string) (AlertInhibit, *_nethttp.Response, error) {
+func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, level AlertLevel, inhibitId string, o ...GetAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AlertInhibit
+		optionalParams      GetAlertInhibitOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetAlertInhibitOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertInhibit",
 		OperationID: "getAlertInhibit",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}",
+		Path:        "/admin/v1/alerts/inhibits/{inhibitId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -226,13 +289,16 @@ func (a *AlertInhibitApi) GetAlertInhibit(ctx _context.Context, orgName string, 
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/inhibits/{inhibitId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"inhibitId"+"}", _neturl.PathEscape(common.ParameterToString(inhibitId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -302,7 +368,7 @@ func (r *ListAlertInhibitsOptionalParameters) WithOrgName(orgName string) *ListA
 
 // ListAlertInhibits List alert inhibits.
 // Deprecated: This API is deprecated.
-func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, o ...ListAlertInhibitsOptionalParameters) (AlertInhibitList, *_nethttp.Response, error) {
+func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, level AlertLevel, o ...ListAlertInhibitsOptionalParameters) (AlertInhibitList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -336,6 +402,7 @@ func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, o ...ListAlert
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -391,7 +458,8 @@ func (a *AlertInhibitApi) ListAlertInhibits(ctx _context.Context, o ...ListAlert
 
 // PatchAlertInhibitOptionalParameters holds optional parameters for PatchAlertInhibit.
 type PatchAlertInhibitOptionalParameters struct {
-	Body *AlertInhibit
+	Body    *AlertInhibit
+	OrgName *string
 }
 
 // NewPatchAlertInhibitOptionalParameters creates an empty struct for parameters.
@@ -406,8 +474,14 @@ func (r *PatchAlertInhibitOptionalParameters) WithBody(body AlertInhibit) *Patch
 	return r
 }
 
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *PatchAlertInhibitOptionalParameters) WithOrgName(orgName string) *PatchAlertInhibitOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // PatchAlertInhibit Patch alert inhibit.
-func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string, o ...PatchAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
+func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, level AlertLevel, o ...PatchAlertInhibitOptionalParameters) (AlertInhibit, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -426,7 +500,7 @@ func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string
 	apiInfo := common.APIInfo{
 		Tag:         "alertInhibit",
 		OperationID: "patchAlertInhibit",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/inhibits",
+		Path:        "/admin/v1/alerts/inhibits",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -436,12 +510,15 @@ func (a *AlertInhibitApi) PatchAlertInhibit(ctx _context.Context, orgName string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/inhibits"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/inhibits"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 

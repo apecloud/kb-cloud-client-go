@@ -8762,6 +8762,130 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/alerts/rules/download:
+    get:
+      tags:
+        - alertRule
+      summary: Download organization-specific alert rule configuration file
+      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
+      operationId: downloadOrgAlertRuleFile
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          required: false
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful download of the organization-specific alert rule configuration file.
+          content:
+            application/x-yaml:
+              schema:
+                type: string
+                format: binary
+                description: YAML file content containing the new alert rule configuration
+            application/json:
+              schema:
+                type: string
+                format: binary
+                description: JSON file content containing the new alert rule configuration
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/alerts/rules/upload:
+    put:
+      tags:
+        - alertRule
+      summary: Update alert rule configuration via YAML upload
+      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
+      operationId: updateRuleConfig
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          required: false
+          description: The name of the organization.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/alertRuleConfig'
+      responses:
+        '204':
+          description: Alert rule configuration updated successfully.
+        '400':
+          description: Invalid YAML format or content.
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '500':
+          description: Internal server error during update.
+          $ref: '#/components/responses/500'
+  /admin/v1/alerts/rules/reset:
+    post:
+      tags:
+        - alertRule
+      summary: Restore organization's alert rule configuration to defaults
+      description: Restores the alert rule configuration for a specific organization to the system default settings.
+      operationId: restoreOrgAlertRuleToDefault
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          required: false
+          description: The name of the organization.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Alert rule configuration for the organization restored to defaults successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/alerts/objects:
     get:
       tags:
@@ -9197,114 +9321,184 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/rules/config:
+  /admin/v1/alerts/inhibits:
     get:
       tags:
-        - alertRule
-        - shared
-      summary: Download organization-specific alert rule configuration file
-      description: Downloads the current alert rule configuration for a specific organization as a YAML file.
-      operationId: downloadOrgAlertRuleFile
+        - alertInhibit
+      operationId: listAlertInhibits
+      deprecated: true
+      summary: List alert inhibits
       parameters:
-        - name: orgName
-          in: path
+        - name: level
+          in: query
+          description: alert rule level
           required: true
-          description: The name of the organization.
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
           schema:
             type: string
       responses:
         '200':
-          description: Successful download of the organization-specific alert rule configuration file.
+          description: A successful response.
           content:
-            application/x-yaml:
-              schema:
-                type: string
-                format: binary
-                description: YAML file content containing the new alert rule configuration
             application/json:
               schema:
-                type: string
-                format: binary
-                description: JSON file content containing the new alert rule configuration
-        '400':
-          $ref: '#/components/responses/400'
+                $ref: '#/components/schemas/alertInhibitList'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    put:
+    post:
       tags:
-        - alertRule
-        - shared
-      summary: Update alert rule configuration via YAML upload
-      description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-      operationId: updateRuleConfig
+        - alertInhibit
+      operationId: createAlertInhibit
+      summary: Create alert inhibit
       parameters:
-        - name: orgName
-          in: path
+        - name: level
+          in: query
+          description: alert rule level
           required: true
-          description: The name of the organization.
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
           schema:
             type: string
       requestBody:
-        required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: '#/components/schemas/alertRuleConfig'
+              $ref: '#/components/schemas/alertInhibit'
       responses:
-        '204':
-          description: Alert rule configuration updated successfully.
-        '400':
-          description: Invalid YAML format or content.
-          $ref: '#/components/responses/400'
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertInhibit'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
-        '500':
-          description: Internal server error during update.
-          $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/alerts/rules/config/restore:
-    post:
+        '404':
+          $ref: '#/components/responses/404'
+    patch:
       tags:
-        - alertRule
-        - shared
-      summary: Restore organization's alert rule configuration to defaults
-      description: Restores the alert rule configuration for a specific organization to the system default settings.
-      operationId: restoreOrgAlertRuleToDefault
+        - alertInhibit
+      operationId: patchAlertInhibit
+      summary: Patch alert inhibit
       parameters:
-        - name: orgName
-          in: path
+        - name: level
+          in: query
+          description: alert rule level
           required: true
-          description: The name of the organization.
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertInhibit'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertInhibit'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/alerts/inhibits/{inhibitId}:
+    get:
+      tags:
+        - alertInhibit
+      operationId: getAlertInhibit
+      summary: Get alert inhibit
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: inhibitId
+          in: path
+          description: inhibit id
+          required: true
           schema:
             type: string
       responses:
         '200':
-          description: Alert rule configuration for the organization restored to defaults successfully.
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertInhibit'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - alertInhibit
+      operationId: deleteAlertInhibit
+      summary: Delete alert inhibit
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: inhibitId
+          in: path
+          description: inhibit id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                    example: Alert rule configuration for organization 'example-org-1' has been restored to defaults successfully.
-        '400':
-          $ref: '#/components/responses/400'
-        '401':
-          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/alerts/metrics:
     get:
       tags:
@@ -9390,159 +9584,6 @@ paths:
                 $ref: '#/components/schemas/alertConfig'
         '401':
           $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/alerts/inhibits:
-    get:
-      tags:
-        - alertInhibit
-      operationId: listAlertInhibits
-      deprecated: true
-      summary: List alert inhibits
-      parameters:
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertInhibitList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/inhibits:
-    post:
-      tags:
-        - alertInhibit
-        - shared
-      operationId: createAlertInhibit
-      summary: Create alert inhibit
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertInhibit'
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertInhibit'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - alertInhibit
-        - shared
-      operationId: patchAlertInhibit
-      summary: Patch alert inhibit
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertInhibit'
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertInhibit'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/inhibits/{inhibitId}:
-    get:
-      tags:
-        - alertInhibit
-        - shared
-      operationId: getAlertInhibit
-      summary: Get alert inhibit
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: inhibitId
-          in: path
-          description: inhibit id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertInhibit'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - alertInhibit
-        - shared
-      operationId: deleteAlertInhibit
-      summary: Delete alert inhibit
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: inhibitId
-          in: path
-          description: inhibit id
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
         '403':
           $ref: '#/components/responses/403'
         '404':
@@ -22225,6 +22266,13 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertRuleList is a list of alert rules
+    alertRuleConfig:
+      type: object
+      properties:
+        content:
+          type: string
+          format: binary
+          description: YAML file content containing the new alert rule configuration
     alertStatus:
       enum:
         - resolved
@@ -22444,34 +22492,6 @@ components:
       required:
         - items
       type: object
-    alertRuleConfig:
-      type: object
-      properties:
-        content:
-          type: string
-          format: binary
-          description: YAML file content containing the new alert rule configuration
-    alertMetricList:
-      required:
-        - items
-      type: object
-      properties:
-        items:
-          type: array
-          description: Items is the list of alert metric objects in the list
-          items:
-            $ref: '#/components/schemas/alertMetric'
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      description: AlertMetricList is a list of alert metric
-    alertConfig:
-      required:
-        - timeZoneOffset
-      type: object
-      properties:
-        timeZoneOffset:
-          type: integer
-          description: Time zone offset in seconds, e.g. offset of UTC+08:00 is +8 * 60 * 60
     alertInhibit:
       type: object
       properties:
@@ -22499,6 +22519,8 @@ components:
           type: array
           items:
             type: string
+        level:
+          $ref: '#/components/schemas/alertLevel'
       description: Alert object information
     alertInhibitList:
       required:
@@ -22513,6 +22535,27 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertInhibitList is a list of alert inhibit
+    alertMetricList:
+      required:
+        - items
+      type: object
+      properties:
+        items:
+          type: array
+          description: Items is the list of alert metric objects in the list
+          items:
+            $ref: '#/components/schemas/alertMetric'
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      description: AlertMetricList is a list of alert metric
+    alertConfig:
+      required:
+        - timeZoneOffset
+      type: object
+      properties:
+        timeZoneOffset:
+          type: integer
+          description: Time zone offset in seconds, e.g. offset of UTC+08:00 is +8 * 60 * 60
     alertSMSConfig:
       description: Alert sms config
       properties:
