@@ -8888,74 +8888,6 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/alerts/strategies/{strategyId}:
-    delete:
-      tags:
-        - alertStrategy
-      operationId: deleteAlertStrategyInOrg
-      summary: Delete alert strategy
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: strategyId
-          in: path
-          description: id of the alert strategies
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
-    patch:
-      tags:
-        - alertStrategy
-      operationId: updateAlertStrategy
-      summary: Update alert strategy
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: strategyId
-          in: path
-          description: id of the alert strategies
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertStrategy'
-        required: true
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
   /admin/v1/alerts/rules:
     get:
       tags:
@@ -9038,85 +8970,21 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/alerts/rules/{alertName}:
-    get:
-      tags:
-        - alertRule
-        - shared
-      operationId: getAlertRuleInOrg
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: alertName
-          in: path
-          description: name of the alert
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/alertRule'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    delete:
-      tags:
-        - alertRule
-        - shared
-      operationId: deleteAlertRuleInOrg
-      summary: Delete alert rule
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: alertName
-          in: path
-          description: id of the alert rules
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content:
-            application/json:
-              schema:
-                type: object
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
     patch:
       tags:
         - alertRule
-        - shared
-      operationId: updateAlertRuleInOrg
-      summary: Update alert rule
+      operationId: updateAlertRule
       parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
+        - name: level
+          in: query
+          description: alert rule level
           required: true
           schema:
-            type: string
-        - name: alertName
-          in: path
-          description: id of the alert rules
-          required: true
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
           schema:
             type: string
       requestBody:
@@ -9134,6 +9002,146 @@ paths:
                 $ref: '#/components/schemas/alertRule'
         '401':
           $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+  /admin/v1/alerts/rules/{alertName}:
+    get:
+      tags:
+        - alertRule
+      operationId: getAlertRule
+      summary: Get alert rule
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: alertName
+          in: path
+          description: name of the alert rule
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertRule'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - alertRule
+      operationId: deleteAlertRule
+      summary: Delete alert rule
+      parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: alertName
+          in: path
+          description: name of the alert rule
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Delete successful response.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/alerts/strategies/{strategyId}:
+    delete:
+      tags:
+        - alertStrategy
+      operationId: deleteAlertStrategyInOrg
+      summary: Delete alert strategy
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: strategyId
+          in: path
+          description: id of the alert strategies
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - alertStrategy
+      operationId: updateAlertStrategy
+      summary: Update alert strategy
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the Org
+          required: true
+          schema:
+            type: string
+        - name: strategyId
+          in: path
+          description: id of the alert strategies
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertStrategy'
+        required: true
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
         '403':
           $ref: '#/components/responses/403'
         '404':
