@@ -8516,38 +8516,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/alerts/receivers:
-    get:
-      tags:
-        - alertReceiver
-        - shared
-      summary: List alert receivers
-      operationId: listAlertReceivers
-      parameters:
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
-        - name: category
-          in: query
-          description: alert receiver category
-          schema:
-            $ref: '#/components/schemas/alertReceiverCategory'
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertReceiverList'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/alerts/checkURL:
     post:
       summary: Batch check URLs connectivity
@@ -8603,142 +8571,6 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/receivers:
-    post:
-      tags:
-        - alertReceiver
-        - shared
-      operationId: createAlertReceiver
-      summary: Create alert receiver
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: category
-          in: query
-          description: alert receiver category
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertReceiverCategory'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertReceiver'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/receivers/{receiverId}:
-    delete:
-      operationId: deleteAlertReceiver
-      summary: Delete alert receiver
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: id of the alert receivers
-          in: path
-          name: receiverId
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          content: {}
-          description: Returned when project is deleted successfully.
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - alertReceiver
-        - shared
-    get:
-      operationId: getAlertReceiver
-      summary: Get alert receiver
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: id of the alert receivers
-          in: path
-          name: receiverId
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertReceiver'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-        '409':
-          $ref: '#/components/responses/409'
-      tags:
-        - alertReceiver
-    patch:
-      description: partially update the alert receiver
-      operationId: patchAlertReceiver
-      summary: Update alert receiver
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: id of the alert receivers
-          in: path
-          name: receiverId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/alertReceiver'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/alertReceiver'
-          description: Returned when project is deleted successfully.
-        '401':
-          $ref: '#/components/responses/401'
-      tags:
-        - alertReceiver
-      x-codegen-request-body-name: body
   /admin/v1/alerts/rules:
     get:
       tags:
@@ -9134,7 +8966,7 @@ paths:
     patch:
       tags:
         - alertStrategy
-      operationId: patchAlertStrategy
+      operationId: updateAlertStrategy
       summary: Update alert strategy
       parameters:
         - name: level
@@ -9205,74 +9037,166 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
-  /admin/v1/organizations/{orgName}/alerts/strategies/{strategyId}:
-    delete:
+  /admin/v1/alerts/receivers:
+    get:
       tags:
-        - alertStrategy
-      operationId: deleteAlertStrategyInOrg
-      summary: Delete alert strategy
+        - alertReceiver
+      summary: List alert receivers
+      operationId: listAlertReceivers
       parameters:
+        - name: level
+          in: query
+          description: alert level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
-          in: path
+          in: query
           description: name of the Org
-          required: true
+          required: false
           schema:
             type: string
-        - name: strategyId
-          in: path
-          description: id of the alert strategies
-          required: true
+        - name: category
+          in: query
+          description: alert receiver category
           schema:
-            type: string
+            $ref: '#/components/schemas/alertReceiverCategory'
       responses:
-        '204':
-          description: Returned when project is deleted successfully.
+        '200':
+          description: A successful response.
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/alertReceiverList'
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-        '500':
-          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - alertReceiver
+      operationId: createAlertReceiver
+      summary: Create alert receiver
+      parameters:
+        - name: level
+          in: query
+          description: alert level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: alert receiver category
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertReceiverCategory'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/alertReceiver'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/alertReceiver'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      x-codegen-request-body-name: body
+  /admin/v1/alerts/receivers/{receiverId}:
     patch:
       tags:
-        - alertStrategy
-      operationId: updateAlertStrategy
-      summary: Update alert strategy
+        - alertReceiver
+      operationId: updateAlertReceiver
+      summary: Update alert receiver
       parameters:
-        - name: orgName
+        - name: receiverId
           in: path
-          description: name of the Org
+          description: receiver id
           required: true
           schema:
             type: string
-        - name: strategyId
-          in: path
-          description: id of the alert strategies
+        - name: level
+          in: query
+          description: alert level
           required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
           schema:
             type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/alertStrategy'
+              $ref: '#/components/schemas/alertReceiver'
         required: true
       responses:
-        '204':
-          description: Returned when project is deleted successfully.
+        '200':
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/alertReceiver'
+          description: Returned when project is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+    delete:
+      tags:
+        - alertReceiver
+      operationId: deleteAlertReceiver
+      summary: Delete alert receiver
+      parameters:
+        - name: receiverId
+          in: path
+          description: receiver id
+          required: true
+          schema:
+            type: string
+        - name: level
+          in: query
+          description: alert level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when alert receiver is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/alerts/rules/config:
     get:
       tags:
@@ -22181,66 +22105,6 @@ components:
       properties:
         disabled:
           type: boolean
-    alertReceiverCategory:
-      type: string
-      enum:
-        - feishu
-        - wechat
-        - dingtalk
-        - receiver-group
-        - webhook
-    webhookConfig:
-      description: Webhook config of alert receiver
-      properties:
-        url:
-          type: string
-      required:
-        - url
-      type: object
-    alertReceiver:
-      description: Alert receiver information
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        category:
-          $ref: '#/components/schemas/alertReceiverCategory'
-        updatedAt:
-          format: date-time
-          type: string
-        userGroup:
-          properties:
-            emailEnabled:
-              type: boolean
-            ids:
-              items:
-                type: string
-              type: array
-            smsEnabled:
-              type: boolean
-          type: object
-        webhookConfig:
-          $ref: '#/components/schemas/webhookConfig'
-        orgName:
-          type: string
-      type: object
-    alertReceiverList:
-      description: AlertReceiverList is a list of alert receivers
-      properties:
-        items:
-          description: Items is the list of alert receiver objects in the list
-          items:
-            $ref: '#/components/schemas/alertReceiver'
-          type: array
-        pageResult:
-          $ref: '#/components/schemas/pageResult'
-      required:
-        - items
-      type: object
     URLCheck:
       type: object
       required:
@@ -22419,6 +22283,55 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertObjectList is a list of alert object
+    alertReceiverCategory:
+      type: string
+      enum:
+        - feishu
+        - wechat
+        - dingtalk
+        - receiver-group
+        - webhook
+    webhookConfig:
+      description: Webhook config of alert receiver
+      properties:
+        url:
+          type: string
+      required:
+        - url
+      type: object
+    alertReceiver:
+      description: Alert receiver information
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          $ref: '#/components/schemas/alertReceiverCategory'
+        updatedAt:
+          format: date-time
+          type: string
+        userGroup:
+          properties:
+            emailEnabled:
+              type: boolean
+            ids:
+              items:
+                type: string
+              type: array
+            smsEnabled:
+              type: boolean
+          type: object
+        webhookConfig:
+          $ref: '#/components/schemas/webhookConfig'
+        orgName:
+          type: string
+        level:
+          $ref: '#/components/schemas/alertLevel'
+      type: object
     alterRuleRef:
       type: object
       properties:
@@ -22518,6 +22431,19 @@ components:
         pageResult:
           $ref: '#/components/schemas/pageResult'
       description: AlertStrategyList is a list of alert strategies
+    alertReceiverList:
+      description: AlertReceiverList is a list of alert receivers
+      properties:
+        items:
+          description: Items is the list of alert receiver objects in the list
+          items:
+            $ref: '#/components/schemas/alertReceiver'
+          type: array
+        pageResult:
+          $ref: '#/components/schemas/pageResult'
+      required:
+        - items
+      type: object
     alertRuleConfig:
       type: object
       properties:

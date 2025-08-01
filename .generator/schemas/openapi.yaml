@@ -15559,6 +15559,11 @@ components:
       required:
         - url
       type: object
+    alertLevel:
+      enum:
+        - global
+        - organization
+      type: string
     alertReceiver:
       description: Alert receiver information
       properties:
@@ -15589,6 +15594,8 @@ components:
           $ref: '#/components/schemas/webhookConfig'
         orgName:
           type: string
+        level:
+          $ref: '#/components/schemas/alertLevel'
       type: object
     alertReceiverList:
       description: AlertReceiverList is a list of alert receivers
@@ -15636,11 +15643,6 @@ components:
           type: integer
         info:
           type: integer
-    alertLevel:
-      enum:
-        - global
-        - organization
-      type: string
     alterRuleRef:
       type: object
       properties:

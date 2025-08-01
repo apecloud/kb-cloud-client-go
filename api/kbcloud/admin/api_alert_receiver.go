@@ -17,19 +17,44 @@ import (
 // AlertReceiverApi service type
 type AlertReceiverApi common.Service
 
+// CreateAlertReceiverOptionalParameters holds optional parameters for CreateAlertReceiver.
+type CreateAlertReceiverOptionalParameters struct {
+	OrgName *string
+}
+
+// NewCreateAlertReceiverOptionalParameters creates an empty struct for parameters.
+func NewCreateAlertReceiverOptionalParameters() *CreateAlertReceiverOptionalParameters {
+	this := CreateAlertReceiverOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *CreateAlertReceiverOptionalParameters) WithOrgName(orgName string) *CreateAlertReceiverOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // CreateAlertReceiver Create alert receiver.
-func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName string, category AlertReceiverCategory, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
+func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, level AlertLevel, category AlertReceiverCategory, body AlertReceiver, o ...CreateAlertReceiverOptionalParameters) (AlertReceiver, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue AlertReceiver
+		optionalParams      CreateAlertReceiverOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateAlertReceiverOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertReceiver",
 		OperationID: "createAlertReceiver",
-		Path:        "/admin/v1/organizations/{orgName}/receivers",
+		Path:        "/admin/v1/alerts/receivers",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,13 +64,16 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/receivers"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/receivers"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
 	localVarQueryParams.Add("category", common.ParameterToString(category, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -99,18 +127,43 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// DeleteAlertReceiverOptionalParameters holds optional parameters for DeleteAlertReceiver.
+type DeleteAlertReceiverOptionalParameters struct {
+	OrgName *string
+}
+
+// NewDeleteAlertReceiverOptionalParameters creates an empty struct for parameters.
+func NewDeleteAlertReceiverOptionalParameters() *DeleteAlertReceiverOptionalParameters {
+	this := DeleteAlertReceiverOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *DeleteAlertReceiverOptionalParameters) WithOrgName(orgName string) *DeleteAlertReceiverOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
 // DeleteAlertReceiver Delete alert receiver.
-func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName string, receiverId string) (*_nethttp.Response, error) {
+func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, receiverId string, level AlertLevel, o ...DeleteAlertReceiverOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
+		optionalParams     DeleteAlertReceiverOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return nil, common.ReportError("only one argument of type DeleteAlertReceiverOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertReceiver",
 		OperationID: "deleteAlertReceiver",
-		Path:        "/admin/v1/organizations/{orgName}/receivers/{receiverId}",
+		Path:        "/admin/v1/alerts/receivers/{receiverId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -120,13 +173,16 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/receivers/{receiverId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/receivers/{receiverId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"receiverId"+"}", _neturl.PathEscape(common.ParameterToString(receiverId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -154,7 +210,7 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -166,85 +222,6 @@ func (a *AlertReceiverApi) DeleteAlertReceiver(ctx _context.Context, orgName str
 	}
 
 	return localVarHTTPResponse, nil
-}
-
-// GetAlertReceiver Get alert receiver.
-func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string, receiverId string) (AlertReceiver, *_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod  = _nethttp.MethodGet
-		localVarPostBody    interface{}
-		localVarReturnValue AlertReceiver
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "alertReceiver",
-		OperationID: "getAlertReceiver",
-		Path:        "/admin/v1/organizations/{orgName}/receivers/{receiverId}",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.GetAlertReceiver")
-	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/receivers/{receiverId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"receiverId"+"}", _neturl.PathEscape(common.ParameterToString(receiverId, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 409 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 // ListAlertReceiversOptionalParameters holds optional parameters for ListAlertReceivers.
@@ -272,7 +249,7 @@ func (r *ListAlertReceiversOptionalParameters) WithCategory(category AlertReceiv
 }
 
 // ListAlertReceivers List alert receivers.
-func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAlertReceiversOptionalParameters) (AlertReceiverList, *_nethttp.Response, error) {
+func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, level AlertLevel, o ...ListAlertReceiversOptionalParameters) (AlertReceiverList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -306,6 +283,7 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
 	if optionalParams.OrgName != nil {
 		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
 	}
@@ -362,36 +340,63 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, o ...ListAle
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PatchAlertReceiver Update alert receiver.
-// partially update the alert receiver
-func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName string, receiverId string, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
+// UpdateAlertReceiverOptionalParameters holds optional parameters for UpdateAlertReceiver.
+type UpdateAlertReceiverOptionalParameters struct {
+	OrgName *string
+}
+
+// NewUpdateAlertReceiverOptionalParameters creates an empty struct for parameters.
+func NewUpdateAlertReceiverOptionalParameters() *UpdateAlertReceiverOptionalParameters {
+	this := UpdateAlertReceiverOptionalParameters{}
+	return &this
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *UpdateAlertReceiverOptionalParameters) WithOrgName(orgName string) *UpdateAlertReceiverOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// UpdateAlertReceiver Update alert receiver.
+func (a *AlertReceiverApi) UpdateAlertReceiver(ctx _context.Context, receiverId string, level AlertLevel, body AlertReceiver, o ...UpdateAlertReceiverOptionalParameters) (AlertReceiver, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue AlertReceiver
+		optionalParams      UpdateAlertReceiverOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateAlertReceiverOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertReceiver",
-		OperationID: "patchAlertReceiver",
-		Path:        "/admin/v1/organizations/{orgName}/receivers/{receiverId}",
+		OperationID: "updateAlertReceiver",
+		Path:        "/admin/v1/alerts/receivers/{receiverId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.PatchAlertReceiver")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.UpdateAlertReceiver")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/receivers/{receiverId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/receivers/{receiverId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"receiverId"+"}", _neturl.PathEscape(common.ParameterToString(receiverId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -422,7 +427,7 @@ func (a *AlertReceiverApi) PatchAlertReceiver(ctx _context.Context, orgName stri
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
