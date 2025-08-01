@@ -17,8 +17,8 @@ import (
 // AlertReceiverApi service type
 type AlertReceiverApi common.Service
 
-// CreateAlertReceiver Create alert receiver.
-func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName string, category AlertReceiverCategory, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
+// CreateAlertReceiverInOrg Create alert receiver.
+func (a *AlertReceiverApi) CreateAlertReceiverInOrg(ctx _context.Context, orgName string, category AlertReceiverCategory, body AlertReceiver) (AlertReceiver, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -28,13 +28,13 @@ func (a *AlertReceiverApi) CreateAlertReceiver(ctx _context.Context, orgName str
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertReceiver",
-		OperationID: "createAlertReceiver",
+		OperationID: "createAlertReceiverInOrg",
 		Path:        "/api/v1/organizations/{orgName}/receivers",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.CreateAlertReceiver")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.CreateAlertReceiverInOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -247,34 +247,34 @@ func (a *AlertReceiverApi) GetAlertReceiver(ctx _context.Context, orgName string
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAlertReceiversOptionalParameters holds optional parameters for ListAlertReceivers.
-type ListAlertReceiversOptionalParameters struct {
+// ListAlertReceiversInOrgOptionalParameters holds optional parameters for ListAlertReceiversInOrg.
+type ListAlertReceiversInOrgOptionalParameters struct {
 	Category *AlertReceiverCategory
 }
 
-// NewListAlertReceiversOptionalParameters creates an empty struct for parameters.
-func NewListAlertReceiversOptionalParameters() *ListAlertReceiversOptionalParameters {
-	this := ListAlertReceiversOptionalParameters{}
+// NewListAlertReceiversInOrgOptionalParameters creates an empty struct for parameters.
+func NewListAlertReceiversInOrgOptionalParameters() *ListAlertReceiversInOrgOptionalParameters {
+	this := ListAlertReceiversInOrgOptionalParameters{}
 	return &this
 }
 
 // WithCategory sets the corresponding parameter name and returns the struct.
-func (r *ListAlertReceiversOptionalParameters) WithCategory(category AlertReceiverCategory) *ListAlertReceiversOptionalParameters {
+func (r *ListAlertReceiversInOrgOptionalParameters) WithCategory(category AlertReceiverCategory) *ListAlertReceiversInOrgOptionalParameters {
 	r.Category = &category
 	return r
 }
 
-// ListAlertReceivers List alert receivers.
-func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, orgName string, o ...ListAlertReceiversOptionalParameters) (AlertReceiverList, *_nethttp.Response, error) {
+// ListAlertReceiversInOrg List alert receivers.
+func (a *AlertReceiverApi) ListAlertReceiversInOrg(ctx _context.Context, orgName string, o ...ListAlertReceiversInOrgOptionalParameters) (AlertReceiverList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AlertReceiverList
-		optionalParams      ListAlertReceiversOptionalParameters
+		optionalParams      ListAlertReceiversInOrgOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertReceiversOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertReceiversInOrgOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -283,13 +283,13 @@ func (a *AlertReceiverApi) ListAlertReceivers(ctx _context.Context, orgName stri
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertReceiver",
-		OperationID: "listAlertReceivers",
+		OperationID: "listAlertReceiversInOrg",
 		Path:        "/api/v1/organizations/{orgName}/receivers",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.ListAlertReceivers")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertReceiverApi.ListAlertReceiversInOrg")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

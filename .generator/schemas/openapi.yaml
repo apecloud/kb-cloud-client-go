@@ -4993,7 +4993,7 @@ paths:
       tags:
         - alertReceiver
       summary: List alert receivers
-      operationId: listAlertReceivers
+      operationId: listAlertReceiversInOrg
       parameters:
         - name: orgName
           in: path
@@ -5022,7 +5022,7 @@ paths:
     post:
       tags:
         - alertReceiver
-      operationId: createAlertReceiver
+      operationId: createAlertReceiverInOrg
       summary: Create alert receiver
       parameters:
         - name: orgName
@@ -5210,7 +5210,7 @@ paths:
     get:
       tags:
         - alertStrategy
-      operationId: listAlertStrategies
+      operationId: listAlertStrategiesInOrg
       summary: List alert strategies
       parameters:
         - name: orgName
@@ -5235,8 +5235,8 @@ paths:
     post:
       tags:
         - alertStrategy
-      operationId: createAlertStrategy
-      summary: Create alert strategy
+      operationId: createAlertStrategyInOrg
+      summary: Create alert strategy in org
       parameters:
         - name: orgName
           in: path
@@ -5267,7 +5267,7 @@ paths:
     patch:
       tags:
         - alertStrategy
-      operationId: patchAlertStrategy
+      operationId: patchAlertStrategyInOrg
       summary: Update alert strategy
       parameters:
         - name: orgName
@@ -5298,8 +5298,7 @@ paths:
     delete:
       tags:
         - alertStrategy
-        - shared
-      operationId: deleteAlertStrategy
+      operationId: deleteAlertStrategyInOrg
       summary: Delete alert strategy
       parameters:
         - name: orgName
@@ -5325,6 +5324,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     patch:
       tags:
         - alertStrategy
@@ -5365,7 +5366,7 @@ paths:
     get:
       tags:
         - alertRule
-      operationId: listAlertRules
+      operationId: listAlertRulesInOrg
       summary: List alert rules
       parameters:
         - name: orgName
@@ -5396,7 +5397,7 @@ paths:
     post:
       tags:
         - alertRule
-      operationId: createAlertRule
+      operationId: createAlertRuleInOrg
       summary: Create alert rule
       parameters:
         - name: orgName
@@ -5430,7 +5431,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: getAlertRule
+      operationId: getAlertRuleInOrg
       parameters:
         - name: orgName
           in: path
@@ -5461,7 +5462,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: deleteAlertRule
+      operationId: deleteAlertRuleInOrg
       summary: Delete alert rule
       parameters:
         - name: orgName
@@ -5491,7 +5492,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: updateAlertRule
+      operationId: updateAlertRuleInOrg
       summary: Update alert rule
       parameters:
         - name: orgName
@@ -15635,6 +15636,11 @@ components:
           type: integer
         info:
           type: integer
+    alertLevel:
+      enum:
+        - global
+        - organization
+      type: string
     alterRuleRef:
       type: object
       properties:
@@ -15649,6 +15655,8 @@ components:
       properties:
         id:
           type: integer
+        level:
+          $ref: '#/components/schemas/alertLevel'
         orgName:
           type: string
         name:
@@ -15789,6 +15797,8 @@ components:
           description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
+        level:
+          $ref: '#/components/schemas/alertLevel'
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
     alertRuleGroup:
       type: object

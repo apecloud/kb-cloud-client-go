@@ -8743,10 +8743,15 @@ paths:
     get:
       tags:
         - alertStrategy
-        - shared
       operationId: listAlertStrategies
       summary: List alert strategies
       parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
           in: query
           description: name of the Org
@@ -8766,18 +8771,22 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/strategies:
     post:
       tags:
         - alertStrategy
-        - shared
       operationId: createAlertStrategy
       summary: Create alert strategy
       parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
+        - name: level
+          in: query
+          description: alert strategy level
           required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
           schema:
             type: string
       requestBody:
@@ -8803,13 +8812,24 @@ paths:
     patch:
       tags:
         - alertStrategy
-        - shared
       operationId: patchAlertStrategy
       summary: Update alert strategy
       parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
-          in: path
+          in: query
           description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: strategyId
+          in: query
+          description: id of the alert strategy
           required: true
           schema:
             type: string
@@ -8831,12 +8851,48 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
+    delete:
+      tags:
+        - alertStrategy
+      operationId: deleteAlertStrategy
+      summary: Delete alert strategy
+      parameters:
+        - name: level
+          in: query
+          description: alert strategy level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
+          schema:
+            type: string
+        - name: strategyId
+          in: query
+          description: id of the alert strategy
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Returned when project is deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/organizations/{orgName}/alerts/strategies/{strategyId}:
     delete:
       tags:
         - alertStrategy
-        - shared
-      operationId: deleteAlertStrategy
+      operationId: deleteAlertStrategyInOrg
       summary: Delete alert strategy
       parameters:
         - name: orgName
@@ -8862,6 +8918,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     patch:
       tags:
         - alertStrategy
@@ -8905,10 +8963,16 @@ paths:
       operationId: listAlertRules
       summary: List alert rules
       parameters:
+        - name: level
+          in: query
+          description: alert rule level
+          required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
           in: query
           description: name of the Org
-          required: true
+          required: false
           schema:
             type: string
         - name: disabled
@@ -8930,18 +8994,22 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/rules:
     post:
       tags:
         - alertRule
-        - shared
       operationId: createAlertRule
       summary: Create alert rule
       parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
+        - name: level
+          in: query
+          description: alert rule level
           required: true
+          schema:
+            $ref: '#/components/schemas/alertLevel'
+        - name: orgName
+          in: query
+          description: name of the Org
+          required: false
           schema:
             type: string
         - name: disabled
@@ -8975,7 +9043,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: getAlertRule
+      operationId: getAlertRuleInOrg
       parameters:
         - name: orgName
           in: path
@@ -9006,7 +9074,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: deleteAlertRule
+      operationId: deleteAlertRuleInOrg
       summary: Delete alert rule
       parameters:
         - name: orgName
@@ -9036,7 +9104,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: updateAlertRule
+      operationId: updateAlertRuleInOrg
       summary: Update alert rule
       parameters:
         - name: orgName
@@ -22188,6 +22256,11 @@ components:
           type: integer
         info:
           type: integer
+    alertLevel:
+      enum:
+        - global
+        - organization
+      type: string
     alterRuleRef:
       type: object
       properties:
@@ -22202,6 +22275,8 @@ components:
       properties:
         id:
           type: integer
+        level:
+          $ref: '#/components/schemas/alertLevel'
         orgName:
           type: string
         name:
@@ -22342,6 +22417,8 @@ components:
           description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
+        level:
+          $ref: '#/components/schemas/alertLevel'
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
     alertRuleGroup:
       type: object

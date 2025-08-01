@@ -14,6 +14,7 @@ import (
 // AlertStrategy Alert strategy information
 type AlertStrategy struct {
 	Id               *int32                         `json:"id,omitempty"`
+	Level            *AlertLevel                    `json:"level,omitempty"`
 	OrgName          *string                        `json:"orgName,omitempty"`
 	Name             *string                        `json:"name,omitempty"`
 	Description      *string                        `json:"description,omitempty"`
@@ -83,6 +84,34 @@ func (o *AlertStrategy) HasId() bool {
 // SetId gets a reference to the given int32 and assigns it to the Id field.
 func (o *AlertStrategy) SetId(v int32) {
 	o.Id = &v
+}
+
+// GetLevel returns the Level field value if set, zero value otherwise.
+func (o *AlertStrategy) GetLevel() AlertLevel {
+	if o == nil || o.Level == nil {
+		var ret AlertLevel
+		return ret
+	}
+	return *o.Level
+}
+
+// GetLevelOk returns a tuple with the Level field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertStrategy) GetLevelOk() (*AlertLevel, bool) {
+	if o == nil || o.Level == nil {
+		return nil, false
+	}
+	return o.Level, true
+}
+
+// HasLevel returns a boolean if a field has been set.
+func (o *AlertStrategy) HasLevel() bool {
+	return o != nil && o.Level != nil
+}
+
+// SetLevel gets a reference to the given AlertLevel and assigns it to the Level field.
+func (o *AlertStrategy) SetLevel(v AlertLevel) {
+	o.Level = &v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
@@ -537,6 +566,9 @@ func (o AlertStrategy) MarshalJSON() ([]byte, error) {
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
 	}
+	if o.Level != nil {
+		toSerialize["level"] = o.Level
+	}
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
@@ -602,6 +634,7 @@ func (o AlertStrategy) MarshalJSON() ([]byte, error) {
 func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Id               *int32                         `json:"id,omitempty"`
+		Level            *AlertLevel                    `json:"level,omitempty"`
 		OrgName          *string                        `json:"orgName,omitempty"`
 		Name             *string                        `json:"name,omitempty"`
 		Description      *string                        `json:"description,omitempty"`
@@ -627,13 +660,18 @@ func (o *AlertStrategy) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "name", "description", "createdAt", "updatedAt", "receiverIds", "receivers", "envs", "severities", "rules", "ruleObjs", "engines", "clusters", "disabled", "repeatInterval", "muteTimeInterval"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "level", "orgName", "name", "description", "createdAt", "updatedAt", "receiverIds", "receivers", "envs", "severities", "rules", "ruleObjs", "engines", "clusters", "disabled", "repeatInterval", "muteTimeInterval"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Id = all.Id
+	if all.Level != nil && !all.Level.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Level = all.Level
+	}
 	o.OrgName = all.OrgName
 	o.Name = all.Name
 	o.Description = all.Description
