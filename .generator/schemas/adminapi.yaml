@@ -6329,8 +6329,15 @@ paths:
           $ref: '#/components/responses/500'
       tags:
         - environment
-  /admin/v1/latestEnvModuleVersion:
+  /admin/v1/environments/{environmentName}/latestEnvModuleVersion:
     get:
+      parameters:
+        - description: name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
       tags:
         - environment
       operationId: getLatestEnvModuleVersion
