@@ -4993,7 +4993,7 @@ paths:
       tags:
         - alertReceiver
       summary: List alert receivers
-      operationId: listAlertReceiversInOrg
+      operationId: listAlertReceivers
       parameters:
         - name: orgName
           in: path
@@ -5022,7 +5022,7 @@ paths:
     post:
       tags:
         - alertReceiver
-      operationId: createAlertReceiverInOrg
+      operationId: createAlertReceiver
       summary: Create alert receiver
       parameters:
         - name: orgName
@@ -5210,7 +5210,7 @@ paths:
     get:
       tags:
         - alertStrategy
-      operationId: listAlertStrategiesInOrg
+      operationId: listAlertStrategies
       summary: List alert strategies
       parameters:
         - name: orgName
@@ -5235,7 +5235,7 @@ paths:
     post:
       tags:
         - alertStrategy
-      operationId: createAlertStrategyInOrg
+      operationId: createAlertStrategy
       summary: Create alert strategy in org
       parameters:
         - name: orgName
@@ -5267,7 +5267,7 @@ paths:
     patch:
       tags:
         - alertStrategy
-      operationId: patchAlertStrategyInOrg
+      operationId: patchAlertStrategy
       summary: Update alert strategy
       parameters:
         - name: orgName
@@ -5298,7 +5298,7 @@ paths:
     delete:
       tags:
         - alertStrategy
-      operationId: deleteAlertStrategyInOrg
+      operationId: deleteAlertStrategy
       summary: Delete alert strategy
       parameters:
         - name: orgName
@@ -5366,7 +5366,7 @@ paths:
     get:
       tags:
         - alertRule
-      operationId: listAlertRulesInOrg
+      operationId: listAlertRules
       summary: List alert rules
       parameters:
         - name: orgName
@@ -5397,7 +5397,7 @@ paths:
     post:
       tags:
         - alertRule
-      operationId: createAlertRuleInOrg
+      operationId: createAlertRule
       summary: Create alert rule
       parameters:
         - name: orgName
@@ -5431,7 +5431,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: getAlertRuleInOrg
+      operationId: getAlertRule
       parameters:
         - name: orgName
           in: path
@@ -5462,7 +5462,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: deleteAlertRuleInOrg
+      operationId: deleteAlertRule
       summary: Delete alert rule
       parameters:
         - name: orgName
@@ -5492,7 +5492,7 @@ paths:
       tags:
         - alertRule
         - shared
-      operationId: updateAlertRuleInOrg
+      operationId: updateAlertRule
       summary: Update alert rule
       parameters:
         - name: orgName

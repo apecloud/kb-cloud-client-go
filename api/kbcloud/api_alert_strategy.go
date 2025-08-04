@@ -17,8 +17,8 @@ import (
 // AlertStrategyApi service type
 type AlertStrategyApi common.Service
 
-// CreateAlertStrategyInOrg Create alert strategy in org.
-func (a *AlertStrategyApi) CreateAlertStrategyInOrg(ctx _context.Context, orgName string, body AlertStrategy) (AlertStrategy, *_nethttp.Response, error) {
+// CreateAlertStrategy Create alert strategy in org.
+func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, orgName string, body AlertStrategy) (AlertStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -28,13 +28,13 @@ func (a *AlertStrategyApi) CreateAlertStrategyInOrg(ctx _context.Context, orgNam
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertStrategy",
-		OperationID: "createAlertStrategyInOrg",
+		OperationID: "createAlertStrategy",
 		Path:        "/api/v1/organizations/{orgName}/alerts/strategies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.CreateAlertStrategyInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.CreateAlertStrategy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -98,8 +98,8 @@ func (a *AlertStrategyApi) CreateAlertStrategyInOrg(ctx _context.Context, orgNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteAlertStrategyInOrg Delete alert strategy.
-func (a *AlertStrategyApi) DeleteAlertStrategyInOrg(ctx _context.Context, orgName string, strategyId string) (interface{}, *_nethttp.Response, error) {
+// DeleteAlertStrategy Delete alert strategy.
+func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, orgName string, strategyId string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -109,13 +109,13 @@ func (a *AlertStrategyApi) DeleteAlertStrategyInOrg(ctx _context.Context, orgNam
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertStrategy",
-		OperationID: "deleteAlertStrategyInOrg",
+		OperationID: "deleteAlertStrategy",
 		Path:        "/api/v1/organizations/{orgName}/alerts/strategies/{strategyId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.DeleteAlertStrategyInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.DeleteAlertStrategy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -177,8 +177,8 @@ func (a *AlertStrategyApi) DeleteAlertStrategyInOrg(ctx _context.Context, orgNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAlertStrategiesInOrg List alert strategies.
-func (a *AlertStrategyApi) ListAlertStrategiesInOrg(ctx _context.Context, orgName string) (AlertStrategyList, *_nethttp.Response, error) {
+// ListAlertStrategies List alert strategies.
+func (a *AlertStrategyApi) ListAlertStrategies(ctx _context.Context, orgName string) (AlertStrategyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -188,13 +188,13 @@ func (a *AlertStrategyApi) ListAlertStrategiesInOrg(ctx _context.Context, orgNam
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertStrategy",
-		OperationID: "listAlertStrategiesInOrg",
+		OperationID: "listAlertStrategies",
 		Path:        "/api/v1/organizations/{orgName}/alerts/strategies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.ListAlertStrategiesInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.ListAlertStrategies")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -255,8 +255,8 @@ func (a *AlertStrategyApi) ListAlertStrategiesInOrg(ctx _context.Context, orgNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// PatchAlertStrategyInOrg Update alert strategy.
-func (a *AlertStrategyApi) PatchAlertStrategyInOrg(ctx _context.Context, orgName string, body AlertStrategy) (interface{}, *_nethttp.Response, error) {
+// PatchAlertStrategy Update alert strategy.
+func (a *AlertStrategyApi) PatchAlertStrategy(ctx _context.Context, orgName string, body AlertStrategy) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -266,13 +266,13 @@ func (a *AlertStrategyApi) PatchAlertStrategyInOrg(ctx _context.Context, orgName
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertStrategy",
-		OperationID: "patchAlertStrategyInOrg",
+		OperationID: "patchAlertStrategy",
 		Path:        "/api/v1/organizations/{orgName}/alerts/strategies",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.PatchAlertStrategyInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertStrategyApi.PatchAlertStrategy")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

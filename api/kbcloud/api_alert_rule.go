@@ -18,8 +18,8 @@ import (
 // AlertRuleApi service type
 type AlertRuleApi common.Service
 
-// CreateAlertRuleInOrg Create alert rule.
-func (a *AlertRuleApi) CreateAlertRuleInOrg(ctx _context.Context, orgName string, body AlertRule) (AlertRule, *_nethttp.Response, error) {
+// CreateAlertRule Create alert rule.
+func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, orgName string, body AlertRule) (AlertRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -29,13 +29,13 @@ func (a *AlertRuleApi) CreateAlertRuleInOrg(ctx _context.Context, orgName string
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
-		OperationID: "createAlertRuleInOrg",
+		OperationID: "createAlertRule",
 		Path:        "/api/v1/organizations/{orgName}/alerts/rules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.CreateAlertRuleInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.CreateAlertRule")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -99,8 +99,8 @@ func (a *AlertRuleApi) CreateAlertRuleInOrg(ctx _context.Context, orgName string
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteAlertRuleInOrg Delete alert rule.
-func (a *AlertRuleApi) DeleteAlertRuleInOrg(ctx _context.Context, orgName string, alertName string) (interface{}, *_nethttp.Response, error) {
+// DeleteAlertRule Delete alert rule.
+func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, alertName string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
@@ -110,13 +110,13 @@ func (a *AlertRuleApi) DeleteAlertRuleInOrg(ctx _context.Context, orgName string
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
-		OperationID: "deleteAlertRuleInOrg",
+		OperationID: "deleteAlertRule",
 		Path:        "/api/v1/organizations/{orgName}/alerts/rules/{alertName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.DeleteAlertRuleInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.DeleteAlertRule")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -249,8 +249,8 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetAlertRuleInOrg .
-func (a *AlertRuleApi) GetAlertRuleInOrg(ctx _context.Context, orgName string, alertName string) (AlertRule, *_nethttp.Response, error) {
+// GetAlertRule .
+func (a *AlertRuleApi) GetAlertRule(ctx _context.Context, orgName string, alertName string) (AlertRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -260,13 +260,13 @@ func (a *AlertRuleApi) GetAlertRuleInOrg(ctx _context.Context, orgName string, a
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
-		OperationID: "getAlertRuleInOrg",
+		OperationID: "getAlertRule",
 		Path:        "/api/v1/organizations/{orgName}/alerts/rules/{alertName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.GetAlertRuleInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.GetAlertRule")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -328,34 +328,34 @@ func (a *AlertRuleApi) GetAlertRuleInOrg(ctx _context.Context, orgName string, a
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAlertRulesInOrgOptionalParameters holds optional parameters for ListAlertRulesInOrg.
-type ListAlertRulesInOrgOptionalParameters struct {
+// ListAlertRulesOptionalParameters holds optional parameters for ListAlertRules.
+type ListAlertRulesOptionalParameters struct {
 	Disabled *bool
 }
 
-// NewListAlertRulesInOrgOptionalParameters creates an empty struct for parameters.
-func NewListAlertRulesInOrgOptionalParameters() *ListAlertRulesInOrgOptionalParameters {
-	this := ListAlertRulesInOrgOptionalParameters{}
+// NewListAlertRulesOptionalParameters creates an empty struct for parameters.
+func NewListAlertRulesOptionalParameters() *ListAlertRulesOptionalParameters {
+	this := ListAlertRulesOptionalParameters{}
 	return &this
 }
 
 // WithDisabled sets the corresponding parameter name and returns the struct.
-func (r *ListAlertRulesInOrgOptionalParameters) WithDisabled(disabled bool) *ListAlertRulesInOrgOptionalParameters {
+func (r *ListAlertRulesOptionalParameters) WithDisabled(disabled bool) *ListAlertRulesOptionalParameters {
 	r.Disabled = &disabled
 	return r
 }
 
-// ListAlertRulesInOrg List alert rules.
-func (a *AlertRuleApi) ListAlertRulesInOrg(ctx _context.Context, orgName string, o ...ListAlertRulesInOrgOptionalParameters) (AlertRuleList, *_nethttp.Response, error) {
+// ListAlertRules List alert rules.
+func (a *AlertRuleApi) ListAlertRules(ctx _context.Context, orgName string, o ...ListAlertRulesOptionalParameters) (AlertRuleList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AlertRuleList
-		optionalParams      ListAlertRulesInOrgOptionalParameters
+		optionalParams      ListAlertRulesOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertRulesInOrgOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertRulesOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -364,13 +364,13 @@ func (a *AlertRuleApi) ListAlertRulesInOrg(ctx _context.Context, orgName string,
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
-		OperationID: "listAlertRulesInOrg",
+		OperationID: "listAlertRules",
 		Path:        "/api/v1/organizations/{orgName}/alerts/rules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.ListAlertRulesInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.ListAlertRules")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
@@ -513,8 +513,8 @@ func (a *AlertRuleApi) RestoreOrgAlertRuleToDefault(ctx _context.Context, orgNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateAlertRuleInOrg Update alert rule.
-func (a *AlertRuleApi) UpdateAlertRuleInOrg(ctx _context.Context, orgName string, alertName string, body AlertRule) (AlertRule, *_nethttp.Response, error) {
+// UpdateAlertRule Update alert rule.
+func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, alertName string, body AlertRule) (AlertRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -524,13 +524,13 @@ func (a *AlertRuleApi) UpdateAlertRuleInOrg(ctx _context.Context, orgName string
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
-		OperationID: "updateAlertRuleInOrg",
+		OperationID: "updateAlertRule",
 		Path:        "/api/v1/organizations/{orgName}/alerts/rules/{alertName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.UpdateAlertRuleInOrg")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.UpdateAlertRule")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
