@@ -8898,7 +8898,7 @@ paths:
           description: alert level
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
           in: query
           description: name of the Org
@@ -8941,7 +8941,7 @@ paths:
           description: alert level
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
           in: query
           description: name of the Org
@@ -8986,7 +8986,7 @@ paths:
           description: alert level
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/alertLevel'
         - name: orgName
           in: query
           description: name of the Org
@@ -9326,7 +9326,6 @@ paths:
       tags:
         - alertInhibit
       operationId: listAlertInhibits
-      deprecated: true
       summary: List alert inhibits
       parameters:
         - name: level

@@ -49,7 +49,7 @@ func (r *ListAlertObjectsOptionalParameters) WithPageSize(pageSize int32) *ListA
 }
 
 // ListAlertObjects List alert objects.
-func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, level string, o ...ListAlertObjectsOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
+func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, level AlertLevel, o ...ListAlertObjectsOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -161,7 +161,7 @@ func (r *SetAlertObjectStatusOptionalParameters) WithOrgName(orgName string) *Se
 }
 
 // SetAlertObjectStatus Set alert object status.
-func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, level string, alertId string, status string, o ...SetAlertObjectStatusOptionalParameters) (AlertObject, *_nethttp.Response, error) {
+func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, level AlertLevel, alertId string, status string, o ...SetAlertObjectStatusOptionalParameters) (AlertObject, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -276,7 +276,7 @@ func (r *SetAlertObjectsStatusOptionalParameters) WithOrgName(orgName string) *S
 }
 
 // SetAlertObjectsStatus Set alert objects status.
-func (a *AlertObjectApi) SetAlertObjectsStatus(ctx _context.Context, level string, status string, o ...SetAlertObjectsStatusOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
+func (a *AlertObjectApi) SetAlertObjectsStatus(ctx _context.Context, level AlertLevel, status string, o ...SetAlertObjectsStatusOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
