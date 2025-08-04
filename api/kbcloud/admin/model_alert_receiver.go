@@ -21,7 +21,6 @@ type AlertReceiver struct {
 	// Webhook config of alert receiver
 	WebhookConfig *WebhookConfig `json:"webhookConfig,omitempty"`
 	OrgName       *string        `json:"orgName,omitempty"`
-	Level         *AlertLevel    `json:"level,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -268,34 +267,6 @@ func (o *AlertReceiver) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-// GetLevel returns the Level field value if set, zero value otherwise.
-func (o *AlertReceiver) GetLevel() AlertLevel {
-	if o == nil || o.Level == nil {
-		var ret AlertLevel
-		return ret
-	}
-	return *o.Level
-}
-
-// GetLevelOk returns a tuple with the Level field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AlertReceiver) GetLevelOk() (*AlertLevel, bool) {
-	if o == nil || o.Level == nil {
-		return nil, false
-	}
-	return o.Level, true
-}
-
-// HasLevel returns a boolean if a field has been set.
-func (o *AlertReceiver) HasLevel() bool {
-	return o != nil && o.Level != nil
-}
-
-// SetLevel gets a reference to the given AlertLevel and assigns it to the Level field.
-func (o *AlertReceiver) SetLevel(v AlertLevel) {
-	o.Level = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertReceiver) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -334,9 +305,6 @@ func (o AlertReceiver) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
-	if o.Level != nil {
-		toSerialize["level"] = o.Level
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -355,14 +323,13 @@ func (o *AlertReceiver) UnmarshalJSON(bytes []byte) (err error) {
 		UserGroup     *AlertReceiverUserGroup `json:"userGroup,omitempty"`
 		WebhookConfig *WebhookConfig          `json:"webhookConfig,omitempty"`
 		OrgName       *string                 `json:"orgName,omitempty"`
-		Level         *AlertLevel             `json:"level,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "id", "name", "category", "updatedAt", "userGroup", "webhookConfig", "orgName", "level"})
+		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "id", "name", "category", "updatedAt", "userGroup", "webhookConfig", "orgName"})
 	} else {
 		return err
 	}
@@ -386,11 +353,6 @@ func (o *AlertReceiver) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.WebhookConfig = all.WebhookConfig
 	o.OrgName = all.OrgName
-	if all.Level != nil && !all.Level.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Level = all.Level
-	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

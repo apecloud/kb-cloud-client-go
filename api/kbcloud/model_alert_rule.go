@@ -27,7 +27,6 @@ type AlertRule struct {
 	// Alert metric information
 	Metric  *AlertMetric `json:"metric,omitempty"`
 	OrgName *string      `json:"orgName,omitempty"`
-	Level   *AlertLevel  `json:"level,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -374,34 +373,6 @@ func (o *AlertRule) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-// GetLevel returns the Level field value if set, zero value otherwise.
-func (o *AlertRule) GetLevel() AlertLevel {
-	if o == nil || o.Level == nil {
-		var ret AlertLevel
-		return ret
-	}
-	return *o.Level
-}
-
-// GetLevelOk returns a tuple with the Level field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AlertRule) GetLevelOk() (*AlertLevel, bool) {
-	if o == nil || o.Level == nil {
-		return nil, false
-	}
-	return o.Level, true
-}
-
-// HasLevel returns a boolean if a field has been set.
-func (o *AlertRule) HasLevel() bool {
-	return o != nil && o.Level != nil
-}
-
-// SetLevel gets a reference to the given AlertLevel and assigns it to the Level field.
-func (o *AlertRule) SetLevel(v AlertLevel) {
-	o.Level = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertRule) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -444,9 +415,6 @@ func (o AlertRule) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
-	if o.Level != nil {
-		toSerialize["level"] = o.Level
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -469,7 +437,6 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 		UpdatedAt   *time.Time     `json:"updatedAt,omitempty"`
 		Metric      *AlertMetric   `json:"metric,omitempty"`
 		OrgName     *string        `json:"orgName,omitempty"`
-		Level       *AlertLevel    `json:"level,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -488,7 +455,7 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "summary", "alertName", "expr", "for", "groupName", "disabled", "severity", "createdAt", "updatedAt", "metric", "orgName", "level"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "summary", "alertName", "expr", "for", "groupName", "disabled", "severity", "createdAt", "updatedAt", "metric", "orgName"})
 	} else {
 		return err
 	}
@@ -513,11 +480,6 @@ func (o *AlertRule) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Metric = all.Metric
 	o.OrgName = all.OrgName
-	if all.Level != nil && !all.Level.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Level = all.Level
-	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

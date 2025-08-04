@@ -15,7 +15,6 @@ type AlertInhibit struct {
 	SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
 	TargetMatch map[string][]string `json:"targetMatch,omitempty"`
 	Equal       []string            `json:"equal,omitempty"`
-	Level       *AlertLevel         `json:"level,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -234,34 +233,6 @@ func (o *AlertInhibit) SetEqual(v []string) {
 	o.Equal = v
 }
 
-// GetLevel returns the Level field value if set, zero value otherwise.
-func (o *AlertInhibit) GetLevel() AlertLevel {
-	if o == nil || o.Level == nil {
-		var ret AlertLevel
-		return ret
-	}
-	return *o.Level
-}
-
-// GetLevelOk returns a tuple with the Level field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AlertInhibit) GetLevelOk() (*AlertLevel, bool) {
-	if o == nil || o.Level == nil {
-		return nil, false
-	}
-	return o.Level, true
-}
-
-// HasLevel returns a boolean if a field has been set.
-func (o *AlertInhibit) HasLevel() bool {
-	return o != nil && o.Level != nil
-}
-
-// SetLevel gets a reference to the given AlertLevel and assigns it to the Level field.
-func (o *AlertInhibit) SetLevel(v AlertLevel) {
-	o.Level = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertInhibit) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -289,9 +260,6 @@ func (o AlertInhibit) MarshalJSON() ([]byte, error) {
 	if o.Equal != nil {
 		toSerialize["equal"] = o.Equal
 	}
-	if o.Level != nil {
-		toSerialize["level"] = o.Level
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -309,19 +277,16 @@ func (o *AlertInhibit) UnmarshalJSON(bytes []byte) (err error) {
 		SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
 		TargetMatch map[string][]string `json:"targetMatch,omitempty"`
 		Equal       []string            `json:"equal,omitempty"`
-		Level       *AlertLevel         `json:"level,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "description", "orgName", "sourceMatch", "targetMatch", "equal", "level"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "description", "orgName", "sourceMatch", "targetMatch", "equal"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Id = all.Id
 	o.Name = all.Name
 	o.Description = all.Description
@@ -329,18 +294,9 @@ func (o *AlertInhibit) UnmarshalJSON(bytes []byte) (err error) {
 	o.SourceMatch = all.SourceMatch
 	o.TargetMatch = all.TargetMatch
 	o.Equal = all.Equal
-	if all.Level != nil && !all.Level.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Level = all.Level
-	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

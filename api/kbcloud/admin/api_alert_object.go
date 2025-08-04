@@ -19,7 +19,6 @@ type AlertObjectApi common.Service
 
 // ListAlertObjectsOptionalParameters holds optional parameters for ListAlertObjects.
 type ListAlertObjectsOptionalParameters struct {
-	OrgName  *string
 	Page     *int32
 	PageSize *int32
 }
@@ -28,12 +27,6 @@ type ListAlertObjectsOptionalParameters struct {
 func NewListAlertObjectsOptionalParameters() *ListAlertObjectsOptionalParameters {
 	this := ListAlertObjectsOptionalParameters{}
 	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListAlertObjectsOptionalParameters) WithOrgName(orgName string) *ListAlertObjectsOptionalParameters {
-	r.OrgName = &orgName
-	return r
 }
 
 // WithPage sets the corresponding parameter name and returns the struct.
@@ -49,7 +42,7 @@ func (r *ListAlertObjectsOptionalParameters) WithPageSize(pageSize int32) *ListA
 }
 
 // ListAlertObjects List alert objects.
-func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, level AlertLevel, o ...ListAlertObjectsOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
+func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, o ...ListAlertObjectsOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -83,10 +76,6 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, level AlertLevel
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	if optionalParams.Page != nil {
 		localVarQueryParams.Add("page", common.ParameterToString(*optionalParams.Page, ""))
 	}
@@ -143,38 +132,13 @@ func (a *AlertObjectApi) ListAlertObjects(ctx _context.Context, level AlertLevel
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// SetAlertObjectStatusOptionalParameters holds optional parameters for SetAlertObjectStatus.
-type SetAlertObjectStatusOptionalParameters struct {
-	OrgName *string
-}
-
-// NewSetAlertObjectStatusOptionalParameters creates an empty struct for parameters.
-func NewSetAlertObjectStatusOptionalParameters() *SetAlertObjectStatusOptionalParameters {
-	this := SetAlertObjectStatusOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *SetAlertObjectStatusOptionalParameters) WithOrgName(orgName string) *SetAlertObjectStatusOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // SetAlertObjectStatus Set alert object status.
-func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, level AlertLevel, alertId string, status string, o ...SetAlertObjectStatusOptionalParameters) (AlertObject, *_nethttp.Response, error) {
+func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, alertId string, status string) (AlertObject, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue AlertObject
-		optionalParams      SetAlertObjectStatusOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type SetAlertObjectStatusOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -196,11 +160,7 @@ func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, level AlertL
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
 	localVarQueryParams.Add("status", common.ParameterToString(status, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -253,8 +213,7 @@ func (a *AlertObjectApi) SetAlertObjectStatus(ctx _context.Context, level AlertL
 
 // SetAlertObjectsStatusOptionalParameters holds optional parameters for SetAlertObjectsStatus.
 type SetAlertObjectsStatusOptionalParameters struct {
-	Body    *[]AlertObject
-	OrgName *string
+	Body *[]AlertObject
 }
 
 // NewSetAlertObjectsStatusOptionalParameters creates an empty struct for parameters.
@@ -269,14 +228,8 @@ func (r *SetAlertObjectsStatusOptionalParameters) WithBody(body []AlertObject) *
 	return r
 }
 
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *SetAlertObjectsStatusOptionalParameters) WithOrgName(orgName string) *SetAlertObjectsStatusOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // SetAlertObjectsStatus Set alert objects status.
-func (a *AlertObjectApi) SetAlertObjectsStatus(ctx _context.Context, level AlertLevel, status string, o ...SetAlertObjectsStatusOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
+func (a *AlertObjectApi) SetAlertObjectsStatus(ctx _context.Context, status string, o ...SetAlertObjectsStatusOptionalParameters) (AlertObjectList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -310,11 +263,7 @@ func (a *AlertObjectApi) SetAlertObjectsStatus(ctx _context.Context, level Alert
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
 	localVarQueryParams.Add("status", common.ParameterToString(status, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 

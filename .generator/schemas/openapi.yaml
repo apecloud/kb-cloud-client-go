@@ -15559,11 +15559,6 @@ components:
       required:
         - url
       type: object
-    alertLevel:
-      enum:
-        - global
-        - organization
-      type: string
     alertReceiver:
       description: Alert receiver information
       properties:
@@ -15594,8 +15589,6 @@ components:
           $ref: '#/components/schemas/webhookConfig'
         orgName:
           type: string
-        level:
-          $ref: '#/components/schemas/alertLevel'
       type: object
     alertReceiverList:
       description: AlertReceiverList is a list of alert receivers
@@ -15657,8 +15650,6 @@ components:
       properties:
         id:
           type: integer
-        level:
-          $ref: '#/components/schemas/alertLevel'
         orgName:
           type: string
         name:
@@ -15799,8 +15790,6 @@ components:
           description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
-        level:
-          $ref: '#/components/schemas/alertLevel'
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
     alertRuleGroup:
       type: object
@@ -15937,8 +15926,6 @@ components:
           type: array
           items:
             type: string
-        level:
-          $ref: '#/components/schemas/alertLevel'
       description: Alert object information
     alertInhibitList:
       required:

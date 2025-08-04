@@ -8551,13 +8551,6 @@ paths:
       tags:
         - alert
         - shared
-      parameters:
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: A successful response.
@@ -8578,18 +8571,6 @@ paths:
       operationId: listAlertRules
       summary: List alert rules
       parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: disabled
           in: query
           description: disabled status
@@ -8615,18 +8596,6 @@ paths:
       operationId: createAlertRule
       summary: Create alert rule
       parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: disabled
           in: query
           description: disabled status
@@ -8657,19 +8626,6 @@ paths:
       tags:
         - alertRule
       operationId: updateAlertRule
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -8697,18 +8653,6 @@ paths:
       operationId: getAlertRule
       summary: Get alert rule
       parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: alertName
           in: path
           description: name of the alert rule
@@ -8734,18 +8678,6 @@ paths:
       operationId: deleteAlertRule
       summary: Delete alert rule
       parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: alertName
           in: path
           description: name of the alert rule
@@ -8769,19 +8701,6 @@ paths:
       summary: Download organization-specific alert rule configuration file
       description: Downloads the current alert rule configuration for a specific organization as a YAML file.
       operationId: downloadOrgAlertRuleFile
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          required: false
-          description: The name of the organization.
-          schema:
-            type: string
       responses:
         '200':
           description: Successful download of the organization-specific alert rule configuration file.
@@ -8813,19 +8732,6 @@ paths:
       summary: Update alert rule configuration via YAML upload
       description: Replaces the entire alert rule configuration with the content of the uploaded YAML file.
       operationId: updateRuleConfig
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          required: false
-          description: The name of the organization.
-          schema:
-            type: string
       requestBody:
         required: true
         content:
@@ -8852,19 +8758,6 @@ paths:
       summary: Restore organization's alert rule configuration to defaults
       description: Restores the alert rule configuration for a specific organization to the system default settings.
       operationId: restoreOrgAlertRuleToDefault
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          required: false
-          description: The name of the organization.
-          schema:
-            type: string
       responses:
         '200':
           description: Alert rule configuration for the organization restored to defaults successfully.
@@ -8893,18 +8786,6 @@ paths:
       operationId: listAlertObjects
       summary: List alert objects
       parameters:
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: page
           in: query
           description: page number
@@ -8936,18 +8817,6 @@ paths:
       operationId: setAlertObjectsStatus
       summary: Set alert objects status
       parameters:
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: status
           in: query
           required: true
@@ -8981,18 +8850,6 @@ paths:
       operationId: setAlertObjectStatus
       summary: Set alert object status
       parameters:
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: alertId
           in: path
           description: alert id
@@ -9023,19 +8880,6 @@ paths:
         - alertStrategy
       operationId: listAlertStrategies
       summary: List alert strategies
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: A successful response.
@@ -9054,19 +8898,6 @@ paths:
         - alertStrategy
       operationId: createAlertStrategy
       summary: Create alert strategy
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -9092,19 +8923,6 @@ paths:
         - alertStrategy
       operationId: updateAlertStrategy
       summary: Update alert strategy
-      parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -9130,18 +8948,6 @@ paths:
       operationId: deleteAlertStrategy
       summary: Delete alert strategy
       parameters:
-        - name: level
-          in: query
-          description: alert strategy level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: strategyId
           in: path
           description: id of the alert strategy
@@ -9168,18 +8974,6 @@ paths:
       summary: List alert receivers
       operationId: listAlertReceivers
       parameters:
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: category
           in: query
           description: alert receiver category
@@ -9204,18 +8998,6 @@ paths:
       operationId: createAlertReceiver
       summary: Create alert receiver
       parameters:
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: category
           in: query
           description: alert receiver category
@@ -9255,18 +9037,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -9299,18 +9069,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: level
-          in: query
-          description: alert level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       responses:
         '204':
           content: {}
@@ -9327,19 +9085,6 @@ paths:
         - alertInhibit
       operationId: listAlertInhibits
       summary: List alert inhibits
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       responses:
         '200':
           description: A successful response.
@@ -9358,19 +9103,6 @@ paths:
         - alertInhibit
       operationId: createAlertInhibit
       summary: Create alert inhibit
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -9394,19 +9126,6 @@ paths:
         - alertInhibit
       operationId: patchAlertInhibit
       summary: Patch alert inhibit
-      parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
@@ -9432,18 +9151,6 @@ paths:
       operationId: getAlertInhibit
       summary: Get alert inhibit
       parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: inhibitId
           in: path
           description: inhibit id
@@ -9469,18 +9176,6 @@ paths:
       operationId: deleteAlertInhibit
       summary: Delete alert inhibit
       parameters:
-        - name: level
-          in: query
-          description: alert rule level
-          required: true
-          schema:
-            $ref: '#/components/schemas/alertLevel'
-        - name: orgName
-          in: query
-          description: name of the Org
-          required: false
-          schema:
-            type: string
         - name: inhibitId
           in: path
           description: inhibit id
@@ -22178,11 +21873,6 @@ components:
           type: integer
         info:
           type: integer
-    alertLevel:
-      enum:
-        - global
-        - organization
-      type: string
     alertSeverity:
       enum:
         - critical
@@ -22240,8 +21930,6 @@ components:
           description: Metric configuration. If provided, expr will be ignored.
         orgName:
           type: string
-        level:
-          $ref: '#/components/schemas/alertLevel'
       description: Alert rule information. Either provide 'expr' for custom expressions, or 'metric' for predefined metrics.
     alertRuleGroup:
       type: object
@@ -22376,8 +22064,6 @@ components:
           $ref: '#/components/schemas/webhookConfig'
         orgName:
           type: string
-        level:
-          $ref: '#/components/schemas/alertLevel'
       type: object
     alterRuleRef:
       type: object
@@ -22393,8 +22079,6 @@ components:
       properties:
         id:
           type: integer
-        level:
-          $ref: '#/components/schemas/alertLevel'
         orgName:
           type: string
         name:
@@ -22518,8 +22202,6 @@ components:
           type: array
           items:
             type: string
-        level:
-          $ref: '#/components/schemas/alertLevel'
       description: Alert object information
     alertInhibitList:
       required:

@@ -17,38 +17,13 @@ import (
 // AlertStrategyApi service type
 type AlertStrategyApi common.Service
 
-// CreateAlertStrategyOptionalParameters holds optional parameters for CreateAlertStrategy.
-type CreateAlertStrategyOptionalParameters struct {
-	OrgName *string
-}
-
-// NewCreateAlertStrategyOptionalParameters creates an empty struct for parameters.
-func NewCreateAlertStrategyOptionalParameters() *CreateAlertStrategyOptionalParameters {
-	this := CreateAlertStrategyOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *CreateAlertStrategyOptionalParameters) WithOrgName(orgName string) *CreateAlertStrategyOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // CreateAlertStrategy Create alert strategy.
-func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, level AlertLevel, body AlertStrategy, o ...CreateAlertStrategyOptionalParameters) (AlertStrategy, *_nethttp.Response, error) {
+func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, body AlertStrategy) (AlertStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
 		localVarReturnValue AlertStrategy
-		optionalParams      CreateAlertStrategyOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type CreateAlertStrategyOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -69,10 +44,6 @@ func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, level Alert
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
@@ -126,38 +97,13 @@ func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, level Alert
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteAlertStrategyOptionalParameters holds optional parameters for DeleteAlertStrategy.
-type DeleteAlertStrategyOptionalParameters struct {
-	OrgName *string
-}
-
-// NewDeleteAlertStrategyOptionalParameters creates an empty struct for parameters.
-func NewDeleteAlertStrategyOptionalParameters() *DeleteAlertStrategyOptionalParameters {
-	this := DeleteAlertStrategyOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *DeleteAlertStrategyOptionalParameters) WithOrgName(orgName string) *DeleteAlertStrategyOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // DeleteAlertStrategy Delete alert strategy.
-func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, level AlertLevel, strategyId string, o ...DeleteAlertStrategyOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, strategyId string) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
-		optionalParams      DeleteAlertStrategyOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type DeleteAlertStrategyOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -179,10 +125,6 @@ func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, level Alert
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -233,38 +175,13 @@ func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, level Alert
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListAlertStrategiesOptionalParameters holds optional parameters for ListAlertStrategies.
-type ListAlertStrategiesOptionalParameters struct {
-	OrgName *string
-}
-
-// NewListAlertStrategiesOptionalParameters creates an empty struct for parameters.
-func NewListAlertStrategiesOptionalParameters() *ListAlertStrategiesOptionalParameters {
-	this := ListAlertStrategiesOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *ListAlertStrategiesOptionalParameters) WithOrgName(orgName string) *ListAlertStrategiesOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // ListAlertStrategies List alert strategies.
-func (a *AlertStrategyApi) ListAlertStrategies(ctx _context.Context, level AlertLevel, o ...ListAlertStrategiesOptionalParameters) (AlertStrategyList, *_nethttp.Response, error) {
+func (a *AlertStrategyApi) ListAlertStrategies(ctx _context.Context) (AlertStrategyList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AlertStrategyList
-		optionalParams      ListAlertStrategiesOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListAlertStrategiesOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -285,10 +202,6 @@ func (a *AlertStrategyApi) ListAlertStrategies(ctx _context.Context, level Alert
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -339,38 +252,13 @@ func (a *AlertStrategyApi) ListAlertStrategies(ctx _context.Context, level Alert
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateAlertStrategyOptionalParameters holds optional parameters for UpdateAlertStrategy.
-type UpdateAlertStrategyOptionalParameters struct {
-	OrgName *string
-}
-
-// NewUpdateAlertStrategyOptionalParameters creates an empty struct for parameters.
-func NewUpdateAlertStrategyOptionalParameters() *UpdateAlertStrategyOptionalParameters {
-	this := UpdateAlertStrategyOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *UpdateAlertStrategyOptionalParameters) WithOrgName(orgName string) *UpdateAlertStrategyOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // UpdateAlertStrategy Update alert strategy.
-func (a *AlertStrategyApi) UpdateAlertStrategy(ctx _context.Context, level AlertLevel, body AlertStrategy, o ...UpdateAlertStrategyOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *AlertStrategyApi) UpdateAlertStrategy(ctx _context.Context, body AlertStrategy) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
 		localVarReturnValue interface{}
-		optionalParams      UpdateAlertStrategyOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type UpdateAlertStrategyOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -391,10 +279,6 @@ func (a *AlertStrategyApi) UpdateAlertStrategy(ctx _context.Context, level Alert
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("level", common.ParameterToString(level, ""))
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
