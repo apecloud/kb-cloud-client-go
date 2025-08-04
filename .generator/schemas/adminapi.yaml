@@ -9193,7 +9193,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/metrics:
+  /admin/v1/alerts/metrics:
     get:
       tags:
         - alertMetrics
@@ -9201,12 +9201,6 @@ paths:
       operationId: listAlertMetrics
       summary: List alert metric types
       parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
         - name: category
           in: query
           schema:
@@ -9224,20 +9218,12 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/alerts/config:
+  /admin/v1/alerts/config:
     get:
       tags:
         - alertConfig
-        - shared
-      operationId: getAlertConfig
-      summary: Get alert config
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
+      operationId: getAlertTZConfig
+      summary: Get alert time zone config
       responses:
         '200':
           description: A successful response.
@@ -9254,16 +9240,8 @@ paths:
     patch:
       tags:
         - alertConfig
-        - shared
-      operationId: setAlertConfig
-      summary: Set alert config
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
+      operationId: setAlertTZConfig
+      summary: Set alert timezone config
       requestBody:
         content:
           application/json:
