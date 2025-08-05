@@ -10952,21 +10952,20 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/inspectionScripts:
+  /admin/v1/inspectionScripts:
     get:
       tags:
         - inspection
-        - shared
       operationId: listInspectionScripts
       summary: list inspection scripts
       parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
+        - description: name of the Org, multiple orgs separated by ',', if not provided, return all scripts
+          in: query
+          name: orgNames
+          required: false
           schema:
             type: string
-        - description: query by
+        - description: query by, such as "node"/"mysql"
           in: query
           name: engine
           schema:
@@ -10979,7 +10978,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionScript'
+                  $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10989,21 +10988,13 @@ paths:
     post:
       tags:
         - inspection
-        - shared
       operationId: createInspectionScript
       summary: Create inspection script
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionScriptV2'
         required: true
       responses:
         '200':
@@ -11011,31 +11002,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScript'
+                $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /admin/v1/inspectionScripts/{scriptId}:
     patch:
       tags:
         - inspection
-        - shared
       operationId: updateInspectionScript
       summary: Update inspection script
       parameters:
-        - description: name of the Org
+        - description: id of the inspection script
           in: path
-          name: orgName
+          name: scriptId
           required: true
           schema:
-            type: string
+            type: integer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionScriptV2'
         required: true
       responses:
         '200':
@@ -11043,7 +11034,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScript'
+                $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11053,29 +11044,19 @@ paths:
     delete:
       tags:
         - inspection
-        - shared
       operationId: deleteInspectionScript
       summary: Delete inspection script
       parameters:
-        - description: name of the Org
+        - description: id of the inspection script
           in: path
-          name: orgName
+          name: scriptId
           required: true
           schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/inspectionScript'
-        required: true
+            type: integer
       responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inspectionScript'
+        '204':
+          description: No content.
+          content: {}
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -24439,36 +24420,48 @@ components:
           type: string
         enabled:
           type: boolean
-    inspectionScript:
+    inspectionScriptV2:
       properties:
         id:
           type: integer
-        engine:
-          type: string
         name:
           type: string
-        category:
+        engine:
+          description: The engine type this script is applicable to, such as cluster, mysql, node
           type: string
         type:
+          description: The type of the script, such as "promQL"
           type: string
-        scriptType:
+        category:
+          description: The category of the script, such as "performance"/"security"/"stability"/"other"
           type: string
         reason:
           type: string
         suggestion:
           type: string
+        scriptExpr:
+          type: string
+        checkExpr:
+          type: string
+        scopeType:
+          description: scope type, such as "system"/"global"/"org"
+          type: string
+        scopeID:
+          description: The identifier of the scope, such as org_id
+          type: string
+        scopeName:
+          description: The identifier of the scope, such as org_name
+          type: string
         enabled:
           type: boolean
-        scriptName:
-          type: string
-        script:
-          type: string
-        statusCheckName:
-          type: string
-        statusCheck:
-          type: string
         unit:
           type: string
+        createdAt:
+          description: Timestamp of creation time
+          type: integer
+        updatedAt:
+          description: Timestamp of update time
+          type: integer
     storageProviderSchemaProps:
       type: object
       description: the schema properties for storage provider parameters
