@@ -1770,7 +1770,7 @@ func (a *EnvironmentApi) GetEnvironmentStatusHistory(ctx _context.Context, envir
 }
 
 // GetLatestEnvModuleVersion Get environment module latest version.
-func (a *EnvironmentApi) GetLatestEnvModuleVersion(ctx _context.Context, environmentName string) (EnvModuleVersion, *_nethttp.Response, error) {
+func (a *EnvironmentApi) GetLatestEnvModuleVersion(ctx _context.Context) (EnvModuleVersion, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -1781,7 +1781,7 @@ func (a *EnvironmentApi) GetLatestEnvModuleVersion(ctx _context.Context, environ
 	apiInfo := common.APIInfo{
 		Tag:         "environment",
 		OperationID: "getLatestEnvModuleVersion",
-		Path:        "/admin/v1/environments/{environmentName}/latestEnvModuleVersion",
+		Path:        "/admin/v1/latestEnvModuleVersion",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -1791,8 +1791,7 @@ func (a *EnvironmentApi) GetLatestEnvModuleVersion(ctx _context.Context, environ
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/latestEnvModuleVersion"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/latestEnvModuleVersion"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
