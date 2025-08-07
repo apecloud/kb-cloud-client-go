@@ -11783,6 +11783,9 @@ components:
         extraInfo:
           type: string
           description: extra info for environment
+        kbVersion:
+          type: string
+          description: KubeBlocks version of the environment
         namespaces:
           items:
             type: string
