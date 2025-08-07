@@ -15,11 +15,14 @@ type ModeOption struct {
 	Title            LocalizedDescription        `json:"title"`
 	Description      LocalizedDescription        `json:"description"`
 	SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
-	Components       []ModeComponent             `json:"components"`
-	Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
-	Versions         []string                    `json:"versions,omitempty"`
-	Extra            map[string]interface{}      `json:"extra,omitempty"`
-	ServiceRefs      []ModeServiceRef            `json:"serviceRefs,omitempty"`
+	// specify the compatible kubeblocks version. If empty, it means all versions are supported.
+	//
+	CompatibleKubeblocksVersion *ModeCompatibleKubeblocksVersion `json:"compatibleKubeblocksVersion,omitempty"`
+	Components                  []ModeComponent                  `json:"components"`
+	Proxy                       *ModeOptionProxy                 `json:"proxy,omitempty"`
+	Versions                    []string                         `json:"versions,omitempty"`
+	Extra                       map[string]interface{}           `json:"extra,omitempty"`
+	ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
 	// object storage related configs
 	//
 	ObjectStorage *ModeObjectStorage `json:"objectStorage,omitempty"`
@@ -144,6 +147,34 @@ func (o *ModeOption) HasSchedulingPolicy() bool {
 // SetSchedulingPolicy gets a reference to the given ModeOptionSchedulingPolicy and assigns it to the SchedulingPolicy field.
 func (o *ModeOption) SetSchedulingPolicy(v ModeOptionSchedulingPolicy) {
 	o.SchedulingPolicy = &v
+}
+
+// GetCompatibleKubeblocksVersion returns the CompatibleKubeblocksVersion field value if set, zero value otherwise.
+func (o *ModeOption) GetCompatibleKubeblocksVersion() ModeCompatibleKubeblocksVersion {
+	if o == nil || o.CompatibleKubeblocksVersion == nil {
+		var ret ModeCompatibleKubeblocksVersion
+		return ret
+	}
+	return *o.CompatibleKubeblocksVersion
+}
+
+// GetCompatibleKubeblocksVersionOk returns a tuple with the CompatibleKubeblocksVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetCompatibleKubeblocksVersionOk() (*ModeCompatibleKubeblocksVersion, bool) {
+	if o == nil || o.CompatibleKubeblocksVersion == nil {
+		return nil, false
+	}
+	return o.CompatibleKubeblocksVersion, true
+}
+
+// HasCompatibleKubeblocksVersion returns a boolean if a field has been set.
+func (o *ModeOption) HasCompatibleKubeblocksVersion() bool {
+	return o != nil && o.CompatibleKubeblocksVersion != nil
+}
+
+// SetCompatibleKubeblocksVersion gets a reference to the given ModeCompatibleKubeblocksVersion and assigns it to the CompatibleKubeblocksVersion field.
+func (o *ModeOption) SetCompatibleKubeblocksVersion(v ModeCompatibleKubeblocksVersion) {
+	o.CompatibleKubeblocksVersion = &v
 }
 
 // GetComponents returns the Components field value.
@@ -321,6 +352,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.SchedulingPolicy != nil {
 		toSerialize["schedulingPolicy"] = o.SchedulingPolicy
 	}
+	if o.CompatibleKubeblocksVersion != nil {
+		toSerialize["compatibleKubeblocksVersion"] = o.CompatibleKubeblocksVersion
+	}
 	toSerialize["components"] = o.Components
 	if o.Proxy != nil {
 		toSerialize["proxy"] = o.Proxy
@@ -347,16 +381,17 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name             *string                     `json:"name"`
-		Title            *LocalizedDescription       `json:"title"`
-		Description      *LocalizedDescription       `json:"description"`
-		SchedulingPolicy *ModeOptionSchedulingPolicy `json:"schedulingPolicy,omitempty"`
-		Components       *[]ModeComponent            `json:"components"`
-		Proxy            *ModeOptionProxy            `json:"proxy,omitempty"`
-		Versions         []string                    `json:"versions,omitempty"`
-		Extra            map[string]interface{}      `json:"extra,omitempty"`
-		ServiceRefs      []ModeServiceRef            `json:"serviceRefs,omitempty"`
-		ObjectStorage    *ModeObjectStorage          `json:"objectStorage,omitempty"`
+		Name                        *string                          `json:"name"`
+		Title                       *LocalizedDescription            `json:"title"`
+		Description                 *LocalizedDescription            `json:"description"`
+		SchedulingPolicy            *ModeOptionSchedulingPolicy      `json:"schedulingPolicy,omitempty"`
+		CompatibleKubeblocksVersion *ModeCompatibleKubeblocksVersion `json:"compatibleKubeblocksVersion,omitempty"`
+		Components                  *[]ModeComponent                 `json:"components"`
+		Proxy                       *ModeOptionProxy                 `json:"proxy,omitempty"`
+		Versions                    []string                         `json:"versions,omitempty"`
+		Extra                       map[string]interface{}           `json:"extra,omitempty"`
+		ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
+		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -375,7 +410,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage"})
 	} else {
 		return err
 	}
@@ -394,6 +429,11 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.SchedulingPolicy = all.SchedulingPolicy
+	if all.CompatibleKubeblocksVersion != nil && !all.CompatibleKubeblocksVersion.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.CompatibleKubeblocksVersion = all.CompatibleKubeblocksVersion
+	}
 	o.Components = *all.Components
 	if all.Proxy != nil && all.Proxy.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
