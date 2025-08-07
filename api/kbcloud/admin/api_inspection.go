@@ -327,7 +327,7 @@ func (a *InspectionApi) ListAutoInspection(ctx _context.Context, orgName string)
 // ListInspectionScriptsOptionalParameters holds optional parameters for ListInspectionScripts.
 type ListInspectionScriptsOptionalParameters struct {
 	OrgNames *string
-	Engine   *string
+	Engines  *string
 }
 
 // NewListInspectionScriptsOptionalParameters creates an empty struct for parameters.
@@ -342,9 +342,9 @@ func (r *ListInspectionScriptsOptionalParameters) WithOrgNames(orgNames string) 
 	return r
 }
 
-// WithEngine sets the corresponding parameter name and returns the struct.
-func (r *ListInspectionScriptsOptionalParameters) WithEngine(engine string) *ListInspectionScriptsOptionalParameters {
-	r.Engine = &engine
+// WithEngines sets the corresponding parameter name and returns the struct.
+func (r *ListInspectionScriptsOptionalParameters) WithEngines(engines string) *ListInspectionScriptsOptionalParameters {
+	r.Engines = &engines
 	return r
 }
 
@@ -386,8 +386,8 @@ func (a *InspectionApi) ListInspectionScripts(ctx _context.Context, o ...ListIns
 	if optionalParams.OrgNames != nil {
 		localVarQueryParams.Add("orgNames", common.ParameterToString(*optionalParams.OrgNames, ""))
 	}
-	if optionalParams.Engine != nil {
-		localVarQueryParams.Add("engine", common.ParameterToString(*optionalParams.Engine, ""))
+	if optionalParams.Engines != nil {
+		localVarQueryParams.Add("engines", common.ParameterToString(*optionalParams.Engines, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

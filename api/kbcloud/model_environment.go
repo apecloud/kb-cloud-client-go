@@ -44,6 +44,8 @@ type Environment struct {
 	ImageRegistry *string `json:"imageRegistry,omitempty"`
 	// extra info for environment
 	ExtraInfo *string `json:"extraInfo,omitempty"`
+	// KubeBlocks version of the environment
+	KbVersion *string `json:"kbVersion,omitempty"`
 	// namespace info for environment
 	Namespaces []string `json:"namespaces,omitempty"`
 	// Enable pod antiaffinity for cluster
@@ -463,6 +465,34 @@ func (o *Environment) SetExtraInfo(v string) {
 	o.ExtraInfo = &v
 }
 
+// GetKbVersion returns the KbVersion field value if set, zero value otherwise.
+func (o *Environment) GetKbVersion() string {
+	if o == nil || o.KbVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.KbVersion
+}
+
+// GetKbVersionOk returns a tuple with the KbVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetKbVersionOk() (*string, bool) {
+	if o == nil || o.KbVersion == nil {
+		return nil, false
+	}
+	return o.KbVersion, true
+}
+
+// HasKbVersion returns a boolean if a field has been set.
+func (o *Environment) HasKbVersion() bool {
+	return o != nil && o.KbVersion != nil
+}
+
+// SetKbVersion gets a reference to the given string and assigns it to the KbVersion field.
+func (o *Environment) SetKbVersion(v string) {
+	o.KbVersion = &v
+}
+
 // GetNamespaces returns the Namespaces field value if set, zero value otherwise.
 func (o *Environment) GetNamespaces() []string {
 	if o == nil || o.Namespaces == nil {
@@ -609,6 +639,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.ExtraInfo != nil {
 		toSerialize["extraInfo"] = o.ExtraInfo
 	}
+	if o.KbVersion != nil {
+		toSerialize["kbVersion"] = o.KbVersion
+	}
 	if o.Namespaces != nil {
 		toSerialize["namespaces"] = o.Namespaces
 	}
@@ -644,6 +677,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		UpdatedAt               *time.Time               `json:"updatedAt"`
 		ImageRegistry           *string                  `json:"imageRegistry,omitempty"`
 		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
+		KbVersion               *string                  `json:"kbVersion,omitempty"`
 		Namespaces              []string                 `json:"namespaces,omitempty"`
 		PodAntiAffinityEnabled  *bool                    `json:"podAntiAffinityEnabled,omitempty"`
 		DefaultStorageClass     *string                  `json:"defaultStorageClass"`
@@ -687,7 +721,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass", "clusterValidationPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "networkConfig", "createdAt", "description", "displayName", "id", "name", "orgName", "state", "type", "updatedAt", "imageRegistry", "extraInfo", "kbVersion", "namespaces", "podAntiAffinityEnabled", "defaultStorageClass", "clusterValidationPolicy"})
 	} else {
 		return err
 	}
@@ -719,6 +753,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	o.UpdatedAt = *all.UpdatedAt
 	o.ImageRegistry = all.ImageRegistry
 	o.ExtraInfo = all.ExtraInfo
+	o.KbVersion = all.KbVersion
 	o.Namespaces = all.Namespaces
 	o.PodAntiAffinityEnabled = all.PodAntiAffinityEnabled
 	o.DefaultStorageClass = *all.DefaultStorageClass

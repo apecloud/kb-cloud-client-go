@@ -18,7 +18,7 @@ import (
 type InspectionApi common.Service
 
 // CreateInspectionScript Create inspection script.
-func (a *InspectionApi) CreateInspectionScript(ctx _context.Context, orgName string, body InspectionScript) (InspectionScript, *_nethttp.Response, error) {
+func (a *InspectionApi) CreateInspectionScript(ctx _context.Context, orgName string, body InspectionScriptV2) (InspectionScript, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -99,38 +99,35 @@ func (a *InspectionApi) CreateInspectionScript(ctx _context.Context, orgName str
 }
 
 // DeleteInspectionScript Delete inspection script.
-func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, orgName string, body InspectionScript) (InspectionScript, *_nethttp.Response, error) {
+func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, orgName string, scriptId string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue InspectionScript
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "inspection",
 		OperationID: "deleteInspectionScript",
-		Path:        "/api/v1/organizations/{orgName}/inspectionScripts",
+		Path:        "/api/v1/organizations/{orgName}/inspectionScripts/{scriptId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".InspectionApi.DeleteInspectionScript")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/inspectionScripts"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/inspectionScripts/{scriptId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"scriptId"+"}", _neturl.PathEscape(common.ParameterToString(scriptId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
-	// body params
-	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -138,17 +135,17 @@ func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, orgName str
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -160,23 +157,14 @@ func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, orgName str
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // ListInspectionScriptsOptionalParameters holds optional parameters for ListInspectionScripts.
@@ -197,11 +185,11 @@ func (r *ListInspectionScriptsOptionalParameters) WithEngine(engine string) *Lis
 }
 
 // ListInspectionScripts list inspection scripts.
-func (a *InspectionApi) ListInspectionScripts(ctx _context.Context, orgName string, o ...ListInspectionScriptsOptionalParameters) ([]InspectionScript, *_nethttp.Response, error) {
+func (a *InspectionApi) ListInspectionScripts(ctx _context.Context, orgName string, o ...ListInspectionScriptsOptionalParameters) ([]InspectionScriptV2, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue []InspectionScript
+		localVarReturnValue []InspectionScriptV2
 		optionalParams      ListInspectionScriptsOptionalParameters
 	)
 
@@ -286,18 +274,18 @@ func (a *InspectionApi) ListInspectionScripts(ctx _context.Context, orgName stri
 }
 
 // UpdateInspectionScript Update inspection script.
-func (a *InspectionApi) UpdateInspectionScript(ctx _context.Context, orgName string, body InspectionScript) (InspectionScript, *_nethttp.Response, error) {
+func (a *InspectionApi) UpdateInspectionScript(ctx _context.Context, orgName string, scriptId string, body InspectionScriptV2) (InspectionScriptV2, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue InspectionScript
+		localVarReturnValue InspectionScriptV2
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "inspection",
 		OperationID: "updateInspectionScript",
-		Path:        "/api/v1/organizations/{orgName}/inspectionScripts",
+		Path:        "/api/v1/organizations/{orgName}/inspectionScripts/{scriptId}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -307,8 +295,9 @@ func (a *InspectionApi) UpdateInspectionScript(ctx _context.Context, orgName str
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/inspectionScripts"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/inspectionScripts/{scriptId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"scriptId"+"}", _neturl.PathEscape(common.ParameterToString(scriptId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

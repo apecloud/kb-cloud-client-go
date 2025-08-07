@@ -11132,7 +11132,6 @@ paths:
     get:
       tags:
         - inspection
-        - shared
       operationId: listInspectionScripts
       summary: list inspection scripts
       parameters:
@@ -11155,7 +11154,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionScript'
+                  $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11179,7 +11178,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionScriptV2'
         required: true
       responses:
         '200':
@@ -11194,10 +11193,10 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/inspectionScripts/{scriptId}:
     patch:
       tags:
         - inspection
-        - shared
       operationId: updateInspectionScript
       summary: Update inspection script
       parameters:
@@ -11207,11 +11206,17 @@ paths:
           required: true
           schema:
             type: string
+        - description: script id
+          in: path
+          name: scriptId
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionScriptV2'
         required: true
       responses:
         '200':
@@ -11219,7 +11224,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScript'
+                $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11229,7 +11234,6 @@ paths:
     delete:
       tags:
         - inspection
-        - shared
       operationId: deleteInspectionScript
       summary: Delete inspection script
       parameters:
@@ -11239,19 +11243,16 @@ paths:
           required: true
           schema:
             type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/inspectionScript'
-        required: true
+        - description: script id
+          in: path
+          name: scriptId
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inspectionScript'
+        '204':
+          description: No content.
+          content: {}
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11915,6 +11916,9 @@ components:
         extraInfo:
           type: string
           description: extra info for environment
+        kbVersion:
+          type: string
+          description: KubeBlocks version of the environment
         namespaces:
           items:
             type: string
@@ -16323,6 +16327,13 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+    modeCompatibleKubeblocksVersion:
+      type: string
+      description: |
+        specify the compatible kubeblocks version. If empty, it means all versions are supported.
+      enum:
+        - '0.9'
+        - '1.0'
     modeComponent:
       type: object
       required:
@@ -16485,9 +16496,12 @@ components:
               type: array
               minItems: 1
               description: |
-                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules 
+                applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
               items:
                 type: string
+        compatibleKubeblocksVersion:
+          $ref: '#/components/schemas/modeCompatibleKubeblocksVersion'
         components:
           type: array
           items:
@@ -20065,6 +20079,57 @@ components:
           type: string
         envName:
           type: string
+    inspectionScriptV2:
+      required:
+        - name
+        - engine
+        - type
+        - category
+        - scriptExpr
+        - checkExpr
+        - scopeType
+        - enabled
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        engine:
+          description: The engine type this script is applicable to, such as cluster, mysql, node
+          type: string
+        type:
+          description: The type of the script, such as "promQL"
+          type: string
+        category:
+          description: The category of the script, such as "performance"/"security"/"stability"/"other"
+          type: string
+        reason:
+          type: string
+        suggestion:
+          type: string
+        scriptExpr:
+          type: string
+        checkExpr:
+          type: string
+        scopeType:
+          description: scope type, such as "system"/"global"/"org"
+          type: string
+        scopeID:
+          description: The identifier of the scope, such as org_id
+          type: string
+        scopeName:
+          description: The identifier of the scope, such as org_name
+          type: string
+        enabled:
+          type: boolean
+        unit:
+          type: string
+        createdAt:
+          description: Timestamp of creation time
+          type: integer
+        updatedAt:
+          description: Timestamp of update time
+          type: integer
     inspectionScript:
       properties:
         id:
