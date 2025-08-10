@@ -9,7 +9,6 @@ import (
 	_context "context"
 	_nethttp "net/http"
 	_neturl "net/url"
-	"strings"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
@@ -35,7 +34,7 @@ func (r *ListAlertMetricsOptionalParameters) WithCategory(category string) *List
 }
 
 // ListAlertMetrics List alert metric types.
-func (a *AlertMetricsApi) ListAlertMetrics(ctx _context.Context, orgName string, o ...ListAlertMetricsOptionalParameters) (AlertMetricList, *_nethttp.Response, error) {
+func (a *AlertMetricsApi) ListAlertMetrics(ctx _context.Context, o ...ListAlertMetricsOptionalParameters) (AlertMetricList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -54,7 +53,7 @@ func (a *AlertMetricsApi) ListAlertMetrics(ctx _context.Context, orgName string,
 	apiInfo := common.APIInfo{
 		Tag:         "alertMetrics",
 		OperationID: "listAlertMetrics",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/metrics",
+		Path:        "/admin/v1/alerts/metrics",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -64,8 +63,7 @@ func (a *AlertMetricsApi) ListAlertMetrics(ctx _context.Context, orgName string,
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/metrics"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/metrics"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

@@ -5238,7 +5238,7 @@ paths:
       tags:
         - alertStrategy
       operationId: createAlertStrategy
-      summary: Create alert strategy
+      summary: Create alert strategy in org
       parameters:
         - name: orgName
           in: path
@@ -5300,7 +5300,6 @@ paths:
     delete:
       tags:
         - alertStrategy
-        - shared
       operationId: deleteAlertStrategy
       summary: Delete alert strategy
       parameters:
@@ -5327,6 +5326,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     patch:
       tags:
         - alertStrategy
@@ -11332,11 +11333,18 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - dataReplication
-  /api/v1/replication/channel/objects:
+  /api/v1/organizations/{orgName}/replication/channel/objects:
     post:
       operationId: queryReplicationObject
       summary: query replication object
       description: query replication object.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -11361,11 +11369,18 @@ paths:
       tags:
         - dataReplication
       x-codegen-request-body-name: body
-  /api/v1/replication/channel/precheck:
+  /api/v1/organizations/{orgName}/replication/channel/precheck:
     post:
       operationId: createPreCheck
       summary: create pre check
       description: create pre check.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -11388,7 +11403,7 @@ paths:
       tags:
         - dataReplication
       x-codegen-request-body-name: body
-  /api/v1/replication/channel/precheck/{preCheckID}:
+  /api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}:
     get:
       operationId: getPreCheck
       summary: get preCheck
@@ -11397,6 +11412,12 @@ paths:
         - description: The ID of the preCheck task
           in: path
           name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: The Name of the organization
+          in: path
+          name: orgName
           required: true
           schema:
             type: string
@@ -11423,6 +11444,12 @@ paths:
         - description: The ID of the preCheck task
           in: path
           name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: The Name of the organization
+          in: path
+          name: orgName
           required: true
           schema:
             type: string
@@ -12176,6 +12203,9 @@ components:
         extraInfo:
           type: string
           description: extra info for environment
+        kbVersion:
+          type: string
+          description: KubeBlocks version of the environment
         namespaces:
           items:
             type: string
@@ -16584,6 +16614,13 @@ components:
           type: boolean
           description: whether the component supports custom secret
           x-nullable: false
+    modeCompatibleKubeblocksVersion:
+      type: string
+      description: |
+        specify the compatible kubeblocks version. If empty, it means all versions are supported.
+      enum:
+        - '0.9'
+        - '1.0'
     modeComponent:
       type: object
       required:
@@ -16746,9 +16783,12 @@ components:
               type: array
               minItems: 1
               description: |
-                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules 
+                applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
               items:
                 type: string
+        compatibleKubeblocksVersion:
+          $ref: '#/components/schemas/modeCompatibleKubeblocksVersion'
         components:
           type: array
           items:
@@ -17537,6 +17577,17 @@ components:
           type: string
         en-US:
           type: string
+    moduleDefinitionValues:
+      type: object
+      properties:
+        moduleValue:
+          type: string
+        order:
+          type: integer
+        weight:
+          type: number
+          format: double
+          nullable: true
     moduleDefinition:
       type: object
       properties:
@@ -17544,6 +17595,10 @@ components:
           type: string
         title:
           $ref: '#/components/schemas/internationalDesc'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinitionValues'
     configType:
       enum:
         - string
@@ -17551,6 +17606,10 @@ components:
         - float
       type: string
       description: the type of config
+    connectionCfgType:
+      enum:
+        - database
+      type: string
     extraConfig:
       type: object
       properties:
@@ -17562,6 +17621,8 @@ components:
           $ref: '#/components/schemas/configType'
         isRequired:
           type: boolean
+        connectionCfgType:
+          $ref: '#/components/schemas/connectionCfgType'
     engineDefinitionDetail:
       type: object
       properties:
@@ -20481,10 +20542,14 @@ components:
           type: string
     channelStatus:
       enum:
+        - pending
+        - initializing
         - running
         - finished
         - failed
+        - pausing
         - paused
+        - deleting
       type: string
     dataReplication_endpointType:
       enum:
@@ -20495,6 +20560,8 @@ components:
       type: object
       properties:
         connectionString:
+          type: string
+        userName:
           type: string
     kubeblocksEndpoint:
       type: object
@@ -20642,15 +20709,38 @@ components:
         createdAt:
           type: string
           format: date-time
+    dataChannelModuleProgress:
+      type: object
+      properties:
+        moduleName:
+          type: string
+        progress:
+          type: number
+          format: double
+          nullable: true
+        status:
+          $ref: '#/components/schemas/channelStatus'
+        message:
+          type: string
+          nullable: true
+    dataChannelProgress:
+      type: object
+      properties:
+        progress:
+          type: number
+          format: double
+          nullable: true
+        moduleProgress:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataChannelModuleProgress'
     dataChannelDetail:
       type: object
       properties:
         channel:
           $ref: '#/components/schemas/dataChannelItem'
-        modules:
-          type: array
-          items:
-            type: string
+        progress:
+          $ref: '#/components/schemas/dataChannelProgress'
     dataReplication_opsType:
       enum:
         - pause

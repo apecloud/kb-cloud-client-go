@@ -10,8 +10,9 @@ type ExtraConfig struct {
 	Name  *string            `json:"name,omitempty"`
 	Title *InternationalDesc `json:"title,omitempty"`
 	// the type of config
-	Type       *ConfigType `json:"type,omitempty"`
-	IsRequired *bool       `json:"isRequired,omitempty"`
+	Type              *ConfigType        `json:"type,omitempty"`
+	IsRequired        *bool              `json:"isRequired,omitempty"`
+	ConnectionCfgType *ConnectionCfgType `json:"connectionCfgType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -146,6 +147,34 @@ func (o *ExtraConfig) SetIsRequired(v bool) {
 	o.IsRequired = &v
 }
 
+// GetConnectionCfgType returns the ConnectionCfgType field value if set, zero value otherwise.
+func (o *ExtraConfig) GetConnectionCfgType() ConnectionCfgType {
+	if o == nil || o.ConnectionCfgType == nil {
+		var ret ConnectionCfgType
+		return ret
+	}
+	return *o.ConnectionCfgType
+}
+
+// GetConnectionCfgTypeOk returns a tuple with the ConnectionCfgType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ExtraConfig) GetConnectionCfgTypeOk() (*ConnectionCfgType, bool) {
+	if o == nil || o.ConnectionCfgType == nil {
+		return nil, false
+	}
+	return o.ConnectionCfgType, true
+}
+
+// HasConnectionCfgType returns a boolean if a field has been set.
+func (o *ExtraConfig) HasConnectionCfgType() bool {
+	return o != nil && o.ConnectionCfgType != nil
+}
+
+// SetConnectionCfgType gets a reference to the given ConnectionCfgType and assigns it to the ConnectionCfgType field.
+func (o *ExtraConfig) SetConnectionCfgType(v ConnectionCfgType) {
+	o.ConnectionCfgType = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ExtraConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -164,6 +193,9 @@ func (o ExtraConfig) MarshalJSON() ([]byte, error) {
 	if o.IsRequired != nil {
 		toSerialize["isRequired"] = o.IsRequired
 	}
+	if o.ConnectionCfgType != nil {
+		toSerialize["connectionCfgType"] = o.ConnectionCfgType
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -174,17 +206,18 @@ func (o ExtraConfig) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ExtraConfig) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name       *string            `json:"name,omitempty"`
-		Title      *InternationalDesc `json:"title,omitempty"`
-		Type       *ConfigType        `json:"type,omitempty"`
-		IsRequired *bool              `json:"isRequired,omitempty"`
+		Name              *string            `json:"name,omitempty"`
+		Title             *InternationalDesc `json:"title,omitempty"`
+		Type              *ConfigType        `json:"type,omitempty"`
+		IsRequired        *bool              `json:"isRequired,omitempty"`
+		ConnectionCfgType *ConnectionCfgType `json:"connectionCfgType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "type", "isRequired"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "type", "isRequired", "connectionCfgType"})
 	} else {
 		return err
 	}
@@ -201,6 +234,11 @@ func (o *ExtraConfig) UnmarshalJSON(bytes []byte) (err error) {
 		o.Type = all.Type
 	}
 	o.IsRequired = all.IsRequired
+	if all.ConnectionCfgType != nil && !all.ConnectionCfgType.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ConnectionCfgType = all.ConnectionCfgType
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

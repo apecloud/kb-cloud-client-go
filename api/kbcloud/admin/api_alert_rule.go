@@ -36,7 +36,7 @@ func (r *CreateAlertRuleOptionalParameters) WithDisabled(disabled bool) *CreateA
 }
 
 // CreateAlertRule Create alert rule.
-func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, orgName string, body AlertRule, o ...CreateAlertRuleOptionalParameters) (AlertRule, *_nethttp.Response, error) {
+func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, body AlertRule, o ...CreateAlertRuleOptionalParameters) (AlertRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -55,7 +55,7 @@ func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, orgName string, bod
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "createAlertRule",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules",
+		Path:        "/admin/v1/alerts/rules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -65,8 +65,7 @@ func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, orgName string, bod
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -128,29 +127,27 @@ func (a *AlertRuleApi) CreateAlertRule(ctx _context.Context, orgName string, bod
 }
 
 // DeleteAlertRule Delete alert rule.
-func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, alertName string) (interface{}, *_nethttp.Response, error) {
+func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, alertName string) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod  = _nethttp.MethodDelete
-		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarHTTPMethod = _nethttp.MethodDelete
+		localVarPostBody   interface{}
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "deleteAlertRule",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules/{alertName}",
+		Path:        "/admin/v1/alerts/rules/{alertName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
 	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".AlertRuleApi.DeleteAlertRule")
 	if err != nil {
-		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules/{alertName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules/{alertName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"alertName"+"}", _neturl.PathEscape(common.ParameterToString(alertName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -165,17 +162,17 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, ale
 	)
 	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.Client.CallAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := common.ReadBody(localVarHTTPResponse)
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -183,32 +180,23 @@ func (a *AlertRuleApi) DeleteAlertRule(ctx _context.Context, orgName string, ale
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.ErrorModel = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // DownloadOrgAlertRuleFile Download organization-specific alert rule configuration file.
 // Downloads the current alert rule configuration for a specific organization as a YAML file.
-func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName string) (_io.Reader, *_nethttp.Response, error) {
+func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context) (_io.Reader, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -219,7 +207,7 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "downloadOrgAlertRuleFile",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules/config",
+		Path:        "/admin/v1/alerts/rules/download",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -229,8 +217,7 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules/config"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules/download"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -277,8 +264,8 @@ func (a *AlertRuleApi) DownloadOrgAlertRuleFile(ctx _context.Context, orgName st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// GetAlertRule .
-func (a *AlertRuleApi) GetAlertRule(ctx _context.Context, orgName string, alertName string) (AlertRule, *_nethttp.Response, error) {
+// GetAlertRule Get alert rule.
+func (a *AlertRuleApi) GetAlertRule(ctx _context.Context, alertName string) (AlertRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -289,7 +276,7 @@ func (a *AlertRuleApi) GetAlertRule(ctx _context.Context, orgName string, alertN
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "getAlertRule",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules/{alertName}",
+		Path:        "/admin/v1/alerts/rules/{alertName}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -299,8 +286,7 @@ func (a *AlertRuleApi) GetAlertRule(ctx _context.Context, orgName string, alertN
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules/{alertName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules/{alertName}"
 	localVarPath = strings.Replace(localVarPath, "{"+"alertName"+"}", _neturl.PathEscape(common.ParameterToString(alertName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -374,7 +360,7 @@ func (r *ListAlertRulesOptionalParameters) WithDisabled(disabled bool) *ListAler
 }
 
 // ListAlertRules List alert rules.
-func (a *AlertRuleApi) ListAlertRules(ctx _context.Context, orgName string, o ...ListAlertRulesOptionalParameters) (AlertRuleList, *_nethttp.Response, error) {
+func (a *AlertRuleApi) ListAlertRules(ctx _context.Context, o ...ListAlertRulesOptionalParameters) (AlertRuleList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -408,7 +394,6 @@ func (a *AlertRuleApi) ListAlertRules(ctx _context.Context, orgName string, o ..
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("orgName", common.ParameterToString(orgName, ""))
 	if optionalParams.Disabled != nil {
 		localVarQueryParams.Add("disabled", common.ParameterToString(*optionalParams.Disabled, ""))
 	}
@@ -464,7 +449,7 @@ func (a *AlertRuleApi) ListAlertRules(ctx _context.Context, orgName string, o ..
 
 // RestoreOrgAlertRuleToDefault Restore organization's alert rule configuration to defaults.
 // Restores the alert rule configuration for a specific organization to the system default settings.
-func (a *AlertRuleApi) RestoreOrgAlertRuleToDefault(ctx _context.Context, orgName string) (interface{}, *_nethttp.Response, error) {
+func (a *AlertRuleApi) RestoreOrgAlertRuleToDefault(ctx _context.Context) (interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -475,7 +460,7 @@ func (a *AlertRuleApi) RestoreOrgAlertRuleToDefault(ctx _context.Context, orgNam
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "restoreOrgAlertRuleToDefault",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules/config/restore",
+		Path:        "/admin/v1/alerts/rules/reset",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -485,8 +470,7 @@ func (a *AlertRuleApi) RestoreOrgAlertRuleToDefault(ctx _context.Context, orgNam
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules/config/restore"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules/reset"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -541,8 +525,8 @@ func (a *AlertRuleApi) RestoreOrgAlertRuleToDefault(ctx _context.Context, orgNam
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// UpdateAlertRule Update alert rule.
-func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, alertName string, body AlertRule) (AlertRule, *_nethttp.Response, error) {
+// UpdateAlertRule .
+func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, body AlertRule) (AlertRule, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -553,7 +537,7 @@ func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, ale
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "updateAlertRule",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules/{alertName}",
+		Path:        "/admin/v1/alerts/rules",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -563,9 +547,7 @@ func (a *AlertRuleApi) UpdateAlertRule(ctx _context.Context, orgName string, ale
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules/{alertName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"alertName"+"}", _neturl.PathEscape(common.ParameterToString(alertName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -642,7 +624,7 @@ func (r *UpdateRuleConfigOptionalParameters) WithContent(content _io.Reader) *Up
 
 // UpdateRuleConfig Update alert rule configuration via YAML upload.
 // Replaces the entire alert rule configuration with the content of the uploaded YAML file.
-func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, o ...UpdateRuleConfigOptionalParameters) (*_nethttp.Response, error) {
+func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, o ...UpdateRuleConfigOptionalParameters) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPut
 		localVarPostBody   interface{}
@@ -660,7 +642,7 @@ func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, o 
 	apiInfo := common.APIInfo{
 		Tag:         "alertRule",
 		OperationID: "updateRuleConfig",
-		Path:        "/admin/v1/organizations/{orgName}/alerts/rules/config",
+		Path:        "/admin/v1/alerts/rules/upload",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -670,8 +652,7 @@ func (a *AlertRuleApi) UpdateRuleConfig(ctx _context.Context, orgName string, o 
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/alerts/rules/config"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath := localBasePath + "/admin/v1/alerts/rules/upload"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

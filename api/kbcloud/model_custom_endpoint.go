@@ -8,6 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type CustomEndpoint struct {
 	ConnectionString *string `json:"connectionString,omitempty"`
+	UserName         *string `json:"userName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -58,6 +59,34 @@ func (o *CustomEndpoint) SetConnectionString(v string) {
 	o.ConnectionString = &v
 }
 
+// GetUserName returns the UserName field value if set, zero value otherwise.
+func (o *CustomEndpoint) GetUserName() string {
+	if o == nil || o.UserName == nil {
+		var ret string
+		return ret
+	}
+	return *o.UserName
+}
+
+// GetUserNameOk returns a tuple with the UserName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CustomEndpoint) GetUserNameOk() (*string, bool) {
+	if o == nil || o.UserName == nil {
+		return nil, false
+	}
+	return o.UserName, true
+}
+
+// HasUserName returns a boolean if a field has been set.
+func (o *CustomEndpoint) HasUserName() bool {
+	return o != nil && o.UserName != nil
+}
+
+// SetUserName gets a reference to the given string and assigns it to the UserName field.
+func (o *CustomEndpoint) SetUserName(v string) {
+	o.UserName = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o CustomEndpoint) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -66,6 +95,9 @@ func (o CustomEndpoint) MarshalJSON() ([]byte, error) {
 	}
 	if o.ConnectionString != nil {
 		toSerialize["connectionString"] = o.ConnectionString
+	}
+	if o.UserName != nil {
+		toSerialize["userName"] = o.UserName
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -78,17 +110,19 @@ func (o CustomEndpoint) MarshalJSON() ([]byte, error) {
 func (o *CustomEndpoint) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		ConnectionString *string `json:"connectionString,omitempty"`
+		UserName         *string `json:"userName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"connectionString"})
+		common.DeleteKeys(additionalProperties, &[]string{"connectionString", "userName"})
 	} else {
 		return err
 	}
 	o.ConnectionString = all.ConnectionString
+	o.UserName = all.UserName
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

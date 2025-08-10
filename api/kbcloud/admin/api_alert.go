@@ -16,39 +16,14 @@ import (
 // AlertApi service type
 type AlertApi common.Service
 
-// AlertStatisticOptionalParameters holds optional parameters for AlertStatistic.
-type AlertStatisticOptionalParameters struct {
-	OrgName *string
-}
-
-// NewAlertStatisticOptionalParameters creates an empty struct for parameters.
-func NewAlertStatisticOptionalParameters() *AlertStatisticOptionalParameters {
-	this := AlertStatisticOptionalParameters{}
-	return &this
-}
-
-// WithOrgName sets the corresponding parameter name and returns the struct.
-func (r *AlertStatisticOptionalParameters) WithOrgName(orgName string) *AlertStatisticOptionalParameters {
-	r.OrgName = &orgName
-	return r
-}
-
 // AlertStatistic alert statistic.
 // alert statistic
-func (a *AlertApi) AlertStatistic(ctx _context.Context, o ...AlertStatisticOptionalParameters) (AlertStatistic, *_nethttp.Response, error) {
+func (a *AlertApi) AlertStatistic(ctx _context.Context) (AlertStatistic, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue AlertStatistic
-		optionalParams      AlertStatisticOptionalParameters
 	)
-
-	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type AlertStatisticOptionalParameters is allowed")
-	}
-	if len(o) == 1 {
-		optionalParams = o[0]
-	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -69,9 +44,6 @@ func (a *AlertApi) AlertStatistic(ctx _context.Context, o ...AlertStatisticOptio
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.OrgName != nil {
-		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
-	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

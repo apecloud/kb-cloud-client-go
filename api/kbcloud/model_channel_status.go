@@ -14,17 +14,25 @@ type ChannelStatus string
 
 // List of ChannelStatus.
 const (
-	ChannelStatusRunning  ChannelStatus = "running"
-	ChannelStatusFinished ChannelStatus = "finished"
-	ChannelStatusFailed   ChannelStatus = "failed"
-	ChannelStatusPaused   ChannelStatus = "paused"
+	ChannelStatusPending      ChannelStatus = "pending"
+	ChannelStatusInitializing ChannelStatus = "initializing"
+	ChannelStatusRunning      ChannelStatus = "running"
+	ChannelStatusFinished     ChannelStatus = "finished"
+	ChannelStatusFailed       ChannelStatus = "failed"
+	ChannelStatusPausing      ChannelStatus = "pausing"
+	ChannelStatusPaused       ChannelStatus = "paused"
+	ChannelStatusDeleting     ChannelStatus = "deleting"
 )
 
 var allowedChannelStatusEnumValues = []ChannelStatus{
+	ChannelStatusPending,
+	ChannelStatusInitializing,
 	ChannelStatusRunning,
 	ChannelStatusFinished,
 	ChannelStatusFailed,
+	ChannelStatusPausing,
 	ChannelStatusPaused,
+	ChannelStatusDeleting,
 }
 
 // GetAllowedValues returns the list of possible values.

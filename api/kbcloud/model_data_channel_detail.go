@@ -7,8 +7,8 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type DataChannelDetail struct {
-	Channel *DataChannelItem `json:"channel,omitempty"`
-	Modules []string         `json:"modules,omitempty"`
+	Channel  *DataChannelItem     `json:"channel,omitempty"`
+	Progress *DataChannelProgress `json:"progress,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -59,32 +59,32 @@ func (o *DataChannelDetail) SetChannel(v DataChannelItem) {
 	o.Channel = &v
 }
 
-// GetModules returns the Modules field value if set, zero value otherwise.
-func (o *DataChannelDetail) GetModules() []string {
-	if o == nil || o.Modules == nil {
-		var ret []string
+// GetProgress returns the Progress field value if set, zero value otherwise.
+func (o *DataChannelDetail) GetProgress() DataChannelProgress {
+	if o == nil || o.Progress == nil {
+		var ret DataChannelProgress
 		return ret
 	}
-	return o.Modules
+	return *o.Progress
 }
 
-// GetModulesOk returns a tuple with the Modules field value if set, nil otherwise
+// GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DataChannelDetail) GetModulesOk() (*[]string, bool) {
-	if o == nil || o.Modules == nil {
+func (o *DataChannelDetail) GetProgressOk() (*DataChannelProgress, bool) {
+	if o == nil || o.Progress == nil {
 		return nil, false
 	}
-	return &o.Modules, true
+	return o.Progress, true
 }
 
-// HasModules returns a boolean if a field has been set.
-func (o *DataChannelDetail) HasModules() bool {
-	return o != nil && o.Modules != nil
+// HasProgress returns a boolean if a field has been set.
+func (o *DataChannelDetail) HasProgress() bool {
+	return o != nil && o.Progress != nil
 }
 
-// SetModules gets a reference to the given []string and assigns it to the Modules field.
-func (o *DataChannelDetail) SetModules(v []string) {
-	o.Modules = v
+// SetProgress gets a reference to the given DataChannelProgress and assigns it to the Progress field.
+func (o *DataChannelDetail) SetProgress(v DataChannelProgress) {
+	o.Progress = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -96,8 +96,8 @@ func (o DataChannelDetail) MarshalJSON() ([]byte, error) {
 	if o.Channel != nil {
 		toSerialize["channel"] = o.Channel
 	}
-	if o.Modules != nil {
-		toSerialize["modules"] = o.Modules
+	if o.Progress != nil {
+		toSerialize["progress"] = o.Progress
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -109,15 +109,15 @@ func (o DataChannelDetail) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DataChannelDetail) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Channel *DataChannelItem `json:"channel,omitempty"`
-		Modules []string         `json:"modules,omitempty"`
+		Channel  *DataChannelItem     `json:"channel,omitempty"`
+		Progress *DataChannelProgress `json:"progress,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channel", "modules"})
+		common.DeleteKeys(additionalProperties, &[]string{"channel", "progress"})
 	} else {
 		return err
 	}
@@ -127,7 +127,10 @@ func (o *DataChannelDetail) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Channel = all.Channel
-	o.Modules = all.Modules
+	if all.Progress != nil && all.Progress.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Progress = all.Progress
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

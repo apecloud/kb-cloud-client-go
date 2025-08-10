@@ -7,8 +7,9 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ModuleDefinition struct {
-	Name  *string            `json:"name,omitempty"`
-	Title *InternationalDesc `json:"title,omitempty"`
+	Name   *string                  `json:"name,omitempty"`
+	Title  *InternationalDesc       `json:"title,omitempty"`
+	Values []ModuleDefinitionValues `json:"values,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -87,6 +88,34 @@ func (o *ModuleDefinition) SetTitle(v InternationalDesc) {
 	o.Title = &v
 }
 
+// GetValues returns the Values field value if set, zero value otherwise.
+func (o *ModuleDefinition) GetValues() []ModuleDefinitionValues {
+	if o == nil || o.Values == nil {
+		var ret []ModuleDefinitionValues
+		return ret
+	}
+	return o.Values
+}
+
+// GetValuesOk returns a tuple with the Values field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModuleDefinition) GetValuesOk() (*[]ModuleDefinitionValues, bool) {
+	if o == nil || o.Values == nil {
+		return nil, false
+	}
+	return &o.Values, true
+}
+
+// HasValues returns a boolean if a field has been set.
+func (o *ModuleDefinition) HasValues() bool {
+	return o != nil && o.Values != nil
+}
+
+// SetValues gets a reference to the given []ModuleDefinitionValues and assigns it to the Values field.
+func (o *ModuleDefinition) SetValues(v []ModuleDefinitionValues) {
+	o.Values = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModuleDefinition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -99,6 +128,9 @@ func (o ModuleDefinition) MarshalJSON() ([]byte, error) {
 	if o.Title != nil {
 		toSerialize["title"] = o.Title
 	}
+	if o.Values != nil {
+		toSerialize["values"] = o.Values
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -109,15 +141,16 @@ func (o ModuleDefinition) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModuleDefinition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name  *string            `json:"name,omitempty"`
-		Title *InternationalDesc `json:"title,omitempty"`
+		Name   *string                  `json:"name,omitempty"`
+		Title  *InternationalDesc       `json:"title,omitempty"`
+		Values []ModuleDefinitionValues `json:"values,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "values"})
 	} else {
 		return err
 	}
@@ -128,6 +161,7 @@ func (o *ModuleDefinition) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Title = all.Title
+	o.Values = all.Values
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

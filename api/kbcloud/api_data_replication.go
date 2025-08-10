@@ -173,7 +173,7 @@ func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName 
 
 // CreatePreCheck create pre check.
 // create pre check.
-func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, body PreCheckCreate) (PreCheckTaskReponse, *_nethttp.Response, error) {
+func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, orgName string, body PreCheckCreate) (PreCheckTaskReponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -184,7 +184,7 @@ func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, body PreCheckC
 	apiInfo := common.APIInfo{
 		Tag:         "dataReplication",
 		OperationID: "createPreCheck",
-		Path:        "/api/v1/replication/channel/precheck",
+		Path:        "/api/v1/organizations/{orgName}/replication/channel/precheck",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -194,7 +194,8 @@ func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, body PreCheckC
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/replication/channel/precheck"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/replication/channel/precheck"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -324,7 +325,7 @@ func (a *DataReplicationApi) DeleteDataChannel(ctx _context.Context, orgName str
 
 // DeletePreCheck delete preCheck.
 // delete preCheck.
-func (a *DataReplicationApi) DeletePreCheck(ctx _context.Context, preCheckId string) (*_nethttp.Response, error) {
+func (a *DataReplicationApi) DeletePreCheck(ctx _context.Context, preCheckId string, orgName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -334,7 +335,7 @@ func (a *DataReplicationApi) DeletePreCheck(ctx _context.Context, preCheckId str
 	apiInfo := common.APIInfo{
 		Tag:         "dataReplication",
 		OperationID: "deletePreCheck",
-		Path:        "/api/v1/replication/channel/precheck/{preCheckID}",
+		Path:        "/api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -344,8 +345,9 @@ func (a *DataReplicationApi) DeletePreCheck(ctx _context.Context, preCheckId str
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/replication/channel/precheck/{preCheckID}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"preCheckID"+"}", _neturl.PathEscape(common.ParameterToString(preCheckId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -473,7 +475,7 @@ func (a *DataReplicationApi) GetDataChannel(ctx _context.Context, orgName string
 
 // GetPreCheck get preCheck.
 // get preCheck.
-func (a *DataReplicationApi) GetPreCheck(ctx _context.Context, preCheckId string) (PreCheckTaskDetail, *_nethttp.Response, error) {
+func (a *DataReplicationApi) GetPreCheck(ctx _context.Context, preCheckId string, orgName string) (PreCheckTaskDetail, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -484,7 +486,7 @@ func (a *DataReplicationApi) GetPreCheck(ctx _context.Context, preCheckId string
 	apiInfo := common.APIInfo{
 		Tag:         "dataReplication",
 		OperationID: "getPreCheck",
-		Path:        "/api/v1/replication/channel/precheck/{preCheckID}",
+		Path:        "/api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -494,8 +496,9 @@ func (a *DataReplicationApi) GetPreCheck(ctx _context.Context, preCheckId string
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/replication/channel/precheck/{preCheckID}"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}"
 	localVarPath = strings.Replace(localVarPath, "{"+"preCheckID"+"}", _neturl.PathEscape(common.ParameterToString(preCheckId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -897,7 +900,7 @@ func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName 
 
 // QueryReplicationObject query replication object.
 // query replication object.
-func (a *DataReplicationApi) QueryReplicationObject(ctx _context.Context, body ReplicationObjectQuery) (ReplicationObjectTree, *_nethttp.Response, error) {
+func (a *DataReplicationApi) QueryReplicationObject(ctx _context.Context, orgName string, body ReplicationObjectQuery) (ReplicationObjectTree, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -908,7 +911,7 @@ func (a *DataReplicationApi) QueryReplicationObject(ctx _context.Context, body R
 	apiInfo := common.APIInfo{
 		Tag:         "dataReplication",
 		OperationID: "queryReplicationObject",
-		Path:        "/api/v1/replication/channel/objects",
+		Path:        "/api/v1/organizations/{orgName}/replication/channel/objects",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -918,7 +921,8 @@ func (a *DataReplicationApi) QueryReplicationObject(ctx _context.Context, body R
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/replication/channel/objects"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/replication/channel/objects"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
