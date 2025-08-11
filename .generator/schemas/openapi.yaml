@@ -16333,6 +16333,10 @@ components:
           type: string
         orgName:
           type: string
+        envs:
+          type: array
+          items:
+            type: string
         sourceMatch:
           type: object
           additionalProperties:
