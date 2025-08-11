@@ -44,6 +44,7 @@ type EngineOption struct {
 	Parameters       []ParameterOption       `json:"parameters"`
 	DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
 	Cdc              []CdcOption             `json:"cdc,omitempty"`
+	DataReplication  *DataReplicationOption  `json:"dataReplication,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -870,6 +871,34 @@ func (o *EngineOption) SetCdc(v []CdcOption) {
 	o.Cdc = v
 }
 
+// GetDataReplication returns the DataReplication field value if set, zero value otherwise.
+func (o *EngineOption) GetDataReplication() DataReplicationOption {
+	if o == nil || o.DataReplication == nil {
+		var ret DataReplicationOption
+		return ret
+	}
+	return *o.DataReplication
+}
+
+// GetDataReplicationOk returns a tuple with the DataReplication field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineOption) GetDataReplicationOk() (*DataReplicationOption, bool) {
+	if o == nil || o.DataReplication == nil {
+		return nil, false
+	}
+	return o.DataReplication, true
+}
+
+// HasDataReplication returns a boolean if a field has been set.
+func (o *EngineOption) HasDataReplication() bool {
+	return o != nil && o.DataReplication != nil
+}
+
+// SetDataReplication gets a reference to the given DataReplicationOption and assigns it to the DataReplication field.
+func (o *EngineOption) SetDataReplication(v DataReplicationOption) {
+	o.DataReplication = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o EngineOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -935,6 +964,9 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Cdc != nil {
 		toSerialize["cdc"] = o.Cdc
 	}
+	if o.DataReplication != nil {
+		toSerialize["dataReplication"] = o.DataReplication
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -976,6 +1008,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		Parameters       *[]ParameterOption      `json:"parameters"`
 		DisasterRecovery *DisasterRecoveryOption `json:"disasterRecovery,omitempty"`
 		Cdc              []CdcOption             `json:"cdc,omitempty"`
+		DataReplication  *DataReplicationOption  `json:"dataReplication,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1033,7 +1066,7 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "status", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "status", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc", "dataReplication"})
 	} else {
 		return err
 	}
@@ -1101,6 +1134,10 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.DisasterRecovery = all.DisasterRecovery
 	o.Cdc = all.Cdc
+	if all.DataReplication != nil && all.DataReplication.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DataReplication = all.DataReplication
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
