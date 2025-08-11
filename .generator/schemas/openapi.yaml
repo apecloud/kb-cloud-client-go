@@ -16817,6 +16817,34 @@ components:
             $ref: '#/components/schemas/modeServiceRef'
         objectStorage:
           $ref: '#/components/schemas/modeObjectStorage'
+        valuesMappings:
+          type: object
+          properties:
+            compatibleKBVersions:
+              type: array
+              items:
+                $ref: '#/components/schemas/modeCompatibleKubeblocksVersion'
+            mappings:
+              type: array
+              items:
+                type: object
+                required:
+                  - component
+                  - sourceKey
+                  - targetKey
+                properties:
+                  component:
+                    type: string
+                  sourceKey:
+                    type: string
+                  sourceValue:
+                    type: object
+                    additionalProperties: true
+                  targetKey:
+                    type: string
+                  targetValue:
+                    type: object
+                    additionalProperties: true
     accountOption:
       type: object
       required:
