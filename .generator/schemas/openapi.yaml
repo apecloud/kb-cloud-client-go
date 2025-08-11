@@ -98,6 +98,8 @@ tags:
     description: LLM APIs
   - name: organizationParameter
     description: Organization Parameter APIs
+  - name: dataReplication
+    description: Data Replication APIs
 paths:
   /api/v1/user:
     get:
@@ -11126,6 +11128,424 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
+  /api/v1/organizations/{orgName}/replication/channel:
+    get:
+      operationId: listDataChannels
+      summary: List Data Channels
+      description: Retrieve a list of data channels.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the data channel
+          in: query
+          name: name
+          required: false
+          schema:
+            type: string
+        - description: The status of the data channel
+          in: query
+          name: status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelList'
+          description: A list of data channels.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    post:
+      operationId: createDataChannel
+      summary: Create a new data channel
+      description: Create a new data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dataReplicationCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelResponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/replication/channel/{channelID}:
+    get:
+      operationId: getDataChannel
+      summary: Get Data Channel Details
+      description: Retrieve a data channel detail.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataChannelDetail'
+          description: A detail of data channel.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deleteDataChannel
+      summary: Delete a data channel
+      description: Delete a data channel.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when channel is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
+    post:
+      operationId: createDataChannelOps
+      summary: Create a new data channel ops
+      description: Create a new data channel ops.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - description: The operation type
+          in: path
+          name: opsType
+          required: true
+          schema:
+            $ref: '#/components/schemas/dataReplication_opsType'
+      responses:
+        '204':
+          content: {}
+          description: Returned when operation is completed successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/{channelID}/events:
+    get:
+      operationId: listDataChannelEvents
+      summary: List Data Channel Events
+      description: Retrieve a list of data channel events.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplication_eventList'
+          description: A list of data channel events.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/objects:
+    post:
+      operationId: queryReplicationObject
+      summary: query replication object
+      description: query replication object.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/replicationObjectQuery'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/replicationObjectTree'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          $ref: '#/components/responses/501'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/replication/channel/precheck:
+    post:
+      operationId: createPreCheck
+      summary: create pre check
+      description: create pre check.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/preCheckCreate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preCheckTaskReponse'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}:
+    get:
+      operationId: getPreCheck
+      summary: get preCheck
+      description: get preCheck.
+      parameters:
+        - description: The ID of the preCheck task
+          in: path
+          name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preCheckTaskDetail'
+          description: A successful response.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+    delete:
+      operationId: deletePreCheck
+      summary: delete preCheck
+      description: delete preCheck.
+      parameters:
+        - description: The ID of the preCheck task
+          in: path
+          name: preCheckID
+          required: true
+          schema:
+            type: string
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: Returned when preCheck is deleted successfully.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/{channelID}/logs:
+    get:
+      description: Query logs of a data channel
+      summary: Query data channel logs
+      operationId: queryDataChannelLogs
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: channelID
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: moduleName
+          schema:
+            type: string
+        - in: query
+          name: logType
+          schema:
+            $ref: '#/components/schemas/logType'
+        - in: query
+          name: startTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: endTime
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: string
+        - in: query
+          name: sortType
+          schema:
+            $ref: '#/components/schemas/sortType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  items:
+                    items:
+                      properties:
+                        timestamp:
+                          type: string
+                        log:
+                          type: string
+                      type: object
+                    type: array
+                  pagination:
+                    properties:
+                      endTime:
+                        type: string
+                      limit:
+                        type: string
+                      nextEndTime:
+                        type: string
+                      nextStartTime:
+                        type: string
+                      startTime:
+                        type: string
+                    type: object
+                type: object
+          description: Successful operation
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
 components:
   securitySchemes:
     BearerToken:
@@ -17154,6 +17574,177 @@ components:
           $ref: '#/components/schemas/cdcSettings'
         worker:
           $ref: '#/components/schemas/cdcWorkerTemplate'
+    internationalDesc:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+        en-US:
+          type: string
+    moduleDefinitionValues:
+      type: object
+      properties:
+        moduleValue:
+          type: string
+        order:
+          type: integer
+        weight:
+          type: number
+          format: double
+          nullable: true
+    moduleDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinitionValues'
+    configType:
+      enum:
+        - string
+        - integer
+        - float
+      type: string
+      description: the type of config
+    connectionCfgType:
+      enum:
+        - database
+      type: string
+    extraConfig:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        type:
+          $ref: '#/components/schemas/configType'
+        isRequired:
+          type: boolean
+        connectionCfgType:
+          $ref: '#/components/schemas/connectionCfgType'
+    engineDefinitionDetail:
+      type: object
+      properties:
+        definitionName:
+          type: string
+        availableModes:
+          type: array
+          description: definition supported available modes, empty means all modes are supported
+          items:
+            type: string
+        availableVersions:
+          type: array
+          description: definition supported available versions, empty means all versions are supported
+          items:
+            type: string
+        extraCfgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/extraConfig'
+    engineDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        engineName:
+          type: string
+        source:
+          $ref: '#/components/schemas/engineDefinitionDetail'
+        target:
+          $ref: '#/components/schemas/engineDefinitionDetail'
+    eventType:
+      enum:
+        - dml
+        - ddl
+        - dcl
+      type: string
+    eventObject:
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/eventType'
+        eventValue:
+          type: string
+    mappingDescription:
+      type: object
+      properties:
+        objectExpressionTips:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+    engineMapping:
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/eventObject'
+            description: the events of the engine mapping, the first one is the default event
+        descriptions:
+          $ref: '#/components/schemas/mappingDescription'
+    standardResource:
+      type: object
+      properties:
+        limit:
+          type: number
+          format: double
+          nullable: true
+        request:
+          type: number
+          format: double
+          nullable: true
+    standardDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        description:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+        isDefault:
+          type: boolean
+          nullable: true
+        cpu:
+          $ref: '#/components/schemas/standardResource'
+          description: cpu resource, the unit is vCPU
+        memory:
+          $ref: '#/components/schemas/standardResource'
+          description: memory resource, the unit is Gi
+    dataReplicationOption:
+      type: object
+      properties:
+        moduleDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinition'
+        engineDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineDefinition'
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineMapping'
+        standards:
+          type: array
+          items:
+            $ref: '#/components/schemas/standardDefinition'
     engineOption:
       type: object
       required:
@@ -17290,6 +17881,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
+        dataReplication:
+          $ref: '#/components/schemas/dataReplicationOption'
+          nullable: true
     engineOptionList:
       required:
         - items
@@ -19950,6 +20544,357 @@ components:
           type: string
         envName:
           type: string
+    channelStatus:
+      enum:
+        - pending
+        - initializing
+        - running
+        - finished
+        - failed
+        - pausing
+        - paused
+        - deleting
+      type: string
+    dataReplication_endpointType:
+      enum:
+        - custom
+        - kubeblocks
+      type: string
+    customEndpoint:
+      type: object
+      properties:
+        connectionString:
+          type: string
+        userName:
+          type: string
+    kubeblocksEndpoint:
+      type: object
+      properties:
+        environmentID:
+          type: string
+        environmentName:
+          type: string
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+    dataChannelListEndpoint:
+      type: object
+      properties:
+        engineName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataReplication_endpointType'
+        custom:
+          $ref: '#/components/schemas/customEndpoint'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+    dataChannelObject:
+      type: object
+      properties:
+        includeObjects:
+          type: array
+          items:
+            type: string
+        excludeObjects:
+          type: array
+          items:
+            type: string
+          nullable: true
+    dataChannelItem:
+      type: object
+      properties:
+        channelID:
+          type: string
+        channelName:
+          type: string
+        channelStatus:
+          $ref: '#/components/schemas/channelStatus'
+        environmentID:
+          type: string
+        environmentName:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        target:
+          $ref: '#/components/schemas/dataChannelListEndpoint'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/eventObject'
+        createdAt:
+          type: string
+          format: date-time
+    dataChannelList:
+      type: array
+      items:
+        $ref: '#/components/schemas/dataChannelItem'
+    authType:
+      enum:
+        - basic
+      type: string
+    basicAuthModel:
+      type: object
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+    customEndpointCreate:
+      type: object
+      properties:
+        connection:
+          type: string
+        authType:
+          $ref: '#/components/schemas/authType'
+        basicAuth:
+          $ref: '#/components/schemas/basicAuthModel'
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
+    dataChannelEndpointCreate:
+      type: object
+      properties:
+        engineName:
+          type: string
+        definitionName:
+          type: string
+        endpointType:
+          $ref: '#/components/schemas/dataReplication_endpointType'
+        custom:
+          $ref: '#/components/schemas/customEndpointCreate'
+          nullable: true
+        kubeblocks:
+          $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+    dataReplicationCreate:
+      type: object
+      properties:
+        channelName:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        environmentID:
+          type: string
+        project:
+          type: string
+          default: kubeblocks-cloud-ns
+        standardDefinition:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/eventObject'
+    dataChannelResponse:
+      type: object
+      properties:
+        channelID:
+          type: string
+        channelName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    dataChannelModuleProgress:
+      type: object
+      properties:
+        moduleName:
+          type: string
+        progress:
+          type: number
+          format: double
+          nullable: true
+        status:
+          $ref: '#/components/schemas/channelStatus'
+        message:
+          type: string
+          nullable: true
+    dataChannelProgress:
+      type: object
+      properties:
+        progress:
+          type: number
+          format: double
+          nullable: true
+        moduleProgress:
+          type: array
+          items:
+            $ref: '#/components/schemas/dataChannelModuleProgress'
+    dataChannelDetail:
+      type: object
+      properties:
+        channel:
+          $ref: '#/components/schemas/dataChannelItem'
+        progress:
+          $ref: '#/components/schemas/dataChannelProgress'
+    dataReplication_opsType:
+      enum:
+        - pause
+        - resume
+      type: string
+    eventItem:
+      type: object
+      properties:
+        eventID:
+          type: string
+        eventName:
+          type: string
+        eventTime:
+          type: string
+          format: date-time
+        eventMessage:
+          type: string
+        operator:
+          type: string
+        operatorID:
+          type: string
+          nullable: true
+    dataReplication_eventList:
+      type: array
+      items:
+        $ref: '#/components/schemas/eventItem'
+    replicationObjectQuery:
+      type: object
+      properties:
+        endpoint:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        nodeType:
+          type: string
+          nullable: true
+        nodeValue:
+          type: string
+          nullable: true
+    replicationObjectTreeNode:
+      type: object
+      properties:
+        nodeName:
+          type: string
+        nodeType:
+          type: string
+        nodeValue:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/replicationObjectTreeNode'
+          nullable: true
+        isLeaf:
+          type: boolean
+          nullable: true
+    replicationObjectTree:
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/replicationObjectTreeNode'
+    preCheckCreate:
+      type: object
+      properties:
+        modules:
+          type: array
+          items:
+            type: string
+        environmentID:
+          type: string
+        source:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        target:
+          $ref: '#/components/schemas/dataChannelEndpointCreate'
+        replicationObjects:
+          $ref: '#/components/schemas/dataChannelObject'
+    preCheckTaskReponse:
+      type: object
+      properties:
+        taskId:
+          type: string
+    preCheckStatus:
+      enum:
+        - running
+        - succeed
+        - failed
+      type: string
+    preCheckTaskItem:
+      type: object
+      properties:
+        checkerName:
+          type: string
+        message:
+          type: string
+          nullable: true
+        status:
+          $ref: '#/components/schemas/preCheckStatus'
+    preCheckResult:
+      type: object
+      properties:
+        name:
+          type: string
+        checkerName:
+          type: string
+        message:
+          type: string
+          nullable: true
+        advice:
+          type: string
+          nullable: true
+    preCheckTaskDetail:
+      type: object
+      properties:
+        taskID:
+          type: string
+        taskStatus:
+          $ref: '#/components/schemas/preCheckStatus'
+        progress:
+          type: integer
+          format: int32
+          nullable: true
+        checkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/preCheckTaskItem'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/preCheckResult'
+          nullable: true
+        warnings:
+          type: array
+          items:
+            $ref: '#/components/schemas/preCheckResult'
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+    logType:
+      enum:
+        - runlog
+        - position
+        - sql
+        - monitor
+      type: string
+      description: the type of log
   responses:
     '400':
       content:
@@ -19993,6 +20938,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Internal server error
+    '501':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Not Implemented
   parameters:
     startTime:
       name: start

@@ -23286,6 +23286,177 @@ components:
           $ref: '#/components/schemas/cdcSettings'
         worker:
           $ref: '#/components/schemas/cdcWorkerTemplate'
+    internationalDesc:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+        en-US:
+          type: string
+    moduleDefinitionValues:
+      type: object
+      properties:
+        moduleValue:
+          type: string
+        order:
+          type: integer
+        weight:
+          type: number
+          format: double
+          nullable: true
+    moduleDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinitionValues'
+    configType:
+      enum:
+        - string
+        - integer
+        - float
+      type: string
+      description: the type of config
+    connectionCfgType:
+      enum:
+        - database
+      type: string
+    extraConfig:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        type:
+          $ref: '#/components/schemas/configType'
+        isRequired:
+          type: boolean
+        connectionCfgType:
+          $ref: '#/components/schemas/connectionCfgType'
+    engineDefinitionDetail:
+      type: object
+      properties:
+        definitionName:
+          type: string
+        availableModes:
+          type: array
+          description: definition supported available modes, empty means all modes are supported
+          items:
+            type: string
+        availableVersions:
+          type: array
+          description: definition supported available versions, empty means all versions are supported
+          items:
+            type: string
+        extraCfgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/extraConfig'
+    engineDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        engineName:
+          type: string
+        source:
+          $ref: '#/components/schemas/engineDefinitionDetail'
+        target:
+          $ref: '#/components/schemas/engineDefinitionDetail'
+    eventType:
+      enum:
+        - dml
+        - ddl
+        - dcl
+      type: string
+    eventObject:
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/eventType'
+        eventValue:
+          type: string
+    mappingDescription:
+      type: object
+      properties:
+        objectExpressionTips:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+    engineMapping:
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/eventObject'
+            description: the events of the engine mapping, the first one is the default event
+        descriptions:
+          $ref: '#/components/schemas/mappingDescription'
+    standardResource:
+      type: object
+      properties:
+        limit:
+          type: number
+          format: double
+          nullable: true
+        request:
+          type: number
+          format: double
+          nullable: true
+    standardDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        description:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+        isDefault:
+          type: boolean
+          nullable: true
+        cpu:
+          $ref: '#/components/schemas/standardResource'
+          description: cpu resource, the unit is vCPU
+        memory:
+          $ref: '#/components/schemas/standardResource'
+          description: memory resource, the unit is Gi
+    dataReplicationOption:
+      type: object
+      properties:
+        moduleDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinition'
+        engineDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineDefinition'
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineMapping'
+        standards:
+          type: array
+          items:
+            $ref: '#/components/schemas/standardDefinition'
     engineOption:
       type: object
       required:
@@ -23422,6 +23593,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
+        dataReplication:
+          $ref: '#/components/schemas/dataReplicationOption'
+          nullable: true
     engineOptionList:
       required:
         - items
