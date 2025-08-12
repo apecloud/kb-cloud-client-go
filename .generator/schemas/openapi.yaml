@@ -16836,7 +16836,6 @@ components:
               items:
                 type: object
                 required:
-                  - component
                   - sourceKey
                   - targetKey
                 properties:
