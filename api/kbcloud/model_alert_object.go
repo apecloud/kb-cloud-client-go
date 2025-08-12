@@ -30,6 +30,7 @@ type AlertObject struct {
 	OrgName     *string        `json:"orgName,omitempty"`
 	Page        *int32         `json:"page,omitempty"`
 	PageSize    *int32         `json:"pageSize,omitempty"`
+	Env         *string        `json:"env,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -556,6 +557,34 @@ func (o *AlertObject) SetPageSize(v int32) {
 	o.PageSize = &v
 }
 
+// GetEnv returns the Env field value if set, zero value otherwise.
+func (o *AlertObject) GetEnv() string {
+	if o == nil || o.Env == nil {
+		var ret string
+		return ret
+	}
+	return *o.Env
+}
+
+// GetEnvOk returns a tuple with the Env field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertObject) GetEnvOk() (*string, bool) {
+	if o == nil || o.Env == nil {
+		return nil, false
+	}
+	return o.Env, true
+}
+
+// HasEnv returns a boolean if a field has been set.
+func (o *AlertObject) HasEnv() bool {
+	return o != nil && o.Env != nil
+}
+
+// SetEnv gets a reference to the given string and assigns it to the Env field.
+func (o *AlertObject) SetEnv(v string) {
+	o.Env = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o AlertObject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -624,6 +653,9 @@ func (o AlertObject) MarshalJSON() ([]byte, error) {
 	if o.PageSize != nil {
 		toSerialize["pageSize"] = o.PageSize
 	}
+	if o.Env != nil {
+		toSerialize["env"] = o.Env
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -652,13 +684,14 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 		OrgName     *string        `json:"orgName,omitempty"`
 		Page        *int32         `json:"page,omitempty"`
 		PageSize    *int32         `json:"pageSize,omitempty"`
+		Env         *string        `json:"env,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize", "env"})
 	} else {
 		return err
 	}
@@ -690,6 +723,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	o.OrgName = all.OrgName
 	o.Page = all.Page
 	o.PageSize = all.PageSize
+	o.Env = all.Env
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
