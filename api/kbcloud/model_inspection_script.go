@@ -4,7 +4,11 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type InspectionScript struct {
 	Id              *int32  `json:"id,omitempty"`
@@ -15,7 +19,7 @@ type InspectionScript struct {
 	ScriptType      *string `json:"scriptType,omitempty"`
 	Reason          *string `json:"reason,omitempty"`
 	Suggestion      *string `json:"suggestion,omitempty"`
-	Enabled         *bool   `json:"enabled,omitempty"`
+	Enabled         bool    `json:"enabled"`
 	ScriptName      *string `json:"scriptName,omitempty"`
 	Script          *string `json:"script,omitempty"`
 	StatusCheckName *string `json:"statusCheckName,omitempty"`
@@ -30,8 +34,9 @@ type InspectionScript struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInspectionScript() *InspectionScript {
+func NewInspectionScript(enabled bool) *InspectionScript {
 	this := InspectionScript{}
+	this.Enabled = enabled
 	return &this
 }
 
@@ -267,32 +272,27 @@ func (o *InspectionScript) SetSuggestion(v string) {
 	o.Suggestion = &v
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise.
+// GetEnabled returns the Enabled field value.
 func (o *InspectionScript) GetEnabled() bool {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Enabled
+	return o.Enabled
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// GetEnabledOk returns a tuple with the Enabled field value
 // and a boolean to check if the value has been set.
 func (o *InspectionScript) GetEnabledOk() (*bool, bool) {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Enabled, true
+	return &o.Enabled, true
 }
 
-// HasEnabled returns a boolean if a field has been set.
-func (o *InspectionScript) HasEnabled() bool {
-	return o != nil && o.Enabled != nil
-}
-
-// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
+// SetEnabled sets field value.
 func (o *InspectionScript) SetEnabled(v bool) {
-	o.Enabled = &v
+	o.Enabled = v
 }
 
 // GetScriptName returns the ScriptName field value if set, zero value otherwise.
@@ -465,9 +465,7 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 	if o.Suggestion != nil {
 		toSerialize["suggestion"] = o.Suggestion
 	}
-	if o.Enabled != nil {
-		toSerialize["enabled"] = o.Enabled
-	}
+	toSerialize["enabled"] = o.Enabled
 	if o.ScriptName != nil {
 		toSerialize["scriptName"] = o.ScriptName
 	}
@@ -501,7 +499,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 		ScriptType      *string `json:"scriptType,omitempty"`
 		Reason          *string `json:"reason,omitempty"`
 		Suggestion      *string `json:"suggestion,omitempty"`
-		Enabled         *bool   `json:"enabled,omitempty"`
+		Enabled         *bool   `json:"enabled"`
 		ScriptName      *string `json:"scriptName,omitempty"`
 		Script          *string `json:"script,omitempty"`
 		StatusCheckName *string `json:"statusCheckName,omitempty"`
@@ -510,6 +508,9 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Enabled == nil {
+		return fmt.Errorf("required field enabled missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -525,7 +526,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	o.ScriptType = all.ScriptType
 	o.Reason = all.Reason
 	o.Suggestion = all.Suggestion
-	o.Enabled = all.Enabled
+	o.Enabled = *all.Enabled
 	o.ScriptName = all.ScriptName
 	o.Script = all.Script
 	o.StatusCheckName = all.StatusCheckName
