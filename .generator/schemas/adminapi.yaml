@@ -22551,8 +22551,6 @@ components:
                   - sourceKey
                   - targetKey
                 properties:
-                  component:
-                    type: string
                   sourceKey:
                     type: string
                   sourceValue:

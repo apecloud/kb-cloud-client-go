@@ -11,7 +11,6 @@ import (
 )
 
 type ModeOptionValuesMappingsMappingsItem struct {
-	Component   *string                `json:"component,omitempty"`
 	SourceKey   string                 `json:"sourceKey"`
 	SourceValue map[string]interface{} `json:"sourceValue,omitempty"`
 	TargetKey   string                 `json:"targetKey"`
@@ -38,34 +37,6 @@ func NewModeOptionValuesMappingsMappingsItem(sourceKey string, targetKey string)
 func NewModeOptionValuesMappingsMappingsItemWithDefaults() *ModeOptionValuesMappingsMappingsItem {
 	this := ModeOptionValuesMappingsMappingsItem{}
 	return &this
-}
-
-// GetComponent returns the Component field value if set, zero value otherwise.
-func (o *ModeOptionValuesMappingsMappingsItem) GetComponent() string {
-	if o == nil || o.Component == nil {
-		var ret string
-		return ret
-	}
-	return *o.Component
-}
-
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ModeOptionValuesMappingsMappingsItem) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
-		return nil, false
-	}
-	return o.Component, true
-}
-
-// HasComponent returns a boolean if a field has been set.
-func (o *ModeOptionValuesMappingsMappingsItem) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
-func (o *ModeOptionValuesMappingsMappingsItem) SetComponent(v string) {
-	o.Component = &v
 }
 
 // GetSourceKey returns the SourceKey field value.
@@ -176,9 +147,6 @@ func (o ModeOptionValuesMappingsMappingsItem) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
 	toSerialize["sourceKey"] = o.SourceKey
 	if o.SourceValue != nil {
 		toSerialize["sourceValue"] = o.SourceValue
@@ -197,7 +165,6 @@ func (o ModeOptionValuesMappingsMappingsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOptionValuesMappingsMappingsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component   *string                `json:"component,omitempty"`
 		SourceKey   *string                `json:"sourceKey"`
 		SourceValue map[string]interface{} `json:"sourceValue,omitempty"`
 		TargetKey   *string                `json:"targetKey"`
@@ -214,11 +181,10 @@ func (o *ModeOptionValuesMappingsMappingsItem) UnmarshalJSON(bytes []byte) (err 
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "sourceKey", "sourceValue", "targetKey", "targetValue"})
+		common.DeleteKeys(additionalProperties, &[]string{"sourceKey", "sourceValue", "targetKey", "targetValue"})
 	} else {
 		return err
 	}
-	o.Component = all.Component
 	o.SourceKey = *all.SourceKey
 	o.SourceValue = all.SourceValue
 	o.TargetKey = *all.TargetKey
