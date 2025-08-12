@@ -7,7 +7,7 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ModeOptionValuesMappings struct {
-	CompatibleKbVersions []ModeCompatibleKubeblocksVersion      `json:"compatibleKBVersions,omitempty"`
+	CompatibleKbVersions []string                               `json:"compatibleKBVersions,omitempty"`
 	Mappings             []ModeOptionValuesMappingsMappingsItem `json:"mappings,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -32,9 +32,9 @@ func NewModeOptionValuesMappingsWithDefaults() *ModeOptionValuesMappings {
 }
 
 // GetCompatibleKbVersions returns the CompatibleKbVersions field value if set, zero value otherwise.
-func (o *ModeOptionValuesMappings) GetCompatibleKbVersions() []ModeCompatibleKubeblocksVersion {
+func (o *ModeOptionValuesMappings) GetCompatibleKbVersions() []string {
 	if o == nil || o.CompatibleKbVersions == nil {
-		var ret []ModeCompatibleKubeblocksVersion
+		var ret []string
 		return ret
 	}
 	return o.CompatibleKbVersions
@@ -42,7 +42,7 @@ func (o *ModeOptionValuesMappings) GetCompatibleKbVersions() []ModeCompatibleKub
 
 // GetCompatibleKbVersionsOk returns a tuple with the CompatibleKbVersions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeOptionValuesMappings) GetCompatibleKbVersionsOk() (*[]ModeCompatibleKubeblocksVersion, bool) {
+func (o *ModeOptionValuesMappings) GetCompatibleKbVersionsOk() (*[]string, bool) {
 	if o == nil || o.CompatibleKbVersions == nil {
 		return nil, false
 	}
@@ -54,8 +54,8 @@ func (o *ModeOptionValuesMappings) HasCompatibleKbVersions() bool {
 	return o != nil && o.CompatibleKbVersions != nil
 }
 
-// SetCompatibleKbVersions gets a reference to the given []ModeCompatibleKubeblocksVersion and assigns it to the CompatibleKbVersions field.
-func (o *ModeOptionValuesMappings) SetCompatibleKbVersions(v []ModeCompatibleKubeblocksVersion) {
+// SetCompatibleKbVersions gets a reference to the given []string and assigns it to the CompatibleKbVersions field.
+func (o *ModeOptionValuesMappings) SetCompatibleKbVersions(v []string) {
 	o.CompatibleKbVersions = v
 }
 
@@ -109,7 +109,7 @@ func (o ModeOptionValuesMappings) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOptionValuesMappings) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CompatibleKbVersions []ModeCompatibleKubeblocksVersion      `json:"compatibleKBVersions,omitempty"`
+		CompatibleKbVersions []string                               `json:"compatibleKBVersions,omitempty"`
 		Mappings             []ModeOptionValuesMappingsMappingsItem `json:"mappings,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {

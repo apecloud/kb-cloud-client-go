@@ -18790,6 +18790,17 @@ components:
           type: string
           minLength: 1
       type: object
+    opsParameter:
+      description: custom ops parameter
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+        - name
+        - value
     opsCustom:
       description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
       required:
@@ -18813,12 +18824,8 @@ components:
           description: custom ops parameters
           type: array
           items:
-            x-go-type:
-              type: Parameter
-              import:
-                package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
-              hints:
-                kind: interface
+            type: object
+            $ref: '#/components/schemas/opsParameter'
       type: object
     customOpsTask:
       description: customOpsTask is the information of custom ops task
@@ -22535,7 +22542,7 @@ components:
             compatibleKBVersions:
               type: array
               items:
-                $ref: '#/components/schemas/modeCompatibleKubeblocksVersion'
+                type: string
             mappings:
               type: array
               items:
@@ -23927,9 +23934,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageOption'
+    engineQuota:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The engine name
+        quota:
+          type: number
+          description: The quota of the engine
+          format: double
+        used:
+          type: number
+          description: The used count of the engine
+          format: double
     license:
       description: License info
       type: object
+      required:
+        - clusterID
+        - email
+        - userName
+        - unit
+        - quantity
+        - engines
+        - notAfter
+        - notBefore
+        - license
+        - used
       properties:
         clusterID:
           type: string
@@ -23948,9 +23982,9 @@ components:
           description: The licensed total count of the unit
         engines:
           type: array
-          description: The supported engines
+          description: The supported engines and their quotas
           items:
-            type: string
+            $ref: '#/components/schemas/engineQuota'
         notAfter:
           type: string
           format: date-time
@@ -23968,7 +24002,7 @@ components:
           description: The license key
         mode:
           type: string
-          description: The license mode
+          description: If KubeBlocks Enterprise is embedded in another platform, the license may be managed by the platform. It this case, we should extract the KubeBlocks Enterprise license from the platform and use it. Different platforms may have different ways to provide the license. The licenseMode is used to specify the different platform. For KubeSphere Enterprise, the licenseMode is `kse`.
     licenseRequest:
       required:
         - key
@@ -24649,6 +24683,8 @@ components:
         enabled:
           type: boolean
     inspectionScript:
+      required:
+        - enabled
       properties:
         id:
           type: integer
