@@ -23906,9 +23906,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageOption'
+    engineQuota:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The engine name
+        quota:
+          type: number
+          description: The quota of the engine
+          format: double
+        used:
+          type: number
+          description: The used count of the engine
+          format: double
     license:
       description: License info
       type: object
+      required:
+        - clusterID
+        - email
+        - userName
+        - unit
+        - quantity
+        - engines
+        - notAfter
+        - notBefore
+        - license
+        - used
       properties:
         clusterID:
           type: string
@@ -23927,9 +23954,9 @@ components:
           description: The licensed total count of the unit
         engines:
           type: array
-          description: The supported engines
+          description: The supported engines and their quotas
           items:
-            type: string
+            $ref: '#/components/schemas/engineQuota'
         notAfter:
           type: string
           format: date-time
@@ -23947,7 +23974,7 @@ components:
           description: The license key
         mode:
           type: string
-          description: The license mode
+          description: If KubeBlocks Enterprise is embedded in another platform, the license may be managed by the platform. It this case, we should extract the KubeBlocks Enterprise license from the platform and use it. Different platforms may have different ways to provide the license. The licenseMode is used to specify the different platform. For KubeSphere Enterprise, the licenseMode is `kse`.
     licenseRequest:
       required:
         - key

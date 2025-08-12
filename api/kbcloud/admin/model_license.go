@@ -5,6 +5,7 @@
 package admin
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
@@ -13,26 +14,26 @@ import (
 // License License info
 type License struct {
 	// The kubernetes cluster ID
-	ClusterId *string `json:"clusterID,omitempty"`
+	ClusterId string `json:"clusterID"`
 	// The licensed user email
-	Email *string `json:"email,omitempty"`
+	Email string `json:"email"`
 	// The licensed user or organization name
-	UserName *string `json:"userName,omitempty"`
+	UserName string `json:"userName"`
 	// The licensed unit, such as CPU or Node
-	Unit *string `json:"unit,omitempty"`
+	Unit string `json:"unit"`
 	// The licensed total count of the unit
-	Quantity *string `json:"quantity,omitempty"`
-	// The supported engines
-	Engines []string `json:"engines,omitempty"`
+	Quantity string `json:"quantity"`
+	// The supported engines and their quotas
+	Engines []EngineQuota `json:"engines"`
 	// The license expiration time
-	NotAfter *time.Time `json:"notAfter,omitempty"`
+	NotAfter time.Time `json:"notAfter"`
 	// The license start time
-	NotBefore *time.Time `json:"notBefore,omitempty"`
+	NotBefore time.Time `json:"notBefore"`
 	// The used count of the unit
-	Used *float64 `json:"used,omitempty"`
+	Used float64 `json:"used"`
 	// The license key
-	License *string `json:"license,omitempty"`
-	// The license mode
+	License string `json:"license"`
+	// If KubeBlocks Enterprise is embedded in another platform, the license may be managed by the platform. It this case, we should extract the KubeBlocks Enterprise license from the platform and use it. Different platforms may have different ways to provide the license. The licenseMode is used to specify the different platform. For KubeSphere Enterprise, the licenseMode is `kse`.
 	Mode *string `json:"mode,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -43,8 +44,18 @@ type License struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLicense() *License {
+func NewLicense(clusterId string, email string, userName string, unit string, quantity string, engines []EngineQuota, notAfter time.Time, notBefore time.Time, used float64, license string) *License {
 	this := License{}
+	this.ClusterId = clusterId
+	this.Email = email
+	this.UserName = userName
+	this.Unit = unit
+	this.Quantity = quantity
+	this.Engines = engines
+	this.NotAfter = notAfter
+	this.NotBefore = notBefore
+	this.Used = used
+	this.License = license
 	return &this
 }
 
@@ -56,284 +67,234 @@ func NewLicenseWithDefaults() *License {
 	return &this
 }
 
-// GetClusterId returns the ClusterId field value if set, zero value otherwise.
+// GetClusterId returns the ClusterId field value.
 func (o *License) GetClusterId() string {
-	if o == nil || o.ClusterId == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClusterId
+	return o.ClusterId
 }
 
-// GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
+// GetClusterIdOk returns a tuple with the ClusterId field value
 // and a boolean to check if the value has been set.
 func (o *License) GetClusterIdOk() (*string, bool) {
-	if o == nil || o.ClusterId == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.ClusterId, true
+	return &o.ClusterId, true
 }
 
-// HasClusterId returns a boolean if a field has been set.
-func (o *License) HasClusterId() bool {
-	return o != nil && o.ClusterId != nil
-}
-
-// SetClusterId gets a reference to the given string and assigns it to the ClusterId field.
+// SetClusterId sets field value.
 func (o *License) SetClusterId(v string) {
-	o.ClusterId = &v
+	o.ClusterId = v
 }
 
-// GetEmail returns the Email field value if set, zero value otherwise.
+// GetEmail returns the Email field value.
 func (o *License) GetEmail() string {
-	if o == nil || o.Email == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Email
+	return o.Email
 }
 
-// GetEmailOk returns a tuple with the Email field value if set, nil otherwise
+// GetEmailOk returns a tuple with the Email field value
 // and a boolean to check if the value has been set.
 func (o *License) GetEmailOk() (*string, bool) {
-	if o == nil || o.Email == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Email, true
+	return &o.Email, true
 }
 
-// HasEmail returns a boolean if a field has been set.
-func (o *License) HasEmail() bool {
-	return o != nil && o.Email != nil
-}
-
-// SetEmail gets a reference to the given string and assigns it to the Email field.
+// SetEmail sets field value.
 func (o *License) SetEmail(v string) {
-	o.Email = &v
+	o.Email = v
 }
 
-// GetUserName returns the UserName field value if set, zero value otherwise.
+// GetUserName returns the UserName field value.
 func (o *License) GetUserName() string {
-	if o == nil || o.UserName == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.UserName
+	return o.UserName
 }
 
-// GetUserNameOk returns a tuple with the UserName field value if set, nil otherwise
+// GetUserNameOk returns a tuple with the UserName field value
 // and a boolean to check if the value has been set.
 func (o *License) GetUserNameOk() (*string, bool) {
-	if o == nil || o.UserName == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.UserName, true
+	return &o.UserName, true
 }
 
-// HasUserName returns a boolean if a field has been set.
-func (o *License) HasUserName() bool {
-	return o != nil && o.UserName != nil
-}
-
-// SetUserName gets a reference to the given string and assigns it to the UserName field.
+// SetUserName sets field value.
 func (o *License) SetUserName(v string) {
-	o.UserName = &v
+	o.UserName = v
 }
 
-// GetUnit returns the Unit field value if set, zero value otherwise.
+// GetUnit returns the Unit field value.
 func (o *License) GetUnit() string {
-	if o == nil || o.Unit == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Unit
+	return o.Unit
 }
 
-// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// GetUnitOk returns a tuple with the Unit field value
 // and a boolean to check if the value has been set.
 func (o *License) GetUnitOk() (*string, bool) {
-	if o == nil || o.Unit == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Unit, true
+	return &o.Unit, true
 }
 
-// HasUnit returns a boolean if a field has been set.
-func (o *License) HasUnit() bool {
-	return o != nil && o.Unit != nil
-}
-
-// SetUnit gets a reference to the given string and assigns it to the Unit field.
+// SetUnit sets field value.
 func (o *License) SetUnit(v string) {
-	o.Unit = &v
+	o.Unit = v
 }
 
-// GetQuantity returns the Quantity field value if set, zero value otherwise.
+// GetQuantity returns the Quantity field value.
 func (o *License) GetQuantity() string {
-	if o == nil || o.Quantity == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Quantity
+	return o.Quantity
 }
 
-// GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
+// GetQuantityOk returns a tuple with the Quantity field value
 // and a boolean to check if the value has been set.
 func (o *License) GetQuantityOk() (*string, bool) {
-	if o == nil || o.Quantity == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Quantity, true
+	return &o.Quantity, true
 }
 
-// HasQuantity returns a boolean if a field has been set.
-func (o *License) HasQuantity() bool {
-	return o != nil && o.Quantity != nil
-}
-
-// SetQuantity gets a reference to the given string and assigns it to the Quantity field.
+// SetQuantity sets field value.
 func (o *License) SetQuantity(v string) {
-	o.Quantity = &v
+	o.Quantity = v
 }
 
-// GetEngines returns the Engines field value if set, zero value otherwise.
-func (o *License) GetEngines() []string {
-	if o == nil || o.Engines == nil {
-		var ret []string
+// GetEngines returns the Engines field value.
+func (o *License) GetEngines() []EngineQuota {
+	if o == nil {
+		var ret []EngineQuota
 		return ret
 	}
 	return o.Engines
 }
 
-// GetEnginesOk returns a tuple with the Engines field value if set, nil otherwise
+// GetEnginesOk returns a tuple with the Engines field value
 // and a boolean to check if the value has been set.
-func (o *License) GetEnginesOk() (*[]string, bool) {
-	if o == nil || o.Engines == nil {
+func (o *License) GetEnginesOk() (*[]EngineQuota, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Engines, true
 }
 
-// HasEngines returns a boolean if a field has been set.
-func (o *License) HasEngines() bool {
-	return o != nil && o.Engines != nil
-}
-
-// SetEngines gets a reference to the given []string and assigns it to the Engines field.
-func (o *License) SetEngines(v []string) {
+// SetEngines sets field value.
+func (o *License) SetEngines(v []EngineQuota) {
 	o.Engines = v
 }
 
-// GetNotAfter returns the NotAfter field value if set, zero value otherwise.
+// GetNotAfter returns the NotAfter field value.
 func (o *License) GetNotAfter() time.Time {
-	if o == nil || o.NotAfter == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.NotAfter
+	return o.NotAfter
 }
 
-// GetNotAfterOk returns a tuple with the NotAfter field value if set, nil otherwise
+// GetNotAfterOk returns a tuple with the NotAfter field value
 // and a boolean to check if the value has been set.
 func (o *License) GetNotAfterOk() (*time.Time, bool) {
-	if o == nil || o.NotAfter == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.NotAfter, true
+	return &o.NotAfter, true
 }
 
-// HasNotAfter returns a boolean if a field has been set.
-func (o *License) HasNotAfter() bool {
-	return o != nil && o.NotAfter != nil
-}
-
-// SetNotAfter gets a reference to the given time.Time and assigns it to the NotAfter field.
+// SetNotAfter sets field value.
 func (o *License) SetNotAfter(v time.Time) {
-	o.NotAfter = &v
+	o.NotAfter = v
 }
 
-// GetNotBefore returns the NotBefore field value if set, zero value otherwise.
+// GetNotBefore returns the NotBefore field value.
 func (o *License) GetNotBefore() time.Time {
-	if o == nil || o.NotBefore == nil {
+	if o == nil {
 		var ret time.Time
 		return ret
 	}
-	return *o.NotBefore
+	return o.NotBefore
 }
 
-// GetNotBeforeOk returns a tuple with the NotBefore field value if set, nil otherwise
+// GetNotBeforeOk returns a tuple with the NotBefore field value
 // and a boolean to check if the value has been set.
 func (o *License) GetNotBeforeOk() (*time.Time, bool) {
-	if o == nil || o.NotBefore == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.NotBefore, true
+	return &o.NotBefore, true
 }
 
-// HasNotBefore returns a boolean if a field has been set.
-func (o *License) HasNotBefore() bool {
-	return o != nil && o.NotBefore != nil
-}
-
-// SetNotBefore gets a reference to the given time.Time and assigns it to the NotBefore field.
+// SetNotBefore sets field value.
 func (o *License) SetNotBefore(v time.Time) {
-	o.NotBefore = &v
+	o.NotBefore = v
 }
 
-// GetUsed returns the Used field value if set, zero value otherwise.
+// GetUsed returns the Used field value.
 func (o *License) GetUsed() float64 {
-	if o == nil || o.Used == nil {
+	if o == nil {
 		var ret float64
 		return ret
 	}
-	return *o.Used
+	return o.Used
 }
 
-// GetUsedOk returns a tuple with the Used field value if set, nil otherwise
+// GetUsedOk returns a tuple with the Used field value
 // and a boolean to check if the value has been set.
 func (o *License) GetUsedOk() (*float64, bool) {
-	if o == nil || o.Used == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Used, true
+	return &o.Used, true
 }
 
-// HasUsed returns a boolean if a field has been set.
-func (o *License) HasUsed() bool {
-	return o != nil && o.Used != nil
-}
-
-// SetUsed gets a reference to the given float64 and assigns it to the Used field.
+// SetUsed sets field value.
 func (o *License) SetUsed(v float64) {
-	o.Used = &v
+	o.Used = v
 }
 
-// GetLicense returns the License field value if set, zero value otherwise.
+// GetLicense returns the License field value.
 func (o *License) GetLicense() string {
-	if o == nil || o.License == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.License
+	return o.License
 }
 
-// GetLicenseOk returns a tuple with the License field value if set, nil otherwise
+// GetLicenseOk returns a tuple with the License field value
 // and a boolean to check if the value has been set.
 func (o *License) GetLicenseOk() (*string, bool) {
-	if o == nil || o.License == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.License, true
+	return &o.License, true
 }
 
-// HasLicense returns a boolean if a field has been set.
-func (o *License) HasLicense() bool {
-	return o != nil && o.License != nil
-}
-
-// SetLicense gets a reference to the given string and assigns it to the License field.
+// SetLicense sets field value.
 func (o *License) SetLicense(v string) {
-	o.License = &v
+	o.License = v
 }
 
 // GetMode returns the Mode field value if set, zero value otherwise.
@@ -370,44 +331,24 @@ func (o License) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.ClusterId != nil {
-		toSerialize["clusterID"] = o.ClusterId
+	toSerialize["clusterID"] = o.ClusterId
+	toSerialize["email"] = o.Email
+	toSerialize["userName"] = o.UserName
+	toSerialize["unit"] = o.Unit
+	toSerialize["quantity"] = o.Quantity
+	toSerialize["engines"] = o.Engines
+	if o.NotAfter.Nanosecond() == 0 {
+		toSerialize["notAfter"] = o.NotAfter.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["notAfter"] = o.NotAfter.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	if o.Email != nil {
-		toSerialize["email"] = o.Email
+	if o.NotBefore.Nanosecond() == 0 {
+		toSerialize["notBefore"] = o.NotBefore.Format("2006-01-02T15:04:05Z07:00")
+	} else {
+		toSerialize["notBefore"] = o.NotBefore.Format("2006-01-02T15:04:05.000Z07:00")
 	}
-	if o.UserName != nil {
-		toSerialize["userName"] = o.UserName
-	}
-	if o.Unit != nil {
-		toSerialize["unit"] = o.Unit
-	}
-	if o.Quantity != nil {
-		toSerialize["quantity"] = o.Quantity
-	}
-	if o.Engines != nil {
-		toSerialize["engines"] = o.Engines
-	}
-	if o.NotAfter != nil {
-		if o.NotAfter.Nanosecond() == 0 {
-			toSerialize["notAfter"] = o.NotAfter.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["notAfter"] = o.NotAfter.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
-	if o.NotBefore != nil {
-		if o.NotBefore.Nanosecond() == 0 {
-			toSerialize["notBefore"] = o.NotBefore.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["notBefore"] = o.NotBefore.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
-	if o.Used != nil {
-		toSerialize["used"] = o.Used
-	}
-	if o.License != nil {
-		toSerialize["license"] = o.License
-	}
+	toSerialize["used"] = o.Used
+	toSerialize["license"] = o.License
 	if o.Mode != nil {
 		toSerialize["mode"] = o.Mode
 	}
@@ -421,20 +362,50 @@ func (o License) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ClusterId *string    `json:"clusterID,omitempty"`
-		Email     *string    `json:"email,omitempty"`
-		UserName  *string    `json:"userName,omitempty"`
-		Unit      *string    `json:"unit,omitempty"`
-		Quantity  *string    `json:"quantity,omitempty"`
-		Engines   []string   `json:"engines,omitempty"`
-		NotAfter  *time.Time `json:"notAfter,omitempty"`
-		NotBefore *time.Time `json:"notBefore,omitempty"`
-		Used      *float64   `json:"used,omitempty"`
-		License   *string    `json:"license,omitempty"`
-		Mode      *string    `json:"mode,omitempty"`
+		ClusterId *string        `json:"clusterID"`
+		Email     *string        `json:"email"`
+		UserName  *string        `json:"userName"`
+		Unit      *string        `json:"unit"`
+		Quantity  *string        `json:"quantity"`
+		Engines   *[]EngineQuota `json:"engines"`
+		NotAfter  *time.Time     `json:"notAfter"`
+		NotBefore *time.Time     `json:"notBefore"`
+		Used      *float64       `json:"used"`
+		License   *string        `json:"license"`
+		Mode      *string        `json:"mode,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.ClusterId == nil {
+		return fmt.Errorf("required field clusterID missing")
+	}
+	if all.Email == nil {
+		return fmt.Errorf("required field email missing")
+	}
+	if all.UserName == nil {
+		return fmt.Errorf("required field userName missing")
+	}
+	if all.Unit == nil {
+		return fmt.Errorf("required field unit missing")
+	}
+	if all.Quantity == nil {
+		return fmt.Errorf("required field quantity missing")
+	}
+	if all.Engines == nil {
+		return fmt.Errorf("required field engines missing")
+	}
+	if all.NotAfter == nil {
+		return fmt.Errorf("required field notAfter missing")
+	}
+	if all.NotBefore == nil {
+		return fmt.Errorf("required field notBefore missing")
+	}
+	if all.Used == nil {
+		return fmt.Errorf("required field used missing")
+	}
+	if all.License == nil {
+		return fmt.Errorf("required field license missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -442,16 +413,16 @@ func (o *License) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.ClusterId = all.ClusterId
-	o.Email = all.Email
-	o.UserName = all.UserName
-	o.Unit = all.Unit
-	o.Quantity = all.Quantity
-	o.Engines = all.Engines
-	o.NotAfter = all.NotAfter
-	o.NotBefore = all.NotBefore
-	o.Used = all.Used
-	o.License = all.License
+	o.ClusterId = *all.ClusterId
+	o.Email = *all.Email
+	o.UserName = *all.UserName
+	o.Unit = *all.Unit
+	o.Quantity = *all.Quantity
+	o.Engines = *all.Engines
+	o.NotAfter = *all.NotAfter
+	o.NotBefore = *all.NotBefore
+	o.Used = *all.Used
+	o.License = *all.License
 	o.Mode = all.Mode
 
 	if len(additionalProperties) > 0 {
