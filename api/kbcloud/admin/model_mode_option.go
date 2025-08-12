@@ -25,7 +25,8 @@ type ModeOption struct {
 	ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
 	// object storage related configs
 	//
-	ObjectStorage *ModeObjectStorage `json:"objectStorage,omitempty"`
+	ObjectStorage  *ModeObjectStorage        `json:"objectStorage,omitempty"`
+	ValuesMappings *ModeOptionValuesMappings `json:"valuesMappings,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -340,6 +341,34 @@ func (o *ModeOption) SetObjectStorage(v ModeObjectStorage) {
 	o.ObjectStorage = &v
 }
 
+// GetValuesMappings returns the ValuesMappings field value if set, zero value otherwise.
+func (o *ModeOption) GetValuesMappings() ModeOptionValuesMappings {
+	if o == nil || o.ValuesMappings == nil {
+		var ret ModeOptionValuesMappings
+		return ret
+	}
+	return *o.ValuesMappings
+}
+
+// GetValuesMappingsOk returns a tuple with the ValuesMappings field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ModeOption) GetValuesMappingsOk() (*ModeOptionValuesMappings, bool) {
+	if o == nil || o.ValuesMappings == nil {
+		return nil, false
+	}
+	return o.ValuesMappings, true
+}
+
+// HasValuesMappings returns a boolean if a field has been set.
+func (o *ModeOption) HasValuesMappings() bool {
+	return o != nil && o.ValuesMappings != nil
+}
+
+// SetValuesMappings gets a reference to the given ModeOptionValuesMappings and assigns it to the ValuesMappings field.
+func (o *ModeOption) SetValuesMappings(v ModeOptionValuesMappings) {
+	o.ValuesMappings = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ModeOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -371,6 +400,9 @@ func (o ModeOption) MarshalJSON() ([]byte, error) {
 	if o.ObjectStorage != nil {
 		toSerialize["objectStorage"] = o.ObjectStorage
 	}
+	if o.ValuesMappings != nil {
+		toSerialize["valuesMappings"] = o.ValuesMappings
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -392,6 +424,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		Extra                       map[string]interface{}           `json:"extra,omitempty"`
 		ServiceRefs                 []ModeServiceRef                 `json:"serviceRefs,omitempty"`
 		ObjectStorage               *ModeObjectStorage               `json:"objectStorage,omitempty"`
+		ValuesMappings              *ModeOptionValuesMappings        `json:"valuesMappings,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -410,7 +443,7 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "title", "description", "schedulingPolicy", "compatibleKubeblocksVersion", "components", "proxy", "versions", "extra", "serviceRefs", "objectStorage", "valuesMappings"})
 	} else {
 		return err
 	}
@@ -446,6 +479,10 @@ func (o *ModeOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ObjectStorage = all.ObjectStorage
+	if all.ValuesMappings != nil && all.ValuesMappings.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ValuesMappings = all.ValuesMappings
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
