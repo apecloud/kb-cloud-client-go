@@ -24655,6 +24655,8 @@ components:
         enabled:
           type: boolean
     inspectionScript:
+      required:
+        - enabled
       properties:
         id:
           type: integer
