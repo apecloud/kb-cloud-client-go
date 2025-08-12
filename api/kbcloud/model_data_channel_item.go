@@ -16,6 +16,8 @@ type DataChannelItem struct {
 	ChannelStatus      *ChannelStatus           `json:"channelStatus,omitempty"`
 	EnvironmentId      *string                  `json:"environmentID,omitempty"`
 	EnvironmentName    *string                  `json:"environmentName,omitempty"`
+	Project            *string                  `json:"project,omitempty"`
+	StandardDefinition *string                  `json:"standardDefinition,omitempty"`
 	Source             *DataChannelListEndpoint `json:"source,omitempty"`
 	Target             *DataChannelListEndpoint `json:"target,omitempty"`
 	ReplicationObjects *DataChannelObject       `json:"replicationObjects,omitempty"`
@@ -182,6 +184,62 @@ func (o *DataChannelItem) HasEnvironmentName() bool {
 // SetEnvironmentName gets a reference to the given string and assigns it to the EnvironmentName field.
 func (o *DataChannelItem) SetEnvironmentName(v string) {
 	o.EnvironmentName = &v
+}
+
+// GetProject returns the Project field value if set, zero value otherwise.
+func (o *DataChannelItem) GetProject() string {
+	if o == nil || o.Project == nil {
+		var ret string
+		return ret
+	}
+	return *o.Project
+}
+
+// GetProjectOk returns a tuple with the Project field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelItem) GetProjectOk() (*string, bool) {
+	if o == nil || o.Project == nil {
+		return nil, false
+	}
+	return o.Project, true
+}
+
+// HasProject returns a boolean if a field has been set.
+func (o *DataChannelItem) HasProject() bool {
+	return o != nil && o.Project != nil
+}
+
+// SetProject gets a reference to the given string and assigns it to the Project field.
+func (o *DataChannelItem) SetProject(v string) {
+	o.Project = &v
+}
+
+// GetStandardDefinition returns the StandardDefinition field value if set, zero value otherwise.
+func (o *DataChannelItem) GetStandardDefinition() string {
+	if o == nil || o.StandardDefinition == nil {
+		var ret string
+		return ret
+	}
+	return *o.StandardDefinition
+}
+
+// GetStandardDefinitionOk returns a tuple with the StandardDefinition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelItem) GetStandardDefinitionOk() (*string, bool) {
+	if o == nil || o.StandardDefinition == nil {
+		return nil, false
+	}
+	return o.StandardDefinition, true
+}
+
+// HasStandardDefinition returns a boolean if a field has been set.
+func (o *DataChannelItem) HasStandardDefinition() bool {
+	return o != nil && o.StandardDefinition != nil
+}
+
+// SetStandardDefinition gets a reference to the given string and assigns it to the StandardDefinition field.
+func (o *DataChannelItem) SetStandardDefinition(v string) {
+	o.StandardDefinition = &v
 }
 
 // GetSource returns the Source field value if set, zero value otherwise.
@@ -373,6 +431,12 @@ func (o DataChannelItem) MarshalJSON() ([]byte, error) {
 	if o.EnvironmentName != nil {
 		toSerialize["environmentName"] = o.EnvironmentName
 	}
+	if o.Project != nil {
+		toSerialize["project"] = o.Project
+	}
+	if o.StandardDefinition != nil {
+		toSerialize["standardDefinition"] = o.StandardDefinition
+	}
 	if o.Source != nil {
 		toSerialize["source"] = o.Source
 	}
@@ -410,6 +474,8 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 		ChannelStatus      *ChannelStatus           `json:"channelStatus,omitempty"`
 		EnvironmentId      *string                  `json:"environmentID,omitempty"`
 		EnvironmentName    *string                  `json:"environmentName,omitempty"`
+		Project            *string                  `json:"project,omitempty"`
+		StandardDefinition *string                  `json:"standardDefinition,omitempty"`
 		Source             *DataChannelListEndpoint `json:"source,omitempty"`
 		Target             *DataChannelListEndpoint `json:"target,omitempty"`
 		ReplicationObjects *DataChannelObject       `json:"replicationObjects,omitempty"`
@@ -422,7 +488,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "source", "target", "replicationObjects", "modules", "events", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "project", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt"})
 	} else {
 		return err
 	}
@@ -437,6 +503,8 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.EnvironmentId = all.EnvironmentId
 	o.EnvironmentName = all.EnvironmentName
+	o.Project = all.Project
+	o.StandardDefinition = all.StandardDefinition
 	if all.Source != nil && all.Source.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
