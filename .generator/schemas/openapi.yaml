@@ -16274,6 +16274,8 @@ components:
           type: string
         clusterName:
           type: string
+        objectName:
+          type: string
         engine:
           type: string
         namespace:
@@ -16302,6 +16304,8 @@ components:
           type: integer
         pageSize:
           type: integer
+        env:
+          type: string
       description: Alert object information
     alertObjectList:
       type: object
