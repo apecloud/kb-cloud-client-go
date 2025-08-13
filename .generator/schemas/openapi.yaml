@@ -20652,6 +20652,10 @@ components:
           type: string
         environmentName:
           type: string
+        project:
+          type: string
+        standardDefinition:
+          type: string
         source:
           $ref: '#/components/schemas/dataChannelListEndpoint'
         target:
