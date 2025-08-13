@@ -22648,7 +22648,6 @@ components:
       type: object
       required:
         - enabled
-        - protocol
       properties:
         enabled:
           type: boolean
