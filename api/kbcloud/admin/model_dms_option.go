@@ -12,7 +12,7 @@ import (
 
 type DmsOption struct {
 	Enabled        bool                   `json:"enabled"`
-	Protocol       string                 `json:"protocol"`
+	Protocol       *string                `json:"protocol,omitempty"`
 	Feature        map[string]interface{} `json:"feature,omitempty"`
 	DefaultAccount *string                `json:"defaultAccount,omitempty"`
 	TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
@@ -25,10 +25,9 @@ type DmsOption struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmsOption(enabled bool, protocol string) *DmsOption {
+func NewDmsOption(enabled bool) *DmsOption {
 	this := DmsOption{}
 	this.Enabled = enabled
-	this.Protocol = protocol
 	return &this
 }
 
@@ -63,27 +62,32 @@ func (o *DmsOption) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
-// GetProtocol returns the Protocol field value.
+// GetProtocol returns the Protocol field value if set, zero value otherwise.
 func (o *DmsOption) GetProtocol() string {
-	if o == nil {
+	if o == nil || o.Protocol == nil {
 		var ret string
 		return ret
 	}
-	return o.Protocol
+	return *o.Protocol
 }
 
-// GetProtocolOk returns a tuple with the Protocol field value
+// GetProtocolOk returns a tuple with the Protocol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DmsOption) GetProtocolOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Protocol == nil {
 		return nil, false
 	}
-	return &o.Protocol, true
+	return o.Protocol, true
 }
 
-// SetProtocol sets field value.
+// HasProtocol returns a boolean if a field has been set.
+func (o *DmsOption) HasProtocol() bool {
+	return o != nil && o.Protocol != nil
+}
+
+// SetProtocol gets a reference to the given string and assigns it to the Protocol field.
 func (o *DmsOption) SetProtocol(v string) {
-	o.Protocol = v
+	o.Protocol = &v
 }
 
 // GetFeature returns the Feature field value if set, zero value otherwise.
@@ -177,7 +181,9 @@ func (o DmsOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["enabled"] = o.Enabled
-	toSerialize["protocol"] = o.Protocol
+	if o.Protocol != nil {
+		toSerialize["protocol"] = o.Protocol
+	}
 	if o.Feature != nil {
 		toSerialize["feature"] = o.Feature
 	}
@@ -198,7 +204,7 @@ func (o DmsOption) MarshalJSON() ([]byte, error) {
 func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Enabled        *bool                  `json:"enabled"`
-		Protocol       *string                `json:"protocol"`
+		Protocol       *string                `json:"protocol,omitempty"`
 		Feature        map[string]interface{} `json:"feature,omitempty"`
 		DefaultAccount *string                `json:"defaultAccount,omitempty"`
 		TableMetadata  []interface{}          `json:"tableMetadata,omitempty"`
@@ -209,9 +215,6 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Enabled == nil {
 		return fmt.Errorf("required field enabled missing")
 	}
-	if all.Protocol == nil {
-		return fmt.Errorf("required field protocol missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"enabled", "protocol", "feature", "defaultAccount", "tableMetadata"})
@@ -219,7 +222,7 @@ func (o *DmsOption) UnmarshalJSON(bytes []byte) (err error) {
 		return err
 	}
 	o.Enabled = *all.Enabled
-	o.Protocol = *all.Protocol
+	o.Protocol = all.Protocol
 	o.Feature = all.Feature
 	o.DefaultAccount = all.DefaultAccount
 	o.TableMetadata = all.TableMetadata
