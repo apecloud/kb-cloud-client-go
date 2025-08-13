@@ -16272,7 +16272,7 @@ components:
           type: string
         expr:
           type: string
-        clusterName:
+        objectName:
           type: string
         engine:
           type: string

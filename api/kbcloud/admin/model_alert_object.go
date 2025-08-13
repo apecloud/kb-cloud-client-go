@@ -16,7 +16,7 @@ type AlertObject struct {
 	AlertName   *string        `json:"alertName,omitempty"`
 	GroupName   *string        `json:"groupName,omitempty"`
 	Expr        *string        `json:"expr,omitempty"`
-	ClusterName *string        `json:"clusterName,omitempty"`
+	ObjectName  *string        `json:"objectName,omitempty"`
 	Engine      *string        `json:"engine,omitempty"`
 	Namespace   *string        `json:"namespace,omitempty"`
 	Pod         *string        `json:"pod,omitempty"`
@@ -165,32 +165,32 @@ func (o *AlertObject) SetExpr(v string) {
 	o.Expr = &v
 }
 
-// GetClusterName returns the ClusterName field value if set, zero value otherwise.
-func (o *AlertObject) GetClusterName() string {
-	if o == nil || o.ClusterName == nil {
+// GetObjectName returns the ObjectName field value if set, zero value otherwise.
+func (o *AlertObject) GetObjectName() string {
+	if o == nil || o.ObjectName == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClusterName
+	return *o.ObjectName
 }
 
-// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
+// GetObjectNameOk returns a tuple with the ObjectName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AlertObject) GetClusterNameOk() (*string, bool) {
-	if o == nil || o.ClusterName == nil {
+func (o *AlertObject) GetObjectNameOk() (*string, bool) {
+	if o == nil || o.ObjectName == nil {
 		return nil, false
 	}
-	return o.ClusterName, true
+	return o.ObjectName, true
 }
 
-// HasClusterName returns a boolean if a field has been set.
-func (o *AlertObject) HasClusterName() bool {
-	return o != nil && o.ClusterName != nil
+// HasObjectName returns a boolean if a field has been set.
+func (o *AlertObject) HasObjectName() bool {
+	return o != nil && o.ObjectName != nil
 }
 
-// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
-func (o *AlertObject) SetClusterName(v string) {
-	o.ClusterName = &v
+// SetObjectName gets a reference to the given string and assigns it to the ObjectName field.
+func (o *AlertObject) SetObjectName(v string) {
+	o.ObjectName = &v
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
@@ -603,8 +603,8 @@ func (o AlertObject) MarshalJSON() ([]byte, error) {
 	if o.Expr != nil {
 		toSerialize["expr"] = o.Expr
 	}
-	if o.ClusterName != nil {
-		toSerialize["clusterName"] = o.ClusterName
+	if o.ObjectName != nil {
+		toSerialize["objectName"] = o.ObjectName
 	}
 	if o.Engine != nil {
 		toSerialize["engine"] = o.Engine
@@ -670,7 +670,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 		AlertName   *string        `json:"alertName,omitempty"`
 		GroupName   *string        `json:"groupName,omitempty"`
 		Expr        *string        `json:"expr,omitempty"`
-		ClusterName *string        `json:"clusterName,omitempty"`
+		ObjectName  *string        `json:"objectName,omitempty"`
 		Engine      *string        `json:"engine,omitempty"`
 		Namespace   *string        `json:"namespace,omitempty"`
 		Pod         *string        `json:"pod,omitempty"`
@@ -691,7 +691,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "clusterName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize", "env"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "alertName", "groupName", "expr", "objectName", "engine", "namespace", "pod", "severity", "description", "fingerprint", "startsAt", "endsAt", "status", "count", "orgName", "page", "pageSize", "env"})
 	} else {
 		return err
 	}
@@ -701,7 +701,7 @@ func (o *AlertObject) UnmarshalJSON(bytes []byte) (err error) {
 	o.AlertName = all.AlertName
 	o.GroupName = all.GroupName
 	o.Expr = all.Expr
-	o.ClusterName = all.ClusterName
+	o.ObjectName = all.ObjectName
 	o.Engine = all.Engine
 	o.Namespace = all.Namespace
 	o.Pod = all.Pod
