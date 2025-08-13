@@ -16272,6 +16272,8 @@ components:
           type: string
         expr:
           type: string
+        clusterName:
+          type: string
         objectName:
           type: string
         engine:
