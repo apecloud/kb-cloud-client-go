@@ -7,9 +7,12 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ReplicationObjectQuery struct {
-	Endpoint  *DataChannelEndpointCreate `json:"endpoint,omitempty"`
-	NodeType  common.NullableString      `json:"nodeType,omitempty"`
-	NodeValue common.NullableString      `json:"nodeValue,omitempty"`
+	SourceEngineDefinition *string                    `json:"sourceEngineDefinition,omitempty"`
+	TargetEngineDefinition *string                    `json:"targetEngineDefinition,omitempty"`
+	Endpoint               *DataChannelEndpointCreate `json:"endpoint,omitempty"`
+	NodeType               common.NullableString      `json:"nodeType,omitempty"`
+	NodeValue              common.NullableString      `json:"nodeValue,omitempty"`
+	QueryNodeType          common.NullableString      `json:"queryNodeType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,6 +33,62 @@ func NewReplicationObjectQuery() *ReplicationObjectQuery {
 func NewReplicationObjectQueryWithDefaults() *ReplicationObjectQuery {
 	this := ReplicationObjectQuery{}
 	return &this
+}
+
+// GetSourceEngineDefinition returns the SourceEngineDefinition field value if set, zero value otherwise.
+func (o *ReplicationObjectQuery) GetSourceEngineDefinition() string {
+	if o == nil || o.SourceEngineDefinition == nil {
+		var ret string
+		return ret
+	}
+	return *o.SourceEngineDefinition
+}
+
+// GetSourceEngineDefinitionOk returns a tuple with the SourceEngineDefinition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReplicationObjectQuery) GetSourceEngineDefinitionOk() (*string, bool) {
+	if o == nil || o.SourceEngineDefinition == nil {
+		return nil, false
+	}
+	return o.SourceEngineDefinition, true
+}
+
+// HasSourceEngineDefinition returns a boolean if a field has been set.
+func (o *ReplicationObjectQuery) HasSourceEngineDefinition() bool {
+	return o != nil && o.SourceEngineDefinition != nil
+}
+
+// SetSourceEngineDefinition gets a reference to the given string and assigns it to the SourceEngineDefinition field.
+func (o *ReplicationObjectQuery) SetSourceEngineDefinition(v string) {
+	o.SourceEngineDefinition = &v
+}
+
+// GetTargetEngineDefinition returns the TargetEngineDefinition field value if set, zero value otherwise.
+func (o *ReplicationObjectQuery) GetTargetEngineDefinition() string {
+	if o == nil || o.TargetEngineDefinition == nil {
+		var ret string
+		return ret
+	}
+	return *o.TargetEngineDefinition
+}
+
+// GetTargetEngineDefinitionOk returns a tuple with the TargetEngineDefinition field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReplicationObjectQuery) GetTargetEngineDefinitionOk() (*string, bool) {
+	if o == nil || o.TargetEngineDefinition == nil {
+		return nil, false
+	}
+	return o.TargetEngineDefinition, true
+}
+
+// HasTargetEngineDefinition returns a boolean if a field has been set.
+func (o *ReplicationObjectQuery) HasTargetEngineDefinition() bool {
+	return o != nil && o.TargetEngineDefinition != nil
+}
+
+// SetTargetEngineDefinition gets a reference to the given string and assigns it to the TargetEngineDefinition field.
+func (o *ReplicationObjectQuery) SetTargetEngineDefinition(v string) {
+	o.TargetEngineDefinition = &v
 }
 
 // GetEndpoint returns the Endpoint field value if set, zero value otherwise.
@@ -138,11 +197,56 @@ func (o *ReplicationObjectQuery) UnsetNodeValue() {
 	o.NodeValue.Unset()
 }
 
+// GetQueryNodeType returns the QueryNodeType field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ReplicationObjectQuery) GetQueryNodeType() string {
+	if o == nil || o.QueryNodeType.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.QueryNodeType.Get()
+}
+
+// GetQueryNodeTypeOk returns a tuple with the QueryNodeType field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ReplicationObjectQuery) GetQueryNodeTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.QueryNodeType.Get(), o.QueryNodeType.IsSet()
+}
+
+// HasQueryNodeType returns a boolean if a field has been set.
+func (o *ReplicationObjectQuery) HasQueryNodeType() bool {
+	return o != nil && o.QueryNodeType.IsSet()
+}
+
+// SetQueryNodeType gets a reference to the given common.NullableString and assigns it to the QueryNodeType field.
+func (o *ReplicationObjectQuery) SetQueryNodeType(v string) {
+	o.QueryNodeType.Set(&v)
+}
+
+// SetQueryNodeTypeNil sets the value for QueryNodeType to be an explicit nil.
+func (o *ReplicationObjectQuery) SetQueryNodeTypeNil() {
+	o.QueryNodeType.Set(nil)
+}
+
+// UnsetQueryNodeType ensures that no value is present for QueryNodeType, not even an explicit nil.
+func (o *ReplicationObjectQuery) UnsetQueryNodeType() {
+	o.QueryNodeType.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ReplicationObjectQuery) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
+	}
+	if o.SourceEngineDefinition != nil {
+		toSerialize["sourceEngineDefinition"] = o.SourceEngineDefinition
+	}
+	if o.TargetEngineDefinition != nil {
+		toSerialize["targetEngineDefinition"] = o.TargetEngineDefinition
 	}
 	if o.Endpoint != nil {
 		toSerialize["endpoint"] = o.Endpoint
@@ -152,6 +256,9 @@ func (o ReplicationObjectQuery) MarshalJSON() ([]byte, error) {
 	}
 	if o.NodeValue.IsSet() {
 		toSerialize["nodeValue"] = o.NodeValue.Get()
+	}
+	if o.QueryNodeType.IsSet() {
+		toSerialize["queryNodeType"] = o.QueryNodeType.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -163,27 +270,33 @@ func (o ReplicationObjectQuery) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ReplicationObjectQuery) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Endpoint  *DataChannelEndpointCreate `json:"endpoint,omitempty"`
-		NodeType  common.NullableString      `json:"nodeType,omitempty"`
-		NodeValue common.NullableString      `json:"nodeValue,omitempty"`
+		SourceEngineDefinition *string                    `json:"sourceEngineDefinition,omitempty"`
+		TargetEngineDefinition *string                    `json:"targetEngineDefinition,omitempty"`
+		Endpoint               *DataChannelEndpointCreate `json:"endpoint,omitempty"`
+		NodeType               common.NullableString      `json:"nodeType,omitempty"`
+		NodeValue              common.NullableString      `json:"nodeValue,omitempty"`
+		QueryNodeType          common.NullableString      `json:"queryNodeType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"endpoint", "nodeType", "nodeValue"})
+		common.DeleteKeys(additionalProperties, &[]string{"sourceEngineDefinition", "targetEngineDefinition", "endpoint", "nodeType", "nodeValue", "queryNodeType"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
+	o.SourceEngineDefinition = all.SourceEngineDefinition
+	o.TargetEngineDefinition = all.TargetEngineDefinition
 	if all.Endpoint != nil && all.Endpoint.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Endpoint = all.Endpoint
 	o.NodeType = all.NodeType
 	o.NodeValue = all.NodeValue
+	o.QueryNodeType = all.QueryNodeType
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

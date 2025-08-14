@@ -11130,6 +11130,7 @@ paths:
         - storage
   /api/v1/organizations/{orgName}/replication/channel:
     get:
+      deprecated: true
       operationId: listDataChannels
       summary: List Data Channels
       description: Retrieve a list of data channels.
@@ -11170,6 +11171,7 @@ paths:
       tags:
         - dataReplication
     post:
+      deprecated: true
       operationId: createDataChannel
       summary: Create a new data channel
       description: Create a new data channel.
@@ -11204,6 +11206,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/{channelID}:
     get:
+      deprecated: true
       operationId: getDataChannel
       summary: Get Data Channel Details
       description: Retrieve a data channel detail.
@@ -11236,6 +11239,7 @@ paths:
       tags:
         - dataReplication
     delete:
+      deprecated: true
       operationId: deleteDataChannel
       summary: Delete a data channel
       description: Delete a data channel.
@@ -11266,6 +11270,7 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/ops/{opsType}:
     post:
+      deprecated: true
       operationId: createDataChannelOps
       summary: Create a new data channel ops
       description: Create a new data channel ops.
@@ -11302,6 +11307,7 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/events:
     get:
+      deprecated: true
       operationId: listDataChannelEvents
       summary: List Data Channel Events
       description: Retrieve a list of data channel events.
@@ -11335,6 +11341,7 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/objects:
     post:
+      deprecated: true
       operationId: queryReplicationObject
       summary: query replication object
       description: query replication object.
@@ -11371,6 +11378,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/precheck:
     post:
+      deprecated: true
       operationId: createPreCheck
       summary: create pre check
       description: create pre check.
@@ -11405,6 +11413,7 @@ paths:
       x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/replication/channel/precheck/{preCheckID}:
     get:
+      deprecated: true
       operationId: getPreCheck
       summary: get preCheck
       description: get preCheck.
@@ -11437,6 +11446,7 @@ paths:
       tags:
         - dataReplication
     delete:
+      deprecated: true
       operationId: deletePreCheck
       summary: delete preCheck
       description: delete preCheck.
@@ -11467,6 +11477,7 @@ paths:
         - dataReplication
   /api/v1/organizations/{orgName}/replication/channel/{channelID}/logs:
     get:
+      deprecated: true
       description: Query logs of a data channel
       summary: Query data channel logs
       operationId: queryDataChannelLogs
@@ -17640,6 +17651,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/moduleDefinitionValues'
+    engineDefinitionVersionQuery:
+      type: object
+      properties:
+        sql:
+          type: string
+          description: the query to get the version, if not provided, will use inherited query from engine definition
+          nullable: true
+        column:
+          type: string
+          nullable: true
+        regex:
+          type: string
+          nullable: true
+        min:
+          type: number
+          nullable: true
+        max:
+          type: number
+          nullable: true
+    engineDefinitionVersion:
+      type: object
+      properties:
+        version:
+          type: string
+          nullable: true
+        query:
+          $ref: '#/components/schemas/engineDefinitionVersionQuery'
     configType:
       enum:
         - string
@@ -17678,7 +17716,7 @@ components:
           type: array
           description: definition supported available versions, empty means all versions are supported
           items:
-            type: string
+            $ref: '#/components/schemas/engineDefinitionVersion'
         extraCfgs:
           type: array
           items:
@@ -17690,6 +17728,10 @@ components:
           type: string
         engineName:
           type: string
+        escapes:
+          type: array
+          items:
+            type: string
         source:
           $ref: '#/components/schemas/engineDefinitionDetail'
         target:
@@ -17707,6 +17749,16 @@ components:
           $ref: '#/components/schemas/eventType'
         eventValue:
           type: string
+    replicationMetadataObject:
+      type: object
+      properties:
+        metadataType:
+          type: string
+        children:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/replicationMetadataObject'
     mappingDescription:
       type: object
       properties:
@@ -17731,8 +17783,14 @@ components:
             items:
               $ref: '#/components/schemas/eventObject'
             description: the events of the engine mapping, the first one is the default event
+        replicationMetadata:
+          $ref: '#/components/schemas/replicationMetadataObject'
         descriptions:
           $ref: '#/components/schemas/mappingDescription'
+        preCheckers:
+          type: array
+          items:
+            type: string
     standardResource:
       type: object
       properties:
@@ -20583,14 +20641,14 @@ components:
           type: string
     channelStatus:
       enum:
-        - pending
-        - initializing
-        - running
-        - finished
-        - failed
-        - pausing
-        - paused
-        - deleting
+        - Pending
+        - Initializing
+        - Running
+        - Finished
+        - Failed
+        - Pausing
+        - Paused
+        - Deleting
       type: string
     dataReplication_endpointType:
       enum:
@@ -20699,10 +20757,6 @@ components:
         basicAuth:
           $ref: '#/components/schemas/basicAuthModel'
           nullable: true
-        extraCfgs:
-          type: object
-          additionalProperties:
-            type: string
     dataChannelEndpointCreate:
       type: object
       properties:
@@ -20717,6 +20771,11 @@ components:
           nullable: true
         kubeblocks:
           $ref: '#/components/schemas/kubeblocksEndpoint'
+          nullable: true
+        extraCfgs:
+          type: object
+          additionalProperties:
+            type: string
           nullable: true
     dataReplicationCreate:
       type: object
@@ -20815,6 +20874,10 @@ components:
     replicationObjectQuery:
       type: object
       properties:
+        sourceEngineDefinition:
+          type: string
+        targetEngineDefinition:
+          type: string
         endpoint:
           $ref: '#/components/schemas/dataChannelEndpointCreate'
         nodeType:
@@ -20823,30 +20886,23 @@ components:
         nodeValue:
           type: string
           nullable: true
-    replicationObjectTreeNode:
-      type: object
-      properties:
-        nodeName:
+        queryNodeType:
           type: string
-        nodeType:
-          type: string
-        nodeValue:
-          type: string
-        children:
-          type: array
-          items:
-            $ref: '#/components/schemas/replicationObjectTreeNode'
-          nullable: true
-        isLeaf:
-          type: boolean
           nullable: true
     replicationObjectTree:
       type: object
       properties:
-        nodes:
+        nodeType:
+          type: string
+        childrenNodeTypes:
+          type: array
+          nullable: true
+          items:
+            type: string
+        childrenValues:
           type: array
           items:
-            $ref: '#/components/schemas/replicationObjectTreeNode'
+            type: string
     preCheckCreate:
       type: object
       properties:
@@ -20869,6 +20925,7 @@ components:
           type: string
     preCheckStatus:
       enum:
+        - pending
         - running
         - succeed
         - failed

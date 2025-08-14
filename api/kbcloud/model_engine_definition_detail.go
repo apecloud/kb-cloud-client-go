@@ -11,8 +11,8 @@ type EngineDefinitionDetail struct {
 	// definition supported available modes, empty means all modes are supported
 	AvailableModes []string `json:"availableModes,omitempty"`
 	// definition supported available versions, empty means all versions are supported
-	AvailableVersions []string      `json:"availableVersions,omitempty"`
-	ExtraCfgs         []ExtraConfig `json:"extraCfgs,omitempty"`
+	AvailableVersions []EngineDefinitionVersion `json:"availableVersions,omitempty"`
+	ExtraCfgs         []ExtraConfig             `json:"extraCfgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -92,9 +92,9 @@ func (o *EngineDefinitionDetail) SetAvailableModes(v []string) {
 }
 
 // GetAvailableVersions returns the AvailableVersions field value if set, zero value otherwise.
-func (o *EngineDefinitionDetail) GetAvailableVersions() []string {
+func (o *EngineDefinitionDetail) GetAvailableVersions() []EngineDefinitionVersion {
 	if o == nil || o.AvailableVersions == nil {
-		var ret []string
+		var ret []EngineDefinitionVersion
 		return ret
 	}
 	return o.AvailableVersions
@@ -102,7 +102,7 @@ func (o *EngineDefinitionDetail) GetAvailableVersions() []string {
 
 // GetAvailableVersionsOk returns a tuple with the AvailableVersions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineDefinitionDetail) GetAvailableVersionsOk() (*[]string, bool) {
+func (o *EngineDefinitionDetail) GetAvailableVersionsOk() (*[]EngineDefinitionVersion, bool) {
 	if o == nil || o.AvailableVersions == nil {
 		return nil, false
 	}
@@ -114,8 +114,8 @@ func (o *EngineDefinitionDetail) HasAvailableVersions() bool {
 	return o != nil && o.AvailableVersions != nil
 }
 
-// SetAvailableVersions gets a reference to the given []string and assigns it to the AvailableVersions field.
-func (o *EngineDefinitionDetail) SetAvailableVersions(v []string) {
+// SetAvailableVersions gets a reference to the given []EngineDefinitionVersion and assigns it to the AvailableVersions field.
+func (o *EngineDefinitionDetail) SetAvailableVersions(v []EngineDefinitionVersion) {
 	o.AvailableVersions = v
 }
 
@@ -175,10 +175,10 @@ func (o EngineDefinitionDetail) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineDefinitionDetail) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		DefinitionName    *string       `json:"definitionName,omitempty"`
-		AvailableModes    []string      `json:"availableModes,omitempty"`
-		AvailableVersions []string      `json:"availableVersions,omitempty"`
-		ExtraCfgs         []ExtraConfig `json:"extraCfgs,omitempty"`
+		DefinitionName    *string                   `json:"definitionName,omitempty"`
+		AvailableModes    []string                  `json:"availableModes,omitempty"`
+		AvailableVersions []EngineDefinitionVersion `json:"availableVersions,omitempty"`
+		ExtraCfgs         []ExtraConfig             `json:"extraCfgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

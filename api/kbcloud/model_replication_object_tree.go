@@ -7,7 +7,9 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ReplicationObjectTree struct {
-	Nodes []ReplicationObjectTreeNode `json:"nodes,omitempty"`
+	NodeType          *string                     `json:"nodeType,omitempty"`
+	ChildrenNodeTypes common.NullableList[string] `json:"childrenNodeTypes,omitempty"`
+	ChildrenValues    []string                    `json:"childrenValues,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,32 +32,99 @@ func NewReplicationObjectTreeWithDefaults() *ReplicationObjectTree {
 	return &this
 }
 
-// GetNodes returns the Nodes field value if set, zero value otherwise.
-func (o *ReplicationObjectTree) GetNodes() []ReplicationObjectTreeNode {
-	if o == nil || o.Nodes == nil {
-		var ret []ReplicationObjectTreeNode
+// GetNodeType returns the NodeType field value if set, zero value otherwise.
+func (o *ReplicationObjectTree) GetNodeType() string {
+	if o == nil || o.NodeType == nil {
+		var ret string
 		return ret
 	}
-	return o.Nodes
+	return *o.NodeType
 }
 
-// GetNodesOk returns a tuple with the Nodes field value if set, nil otherwise
+// GetNodeTypeOk returns a tuple with the NodeType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ReplicationObjectTree) GetNodesOk() (*[]ReplicationObjectTreeNode, bool) {
-	if o == nil || o.Nodes == nil {
+func (o *ReplicationObjectTree) GetNodeTypeOk() (*string, bool) {
+	if o == nil || o.NodeType == nil {
 		return nil, false
 	}
-	return &o.Nodes, true
+	return o.NodeType, true
 }
 
-// HasNodes returns a boolean if a field has been set.
-func (o *ReplicationObjectTree) HasNodes() bool {
-	return o != nil && o.Nodes != nil
+// HasNodeType returns a boolean if a field has been set.
+func (o *ReplicationObjectTree) HasNodeType() bool {
+	return o != nil && o.NodeType != nil
 }
 
-// SetNodes gets a reference to the given []ReplicationObjectTreeNode and assigns it to the Nodes field.
-func (o *ReplicationObjectTree) SetNodes(v []ReplicationObjectTreeNode) {
-	o.Nodes = v
+// SetNodeType gets a reference to the given string and assigns it to the NodeType field.
+func (o *ReplicationObjectTree) SetNodeType(v string) {
+	o.NodeType = &v
+}
+
+// GetChildrenNodeTypes returns the ChildrenNodeTypes field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *ReplicationObjectTree) GetChildrenNodeTypes() []string {
+	if o == nil || o.ChildrenNodeTypes.Get() == nil {
+		var ret []string
+		return ret
+	}
+	return *o.ChildrenNodeTypes.Get()
+}
+
+// GetChildrenNodeTypesOk returns a tuple with the ChildrenNodeTypes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *ReplicationObjectTree) GetChildrenNodeTypesOk() (*[]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ChildrenNodeTypes.Get(), o.ChildrenNodeTypes.IsSet()
+}
+
+// HasChildrenNodeTypes returns a boolean if a field has been set.
+func (o *ReplicationObjectTree) HasChildrenNodeTypes() bool {
+	return o != nil && o.ChildrenNodeTypes.IsSet()
+}
+
+// SetChildrenNodeTypes gets a reference to the given common.NullableList[string] and assigns it to the ChildrenNodeTypes field.
+func (o *ReplicationObjectTree) SetChildrenNodeTypes(v []string) {
+	o.ChildrenNodeTypes.Set(&v)
+}
+
+// SetChildrenNodeTypesNil sets the value for ChildrenNodeTypes to be an explicit nil.
+func (o *ReplicationObjectTree) SetChildrenNodeTypesNil() {
+	o.ChildrenNodeTypes.Set(nil)
+}
+
+// UnsetChildrenNodeTypes ensures that no value is present for ChildrenNodeTypes, not even an explicit nil.
+func (o *ReplicationObjectTree) UnsetChildrenNodeTypes() {
+	o.ChildrenNodeTypes.Unset()
+}
+
+// GetChildrenValues returns the ChildrenValues field value if set, zero value otherwise.
+func (o *ReplicationObjectTree) GetChildrenValues() []string {
+	if o == nil || o.ChildrenValues == nil {
+		var ret []string
+		return ret
+	}
+	return o.ChildrenValues
+}
+
+// GetChildrenValuesOk returns a tuple with the ChildrenValues field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReplicationObjectTree) GetChildrenValuesOk() (*[]string, bool) {
+	if o == nil || o.ChildrenValues == nil {
+		return nil, false
+	}
+	return &o.ChildrenValues, true
+}
+
+// HasChildrenValues returns a boolean if a field has been set.
+func (o *ReplicationObjectTree) HasChildrenValues() bool {
+	return o != nil && o.ChildrenValues != nil
+}
+
+// SetChildrenValues gets a reference to the given []string and assigns it to the ChildrenValues field.
+func (o *ReplicationObjectTree) SetChildrenValues(v []string) {
+	o.ChildrenValues = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -64,8 +133,14 @@ func (o ReplicationObjectTree) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Nodes != nil {
-		toSerialize["nodes"] = o.Nodes
+	if o.NodeType != nil {
+		toSerialize["nodeType"] = o.NodeType
+	}
+	if o.ChildrenNodeTypes.IsSet() {
+		toSerialize["childrenNodeTypes"] = o.ChildrenNodeTypes.Get()
+	}
+	if o.ChildrenValues != nil {
+		toSerialize["childrenValues"] = o.ChildrenValues
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -77,18 +152,22 @@ func (o ReplicationObjectTree) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ReplicationObjectTree) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Nodes []ReplicationObjectTreeNode `json:"nodes,omitempty"`
+		NodeType          *string                     `json:"nodeType,omitempty"`
+		ChildrenNodeTypes common.NullableList[string] `json:"childrenNodeTypes,omitempty"`
+		ChildrenValues    []string                    `json:"childrenValues,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodes"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeType", "childrenNodeTypes", "childrenValues"})
 	} else {
 		return err
 	}
-	o.Nodes = all.Nodes
+	o.NodeType = all.NodeType
+	o.ChildrenNodeTypes = all.ChildrenNodeTypes
+	o.ChildrenValues = all.ChildrenValues
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

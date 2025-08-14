@@ -12,6 +12,7 @@ type DataChannelEndpointCreate struct {
 	EndpointType   *DataReplication_endpointType `json:"endpointType,omitempty"`
 	Custom         *CustomEndpointCreate         `json:"custom,omitempty"`
 	Kubeblocks     *KubeblocksEndpoint           `json:"kubeblocks,omitempty"`
+	ExtraCfgs      map[string]string             `json:"extraCfgs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -174,6 +175,35 @@ func (o *DataChannelEndpointCreate) SetKubeblocks(v KubeblocksEndpoint) {
 	o.Kubeblocks = &v
 }
 
+// GetExtraCfgs returns the ExtraCfgs field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataChannelEndpointCreate) GetExtraCfgs() map[string]string {
+	if o == nil {
+		var ret map[string]string
+		return ret
+	}
+	return o.ExtraCfgs
+}
+
+// GetExtraCfgsOk returns a tuple with the ExtraCfgs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataChannelEndpointCreate) GetExtraCfgsOk() (*map[string]string, bool) {
+	if o == nil || o.ExtraCfgs == nil {
+		return nil, false
+	}
+	return &o.ExtraCfgs, true
+}
+
+// HasExtraCfgs returns a boolean if a field has been set.
+func (o *DataChannelEndpointCreate) HasExtraCfgs() bool {
+	return o != nil && o.ExtraCfgs != nil
+}
+
+// SetExtraCfgs gets a reference to the given map[string]string and assigns it to the ExtraCfgs field.
+func (o *DataChannelEndpointCreate) SetExtraCfgs(v map[string]string) {
+	o.ExtraCfgs = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DataChannelEndpointCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -195,6 +225,9 @@ func (o DataChannelEndpointCreate) MarshalJSON() ([]byte, error) {
 	if o.Kubeblocks != nil {
 		toSerialize["kubeblocks"] = o.Kubeblocks
 	}
+	if o.ExtraCfgs != nil {
+		toSerialize["extraCfgs"] = o.ExtraCfgs
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -210,13 +243,14 @@ func (o *DataChannelEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 		EndpointType   *DataReplication_endpointType `json:"endpointType,omitempty"`
 		Custom         *CustomEndpointCreate         `json:"custom,omitempty"`
 		Kubeblocks     *KubeblocksEndpoint           `json:"kubeblocks,omitempty"`
+		ExtraCfgs      map[string]string             `json:"extraCfgs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "definitionName", "endpointType", "custom", "kubeblocks"})
+		common.DeleteKeys(additionalProperties, &[]string{"engineName", "definitionName", "endpointType", "custom", "kubeblocks", "extraCfgs"})
 	} else {
 		return err
 	}
@@ -237,6 +271,7 @@ func (o *DataChannelEndpointCreate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Kubeblocks = all.Kubeblocks
+	o.ExtraCfgs = all.ExtraCfgs
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
