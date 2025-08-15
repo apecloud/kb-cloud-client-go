@@ -17,7 +17,7 @@ import (
 // AlertStrategyApi service type
 type AlertStrategyApi common.Service
 
-// CreateAlertStrategy Create alert strategy.
+// CreateAlertStrategy Create alert strategy in org.
 func (a *AlertStrategyApi) CreateAlertStrategy(ctx _context.Context, orgName string, body AlertStrategy) (AlertStrategy, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
@@ -154,7 +154,7 @@ func (a *AlertStrategyApi) DeleteAlertStrategy(ctx _context.Context, orgName str
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {

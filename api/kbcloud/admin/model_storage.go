@@ -26,10 +26,13 @@ type Storage struct {
 	CreatedBy *time.Time `json:"createdBy,omitempty"`
 	// the id of cluster that storage used
 	ClusterId common.NullableString `json:"clusterID,omitempty"`
+	// the address of cluster
+	ClusterMetadataAddress common.NullableString `json:"clusterMetadataAddress,omitempty"`
 	// User who updated the storage
 	UpdatedBy *time.Time `json:"updatedBy,omitempty"`
 	// the tags for the storage
-	Tags map[string]string `json:"tags,omitempty"`
+	Tags    map[string]string `json:"tags,omitempty"`
+	Engines []string          `json:"engines,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -259,6 +262,45 @@ func (o *Storage) UnsetClusterId() {
 	o.ClusterId.Unset()
 }
 
+// GetClusterMetadataAddress returns the ClusterMetadataAddress field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *Storage) GetClusterMetadataAddress() string {
+	if o == nil || o.ClusterMetadataAddress.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.ClusterMetadataAddress.Get()
+}
+
+// GetClusterMetadataAddressOk returns a tuple with the ClusterMetadataAddress field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *Storage) GetClusterMetadataAddressOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ClusterMetadataAddress.Get(), o.ClusterMetadataAddress.IsSet()
+}
+
+// HasClusterMetadataAddress returns a boolean if a field has been set.
+func (o *Storage) HasClusterMetadataAddress() bool {
+	return o != nil && o.ClusterMetadataAddress.IsSet()
+}
+
+// SetClusterMetadataAddress gets a reference to the given common.NullableString and assigns it to the ClusterMetadataAddress field.
+func (o *Storage) SetClusterMetadataAddress(v string) {
+	o.ClusterMetadataAddress.Set(&v)
+}
+
+// SetClusterMetadataAddressNil sets the value for ClusterMetadataAddress to be an explicit nil.
+func (o *Storage) SetClusterMetadataAddressNil() {
+	o.ClusterMetadataAddress.Set(nil)
+}
+
+// UnsetClusterMetadataAddress ensures that no value is present for ClusterMetadataAddress, not even an explicit nil.
+func (o *Storage) UnsetClusterMetadataAddress() {
+	o.ClusterMetadataAddress.Unset()
+}
+
 // GetUpdatedBy returns the UpdatedBy field value if set, zero value otherwise.
 func (o *Storage) GetUpdatedBy() time.Time {
 	if o == nil || o.UpdatedBy == nil {
@@ -315,6 +357,34 @@ func (o *Storage) SetTags(v map[string]string) {
 	o.Tags = v
 }
 
+// GetEngines returns the Engines field value if set, zero value otherwise.
+func (o *Storage) GetEngines() []string {
+	if o == nil || o.Engines == nil {
+		var ret []string
+		return ret
+	}
+	return o.Engines
+}
+
+// GetEnginesOk returns a tuple with the Engines field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Storage) GetEnginesOk() (*[]string, bool) {
+	if o == nil || o.Engines == nil {
+		return nil, false
+	}
+	return &o.Engines, true
+}
+
+// HasEngines returns a boolean if a field has been set.
+func (o *Storage) HasEngines() bool {
+	return o != nil && o.Engines != nil
+}
+
+// SetEngines gets a reference to the given []string and assigns it to the Engines field.
+func (o *Storage) SetEngines(v []string) {
+	o.Engines = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Storage) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -346,6 +416,9 @@ func (o Storage) MarshalJSON() ([]byte, error) {
 	if o.ClusterId.IsSet() {
 		toSerialize["clusterID"] = o.ClusterId.Get()
 	}
+	if o.ClusterMetadataAddress.IsSet() {
+		toSerialize["clusterMetadataAddress"] = o.ClusterMetadataAddress.Get()
+	}
 	if o.UpdatedBy != nil {
 		if o.UpdatedBy.Nanosecond() == 0 {
 			toSerialize["updatedBy"] = o.UpdatedBy.Format("2006-01-02T15:04:05Z07:00")
@@ -355,6 +428,9 @@ func (o Storage) MarshalJSON() ([]byte, error) {
 	}
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags
+	}
+	if o.Engines != nil {
+		toSerialize["engines"] = o.Engines
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -366,22 +442,24 @@ func (o Storage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Storage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id              *string               `json:"id,omitempty"`
-		Name            *string               `json:"name,omitempty"`
-		StorageProvider *string               `json:"storageProvider,omitempty"`
-		Params          map[string]string     `json:"params,omitempty"`
-		EnvName         *string               `json:"envName,omitempty"`
-		CreatedBy       *time.Time            `json:"createdBy,omitempty"`
-		ClusterId       common.NullableString `json:"clusterID,omitempty"`
-		UpdatedBy       *time.Time            `json:"updatedBy,omitempty"`
-		Tags            map[string]string     `json:"tags,omitempty"`
+		Id                     *string               `json:"id,omitempty"`
+		Name                   *string               `json:"name,omitempty"`
+		StorageProvider        *string               `json:"storageProvider,omitempty"`
+		Params                 map[string]string     `json:"params,omitempty"`
+		EnvName                *string               `json:"envName,omitempty"`
+		CreatedBy              *time.Time            `json:"createdBy,omitempty"`
+		ClusterId              common.NullableString `json:"clusterID,omitempty"`
+		ClusterMetadataAddress common.NullableString `json:"clusterMetadataAddress,omitempty"`
+		UpdatedBy              *time.Time            `json:"updatedBy,omitempty"`
+		Tags                   map[string]string     `json:"tags,omitempty"`
+		Engines                []string              `json:"engines,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "storageProvider", "params", "envName", "createdBy", "clusterID", "updatedBy", "tags"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "storageProvider", "params", "envName", "createdBy", "clusterID", "clusterMetadataAddress", "updatedBy", "tags", "engines"})
 	} else {
 		return err
 	}
@@ -392,8 +470,10 @@ func (o *Storage) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvName = all.EnvName
 	o.CreatedBy = all.CreatedBy
 	o.ClusterId = all.ClusterId
+	o.ClusterMetadataAddress = all.ClusterMetadataAddress
 	o.UpdatedBy = all.UpdatedBy
 	o.Tags = all.Tags
+	o.Engines = all.Engines
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -7,7 +7,8 @@ package kbcloud
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ModeOptionSchedulingPolicy struct {
-	// when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
+	// when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
+	// applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
 	//
 	ComponentAntiAffinity []string `json:"componentAntiAffinity,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct

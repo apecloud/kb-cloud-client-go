@@ -4,12 +4,16 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ComponentItemCreate ComponentItem is the information of a component
 type ComponentItemCreate struct {
 	// component type, refer to componentDef and support NamePrefix
-	Component *string `json:"component,omitempty"`
+	Component string `json:"component"`
 	// The number of components, if often used as shards number
 	CompNum *int32 `json:"compNum,omitempty"`
 	// The number of replicas, for standalone mode, the replicas is 1, for raftGroup mode, the default replicas is 3.
@@ -33,8 +37,9 @@ type ComponentItemCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewComponentItemCreate() *ComponentItemCreate {
+func NewComponentItemCreate(component string) *ComponentItemCreate {
 	this := ComponentItemCreate{}
+	this.Component = component
 	return &this
 }
 
@@ -46,32 +51,27 @@ func NewComponentItemCreateWithDefaults() *ComponentItemCreate {
 	return &this
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *ComponentItemCreate) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *ComponentItemCreate) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *ComponentItemCreate) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *ComponentItemCreate) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetCompNum returns the CompNum field value if set, zero value otherwise.
@@ -304,9 +304,7 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["component"] = o.Component
 	if o.CompNum != nil {
 		toSerialize["compNum"] = o.CompNum
 	}
@@ -341,7 +339,7 @@ func (o ComponentItemCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component               *string               `json:"component,omitempty"`
+		Component               *string               `json:"component"`
 		CompNum                 *int32                `json:"compNum,omitempty"`
 		Replicas                *int32                `json:"replicas,omitempty"`
 		ClassCode               *string               `json:"classCode,omitempty"`
@@ -354,13 +352,16 @@ func (o *ComponentItemCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
 		common.DeleteKeys(additionalProperties, &[]string{"component", "compNum", "replicas", "classCode", "cpu", "memory", "storageClass", "volumes", "systemAccountSecretName"})
 	} else {
 		return err
 	}
-	o.Component = all.Component
+	o.Component = *all.Component
 	o.CompNum = all.CompNum
 	o.Replicas = all.Replicas
 	o.ClassCode = all.ClassCode

@@ -42,6 +42,8 @@ func NewTlsOption(issuer CertificateIssuer) *TlsOption {
 // but it doesn't guarantee that properties required by API are set.
 func NewTlsOptionWithDefaults() *TlsOption {
 	this := TlsOption{}
+	var issuer CertificateIssuer = CertificateIssuerApecloud
+	this.Issuer = issuer
 	return &this
 }
 
