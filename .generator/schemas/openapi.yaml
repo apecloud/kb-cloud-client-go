@@ -3807,9 +3807,14 @@ paths:
           description: defined whether to search for rebuilding instance.
           schema:
             type: boolean
+        - name: withHScale
+          in: query
+          description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
         - name: component
           in: query
-          description: The component type is required when withRebuildInstance is true.
+          description: The component type is required when withRebuildInstance/withHScale is true.
           schema:
             type: string
       responses:
@@ -3991,6 +3996,11 @@ paths:
         - name: withRebuildInstance
           in: query
           description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
+        - name: withHScale
+          in: query
+          description: defined whether to search for hScale instance.
           schema:
             type: boolean
         - name: componentName
