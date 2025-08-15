@@ -18707,6 +18707,10 @@ components:
           description: component type
           type: string
           minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
         replicas:
           description: number of replicas
           type: integer
@@ -22833,6 +22837,10 @@ components:
         needBackupWhenInPlace:
           type: boolean
           description: indicate whether backup is required when Inplace is true
+          default: false
+        backupRequired:
+          type: boolean
+          description: indicate whether backup is required for this ops
           default: false
         backupMethod:
           type: object

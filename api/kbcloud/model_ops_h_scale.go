@@ -14,6 +14,8 @@ import (
 type OpsHScale struct {
 	// component type
 	Component string `json:"component"`
+	// name of the backup to restore from
+	BackupName common.NullableString `json:"backupName,omitempty"`
 	// number of replicas
 	Replicas common.NullableInt32 `json:"replicas,omitempty"`
 	// number of shards, mutually exclusive with replicas.
@@ -64,6 +66,45 @@ func (o *OpsHScale) GetComponentOk() (*string, bool) {
 // SetComponent sets field value.
 func (o *OpsHScale) SetComponent(v string) {
 	o.Component = v
+}
+
+// GetBackupName returns the BackupName field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OpsHScale) GetBackupName() string {
+	if o == nil || o.BackupName.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.BackupName.Get()
+}
+
+// GetBackupNameOk returns a tuple with the BackupName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *OpsHScale) GetBackupNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.BackupName.Get(), o.BackupName.IsSet()
+}
+
+// HasBackupName returns a boolean if a field has been set.
+func (o *OpsHScale) HasBackupName() bool {
+	return o != nil && o.BackupName.IsSet()
+}
+
+// SetBackupName gets a reference to the given common.NullableString and assigns it to the BackupName field.
+func (o *OpsHScale) SetBackupName(v string) {
+	o.BackupName.Set(&v)
+}
+
+// SetBackupNameNil sets the value for BackupName to be an explicit nil.
+func (o *OpsHScale) SetBackupNameNil() {
+	o.BackupName.Set(nil)
+}
+
+// UnsetBackupName ensures that no value is present for BackupName, not even an explicit nil.
+func (o *OpsHScale) UnsetBackupName() {
+	o.BackupName.Unset()
 }
 
 // GetReplicas returns the Replicas field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -190,6 +231,9 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["component"] = o.Component
+	if o.BackupName.IsSet() {
+		toSerialize["backupName"] = o.BackupName.Get()
+	}
 	if o.Replicas.IsSet() {
 		toSerialize["replicas"] = o.Replicas.Get()
 	}
@@ -209,10 +253,11 @@ func (o OpsHScale) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component                   *string              `json:"component"`
-		Replicas                    common.NullableInt32 `json:"replicas,omitempty"`
-		Shards                      common.NullableInt32 `json:"shards,omitempty"`
-		PreConditionDeadlineSeconds common.NullableInt32 `json:"preConditionDeadlineSeconds,omitempty"`
+		Component                   *string               `json:"component"`
+		BackupName                  common.NullableString `json:"backupName,omitempty"`
+		Replicas                    common.NullableInt32  `json:"replicas,omitempty"`
+		Shards                      common.NullableInt32  `json:"shards,omitempty"`
+		PreConditionDeadlineSeconds common.NullableInt32  `json:"preConditionDeadlineSeconds,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -222,11 +267,12 @@ func (o *OpsHScale) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "replicas", "shards", "preConditionDeadlineSeconds"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "backupName", "replicas", "shards", "preConditionDeadlineSeconds"})
 	} else {
 		return err
 	}
 	o.Component = *all.Component
+	o.BackupName = all.BackupName
 	o.Replicas = all.Replicas
 	o.Shards = all.Shards
 	o.PreConditionDeadlineSeconds = all.PreConditionDeadlineSeconds
