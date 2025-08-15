@@ -22564,13 +22564,11 @@ components:
                   sourceKey:
                     type: string
                   sourceValue:
-                    type: object
-                    additionalProperties: true
+                    description: Can be any type (string, number, boolean, object, etc.)
                   targetKey:
                     type: string
                   targetValue:
-                    type: object
-                    additionalProperties: true
+                    description: Can be any type (string, number, boolean, object, etc.)
     accountOption:
       type: object
       required:
