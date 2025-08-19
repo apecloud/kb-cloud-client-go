@@ -3809,9 +3809,14 @@ paths:
           description: defined whether to search for rebuilding instance.
           schema:
             type: boolean
+        - name: withHScale
+          in: query
+          description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
         - name: component
           in: query
-          description: The component type is required when withRebuildInstance is true.
+          description: The component type is required when withRebuildInstance/withHScale is true.
           schema:
             type: string
       responses:
@@ -3993,6 +3998,11 @@ paths:
         - name: withRebuildInstance
           in: query
           description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
+        - name: withHScale
+          in: query
+          description: defined whether to search for hScale instance.
           schema:
             type: boolean
         - name: componentName
@@ -14341,6 +14351,10 @@ components:
           description: component type
           type: string
           minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
         replicas:
           description: number of replicas
           type: integer
@@ -16859,13 +16873,11 @@ components:
                   sourceKey:
                     type: string
                   sourceValue:
-                    type: object
-                    additionalProperties: true
+                    description: Can be any type (string, number, boolean, object, etc.)
                   targetKey:
                     type: string
                   targetValue:
-                    type: object
-                    additionalProperties: true
+                    description: Can be any type (string, number, boolean, object, etc.)
     accountOption:
       type: object
       required:
@@ -17132,6 +17144,10 @@ components:
         needBackupWhenInPlace:
           type: boolean
           description: indicate whether backup is required when Inplace is true
+          default: false
+        backupRequired:
+          type: boolean
+          description: indicate whether backup is required for this ops
           default: false
         backupMethod:
           type: object
@@ -20889,18 +20905,25 @@ components:
         queryNodeType:
           type: string
           nullable: true
+    replicationObjectNode:
+      type: object
+      properties:
+        nodeName:
+          type: string
+        nodeValue:
+          type: string
     replicationObjectTree:
       type: object
       properties:
         nodeType:
           type: string
+        nodeValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/replicationObjectNode'
         childrenNodeTypes:
           type: array
           nullable: true
-          items:
-            type: string
-        childrenValues:
-          type: array
           items:
             type: string
     preCheckCreate:
@@ -20934,6 +20957,8 @@ components:
       type: object
       properties:
         checkerName:
+          type: string
+        checkerDesc:
           type: string
         message:
           type: string

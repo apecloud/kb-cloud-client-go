@@ -11,11 +11,13 @@ import (
 )
 
 type ModeOptionValuesMappingsMappingsItem struct {
-	Component   *string                `json:"component,omitempty"`
-	SourceKey   string                 `json:"sourceKey"`
-	SourceValue map[string]interface{} `json:"sourceValue,omitempty"`
-	TargetKey   string                 `json:"targetKey"`
-	TargetValue map[string]interface{} `json:"targetValue,omitempty"`
+	Component *string `json:"component,omitempty"`
+	SourceKey string  `json:"sourceKey"`
+	// Can be any type (string, number, boolean, object, etc.)
+	SourceValue interface{} `json:"sourceValue,omitempty"`
+	TargetKey   string      `json:"targetKey"`
+	// Can be any type (string, number, boolean, object, etc.)
+	TargetValue interface{} `json:"targetValue,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -92,9 +94,9 @@ func (o *ModeOptionValuesMappingsMappingsItem) SetSourceKey(v string) {
 }
 
 // GetSourceValue returns the SourceValue field value if set, zero value otherwise.
-func (o *ModeOptionValuesMappingsMappingsItem) GetSourceValue() map[string]interface{} {
+func (o *ModeOptionValuesMappingsMappingsItem) GetSourceValue() interface{} {
 	if o == nil || o.SourceValue == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return o.SourceValue
@@ -102,7 +104,7 @@ func (o *ModeOptionValuesMappingsMappingsItem) GetSourceValue() map[string]inter
 
 // GetSourceValueOk returns a tuple with the SourceValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeOptionValuesMappingsMappingsItem) GetSourceValueOk() (*map[string]interface{}, bool) {
+func (o *ModeOptionValuesMappingsMappingsItem) GetSourceValueOk() (*interface{}, bool) {
 	if o == nil || o.SourceValue == nil {
 		return nil, false
 	}
@@ -114,8 +116,8 @@ func (o *ModeOptionValuesMappingsMappingsItem) HasSourceValue() bool {
 	return o != nil && o.SourceValue != nil
 }
 
-// SetSourceValue gets a reference to the given map[string]interface{} and assigns it to the SourceValue field.
-func (o *ModeOptionValuesMappingsMappingsItem) SetSourceValue(v map[string]interface{}) {
+// SetSourceValue gets a reference to the given interface{} and assigns it to the SourceValue field.
+func (o *ModeOptionValuesMappingsMappingsItem) SetSourceValue(v interface{}) {
 	o.SourceValue = v
 }
 
@@ -143,9 +145,9 @@ func (o *ModeOptionValuesMappingsMappingsItem) SetTargetKey(v string) {
 }
 
 // GetTargetValue returns the TargetValue field value if set, zero value otherwise.
-func (o *ModeOptionValuesMappingsMappingsItem) GetTargetValue() map[string]interface{} {
+func (o *ModeOptionValuesMappingsMappingsItem) GetTargetValue() interface{} {
 	if o == nil || o.TargetValue == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 	return o.TargetValue
@@ -153,7 +155,7 @@ func (o *ModeOptionValuesMappingsMappingsItem) GetTargetValue() map[string]inter
 
 // GetTargetValueOk returns a tuple with the TargetValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ModeOptionValuesMappingsMappingsItem) GetTargetValueOk() (*map[string]interface{}, bool) {
+func (o *ModeOptionValuesMappingsMappingsItem) GetTargetValueOk() (*interface{}, bool) {
 	if o == nil || o.TargetValue == nil {
 		return nil, false
 	}
@@ -165,8 +167,8 @@ func (o *ModeOptionValuesMappingsMappingsItem) HasTargetValue() bool {
 	return o != nil && o.TargetValue != nil
 }
 
-// SetTargetValue gets a reference to the given map[string]interface{} and assigns it to the TargetValue field.
-func (o *ModeOptionValuesMappingsMappingsItem) SetTargetValue(v map[string]interface{}) {
+// SetTargetValue gets a reference to the given interface{} and assigns it to the TargetValue field.
+func (o *ModeOptionValuesMappingsMappingsItem) SetTargetValue(v interface{}) {
 	o.TargetValue = v
 }
 
@@ -197,11 +199,11 @@ func (o ModeOptionValuesMappingsMappingsItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ModeOptionValuesMappingsMappingsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component   *string                `json:"component,omitempty"`
-		SourceKey   *string                `json:"sourceKey"`
-		SourceValue map[string]interface{} `json:"sourceValue,omitempty"`
-		TargetKey   *string                `json:"targetKey"`
-		TargetValue map[string]interface{} `json:"targetValue,omitempty"`
+		Component   *string     `json:"component,omitempty"`
+		SourceKey   *string     `json:"sourceKey"`
+		SourceValue interface{} `json:"sourceValue,omitempty"`
+		TargetKey   *string     `json:"targetKey"`
+		TargetValue interface{} `json:"targetValue,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

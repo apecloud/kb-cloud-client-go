@@ -22,6 +22,7 @@ type GetBackupMethodOptionalParameters struct {
 	ClusterId           *string
 	EnablePitr          *bool
 	WithRebuildInstance *bool
+	WithHScale          *bool
 	Component           *string
 }
 
@@ -46,6 +47,12 @@ func (r *GetBackupMethodOptionalParameters) WithEnablePitr(enablePitr bool) *Get
 // WithWithRebuildInstance sets the corresponding parameter name and returns the struct.
 func (r *GetBackupMethodOptionalParameters) WithWithRebuildInstance(withRebuildInstance bool) *GetBackupMethodOptionalParameters {
 	r.WithRebuildInstance = &withRebuildInstance
+	return r
+}
+
+// WithWithHScale sets the corresponding parameter name and returns the struct.
+func (r *GetBackupMethodOptionalParameters) WithWithHScale(withHScale bool) *GetBackupMethodOptionalParameters {
+	r.WithHScale = &withHScale
 	return r
 }
 
@@ -100,6 +107,9 @@ func (a *BackupMethodApi) GetBackupMethod(ctx _context.Context, orgName string, 
 	}
 	if optionalParams.WithRebuildInstance != nil {
 		localVarQueryParams.Add("withRebuildInstance", common.ParameterToString(*optionalParams.WithRebuildInstance, ""))
+	}
+	if optionalParams.WithHScale != nil {
+		localVarQueryParams.Add("withHScale", common.ParameterToString(*optionalParams.WithHScale, ""))
 	}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))

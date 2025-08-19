@@ -8,8 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type ReplicationObjectTree struct {
 	NodeType          *string                     `json:"nodeType,omitempty"`
+	NodeValues        []ReplicationObjectNode     `json:"nodeValues,omitempty"`
 	ChildrenNodeTypes common.NullableList[string] `json:"childrenNodeTypes,omitempty"`
-	ChildrenValues    []string                    `json:"childrenValues,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +60,34 @@ func (o *ReplicationObjectTree) SetNodeType(v string) {
 	o.NodeType = &v
 }
 
+// GetNodeValues returns the NodeValues field value if set, zero value otherwise.
+func (o *ReplicationObjectTree) GetNodeValues() []ReplicationObjectNode {
+	if o == nil || o.NodeValues == nil {
+		var ret []ReplicationObjectNode
+		return ret
+	}
+	return o.NodeValues
+}
+
+// GetNodeValuesOk returns a tuple with the NodeValues field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ReplicationObjectTree) GetNodeValuesOk() (*[]ReplicationObjectNode, bool) {
+	if o == nil || o.NodeValues == nil {
+		return nil, false
+	}
+	return &o.NodeValues, true
+}
+
+// HasNodeValues returns a boolean if a field has been set.
+func (o *ReplicationObjectTree) HasNodeValues() bool {
+	return o != nil && o.NodeValues != nil
+}
+
+// SetNodeValues gets a reference to the given []ReplicationObjectNode and assigns it to the NodeValues field.
+func (o *ReplicationObjectTree) SetNodeValues(v []ReplicationObjectNode) {
+	o.NodeValues = v
+}
+
 // GetChildrenNodeTypes returns the ChildrenNodeTypes field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ReplicationObjectTree) GetChildrenNodeTypes() []string {
 	if o == nil || o.ChildrenNodeTypes.Get() == nil {
@@ -99,34 +127,6 @@ func (o *ReplicationObjectTree) UnsetChildrenNodeTypes() {
 	o.ChildrenNodeTypes.Unset()
 }
 
-// GetChildrenValues returns the ChildrenValues field value if set, zero value otherwise.
-func (o *ReplicationObjectTree) GetChildrenValues() []string {
-	if o == nil || o.ChildrenValues == nil {
-		var ret []string
-		return ret
-	}
-	return o.ChildrenValues
-}
-
-// GetChildrenValuesOk returns a tuple with the ChildrenValues field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ReplicationObjectTree) GetChildrenValuesOk() (*[]string, bool) {
-	if o == nil || o.ChildrenValues == nil {
-		return nil, false
-	}
-	return &o.ChildrenValues, true
-}
-
-// HasChildrenValues returns a boolean if a field has been set.
-func (o *ReplicationObjectTree) HasChildrenValues() bool {
-	return o != nil && o.ChildrenValues != nil
-}
-
-// SetChildrenValues gets a reference to the given []string and assigns it to the ChildrenValues field.
-func (o *ReplicationObjectTree) SetChildrenValues(v []string) {
-	o.ChildrenValues = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ReplicationObjectTree) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -136,11 +136,11 @@ func (o ReplicationObjectTree) MarshalJSON() ([]byte, error) {
 	if o.NodeType != nil {
 		toSerialize["nodeType"] = o.NodeType
 	}
+	if o.NodeValues != nil {
+		toSerialize["nodeValues"] = o.NodeValues
+	}
 	if o.ChildrenNodeTypes.IsSet() {
 		toSerialize["childrenNodeTypes"] = o.ChildrenNodeTypes.Get()
-	}
-	if o.ChildrenValues != nil {
-		toSerialize["childrenValues"] = o.ChildrenValues
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -153,21 +153,21 @@ func (o ReplicationObjectTree) MarshalJSON() ([]byte, error) {
 func (o *ReplicationObjectTree) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		NodeType          *string                     `json:"nodeType,omitempty"`
+		NodeValues        []ReplicationObjectNode     `json:"nodeValues,omitempty"`
 		ChildrenNodeTypes common.NullableList[string] `json:"childrenNodeTypes,omitempty"`
-		ChildrenValues    []string                    `json:"childrenValues,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"nodeType", "childrenNodeTypes", "childrenValues"})
+		common.DeleteKeys(additionalProperties, &[]string{"nodeType", "nodeValues", "childrenNodeTypes"})
 	} else {
 		return err
 	}
 	o.NodeType = all.NodeType
+	o.NodeValues = all.NodeValues
 	o.ChildrenNodeTypes = all.ChildrenNodeTypes
-	o.ChildrenValues = all.ChildrenValues
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
