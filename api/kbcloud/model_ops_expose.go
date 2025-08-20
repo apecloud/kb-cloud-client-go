@@ -22,6 +22,8 @@ type OpsExpose struct {
 	PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
 	// The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
 	LoadBalancerIp common.NullableString `json:"loadBalancerIP,omitempty"`
+	// The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+	LoadBalancerIpPoolId common.NullableString `json:"loadBalancerIPPoolID,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -243,6 +245,45 @@ func (o *OpsExpose) UnsetLoadBalancerIp() {
 	o.LoadBalancerIp.Unset()
 }
 
+// GetLoadBalancerIpPoolId returns the LoadBalancerIpPoolId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *OpsExpose) GetLoadBalancerIpPoolId() string {
+	if o == nil || o.LoadBalancerIpPoolId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.LoadBalancerIpPoolId.Get()
+}
+
+// GetLoadBalancerIpPoolIdOk returns a tuple with the LoadBalancerIpPoolId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *OpsExpose) GetLoadBalancerIpPoolIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.LoadBalancerIpPoolId.Get(), o.LoadBalancerIpPoolId.IsSet()
+}
+
+// HasLoadBalancerIpPoolId returns a boolean if a field has been set.
+func (o *OpsExpose) HasLoadBalancerIpPoolId() bool {
+	return o != nil && o.LoadBalancerIpPoolId.IsSet()
+}
+
+// SetLoadBalancerIpPoolId gets a reference to the given common.NullableString and assigns it to the LoadBalancerIpPoolId field.
+func (o *OpsExpose) SetLoadBalancerIpPoolId(v string) {
+	o.LoadBalancerIpPoolId.Set(&v)
+}
+
+// SetLoadBalancerIpPoolIdNil sets the value for LoadBalancerIpPoolId to be an explicit nil.
+func (o *OpsExpose) SetLoadBalancerIpPoolIdNil() {
+	o.LoadBalancerIpPoolId.Set(nil)
+}
+
+// UnsetLoadBalancerIpPoolId ensures that no value is present for LoadBalancerIpPoolId, not even an explicit nil.
+func (o *OpsExpose) UnsetLoadBalancerIpPoolId() {
+	o.LoadBalancerIpPoolId.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -264,6 +305,9 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 	if o.LoadBalancerIp.IsSet() {
 		toSerialize["loadBalancerIP"] = o.LoadBalancerIp.Get()
 	}
+	if o.LoadBalancerIpPoolId.IsSet() {
+		toSerialize["loadBalancerIPPoolID"] = o.LoadBalancerIpPoolId.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -274,13 +318,14 @@ func (o OpsExpose) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component      *string                     `json:"component"`
-		Enable         *bool                       `json:"enable"`
-		Readonly       *bool                       `json:"readonly,omitempty"`
-		Type           *OpsExposeType              `json:"type"`
-		VpcServiceType *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
-		PortsMapping   []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
-		LoadBalancerIp common.NullableString       `json:"loadBalancerIP,omitempty"`
+		Component            *string                     `json:"component"`
+		Enable               *bool                       `json:"enable"`
+		Readonly             *bool                       `json:"readonly,omitempty"`
+		Type                 *OpsExposeType              `json:"type"`
+		VpcServiceType       *OpsExposeVPCServiceType    `json:"vpcServiceType,omitempty"`
+		PortsMapping         []OpsExposePortsMappingItem `json:"portsMapping,omitempty"`
+		LoadBalancerIp       common.NullableString       `json:"loadBalancerIP,omitempty"`
+		LoadBalancerIpPoolId common.NullableString       `json:"loadBalancerIPPoolID,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -296,7 +341,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping", "loadBalancerIP"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "enable", "readonly", "type", "vpcServiceType", "portsMapping", "loadBalancerIP", "loadBalancerIPPoolID"})
 	} else {
 		return err
 	}
@@ -317,6 +362,7 @@ func (o *OpsExpose) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.PortsMapping = all.PortsMapping
 	o.LoadBalancerIp = all.LoadBalancerIp
+	o.LoadBalancerIpPoolId = all.LoadBalancerIpPoolId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

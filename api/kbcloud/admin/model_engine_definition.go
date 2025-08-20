@@ -9,6 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type EngineDefinition struct {
 	Name       *string                 `json:"name,omitempty"`
 	EngineName *string                 `json:"engineName,omitempty"`
+	Escapes    []string                `json:"escapes,omitempty"`
 	Source     *EngineDefinitionDetail `json:"source,omitempty"`
 	Target     *EngineDefinitionDetail `json:"target,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -89,6 +90,34 @@ func (o *EngineDefinition) SetEngineName(v string) {
 	o.EngineName = &v
 }
 
+// GetEscapes returns the Escapes field value if set, zero value otherwise.
+func (o *EngineDefinition) GetEscapes() []string {
+	if o == nil || o.Escapes == nil {
+		var ret []string
+		return ret
+	}
+	return o.Escapes
+}
+
+// GetEscapesOk returns a tuple with the Escapes field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineDefinition) GetEscapesOk() (*[]string, bool) {
+	if o == nil || o.Escapes == nil {
+		return nil, false
+	}
+	return &o.Escapes, true
+}
+
+// HasEscapes returns a boolean if a field has been set.
+func (o *EngineDefinition) HasEscapes() bool {
+	return o != nil && o.Escapes != nil
+}
+
+// SetEscapes gets a reference to the given []string and assigns it to the Escapes field.
+func (o *EngineDefinition) SetEscapes(v []string) {
+	o.Escapes = v
+}
+
 // GetSource returns the Source field value if set, zero value otherwise.
 func (o *EngineDefinition) GetSource() EngineDefinitionDetail {
 	if o == nil || o.Source == nil {
@@ -157,6 +186,9 @@ func (o EngineDefinition) MarshalJSON() ([]byte, error) {
 	if o.EngineName != nil {
 		toSerialize["engineName"] = o.EngineName
 	}
+	if o.Escapes != nil {
+		toSerialize["escapes"] = o.Escapes
+	}
 	if o.Source != nil {
 		toSerialize["source"] = o.Source
 	}
@@ -175,6 +207,7 @@ func (o *EngineDefinition) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name       *string                 `json:"name,omitempty"`
 		EngineName *string                 `json:"engineName,omitempty"`
+		Escapes    []string                `json:"escapes,omitempty"`
 		Source     *EngineDefinitionDetail `json:"source,omitempty"`
 		Target     *EngineDefinitionDetail `json:"target,omitempty"`
 	}{}
@@ -183,7 +216,7 @@ func (o *EngineDefinition) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "source", "target"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "engineName", "escapes", "source", "target"})
 	} else {
 		return err
 	}
@@ -191,6 +224,7 @@ func (o *EngineDefinition) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Name = all.Name
 	o.EngineName = all.EngineName
+	o.Escapes = all.Escapes
 	if all.Source != nil && all.Source.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
