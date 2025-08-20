@@ -3366,41 +3366,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - clusterTask
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
-    get:
-      tags:
-        - opsrequest
-        - shared
-      deprecated: true
-      description: get a OpsRequest status, deprecated, instead use cluster task api
-      summary: Get OpsRequest Status
-      operationId: getOpsRequestStatus
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ops_opsStatus'
-          description: Successful operation
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -14693,20 +14658,6 @@ components:
             $ref: '#/components/schemas/clusterTask'
           type: array
       type: object
-    ops_opsStatus:
-      type: object
-      x-go-name: OpsRequestStatus
-      properties:
-        Status:
-          type: object
-          x-go-type:
-            type: OpsRequestStatus
-            import:
-              package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
-            hints:
-              kind: interface
-        message:
-          type: string
     autohealingList:
       description: An Autohealing object in k8s
       type: array
