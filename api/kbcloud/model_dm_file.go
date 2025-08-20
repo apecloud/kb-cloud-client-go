@@ -11,6 +11,8 @@ import (
 )
 
 type DmFile struct {
+	// the id of this file
+	Id *string `json:"id,omitempty"`
 	// the name of this file
 	Name string `json:"name"`
 	// whether this file auto extend
@@ -22,7 +24,7 @@ type DmFile struct {
 	// the current used ratio of this file
 	UsedRatio *string `json:"usedRatio,omitempty"`
 	// the extend step of this file, unit MB
-	ExtendStep *string `json:"extendStep,omitempty"`
+	ExtendStepMb *string `json:"extendStepMB,omitempty"`
 	// the max size of this file, unit GB
 	MaxSizeGb *string `json:"maxSizeGB,omitempty"`
 	// the used ratio in the max size of this file
@@ -48,6 +50,34 @@ func NewDmFile(name string) *DmFile {
 func NewDmFileWithDefaults() *DmFile {
 	this := DmFile{}
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *DmFile) GetId() string {
+	if o == nil || o.Id == nil {
+		var ret string
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmFile) GetIdOk() (*string, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *DmFile) HasId() bool {
+	return o != nil && o.Id != nil
+}
+
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *DmFile) SetId(v string) {
+	o.Id = &v
 }
 
 // GetName returns the Name field value.
@@ -185,32 +215,32 @@ func (o *DmFile) SetUsedRatio(v string) {
 	o.UsedRatio = &v
 }
 
-// GetExtendStep returns the ExtendStep field value if set, zero value otherwise.
-func (o *DmFile) GetExtendStep() string {
-	if o == nil || o.ExtendStep == nil {
+// GetExtendStepMb returns the ExtendStepMb field value if set, zero value otherwise.
+func (o *DmFile) GetExtendStepMb() string {
+	if o == nil || o.ExtendStepMb == nil {
 		var ret string
 		return ret
 	}
-	return *o.ExtendStep
+	return *o.ExtendStepMb
 }
 
-// GetExtendStepOk returns a tuple with the ExtendStep field value if set, nil otherwise
+// GetExtendStepMbOk returns a tuple with the ExtendStepMb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmFile) GetExtendStepOk() (*string, bool) {
-	if o == nil || o.ExtendStep == nil {
+func (o *DmFile) GetExtendStepMbOk() (*string, bool) {
+	if o == nil || o.ExtendStepMb == nil {
 		return nil, false
 	}
-	return o.ExtendStep, true
+	return o.ExtendStepMb, true
 }
 
-// HasExtendStep returns a boolean if a field has been set.
-func (o *DmFile) HasExtendStep() bool {
-	return o != nil && o.ExtendStep != nil
+// HasExtendStepMb returns a boolean if a field has been set.
+func (o *DmFile) HasExtendStepMb() bool {
+	return o != nil && o.ExtendStepMb != nil
 }
 
-// SetExtendStep gets a reference to the given string and assigns it to the ExtendStep field.
-func (o *DmFile) SetExtendStep(v string) {
-	o.ExtendStep = &v
+// SetExtendStepMb gets a reference to the given string and assigns it to the ExtendStepMb field.
+func (o *DmFile) SetExtendStepMb(v string) {
+	o.ExtendStepMb = &v
 }
 
 // GetMaxSizeGb returns the MaxSizeGb field value if set, zero value otherwise.
@@ -275,6 +305,9 @@ func (o DmFile) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
 	toSerialize["name"] = o.Name
 	if o.AutoExtend != nil {
 		toSerialize["autoExtend"] = o.AutoExtend
@@ -288,8 +321,8 @@ func (o DmFile) MarshalJSON() ([]byte, error) {
 	if o.UsedRatio != nil {
 		toSerialize["usedRatio"] = o.UsedRatio
 	}
-	if o.ExtendStep != nil {
-		toSerialize["extendStep"] = o.ExtendStep
+	if o.ExtendStepMb != nil {
+		toSerialize["extendStepMB"] = o.ExtendStepMb
 	}
 	if o.MaxSizeGb != nil {
 		toSerialize["maxSizeGB"] = o.MaxSizeGb
@@ -307,12 +340,13 @@ func (o DmFile) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		Id              *string `json:"id,omitempty"`
 		Name            *string `json:"name"`
 		AutoExtend      *bool   `json:"autoExtend,omitempty"`
 		AllocatedSizeMb *string `json:"allocatedSizeMB,omitempty"`
 		UsedSizeMb      *string `json:"usedSizeMB,omitempty"`
 		UsedRatio       *string `json:"usedRatio,omitempty"`
-		ExtendStep      *string `json:"extendStep,omitempty"`
+		ExtendStepMb    *string `json:"extendStepMB,omitempty"`
 		MaxSizeGb       *string `json:"maxSizeGB,omitempty"`
 		UsedRatioInMax  *string `json:"usedRatioInMax,omitempty"`
 	}{}
@@ -324,16 +358,17 @@ func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "autoExtend", "allocatedSizeMB", "usedSizeMB", "usedRatio", "extendStep", "maxSizeGB", "usedRatioInMax"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "autoExtend", "allocatedSizeMB", "usedSizeMB", "usedRatio", "extendStepMB", "maxSizeGB", "usedRatioInMax"})
 	} else {
 		return err
 	}
+	o.Id = all.Id
 	o.Name = *all.Name
 	o.AutoExtend = all.AutoExtend
 	o.AllocatedSizeMb = all.AllocatedSizeMb
 	o.UsedSizeMb = all.UsedSizeMb
 	o.UsedRatio = all.UsedRatio
-	o.ExtendStep = all.ExtendStep
+	o.ExtendStepMb = all.ExtendStepMb
 	o.MaxSizeGb = all.MaxSizeGb
 	o.UsedRatioInMax = all.UsedRatioInMax
 

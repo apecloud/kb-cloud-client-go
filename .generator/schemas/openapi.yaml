@@ -3224,12 +3224,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: type of the OpsRequest
-          in: query
-          name: opsType
-          required: true
-          schema:
-            type: string
       responses:
         '204':
           content: {}
@@ -3366,41 +3360,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - clusterTask
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
-    get:
-      tags:
-        - opsrequest
-        - shared
-      deprecated: true
-      description: get a OpsRequest status, deprecated, instead use cluster task api
-      summary: Get OpsRequest Status
-      operationId: getOpsRequestStatus
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ops_opsStatus'
-          description: Successful operation
   /api/v1/organizations/{orgName}/clusters/{clusterName}/autohealing:
     get:
       operationId: getAutohealing
@@ -14899,20 +14858,6 @@ components:
             $ref: '#/components/schemas/clusterTask'
           type: array
       type: object
-    ops_opsStatus:
-      type: object
-      x-go-name: OpsRequestStatus
-      properties:
-        Status:
-          type: object
-          x-go-type:
-            type: OpsRequestStatus
-            import:
-              package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
-            hints:
-              kind: interface
-        message:
-          type: string
     autohealingList:
       description: An Autohealing object in k8s
       type: array
@@ -20334,6 +20279,9 @@ components:
       required:
         - name
       properties:
+        id:
+          type: string
+          description: the id of this file
         name:
           type: string
           description: the name of this file
@@ -20349,7 +20297,7 @@ components:
         usedRatio:
           type: string
           description: the current used ratio of this file
-        extendStep:
+        extendStepMB:
           type: string
           description: the extend step of this file, unit MB
         maxSizeGB:
