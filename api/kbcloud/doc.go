@@ -225,7 +225,6 @@
 //   - [opsrequestApi.clusterVolumeExpand]
 //   - [opsrequestApi.customOps]
 //   - [opsrequestApi.exposeCluster]
-//   - [opsrequestApi.getOpsRequestStatus]
 //   - [opsrequestApi.horizontalScaleCluster]
 //   - [opsrequestApi.listAvailableNodes]
 //   - [opsrequestApi.promoteCluster]
