@@ -18779,6 +18779,10 @@ components:
                 type: integer
               new:
                 type: integer
+        loadBalancerIP:
+          type: string
+          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          nullable: true
       required:
         - enable
         - type
