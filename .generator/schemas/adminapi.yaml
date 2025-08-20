@@ -23363,6 +23363,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/moduleDefinitionValues'
+    engineDefinitionVersionQuery:
+      type: object
+      properties:
+        sql:
+          type: string
+          description: the query to get the version, if not provided, will use inherited query from engine definition
+          nullable: true
+        column:
+          type: string
+          nullable: true
+        regex:
+          type: string
+          nullable: true
+        min:
+          type: number
+          nullable: true
+        max:
+          type: number
+          nullable: true
+    engineDefinitionVersion:
+      type: object
+      properties:
+        version:
+          type: string
+          nullable: true
+        query:
+          $ref: '#/components/schemas/engineDefinitionVersionQuery'
     configType:
       enum:
         - string
@@ -23401,7 +23428,7 @@ components:
           type: array
           description: definition supported available versions, empty means all versions are supported
           items:
-            type: string
+            $ref: '#/components/schemas/engineDefinitionVersion'
         extraCfgs:
           type: array
           items:
@@ -23413,6 +23440,10 @@ components:
           type: string
         engineName:
           type: string
+        escapes:
+          type: array
+          items:
+            type: string
         source:
           $ref: '#/components/schemas/engineDefinitionDetail'
         target:
@@ -23430,6 +23461,16 @@ components:
           $ref: '#/components/schemas/eventType'
         eventValue:
           type: string
+    replicationMetadataObject:
+      type: object
+      properties:
+        metadataType:
+          type: string
+        children:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/replicationMetadataObject'
     mappingDescription:
       type: object
       properties:
@@ -23454,8 +23495,14 @@ components:
             items:
               $ref: '#/components/schemas/eventObject'
             description: the events of the engine mapping, the first one is the default event
+        replicationMetadata:
+          $ref: '#/components/schemas/replicationMetadataObject'
         descriptions:
           $ref: '#/components/schemas/mappingDescription'
+        preCheckers:
+          type: array
+          items:
+            type: string
     standardResource:
       type: object
       properties:

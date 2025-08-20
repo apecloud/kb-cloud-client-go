@@ -8,6 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type PreCheckTaskItem struct {
 	CheckerName *string               `json:"checkerName,omitempty"`
+	CheckerDesc *string               `json:"checkerDesc,omitempty"`
 	Message     common.NullableString `json:"message,omitempty"`
 	Status      *PreCheckStatus       `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -58,6 +59,34 @@ func (o *PreCheckTaskItem) HasCheckerName() bool {
 // SetCheckerName gets a reference to the given string and assigns it to the CheckerName field.
 func (o *PreCheckTaskItem) SetCheckerName(v string) {
 	o.CheckerName = &v
+}
+
+// GetCheckerDesc returns the CheckerDesc field value if set, zero value otherwise.
+func (o *PreCheckTaskItem) GetCheckerDesc() string {
+	if o == nil || o.CheckerDesc == nil {
+		var ret string
+		return ret
+	}
+	return *o.CheckerDesc
+}
+
+// GetCheckerDescOk returns a tuple with the CheckerDesc field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PreCheckTaskItem) GetCheckerDescOk() (*string, bool) {
+	if o == nil || o.CheckerDesc == nil {
+		return nil, false
+	}
+	return o.CheckerDesc, true
+}
+
+// HasCheckerDesc returns a boolean if a field has been set.
+func (o *PreCheckTaskItem) HasCheckerDesc() bool {
+	return o != nil && o.CheckerDesc != nil
+}
+
+// SetCheckerDesc gets a reference to the given string and assigns it to the CheckerDesc field.
+func (o *PreCheckTaskItem) SetCheckerDesc(v string) {
+	o.CheckerDesc = &v
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -136,6 +165,9 @@ func (o PreCheckTaskItem) MarshalJSON() ([]byte, error) {
 	if o.CheckerName != nil {
 		toSerialize["checkerName"] = o.CheckerName
 	}
+	if o.CheckerDesc != nil {
+		toSerialize["checkerDesc"] = o.CheckerDesc
+	}
 	if o.Message.IsSet() {
 		toSerialize["message"] = o.Message.Get()
 	}
@@ -153,6 +185,7 @@ func (o PreCheckTaskItem) MarshalJSON() ([]byte, error) {
 func (o *PreCheckTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		CheckerName *string               `json:"checkerName,omitempty"`
+		CheckerDesc *string               `json:"checkerDesc,omitempty"`
 		Message     common.NullableString `json:"message,omitempty"`
 		Status      *PreCheckStatus       `json:"status,omitempty"`
 	}{}
@@ -161,13 +194,14 @@ func (o *PreCheckTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"checkerName", "message", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"checkerName", "checkerDesc", "message", "status"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.CheckerName = all.CheckerName
+	o.CheckerDesc = all.CheckerDesc
 	o.Message = all.Message
 	if all.Status != nil && !all.Status.IsValid() {
 		hasInvalidField = true
