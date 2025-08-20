@@ -13786,6 +13786,47 @@ paths:
         '500':
           $ref: '#/components/responses/500'
   /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces/{tablespaceName}:
+    get:
+      tags:
+        - dameng
+      summary: Get Dameng tablespace info
+      operationId: getTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     delete:
       tags:
         - dameng
@@ -23528,6 +23569,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/moduleDefinitionValues'
+    engineDefinitionVersionQuery:
+      type: object
+      properties:
+        sql:
+          type: string
+          description: the query to get the version, if not provided, will use inherited query from engine definition
+          nullable: true
+        column:
+          type: string
+          nullable: true
+        regex:
+          type: string
+          nullable: true
+        min:
+          type: number
+          nullable: true
+        max:
+          type: number
+          nullable: true
+    engineDefinitionVersion:
+      type: object
+      properties:
+        version:
+          type: string
+          nullable: true
+        query:
+          $ref: '#/components/schemas/engineDefinitionVersionQuery'
     configType:
       enum:
         - string
@@ -23566,7 +23634,7 @@ components:
           type: array
           description: definition supported available versions, empty means all versions are supported
           items:
-            type: string
+            $ref: '#/components/schemas/engineDefinitionVersion'
         extraCfgs:
           type: array
           items:
@@ -23578,6 +23646,10 @@ components:
           type: string
         engineName:
           type: string
+        escapes:
+          type: array
+          items:
+            type: string
         source:
           $ref: '#/components/schemas/engineDefinitionDetail'
         target:
@@ -23595,6 +23667,16 @@ components:
           $ref: '#/components/schemas/eventType'
         eventValue:
           type: string
+    replicationMetadataObject:
+      type: object
+      properties:
+        metadataType:
+          type: string
+        children:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/replicationMetadataObject'
     mappingDescription:
       type: object
       properties:
@@ -23619,8 +23701,14 @@ components:
             items:
               $ref: '#/components/schemas/eventObject'
             description: the events of the engine mapping, the first one is the default event
+        replicationMetadata:
+          $ref: '#/components/schemas/replicationMetadataObject'
         descriptions:
           $ref: '#/components/schemas/mappingDescription'
+        preCheckers:
+          type: array
+          items:
+            type: string
     standardResource:
       type: object
       properties:
@@ -26560,7 +26648,6 @@ components:
       type: object
       required:
         - name
-        - autoExtend
       properties:
         name:
           type: string
@@ -26568,15 +26655,31 @@ components:
         autoExtend:
           type: boolean
           description: whether this file auto extend
-        size:
+        allocatedSizeMB:
           type: string
-          description: the size of this file
+          description: the size already allocated of this file, unit MB
+        usedSizeMB:
+          type: string
+          description: the current used size of this file, unit MB
+        usedRatio:
+          type: string
+          description: the current used ratio of this file
         extendStep:
           type: string
-          description: the extend step of this file
-        maxSize:
+          description: the extend step of this file, unit MB
+        maxSizeGB:
           type: string
-          description: the max size of this file
+          description: the max size of this file, unit GB
+        usedRatioInMax:
+          type: string
+          description: the used ratio in the max size of this file
+    tableSpaceStatus:
+      type: string
+      description: the status of this tablespace
+      enum:
+        - ONLINE
+        - OFFLINE
+        - CORRUPT
     DmTablespace:
       type: object
       required:
@@ -26594,27 +26697,26 @@ components:
           items:
             $ref: '#/components/schemas/DmFile'
           description: the physical files of this tablespace
-        totalSize:
+        allocatedSizeMB:
           type: string
-          description: the total size of this tablespace
-        usedSize:
+          description: the total size already allocated of this tablespace, unit MB
+        usedSizeMB:
           type: string
-          description: the used size of this tablespace
+          description: the current used size of this tablespace, unit MB
         usedRatio:
           type: string
-          description: the used ratio of this tablespace
+          description: the current used ratio of this tablespace
         autoExtend:
           type: boolean
           description: whether this tablespace auto extend
-        maxSize:
+        maxSizeGB:
           type: string
-          description: the max size of this tablespace
+          description: the max size can be allocated of this tablespace, unit GB
         usedRatioInMax:
           type: string
-          description: the used ratio in max size of this tablespace
+          description: the used ratio in the max allocated size of this tablespace
         status:
-          type: string
-          description: the status of this tablespace
+          $ref: '#/components/schemas/tableSpaceStatus'
     DmTablespaceList:
       type: array
       items:

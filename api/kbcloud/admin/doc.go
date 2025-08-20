@@ -133,6 +133,7 @@
 //   - [clusterTaskApi.listClusterTasks]
 //   - [damengApi.createTablespace]
 //   - [damengApi.deleteTablespace]
+//   - [damengApi.getTablespace]
 //   - [damengApi.listTablespaces]
 //   - [damengApi.updateTablespace]
 //   - [databaseApi.createDatabase]

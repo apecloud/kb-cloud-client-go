@@ -17,20 +17,20 @@ type DmTablespace struct {
 	Users *string `json:"users,omitempty"`
 	// the physical files of this tablespace
 	Files []DmFile `json:"files"`
-	// the total size of this tablespace
-	TotalSize *string `json:"totalSize,omitempty"`
-	// the used size of this tablespace
-	UsedSize *string `json:"usedSize,omitempty"`
-	// the used ratio of this tablespace
+	// the total size already allocated of this tablespace, unit MB
+	AllocatedSizeMb *string `json:"allocatedSizeMB,omitempty"`
+	// the current used size of this tablespace, unit MB
+	UsedSizeMb *string `json:"usedSizeMB,omitempty"`
+	// the current used ratio of this tablespace
 	UsedRatio *string `json:"usedRatio,omitempty"`
 	// whether this tablespace auto extend
 	AutoExtend *bool `json:"autoExtend,omitempty"`
-	// the max size of this tablespace
-	MaxSize *string `json:"maxSize,omitempty"`
-	// the used ratio in max size of this tablespace
+	// the max size can be allocated of this tablespace, unit GB
+	MaxSizeGb *string `json:"maxSizeGB,omitempty"`
+	// the used ratio in the max allocated size of this tablespace
 	UsedRatioInMax *string `json:"usedRatioInMax,omitempty"`
 	// the status of this tablespace
-	Status *string `json:"status,omitempty"`
+	Status *TableSpaceStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -129,60 +129,60 @@ func (o *DmTablespace) SetFiles(v []DmFile) {
 	o.Files = v
 }
 
-// GetTotalSize returns the TotalSize field value if set, zero value otherwise.
-func (o *DmTablespace) GetTotalSize() string {
-	if o == nil || o.TotalSize == nil {
+// GetAllocatedSizeMb returns the AllocatedSizeMb field value if set, zero value otherwise.
+func (o *DmTablespace) GetAllocatedSizeMb() string {
+	if o == nil || o.AllocatedSizeMb == nil {
 		var ret string
 		return ret
 	}
-	return *o.TotalSize
+	return *o.AllocatedSizeMb
 }
 
-// GetTotalSizeOk returns a tuple with the TotalSize field value if set, nil otherwise
+// GetAllocatedSizeMbOk returns a tuple with the AllocatedSizeMb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmTablespace) GetTotalSizeOk() (*string, bool) {
-	if o == nil || o.TotalSize == nil {
+func (o *DmTablespace) GetAllocatedSizeMbOk() (*string, bool) {
+	if o == nil || o.AllocatedSizeMb == nil {
 		return nil, false
 	}
-	return o.TotalSize, true
+	return o.AllocatedSizeMb, true
 }
 
-// HasTotalSize returns a boolean if a field has been set.
-func (o *DmTablespace) HasTotalSize() bool {
-	return o != nil && o.TotalSize != nil
+// HasAllocatedSizeMb returns a boolean if a field has been set.
+func (o *DmTablespace) HasAllocatedSizeMb() bool {
+	return o != nil && o.AllocatedSizeMb != nil
 }
 
-// SetTotalSize gets a reference to the given string and assigns it to the TotalSize field.
-func (o *DmTablespace) SetTotalSize(v string) {
-	o.TotalSize = &v
+// SetAllocatedSizeMb gets a reference to the given string and assigns it to the AllocatedSizeMb field.
+func (o *DmTablespace) SetAllocatedSizeMb(v string) {
+	o.AllocatedSizeMb = &v
 }
 
-// GetUsedSize returns the UsedSize field value if set, zero value otherwise.
-func (o *DmTablespace) GetUsedSize() string {
-	if o == nil || o.UsedSize == nil {
+// GetUsedSizeMb returns the UsedSizeMb field value if set, zero value otherwise.
+func (o *DmTablespace) GetUsedSizeMb() string {
+	if o == nil || o.UsedSizeMb == nil {
 		var ret string
 		return ret
 	}
-	return *o.UsedSize
+	return *o.UsedSizeMb
 }
 
-// GetUsedSizeOk returns a tuple with the UsedSize field value if set, nil otherwise
+// GetUsedSizeMbOk returns a tuple with the UsedSizeMb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmTablespace) GetUsedSizeOk() (*string, bool) {
-	if o == nil || o.UsedSize == nil {
+func (o *DmTablespace) GetUsedSizeMbOk() (*string, bool) {
+	if o == nil || o.UsedSizeMb == nil {
 		return nil, false
 	}
-	return o.UsedSize, true
+	return o.UsedSizeMb, true
 }
 
-// HasUsedSize returns a boolean if a field has been set.
-func (o *DmTablespace) HasUsedSize() bool {
-	return o != nil && o.UsedSize != nil
+// HasUsedSizeMb returns a boolean if a field has been set.
+func (o *DmTablespace) HasUsedSizeMb() bool {
+	return o != nil && o.UsedSizeMb != nil
 }
 
-// SetUsedSize gets a reference to the given string and assigns it to the UsedSize field.
-func (o *DmTablespace) SetUsedSize(v string) {
-	o.UsedSize = &v
+// SetUsedSizeMb gets a reference to the given string and assigns it to the UsedSizeMb field.
+func (o *DmTablespace) SetUsedSizeMb(v string) {
+	o.UsedSizeMb = &v
 }
 
 // GetUsedRatio returns the UsedRatio field value if set, zero value otherwise.
@@ -241,32 +241,32 @@ func (o *DmTablespace) SetAutoExtend(v bool) {
 	o.AutoExtend = &v
 }
 
-// GetMaxSize returns the MaxSize field value if set, zero value otherwise.
-func (o *DmTablespace) GetMaxSize() string {
-	if o == nil || o.MaxSize == nil {
+// GetMaxSizeGb returns the MaxSizeGb field value if set, zero value otherwise.
+func (o *DmTablespace) GetMaxSizeGb() string {
+	if o == nil || o.MaxSizeGb == nil {
 		var ret string
 		return ret
 	}
-	return *o.MaxSize
+	return *o.MaxSizeGb
 }
 
-// GetMaxSizeOk returns a tuple with the MaxSize field value if set, nil otherwise
+// GetMaxSizeGbOk returns a tuple with the MaxSizeGb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmTablespace) GetMaxSizeOk() (*string, bool) {
-	if o == nil || o.MaxSize == nil {
+func (o *DmTablespace) GetMaxSizeGbOk() (*string, bool) {
+	if o == nil || o.MaxSizeGb == nil {
 		return nil, false
 	}
-	return o.MaxSize, true
+	return o.MaxSizeGb, true
 }
 
-// HasMaxSize returns a boolean if a field has been set.
-func (o *DmTablespace) HasMaxSize() bool {
-	return o != nil && o.MaxSize != nil
+// HasMaxSizeGb returns a boolean if a field has been set.
+func (o *DmTablespace) HasMaxSizeGb() bool {
+	return o != nil && o.MaxSizeGb != nil
 }
 
-// SetMaxSize gets a reference to the given string and assigns it to the MaxSize field.
-func (o *DmTablespace) SetMaxSize(v string) {
-	o.MaxSize = &v
+// SetMaxSizeGb gets a reference to the given string and assigns it to the MaxSizeGb field.
+func (o *DmTablespace) SetMaxSizeGb(v string) {
+	o.MaxSizeGb = &v
 }
 
 // GetUsedRatioInMax returns the UsedRatioInMax field value if set, zero value otherwise.
@@ -298,9 +298,9 @@ func (o *DmTablespace) SetUsedRatioInMax(v string) {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *DmTablespace) GetStatus() string {
+func (o *DmTablespace) GetStatus() TableSpaceStatus {
 	if o == nil || o.Status == nil {
-		var ret string
+		var ret TableSpaceStatus
 		return ret
 	}
 	return *o.Status
@@ -308,7 +308,7 @@ func (o *DmTablespace) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmTablespace) GetStatusOk() (*string, bool) {
+func (o *DmTablespace) GetStatusOk() (*TableSpaceStatus, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -320,8 +320,8 @@ func (o *DmTablespace) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
-// SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *DmTablespace) SetStatus(v string) {
+// SetStatus gets a reference to the given TableSpaceStatus and assigns it to the Status field.
+func (o *DmTablespace) SetStatus(v TableSpaceStatus) {
 	o.Status = &v
 }
 
@@ -336,11 +336,11 @@ func (o DmTablespace) MarshalJSON() ([]byte, error) {
 		toSerialize["users"] = o.Users
 	}
 	toSerialize["files"] = o.Files
-	if o.TotalSize != nil {
-		toSerialize["totalSize"] = o.TotalSize
+	if o.AllocatedSizeMb != nil {
+		toSerialize["allocatedSizeMB"] = o.AllocatedSizeMb
 	}
-	if o.UsedSize != nil {
-		toSerialize["usedSize"] = o.UsedSize
+	if o.UsedSizeMb != nil {
+		toSerialize["usedSizeMB"] = o.UsedSizeMb
 	}
 	if o.UsedRatio != nil {
 		toSerialize["usedRatio"] = o.UsedRatio
@@ -348,8 +348,8 @@ func (o DmTablespace) MarshalJSON() ([]byte, error) {
 	if o.AutoExtend != nil {
 		toSerialize["autoExtend"] = o.AutoExtend
 	}
-	if o.MaxSize != nil {
-		toSerialize["maxSize"] = o.MaxSize
+	if o.MaxSizeGb != nil {
+		toSerialize["maxSizeGB"] = o.MaxSizeGb
 	}
 	if o.UsedRatioInMax != nil {
 		toSerialize["usedRatioInMax"] = o.UsedRatioInMax
@@ -367,16 +367,16 @@ func (o DmTablespace) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmTablespace) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name           *string   `json:"name"`
-		Users          *string   `json:"users,omitempty"`
-		Files          *[]DmFile `json:"files"`
-		TotalSize      *string   `json:"totalSize,omitempty"`
-		UsedSize       *string   `json:"usedSize,omitempty"`
-		UsedRatio      *string   `json:"usedRatio,omitempty"`
-		AutoExtend     *bool     `json:"autoExtend,omitempty"`
-		MaxSize        *string   `json:"maxSize,omitempty"`
-		UsedRatioInMax *string   `json:"usedRatioInMax,omitempty"`
-		Status         *string   `json:"status,omitempty"`
+		Name            *string           `json:"name"`
+		Users           *string           `json:"users,omitempty"`
+		Files           *[]DmFile         `json:"files"`
+		AllocatedSizeMb *string           `json:"allocatedSizeMB,omitempty"`
+		UsedSizeMb      *string           `json:"usedSizeMB,omitempty"`
+		UsedRatio       *string           `json:"usedRatio,omitempty"`
+		AutoExtend      *bool             `json:"autoExtend,omitempty"`
+		MaxSizeGb       *string           `json:"maxSizeGB,omitempty"`
+		UsedRatioInMax  *string           `json:"usedRatioInMax,omitempty"`
+		Status          *TableSpaceStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -389,23 +389,33 @@ func (o *DmTablespace) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "users", "files", "totalSize", "usedSize", "usedRatio", "autoExtend", "maxSize", "usedRatioInMax", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "users", "files", "allocatedSizeMB", "usedSizeMB", "usedRatio", "autoExtend", "maxSizeGB", "usedRatioInMax", "status"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Name = *all.Name
 	o.Users = all.Users
 	o.Files = *all.Files
-	o.TotalSize = all.TotalSize
-	o.UsedSize = all.UsedSize
+	o.AllocatedSizeMb = all.AllocatedSizeMb
+	o.UsedSizeMb = all.UsedSizeMb
 	o.UsedRatio = all.UsedRatio
 	o.AutoExtend = all.AutoExtend
-	o.MaxSize = all.MaxSize
+	o.MaxSizeGb = all.MaxSizeGb
 	o.UsedRatioInMax = all.UsedRatioInMax
-	o.Status = all.Status
+	if all.Status != nil && !all.Status.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Status = all.Status
+	}
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

@@ -14,13 +14,19 @@ type DmFile struct {
 	// the name of this file
 	Name string `json:"name"`
 	// whether this file auto extend
-	AutoExtend bool `json:"autoExtend"`
-	// the size of this file
-	Size *string `json:"size,omitempty"`
-	// the extend step of this file
+	AutoExtend *bool `json:"autoExtend,omitempty"`
+	// the size already allocated of this file, unit MB
+	AllocatedSizeMb *string `json:"allocatedSizeMB,omitempty"`
+	// the current used size of this file, unit MB
+	UsedSizeMb *string `json:"usedSizeMB,omitempty"`
+	// the current used ratio of this file
+	UsedRatio *string `json:"usedRatio,omitempty"`
+	// the extend step of this file, unit MB
 	ExtendStep *string `json:"extendStep,omitempty"`
-	// the max size of this file
-	MaxSize *string `json:"maxSize,omitempty"`
+	// the max size of this file, unit GB
+	MaxSizeGb *string `json:"maxSizeGB,omitempty"`
+	// the used ratio in the max size of this file
+	UsedRatioInMax *string `json:"usedRatioInMax,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -30,10 +36,9 @@ type DmFile struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewDmFile(name string, autoExtend bool) *DmFile {
+func NewDmFile(name string) *DmFile {
 	this := DmFile{}
 	this.Name = name
-	this.AutoExtend = autoExtend
 	return &this
 }
 
@@ -68,55 +73,116 @@ func (o *DmFile) SetName(v string) {
 	o.Name = v
 }
 
-// GetAutoExtend returns the AutoExtend field value.
+// GetAutoExtend returns the AutoExtend field value if set, zero value otherwise.
 func (o *DmFile) GetAutoExtend() bool {
-	if o == nil {
+	if o == nil || o.AutoExtend == nil {
 		var ret bool
 		return ret
 	}
-	return o.AutoExtend
+	return *o.AutoExtend
 }
 
-// GetAutoExtendOk returns a tuple with the AutoExtend field value
+// GetAutoExtendOk returns a tuple with the AutoExtend field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *DmFile) GetAutoExtendOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.AutoExtend == nil {
 		return nil, false
 	}
-	return &o.AutoExtend, true
+	return o.AutoExtend, true
 }
 
-// SetAutoExtend sets field value.
+// HasAutoExtend returns a boolean if a field has been set.
+func (o *DmFile) HasAutoExtend() bool {
+	return o != nil && o.AutoExtend != nil
+}
+
+// SetAutoExtend gets a reference to the given bool and assigns it to the AutoExtend field.
 func (o *DmFile) SetAutoExtend(v bool) {
-	o.AutoExtend = v
+	o.AutoExtend = &v
 }
 
-// GetSize returns the Size field value if set, zero value otherwise.
-func (o *DmFile) GetSize() string {
-	if o == nil || o.Size == nil {
+// GetAllocatedSizeMb returns the AllocatedSizeMb field value if set, zero value otherwise.
+func (o *DmFile) GetAllocatedSizeMb() string {
+	if o == nil || o.AllocatedSizeMb == nil {
 		var ret string
 		return ret
 	}
-	return *o.Size
+	return *o.AllocatedSizeMb
 }
 
-// GetSizeOk returns a tuple with the Size field value if set, nil otherwise
+// GetAllocatedSizeMbOk returns a tuple with the AllocatedSizeMb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmFile) GetSizeOk() (*string, bool) {
-	if o == nil || o.Size == nil {
+func (o *DmFile) GetAllocatedSizeMbOk() (*string, bool) {
+	if o == nil || o.AllocatedSizeMb == nil {
 		return nil, false
 	}
-	return o.Size, true
+	return o.AllocatedSizeMb, true
 }
 
-// HasSize returns a boolean if a field has been set.
-func (o *DmFile) HasSize() bool {
-	return o != nil && o.Size != nil
+// HasAllocatedSizeMb returns a boolean if a field has been set.
+func (o *DmFile) HasAllocatedSizeMb() bool {
+	return o != nil && o.AllocatedSizeMb != nil
 }
 
-// SetSize gets a reference to the given string and assigns it to the Size field.
-func (o *DmFile) SetSize(v string) {
-	o.Size = &v
+// SetAllocatedSizeMb gets a reference to the given string and assigns it to the AllocatedSizeMb field.
+func (o *DmFile) SetAllocatedSizeMb(v string) {
+	o.AllocatedSizeMb = &v
+}
+
+// GetUsedSizeMb returns the UsedSizeMb field value if set, zero value otherwise.
+func (o *DmFile) GetUsedSizeMb() string {
+	if o == nil || o.UsedSizeMb == nil {
+		var ret string
+		return ret
+	}
+	return *o.UsedSizeMb
+}
+
+// GetUsedSizeMbOk returns a tuple with the UsedSizeMb field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmFile) GetUsedSizeMbOk() (*string, bool) {
+	if o == nil || o.UsedSizeMb == nil {
+		return nil, false
+	}
+	return o.UsedSizeMb, true
+}
+
+// HasUsedSizeMb returns a boolean if a field has been set.
+func (o *DmFile) HasUsedSizeMb() bool {
+	return o != nil && o.UsedSizeMb != nil
+}
+
+// SetUsedSizeMb gets a reference to the given string and assigns it to the UsedSizeMb field.
+func (o *DmFile) SetUsedSizeMb(v string) {
+	o.UsedSizeMb = &v
+}
+
+// GetUsedRatio returns the UsedRatio field value if set, zero value otherwise.
+func (o *DmFile) GetUsedRatio() string {
+	if o == nil || o.UsedRatio == nil {
+		var ret string
+		return ret
+	}
+	return *o.UsedRatio
+}
+
+// GetUsedRatioOk returns a tuple with the UsedRatio field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmFile) GetUsedRatioOk() (*string, bool) {
+	if o == nil || o.UsedRatio == nil {
+		return nil, false
+	}
+	return o.UsedRatio, true
+}
+
+// HasUsedRatio returns a boolean if a field has been set.
+func (o *DmFile) HasUsedRatio() bool {
+	return o != nil && o.UsedRatio != nil
+}
+
+// SetUsedRatio gets a reference to the given string and assigns it to the UsedRatio field.
+func (o *DmFile) SetUsedRatio(v string) {
+	o.UsedRatio = &v
 }
 
 // GetExtendStep returns the ExtendStep field value if set, zero value otherwise.
@@ -147,32 +213,60 @@ func (o *DmFile) SetExtendStep(v string) {
 	o.ExtendStep = &v
 }
 
-// GetMaxSize returns the MaxSize field value if set, zero value otherwise.
-func (o *DmFile) GetMaxSize() string {
-	if o == nil || o.MaxSize == nil {
+// GetMaxSizeGb returns the MaxSizeGb field value if set, zero value otherwise.
+func (o *DmFile) GetMaxSizeGb() string {
+	if o == nil || o.MaxSizeGb == nil {
 		var ret string
 		return ret
 	}
-	return *o.MaxSize
+	return *o.MaxSizeGb
 }
 
-// GetMaxSizeOk returns a tuple with the MaxSize field value if set, nil otherwise
+// GetMaxSizeGbOk returns a tuple with the MaxSizeGb field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DmFile) GetMaxSizeOk() (*string, bool) {
-	if o == nil || o.MaxSize == nil {
+func (o *DmFile) GetMaxSizeGbOk() (*string, bool) {
+	if o == nil || o.MaxSizeGb == nil {
 		return nil, false
 	}
-	return o.MaxSize, true
+	return o.MaxSizeGb, true
 }
 
-// HasMaxSize returns a boolean if a field has been set.
-func (o *DmFile) HasMaxSize() bool {
-	return o != nil && o.MaxSize != nil
+// HasMaxSizeGb returns a boolean if a field has been set.
+func (o *DmFile) HasMaxSizeGb() bool {
+	return o != nil && o.MaxSizeGb != nil
 }
 
-// SetMaxSize gets a reference to the given string and assigns it to the MaxSize field.
-func (o *DmFile) SetMaxSize(v string) {
-	o.MaxSize = &v
+// SetMaxSizeGb gets a reference to the given string and assigns it to the MaxSizeGb field.
+func (o *DmFile) SetMaxSizeGb(v string) {
+	o.MaxSizeGb = &v
+}
+
+// GetUsedRatioInMax returns the UsedRatioInMax field value if set, zero value otherwise.
+func (o *DmFile) GetUsedRatioInMax() string {
+	if o == nil || o.UsedRatioInMax == nil {
+		var ret string
+		return ret
+	}
+	return *o.UsedRatioInMax
+}
+
+// GetUsedRatioInMaxOk returns a tuple with the UsedRatioInMax field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DmFile) GetUsedRatioInMaxOk() (*string, bool) {
+	if o == nil || o.UsedRatioInMax == nil {
+		return nil, false
+	}
+	return o.UsedRatioInMax, true
+}
+
+// HasUsedRatioInMax returns a boolean if a field has been set.
+func (o *DmFile) HasUsedRatioInMax() bool {
+	return o != nil && o.UsedRatioInMax != nil
+}
+
+// SetUsedRatioInMax gets a reference to the given string and assigns it to the UsedRatioInMax field.
+func (o *DmFile) SetUsedRatioInMax(v string) {
+	o.UsedRatioInMax = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -182,15 +276,26 @@ func (o DmFile) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["name"] = o.Name
-	toSerialize["autoExtend"] = o.AutoExtend
-	if o.Size != nil {
-		toSerialize["size"] = o.Size
+	if o.AutoExtend != nil {
+		toSerialize["autoExtend"] = o.AutoExtend
+	}
+	if o.AllocatedSizeMb != nil {
+		toSerialize["allocatedSizeMB"] = o.AllocatedSizeMb
+	}
+	if o.UsedSizeMb != nil {
+		toSerialize["usedSizeMB"] = o.UsedSizeMb
+	}
+	if o.UsedRatio != nil {
+		toSerialize["usedRatio"] = o.UsedRatio
 	}
 	if o.ExtendStep != nil {
 		toSerialize["extendStep"] = o.ExtendStep
 	}
-	if o.MaxSize != nil {
-		toSerialize["maxSize"] = o.MaxSize
+	if o.MaxSizeGb != nil {
+		toSerialize["maxSizeGB"] = o.MaxSizeGb
+	}
+	if o.UsedRatioInMax != nil {
+		toSerialize["usedRatioInMax"] = o.UsedRatioInMax
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -202,11 +307,14 @@ func (o DmFile) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name       *string `json:"name"`
-		AutoExtend *bool   `json:"autoExtend"`
-		Size       *string `json:"size,omitempty"`
-		ExtendStep *string `json:"extendStep,omitempty"`
-		MaxSize    *string `json:"maxSize,omitempty"`
+		Name            *string `json:"name"`
+		AutoExtend      *bool   `json:"autoExtend,omitempty"`
+		AllocatedSizeMb *string `json:"allocatedSizeMB,omitempty"`
+		UsedSizeMb      *string `json:"usedSizeMB,omitempty"`
+		UsedRatio       *string `json:"usedRatio,omitempty"`
+		ExtendStep      *string `json:"extendStep,omitempty"`
+		MaxSizeGb       *string `json:"maxSizeGB,omitempty"`
+		UsedRatioInMax  *string `json:"usedRatioInMax,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -214,20 +322,20 @@ func (o *DmFile) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
-	if all.AutoExtend == nil {
-		return fmt.Errorf("required field autoExtend missing")
-	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "autoExtend", "size", "extendStep", "maxSize"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "autoExtend", "allocatedSizeMB", "usedSizeMB", "usedRatio", "extendStep", "maxSizeGB", "usedRatioInMax"})
 	} else {
 		return err
 	}
 	o.Name = *all.Name
-	o.AutoExtend = *all.AutoExtend
-	o.Size = all.Size
+	o.AutoExtend = all.AutoExtend
+	o.AllocatedSizeMb = all.AllocatedSizeMb
+	o.UsedSizeMb = all.UsedSizeMb
+	o.UsedRatio = all.UsedRatio
 	o.ExtendStep = all.ExtendStep
-	o.MaxSize = all.MaxSize
+	o.MaxSizeGb = all.MaxSizeGb
+	o.UsedRatioInMax = all.UsedRatioInMax
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -14,14 +14,14 @@ type ChannelStatus string
 
 // List of ChannelStatus.
 const (
-	ChannelStatusPending      ChannelStatus = "pending"
-	ChannelStatusInitializing ChannelStatus = "initializing"
-	ChannelStatusRunning      ChannelStatus = "running"
-	ChannelStatusFinished     ChannelStatus = "finished"
-	ChannelStatusFailed       ChannelStatus = "failed"
-	ChannelStatusPausing      ChannelStatus = "pausing"
-	ChannelStatusPaused       ChannelStatus = "paused"
-	ChannelStatusDeleting     ChannelStatus = "deleting"
+	ChannelStatusPending      ChannelStatus = "Pending"
+	ChannelStatusInitializing ChannelStatus = "Initializing"
+	ChannelStatusRunning      ChannelStatus = "Running"
+	ChannelStatusFinished     ChannelStatus = "Finished"
+	ChannelStatusFailed       ChannelStatus = "Failed"
+	ChannelStatusPausing      ChannelStatus = "Pausing"
+	ChannelStatusPaused       ChannelStatus = "Paused"
+	ChannelStatusDeleting     ChannelStatus = "Deleting"
 )
 
 var allowedChannelStatusEnumValues = []ChannelStatus{
