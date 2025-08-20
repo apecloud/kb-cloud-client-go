@@ -14340,6 +14340,8 @@ components:
         instanceName:
           type: string
           x-nullable: false
+        forceCustomOps:
+          type: boolean
       type: object
     opsExposeType:
       type: string
