@@ -5111,12 +5111,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: type of the OpsRequest
-          in: query
-          name: opsType
-          required: true
-          schema:
-            type: string
       responses:
         '204':
           content: {}

@@ -19,7 +19,7 @@ type OpsrequestApi common.Service
 
 // CancelOps Cancel OpsRequest.
 // cancel a OpsRequest
-func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName string, clusterName string, opsType string) (*_nethttp.Response, error) {
+func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName string, clusterName string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -47,7 +47,6 @@ func (a *OpsrequestApi) CancelOps(ctx _context.Context, orgName string, opsName 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("opsType", common.ParameterToString(opsType, ""))
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
