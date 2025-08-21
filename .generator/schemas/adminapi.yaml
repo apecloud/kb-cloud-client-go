@@ -13629,6 +13629,212 @@ paths:
           $ref: '#/components/responses/404'
         '500':
           $ref: '#/components/responses/500'
+  /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces:
+    get:
+      tags:
+        - dameng
+      summary: List damengdb tablespaces
+      description: List tablespaces for a Dameng cluster.
+      operationId: listTablespaces
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespaceList'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - dameng
+      summary: Create damengdb tablespace
+      description: Create tablespace for a Dameng cluster.
+      operationId: createTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmTablespace'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces/{tablespaceName}:
+    get:
+      tags:
+        - dameng
+      summary: Get Dameng tablespace info
+      operationId: getTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - dameng
+      summary: Delete damengdb tablespace
+      description: Delete tablespace for a Dameng cluster.
+      operationId: deleteTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '204':
+          content: {}
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - dameng
+      summary: Update damengdb tablespace
+      description: Update tablespace for a Dameng cluster.
+      operationId: updateTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmTablespace'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
   /admin/v1/data/{engineName}/organizations/{orgName}/clusters/{clusterName}/console:
     get:
       tags:
@@ -26346,6 +26552,87 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    DmFile:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: the id of this file
+        name:
+          type: string
+          description: the name of this file
+        autoExtend:
+          type: boolean
+          description: whether this file auto extend
+        allocatedSizeMB:
+          type: string
+          description: the size already allocated of this file, unit MB
+        usedSizeMB:
+          type: string
+          description: the current used size of this file, unit MB
+        usedRatio:
+          type: string
+          description: the current used ratio of this file
+        extendStepMB:
+          type: string
+          description: the extend step of this file, unit MB
+        maxSizeGB:
+          type: string
+          description: the max size of this file, unit GB
+        usedRatioInMax:
+          type: string
+          description: the used ratio in the max size of this file
+    tableSpaceStatus:
+      type: string
+      description: the status of this tablespace
+      enum:
+        - ONLINE
+        - OFFLINE
+        - CORRUPT
+    DmTablespace:
+      type: object
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          description: tablespace name
+        users:
+          type: string
+          description: damengdb users belong to this tablespace
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmFile'
+          description: the physical files of this tablespace
+        allocatedSizeMB:
+          type: string
+          description: the total size already allocated of this tablespace, unit MB
+        usedSizeMB:
+          type: string
+          description: the current used size of this tablespace, unit MB
+        usedRatio:
+          type: string
+          description: the current used ratio of this tablespace
+        autoExtend:
+          type: boolean
+          description: whether this tablespace auto extend
+        maxSizeGB:
+          type: string
+          description: the max size can be allocated of this tablespace, unit GB
+        usedRatioInMax:
+          type: string
+          description: the used ratio in the max allocated size of this tablespace
+        status:
+          $ref: '#/components/schemas/tableSpaceStatus'
+    DmTablespaceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DmTablespace'
+      description: the list of tablespace
     consoleStatus:
       type: string
       enum:
