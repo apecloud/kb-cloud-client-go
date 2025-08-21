@@ -624,6 +624,7 @@ type ListBackupsOptionalParameters struct {
 	WithDeletedBackups      *bool
 	BackupType              *string
 	WithRebuildInstance     *bool
+	WithHScale              *bool
 	ComponentName           *string
 	Page                    *int32
 	PageSize                *int32
@@ -674,6 +675,12 @@ func (r *ListBackupsOptionalParameters) WithBackupType(backupType string) *ListB
 // WithWithRebuildInstance sets the corresponding parameter name and returns the struct.
 func (r *ListBackupsOptionalParameters) WithWithRebuildInstance(withRebuildInstance bool) *ListBackupsOptionalParameters {
 	r.WithRebuildInstance = &withRebuildInstance
+	return r
+}
+
+// WithWithHScale sets the corresponding parameter name and returns the struct.
+func (r *ListBackupsOptionalParameters) WithWithHScale(withHScale bool) *ListBackupsOptionalParameters {
+	r.WithHScale = &withHScale
 	return r
 }
 
@@ -751,6 +758,9 @@ func (a *BackupApi) ListBackups(ctx _context.Context, orgName string, o ...ListB
 	}
 	if optionalParams.WithRebuildInstance != nil {
 		localVarQueryParams.Add("withRebuildInstance", common.ParameterToString(*optionalParams.WithRebuildInstance, ""))
+	}
+	if optionalParams.WithHScale != nil {
+		localVarQueryParams.Add("withHScale", common.ParameterToString(*optionalParams.WithHScale, ""))
 	}
 	if optionalParams.ComponentName != nil {
 		localVarQueryParams.Add("componentName", common.ParameterToString(*optionalParams.ComponentName, ""))

@@ -5087,43 +5087,6 @@ paths:
         - opsrequest
         - shared
       x-codegen-request-body-name: body
-  /admin/v1/organizations/{orgName}/opsrequests/{opsName}:
-    delete:
-      tags:
-        - opsrequest
-        - shared
-      description: delete a OpsRequest
-      summary: Delete OpsRequest
-      operationId: deleteOps
-      parameters:
-        - name: orgName
-          in: path
-          description: name of the Org
-          required: true
-          schema:
-            type: string
-        - name: opsName
-          in: path
-          description: name of the Opsrequest
-          required: true
-          schema:
-            type: string
-        - name: clusterName
-          in: query
-          description: name of the Cluster
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Returned when project is deleted successfully.
-          content: {}
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}/cancel:
     post:
       description: cancel a OpsRequest
@@ -5148,12 +5111,6 @@ paths:
           required: true
           schema:
             type: string
-        - description: type of the OpsRequest
-          in: query
-          name: opsType
-          required: true
-          schema:
-            type: string
       responses:
         '204':
           content: {}
@@ -5167,41 +5124,6 @@ paths:
       tags:
         - opsrequest
         - shared
-  /admin/v1/organizations/{orgName}/clusters/{clusterName}/opsrequests/{opsName}:
-    get:
-      tags:
-        - opsrequest
-        - shared
-      deprecated: true
-      description: get a OpsRequest status, deprecated, instead use cluster task api
-      summary: Get OpsRequest Status
-      operationId: getOpsRequestStatus
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: name of the Cluster
-          in: path
-          name: clusterName
-          required: true
-          schema:
-            type: string
-        - description: name of the OpsRequest
-          in: path
-          name: opsName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/opsStatus'
-          description: Successful operation
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/volumes/io-quotas:
     post:
       tags:
@@ -7995,9 +7917,14 @@ paths:
           description: defined whether to search for rebuilding instance.
           schema:
             type: boolean
+        - name: withHScale
+          in: query
+          description: defined whether to search for rebuilding instance.
+          schema:
+            type: boolean
         - name: component
           in: query
-          description: The component type is required when withRebuildInstance is true.
+          description: The component type is required when withRebuildInstance/withHScale is true.
           schema:
             type: string
       responses:
@@ -10945,11 +10872,76 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/inspectionScripts:
+  /admin/v1/organizations/{orgName}/inspectionScripts:
     get:
       tags:
         - inspection
       operationId: listInspectionScripts
+      summary: list inspection scripts
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: query by, such as "node"/"mysql"
+          in: query
+          name: engine
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionScriptV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - inspection
+        - shared
+      operationId: createInspectionScript
+      summary: Create inspection script
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectionScriptV2'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inspectionScript'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/inspectionScripts:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionScriptsV2
       summary: list inspection scripts
       parameters:
         - description: name of the Org, multiple orgs separated by ',', if not provided, return all scripts
@@ -10981,7 +10973,7 @@ paths:
     post:
       tags:
         - inspection
-      operationId: createInspectionScript
+      operationId: createInspectionScriptV2
       summary: Create inspection script
       requestBody:
         content:
@@ -11050,6 +11042,356 @@ paths:
         '204':
           description: No content.
           content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/autoInspections:
+    post:
+      tags:
+        - inspection
+      operationId: createAutoInspectionV2
+      summary: Create inspection cron job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/autoInspectionV2'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/autoInspectionV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    get:
+      tags:
+        - inspection
+      operationId: getAutoInspectionV2
+      summary: get auto inspection
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the environment
+          in: query
+          name: envName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/autoInspectionV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/autoInspections/{id}:
+    patch:
+      tags:
+        - inspection
+      operationId: updateAutoInspectionV2
+      summary: update auto inspection
+      parameters:
+        - description: id of the auto inspection
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/autoInspectionV2'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/autoInspectionV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - inspection
+      operationId: deleteAutoInspectionV2
+      summary: delete auto inspection
+      parameters:
+        - description: id of the auto inspection
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/inspectionTasksByOrg:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionTasksByOrg
+      summary: list inspection tasks by org
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: list tasks for the specified cluster
+          in: query
+          name: clusterId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - inspection
+      operationId: createInspectionTaskByOrg
+      summary: create inspection task by org
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectionTaskV2'
+        required: true
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/inspectionTasksByOrg/{taskId}:
+    get:
+      tags:
+        - inspection
+      operationId: getInspectionTaskByOrg
+      summary: get inspection task by org
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: list task details if specified
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: the format of the task
+          in: query
+          name: format
+          required: false
+          schema:
+            $ref: '#/components/schemas/inspectionTaskFormat'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inspectionTaskV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/inspectionTasksByEnv:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionTasksByEnv
+      summary: list inspection tasks by env
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: list tasks for the specified node
+          in: query
+          name: nodeName
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - inspection
+      operationId: createInspectionTaskByEnv
+      summary: create inspection task by env
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectionTaskV2'
+        required: true
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/inspectionTasksByEnv/{taskId}:
+    get:
+      tags:
+        - inspection
+      operationId: getInspectionTaskByEnv
+      summary: get inspection task by env
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: list task details if specified
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: the format of the task
+          in: query
+          name: format
+          required: false
+          schema:
+            $ref: '#/components/schemas/inspectionTaskFormat'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskItemV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/inspectionTasks/aggregate:
+    get:
+      tags:
+        - inspection
+      operationId: getAggregateTaskResult
+      summary: get aggregate task result
+      parameters:
+        - description: name of the Org
+          in: query
+          name: aggregateType
+          required: true
+          schema:
+            $ref: '#/components/schemas/aggregateTaskType'
+        - description: the engine of the task
+          in: query
+          name: engine
+          required: false
+          schema:
+            type: string
+        - description: result of the task
+          in: query
+          name: resultType
+          required: false
+          schema:
+            $ref: '#/components/schemas/aggregateTaskResultType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aggregateTaskResultList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -12198,7 +12540,7 @@ paths:
           in: query
           name: status
           schema:
-            $ref: '#/components/schemas/cluster_opsStatus'
+            $ref: '#/components/schemas/opsStatus'
         - description: You want to check the type of the task. If not passed, all selected by default
           in: query
           name: clusterTaskType
@@ -13673,6 +14015,212 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/clusterTask'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces:
+    get:
+      tags:
+        - dameng
+      summary: List damengdb tablespaces
+      description: List tablespaces for a Dameng cluster.
+      operationId: listTablespaces
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespaceList'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - dameng
+      summary: Create damengdb tablespace
+      description: Create tablespace for a Dameng cluster.
+      operationId: createTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmTablespace'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /admin/v1/data/damengdb/organizations/{orgName}/clusters/{clusterName}/tablespaces/{tablespaceName}:
+    get:
+      tags:
+        - dameng
+      summary: Get Dameng tablespace info
+      operationId: getTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      tags:
+        - dameng
+      summary: Delete damengdb tablespace
+      description: Delete tablespace for a Dameng cluster.
+      operationId: deleteTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      responses:
+        '204':
+          content: {}
+          description: A successful response.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    patch:
+      tags:
+        - dameng
+      summary: Update damengdb tablespace
+      description: Update tablespace for a Dameng cluster.
+      operationId: updateTablespace
+      parameters:
+        - name: orgName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Organization name
+        - name: clusterName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Cluster name
+        - name: tablespaceName
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Tablespace name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DmTablespace'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DmTablespace'
+          description: A successful response.
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -18688,6 +19236,10 @@ components:
           description: component type
           type: string
           minLength: 1
+        backupName:
+          description: name of the backup to restore from
+          type: string
+          nullable: true
         replicas:
           description: number of replicas
           type: integer
@@ -18771,6 +19323,17 @@ components:
           type: string
           minLength: 1
       type: object
+    opsParameter:
+      description: custom ops parameter
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      required:
+        - name
+        - value
     opsCustom:
       description: OpsCustom is the payload to create a custom KubeBlocks OpsRequest
       required:
@@ -18794,12 +19357,8 @@ components:
           description: custom ops parameters
           type: array
           items:
-            x-go-type:
-              type: Parameter
-              import:
-                package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
-              hints:
-                kind: interface
+            type: object
+            $ref: '#/components/schemas/opsParameter'
       type: object
     customOpsTask:
       description: customOpsTask is the information of custom ops task
@@ -18957,20 +19516,6 @@ components:
           format: date-time
           description: Time when the task completed or failed
           nullable: true
-    opsStatus:
-      type: object
-      x-go-name: OpsRequestStatus
-      properties:
-        Status:
-          type: object
-          x-go-type:
-            type: OpsRequestStatus
-            import:
-              package: github.com/apecloud/kubeblocks09/apis/apps/v1alpha1
-            hints:
-              kind: interface
-        message:
-          type: string
     opsIoQuotas:
       description: IO Quotas describes IOPS and BPS for volumes of a KubeBlocks cluster
       properties:
@@ -21937,6 +22482,8 @@ components:
           type: string
         clusterName:
           type: string
+        objectName:
+          type: string
         engine:
           type: string
         namespace:
@@ -21965,6 +22512,8 @@ components:
           type: integer
         pageSize:
           type: integer
+        env:
+          type: string
       description: Alert object information
     alertObjectList:
       type: object
@@ -22145,6 +22694,10 @@ components:
           type: string
         orgName:
           type: string
+        envs:
+          type: array
+          items:
+            type: string
         sourceMatch:
           type: object
           additionalProperties:
@@ -22506,6 +23059,31 @@ components:
             $ref: '#/components/schemas/modeServiceRef'
         objectStorage:
           $ref: '#/components/schemas/modeObjectStorage'
+        valuesMappings:
+          type: object
+          properties:
+            compatibleKBVersions:
+              type: array
+              items:
+                type: string
+            mappings:
+              type: array
+              items:
+                type: object
+                required:
+                  - sourceKey
+                  - targetKey
+                properties:
+                  component:
+                    type: string
+                  sourceKey:
+                    type: string
+                  sourceValue:
+                    description: Can be any type (string, number, boolean, object, etc.)
+                  targetKey:
+                    type: string
+                  targetValue:
+                    description: Can be any type (string, number, boolean, object, etc.)
     accountOption:
       type: object
       required:
@@ -22587,7 +23165,6 @@ components:
       type: object
       required:
         - enabled
-        - protocol
       properties:
         enabled:
           type: boolean
@@ -22773,6 +23350,10 @@ components:
         needBackupWhenInPlace:
           type: boolean
           description: indicate whether backup is required when Inplace is true
+          default: false
+        backupRequired:
+          type: boolean
+          description: indicate whether backup is required for this ops
           default: false
         backupMethod:
           type: object
@@ -23263,6 +23844,224 @@ components:
           $ref: '#/components/schemas/cdcSettings'
         worker:
           $ref: '#/components/schemas/cdcWorkerTemplate'
+    internationalDesc:
+      type: object
+      properties:
+        zh-CN:
+          type: string
+        en-US:
+          type: string
+    moduleDefinitionValues:
+      type: object
+      properties:
+        moduleValue:
+          type: string
+        order:
+          type: integer
+        weight:
+          type: number
+          format: double
+          nullable: true
+    moduleDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinitionValues'
+    engineDefinitionVersionQuery:
+      type: object
+      properties:
+        sql:
+          type: string
+          description: the query to get the version, if not provided, will use inherited query from engine definition
+          nullable: true
+        column:
+          type: string
+          nullable: true
+        regex:
+          type: string
+          nullable: true
+        min:
+          type: number
+          nullable: true
+        max:
+          type: number
+          nullable: true
+    engineDefinitionVersion:
+      type: object
+      properties:
+        version:
+          type: string
+          nullable: true
+        query:
+          $ref: '#/components/schemas/engineDefinitionVersionQuery'
+    configType:
+      enum:
+        - string
+        - integer
+        - float
+      type: string
+      description: the type of config
+    connectionCfgType:
+      enum:
+        - database
+      type: string
+    extraConfig:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        type:
+          $ref: '#/components/schemas/configType'
+        isRequired:
+          type: boolean
+        connectionCfgType:
+          $ref: '#/components/schemas/connectionCfgType'
+    engineDefinitionDetail:
+      type: object
+      properties:
+        definitionName:
+          type: string
+        availableModes:
+          type: array
+          description: definition supported available modes, empty means all modes are supported
+          items:
+            type: string
+        availableVersions:
+          type: array
+          description: definition supported available versions, empty means all versions are supported
+          items:
+            $ref: '#/components/schemas/engineDefinitionVersion'
+        extraCfgs:
+          type: array
+          items:
+            $ref: '#/components/schemas/extraConfig'
+    engineDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        engineName:
+          type: string
+        escapes:
+          type: array
+          items:
+            type: string
+        source:
+          $ref: '#/components/schemas/engineDefinitionDetail'
+        target:
+          $ref: '#/components/schemas/engineDefinitionDetail'
+    eventType:
+      enum:
+        - dml
+        - ddl
+        - dcl
+      type: string
+    eventObject:
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/eventType'
+        eventValue:
+          type: string
+    replicationMetadataObject:
+      type: object
+      properties:
+        metadataType:
+          type: string
+        children:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/replicationMetadataObject'
+    mappingDescription:
+      type: object
+      properties:
+        objectExpressionTips:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+    engineMapping:
+      type: object
+      properties:
+        source:
+          type: string
+        target:
+          type: string
+        modules:
+          type: array
+          items:
+            type: string
+        events:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/eventObject'
+            description: the events of the engine mapping, the first one is the default event
+        replicationMetadata:
+          $ref: '#/components/schemas/replicationMetadataObject'
+        descriptions:
+          $ref: '#/components/schemas/mappingDescription'
+        preCheckers:
+          type: array
+          items:
+            type: string
+    standardResource:
+      type: object
+      properties:
+        limit:
+          type: number
+          format: double
+          nullable: true
+        request:
+          type: number
+          format: double
+          nullable: true
+    standardDefinition:
+      type: object
+      properties:
+        name:
+          type: string
+        title:
+          $ref: '#/components/schemas/internationalDesc'
+        description:
+          $ref: '#/components/schemas/internationalDesc'
+          nullable: true
+        isDefault:
+          type: boolean
+          nullable: true
+        cpu:
+          $ref: '#/components/schemas/standardResource'
+          description: cpu resource, the unit is vCPU
+        memory:
+          $ref: '#/components/schemas/standardResource'
+          description: memory resource, the unit is Gi
+    dataReplicationOption:
+      type: object
+      properties:
+        moduleDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/moduleDefinition'
+        engineDefinitions:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineDefinition'
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/engineMapping'
+        standards:
+          type: array
+          items:
+            $ref: '#/components/schemas/standardDefinition'
     engineOption:
       type: object
       required:
@@ -23399,6 +24198,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/cdcOption'
+        dataReplication:
+          $ref: '#/components/schemas/dataReplicationOption'
+          nullable: true
     engineOptionList:
       required:
         - items
@@ -23702,9 +24504,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/storageOption'
+    engineQuota:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The engine name
+        quota:
+          type: number
+          description: The quota of the engine
+          format: double
+        used:
+          type: number
+          description: The used count of the engine
+          format: double
     license:
       description: License info
       type: object
+      required:
+        - clusterID
+        - email
+        - userName
+        - unit
+        - quantity
+        - engines
+        - notAfter
+        - notBefore
+        - license
+        - used
       properties:
         clusterID:
           type: string
@@ -23723,9 +24552,9 @@ components:
           description: The licensed total count of the unit
         engines:
           type: array
-          description: The supported engines
+          description: The supported engines and their quotas
           items:
-            type: string
+            $ref: '#/components/schemas/engineQuota'
         notAfter:
           type: string
           format: date-time
@@ -23743,7 +24572,7 @@ components:
           description: The license key
         mode:
           type: string
-          description: The license mode
+          description: If KubeBlocks Enterprise is embedded in another platform, the license may be managed by the platform. It this case, we should extract the KubeBlocks Enterprise license from the platform and use it. Different platforms may have different ways to provide the license. The licenseMode is used to specify the different platform. For KubeSphere Enterprise, the licenseMode is `kse`.
     licenseRequest:
       required:
         - key
@@ -24438,6 +25267,8 @@ components:
           type: integer
         name:
           type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
         engine:
           description: The engine type this script is applicable to, such as cluster, mysql, node
           type: string
@@ -24447,10 +25278,8 @@ components:
         category:
           description: The category of the script, such as "performance"/"security"/"stability"/"other"
           type: string
-        reason:
-          type: string
-        suggestion:
-          type: string
+        description:
+          $ref: '#/components/schemas/localizedDescription'
         scriptExpr:
           type: string
         checkExpr:
@@ -24474,6 +25303,210 @@ components:
         updatedAt:
           description: Timestamp of update time
           type: integer
+    inspectionScript:
+      required:
+        - enabled
+      properties:
+        id:
+          type: integer
+        engine:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        type:
+          type: string
+        scriptType:
+          type: string
+        reason:
+          type: string
+        suggestion:
+          type: string
+        enabled:
+          type: boolean
+        scriptName:
+          type: string
+        script:
+          type: string
+        statusCheckName:
+          type: string
+        statusCheck:
+          type: string
+        unit:
+          type: string
+    autoInspectionResourceTypeV2:
+      type: string
+      description: Specifies the type of the resource for the auto inspection.
+      enum:
+        - organization
+        - cluster
+        - environment
+        - environment_node
+    autoInspectionV2:
+      required:
+        - resourceType
+        - resourceName
+        - creator
+        - enabled
+      properties:
+        id:
+          type: integer
+        resourceType:
+          $ref: '#/components/schemas/autoInspectionResourceTypeV2'
+        resourceID:
+          type: string
+        resourceName:
+          type: string
+        creator:
+          type: string
+        schedule:
+          type: string
+        runEvery:
+          $ref: '#/components/schemas/autoInspectionRunUnit'
+        daysOfWeek:
+          type: array
+          items:
+            type: integer
+        daysOfMonth:
+          type: array
+          items:
+            type: integer
+        hour:
+          type: integer
+        minute:
+          type: integer
+        savedDays:
+          type: integer
+        nextRunTime:
+          format: date-time
+          type: string
+        enabled:
+          type: boolean
+    inspectionSupportedEnginesV2:
+      type: string
+      description: Specifies the supported engines for the inspection task.
+      enum:
+        - node
+        - mysql
+        - redis
+        - damengdb
+    inspectionTaskItemV2:
+      properties:
+        id:
+          type: integer
+        taskID:
+          type: integer
+        scriptID:
+          type: integer
+        scriptName:
+          $ref: '#/components/schemas/localizedDescription'
+        scriptDescription:
+          $ref: '#/components/schemas/localizedDescription'
+        scriptCategory:
+          type: string
+        resourceType:
+          type: string
+        resourceID:
+          type: string
+        resourceName:
+          type: string
+        status:
+          type: string
+        result:
+          type: string
+        severity:
+          type: string
+        unit:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+    inspectionTaskV2:
+      properties:
+        id:
+          type: integer
+        creator:
+          type: string
+        status:
+          type: string
+        engine:
+          $ref: '#/components/schemas/inspectionSupportedEnginesV2'
+        orgName:
+          type: string
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+        envName:
+          type: string
+        envID:
+          type: string
+        nodeName:
+          type: string
+        isAuto:
+          type: boolean
+        score:
+          type: integer
+        result:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/inspectionTaskItemV2'
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+    inspectionTaskFormat:
+      description: Specifies the format of the task in the aggregate task result.
+      enum:
+        - json
+        - pdf
+      type: string
+    aggregateTaskType:
+      type: string
+      description: Specifies the type of the aggregate meta data.
+      enum:
+        - organization
+        - environment
+        - all
+    aggregateTaskResultType:
+      type: string
+      description: Specifies the type of the aggregate task result.
+      enum:
+        - green
+        - yellow
+        - red
+    aggregateTaskResult:
+      properties:
+        engine:
+          type: string
+        summary:
+          type: object
+          properties:
+            error:
+              type: integer
+            warning:
+              type: integer
+            normal:
+              type: integer
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/inspectionTaskV2'
+    aggregateTaskResultList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aggregateTaskResult'
     storageProviderSchemaProps:
       type: object
       description: the schema properties for storage provider parameters
@@ -25310,7 +26343,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/task'
-    cluster_opsStatus:
+    opsStatus:
       enum:
         - Pending
         - Creating
@@ -26138,6 +27171,87 @@ components:
           items:
             $ref: '#/components/schemas/ACLUser'
             nullable: true
+    DmFile:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: the id of this file
+        name:
+          type: string
+          description: the name of this file
+        autoExtend:
+          type: boolean
+          description: whether this file auto extend
+        allocatedSizeMB:
+          type: string
+          description: the size already allocated of this file, unit MB
+        usedSizeMB:
+          type: string
+          description: the current used size of this file, unit MB
+        usedRatio:
+          type: string
+          description: the current used ratio of this file
+        extendStepMB:
+          type: string
+          description: the extend step of this file, unit MB
+        maxSizeGB:
+          type: string
+          description: the max size of this file, unit GB
+        usedRatioInMax:
+          type: string
+          description: the used ratio in the max size of this file
+    tableSpaceStatus:
+      type: string
+      description: the status of this tablespace
+      enum:
+        - ONLINE
+        - OFFLINE
+        - CORRUPT
+    DmTablespace:
+      type: object
+      required:
+        - name
+        - files
+      properties:
+        name:
+          type: string
+          description: tablespace name
+        users:
+          type: string
+          description: damengdb users belong to this tablespace
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/DmFile'
+          description: the physical files of this tablespace
+        allocatedSizeMB:
+          type: string
+          description: the total size already allocated of this tablespace, unit MB
+        usedSizeMB:
+          type: string
+          description: the current used size of this tablespace, unit MB
+        usedRatio:
+          type: string
+          description: the current used ratio of this tablespace
+        autoExtend:
+          type: boolean
+          description: whether this tablespace auto extend
+        maxSizeGB:
+          type: string
+          description: the max size can be allocated of this tablespace, unit GB
+        usedRatioInMax:
+          type: string
+          description: the used ratio in the max allocated size of this tablespace
+        status:
+          $ref: '#/components/schemas/tableSpaceStatus'
+    DmTablespaceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DmTablespace'
+      description: the list of tablespace
     consoleStatus:
       type: string
       enum:

@@ -11,18 +11,18 @@ import (
 )
 
 type InspectionScriptV2 struct {
-	Id   *int32 `json:"id,omitempty"`
-	Name string `json:"name"`
+	Id          *int32                `json:"id,omitempty"`
+	Name        string                `json:"name"`
+	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
 	// The engine type this script is applicable to, such as cluster, mysql, node
 	Engine string `json:"engine"`
 	// The type of the script, such as "promQL"
 	Type string `json:"type"`
 	// The category of the script, such as "performance"/"security"/"stability"/"other"
-	Category   string  `json:"category"`
-	Reason     *string `json:"reason,omitempty"`
-	Suggestion *string `json:"suggestion,omitempty"`
-	ScriptExpr string  `json:"scriptExpr"`
-	CheckExpr  string  `json:"checkExpr"`
+	Category    string                `json:"category"`
+	Description *LocalizedDescription `json:"description,omitempty"`
+	ScriptExpr  string                `json:"scriptExpr"`
+	CheckExpr   string                `json:"checkExpr"`
 	// scope type, such as "system"/"global"/"org"
 	ScopeType string `json:"scopeType"`
 	// The identifier of the scope, such as org_id
@@ -116,6 +116,34 @@ func (o *InspectionScriptV2) SetName(v string) {
 	o.Name = v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *InspectionScriptV2) GetDisplayName() LocalizedDescription {
+	if o == nil || o.DisplayName == nil {
+		var ret LocalizedDescription
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *InspectionScriptV2) GetDisplayNameOk() (*LocalizedDescription, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *InspectionScriptV2) HasDisplayName() bool {
+	return o != nil && o.DisplayName != nil
+}
+
+// SetDisplayName gets a reference to the given LocalizedDescription and assigns it to the DisplayName field.
+func (o *InspectionScriptV2) SetDisplayName(v LocalizedDescription) {
+	o.DisplayName = &v
+}
+
 // GetEngine returns the Engine field value.
 func (o *InspectionScriptV2) GetEngine() string {
 	if o == nil {
@@ -185,60 +213,32 @@ func (o *InspectionScriptV2) SetCategory(v string) {
 	o.Category = v
 }
 
-// GetReason returns the Reason field value if set, zero value otherwise.
-func (o *InspectionScriptV2) GetReason() string {
-	if o == nil || o.Reason == nil {
-		var ret string
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *InspectionScriptV2) GetDescription() LocalizedDescription {
+	if o == nil || o.Description == nil {
+		var ret LocalizedDescription
 		return ret
 	}
-	return *o.Reason
+	return *o.Description
 }
 
-// GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionScriptV2) GetReasonOk() (*string, bool) {
-	if o == nil || o.Reason == nil {
+func (o *InspectionScriptV2) GetDescriptionOk() (*LocalizedDescription, bool) {
+	if o == nil || o.Description == nil {
 		return nil, false
 	}
-	return o.Reason, true
+	return o.Description, true
 }
 
-// HasReason returns a boolean if a field has been set.
-func (o *InspectionScriptV2) HasReason() bool {
-	return o != nil && o.Reason != nil
+// HasDescription returns a boolean if a field has been set.
+func (o *InspectionScriptV2) HasDescription() bool {
+	return o != nil && o.Description != nil
 }
 
-// SetReason gets a reference to the given string and assigns it to the Reason field.
-func (o *InspectionScriptV2) SetReason(v string) {
-	o.Reason = &v
-}
-
-// GetSuggestion returns the Suggestion field value if set, zero value otherwise.
-func (o *InspectionScriptV2) GetSuggestion() string {
-	if o == nil || o.Suggestion == nil {
-		var ret string
-		return ret
-	}
-	return *o.Suggestion
-}
-
-// GetSuggestionOk returns a tuple with the Suggestion field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InspectionScriptV2) GetSuggestionOk() (*string, bool) {
-	if o == nil || o.Suggestion == nil {
-		return nil, false
-	}
-	return o.Suggestion, true
-}
-
-// HasSuggestion returns a boolean if a field has been set.
-func (o *InspectionScriptV2) HasSuggestion() bool {
-	return o != nil && o.Suggestion != nil
-}
-
-// SetSuggestion gets a reference to the given string and assigns it to the Suggestion field.
-func (o *InspectionScriptV2) SetSuggestion(v string) {
-	o.Suggestion = &v
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *InspectionScriptV2) SetDescription(v LocalizedDescription) {
+	o.Description = &v
 }
 
 // GetScriptExpr returns the ScriptExpr field value.
@@ -483,14 +483,14 @@ func (o InspectionScriptV2) MarshalJSON() ([]byte, error) {
 		toSerialize["id"] = o.Id
 	}
 	toSerialize["name"] = o.Name
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 	toSerialize["engine"] = o.Engine
 	toSerialize["type"] = o.Type
 	toSerialize["category"] = o.Category
-	if o.Reason != nil {
-		toSerialize["reason"] = o.Reason
-	}
-	if o.Suggestion != nil {
-		toSerialize["suggestion"] = o.Suggestion
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
 	}
 	toSerialize["scriptExpr"] = o.ScriptExpr
 	toSerialize["checkExpr"] = o.CheckExpr
@@ -521,22 +521,22 @@ func (o InspectionScriptV2) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScriptV2) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id         *int32  `json:"id,omitempty"`
-		Name       *string `json:"name"`
-		Engine     *string `json:"engine"`
-		Type       *string `json:"type"`
-		Category   *string `json:"category"`
-		Reason     *string `json:"reason,omitempty"`
-		Suggestion *string `json:"suggestion,omitempty"`
-		ScriptExpr *string `json:"scriptExpr"`
-		CheckExpr  *string `json:"checkExpr"`
-		ScopeType  *string `json:"scopeType"`
-		ScopeId    *string `json:"scopeID,omitempty"`
-		ScopeName  *string `json:"scopeName,omitempty"`
-		Enabled    *bool   `json:"enabled"`
-		Unit       *string `json:"unit,omitempty"`
-		CreatedAt  *int32  `json:"createdAt,omitempty"`
-		UpdatedAt  *int32  `json:"updatedAt,omitempty"`
+		Id          *int32                `json:"id,omitempty"`
+		Name        *string               `json:"name"`
+		DisplayName *LocalizedDescription `json:"displayName,omitempty"`
+		Engine      *string               `json:"engine"`
+		Type        *string               `json:"type"`
+		Category    *string               `json:"category"`
+		Description *LocalizedDescription `json:"description,omitempty"`
+		ScriptExpr  *string               `json:"scriptExpr"`
+		CheckExpr   *string               `json:"checkExpr"`
+		ScopeType   *string               `json:"scopeType"`
+		ScopeId     *string               `json:"scopeID,omitempty"`
+		ScopeName   *string               `json:"scopeName,omitempty"`
+		Enabled     *bool                 `json:"enabled"`
+		Unit        *string               `json:"unit,omitempty"`
+		CreatedAt   *int32                `json:"createdAt,omitempty"`
+		UpdatedAt   *int32                `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -567,17 +567,25 @@ func (o *InspectionScriptV2) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "engine", "type", "category", "reason", "suggestion", "scriptExpr", "checkExpr", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "displayName", "engine", "type", "category", "description", "scriptExpr", "checkExpr", "scopeType", "scopeID", "scopeName", "enabled", "unit", "createdAt", "updatedAt"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.Id = all.Id
 	o.Name = *all.Name
+	if all.DisplayName != nil && all.DisplayName.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.DisplayName = all.DisplayName
 	o.Engine = *all.Engine
 	o.Type = *all.Type
 	o.Category = *all.Category
-	o.Reason = all.Reason
-	o.Suggestion = all.Suggestion
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Description = all.Description
 	o.ScriptExpr = *all.ScriptExpr
 	o.CheckExpr = *all.CheckExpr
 	o.ScopeType = *all.ScopeType
@@ -590,6 +598,10 @@ func (o *InspectionScriptV2) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
