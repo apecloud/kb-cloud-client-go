@@ -940,7 +940,7 @@ paths:
       tags:
         - organizationParameter
         - shared
-  /api/v1/organizations/{orgName}/resourceQuotaAndUsage:
+  /api/v1/organizations/{orgName}/resourceQuota:
     get:
       operationId: resourceQuotaAndUsage
       summary: Get the resource quota and usage of an organization

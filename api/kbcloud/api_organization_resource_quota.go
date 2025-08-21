@@ -29,7 +29,7 @@ func (a *OrganizationResourceQuotaApi) ResourceQuota(ctx _context.Context, orgNa
 	apiInfo := common.APIInfo{
 		Tag:         "organizationResourceQuota",
 		OperationID: "resourceQuota",
-		Path:        "/api/v1/organizations/{orgName}/resourceQuotaAndUsage",
+		Path:        "/api/v1/organizations/{orgName}/resourceQuota",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,7 @@ func (a *OrganizationResourceQuotaApi) ResourceQuota(ctx _context.Context, orgNa
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/resourceQuotaAndUsage"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/resourceQuota"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -101,7 +101,7 @@ func (a *OrganizationResourceQuotaApi) ResourceQuotaAndUsage(ctx _context.Contex
 	apiInfo := common.APIInfo{
 		Tag:         "organizationResourceQuota",
 		OperationID: "resourceQuotaAndUsage",
-		Path:        "/api/v1/organizations/{orgName}/resourceQuotaAndUsage",
+		Path:        "/api/v1/organizations/{orgName}/resourceQuota",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -111,7 +111,7 @@ func (a *OrganizationResourceQuotaApi) ResourceQuotaAndUsage(ctx _context.Contex
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/resourceQuotaAndUsage"
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/resourceQuota"
 	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
