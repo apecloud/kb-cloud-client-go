@@ -15788,33 +15788,6 @@ components:
       required:
         - name
       type: object
-    orgResourceQuota:
-      description: org resource quota
-      type: object
-      required:
-        - cpu
-        - memory
-        - storage
-        - clusters
-      properties:
-        cpu:
-          type: number
-          description: Maximum available vCPU. if set to 0, no limit
-          x-nullable: false
-        memory:
-          type: number
-          description: Maximum available memory in GB. if set to 0, no limit
-          x-nullable: false
-        storage:
-          type: number
-          description: Maximum available storage in GB. if set to 0, no limit
-          x-nullable: false
-        clusters:
-          type: object
-          description: Number of the clusters. key is engine type, values is the maximum number of engine
-          additionalProperties:
-            type: integer
-            description: Maximum number of clusters for the engine type
     org:
       description: Org info
       properties:
@@ -15847,8 +15820,6 @@ components:
         enabled:
           description: return true if the organization is enabled
           type: boolean
-        resourceQuota:
-          $ref: '#/components/schemas/orgResourceQuota'
       required:
         - createdAt
         - name
@@ -15925,6 +15896,33 @@ components:
       required:
         - role
       type: object
+    orgResourceQuota:
+      description: org resource quota
+      type: object
+      required:
+        - cpu
+        - memory
+        - storage
+        - clusters
+      properties:
+        cpu:
+          type: number
+          description: Maximum available vCPU. if set to 0, no limit
+          x-nullable: false
+        memory:
+          type: number
+          description: Maximum available memory in GB. if set to 0, no limit
+          x-nullable: false
+        storage:
+          type: number
+          description: Maximum available storage in GB. if set to 0, no limit
+          x-nullable: false
+        clusters:
+          type: object
+          description: Number of the clusters. key is engine type, values is the maximum number of engine
+          additionalProperties:
+            type: integer
+            description: Maximum number of clusters for the engine type
     orgResourceQuotaAndUsage:
       description: org resource quota
       type: object
