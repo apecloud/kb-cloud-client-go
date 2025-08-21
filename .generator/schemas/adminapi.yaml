@@ -20728,6 +20728,11 @@ components:
           description: Used number of IP addresses
           format: int64
           type: integer
+        usedIPs:
+          description: Used IP addresses
+          type: array
+          items:
+            type: string
       required:
         - addresses
         - total
