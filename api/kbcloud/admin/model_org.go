@@ -31,6 +31,8 @@ type Org struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	// return true if the organization is enabled
 	Enabled bool `json:"enabled"`
+	// org resource quota
+	ResourceQuota *OrgResourceQuota `json:"resourceQuota,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -233,6 +235,34 @@ func (o *Org) SetEnabled(v bool) {
 	o.Enabled = v
 }
 
+// GetResourceQuota returns the ResourceQuota field value if set, zero value otherwise.
+func (o *Org) GetResourceQuota() OrgResourceQuota {
+	if o == nil || o.ResourceQuota == nil {
+		var ret OrgResourceQuota
+		return ret
+	}
+	return *o.ResourceQuota
+}
+
+// GetResourceQuotaOk returns a tuple with the ResourceQuota field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Org) GetResourceQuotaOk() (*OrgResourceQuota, bool) {
+	if o == nil || o.ResourceQuota == nil {
+		return nil, false
+	}
+	return o.ResourceQuota, true
+}
+
+// HasResourceQuota returns a boolean if a field has been set.
+func (o *Org) HasResourceQuota() bool {
+	return o != nil && o.ResourceQuota != nil
+}
+
+// SetResourceQuota gets a reference to the given OrgResourceQuota and assigns it to the ResourceQuota field.
+func (o *Org) SetResourceQuota(v OrgResourceQuota) {
+	o.ResourceQuota = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Org) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -260,6 +290,9 @@ func (o Org) MarshalJSON() ([]byte, error) {
 		toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 	}
 	toSerialize["enabled"] = o.Enabled
+	if o.ResourceQuota != nil {
+		toSerialize["resourceQuota"] = o.ResourceQuota
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -270,13 +303,14 @@ func (o Org) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Org) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		CreatedAt   *time.Time `json:"createdAt"`
-		Description *string    `json:"description,omitempty"`
-		DisplayName *string    `json:"displayName,omitempty"`
-		Id          *string    `json:"id,omitempty"`
-		Name        *string    `json:"name"`
-		UpdatedAt   *time.Time `json:"updatedAt"`
-		Enabled     *bool      `json:"enabled"`
+		CreatedAt     *time.Time        `json:"createdAt"`
+		Description   *string           `json:"description,omitempty"`
+		DisplayName   *string           `json:"displayName,omitempty"`
+		Id            *string           `json:"id,omitempty"`
+		Name          *string           `json:"name"`
+		UpdatedAt     *time.Time        `json:"updatedAt"`
+		Enabled       *bool             `json:"enabled"`
+		ResourceQuota *OrgResourceQuota `json:"resourceQuota,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -295,10 +329,12 @@ func (o *Org) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "description", "displayName", "id", "name", "updatedAt", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"createdAt", "description", "displayName", "id", "name", "updatedAt", "enabled", "resourceQuota"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
 	o.CreatedAt = *all.CreatedAt
 	o.Description = all.Description
 	o.DisplayName = all.DisplayName
@@ -306,9 +342,17 @@ func (o *Org) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.UpdatedAt = *all.UpdatedAt
 	o.Enabled = *all.Enabled
+	if all.ResourceQuota != nil && all.ResourceQuota.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.ResourceQuota = all.ResourceQuota
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
