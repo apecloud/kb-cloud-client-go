@@ -940,6 +940,57 @@ paths:
       tags:
         - organizationParameter
         - shared
+  /api/v1/organizations/{orgName}/resourceQuotaAndUsage:
+    get:
+      operationId: resourceQuotaAndUsage
+      summary: Get the resource quota and usage of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgResourceQuotaAndUsage'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organizationResourceQuota
+    post:
+      operationId: resourceQuota
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgResourceQuota'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organizationResourceQuota
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -12305,6 +12356,37 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
+    orgResourceQuotaAndUsage:
+      description: org resource quota
+      type: object
+      required:
+        - cpu
+        - memory
+        - storage
+        - clusters
+        - usage
+      properties:
+        cpu:
+          type: number
+          description: Maximum available vCPU. if set to 0, no limit
+          x-nullable: false
+        memory:
+          type: number
+          description: Maximum available memory in GB. if set to 0, no limit
+          x-nullable: false
+        storage:
+          type: number
+          description: Maximum available storage in GB. if set to 0, no limit
+          x-nullable: false
+        clusters:
+          type: object
+          description: Number of the clusters. key is engine type, values is the maximum number of engine
+          x-nullable: false
+          additionalProperties:
+            type: integer
+            description: Maximum number of clusters for the engine type
+        usage:
+          $ref: '#/components/schemas/orgResourceQuota'
     networkMode:
       enum:
         - HostNetwork

@@ -253,6 +253,8 @@
 //   - [organizationParameterApi.getOrgParameter]
 //   - [organizationParameterApi.listOrgParameters]
 //   - [organizationParameterApi.patchOrgParameter]
+//   - [organizationResourceQuotaApi.resourceQuota]
+//   - [organizationResourceQuotaApi.resourceQuotaAndUsage]
 //   - [parameterApi.listParameterProps]
 //   - [parameterApi.listParametersHistory]
 //   - [parameterTemplateApi.createParameterTemplate]
