@@ -14,6 +14,7 @@ import (
 type LoadBalancer struct {
 	// Whether the loadbalancer is available in the environment.
 	Available LoadBalancerAvailableType `json:"available"`
+	VipPools  []VipPool                 `json:"vipPools,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -60,6 +61,34 @@ func (o *LoadBalancer) SetAvailable(v LoadBalancerAvailableType) {
 	o.Available = v
 }
 
+// GetVipPools returns the VipPools field value if set, zero value otherwise.
+func (o *LoadBalancer) GetVipPools() []VipPool {
+	if o == nil || o.VipPools == nil {
+		var ret []VipPool
+		return ret
+	}
+	return o.VipPools
+}
+
+// GetVipPoolsOk returns a tuple with the VipPools field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *LoadBalancer) GetVipPoolsOk() (*[]VipPool, bool) {
+	if o == nil || o.VipPools == nil {
+		return nil, false
+	}
+	return &o.VipPools, true
+}
+
+// HasVipPools returns a boolean if a field has been set.
+func (o *LoadBalancer) HasVipPools() bool {
+	return o != nil && o.VipPools != nil
+}
+
+// SetVipPools gets a reference to the given []VipPool and assigns it to the VipPools field.
+func (o *LoadBalancer) SetVipPools(v []VipPool) {
+	o.VipPools = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o LoadBalancer) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -67,6 +96,9 @@ func (o LoadBalancer) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["available"] = o.Available
+	if o.VipPools != nil {
+		toSerialize["vipPools"] = o.VipPools
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -78,6 +110,7 @@ func (o LoadBalancer) MarshalJSON() ([]byte, error) {
 func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Available *LoadBalancerAvailableType `json:"available"`
+		VipPools  []VipPool                  `json:"vipPools,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -87,7 +120,7 @@ func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"available"})
+		common.DeleteKeys(additionalProperties, &[]string{"available", "vipPools"})
 	} else {
 		return err
 	}
@@ -98,6 +131,7 @@ func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Available = *all.Available
 	}
+	o.VipPools = all.VipPools
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

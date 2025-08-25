@@ -19016,6 +19016,14 @@ components:
                 type: integer
               new:
                 type: integer
+        loadBalancerIP:
+          type: string
+          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          nullable: true
+        loadBalancerIPPoolID:
+          type: string
+          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          nullable: true
       required:
         - enable
         - type
@@ -20829,6 +20837,11 @@ components:
           description: Used number of IP addresses
           format: int64
           type: integer
+        usedIPs:
+          description: Used IP addresses
+          type: array
+          items:
+            type: string
       required:
         - addresses
         - total
