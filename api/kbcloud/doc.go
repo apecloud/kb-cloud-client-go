@@ -316,4 +316,5 @@
 //   - [userApi.phoneVerification]
 //   - [userApi.readUserApikeys]
 //   - [userApi.updateAuthenticatedUserPassword]
+//   - [vipPoolApi.listVIPPool]
 package kbcloud

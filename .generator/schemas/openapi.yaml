@@ -1161,6 +1161,30 @@ paths:
       tags:
         - loadBalancer
       x-codegen-request-body-name: body
+  /api/v1/environments/{environmentName}/loadbalancer/vipPool:
+    get:
+      operationId: listVIPPool
+      summary: List environment VIP Pools
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vipPoolList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vipPool
   /api/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
@@ -12691,6 +12715,14 @@ components:
         - Unavailable
         - Checking
         - Unknown
+    loadBalancer:
+      description: The load balancer info
+      properties:
+        available:
+          $ref: '#/components/schemas/loadBalancerAvailableType'
+      required:
+        - available
+      type: object
     vipPool:
       description: VIP Pool
       properties:
@@ -12720,17 +12752,16 @@ components:
         - total
         - used
       type: object
-    loadBalancer:
-      description: The load balancer info
+    vipPoolList:
+      description: vipPoolList is a list of vip pools
       properties:
-        available:
-          $ref: '#/components/schemas/loadBalancerAvailableType'
-        vipPools:
-          type: array
+        items:
+          description: Items is the list of vip pool objects in the list
           items:
             $ref: '#/components/schemas/vipPool'
+          type: array
       required:
-        - available
+        - items
       type: object
     nodeGroup:
       required:

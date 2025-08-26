@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// LoadBalancer The load balancer info
-type LoadBalancer struct {
-	// Whether the loadbalancer is available in the environment.
-	Available LoadBalancerAvailableType `json:"available"`
+// VipPoolList vipPoolList is a list of vip pools
+type VipPoolList struct {
+	// Items is the list of vip pool objects in the list
+	Items []VipPool `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewLoadBalancer instantiates a new LoadBalancer object.
+// NewVipPoolList instantiates a new VipPoolList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLoadBalancer(available LoadBalancerAvailableType) *LoadBalancer {
-	this := LoadBalancer{}
-	this.Available = available
+func NewVipPoolList(items []VipPool) *VipPoolList {
+	this := VipPoolList{}
+	this.Items = items
 	return &this
 }
 
-// NewLoadBalancerWithDefaults instantiates a new LoadBalancer object.
+// NewVipPoolListWithDefaults instantiates a new VipPoolList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewLoadBalancerWithDefaults() *LoadBalancer {
-	this := LoadBalancer{}
+func NewVipPoolListWithDefaults() *VipPoolList {
+	this := VipPoolList{}
 	return &this
 }
 
-// GetAvailable returns the Available field value.
-func (o *LoadBalancer) GetAvailable() LoadBalancerAvailableType {
+// GetItems returns the Items field value.
+func (o *VipPoolList) GetItems() []VipPool {
 	if o == nil {
-		var ret LoadBalancerAvailableType
+		var ret []VipPool
 		return ret
 	}
-	return o.Available
+	return o.Items
 }
 
-// GetAvailableOk returns a tuple with the Available field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *LoadBalancer) GetAvailableOk() (*LoadBalancerAvailableType, bool) {
+func (o *VipPoolList) GetItemsOk() (*[]VipPool, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Available, true
+	return &o.Items, true
 }
 
-// SetAvailable sets field value.
-func (o *LoadBalancer) SetAvailable(v LoadBalancerAvailableType) {
-	o.Available = v
+// SetItems sets field value.
+func (o *VipPoolList) SetItems(v []VipPool) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o LoadBalancer) MarshalJSON() ([]byte, error) {
+func (o VipPoolList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["available"] = o.Available
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,36 +75,26 @@ func (o LoadBalancer) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *LoadBalancer) UnmarshalJSON(bytes []byte) (err error) {
+func (o *VipPoolList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Available *LoadBalancerAvailableType `json:"available"`
+		Items *[]VipPool `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Available == nil {
-		return fmt.Errorf("required field available missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"available"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
-	if !all.Available.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Available = *all.Available
-	}
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
