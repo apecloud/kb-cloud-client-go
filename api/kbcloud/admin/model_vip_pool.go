@@ -22,6 +22,8 @@ type VipPool struct {
 	Used int64 `json:"used"`
 	// Used IP addresses
 	UsedIPs []string `json:"usedIPs,omitempty"`
+	// Used IP addresses
+	AvailableIPs []string `json:"availableIPs,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -172,6 +174,34 @@ func (o *VipPool) SetUsedIPs(v []string) {
 	o.UsedIPs = v
 }
 
+// GetAvailableIPs returns the AvailableIPs field value if set, zero value otherwise.
+func (o *VipPool) GetAvailableIPs() []string {
+	if o == nil || o.AvailableIPs == nil {
+		var ret []string
+		return ret
+	}
+	return o.AvailableIPs
+}
+
+// GetAvailableIPsOk returns a tuple with the AvailableIPs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *VipPool) GetAvailableIPsOk() (*[]string, bool) {
+	if o == nil || o.AvailableIPs == nil {
+		return nil, false
+	}
+	return &o.AvailableIPs, true
+}
+
+// HasAvailableIPs returns a boolean if a field has been set.
+func (o *VipPool) HasAvailableIPs() bool {
+	return o != nil && o.AvailableIPs != nil
+}
+
+// SetAvailableIPs gets a reference to the given []string and assigns it to the AvailableIPs field.
+func (o *VipPool) SetAvailableIPs(v []string) {
+	o.AvailableIPs = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o VipPool) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -187,6 +217,9 @@ func (o VipPool) MarshalJSON() ([]byte, error) {
 	if o.UsedIPs != nil {
 		toSerialize["usedIPs"] = o.UsedIPs
 	}
+	if o.AvailableIPs != nil {
+		toSerialize["availableIPs"] = o.AvailableIPs
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -197,11 +230,12 @@ func (o VipPool) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Addresses *string     `json:"addresses"`
-		Id        interface{} `json:"id,omitempty"`
-		Total     *int64      `json:"total"`
-		Used      *int64      `json:"used"`
-		UsedIPs   []string    `json:"usedIPs,omitempty"`
+		Addresses    *string     `json:"addresses"`
+		Id           interface{} `json:"id,omitempty"`
+		Total        *int64      `json:"total"`
+		Used         *int64      `json:"used"`
+		UsedIPs      []string    `json:"usedIPs,omitempty"`
+		AvailableIPs []string    `json:"availableIPs,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -217,7 +251,7 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "total", "used", "usedIPs"})
+		common.DeleteKeys(additionalProperties, &[]string{"addresses", "id", "total", "used", "usedIPs", "availableIPs"})
 	} else {
 		return err
 	}
@@ -226,6 +260,7 @@ func (o *VipPool) UnmarshalJSON(bytes []byte) (err error) {
 	o.Total = *all.Total
 	o.Used = *all.Used
 	o.UsedIPs = all.UsedIPs
+	o.AvailableIPs = all.AvailableIPs
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
