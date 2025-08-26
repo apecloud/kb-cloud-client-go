@@ -20778,6 +20778,11 @@ components:
           type: array
           items:
             type: string
+        availableIPs:
+          description: Used IP addresses
+          type: array
+          items:
+            type: string
       required:
         - addresses
         - total
