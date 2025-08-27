@@ -6362,56 +6362,6 @@ paths:
         '404':
           $ref: '#/components/responses/404'
       x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/loadbalancer/install:
-    post:
-      tags:
-        - loadBalancer
-      operationId: installLoadBalancer
-      summary: Install load balancer in the environment
-      parameters:
-        - name: environmentName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/loadBalancerInstall'
-        required: true
-      responses:
-        '200':
-          description: OK
-          content: {}
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
-  /admin/v1/environments/{environmentName}/loadbalancer/uninstall:
-    post:
-      tags:
-        - loadBalancer
-      operationId: uninstallLoadBalancer
-      summary: Uninstall load balancer in the environment
-      parameters:
-        - name: environmentName
-          in: path
-          description: name of the environment
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content: {}
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      x-codegen-request-body-name: body
   /admin/v1/environments/{environmentName}/loadbalancer/vipPool:
     get:
       operationId: listVIPPool
@@ -20804,20 +20754,6 @@ components:
       required:
         - status
       type: object
-    loadBalancerType:
-      type: string
-      description: Type of the load balancer
-      enum:
-        - f5
-        - metallb
-    loadBalancerInstall:
-      description: Install the load balancer in the environment
-      required:
-        - type
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/loadBalancerType'
     vipPool:
       description: VIP Pool
       properties:

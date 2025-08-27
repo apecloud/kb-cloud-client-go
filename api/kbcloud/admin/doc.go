@@ -304,8 +304,6 @@
 //   - [llmApi.updateLLM]
 //   - [loadBalancerApi.checkLoadBalancer]
 //   - [loadBalancerApi.getLoadBalancer]
-//   - [loadBalancerApi.installLoadBalancer]
-//   - [loadBalancerApi.uninstallLoadBalancer]
 //   - [markClusterApi.markClusterRestoreCompleted]
 //   - [memberApi.addOrgMember]
 //   - [memberApi.deleteOrgMember]
