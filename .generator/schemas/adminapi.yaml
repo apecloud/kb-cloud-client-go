@@ -17787,8 +17787,8 @@ components:
         description:
           description: Description of parameter template
           type: string
-        family:
-          description: 'Name of database with its version, eg: mysql8.0'
+        majorVersion:
+          description: 'Major version of database engine, eg: 8.0'
           type: string
         engine:
           description: Name of database engine
@@ -17815,7 +17815,7 @@ components:
       required:
         - description
         - paramTplID
-        - family
+        - majorVersion
         - name
         - partition
       type: object
