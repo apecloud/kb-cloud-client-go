@@ -12,8 +12,10 @@ import (
 
 // StorageStats StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
 type StorageStats struct {
-	// ProvisionedCapacity is the actual size of the volumes that is bound to the PVC, unit is GiB
-	ProvisionedCapacity float64 `json:"provisionedCapacity"`
+	// The total requested size of PVCs that are bound and currently used by pods, unit is GiB
+	Requests float64 `json:"requests"`
+	// Usage is the actual storage usage from PVCs that are used by pods, unit is GiB
+	Usage float64 `json:"usage"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,9 +25,10 @@ type StorageStats struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageStats(provisionedCapacity float64) *StorageStats {
+func NewStorageStats(requests float64, usage float64) *StorageStats {
 	this := StorageStats{}
-	this.ProvisionedCapacity = provisionedCapacity
+	this.Requests = requests
+	this.Usage = usage
 	return &this
 }
 
@@ -37,27 +40,50 @@ func NewStorageStatsWithDefaults() *StorageStats {
 	return &this
 }
 
-// GetProvisionedCapacity returns the ProvisionedCapacity field value.
-func (o *StorageStats) GetProvisionedCapacity() float64 {
+// GetRequests returns the Requests field value.
+func (o *StorageStats) GetRequests() float64 {
 	if o == nil {
 		var ret float64
 		return ret
 	}
-	return o.ProvisionedCapacity
+	return o.Requests
 }
 
-// GetProvisionedCapacityOk returns a tuple with the ProvisionedCapacity field value
+// GetRequestsOk returns a tuple with the Requests field value
 // and a boolean to check if the value has been set.
-func (o *StorageStats) GetProvisionedCapacityOk() (*float64, bool) {
+func (o *StorageStats) GetRequestsOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ProvisionedCapacity, true
+	return &o.Requests, true
 }
 
-// SetProvisionedCapacity sets field value.
-func (o *StorageStats) SetProvisionedCapacity(v float64) {
-	o.ProvisionedCapacity = v
+// SetRequests sets field value.
+func (o *StorageStats) SetRequests(v float64) {
+	o.Requests = v
+}
+
+// GetUsage returns the Usage field value.
+func (o *StorageStats) GetUsage() float64 {
+	if o == nil {
+		var ret float64
+		return ret
+	}
+	return o.Usage
+}
+
+// GetUsageOk returns a tuple with the Usage field value
+// and a boolean to check if the value has been set.
+func (o *StorageStats) GetUsageOk() (*float64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Usage, true
+}
+
+// SetUsage sets field value.
+func (o *StorageStats) SetUsage(v float64) {
+	o.Usage = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -66,7 +92,8 @@ func (o StorageStats) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["provisionedCapacity"] = o.ProvisionedCapacity
+	toSerialize["requests"] = o.Requests
+	toSerialize["usage"] = o.Usage
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,21 +104,26 @@ func (o StorageStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ProvisionedCapacity *float64 `json:"provisionedCapacity"`
+		Requests *float64 `json:"requests"`
+		Usage    *float64 `json:"usage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.ProvisionedCapacity == nil {
-		return fmt.Errorf("required field provisionedCapacity missing")
+	if all.Requests == nil {
+		return fmt.Errorf("required field requests missing")
+	}
+	if all.Usage == nil {
+		return fmt.Errorf("required field usage missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provisionedCapacity"})
+		common.DeleteKeys(additionalProperties, &[]string{"requests", "usage"})
 	} else {
 		return err
 	}
-	o.ProvisionedCapacity = *all.ProvisionedCapacity
+	o.Requests = *all.Requests
+	o.Usage = *all.Usage
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

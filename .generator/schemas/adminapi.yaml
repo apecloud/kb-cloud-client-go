@@ -20125,12 +20125,17 @@ components:
     storageStats:
       description: StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
       properties:
-        provisionedCapacity:
-          description: ProvisionedCapacity is the actual size of the volumes that is bound to the PVC, unit is GiB
+        requests:
+          description: The total requested size of PVCs that are bound and currently used by pods, unit is GiB
+          format: double
+          type: number
+        usage:
+          description: Usage is the actual storage usage from PVCs that are used by pods, unit is GiB
           format: double
           type: number
       required:
-        - provisionedCapacity
+        - requests
+        - usage
       type: object
     environmentResourceStats:
       description: EnvironmentResourceStats holds the cpuStats for a environment.
