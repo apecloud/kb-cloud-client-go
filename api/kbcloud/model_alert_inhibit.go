@@ -12,6 +12,7 @@ type AlertInhibit struct {
 	Name        *string             `json:"name,omitempty"`
 	Description *string             `json:"description,omitempty"`
 	OrgName     *string             `json:"orgName,omitempty"`
+	Envs        []string            `json:"envs,omitempty"`
 	SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
 	TargetMatch map[string][]string `json:"targetMatch,omitempty"`
 	Equal       []string            `json:"equal,omitempty"`
@@ -149,6 +150,34 @@ func (o *AlertInhibit) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
+// GetEnvs returns the Envs field value if set, zero value otherwise.
+func (o *AlertInhibit) GetEnvs() []string {
+	if o == nil || o.Envs == nil {
+		var ret []string
+		return ret
+	}
+	return o.Envs
+}
+
+// GetEnvsOk returns a tuple with the Envs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AlertInhibit) GetEnvsOk() (*[]string, bool) {
+	if o == nil || o.Envs == nil {
+		return nil, false
+	}
+	return &o.Envs, true
+}
+
+// HasEnvs returns a boolean if a field has been set.
+func (o *AlertInhibit) HasEnvs() bool {
+	return o != nil && o.Envs != nil
+}
+
+// SetEnvs gets a reference to the given []string and assigns it to the Envs field.
+func (o *AlertInhibit) SetEnvs(v []string) {
+	o.Envs = v
+}
+
 // GetSourceMatch returns the SourceMatch field value if set, zero value otherwise.
 func (o *AlertInhibit) GetSourceMatch() map[string][]string {
 	if o == nil || o.SourceMatch == nil {
@@ -251,6 +280,9 @@ func (o AlertInhibit) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
+	if o.Envs != nil {
+		toSerialize["envs"] = o.Envs
+	}
 	if o.SourceMatch != nil {
 		toSerialize["sourceMatch"] = o.SourceMatch
 	}
@@ -274,6 +306,7 @@ func (o *AlertInhibit) UnmarshalJSON(bytes []byte) (err error) {
 		Name        *string             `json:"name,omitempty"`
 		Description *string             `json:"description,omitempty"`
 		OrgName     *string             `json:"orgName,omitempty"`
+		Envs        []string            `json:"envs,omitempty"`
 		SourceMatch map[string][]string `json:"sourceMatch,omitempty"`
 		TargetMatch map[string][]string `json:"targetMatch,omitempty"`
 		Equal       []string            `json:"equal,omitempty"`
@@ -283,7 +316,7 @@ func (o *AlertInhibit) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "description", "orgName", "sourceMatch", "targetMatch", "equal"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "description", "orgName", "envs", "sourceMatch", "targetMatch", "equal"})
 	} else {
 		return err
 	}
@@ -291,6 +324,7 @@ func (o *AlertInhibit) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = all.Name
 	o.Description = all.Description
 	o.OrgName = all.OrgName
+	o.Envs = all.Envs
 	o.SourceMatch = all.SourceMatch
 	o.TargetMatch = all.TargetMatch
 	o.Equal = all.Equal

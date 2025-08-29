@@ -5246,7 +5246,7 @@ paths:
       tags:
         - alertStrategy
       operationId: createAlertStrategy
-      summary: Create alert strategy
+      summary: Create alert strategy in org
       parameters:
         - name: orgName
           in: path
@@ -5308,7 +5308,6 @@ paths:
     delete:
       tags:
         - alertStrategy
-        - shared
       operationId: deleteAlertStrategy
       summary: Delete alert strategy
       parameters:
@@ -5335,6 +5334,8 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
     patch:
       tags:
         - alertStrategy
@@ -5978,7 +5979,14 @@ paths:
           content:
             application/x-yaml:
               schema:
-                $ref: '#/components/schemas/alertRuleConfig'
+                type: string
+                format: binary
+                description: YAML file content containing the new alert rule configuration
+            application/json:
+              schema:
+                type: string
+                format: binary
+                description: JSON file content containing the new alert rule configuration
         '400':
           $ref: '#/components/responses/400'
         '401':
@@ -6005,7 +6013,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/yaml:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/alertRuleConfig'
       responses:
@@ -15531,8 +15539,8 @@ components:
       required:
         - alertName
         - for
-        - severity
         - groupName
+        - severity
       type: object
       properties:
         description:
@@ -15618,6 +15626,8 @@ components:
           type: string
         clusterName:
           type: string
+        objectName:
+          type: string
         engine:
           type: string
         namespace:
@@ -15646,6 +15656,8 @@ components:
           type: integer
         pageSize:
           type: integer
+        env:
+          type: string
       description: Alert object information
     alertObjectList:
       type: object
@@ -15684,6 +15696,10 @@ components:
           type: string
         orgName:
           type: string
+        envs:
+          type: array
+          items:
+            type: string
         sourceMatch:
           type: object
           additionalProperties:
@@ -15716,8 +15732,6 @@ components:
       description: AlertInhibitList is a list of alert inhibit
     alertRuleConfig:
       type: object
-      required:
-        - content
       properties:
         content:
           type: string
