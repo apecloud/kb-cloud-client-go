@@ -16142,6 +16142,9 @@ components:
         compatibleMethod:
           description: The compatible full backup method for incremental backup method
           type: string
+        realBackupPath:
+          type: string
+          description: The actual path where the backup data is stored. If not set, use the backup.status.path.
         restoreOption:
           type: object
           properties:
