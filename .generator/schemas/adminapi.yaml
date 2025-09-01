@@ -24870,9 +24870,7 @@ components:
           type: string
         scriptCategory:
           type: string
-        reason:
-          type: string
-        suggestion:
+        description:
           type: string
         unit:
           type: string
@@ -24938,9 +24936,7 @@ components:
           type: string
         scriptType:
           type: string
-        reason:
-          type: string
-        suggestion:
+        description:
           type: string
         enabled:
           type: boolean
