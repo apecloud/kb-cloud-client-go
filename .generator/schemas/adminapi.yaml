@@ -20123,19 +20123,24 @@ components:
         - Reason
         - Timestamp
     storageStats:
-      description: StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
+      description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
-        requests:
-          description: The total requested size of PVCs that are bound and currently used by pods, unit is GiB
+        boundCapacity:
+          description: BoundCapacity is the total requested size of all PVCs that are bound to volumes, unit is GiB
           format: double
           type: number
-        usage:
-          description: Usage is the actual storage usage from PVCs that are used by pods, unit is GiB
+        podUsedCapacity:
+          description: PodUsedCapacity is the total requested size of PVCs that are bound and currently used by pods, unit is GiB
+          format: double
+          type: number
+        podUsedUsage:
+          description: PodUsedUsage is the actual storage usage from PVCs that are used by pods, unit is GiB
           format: double
           type: number
       required:
-        - requests
-        - usage
+        - boundCapacity
+        - podUsedCapacity
+        - podUsedUsage
       type: object
     environmentResourceStats:
       description: EnvironmentResourceStats holds the cpuStats for a environment.
