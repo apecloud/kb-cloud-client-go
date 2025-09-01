@@ -14,8 +14,12 @@ import (
 type ParamTplCreate struct {
 	// Description of parameter template
 	Description string `json:"description"`
-	// Name of database with its version, eg: mysql8.0
-	Family string `json:"family"`
+	// Major version of database engine, eg: 8.0
+	MajorVersion string `json:"majorVersion"`
+	// Name of database engine
+	Engine string `json:"engine"`
+	// Name of component
+	Component string `json:"component"`
 	// Name of parameter template. Name must be unique within an Org
 	Name string `json:"name"`
 	// Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
@@ -32,10 +36,12 @@ type ParamTplCreate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTplCreate(description string, family string, name string) *ParamTplCreate {
+func NewParamTplCreate(description string, majorVersion string, engine string, component string, name string) *ParamTplCreate {
 	this := ParamTplCreate{}
 	this.Description = description
-	this.Family = family
+	this.MajorVersion = majorVersion
+	this.Engine = engine
+	this.Component = component
 	this.Name = name
 	return &this
 }
@@ -71,27 +77,73 @@ func (o *ParamTplCreate) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetFamily returns the Family field value.
-func (o *ParamTplCreate) GetFamily() string {
+// GetMajorVersion returns the MajorVersion field value.
+func (o *ParamTplCreate) GetMajorVersion() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
-	return o.Family
+	return o.MajorVersion
 }
 
-// GetFamilyOk returns a tuple with the Family field value
+// GetMajorVersionOk returns a tuple with the MajorVersion field value
 // and a boolean to check if the value has been set.
-func (o *ParamTplCreate) GetFamilyOk() (*string, bool) {
+func (o *ParamTplCreate) GetMajorVersionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Family, true
+	return &o.MajorVersion, true
 }
 
-// SetFamily sets field value.
-func (o *ParamTplCreate) SetFamily(v string) {
-	o.Family = v
+// SetMajorVersion sets field value.
+func (o *ParamTplCreate) SetMajorVersion(v string) {
+	o.MajorVersion = v
+}
+
+// GetEngine returns the Engine field value.
+func (o *ParamTplCreate) GetEngine() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Engine
+}
+
+// GetEngineOk returns a tuple with the Engine field value
+// and a boolean to check if the value has been set.
+func (o *ParamTplCreate) GetEngineOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Engine, true
+}
+
+// SetEngine sets field value.
+func (o *ParamTplCreate) SetEngine(v string) {
+	o.Engine = v
+}
+
+// GetComponent returns the Component field value.
+func (o *ParamTplCreate) GetComponent() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+	return o.Component
+}
+
+// GetComponentOk returns a tuple with the Component field value
+// and a boolean to check if the value has been set.
+func (o *ParamTplCreate) GetComponentOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Component, true
+}
+
+// SetComponent sets field value.
+func (o *ParamTplCreate) SetComponent(v string) {
+	o.Component = v
 }
 
 // GetName returns the Name field value.
@@ -208,7 +260,9 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["description"] = o.Description
-	toSerialize["family"] = o.Family
+	toSerialize["majorVersion"] = o.MajorVersion
+	toSerialize["engine"] = o.Engine
+	toSerialize["component"] = o.Component
 	toSerialize["name"] = o.Name
 	if o.CustomName != nil {
 		toSerialize["customName"] = o.CustomName
@@ -230,7 +284,9 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Description  *string            `json:"description"`
-		Family       *string            `json:"family"`
+		MajorVersion *string            `json:"majorVersion"`
+		Engine       *string            `json:"engine"`
+		Component    *string            `json:"component"`
 		Name         *string            `json:"name"`
 		CustomName   *string            `json:"customName,omitempty"`
 		OriPartition *ParamTplPartition `json:"oriPartition,omitempty"`
@@ -242,22 +298,30 @@ func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Description == nil {
 		return fmt.Errorf("required field description missing")
 	}
-	if all.Family == nil {
-		return fmt.Errorf("required field family missing")
+	if all.MajorVersion == nil {
+		return fmt.Errorf("required field majorVersion missing")
+	}
+	if all.Engine == nil {
+		return fmt.Errorf("required field engine missing")
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"description", "family", "name", "customName", "oriPartition", "isPrivate"})
+		common.DeleteKeys(additionalProperties, &[]string{"description", "majorVersion", "engine", "component", "name", "customName", "oriPartition", "isPrivate"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Description = *all.Description
-	o.Family = *all.Family
+	o.MajorVersion = *all.MajorVersion
+	o.Engine = *all.Engine
+	o.Component = *all.Component
 	o.Name = *all.Name
 	o.CustomName = all.CustomName
 	if all.OriPartition != nil && !all.OriPartition.IsValid() {

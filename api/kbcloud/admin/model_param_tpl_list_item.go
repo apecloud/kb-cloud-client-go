@@ -24,9 +24,9 @@ type ParamTplListItem struct {
 	// Major version of database engine, eg: 8.0
 	MajorVersion string `json:"majorVersion"`
 	// Name of database engine
-	Engine *string `json:"engine,omitempty"`
+	Engine string `json:"engine"`
 	// Name of component
-	Component *string `json:"component,omitempty"`
+	Component string `json:"component"`
 	// Name of parameter template. Name must be unique within an Org
 	Name string `json:"name"`
 	// the template partition in listParamTpl request
@@ -46,10 +46,12 @@ type ParamTplListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParamTplListItem(description string, majorVersion string, name string, partition string, paramTplId string) *ParamTplListItem {
+func NewParamTplListItem(description string, majorVersion string, engine string, component string, name string, partition string, paramTplId string) *ParamTplListItem {
 	this := ParamTplListItem{}
 	this.Description = description
 	this.MajorVersion = majorVersion
+	this.Engine = engine
+	this.Component = component
 	this.Name = name
 	this.Partition = partition
 	this.ParamTplId = paramTplId
@@ -166,60 +168,50 @@ func (o *ParamTplListItem) SetMajorVersion(v string) {
 	o.MajorVersion = v
 }
 
-// GetEngine returns the Engine field value if set, zero value otherwise.
+// GetEngine returns the Engine field value.
 func (o *ParamTplListItem) GetEngine() string {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Engine
+	return o.Engine
 }
 
-// GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
+// GetEngineOk returns a tuple with the Engine field value
 // and a boolean to check if the value has been set.
 func (o *ParamTplListItem) GetEngineOk() (*string, bool) {
-	if o == nil || o.Engine == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Engine, true
+	return &o.Engine, true
 }
 
-// HasEngine returns a boolean if a field has been set.
-func (o *ParamTplListItem) HasEngine() bool {
-	return o != nil && o.Engine != nil
-}
-
-// SetEngine gets a reference to the given string and assigns it to the Engine field.
+// SetEngine sets field value.
 func (o *ParamTplListItem) SetEngine(v string) {
-	o.Engine = &v
+	o.Engine = v
 }
 
-// GetComponent returns the Component field value if set, zero value otherwise.
+// GetComponent returns the Component field value.
 func (o *ParamTplListItem) GetComponent() string {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Component
+	return o.Component
 }
 
-// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
+// GetComponentOk returns a tuple with the Component field value
 // and a boolean to check if the value has been set.
 func (o *ParamTplListItem) GetComponentOk() (*string, bool) {
-	if o == nil || o.Component == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Component, true
+	return &o.Component, true
 }
 
-// HasComponent returns a boolean if a field has been set.
-func (o *ParamTplListItem) HasComponent() bool {
-	return o != nil && o.Component != nil
-}
-
-// SetComponent gets a reference to the given string and assigns it to the Component field.
+// SetComponent sets field value.
 func (o *ParamTplListItem) SetComponent(v string) {
-	o.Component = &v
+	o.Component = v
 }
 
 // GetName returns the Name field value.
@@ -337,12 +329,8 @@ func (o ParamTplListItem) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["description"] = o.Description
 	toSerialize["majorVersion"] = o.MajorVersion
-	if o.Engine != nil {
-		toSerialize["engine"] = o.Engine
-	}
-	if o.Component != nil {
-		toSerialize["component"] = o.Component
-	}
+	toSerialize["engine"] = o.Engine
+	toSerialize["component"] = o.Component
 	toSerialize["name"] = o.Name
 	toSerialize["partition"] = o.Partition
 	toSerialize["paramTplID"] = o.ParamTplId
@@ -367,8 +355,8 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 		CreatedAt    *time.Time `json:"createdAt,omitempty"`
 		Description  *string    `json:"description"`
 		MajorVersion *string    `json:"majorVersion"`
-		Engine       *string    `json:"engine,omitempty"`
-		Component    *string    `json:"component,omitempty"`
+		Engine       *string    `json:"engine"`
+		Component    *string    `json:"component"`
 		Name         *string    `json:"name"`
 		Partition    *string    `json:"partition"`
 		ParamTplId   *string    `json:"paramTplID"`
@@ -382,6 +370,12 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.MajorVersion == nil {
 		return fmt.Errorf("required field majorVersion missing")
+	}
+	if all.Engine == nil {
+		return fmt.Errorf("required field engine missing")
+	}
+	if all.Component == nil {
+		return fmt.Errorf("required field component missing")
 	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
@@ -402,8 +396,8 @@ func (o *ParamTplListItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.CreatedAt = all.CreatedAt
 	o.Description = *all.Description
 	o.MajorVersion = *all.MajorVersion
-	o.Engine = all.Engine
-	o.Component = all.Component
+	o.Engine = *all.Engine
+	o.Component = *all.Component
 	o.Name = *all.Name
 	o.Partition = *all.Partition
 	o.ParamTplId = *all.ParamTplId
