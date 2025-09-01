@@ -940,6 +940,57 @@ paths:
       tags:
         - organizationParameter
         - shared
+  /api/v1/organizations/{orgName}/resourceQuota:
+    get:
+      operationId: resourceQuotaAndUsage
+      summary: Get the resource quota and usage of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/orgResourceQuotaAndUsage'
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organizationResourceQuota
+    post:
+      operationId: resourceQuota
+      summary: Batch update parameters of an organization
+      description: Batch update parameters of an organization
+      parameters:
+        - description: The name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/orgResourceQuota'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: OK
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - organizationResourceQuota
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
@@ -1110,6 +1161,30 @@ paths:
       tags:
         - loadBalancer
       x-codegen-request-body-name: body
+  /api/v1/environments/{environmentName}/loadbalancer/vipPool:
+    get:
+      operationId: listVIPPool
+      summary: List environment VIP Pools
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vipPoolList'
+          description: A successful response.
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - vipPool
   /api/v1/environments/{environmentName}/nodeGroups:
     get:
       operationId: listNodeGroup
@@ -12407,6 +12482,64 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/orgParameter'
+    orgResourceQuota:
+      description: org resource quota
+      type: object
+      required:
+        - cpu
+        - memory
+        - storage
+        - clusters
+      properties:
+        cpu:
+          type: number
+          description: Maximum available vCPU. if set to 0, no limit
+          x-nullable: false
+        memory:
+          type: number
+          description: Maximum available memory in GB. if set to 0, no limit
+          x-nullable: false
+        storage:
+          type: number
+          description: Maximum available storage in GB. if set to 0, no limit
+          x-nullable: false
+        clusters:
+          type: object
+          description: Number of the clusters. key is engine type, values is the maximum number of engine
+          additionalProperties:
+            type: integer
+            description: Maximum number of clusters for the engine type
+    orgResourceQuotaAndUsage:
+      description: org resource quota
+      type: object
+      required:
+        - cpu
+        - memory
+        - storage
+        - clusters
+        - usage
+      properties:
+        cpu:
+          type: number
+          description: Maximum available vCPU. if set to 0, no limit
+          x-nullable: false
+        memory:
+          type: number
+          description: Maximum available memory in GB. if set to 0, no limit
+          x-nullable: false
+        storage:
+          type: number
+          description: Maximum available storage in GB. if set to 0, no limit
+          x-nullable: false
+        clusters:
+          type: object
+          description: Number of the clusters. key is engine type, values is the maximum number of engine
+          x-nullable: false
+          additionalProperties:
+            type: integer
+            description: Maximum number of clusters for the engine type
+        usage:
+          $ref: '#/components/schemas/orgResourceQuota'
     networkMode:
       enum:
         - HostNetwork
@@ -12720,6 +12853,51 @@ components:
           $ref: '#/components/schemas/loadBalancerAvailableType'
       required:
         - available
+      type: object
+    vipPool:
+      description: VIP Pool
+      properties:
+        addresses:
+          description: IP Addresses
+          title: IP Addresses
+          type: string
+        id:
+          description: ID of VIP Pool
+          title: ID
+          type: object
+        total:
+          description: Total number of IP addresses
+          format: int64
+          type: integer
+        used:
+          description: Used number of IP addresses
+          format: int64
+          type: integer
+        usedIPs:
+          description: Used IP addresses
+          type: array
+          items:
+            type: string
+        availableIPs:
+          description: Used IP addresses
+          type: array
+          items:
+            type: string
+      required:
+        - addresses
+        - total
+        - used
+      type: object
+    vipPoolList:
+      description: vipPoolList is a list of vip pools
+      properties:
+        items:
+          description: Items is the list of vip pool objects in the list
+          items:
+            $ref: '#/components/schemas/vipPool'
+          type: array
+      required:
+        - items
       type: object
     nodeGroup:
       required:
@@ -14714,6 +14892,14 @@ components:
                 type: integer
               new:
                 type: integer
+        loadBalancerIP:
+          type: string
+          description: The IP address of the LoadBalancer service. If not set, the IP address will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          nullable: true
+        loadBalancerIPPoolID:
+          type: string
+          description: The IP pool ID of the LoadBalancer service. If not set, the IP pool will be assigned by the system. Only available when vpcServiceType is LoadBalancer.
+          nullable: true
       required:
         - enable
         - type
@@ -21381,6 +21567,15 @@ components:
         - monitor
       type: string
       description: the type of log
+    inspectionScriptCategoryV2:
+      type: string
+      description: Specifies the category of the inspection script.
+      enum:
+        - performance
+        - availability
+        - security
+        - backup
+        - other
     inspectionScriptV2:
       required:
         - name
@@ -21388,13 +21583,13 @@ components:
         - type
         - category
         - scriptExpr
-        - checkExpr
         - scopeType
         - enabled
       properties:
         id:
           type: integer
         name:
+          pattern: ^[a-zA-Z0-9_]{1,64}$
           type: string
         displayName:
           $ref: '#/components/schemas/localizedDescription'
@@ -21405,8 +21600,7 @@ components:
           description: The type of the script, such as "promQL"
           type: string
         category:
-          description: The category of the script, such as "performance"/"security"/"stability"/"other"
-          type: string
+          $ref: '#/components/schemas/inspectionScriptCategoryV2'
         description:
           $ref: '#/components/schemas/localizedDescription'
         scriptExpr:

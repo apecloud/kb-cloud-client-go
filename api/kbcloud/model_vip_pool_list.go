@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"fmt"
@@ -10,63 +10,63 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// LoadBalancerInstall Install the load balancer in the environment
-type LoadBalancerInstall struct {
-	// Type of the load balancer
-	Type LoadBalancerType `json:"type"`
+// VipPoolList vipPoolList is a list of vip pools
+type VipPoolList struct {
+	// Items is the list of vip pool objects in the list
+	Items []VipPool `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewLoadBalancerInstall instantiates a new LoadBalancerInstall object.
+// NewVipPoolList instantiates a new VipPoolList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLoadBalancerInstall(typeVar LoadBalancerType) *LoadBalancerInstall {
-	this := LoadBalancerInstall{}
-	this.Type = typeVar
+func NewVipPoolList(items []VipPool) *VipPoolList {
+	this := VipPoolList{}
+	this.Items = items
 	return &this
 }
 
-// NewLoadBalancerInstallWithDefaults instantiates a new LoadBalancerInstall object.
+// NewVipPoolListWithDefaults instantiates a new VipPoolList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewLoadBalancerInstallWithDefaults() *LoadBalancerInstall {
-	this := LoadBalancerInstall{}
+func NewVipPoolListWithDefaults() *VipPoolList {
+	this := VipPoolList{}
 	return &this
 }
 
-// GetType returns the Type field value.
-func (o *LoadBalancerInstall) GetType() LoadBalancerType {
+// GetItems returns the Items field value.
+func (o *VipPoolList) GetItems() []VipPool {
 	if o == nil {
-		var ret LoadBalancerType
+		var ret []VipPool
 		return ret
 	}
-	return o.Type
+	return o.Items
 }
 
-// GetTypeOk returns a tuple with the Type field value
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *LoadBalancerInstall) GetTypeOk() (*LoadBalancerType, bool) {
+func (o *VipPoolList) GetItemsOk() (*[]VipPool, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Type, true
+	return &o.Items, true
 }
 
-// SetType sets field value.
-func (o *LoadBalancerInstall) SetType(v LoadBalancerType) {
-	o.Type = v
+// SetItems sets field value.
+func (o *VipPoolList) SetItems(v []VipPool) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o LoadBalancerInstall) MarshalJSON() ([]byte, error) {
+func (o VipPoolList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["type"] = o.Type
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,36 +75,26 @@ func (o LoadBalancerInstall) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *LoadBalancerInstall) UnmarshalJSON(bytes []byte) (err error) {
+func (o *VipPoolList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Type *LoadBalancerType `json:"type"`
+		Items *[]VipPool `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.Type == nil {
-		return fmt.Errorf("required field type missing")
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"type"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
-	if !all.Type.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.Type = *all.Type
-	}
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

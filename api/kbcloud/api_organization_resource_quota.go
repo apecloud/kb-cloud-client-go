@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -14,11 +14,12 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// LoadBalancerApi service type
-type LoadBalancerApi common.Service
+// OrganizationResourceQuotaApi service type
+type OrganizationResourceQuotaApi common.Service
 
-// CheckLoadBalancer Check if the load balancer is available.
-func (a *LoadBalancerApi) CheckLoadBalancer(ctx _context.Context, environmentName string) (*_nethttp.Response, error) {
+// ResourceQuota Batch update parameters of an organization.
+// Batch update parameters of an organization
+func (a *OrganizationResourceQuotaApi) ResourceQuota(ctx _context.Context, orgName string, body OrgResourceQuota) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -26,26 +27,29 @@ func (a *LoadBalancerApi) CheckLoadBalancer(ctx _context.Context, environmentNam
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "loadBalancer",
-		OperationID: "checkLoadBalancer",
-		Path:        "/admin/v1/environments/{environmentName}/loadbalancer/check",
+		Tag:         "organizationResourceQuota",
+		OperationID: "resourceQuota",
+		Path:        "/api/v1/organizations/{orgName}/resourceQuota",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.CheckLoadBalancer")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationResourceQuotaApi.ResourceQuota")
 	if err != nil {
 		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/loadbalancer/check"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/resourceQuota"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Content-Type"] = "application/json"
 	localVarHeaderParams["Accept"] = "application/json"
 
+	// body params
+	localVarPostBody = &body
 	common.SetAuthKeys(
 		ctx,
 		&localVarHeaderParams,
@@ -71,7 +75,7 @@ func (a *LoadBalancerApi) CheckLoadBalancer(ctx _context.Context, environmentNam
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -85,30 +89,30 @@ func (a *LoadBalancerApi) CheckLoadBalancer(ctx _context.Context, environmentNam
 	return localVarHTTPResponse, nil
 }
 
-// GetLoadBalancer Get the load balancer info in the environment.
-func (a *LoadBalancerApi) GetLoadBalancer(ctx _context.Context, environmentName string) (LoadBalancer, *_nethttp.Response, error) {
+// ResourceQuotaAndUsage Get the resource quota and usage of an organization.
+func (a *OrganizationResourceQuotaApi) ResourceQuotaAndUsage(ctx _context.Context, orgName string) (OrgResourceQuotaAndUsage, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue LoadBalancer
+		localVarReturnValue OrgResourceQuotaAndUsage
 	)
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
-		Tag:         "loadBalancer",
-		OperationID: "getLoadBalancer",
-		Path:        "/admin/v1/environments/{environmentName}/loadbalancer",
+		Tag:         "organizationResourceQuota",
+		OperationID: "resourceQuotaAndUsage",
+		Path:        "/api/v1/organizations/{orgName}/resourceQuota",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".LoadBalancerApi.GetLoadBalancer")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".OrganizationResourceQuotaApi.ResourceQuotaAndUsage")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/loadbalancer"
-	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/resourceQuota"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -140,7 +144,7 @@ func (a *LoadBalancerApi) GetLoadBalancer(ctx _context.Context, environmentName 
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -163,9 +167,9 @@ func (a *LoadBalancerApi) GetLoadBalancer(ctx _context.Context, environmentName 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// NewLoadBalancerApi Returns NewLoadBalancerApi.
-func NewLoadBalancerApi(client *common.APIClient) *LoadBalancerApi {
-	return &LoadBalancerApi{
+// NewOrganizationResourceQuotaApi Returns NewOrganizationResourceQuotaApi.
+func NewOrganizationResourceQuotaApi(client *common.APIClient) *OrganizationResourceQuotaApi {
+	return &OrganizationResourceQuotaApi{
 		Client: client,
 	}
 }

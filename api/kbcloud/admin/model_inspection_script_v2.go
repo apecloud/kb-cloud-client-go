@@ -18,11 +18,11 @@ type InspectionScriptV2 struct {
 	Engine string `json:"engine"`
 	// The type of the script, such as "promQL"
 	Type string `json:"type"`
-	// The category of the script, such as "performance"/"security"/"stability"/"other"
-	Category    string                `json:"category"`
-	Description *LocalizedDescription `json:"description,omitempty"`
-	ScriptExpr  string                `json:"scriptExpr"`
-	CheckExpr   string                `json:"checkExpr"`
+	// Specifies the category of the inspection script.
+	Category    InspectionScriptCategoryV2 `json:"category"`
+	Description *LocalizedDescription      `json:"description,omitempty"`
+	ScriptExpr  string                     `json:"scriptExpr"`
+	CheckExpr   *string                    `json:"checkExpr,omitempty"`
 	// scope type, such as "system"/"global"/"org"
 	ScopeType string `json:"scopeType"`
 	// The identifier of the scope, such as org_id
@@ -44,14 +44,13 @@ type InspectionScriptV2 struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInspectionScriptV2(name string, engine string, typeVar string, category string, scriptExpr string, checkExpr string, scopeType string, enabled bool) *InspectionScriptV2 {
+func NewInspectionScriptV2(name string, engine string, typeVar string, category InspectionScriptCategoryV2, scriptExpr string, scopeType string, enabled bool) *InspectionScriptV2 {
 	this := InspectionScriptV2{}
 	this.Name = name
 	this.Engine = engine
 	this.Type = typeVar
 	this.Category = category
 	this.ScriptExpr = scriptExpr
-	this.CheckExpr = checkExpr
 	this.ScopeType = scopeType
 	this.Enabled = enabled
 	return &this
@@ -191,9 +190,9 @@ func (o *InspectionScriptV2) SetType(v string) {
 }
 
 // GetCategory returns the Category field value.
-func (o *InspectionScriptV2) GetCategory() string {
+func (o *InspectionScriptV2) GetCategory() InspectionScriptCategoryV2 {
 	if o == nil {
-		var ret string
+		var ret InspectionScriptCategoryV2
 		return ret
 	}
 	return o.Category
@@ -201,7 +200,7 @@ func (o *InspectionScriptV2) GetCategory() string {
 
 // GetCategoryOk returns a tuple with the Category field value
 // and a boolean to check if the value has been set.
-func (o *InspectionScriptV2) GetCategoryOk() (*string, bool) {
+func (o *InspectionScriptV2) GetCategoryOk() (*InspectionScriptCategoryV2, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -209,7 +208,7 @@ func (o *InspectionScriptV2) GetCategoryOk() (*string, bool) {
 }
 
 // SetCategory sets field value.
-func (o *InspectionScriptV2) SetCategory(v string) {
+func (o *InspectionScriptV2) SetCategory(v InspectionScriptCategoryV2) {
 	o.Category = v
 }
 
@@ -264,27 +263,32 @@ func (o *InspectionScriptV2) SetScriptExpr(v string) {
 	o.ScriptExpr = v
 }
 
-// GetCheckExpr returns the CheckExpr field value.
+// GetCheckExpr returns the CheckExpr field value if set, zero value otherwise.
 func (o *InspectionScriptV2) GetCheckExpr() string {
-	if o == nil {
+	if o == nil || o.CheckExpr == nil {
 		var ret string
 		return ret
 	}
-	return o.CheckExpr
+	return *o.CheckExpr
 }
 
-// GetCheckExprOk returns a tuple with the CheckExpr field value
+// GetCheckExprOk returns a tuple with the CheckExpr field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *InspectionScriptV2) GetCheckExprOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.CheckExpr == nil {
 		return nil, false
 	}
-	return &o.CheckExpr, true
+	return o.CheckExpr, true
 }
 
-// SetCheckExpr sets field value.
+// HasCheckExpr returns a boolean if a field has been set.
+func (o *InspectionScriptV2) HasCheckExpr() bool {
+	return o != nil && o.CheckExpr != nil
+}
+
+// SetCheckExpr gets a reference to the given string and assigns it to the CheckExpr field.
 func (o *InspectionScriptV2) SetCheckExpr(v string) {
-	o.CheckExpr = v
+	o.CheckExpr = &v
 }
 
 // GetScopeType returns the ScopeType field value.
@@ -493,7 +497,9 @@ func (o InspectionScriptV2) MarshalJSON() ([]byte, error) {
 		toSerialize["description"] = o.Description
 	}
 	toSerialize["scriptExpr"] = o.ScriptExpr
-	toSerialize["checkExpr"] = o.CheckExpr
+	if o.CheckExpr != nil {
+		toSerialize["checkExpr"] = o.CheckExpr
+	}
 	toSerialize["scopeType"] = o.ScopeType
 	if o.ScopeId != nil {
 		toSerialize["scopeID"] = o.ScopeId
@@ -521,22 +527,22 @@ func (o InspectionScriptV2) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScriptV2) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32                `json:"id,omitempty"`
-		Name        *string               `json:"name"`
-		DisplayName *LocalizedDescription `json:"displayName,omitempty"`
-		Engine      *string               `json:"engine"`
-		Type        *string               `json:"type"`
-		Category    *string               `json:"category"`
-		Description *LocalizedDescription `json:"description,omitempty"`
-		ScriptExpr  *string               `json:"scriptExpr"`
-		CheckExpr   *string               `json:"checkExpr"`
-		ScopeType   *string               `json:"scopeType"`
-		ScopeId     *string               `json:"scopeID,omitempty"`
-		ScopeName   *string               `json:"scopeName,omitempty"`
-		Enabled     *bool                 `json:"enabled"`
-		Unit        *string               `json:"unit,omitempty"`
-		CreatedAt   *int32                `json:"createdAt,omitempty"`
-		UpdatedAt   *int32                `json:"updatedAt,omitempty"`
+		Id          *int32                      `json:"id,omitempty"`
+		Name        *string                     `json:"name"`
+		DisplayName *LocalizedDescription       `json:"displayName,omitempty"`
+		Engine      *string                     `json:"engine"`
+		Type        *string                     `json:"type"`
+		Category    *InspectionScriptCategoryV2 `json:"category"`
+		Description *LocalizedDescription       `json:"description,omitempty"`
+		ScriptExpr  *string                     `json:"scriptExpr"`
+		CheckExpr   *string                     `json:"checkExpr,omitempty"`
+		ScopeType   *string                     `json:"scopeType"`
+		ScopeId     *string                     `json:"scopeID,omitempty"`
+		ScopeName   *string                     `json:"scopeName,omitempty"`
+		Enabled     *bool                       `json:"enabled"`
+		Unit        *string                     `json:"unit,omitempty"`
+		CreatedAt   *int32                      `json:"createdAt,omitempty"`
+		UpdatedAt   *int32                      `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -555,9 +561,6 @@ func (o *InspectionScriptV2) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	if all.ScriptExpr == nil {
 		return fmt.Errorf("required field scriptExpr missing")
-	}
-	if all.CheckExpr == nil {
-		return fmt.Errorf("required field checkExpr missing")
 	}
 	if all.ScopeType == nil {
 		return fmt.Errorf("required field scopeType missing")
@@ -581,13 +584,17 @@ func (o *InspectionScriptV2) UnmarshalJSON(bytes []byte) (err error) {
 	o.DisplayName = all.DisplayName
 	o.Engine = *all.Engine
 	o.Type = *all.Type
-	o.Category = *all.Category
+	if !all.Category.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Category = *all.Category
+	}
 	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
 	o.Description = all.Description
 	o.ScriptExpr = *all.ScriptExpr
-	o.CheckExpr = *all.CheckExpr
+	o.CheckExpr = all.CheckExpr
 	o.ScopeType = *all.ScopeType
 	o.ScopeId = all.ScopeId
 	o.ScopeName = all.ScopeName

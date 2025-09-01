@@ -257,6 +257,8 @@
 //   - [organizationParameterApi.getOrgParameter]
 //   - [organizationParameterApi.listOrgParameters]
 //   - [organizationParameterApi.patchOrgParameter]
+//   - [organizationResourceQuotaApi.resourceQuota]
+//   - [organizationResourceQuotaApi.resourceQuotaAndUsage]
 //   - [parameterApi.listParameterProps]
 //   - [parameterApi.listParametersHistory]
 //   - [parameterTemplateApi.createParameterTemplate]
@@ -318,4 +320,5 @@
 //   - [userApi.phoneVerification]
 //   - [userApi.readUserApikeys]
 //   - [userApi.updateAuthenticatedUserPassword]
+//   - [vipPoolApi.listVIPPool]
 package kbcloud
