@@ -12,11 +12,11 @@ import (
 
 // StorageStats StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
 type StorageStats struct {
-	// BoundCapacity is the total requested size of all PVCs that are bound to volumes, unit is GiB
-	BoundCapacity float64 `json:"boundCapacity"`
+	// Requests is the total requested size of all PVCs that are already bound to volumes, unit is GiB
+	Requests float64 `json:"requests"`
 	// PodUsedCapacity is the total requested size of PVCs that are bound and currently used by pods, unit is GiB
 	PodUsedCapacity float64 `json:"podUsedCapacity"`
-	// PodUsedUsage is the actual storage usage from PVCs that are used by pods, unit is GiB
+	// PodUsedUsage is the actual storage usage of PVCs that are used by pods, unit is GiB
 	PodUsedUsage float64 `json:"podUsedUsage"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -27,9 +27,9 @@ type StorageStats struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewStorageStats(boundCapacity float64, podUsedCapacity float64, podUsedUsage float64) *StorageStats {
+func NewStorageStats(requests float64, podUsedCapacity float64, podUsedUsage float64) *StorageStats {
 	this := StorageStats{}
-	this.BoundCapacity = boundCapacity
+	this.Requests = requests
 	this.PodUsedCapacity = podUsedCapacity
 	this.PodUsedUsage = podUsedUsage
 	return &this
@@ -43,27 +43,27 @@ func NewStorageStatsWithDefaults() *StorageStats {
 	return &this
 }
 
-// GetBoundCapacity returns the BoundCapacity field value.
-func (o *StorageStats) GetBoundCapacity() float64 {
+// GetRequests returns the Requests field value.
+func (o *StorageStats) GetRequests() float64 {
 	if o == nil {
 		var ret float64
 		return ret
 	}
-	return o.BoundCapacity
+	return o.Requests
 }
 
-// GetBoundCapacityOk returns a tuple with the BoundCapacity field value
+// GetRequestsOk returns a tuple with the Requests field value
 // and a boolean to check if the value has been set.
-func (o *StorageStats) GetBoundCapacityOk() (*float64, bool) {
+func (o *StorageStats) GetRequestsOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.BoundCapacity, true
+	return &o.Requests, true
 }
 
-// SetBoundCapacity sets field value.
-func (o *StorageStats) SetBoundCapacity(v float64) {
-	o.BoundCapacity = v
+// SetRequests sets field value.
+func (o *StorageStats) SetRequests(v float64) {
+	o.Requests = v
 }
 
 // GetPodUsedCapacity returns the PodUsedCapacity field value.
@@ -118,7 +118,7 @@ func (o StorageStats) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["boundCapacity"] = o.BoundCapacity
+	toSerialize["requests"] = o.Requests
 	toSerialize["podUsedCapacity"] = o.PodUsedCapacity
 	toSerialize["podUsedUsage"] = o.PodUsedUsage
 
@@ -131,15 +131,15 @@ func (o StorageStats) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageStats) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		BoundCapacity   *float64 `json:"boundCapacity"`
+		Requests        *float64 `json:"requests"`
 		PodUsedCapacity *float64 `json:"podUsedCapacity"`
 		PodUsedUsage    *float64 `json:"podUsedUsage"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
-	if all.BoundCapacity == nil {
-		return fmt.Errorf("required field boundCapacity missing")
+	if all.Requests == nil {
+		return fmt.Errorf("required field requests missing")
 	}
 	if all.PodUsedCapacity == nil {
 		return fmt.Errorf("required field podUsedCapacity missing")
@@ -149,11 +149,11 @@ func (o *StorageStats) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"boundCapacity", "podUsedCapacity", "podUsedUsage"})
+		common.DeleteKeys(additionalProperties, &[]string{"requests", "podUsedCapacity", "podUsedUsage"})
 	} else {
 		return err
 	}
-	o.BoundCapacity = *all.BoundCapacity
+	o.Requests = *all.Requests
 	o.PodUsedCapacity = *all.PodUsedCapacity
 	o.PodUsedUsage = *all.PodUsedUsage
 

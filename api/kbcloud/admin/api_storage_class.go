@@ -314,14 +314,133 @@ func (a *StorageClassApi) GetStorageClass(ctx _context.Context, environmentName 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// ListStorageClassNodeStats get node stats of the storage class.
+// get the node stats related to the specified storage class for the specified environment.
+func (a *StorageClassApi) ListStorageClassNodeStats(ctx _context.Context, environmentName string, storageClassName string) (StorageClassNodeStatsList, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod  = _nethttp.MethodGet
+		localVarPostBody    interface{}
+		localVarReturnValue StorageClassNodeStatsList
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "storageClass",
+		OperationID: "listStorageClassNodeStats",
+		Path:        "/admin/v1/environments/{environmentName}/storageClasses/{storageClassName}/nodeStats",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".StorageClassApi.ListStorageClassNodeStats")
+	if err != nil {
+		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/environments/{environmentName}/storageClasses/{storageClassName}/nodeStats"
+	localVarPath = strings.Replace(localVarPath, "{"+"environmentName"+"}", _neturl.PathEscape(common.ParameterToString(environmentName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"storageClassName"+"}", _neturl.PathEscape(common.ParameterToString(storageClassName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.Client.Decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// ListStorageClassPvcsOptionalParameters holds optional parameters for ListStorageClassPvcs.
+type ListStorageClassPvcsOptionalParameters struct {
+	Node        *string
+	OrgName     *string
+	ClusterName *string
+}
+
+// NewListStorageClassPvcsOptionalParameters creates an empty struct for parameters.
+func NewListStorageClassPvcsOptionalParameters() *ListStorageClassPvcsOptionalParameters {
+	this := ListStorageClassPvcsOptionalParameters{}
+	return &this
+}
+
+// WithNode sets the corresponding parameter name and returns the struct.
+func (r *ListStorageClassPvcsOptionalParameters) WithNode(node string) *ListStorageClassPvcsOptionalParameters {
+	r.Node = &node
+	return r
+}
+
+// WithOrgName sets the corresponding parameter name and returns the struct.
+func (r *ListStorageClassPvcsOptionalParameters) WithOrgName(orgName string) *ListStorageClassPvcsOptionalParameters {
+	r.OrgName = &orgName
+	return r
+}
+
+// WithClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListStorageClassPvcsOptionalParameters) WithClusterName(clusterName string) *ListStorageClassPvcsOptionalParameters {
+	r.ClusterName = &clusterName
+	return r
+}
+
 // ListStorageClassPvcs get persistentvolumeclaim list of the storage class.
 // get the persistentvolumeclaim list related to the specified storage class for the specified environment.
-func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environmentName string, storageClassName string, pageId int64, pageSize int64) (PersistentVolumeClaimList, *_nethttp.Response, error) {
+func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environmentName string, storageClassName string, pageId int64, pageSize int64, o ...ListStorageClassPvcsOptionalParameters) (PersistentVolumeClaimList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue PersistentVolumeClaimList
+		optionalParams      ListStorageClassPvcsOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListStorageClassPvcsOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -346,6 +465,15 @@ func (a *StorageClassApi) ListStorageClassPvcs(ctx _context.Context, environment
 	localVarFormParams := _neturl.Values{}
 	localVarQueryParams.Add("pageId", common.ParameterToString(pageId, ""))
 	localVarQueryParams.Add("pageSize", common.ParameterToString(pageSize, ""))
+	if optionalParams.Node != nil {
+		localVarQueryParams.Add("node", common.ParameterToString(*optionalParams.Node, ""))
+	}
+	if optionalParams.OrgName != nil {
+		localVarQueryParams.Add("orgName", common.ParameterToString(*optionalParams.OrgName, ""))
+	}
+	if optionalParams.ClusterName != nil {
+		localVarQueryParams.Add("clusterName", common.ParameterToString(*optionalParams.ClusterName, ""))
+	}
 	localVarHeaderParams["Accept"] = "*/*"
 
 	common.SetAuthKeys(

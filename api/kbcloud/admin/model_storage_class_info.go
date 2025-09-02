@@ -57,8 +57,6 @@ type StorageClassInfo struct {
 	Id string `json:"id"`
 	// the update time of the storage class
 	UpdatedAt common.NullableTime `json:"updatedAt,omitempty"`
-	// the List stands for stats for the storage volumes of nodes.
-	StatsByNodeList *StorageClassInfoStatsByNodeList `json:"statsByNodeList,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -659,34 +657,6 @@ func (o *StorageClassInfo) UnsetUpdatedAt() {
 	o.UpdatedAt.Unset()
 }
 
-// GetStatsByNodeList returns the StatsByNodeList field value if set, zero value otherwise.
-func (o *StorageClassInfo) GetStatsByNodeList() StorageClassInfoStatsByNodeList {
-	if o == nil || o.StatsByNodeList == nil {
-		var ret StorageClassInfoStatsByNodeList
-		return ret
-	}
-	return *o.StatsByNodeList
-}
-
-// GetStatsByNodeListOk returns a tuple with the StatsByNodeList field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *StorageClassInfo) GetStatsByNodeListOk() (*StorageClassInfoStatsByNodeList, bool) {
-	if o == nil || o.StatsByNodeList == nil {
-		return nil, false
-	}
-	return o.StatsByNodeList, true
-}
-
-// HasStatsByNodeList returns a boolean if a field has been set.
-func (o *StorageClassInfo) HasStatsByNodeList() bool {
-	return o != nil && o.StatsByNodeList != nil
-}
-
-// SetStatsByNodeList gets a reference to the given StorageClassInfoStatsByNodeList and assigns it to the StatsByNodeList field.
-func (o *StorageClassInfo) SetStatsByNodeList(v StorageClassInfoStatsByNodeList) {
-	o.StatsByNodeList = &v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -729,9 +699,6 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 	if o.UpdatedAt.IsSet() {
 		toSerialize["updatedAt"] = o.UpdatedAt.Get()
 	}
-	if o.StatsByNodeList != nil {
-		toSerialize["statsByNodeList"] = o.StatsByNodeList
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -742,29 +709,28 @@ func (o StorageClassInfo) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name                 *string                          `json:"name"`
-		CreationTimestamp    *string                          `json:"creationTimestamp"`
-		Provisioner          *string                          `json:"provisioner"`
-		Parameters           map[string]string                `json:"parameters,omitempty"`
-		Labels               map[string]string                `json:"labels,omitempty"`
-		Annotations          map[string]string                `json:"annotations,omitempty"`
-		ReclaimPolicy        *string                          `json:"reclaimPolicy"`
-		AllowVolumeExpansion *bool                            `json:"allowVolumeExpansion"`
-		VolumeBindingMode    *string                          `json:"volumeBindingMode"`
-		PvcCount             *string                          `json:"pvcCount"`
-		AllowClone           *bool                            `json:"allowClone"`
-		AllowSnapshot        *bool                            `json:"allowSnapshot"`
-		IsDefaultClass       *bool                            `json:"isDefaultClass"`
-		Type                 *string                          `json:"type"`
-		HostPath             *string                          `json:"hostPath,omitempty"`
-		MountOptions         []string                         `json:"mountOptions,omitempty"`
-		CreatedAt            common.NullableTime              `json:"createdAt,omitempty"`
-		Description          *string                          `json:"description"`
-		DisplayName          *string                          `json:"displayName"`
-		Enabled              *bool                            `json:"enabled"`
-		Id                   *string                          `json:"id"`
-		UpdatedAt            common.NullableTime              `json:"updatedAt,omitempty"`
-		StatsByNodeList      *StorageClassInfoStatsByNodeList `json:"statsByNodeList,omitempty"`
+		Name                 *string             `json:"name"`
+		CreationTimestamp    *string             `json:"creationTimestamp"`
+		Provisioner          *string             `json:"provisioner"`
+		Parameters           map[string]string   `json:"parameters,omitempty"`
+		Labels               map[string]string   `json:"labels,omitempty"`
+		Annotations          map[string]string   `json:"annotations,omitempty"`
+		ReclaimPolicy        *string             `json:"reclaimPolicy"`
+		AllowVolumeExpansion *bool               `json:"allowVolumeExpansion"`
+		VolumeBindingMode    *string             `json:"volumeBindingMode"`
+		PvcCount             *string             `json:"pvcCount"`
+		AllowClone           *bool               `json:"allowClone"`
+		AllowSnapshot        *bool               `json:"allowSnapshot"`
+		IsDefaultClass       *bool               `json:"isDefaultClass"`
+		Type                 *string             `json:"type"`
+		HostPath             *string             `json:"hostPath,omitempty"`
+		MountOptions         []string            `json:"mountOptions,omitempty"`
+		CreatedAt            common.NullableTime `json:"createdAt,omitempty"`
+		Description          *string             `json:"description"`
+		DisplayName          *string             `json:"displayName"`
+		Enabled              *bool               `json:"enabled"`
+		Id                   *string             `json:"id"`
+		UpdatedAt            common.NullableTime `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -816,12 +782,10 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt", "statsByNodeList"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "creationTimestamp", "provisioner", "parameters", "labels", "annotations", "reclaimPolicy", "allowVolumeExpansion", "volumeBindingMode", "pvcCount", "allowClone", "allowSnapshot", "isDefaultClass", "type", "hostPath", "mountOptions", "createdAt", "description", "displayName", "enabled", "id", "updatedAt"})
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Name = *all.Name
 	o.CreationTimestamp = *all.CreationTimestamp
 	o.Provisioner = *all.Provisioner
@@ -844,17 +808,9 @@ func (o *StorageClassInfo) UnmarshalJSON(bytes []byte) (err error) {
 	o.Enabled = *all.Enabled
 	o.Id = *all.Id
 	o.UpdatedAt = all.UpdatedAt
-	if all.StatsByNodeList != nil && all.StatsByNodeList.UnparsedObject != nil && o.UnparsedObject == nil {
-		hasInvalidField = true
-	}
-	o.StatsByNodeList = all.StatsByNodeList
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
