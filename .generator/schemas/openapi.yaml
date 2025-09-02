@@ -12573,22 +12573,6 @@ components:
       items:
         type: string
       type: array
-    storageVolumeStatsByNode:
-      description: storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
-      properties:
-        nodeName:
-          description: the name of the node
-          type: string
-        nodeStatus:
-          description: the status of the node
-          type: string
-        VolumeNum:
-          description: the number of PVCs on the node
-          type: string
-        capacity:
-          description: the sum of capacity of PVC on the node
-          type: string
-      type: object
     storageClassInfo:
       description: StorageClassInfo provides detailed information about a specific storage class.
       properties:
@@ -12670,17 +12654,6 @@ components:
           type: string
           format: date-time
           description: the update time of the storage class
-        statsByNodeList:
-          description: the List stands for stats for the storage volumes of nodes.
-          properties:
-            items:
-              description: the list of storage volumes stats by node
-              type: array
-              items:
-                $ref: '#/components/schemas/storageVolumeStatsByNode'
-          required:
-            - items
-          type: object
       required:
         - name
         - creationTimestamp
