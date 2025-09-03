@@ -17,8 +17,7 @@ type InspectionScript struct {
 	Category        *string `json:"category,omitempty"`
 	Type            *string `json:"type,omitempty"`
 	ScriptType      *string `json:"scriptType,omitempty"`
-	Reason          *string `json:"reason,omitempty"`
-	Suggestion      *string `json:"suggestion,omitempty"`
+	Description     *string `json:"description,omitempty"`
 	Enabled         bool    `json:"enabled"`
 	ScriptName      *string `json:"scriptName,omitempty"`
 	Script          *string `json:"script,omitempty"`
@@ -216,60 +215,32 @@ func (o *InspectionScript) SetScriptType(v string) {
 	o.ScriptType = &v
 }
 
-// GetReason returns the Reason field value if set, zero value otherwise.
-func (o *InspectionScript) GetReason() string {
-	if o == nil || o.Reason == nil {
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *InspectionScript) GetDescription() string {
+	if o == nil || o.Description == nil {
 		var ret string
 		return ret
 	}
-	return *o.Reason
+	return *o.Description
 }
 
-// GetReasonOk returns a tuple with the Reason field value if set, nil otherwise
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionScript) GetReasonOk() (*string, bool) {
-	if o == nil || o.Reason == nil {
+func (o *InspectionScript) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
 		return nil, false
 	}
-	return o.Reason, true
+	return o.Description, true
 }
 
-// HasReason returns a boolean if a field has been set.
-func (o *InspectionScript) HasReason() bool {
-	return o != nil && o.Reason != nil
+// HasDescription returns a boolean if a field has been set.
+func (o *InspectionScript) HasDescription() bool {
+	return o != nil && o.Description != nil
 }
 
-// SetReason gets a reference to the given string and assigns it to the Reason field.
-func (o *InspectionScript) SetReason(v string) {
-	o.Reason = &v
-}
-
-// GetSuggestion returns the Suggestion field value if set, zero value otherwise.
-func (o *InspectionScript) GetSuggestion() string {
-	if o == nil || o.Suggestion == nil {
-		var ret string
-		return ret
-	}
-	return *o.Suggestion
-}
-
-// GetSuggestionOk returns a tuple with the Suggestion field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *InspectionScript) GetSuggestionOk() (*string, bool) {
-	if o == nil || o.Suggestion == nil {
-		return nil, false
-	}
-	return o.Suggestion, true
-}
-
-// HasSuggestion returns a boolean if a field has been set.
-func (o *InspectionScript) HasSuggestion() bool {
-	return o != nil && o.Suggestion != nil
-}
-
-// SetSuggestion gets a reference to the given string and assigns it to the Suggestion field.
-func (o *InspectionScript) SetSuggestion(v string) {
-	o.Suggestion = &v
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *InspectionScript) SetDescription(v string) {
+	o.Description = &v
 }
 
 // GetEnabled returns the Enabled field value.
@@ -459,11 +430,8 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 	if o.ScriptType != nil {
 		toSerialize["scriptType"] = o.ScriptType
 	}
-	if o.Reason != nil {
-		toSerialize["reason"] = o.Reason
-	}
-	if o.Suggestion != nil {
-		toSerialize["suggestion"] = o.Suggestion
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
 	}
 	toSerialize["enabled"] = o.Enabled
 	if o.ScriptName != nil {
@@ -497,8 +465,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 		Category        *string `json:"category,omitempty"`
 		Type            *string `json:"type,omitempty"`
 		ScriptType      *string `json:"scriptType,omitempty"`
-		Reason          *string `json:"reason,omitempty"`
-		Suggestion      *string `json:"suggestion,omitempty"`
+		Description     *string `json:"description,omitempty"`
 		Enabled         *bool   `json:"enabled"`
 		ScriptName      *string `json:"scriptName,omitempty"`
 		Script          *string `json:"script,omitempty"`
@@ -514,7 +481,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "engine", "name", "category", "type", "scriptType", "reason", "suggestion", "enabled", "scriptName", "script", "statusCheckName", "statusCheck", "unit"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "engine", "name", "category", "type", "scriptType", "description", "enabled", "scriptName", "script", "statusCheckName", "statusCheck", "unit"})
 	} else {
 		return err
 	}
@@ -524,8 +491,7 @@ func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	o.Category = all.Category
 	o.Type = all.Type
 	o.ScriptType = all.ScriptType
-	o.Reason = all.Reason
-	o.Suggestion = all.Suggestion
+	o.Description = all.Description
 	o.Enabled = *all.Enabled
 	o.ScriptName = all.ScriptName
 	o.Script = all.Script
