@@ -1,0 +1,77 @@
+// Unless explicitly stated otherwise all files in this repository are licensed under the Apache-2.0 License.
+// This product includes software developed at ApeCloud (https://www.apecloud.com/).
+// Copyright 2022-Present ApeCloud Co., Ltd
+
+package kbcloud
+
+import (
+	"fmt"
+
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+type ChannelStatus string
+
+// List of ChannelStatus.
+const (
+	ChannelStatusPending      ChannelStatus = "Pending"
+	ChannelStatusInitializing ChannelStatus = "Initializing"
+	ChannelStatusRunning      ChannelStatus = "Running"
+	ChannelStatusFinished     ChannelStatus = "Finished"
+	ChannelStatusFailed       ChannelStatus = "Failed"
+	ChannelStatusPausing      ChannelStatus = "Pausing"
+	ChannelStatusPaused       ChannelStatus = "Paused"
+	ChannelStatusDeleting     ChannelStatus = "Deleting"
+)
+
+var allowedChannelStatusEnumValues = []ChannelStatus{
+	ChannelStatusPending,
+	ChannelStatusInitializing,
+	ChannelStatusRunning,
+	ChannelStatusFinished,
+	ChannelStatusFailed,
+	ChannelStatusPausing,
+	ChannelStatusPaused,
+	ChannelStatusDeleting,
+}
+
+// GetAllowedValues returns the list of possible values.
+func (v *ChannelStatus) GetAllowedValues() []ChannelStatus {
+	return allowedChannelStatusEnumValues
+}
+
+// UnmarshalJSON deserializes the given payload.
+func (v *ChannelStatus) UnmarshalJSON(src []byte) error {
+	var value string
+	err := common.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	*v = ChannelStatus(value)
+	return nil
+}
+
+// NewChannelStatusFromValue returns a pointer to a valid ChannelStatus
+// for the value passed as argument, or an error if the value passed is not allowed by the enum.
+func NewChannelStatusFromValue(v string) (*ChannelStatus, error) {
+	ev := ChannelStatus(v)
+	if ev.IsValid() {
+		return &ev, nil
+	}
+	return nil, fmt.Errorf("invalid value '%v' for ChannelStatus: valid values are %v", v, allowedChannelStatusEnumValues)
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise.
+func (v ChannelStatus) IsValid() bool {
+	for _, existing := range allowedChannelStatusEnumValues {
+		if existing == v {
+			return true
+		}
+	}
+	return false
+}
+
+// Ptr returns reference to ChannelStatus value.
+func (v ChannelStatus) Ptr() *ChannelStatus {
+	return &v
+}

@@ -18,7 +18,7 @@ type EnvironmentResourceStats struct {
 	MemoryStats ResourceStats `json:"memoryStats"`
 	// Name of the environment.
 	Name string `json:"name"`
-	// StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
+	// StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
 	StorageStats StorageStats `json:"storageStats"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

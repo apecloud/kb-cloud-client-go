@@ -19,7 +19,7 @@ type ParameterConstraint struct {
 	Versions []string `json:"versions,omitempty"`
 	// name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
 	ConfigSpecName string `json:"configSpecName"`
-	// constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
+	// used in KB version < 1.0, constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
 	ConstraintRef *string `json:"constraintRef,omitempty"`
 	// regular expression of the parameters, mainly used by the frontend for parameter parsing.
 	Regex string `json:"regex"`

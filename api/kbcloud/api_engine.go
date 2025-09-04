@@ -313,48 +313,48 @@ func (a *EngineApi) ListEngineLicenses(ctx _context.Context, o ...ListEngineLice
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// ListEngineRsourceConstraintsOptionalParameters holds optional parameters for ListEngineRsourceConstraints.
-type ListEngineRsourceConstraintsOptionalParameters struct {
+// ListEngineResourceConstraintsOptionalParameters holds optional parameters for ListEngineResourceConstraints.
+type ListEngineResourceConstraintsOptionalParameters struct {
 	Engine    *string
 	Mode      *string
 	Component *string
 }
 
-// NewListEngineRsourceConstraintsOptionalParameters creates an empty struct for parameters.
-func NewListEngineRsourceConstraintsOptionalParameters() *ListEngineRsourceConstraintsOptionalParameters {
-	this := ListEngineRsourceConstraintsOptionalParameters{}
+// NewListEngineResourceConstraintsOptionalParameters creates an empty struct for parameters.
+func NewListEngineResourceConstraintsOptionalParameters() *ListEngineResourceConstraintsOptionalParameters {
+	this := ListEngineResourceConstraintsOptionalParameters{}
 	return &this
 }
 
 // WithEngine sets the corresponding parameter name and returns the struct.
-func (r *ListEngineRsourceConstraintsOptionalParameters) WithEngine(engine string) *ListEngineRsourceConstraintsOptionalParameters {
+func (r *ListEngineResourceConstraintsOptionalParameters) WithEngine(engine string) *ListEngineResourceConstraintsOptionalParameters {
 	r.Engine = &engine
 	return r
 }
 
 // WithMode sets the corresponding parameter name and returns the struct.
-func (r *ListEngineRsourceConstraintsOptionalParameters) WithMode(mode string) *ListEngineRsourceConstraintsOptionalParameters {
+func (r *ListEngineResourceConstraintsOptionalParameters) WithMode(mode string) *ListEngineResourceConstraintsOptionalParameters {
 	r.Mode = &mode
 	return r
 }
 
 // WithComponent sets the corresponding parameter name and returns the struct.
-func (r *ListEngineRsourceConstraintsOptionalParameters) WithComponent(component string) *ListEngineRsourceConstraintsOptionalParameters {
+func (r *ListEngineResourceConstraintsOptionalParameters) WithComponent(component string) *ListEngineResourceConstraintsOptionalParameters {
 	r.Component = &component
 	return r
 }
 
-// ListEngineRsourceConstraints List engine resource constraints.
-func (a *EngineApi) ListEngineRsourceConstraints(ctx _context.Context, o ...ListEngineRsourceConstraintsOptionalParameters) (ResourceConstraintList, *_nethttp.Response, error) {
+// ListEngineResourceConstraints List engine resource constraints.
+func (a *EngineApi) ListEngineResourceConstraints(ctx _context.Context, o ...ListEngineResourceConstraintsOptionalParameters) (ResourceConstraintList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue ResourceConstraintList
-		optionalParams      ListEngineRsourceConstraintsOptionalParameters
+		optionalParams      ListEngineResourceConstraintsOptionalParameters
 	)
 
 	if len(o) > 1 {
-		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineRsourceConstraintsOptionalParameters is allowed")
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListEngineResourceConstraintsOptionalParameters is allowed")
 	}
 	if len(o) == 1 {
 		optionalParams = o[0]
@@ -363,13 +363,13 @@ func (a *EngineApi) ListEngineRsourceConstraints(ctx _context.Context, o ...List
 	// Add api info to context
 	apiInfo := common.APIInfo{
 		Tag:         "engine",
-		OperationID: "listEngineRsourceConstraints",
+		OperationID: "listEngineResourceConstraints",
 		Path:        "/api/v1/engines/resourceConstraints",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
 
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEngineRsourceConstraints")
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".EngineApi.ListEngineResourceConstraints")
 	if err != nil {
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}

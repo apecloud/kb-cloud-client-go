@@ -102,7 +102,7 @@ func (a *ClusterTaskApi) GetClusterTask(ctx _context.Context, orgName string, cl
 type ListClusterTasksOptionalParameters struct {
 	OrgName         *string
 	ClusterName     *string
-	Status          *Cluster_opsStatus
+	Status          *OpsStatus
 	ClusterTaskType *OpsType
 }
 
@@ -125,7 +125,7 @@ func (r *ListClusterTasksOptionalParameters) WithClusterName(clusterName string)
 }
 
 // WithStatus sets the corresponding parameter name and returns the struct.
-func (r *ListClusterTasksOptionalParameters) WithStatus(status Cluster_opsStatus) *ListClusterTasksOptionalParameters {
+func (r *ListClusterTasksOptionalParameters) WithStatus(status OpsStatus) *ListClusterTasksOptionalParameters {
 	r.Status = &status
 	return r
 }

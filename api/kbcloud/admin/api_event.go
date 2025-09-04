@@ -96,14 +96,39 @@ func (a *EventApi) GetEvent(ctx _context.Context, eventId string) (Event, *_neth
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// GetEventFilterOptionalParameters holds optional parameters for GetEventFilter.
+type GetEventFilterOptionalParameters struct {
+	ResourceType *string
+}
+
+// NewGetEventFilterOptionalParameters creates an empty struct for parameters.
+func NewGetEventFilterOptionalParameters() *GetEventFilterOptionalParameters {
+	this := GetEventFilterOptionalParameters{}
+	return &this
+}
+
+// WithResourceType sets the corresponding parameter name and returns the struct.
+func (r *GetEventFilterOptionalParameters) WithResourceType(resourceType string) *GetEventFilterOptionalParameters {
+	r.ResourceType = &resourceType
+	return r
+}
+
 // GetEventFilter Query available filters for event listing.
 // Query available filters for event listing
-func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64) (EventFilterOptionList, *_nethttp.Response, error) {
+func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterType, source string, start int64, end int64, o ...GetEventFilterOptionalParameters) (EventFilterOptionList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue EventFilterOptionList
+		optionalParams      GetEventFilterOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type GetEventFilterOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -128,6 +153,9 @@ func (a *EventApi) GetEventFilter(ctx _context.Context, filterType EventFilterTy
 	localVarQueryParams.Add("source", common.ParameterToString(source, ""))
 	localVarQueryParams.Add("start", common.ParameterToString(start, ""))
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
+	if optionalParams.ResourceType != nil {
+		localVarQueryParams.Add("resourceType", common.ParameterToString(*optionalParams.ResourceType, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(

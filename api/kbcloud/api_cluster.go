@@ -699,6 +699,7 @@ type ListClusterOptionalParameters struct {
 	TagKeys           *[]string
 	TagValues         *[]string
 	LicenseId         *int32
+	RefClusterName    *string
 }
 
 // NewListClusterOptionalParameters creates an empty struct for parameters.
@@ -752,6 +753,12 @@ func (r *ListClusterOptionalParameters) WithTagValues(tagValues []string) *ListC
 // WithLicenseId sets the corresponding parameter name and returns the struct.
 func (r *ListClusterOptionalParameters) WithLicenseId(licenseId int32) *ListClusterOptionalParameters {
 	r.LicenseId = &licenseId
+	return r
+}
+
+// WithRefClusterName sets the corresponding parameter name and returns the struct.
+func (r *ListClusterOptionalParameters) WithRefClusterName(refClusterName string) *ListClusterOptionalParameters {
+	r.RefClusterName = &refClusterName
 	return r
 }
 
@@ -830,6 +837,9 @@ func (a *ClusterApi) ListCluster(ctx _context.Context, orgName string, o ...List
 	}
 	if optionalParams.LicenseId != nil {
 		localVarQueryParams.Add("licenseId", common.ParameterToString(*optionalParams.LicenseId, ""))
+	}
+	if optionalParams.RefClusterName != nil {
+		localVarQueryParams.Add("refClusterName", common.ParameterToString(*optionalParams.RefClusterName, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
