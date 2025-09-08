@@ -446,6 +446,7 @@
 //   - [storageClassApi.createStorageClass]
 //   - [storageClassApi.deleteStorageClass]
 //   - [storageClassApi.getStorageClass]
+//   - [storageClassApi.listStorageClassNodeStats]
 //   - [storageClassApi.listStorageClassPvcs]
 //   - [storageClassApi.listStorageClasses]
 //   - [storageClassApi.listStorageProvisioners]

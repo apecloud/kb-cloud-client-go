@@ -6699,6 +6699,21 @@ paths:
           required: true
           schema:
             type: string
+        - description: Name of the Node to be specified
+          in: query
+          name: node
+          schema:
+            type: string
+        - description: Name of the Org to be specified
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: Name of the Cluster to be specified
+          in: query
+          name: clusterName
+          schema:
+            type: string
         - description: defined page id.
           in: query
           name: pageId
@@ -6732,6 +6747,39 @@ paths:
               schema:
                 type: string
           description: Returned when the environment or persistentvolumeclaim does not exist.
+      tags:
+        - storageClass
+  /admin/v1/environments/{environmentName}/storageClasses/{storageClassName}/nodeStats:
+    get:
+      description: get the node stats related to the specified storage class for the specified environment.
+      operationId: listStorageClassNodeStats
+      summary: get node stats of the storage class
+      parameters:
+        - description: Name of the Environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: Name of the Storage Class to be specified
+          in: path
+          name: storageClassName
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/storageClassNodeStatsList'
+          description: Successfully get the node stats of the storage class.
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
       tags:
         - storageClass
   /admin/v1/environments/{environmentName}/nodeGroups:
@@ -17526,6 +17574,10 @@ components:
           description: privileges of databases of cluster
           title: privilegesList
           $ref: '#/components/schemas/privilegeList'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
       required:
         - name
       type: object
@@ -17567,6 +17619,10 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/accountRoleType'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
       required:
         - name
         - role
@@ -19623,22 +19679,6 @@ components:
           description: The base64 encoded kubeconfig file contents to connect to this Kubernetes
           format: byte
           type: string
-    storageVolumeStatsByNode:
-      description: storageVolumeStatsByNode provides detailed information about storage volumes of nodes.
-      properties:
-        nodeName:
-          description: the name of the node
-          type: string
-        nodeStatus:
-          description: the status of the node
-          type: string
-        VolumeNum:
-          description: the number of PVCs on the node
-          type: string
-        capacity:
-          description: the sum of capacity of PVC on the node
-          type: string
-      type: object
     storageClassInfo:
       description: StorageClassInfo provides detailed information about a specific storage class.
       properties:
@@ -19720,17 +19760,6 @@ components:
           type: string
           format: date-time
           description: the update time of the storage class
-        statsByNodeList:
-          description: the List stands for stats for the storage volumes of nodes.
-          properties:
-            items:
-              description: the list of storage volumes stats by node
-              type: array
-              items:
-                $ref: '#/components/schemas/storageVolumeStatsByNode'
-          required:
-            - items
-          type: object
       required:
         - name
         - creationTimestamp
@@ -20519,14 +20548,24 @@ components:
         - Reason
         - Timestamp
     storageStats:
-      description: StorageStats holds the resource stats of the volume, such as provisioned capacity, etc.
+      description: StorageStats holds the resource stats of the volume, including bound PVC capacity, pod-used PVC capacity, and actual storage usage.
       properties:
-        provisionedCapacity:
-          description: ProvisionedCapacity is the actual size of the volumes that is bound to the PVC, unit is GiB
+        requests:
+          description: Requests is the total requested size of all PVCs that are already bound to volumes, unit is GiB
+          format: double
+          type: number
+        podUsedCapacity:
+          description: PodUsedCapacity is the total requested size of PVCs that are bound and currently used by pods, unit is GiB
+          format: double
+          type: number
+        podUsedUsage:
+          description: PodUsedUsage is the actual storage usage of PVCs that are used by pods, unit is GiB
           format: double
           type: number
       required:
-        - provisionedCapacity
+        - requests
+        - podUsedCapacity
+        - podUsedUsage
       type: object
     environmentResourceStats:
       description: EnvironmentResourceStats holds the cpuStats for a environment.
@@ -21345,7 +21384,13 @@ components:
         capacity:
           description: the capacity of the PVC
           nullable: true
-          type: string
+          type: number
+          format: double
+        usage:
+          description: the usage of the PVC
+          nullable: true
+          type: number
+          format: double
         accessMode:
           description: access mode of the PVC
           nullable: true
@@ -21356,6 +21401,14 @@ components:
           type: string
         node:
           description: the node of the PVC
+          nullable: true
+          type: string
+        orgName:
+          description: the org name of the PVC
+          nullable: true
+          type: string
+        clusterName:
+          description: the cluster name of the PVC
           nullable: true
           type: string
       required:
@@ -21385,6 +21438,49 @@ components:
           nullable: true
           format: int64
           type: integer
+      type: object
+    storageClassNodeStats:
+      description: storageClassNodeStats is a storage class node stats.
+      properties:
+        nodeName:
+          description: the name of the node
+          type: string
+        nodeStatus:
+          description: the status of the node
+          type: string
+        requests:
+          description: the total requests size of all PVCs on the node
+          type: number
+          format: double
+        usage:
+          description: the actual disk usage of hostpath on the node
+          type: number
+          format: double
+        capacity:
+          description: the capacity of hostpath on the node
+          type: number
+          format: double
+        pvcCount:
+          description: the number of PVCs on the node
+          type: integer
+      required:
+        - nodeName
+        - nodeStatus
+        - requests
+        - usage
+        - capacity
+        - pvcCount
+      type: object
+    storageClassNodeStatsList:
+      description: storageClassNodeStatsList is a list of storageClassNodeStats.
+      properties:
+        items:
+          description: the list of storage class node stats
+          type: array
+          items:
+            $ref: '#/components/schemas/storageClassNodeStats'
+      required:
+        - items
       type: object
     nodeGroup:
       required:
@@ -23253,6 +23349,9 @@ components:
         compatibleMethod:
           description: The compatible full backup method for incremental backup method
           type: string
+        realBackupPath:
+          type: string
+          description: The actual path where the backup data is stored. If not set, use the backup.status.path.
         restoreOption:
           type: object
           properties:
@@ -25263,9 +25362,7 @@ components:
           type: string
         scriptCategory:
           type: string
-        reason:
-          type: string
-        suggestion:
+        description:
           type: string
         unit:
           type: string
@@ -25390,9 +25487,7 @@ components:
           type: string
         scriptType:
           type: string
-        reason:
-          type: string
-        suggestion:
+        description:
           type: string
         enabled:
           type: boolean
