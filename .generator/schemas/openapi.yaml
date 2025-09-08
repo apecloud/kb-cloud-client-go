@@ -14326,6 +14326,10 @@ components:
           description: privileges of databases of cluster
           title: privilegesList
           $ref: '#/components/schemas/privilegeList'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
       required:
         - name
       type: object
@@ -14367,6 +14371,10 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/accountRoleType'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
       required:
         - name
         - role

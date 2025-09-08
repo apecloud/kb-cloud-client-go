@@ -24,6 +24,8 @@ type Account struct {
 	Password *string `json:"password,omitempty"`
 	// Role name should be one of [BASICUSER, SUPERUSER, ROOT].
 	Role AccountRoleType `json:"role"`
+	// extra information of account
+	Extra map[string]interface{} `json:"extra,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -208,6 +210,34 @@ func (o *Account) SetRole(v AccountRoleType) {
 	o.Role = v
 }
 
+// GetExtra returns the Extra field value if set, zero value otherwise.
+func (o *Account) GetExtra() map[string]interface{} {
+	if o == nil || o.Extra == nil {
+		var ret map[string]interface{}
+		return ret
+	}
+	return o.Extra
+}
+
+// GetExtraOk returns a tuple with the Extra field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Account) GetExtraOk() (*map[string]interface{}, bool) {
+	if o == nil || o.Extra == nil {
+		return nil, false
+	}
+	return &o.Extra, true
+}
+
+// HasExtra returns a boolean if a field has been set.
+func (o *Account) HasExtra() bool {
+	return o != nil && o.Extra != nil
+}
+
+// SetExtra gets a reference to the given map[string]interface{} and assigns it to the Extra field.
+func (o *Account) SetExtra(v map[string]interface{}) {
+	o.Extra = v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Account) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -228,6 +258,9 @@ func (o Account) MarshalJSON() ([]byte, error) {
 		toSerialize["password"] = o.Password
 	}
 	toSerialize["role"] = o.Role
+	if o.Extra != nil {
+		toSerialize["extra"] = o.Extra
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -238,12 +271,13 @@ func (o Account) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		PrivilegesList []PrivilegeListItem `json:"privilegesList,omitempty"`
-		Component      *string             `json:"component,omitempty"`
-		Instance       *string             `json:"instance,omitempty"`
-		Name           *string             `json:"name"`
-		Password       *string             `json:"password,omitempty"`
-		Role           *AccountRoleType    `json:"role"`
+		PrivilegesList []PrivilegeListItem    `json:"privilegesList,omitempty"`
+		Component      *string                `json:"component,omitempty"`
+		Instance       *string                `json:"instance,omitempty"`
+		Name           *string                `json:"name"`
+		Password       *string                `json:"password,omitempty"`
+		Role           *AccountRoleType       `json:"role"`
+		Extra          map[string]interface{} `json:"extra,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -256,7 +290,7 @@ func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"privilegesList", "component", "instance", "name", "password", "role"})
+		common.DeleteKeys(additionalProperties, &[]string{"privilegesList", "component", "instance", "name", "password", "role", "extra"})
 	} else {
 		return err
 	}
@@ -272,6 +306,7 @@ func (o *Account) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Role = *all.Role
 	}
+	o.Extra = all.Extra
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
