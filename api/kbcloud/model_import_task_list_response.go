@@ -4,69 +4,69 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-type PreCheckTaskReponse struct {
-	TaskId *string `json:"taskId,omitempty"`
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// ImportTaskListResponse Import task list response
+type ImportTaskListResponse struct {
+	// Task list
+	Items []ImportTaskResponse `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewPreCheckTaskReponse instantiates a new PreCheckTaskReponse object.
+// NewImportTaskListResponse instantiates a new ImportTaskListResponse object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewPreCheckTaskReponse() *PreCheckTaskReponse {
-	this := PreCheckTaskReponse{}
+func NewImportTaskListResponse(items []ImportTaskResponse) *ImportTaskListResponse {
+	this := ImportTaskListResponse{}
+	this.Items = items
 	return &this
 }
 
-// NewPreCheckTaskReponseWithDefaults instantiates a new PreCheckTaskReponse object.
+// NewImportTaskListResponseWithDefaults instantiates a new ImportTaskListResponse object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewPreCheckTaskReponseWithDefaults() *PreCheckTaskReponse {
-	this := PreCheckTaskReponse{}
+func NewImportTaskListResponseWithDefaults() *ImportTaskListResponse {
+	this := ImportTaskListResponse{}
 	return &this
 }
 
-// GetTaskId returns the TaskId field value if set, zero value otherwise.
-func (o *PreCheckTaskReponse) GetTaskId() string {
-	if o == nil || o.TaskId == nil {
-		var ret string
+// GetItems returns the Items field value.
+func (o *ImportTaskListResponse) GetItems() []ImportTaskResponse {
+	if o == nil {
+		var ret []ImportTaskResponse
 		return ret
 	}
-	return *o.TaskId
+	return o.Items
 }
 
-// GetTaskIdOk returns a tuple with the TaskId field value if set, nil otherwise
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *PreCheckTaskReponse) GetTaskIdOk() (*string, bool) {
-	if o == nil || o.TaskId == nil {
+func (o *ImportTaskListResponse) GetItemsOk() (*[]ImportTaskResponse, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.TaskId, true
+	return &o.Items, true
 }
 
-// HasTaskId returns a boolean if a field has been set.
-func (o *PreCheckTaskReponse) HasTaskId() bool {
-	return o != nil && o.TaskId != nil
-}
-
-// SetTaskId gets a reference to the given string and assigns it to the TaskId field.
-func (o *PreCheckTaskReponse) SetTaskId(v string) {
-	o.TaskId = &v
+// SetItems sets field value.
+func (o *ImportTaskListResponse) SetItems(v []ImportTaskResponse) {
+	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o PreCheckTaskReponse) MarshalJSON() ([]byte, error) {
+func (o ImportTaskListResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.TaskId != nil {
-		toSerialize["taskId"] = o.TaskId
-	}
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -75,20 +75,23 @@ func (o PreCheckTaskReponse) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *PreCheckTaskReponse) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ImportTaskListResponse) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId *string `json:"taskId,omitempty"`
+		Items *[]ImportTaskResponse `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId"})
+		common.DeleteKeys(additionalProperties, &[]string{"items"})
 	} else {
 		return err
 	}
-	o.TaskId = all.TaskId
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

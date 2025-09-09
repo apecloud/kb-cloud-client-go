@@ -62,6 +62,8 @@ tags:
     description: Organization Parameter APIs
   - name: billing
     description: Billing APIs
+  - name: import
+    description: Data Import APIs
 paths:
   /admin/v1/user:
     get:
@@ -17178,6 +17180,10 @@ components:
           description: privileges of databases of cluster
           title: privilegesList
           $ref: '#/components/schemas/privilegeList'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
       required:
         - name
       type: object
@@ -17219,6 +17225,10 @@ components:
           type: string
         role:
           $ref: '#/components/schemas/accountRoleType'
+        extra:
+          description: extra information of account
+          type: object
+          additionalProperties: {}
       required:
         - name
         - role
@@ -23840,6 +23850,220 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/standardDefinition'
+    ImportSourceCategory:
+      type: string
+      description: Data source category
+      enum:
+        - engine
+    ImportCapabilityType:
+      type: string
+      description: Import capability type
+      enum:
+        - structure
+        - snapshot
+        - cdc
+    ImportBaseField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field's programmatic name (e.g., 'db_host')
+        label:
+          type: string
+          description: User-facing label for UI (e.g., 'Database Host')
+        required:
+          type: boolean
+          description: Whether the field is required
+          default: false
+        sensitive:
+          type: boolean
+          description: Whether it contains sensitive information (e.g., password)
+          default: false
+        description:
+          type: string
+          description: Detailed usage instructions for the field
+        placeholder:
+          type: string
+          description: Placeholder text for the input
+      required:
+        - name
+        - label
+    ImportFieldType:
+      type: string
+      description: Import field type
+      enum:
+        - string
+        - integer
+        - number
+        - boolean
+        - enum
+    ImportStringValidation:
+      description: Validation rules for string field type
+      type: object
+      properties:
+        minLength:
+          type: integer
+          description: Minimum length
+        maxLength:
+          type: integer
+          description: Maximum length
+        pattern:
+          type: string
+          description: Regex pattern
+    ImportStringField:
+      description: Configuration for a string-type field.
+      allOf:
+        - $ref: '#/components/schemas/ImportBaseField'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/ImportFieldType'
+            default:
+              type: string
+              nullable: true
+            validation:
+              $ref: '#/components/schemas/ImportStringValidation'
+          required:
+            - type
+    ImportNumericValidation:
+      description: Validation rules for numeric field type
+      type: object
+      properties:
+        min:
+          type: number
+          description: Minimum value
+        max:
+          type: number
+          description: Maximum value
+    ImportIntegerField:
+      description: Configuration for an integer-type field.
+      allOf:
+        - $ref: '#/components/schemas/ImportBaseField'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/ImportFieldType'
+            default:
+              type: integer
+              nullable: true
+            validation:
+              $ref: '#/components/schemas/ImportNumericValidation'
+          required:
+            - type
+    ImportNumberField:
+      description: Configuration for a number-type field.
+      allOf:
+        - $ref: '#/components/schemas/ImportBaseField'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/ImportFieldType'
+            default:
+              type: number
+              nullable: true
+            validation:
+              $ref: '#/components/schemas/ImportNumericValidation'
+          required:
+            - type
+    ImportBooleanField:
+      description: Configuration for a boolean-type field.
+      allOf:
+        - $ref: '#/components/schemas/ImportBaseField'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/ImportFieldType'
+            default:
+              type: boolean
+              nullable: true
+          required:
+            - type
+    ImportEnumField:
+      description: Configuration for an enum-type field.
+      allOf:
+        - $ref: '#/components/schemas/ImportBaseField'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/ImportFieldType'
+            options:
+              type: array
+              items:
+                type: string
+              description: List of available options for the enum.
+              minItems: 1
+            default:
+              type: string
+              nullable: true
+          required:
+            - type
+            - options
+    ImportConnectionField:
+      description: Connection field configuration. Use `oneOf` to enforce strict type-specific properties.
+      oneOf:
+        - $ref: '#/components/schemas/ImportStringField'
+        - $ref: '#/components/schemas/ImportIntegerField'
+        - $ref: '#/components/schemas/ImportNumberField'
+        - $ref: '#/components/schemas/ImportBooleanField'
+        - $ref: '#/components/schemas/ImportEnumField'
+    ImportSupportedSource:
+      description: Supported data source information
+      type: object
+      properties:
+        type:
+          type: string
+          description: Data source type
+        category:
+          $ref: '#/components/schemas/ImportSourceCategory'
+        name:
+          type: string
+          description: Display name
+        description:
+          type: string
+          description: Description
+        guide:
+          type: string
+          description: Usage guide
+        supported:
+          type: boolean
+          description: Whether supported
+          default: true
+        capabilities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImportCapabilityType'
+          description: List of supported capabilities
+        requirements:
+          type: array
+          items:
+            type: string
+          description: List of usage requirements
+        connectionFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImportConnectionField'
+          description: Connection field configuration
+        supportedVersions:
+          type: array
+          items:
+            type: string
+          description: List of supported versions
+      required:
+        - type
+        - category
+        - name
+        - supported
+    importOption:
+      type: object
+      properties:
+        supportedSources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImportSupportedSource'
+          description: List of supported data sources for import
+        sinkEngineName:
+          type: string
+          description: Engine name for sink/target database
     engineOption:
       type: object
       required:
@@ -23978,6 +24202,9 @@ components:
             $ref: '#/components/schemas/cdcOption'
         dataReplication:
           $ref: '#/components/schemas/dataReplicationOption'
+          nullable: true
+        import:
+          $ref: '#/components/schemas/importOption'
           nullable: true
     engineOptionList:
       required:
@@ -27416,3 +27643,6 @@ x-tagGroups:
     tags:
       - pricing
       - billing
+  - name: import
+    tags:
+      - import
