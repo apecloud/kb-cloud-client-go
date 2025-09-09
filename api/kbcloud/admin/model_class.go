@@ -19,9 +19,9 @@ type Class struct {
 	// memory request, unit is Gi
 	MemoryRequest *float64 `json:"memoryRequest,omitempty"`
 	// memory limit, unit is Gi
-	MemoryLimit  *float64 `json:"memoryLimit,omitempty"`
-	Component    *string  `json:"component,omitempty"`
-	InstanceType *string  `json:"instanceType,omitempty"`
+	MemoryLimit *float64 `json:"memoryLimit,omitempty"`
+	Component   *string  `json:"component,omitempty"`
+	ClassType   *string  `json:"classType,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -352,32 +352,32 @@ func (o *Class) SetComponent(v string) {
 	o.Component = &v
 }
 
-// GetInstanceType returns the InstanceType field value if set, zero value otherwise.
-func (o *Class) GetInstanceType() string {
-	if o == nil || o.InstanceType == nil {
+// GetClassType returns the ClassType field value if set, zero value otherwise.
+func (o *Class) GetClassType() string {
+	if o == nil || o.ClassType == nil {
 		var ret string
 		return ret
 	}
-	return *o.InstanceType
+	return *o.ClassType
 }
 
-// GetInstanceTypeOk returns a tuple with the InstanceType field value if set, nil otherwise
+// GetClassTypeOk returns a tuple with the ClassType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Class) GetInstanceTypeOk() (*string, bool) {
-	if o == nil || o.InstanceType == nil {
+func (o *Class) GetClassTypeOk() (*string, bool) {
+	if o == nil || o.ClassType == nil {
 		return nil, false
 	}
-	return o.InstanceType, true
+	return o.ClassType, true
 }
 
-// HasInstanceType returns a boolean if a field has been set.
-func (o *Class) HasInstanceType() bool {
-	return o != nil && o.InstanceType != nil
+// HasClassType returns a boolean if a field has been set.
+func (o *Class) HasClassType() bool {
+	return o != nil && o.ClassType != nil
 }
 
-// SetInstanceType gets a reference to the given string and assigns it to the InstanceType field.
-func (o *Class) SetInstanceType(v string) {
-	o.InstanceType = &v
+// SetClassType gets a reference to the given string and assigns it to the ClassType field.
+func (o *Class) SetClassType(v string) {
+	o.ClassType = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -419,8 +419,8 @@ func (o Class) MarshalJSON() ([]byte, error) {
 	if o.Component != nil {
 		toSerialize["component"] = o.Component
 	}
-	if o.InstanceType != nil {
-		toSerialize["instanceType"] = o.InstanceType
+	if o.ClassType != nil {
+		toSerialize["classType"] = o.ClassType
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -443,14 +443,14 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 		MemoryRequest *float64 `json:"memoryRequest,omitempty"`
 		MemoryLimit   *float64 `json:"memoryLimit,omitempty"`
 		Component     *string  `json:"component,omitempty"`
-		InstanceType  *string  `json:"instanceType,omitempty"`
+		ClassType     *string  `json:"classType,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engine", "code", "codeShort", "mode", "cpu", "cpuRequest", "cpuLimit", "memory", "memoryRequest", "memoryLimit", "component", "instanceType"})
+		common.DeleteKeys(additionalProperties, &[]string{"engine", "code", "codeShort", "mode", "cpu", "cpuRequest", "cpuLimit", "memory", "memoryRequest", "memoryLimit", "component", "classType"})
 	} else {
 		return err
 	}
@@ -465,7 +465,7 @@ func (o *Class) UnmarshalJSON(bytes []byte) (err error) {
 	o.MemoryRequest = all.MemoryRequest
 	o.MemoryLimit = all.MemoryLimit
 	o.Component = all.Component
-	o.InstanceType = all.InstanceType
+	o.ClassType = all.ClassType
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
