@@ -176,11 +176,11 @@ func (a *DataReplicationApi) CreateDataChannelOps(ctx _context.Context, orgName 
 // CreatePreCheck create pre check.
 // create pre check.
 // Deprecated: This API is deprecated.
-func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, orgName string, body PreCheckCreate) (PreCheckTaskReponse, *_nethttp.Response, error) {
+func (a *DataReplicationApi) CreatePreCheck(ctx _context.Context, orgName string, body PreCheckCreate) (PreCheckTaskResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue PreCheckTaskReponse
+		localVarReturnValue PreCheckTaskResponse
 	)
 
 	// Add api info to context
