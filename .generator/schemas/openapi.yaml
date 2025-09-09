@@ -17926,7 +17926,6 @@ components:
         - name
         - description
         - majorVersion
-        - family
         - configs
         - defaultUse
       properties:
@@ -17938,9 +17937,6 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
-        family:
-          type: string
-          description: a alias with major version, used to distinguish between different parameter templates
         configs:
           type: array
           description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
@@ -17949,72 +17945,6 @@ components:
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
-        versions:
-          type: array
-          description: deprecated
-          items:
-            type: string
-    parameterConstraint:
-      type: object
-      required:
-        - family
-        - majorVersion
-        - configSpecName
-        - regex
-        - configFileName
-      properties:
-        family:
-          type: string
-          description: a alias with major version, used to distinguish between different parameter templates
-        majorVersion:
-          type: string
-          description: match the major version set in the component
-        versions:
-          type: array
-          description: deprecated
-          items:
-            type: string
-        configSpecName:
-          type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
-        constraintRef:
-          type: string
-          description: used in KB version < 1.0, constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
-        regex:
-          type: string
-          description: regular expression of the parameters, mainly used by the frontend for parameter parsing.
-        configFileName:
-          type: string
-          description: name of configuration file
-    exprParam:
-      type: object
-      required:
-        - name
-        - description
-        - configSpecName
-        - validVariables
-        - defaultExpression
-      properties:
-        name:
-          type: string
-          description: name of the parameter
-        description:
-          type: string
-          description: description of each variables and expression
-        configSpecName:
-          type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
-        validVariables:
-          description: valid variables in the expression
-          type: array
-          items:
-            type: string
-        defaultExpression:
-          type: string
-          description: default expression of the parameter
-        unit:
-          type: string
-          description: unit of parameter
     parameterOption:
       type: object
       required:
@@ -18048,22 +17978,12 @@ components:
           description: parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
           items:
             $ref: '#/components/schemas/parameterTemplate'
-        constraints:
-          type: array
-          description: parameter constraints, mainly used to verify the correctness of the parameter value.
-          items:
-            $ref: '#/components/schemas/parameterConstraint'
         initOptions:
           type: object
           description: Parameters to be initialized when cluster is created
           additionalProperties:
             type: object
             properties: {}
-        exprParams:
-          type: array
-          description: Parameters to be calculated based on the instance specifications
-          items:
-            $ref: '#/components/schemas/exprParam'
     engineOptionsDisasterRecoverySource:
       type: object
       properties:

@@ -16,14 +16,10 @@ type ParameterTemplate struct {
 	Description LocalizedDescription `json:"description"`
 	// match the major version set in the component
 	MajorVersion string `json:"majorVersion"`
-	// a alias with major version, used to distinguish between different parameter templates
-	Family string `json:"family"`
 	// parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
 	Configs []ParameterConfig `json:"configs"`
 	// whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
 	DefaultUse bool `json:"defaultUse"`
-	// deprecated
-	Versions []string `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -33,12 +29,11 @@ type ParameterTemplate struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewParameterTemplate(name string, description LocalizedDescription, majorVersion string, family string, configs []ParameterConfig, defaultUse bool) *ParameterTemplate {
+func NewParameterTemplate(name string, description LocalizedDescription, majorVersion string, configs []ParameterConfig, defaultUse bool) *ParameterTemplate {
 	this := ParameterTemplate{}
 	this.Name = name
 	this.Description = description
 	this.MajorVersion = majorVersion
-	this.Family = family
 	this.Configs = configs
 	this.DefaultUse = defaultUse
 	return &this
@@ -121,29 +116,6 @@ func (o *ParameterTemplate) SetMajorVersion(v string) {
 	o.MajorVersion = v
 }
 
-// GetFamily returns the Family field value.
-func (o *ParameterTemplate) GetFamily() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-	return o.Family
-}
-
-// GetFamilyOk returns a tuple with the Family field value
-// and a boolean to check if the value has been set.
-func (o *ParameterTemplate) GetFamilyOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Family, true
-}
-
-// SetFamily sets field value.
-func (o *ParameterTemplate) SetFamily(v string) {
-	o.Family = v
-}
-
 // GetConfigs returns the Configs field value.
 func (o *ParameterTemplate) GetConfigs() []ParameterConfig {
 	if o == nil {
@@ -190,34 +162,6 @@ func (o *ParameterTemplate) SetDefaultUse(v bool) {
 	o.DefaultUse = v
 }
 
-// GetVersions returns the Versions field value if set, zero value otherwise.
-func (o *ParameterTemplate) GetVersions() []string {
-	if o == nil || o.Versions == nil {
-		var ret []string
-		return ret
-	}
-	return o.Versions
-}
-
-// GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterTemplate) GetVersionsOk() (*[]string, bool) {
-	if o == nil || o.Versions == nil {
-		return nil, false
-	}
-	return &o.Versions, true
-}
-
-// HasVersions returns a boolean if a field has been set.
-func (o *ParameterTemplate) HasVersions() bool {
-	return o != nil && o.Versions != nil
-}
-
-// SetVersions gets a reference to the given []string and assigns it to the Versions field.
-func (o *ParameterTemplate) SetVersions(v []string) {
-	o.Versions = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterTemplate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -227,12 +171,8 @@ func (o ParameterTemplate) MarshalJSON() ([]byte, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["description"] = o.Description
 	toSerialize["majorVersion"] = o.MajorVersion
-	toSerialize["family"] = o.Family
 	toSerialize["configs"] = o.Configs
 	toSerialize["defaultUse"] = o.DefaultUse
-	if o.Versions != nil {
-		toSerialize["versions"] = o.Versions
-	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -246,10 +186,8 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 		Name         *string               `json:"name"`
 		Description  *LocalizedDescription `json:"description"`
 		MajorVersion *string               `json:"majorVersion"`
-		Family       *string               `json:"family"`
 		Configs      *[]ParameterConfig    `json:"configs"`
 		DefaultUse   *bool                 `json:"defaultUse"`
-		Versions     []string              `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -263,9 +201,6 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	if all.MajorVersion == nil {
 		return fmt.Errorf("required field majorVersion missing")
 	}
-	if all.Family == nil {
-		return fmt.Errorf("required field family missing")
-	}
 	if all.Configs == nil {
 		return fmt.Errorf("required field configs missing")
 	}
@@ -274,7 +209,7 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "majorVersion", "family", "configs", "defaultUse", "versions"})
+		common.DeleteKeys(additionalProperties, &[]string{"name", "description", "majorVersion", "configs", "defaultUse"})
 	} else {
 		return err
 	}
@@ -286,10 +221,8 @@ func (o *ParameterTemplate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.Description = *all.Description
 	o.MajorVersion = *all.MajorVersion
-	o.Family = *all.Family
 	o.Configs = *all.Configs
 	o.DefaultUse = *all.DefaultUse
-	o.Versions = all.Versions
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
