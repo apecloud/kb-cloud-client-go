@@ -358,7 +358,7 @@ func (a *ParameterTemplateApi) GetClusterParameterTemplate(ctx _context.Context,
 
 // ListParameterTemplatesOptionalParameters holds optional parameters for ListParameterTemplates.
 type ListParameterTemplatesOptionalParameters struct {
-	Partition *ParamTplPartition
+	Partition *ParameterTemplatePartition
 	Version   *string
 	Component *string
 }
@@ -370,7 +370,7 @@ func NewListParameterTemplatesOptionalParameters() *ListParameterTemplatesOption
 }
 
 // WithPartition sets the corresponding parameter name and returns the struct.
-func (r *ListParameterTemplatesOptionalParameters) WithPartition(partition ParamTplPartition) *ListParameterTemplatesOptionalParameters {
+func (r *ListParameterTemplatesOptionalParameters) WithPartition(partition ParameterTemplatePartition) *ListParameterTemplatesOptionalParameters {
 	r.Partition = &partition
 	return r
 }
@@ -566,7 +566,7 @@ func (a *ParameterTemplateApi) PatchParameterTemplate(ctx _context.Context, orgN
 
 // ReadParameterTemplateOptionalParameters holds optional parameters for ReadParameterTemplate.
 type ReadParameterTemplateOptionalParameters struct {
-	Partition  *ParamTplPartition
+	Partition  *ParameterTemplatePartition
 	RawContent *bool
 }
 
@@ -577,7 +577,7 @@ func NewReadParameterTemplateOptionalParameters() *ReadParameterTemplateOptional
 }
 
 // WithPartition sets the corresponding parameter name and returns the struct.
-func (r *ReadParameterTemplateOptionalParameters) WithPartition(partition ParamTplPartition) *ReadParameterTemplateOptionalParameters {
+func (r *ReadParameterTemplateOptionalParameters) WithPartition(partition ParameterTemplatePartition) *ReadParameterTemplateOptionalParameters {
 	r.Partition = &partition
 	return r
 }

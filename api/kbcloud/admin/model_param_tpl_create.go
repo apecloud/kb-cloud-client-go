@@ -23,8 +23,8 @@ type ParamTplCreate struct {
 	// Name of parameter template. Name must be unique within an Org
 	Name string `json:"name"`
 	// Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
-	CustomName   *string            `json:"customName,omitempty"`
-	OriPartition *ParamTplPartition `json:"oriPartition,omitempty"`
+	CustomName   *string                     `json:"customName,omitempty"`
+	OriPartition *ParameterTemplatePartition `json:"oriPartition,omitempty"`
 	// Determines whether the user can see this parameter template
 	IsPrivate *bool `json:"isPrivate,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -198,9 +198,9 @@ func (o *ParamTplCreate) SetCustomName(v string) {
 }
 
 // GetOriPartition returns the OriPartition field value if set, zero value otherwise.
-func (o *ParamTplCreate) GetOriPartition() ParamTplPartition {
+func (o *ParamTplCreate) GetOriPartition() ParameterTemplatePartition {
 	if o == nil || o.OriPartition == nil {
-		var ret ParamTplPartition
+		var ret ParameterTemplatePartition
 		return ret
 	}
 	return *o.OriPartition
@@ -208,7 +208,7 @@ func (o *ParamTplCreate) GetOriPartition() ParamTplPartition {
 
 // GetOriPartitionOk returns a tuple with the OriPartition field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ParamTplCreate) GetOriPartitionOk() (*ParamTplPartition, bool) {
+func (o *ParamTplCreate) GetOriPartitionOk() (*ParameterTemplatePartition, bool) {
 	if o == nil || o.OriPartition == nil {
 		return nil, false
 	}
@@ -220,8 +220,8 @@ func (o *ParamTplCreate) HasOriPartition() bool {
 	return o != nil && o.OriPartition != nil
 }
 
-// SetOriPartition gets a reference to the given ParamTplPartition and assigns it to the OriPartition field.
-func (o *ParamTplCreate) SetOriPartition(v ParamTplPartition) {
+// SetOriPartition gets a reference to the given ParameterTemplatePartition and assigns it to the OriPartition field.
+func (o *ParamTplCreate) SetOriPartition(v ParameterTemplatePartition) {
 	o.OriPartition = &v
 }
 
@@ -283,14 +283,14 @@ func (o ParamTplCreate) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParamTplCreate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Description  *string            `json:"description"`
-		MajorVersion *string            `json:"majorVersion"`
-		Engine       *string            `json:"engine"`
-		Component    *string            `json:"component"`
-		Name         *string            `json:"name"`
-		CustomName   *string            `json:"customName,omitempty"`
-		OriPartition *ParamTplPartition `json:"oriPartition,omitempty"`
-		IsPrivate    *bool              `json:"isPrivate,omitempty"`
+		Description  *string                     `json:"description"`
+		MajorVersion *string                     `json:"majorVersion"`
+		Engine       *string                     `json:"engine"`
+		Component    *string                     `json:"component"`
+		Name         *string                     `json:"name"`
+		CustomName   *string                     `json:"customName,omitempty"`
+		OriPartition *ParameterTemplatePartition `json:"oriPartition,omitempty"`
+		IsPrivate    *bool                       `json:"isPrivate,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

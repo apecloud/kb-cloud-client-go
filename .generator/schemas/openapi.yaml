@@ -4755,7 +4755,7 @@ paths:
           in: query
           name: partition
           schema:
-            $ref: '#/components/schemas/paramTplPartition'
+            $ref: '#/components/schemas/parameterTemplatePartition'
         - description: Cluster Application Version
           in: query
           name: version
@@ -4834,7 +4834,7 @@ paths:
           in: query
           name: partition
           schema:
-            $ref: '#/components/schemas/paramTplPartition'
+            $ref: '#/components/schemas/parameterTemplatePartition'
         - description: whether to return the raw template content
           in: query
           name: rawContent
@@ -13779,7 +13779,7 @@ components:
         key:
           type: string
           format: binary
-    paramTplPartition:
+    parameterTemplatePartition:
       enum:
         - default
         - custom
@@ -13799,7 +13799,7 @@ components:
           type: string
           description: id of parameter template
         paramTplPartition:
-          $ref: '#/components/schemas/paramTplPartition'
+          $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
       type: array
       description: Items is the list of parameter template in the list
@@ -16518,7 +16518,7 @@ components:
           description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
           type: string
         oriPartition:
-          $ref: '#/components/schemas/paramTplPartition'
+          $ref: '#/components/schemas/parameterTemplatePartition'
         isPrivate:
           description: Determines whether the user can see this parameter template
           type: boolean
@@ -16533,10 +16533,7 @@ components:
       description: paramTplUpdate is the payload to update a parameter template
       properties:
         specName:
-          description: Specify parameters belongs to which spec
-          type: string
-        configFile:
-          description: Specify parameters belongs to which config file
+          description: Specify parameters belongs to which spec. Currently, only one configuration file corresponds to a specName, so the configuration file name is omitted.
           type: string
         parameters:
           additionalProperties:
