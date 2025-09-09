@@ -27444,7 +27444,7 @@ components:
           type: string
         clusterID:
           description: The ID of cluster
-          type: integer
+          type: string
           nullable: true
         clusterName:
           description: The Name of cluster
