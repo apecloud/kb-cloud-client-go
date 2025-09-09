@@ -13,7 +13,7 @@ type BillDetail struct {
 	// The total price
 	Price *string `json:"price,omitempty"`
 	// The ID of cluster
-	ClusterId common.NullableInt32 `json:"clusterID,omitempty"`
+	ClusterId common.NullableString `json:"clusterID,omitempty"`
 	// The Name of cluster
 	ClusterName common.NullableString `json:"clusterName,omitempty"`
 	// Cluster Application Engine
@@ -105,9 +105,9 @@ func (o *BillDetail) SetPrice(v string) {
 }
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetClusterId() int32 {
+func (o *BillDetail) GetClusterId() string {
 	if o == nil || o.ClusterId.Get() == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.ClusterId.Get()
@@ -116,7 +116,7 @@ func (o *BillDetail) GetClusterId() int32 {
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetClusterIdOk() (*int32, bool) {
+func (o *BillDetail) GetClusterIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -128,8 +128,8 @@ func (o *BillDetail) HasClusterId() bool {
 	return o != nil && o.ClusterId.IsSet()
 }
 
-// SetClusterId gets a reference to the given common.NullableInt32 and assigns it to the ClusterId field.
-func (o *BillDetail) SetClusterId(v int32) {
+// SetClusterId gets a reference to the given common.NullableString and assigns it to the ClusterId field.
+func (o *BillDetail) SetClusterId(v string) {
 	o.ClusterId.Set(&v)
 }
 
@@ -422,7 +422,7 @@ func (o *BillDetail) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		DataTime    *int64                `json:"dataTime,omitempty"`
 		Price       *string               `json:"price,omitempty"`
-		ClusterId   common.NullableInt32  `json:"clusterID,omitempty"`
+		ClusterId   common.NullableString `json:"clusterID,omitempty"`
 		ClusterName common.NullableString `json:"clusterName,omitempty"`
 		Engine      common.NullableString `json:"engine,omitempty"`
 		Version     common.NullableString `json:"version,omitempty"`
