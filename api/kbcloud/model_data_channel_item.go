@@ -24,6 +24,7 @@ type DataChannelItem struct {
 	Modules            []string                 `json:"modules,omitempty"`
 	Events             []EventObject            `json:"events,omitempty"`
 	CreatedAt          *time.Time               `json:"createdAt,omitempty"`
+	FinishedAt         common.NullableTime      `json:"FinishedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -410,6 +411,45 @@ func (o *DataChannelItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
+// GetFinishedAt returns the FinishedAt field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DataChannelItem) GetFinishedAt() time.Time {
+	if o == nil || o.FinishedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+	return *o.FinishedAt.Get()
+}
+
+// GetFinishedAtOk returns a tuple with the FinishedAt field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DataChannelItem) GetFinishedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.FinishedAt.Get(), o.FinishedAt.IsSet()
+}
+
+// HasFinishedAt returns a boolean if a field has been set.
+func (o *DataChannelItem) HasFinishedAt() bool {
+	return o != nil && o.FinishedAt.IsSet()
+}
+
+// SetFinishedAt gets a reference to the given common.NullableTime and assigns it to the FinishedAt field.
+func (o *DataChannelItem) SetFinishedAt(v time.Time) {
+	o.FinishedAt.Set(&v)
+}
+
+// SetFinishedAtNil sets the value for FinishedAt to be an explicit nil.
+func (o *DataChannelItem) SetFinishedAtNil() {
+	o.FinishedAt.Set(nil)
+}
+
+// UnsetFinishedAt ensures that no value is present for FinishedAt, not even an explicit nil.
+func (o *DataChannelItem) UnsetFinishedAt() {
+	o.FinishedAt.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o DataChannelItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -459,6 +499,9 @@ func (o DataChannelItem) MarshalJSON() ([]byte, error) {
 			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
+	if o.FinishedAt.IsSet() {
+		toSerialize["FinishedAt"] = o.FinishedAt.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -482,13 +525,14 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 		Modules            []string                 `json:"modules,omitempty"`
 		Events             []EventObject            `json:"events,omitempty"`
 		CreatedAt          *time.Time               `json:"createdAt,omitempty"`
+		FinishedAt         common.NullableTime      `json:"FinishedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "project", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "project", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt", "FinishedAt"})
 	} else {
 		return err
 	}
@@ -520,6 +564,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.Modules = all.Modules
 	o.Events = all.Events
 	o.CreatedAt = all.CreatedAt
+	o.FinishedAt = all.FinishedAt
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
