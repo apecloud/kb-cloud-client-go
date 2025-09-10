@@ -9,7 +9,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 type AggregateTaskResult struct {
 	Engine  *string                     `json:"engine,omitempty"`
 	Summary *AggregateTaskResultSummary `json:"summary,omitempty"`
-	Tasks   []InspectionTaskV2          `json:"tasks,omitempty"`
+	Tasks   []InspectionTask            `json:"tasks,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -89,9 +89,9 @@ func (o *AggregateTaskResult) SetSummary(v AggregateTaskResultSummary) {
 }
 
 // GetTasks returns the Tasks field value if set, zero value otherwise.
-func (o *AggregateTaskResult) GetTasks() []InspectionTaskV2 {
+func (o *AggregateTaskResult) GetTasks() []InspectionTask {
 	if o == nil || o.Tasks == nil {
-		var ret []InspectionTaskV2
+		var ret []InspectionTask
 		return ret
 	}
 	return o.Tasks
@@ -99,7 +99,7 @@ func (o *AggregateTaskResult) GetTasks() []InspectionTaskV2 {
 
 // GetTasksOk returns a tuple with the Tasks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AggregateTaskResult) GetTasksOk() (*[]InspectionTaskV2, bool) {
+func (o *AggregateTaskResult) GetTasksOk() (*[]InspectionTask, bool) {
 	if o == nil || o.Tasks == nil {
 		return nil, false
 	}
@@ -111,8 +111,8 @@ func (o *AggregateTaskResult) HasTasks() bool {
 	return o != nil && o.Tasks != nil
 }
 
-// SetTasks gets a reference to the given []InspectionTaskV2 and assigns it to the Tasks field.
-func (o *AggregateTaskResult) SetTasks(v []InspectionTaskV2) {
+// SetTasks gets a reference to the given []InspectionTask and assigns it to the Tasks field.
+func (o *AggregateTaskResult) SetTasks(v []InspectionTask) {
 	o.Tasks = v
 }
 
@@ -143,7 +143,7 @@ func (o *AggregateTaskResult) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Engine  *string                     `json:"engine,omitempty"`
 		Summary *AggregateTaskResultSummary `json:"summary,omitempty"`
-		Tasks   []InspectionTaskV2          `json:"tasks,omitempty"`
+		Tasks   []InspectionTask            `json:"tasks,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
