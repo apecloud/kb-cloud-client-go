@@ -10927,7 +10927,6 @@ paths:
     get:
       tags:
         - inspection
-        - shared
       operationId: listInspectionScripts
       summary: list inspection scripts
       parameters:
@@ -10937,7 +10936,7 @@ paths:
           required: true
           schema:
             type: string
-        - description: query by
+        - description: query by, such as "node"/"mysql"
           in: query
           name: engine
           schema:
@@ -10950,7 +10949,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionScript'
+                  $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -10974,7 +10973,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionScriptV2'
         required: true
       responses:
         '200':
@@ -10989,24 +10988,49 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-    patch:
+  /admin/v1/inspectionScripts:
+    get:
       tags:
         - inspection
-        - shared
-      operationId: updateInspectionScript
-      summary: Update inspection script
+      operationId: listInspectionScriptsV2
+      summary: list inspection scripts
       parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
+        - description: name of the Org, multiple orgs separated by ',', if not provided, return all scripts
+          in: query
+          name: orgNames
+          required: false
           schema:
             type: string
+        - description: query by, such as "node"/"mysql", multiple engines separated by ','
+          in: query
+          name: engines
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionScriptV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - inspection
+      operationId: createInspectionScriptV2
+      summary: Create inspection script
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionScriptV2'
         required: true
       responses:
         '200':
@@ -11014,7 +11038,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScript'
+                $ref: '#/components/schemas/inspectionScriptV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/inspectionScripts/{scriptId}:
+    patch:
+      tags:
+        - inspection
+      operationId: updateInspectionScript
+      summary: Update inspection script
+      parameters:
+        - description: id of the inspection script
+          in: path
+          name: scriptId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectionScriptV2'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inspectionScriptV2'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11024,9 +11080,173 @@ paths:
     delete:
       tags:
         - inspection
-        - shared
       operationId: deleteInspectionScript
       summary: Delete inspection script
+      parameters:
+        - description: id of the inspection script
+          in: path
+          name: scriptId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/autoInspections:
+    post:
+      tags:
+        - inspection
+      operationId: createAutoInspectionV2
+      summary: Create inspection cron job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/autoInspectionV2'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/autoInspectionV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    get:
+      tags:
+        - inspection
+      operationId: getAutoInspectionV2
+      summary: get auto inspection
+      parameters:
+        - description: name of the Org
+          in: query
+          name: orgName
+          required: false
+          schema:
+            type: string
+        - description: name of the environment
+          in: query
+          name: envName
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/autoInspectionV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/autoInspections/{id}:
+    patch:
+      tags:
+        - inspection
+      operationId: updateAutoInspectionV2
+      summary: update auto inspection
+      parameters:
+        - description: id of the auto inspection
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/autoInspectionV2'
+        required: true
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/autoInspectionV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - inspection
+      operationId: deleteAutoInspectionV2
+      summary: delete auto inspection
+      parameters:
+        - description: id of the auto inspection
+          in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/inspectionTasksByOrg:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionTasksByOrg
+      summary: list inspection tasks by org
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: list tasks for the specified cluster
+          in: query
+          name: clusterId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - inspection
+      operationId: createInspectionTaskByOrg
+      summary: create inspection task by org
       parameters:
         - description: name of the Org
           in: path
@@ -11038,15 +11258,191 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScript'
+              $ref: '#/components/schemas/inspectionTaskV2'
         required: true
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/organizations/{orgName}/inspectionTasksByOrg/{taskId}:
+    get:
+      tags:
+        - inspection
+      operationId: getInspectionTaskByOrg
+      summary: get inspection task by org
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: list task details if specified
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: the format of the task
+          in: query
+          name: format
+          required: false
+          schema:
+            $ref: '#/components/schemas/inspectionTaskFormat'
       responses:
         '200':
           description: A successful response.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScript'
+                $ref: '#/components/schemas/inspectionTaskV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/inspectionTasksByEnv:
+    get:
+      tags:
+        - inspection
+      operationId: listInspectionTasksByEnv
+      summary: list inspection tasks by env
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: list tasks for the specified node
+          in: query
+          name: nodeName
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - inspection
+      operationId: createInspectionTaskByEnv
+      summary: create inspection task by env
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/inspectionTaskV2'
+        required: true
+      responses:
+        '204':
+          description: No content.
+          content: {}
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/environments/{environmentName}/inspectionTasksByEnv/{taskId}:
+    get:
+      tags:
+        - inspection
+      operationId: getInspectionTaskByEnv
+      summary: get inspection task by env
+      parameters:
+        - description: name of the environment
+          in: path
+          name: environmentName
+          required: true
+          schema:
+            type: string
+        - description: list task details if specified
+          in: path
+          name: taskId
+          required: true
+          schema:
+            type: string
+        - description: the format of the task
+          in: query
+          name: format
+          required: false
+          schema:
+            $ref: '#/components/schemas/inspectionTaskFormat'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/inspectionTaskItemV2'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /admin/v1/inspectionTasks/aggregate:
+    get:
+      tags:
+        - inspection
+      operationId: getAggregateTaskResult
+      summary: get aggregate task result
+      parameters:
+        - description: name of the Org
+          in: query
+          name: aggregateType
+          required: true
+          schema:
+            $ref: '#/components/schemas/aggregateTaskType'
+        - description: the engine of the task
+          in: query
+          name: engine
+          required: false
+          schema:
+            type: string
+        - description: result of the task
+          in: query
+          name: resultType
+          required: false
+          schema:
+            $ref: '#/components/schemas/aggregateTaskResultType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aggregateTaskResultList'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -25172,6 +25568,65 @@ components:
           type: string
         enabled:
           type: boolean
+    inspectionScriptCategoryV2:
+      type: string
+      description: Specifies the category of the inspection script.
+      enum:
+        - performance
+        - availability
+        - security
+        - backup
+        - other
+    inspectionScriptV2:
+      required:
+        - name
+        - engine
+        - type
+        - category
+        - scriptExpr
+        - scopeType
+        - enabled
+      properties:
+        id:
+          type: integer
+        name:
+          pattern: ^[a-zA-Z0-9_]{1,64}$
+          type: string
+        displayName:
+          $ref: '#/components/schemas/localizedDescription'
+        engine:
+          description: The engine type this script is applicable to, such as cluster, mysql, node
+          type: string
+        type:
+          description: The type of the script, such as "promQL"
+          type: string
+        category:
+          $ref: '#/components/schemas/inspectionScriptCategoryV2'
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+        scriptExpr:
+          type: string
+        checkExpr:
+          type: string
+        scopeType:
+          description: scope type, such as "system"/"global"/"org"
+          type: string
+        scopeID:
+          description: The identifier of the scope, such as org_id
+          type: string
+        scopeName:
+          description: The identifier of the scope, such as org_name
+          type: string
+        enabled:
+          type: boolean
+        unit:
+          type: string
+        createdAt:
+          description: Timestamp of creation time
+          type: integer
+        updatedAt:
+          description: Timestamp of update time
+          type: integer
     inspectionScript:
       required:
         - enabled
@@ -25202,6 +25657,178 @@ components:
           type: string
         unit:
           type: string
+    autoInspectionResourceTypeV2:
+      type: string
+      description: Specifies the type of the resource for the auto inspection.
+      enum:
+        - organization
+        - cluster
+        - environment
+        - environment_node
+    autoInspectionV2:
+      required:
+        - resourceType
+        - resourceName
+        - creator
+        - enabled
+      properties:
+        id:
+          type: integer
+        resourceType:
+          $ref: '#/components/schemas/autoInspectionResourceTypeV2'
+        resourceID:
+          type: string
+        resourceName:
+          type: string
+        creator:
+          type: string
+        schedule:
+          type: string
+        runEvery:
+          $ref: '#/components/schemas/autoInspectionRunUnit'
+        daysOfWeek:
+          type: array
+          items:
+            type: integer
+        daysOfMonth:
+          type: array
+          items:
+            type: integer
+        hour:
+          type: integer
+        minute:
+          type: integer
+        savedDays:
+          type: integer
+        nextRunTime:
+          format: date-time
+          type: string
+        enabled:
+          type: boolean
+    inspectionSupportedEnginesV2:
+      type: string
+      description: Specifies the supported engines for the inspection task.
+      enum:
+        - node
+        - mysql
+        - redis
+        - damengdb
+    inspectionTaskItemV2:
+      properties:
+        id:
+          type: integer
+        taskID:
+          type: integer
+        scriptID:
+          type: integer
+        scriptName:
+          $ref: '#/components/schemas/localizedDescription'
+        scriptDescription:
+          $ref: '#/components/schemas/localizedDescription'
+        scriptCategory:
+          type: string
+        resourceType:
+          type: string
+        resourceID:
+          type: string
+        resourceName:
+          type: string
+        status:
+          type: string
+        result:
+          type: string
+        severity:
+          type: string
+        unit:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+    inspectionTaskV2:
+      properties:
+        id:
+          type: integer
+        creator:
+          type: string
+        status:
+          type: string
+        engine:
+          $ref: '#/components/schemas/inspectionSupportedEnginesV2'
+        orgName:
+          type: string
+        clusterID:
+          type: string
+        clusterName:
+          type: string
+        envName:
+          type: string
+        envID:
+          type: string
+        nodeName:
+          type: string
+        isAuto:
+          type: boolean
+        score:
+          type: integer
+        result:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/inspectionTaskItemV2'
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+    inspectionTaskFormat:
+      description: Specifies the format of the task in the aggregate task result.
+      enum:
+        - json
+        - pdf
+      type: string
+    aggregateTaskType:
+      type: string
+      description: Specifies the type of the aggregate meta data.
+      enum:
+        - organization
+        - environment
+        - all
+    aggregateTaskResultType:
+      type: string
+      description: Specifies the type of the aggregate task result.
+      enum:
+        - green
+        - yellow
+        - red
+    aggregateTaskResult:
+      properties:
+        engine:
+          type: string
+        summary:
+          type: object
+          properties:
+            error:
+              type: integer
+            warning:
+              type: integer
+            normal:
+              type: integer
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/inspectionTaskV2'
+    aggregateTaskResultList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/aggregateTaskResult'
     storageProviderSchemaProps:
       type: object
       description: the schema properties for storage provider parameters
