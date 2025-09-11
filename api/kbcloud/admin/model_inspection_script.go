@@ -11,7 +11,7 @@ import (
 )
 
 type InspectionScript struct {
-	Id          *int32                `json:"id,omitempty"`
+	Id          *string               `json:"id,omitempty"`
 	Name        string                `json:"name"`
 	DisplayName *LocalizedDescription `json:"displayName,omitempty"`
 	// The engine type this script is applicable to, such as cluster, mysql, node
@@ -65,9 +65,9 @@ func NewInspectionScriptWithDefaults() *InspectionScript {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *InspectionScript) GetId() int32 {
+func (o *InspectionScript) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -75,7 +75,7 @@ func (o *InspectionScript) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionScript) GetIdOk() (*int32, bool) {
+func (o *InspectionScript) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -87,8 +87,8 @@ func (o *InspectionScript) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *InspectionScript) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *InspectionScript) SetId(v string) {
 	o.Id = &v
 }
 
@@ -527,7 +527,7 @@ func (o InspectionScript) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionScript) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32                    `json:"id,omitempty"`
+		Id          *string                   `json:"id,omitempty"`
 		Name        *string                   `json:"name"`
 		DisplayName *LocalizedDescription     `json:"displayName,omitempty"`
 		Engine      *string                   `json:"engine"`

@@ -11,7 +11,7 @@ import (
 )
 
 type InspectionTask struct {
-	Id      *int32  `json:"id,omitempty"`
+	Id      *string `json:"id,omitempty"`
 	Creator *string `json:"creator,omitempty"`
 	Status  *string `json:"status,omitempty"`
 	// Specifies the supported engines for the inspection task.
@@ -51,9 +51,9 @@ func NewInspectionTaskWithDefaults() *InspectionTask {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *InspectionTask) GetId() int32 {
+func (o *InspectionTask) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -61,7 +61,7 @@ func (o *InspectionTask) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTask) GetIdOk() (*int32, bool) {
+func (o *InspectionTask) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -73,8 +73,8 @@ func (o *InspectionTask) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *InspectionTask) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *InspectionTask) SetId(v string) {
 	o.Id = &v
 }
 
@@ -570,7 +570,7 @@ func (o InspectionTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32                      `json:"id,omitempty"`
+		Id          *string                     `json:"id,omitempty"`
 		Creator     *string                     `json:"creator,omitempty"`
 		Status      *string                     `json:"status,omitempty"`
 		Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
