@@ -11,9 +11,9 @@ import (
 )
 
 type InspectionTaskItem struct {
-	Id                *int32                `json:"id,omitempty"`
-	TaskId            *int32                `json:"taskID,omitempty"`
-	ScriptId          *int32                `json:"scriptID,omitempty"`
+	Id                *string               `json:"id,omitempty"`
+	TaskId            *string               `json:"taskID,omitempty"`
+	ScriptId          *string               `json:"scriptID,omitempty"`
 	ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
 	ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
 	ScriptCategory    *string               `json:"scriptCategory,omitempty"`
@@ -49,9 +49,9 @@ func NewInspectionTaskItemWithDefaults() *InspectionTaskItem {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *InspectionTaskItem) GetId() int32 {
+func (o *InspectionTaskItem) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -59,7 +59,7 @@ func (o *InspectionTaskItem) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItem) GetIdOk() (*int32, bool) {
+func (o *InspectionTaskItem) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -71,15 +71,15 @@ func (o *InspectionTaskItem) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *InspectionTaskItem) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *InspectionTaskItem) SetId(v string) {
 	o.Id = &v
 }
 
 // GetTaskId returns the TaskId field value if set, zero value otherwise.
-func (o *InspectionTaskItem) GetTaskId() int32 {
+func (o *InspectionTaskItem) GetTaskId() string {
 	if o == nil || o.TaskId == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.TaskId
@@ -87,7 +87,7 @@ func (o *InspectionTaskItem) GetTaskId() int32 {
 
 // GetTaskIdOk returns a tuple with the TaskId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItem) GetTaskIdOk() (*int32, bool) {
+func (o *InspectionTaskItem) GetTaskIdOk() (*string, bool) {
 	if o == nil || o.TaskId == nil {
 		return nil, false
 	}
@@ -99,15 +99,15 @@ func (o *InspectionTaskItem) HasTaskId() bool {
 	return o != nil && o.TaskId != nil
 }
 
-// SetTaskId gets a reference to the given int32 and assigns it to the TaskId field.
-func (o *InspectionTaskItem) SetTaskId(v int32) {
+// SetTaskId gets a reference to the given string and assigns it to the TaskId field.
+func (o *InspectionTaskItem) SetTaskId(v string) {
 	o.TaskId = &v
 }
 
 // GetScriptId returns the ScriptId field value if set, zero value otherwise.
-func (o *InspectionTaskItem) GetScriptId() int32 {
+func (o *InspectionTaskItem) GetScriptId() string {
 	if o == nil || o.ScriptId == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.ScriptId
@@ -115,7 +115,7 @@ func (o *InspectionTaskItem) GetScriptId() int32 {
 
 // GetScriptIdOk returns a tuple with the ScriptId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItem) GetScriptIdOk() (*int32, bool) {
+func (o *InspectionTaskItem) GetScriptIdOk() (*string, bool) {
 	if o == nil || o.ScriptId == nil {
 		return nil, false
 	}
@@ -127,8 +127,8 @@ func (o *InspectionTaskItem) HasScriptId() bool {
 	return o != nil && o.ScriptId != nil
 }
 
-// SetScriptId gets a reference to the given int32 and assigns it to the ScriptId field.
-func (o *InspectionTaskItem) SetScriptId(v int32) {
+// SetScriptId gets a reference to the given string and assigns it to the ScriptId field.
+func (o *InspectionTaskItem) SetScriptId(v string) {
 	o.ScriptId = &v
 }
 
@@ -537,9 +537,9 @@ func (o InspectionTaskItem) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *InspectionTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                *int32                `json:"id,omitempty"`
-		TaskId            *int32                `json:"taskID,omitempty"`
-		ScriptId          *int32                `json:"scriptID,omitempty"`
+		Id                *string               `json:"id,omitempty"`
+		TaskId            *string               `json:"taskID,omitempty"`
+		ScriptId          *string               `json:"scriptID,omitempty"`
 		ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
 		ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
 		ScriptCategory    *string               `json:"scriptCategory,omitempty"`

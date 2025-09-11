@@ -25339,7 +25339,7 @@ components:
         - enabled
       properties:
         id:
-          type: integer
+          type: string
         name:
           pattern: ^[a-zA-Z0-9_]{1,64}$
           type: string
@@ -25402,7 +25402,7 @@ components:
         - enabled
       properties:
         id:
-          type: integer
+          type: string
         resourceType:
           $ref: '#/components/schemas/autoInspectionResourceType'
         resourceID:
@@ -25445,11 +25445,11 @@ components:
     inspectionTaskItem:
       properties:
         id:
-          type: integer
+          type: string
         taskID:
-          type: integer
+          type: string
         scriptID:
-          type: integer
+          type: string
         scriptName:
           $ref: '#/components/schemas/localizedDescription'
         scriptDescription:
@@ -25479,7 +25479,7 @@ components:
     inspectionTask:
       properties:
         id:
-          type: integer
+          type: string
         creator:
           type: string
         status:

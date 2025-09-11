@@ -12,7 +12,7 @@ import (
 )
 
 type AutoInspection struct {
-	Id *int32 `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 	// Specifies the type of the resource for the auto inspection.
 	ResourceType AutoInspectionResourceType `json:"resourceType"`
 	ResourceId   *string                    `json:"resourceID,omitempty"`
@@ -55,9 +55,9 @@ func NewAutoInspectionWithDefaults() *AutoInspection {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *AutoInspection) GetId() int32 {
+func (o *AutoInspection) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -65,7 +65,7 @@ func (o *AutoInspection) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AutoInspection) GetIdOk() (*int32, bool) {
+func (o *AutoInspection) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -77,8 +77,8 @@ func (o *AutoInspection) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *AutoInspection) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *AutoInspection) SetId(v string) {
 	o.Id = &v
 }
 
@@ -480,7 +480,7 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id           *int32                      `json:"id,omitempty"`
+		Id           *string                     `json:"id,omitempty"`
 		ResourceType *AutoInspectionResourceType `json:"resourceType"`
 		ResourceId   *string                     `json:"resourceID,omitempty"`
 		ResourceName *string                     `json:"resourceName"`
