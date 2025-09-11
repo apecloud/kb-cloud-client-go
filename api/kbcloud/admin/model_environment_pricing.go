@@ -8,6 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // EnvironmentPricing the information of environment pricing
 type EnvironmentPricing struct {
+	// The environment ID
+	EnvId common.NullableString `json:"envID,omitempty"`
 	// The environment name
 	EnvName common.NullableString `json:"envName,omitempty"`
 	// The price of CPU, the unit is 'Core'
@@ -36,6 +38,45 @@ func NewEnvironmentPricing() *EnvironmentPricing {
 func NewEnvironmentPricingWithDefaults() *EnvironmentPricing {
 	this := EnvironmentPricing{}
 	return &this
+}
+
+// GetEnvId returns the EnvId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EnvironmentPricing) GetEnvId() string {
+	if o == nil || o.EnvId.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.EnvId.Get()
+}
+
+// GetEnvIdOk returns a tuple with the EnvId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EnvironmentPricing) GetEnvIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.EnvId.Get(), o.EnvId.IsSet()
+}
+
+// HasEnvId returns a boolean if a field has been set.
+func (o *EnvironmentPricing) HasEnvId() bool {
+	return o != nil && o.EnvId.IsSet()
+}
+
+// SetEnvId gets a reference to the given common.NullableString and assigns it to the EnvId field.
+func (o *EnvironmentPricing) SetEnvId(v string) {
+	o.EnvId.Set(&v)
+}
+
+// SetEnvIdNil sets the value for EnvId to be an explicit nil.
+func (o *EnvironmentPricing) SetEnvIdNil() {
+	o.EnvId.Set(nil)
+}
+
+// UnsetEnvId ensures that no value is present for EnvId, not even an explicit nil.
+func (o *EnvironmentPricing) UnsetEnvId() {
+	o.EnvId.Unset()
 }
 
 // GetEnvName returns the EnvName field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -200,6 +241,9 @@ func (o EnvironmentPricing) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.EnvId.IsSet() {
+		toSerialize["envID"] = o.EnvId.Get()
+	}
 	if o.EnvName.IsSet() {
 		toSerialize["envName"] = o.EnvName.Get()
 	}
@@ -222,6 +266,7 @@ func (o EnvironmentPricing) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EnvironmentPricing) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
+		EnvId        common.NullableString `json:"envID,omitempty"`
 		EnvName      common.NullableString `json:"envName,omitempty"`
 		CpuPrice     common.NullableString `json:"cpuPrice,omitempty"`
 		MemoryPrice  common.NullableString `json:"memoryPrice,omitempty"`
@@ -232,10 +277,11 @@ func (o *EnvironmentPricing) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"envName", "cpuPrice", "memoryPrice", "storagePrice"})
+		common.DeleteKeys(additionalProperties, &[]string{"envID", "envName", "cpuPrice", "memoryPrice", "storagePrice"})
 	} else {
 		return err
 	}
+	o.EnvId = all.EnvId
 	o.EnvName = all.EnvName
 	o.CpuPrice = all.CpuPrice
 	o.MemoryPrice = all.MemoryPrice

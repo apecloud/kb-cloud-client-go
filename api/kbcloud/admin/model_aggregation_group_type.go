@@ -18,12 +18,14 @@ const (
 	AggregationGroupTypeGlobal       AggregationGroupType = "global"
 	AggregationGroupTypeOrganization AggregationGroupType = "organization"
 	AggregationGroupTypeProject      AggregationGroupType = "project"
+	AggregationGroupTypeCluster      AggregationGroupType = "cluster"
 )
 
 var allowedAggregationGroupTypeEnumValues = []AggregationGroupType{
 	AggregationGroupTypeGlobal,
 	AggregationGroupTypeOrganization,
 	AggregationGroupTypeProject,
+	AggregationGroupTypeCluster,
 }
 
 // GetAllowedValues returns the list of possible values.

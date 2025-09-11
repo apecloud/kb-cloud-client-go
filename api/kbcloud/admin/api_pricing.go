@@ -114,11 +114,11 @@ func (r *GetEnvironmentPricingOptionalParameters) WithEnvironmentName(environmen
 
 // GetEnvironmentPricing Get the environment pricing.
 // Deprecated: This API is deprecated.
-func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnvironmentPricingOptionalParameters) (EnvironmentPricing, *_nethttp.Response, error) {
+func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnvironmentPricingOptionalParameters) (EnvironmentPricingList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue EnvironmentPricing
+		localVarReturnValue EnvironmentPricingList
 		optionalParams      GetEnvironmentPricingOptionalParameters
 	)
 

@@ -15447,7 +15447,7 @@ paths:
       summary: Get the environment pricing
       deprecated: true
       parameters:
-        - description: name of the environment
+        - description: name of the environment (if provided, returns a list with one item; if omitted, returns all environment prices)
           in: query
           name: environmentName
           schema:
@@ -15457,8 +15457,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentPricing'
-          description: Retrieve the price of one environment
+                $ref: '#/components/schemas/environmentPricingList'
+          description: Retrieve the price of environment(s) as a list
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -15640,6 +15640,11 @@ paths:
           name: aggregationTime
           schema:
             $ref: '#/components/schemas/aggregationTimeType'
+        - description: The type of aggregation group
+          in: query
+          name: aggregationGroup
+          schema:
+            $ref: '#/components/schemas/aggregationGroupType'
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -27624,6 +27629,10 @@ components:
       type: object
       description: the information of environment pricing
       properties:
+        envID:
+          description: The environment ID
+          type: string
+          nullable: true
         envName:
           description: The environment name
           type: string
@@ -27640,6 +27649,17 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+    environmentPricingList:
+      type: object
+      description: list of information with environment pricing
+      properties:
+        items:
+          description: Items is the list of environment pricing information
+          items:
+            $ref: '#/components/schemas/environmentPricing'
+          type: array
+      required:
+        - items
     currencyUnitType:
       description: The currency uint for display in bill query
       enum:
@@ -27697,6 +27717,7 @@ components:
         - global
         - organization
         - project
+        - cluster
       type: string
       nullable: true
     BasicBill:
@@ -27739,30 +27760,37 @@ components:
           description: The ID of cluster
           type: string
           nullable: true
+          x-omitempty: true
         clusterName:
           description: The Name of cluster
           type: string
           nullable: true
+          x-omitempty: true
         engine:
           description: Cluster Application Engine
           type: string
           nullable: true
+          x-omitempty: true
         version:
           description: Cluster Application Version
           type: string
           nullable: true
+          x-omitempty: true
         mode:
           description: Cluster topology mode
           type: string
           nullable: true
+          x-omitempty: true
         orgName:
           description: The Name of organization
           type: string
           nullable: true
+          x-omitempty: true
         projectName:
           description: The Name of project
           type: string
           nullable: true
+          x-omitempty: true
     BillDetailList:
       type: object
       description: list price details in date range

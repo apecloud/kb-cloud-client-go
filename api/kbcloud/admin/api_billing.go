@@ -18,11 +18,12 @@ type BillingApi common.Service
 
 // QueryBillDetailOptionalParameters holds optional parameters for QueryBillDetail.
 type QueryBillDetailOptionalParameters struct {
-	BillId          *string
-	ClusterId       *string
-	OrgName         *string
-	ProjectName     *string
-	AggregationTime *AggregationTimeType
+	BillId           *string
+	ClusterId        *string
+	OrgName          *string
+	ProjectName      *string
+	AggregationTime  *AggregationTimeType
+	AggregationGroup *AggregationGroupType
 }
 
 // NewQueryBillDetailOptionalParameters creates an empty struct for parameters.
@@ -58,6 +59,12 @@ func (r *QueryBillDetailOptionalParameters) WithProjectName(projectName string) 
 // WithAggregationTime sets the corresponding parameter name and returns the struct.
 func (r *QueryBillDetailOptionalParameters) WithAggregationTime(aggregationTime AggregationTimeType) *QueryBillDetailOptionalParameters {
 	r.AggregationTime = &aggregationTime
+	return r
+}
+
+// WithAggregationGroup sets the corresponding parameter name and returns the struct.
+func (r *QueryBillDetailOptionalParameters) WithAggregationGroup(aggregationGroup AggregationGroupType) *QueryBillDetailOptionalParameters {
+	r.AggregationGroup = &aggregationGroup
 	return r
 }
 
@@ -113,6 +120,9 @@ func (a *BillingApi) QueryBillDetail(ctx _context.Context, start int64, end int6
 	}
 	if optionalParams.AggregationTime != nil {
 		localVarQueryParams.Add("aggregationTime", common.ParameterToString(*optionalParams.AggregationTime, ""))
+	}
+	if optionalParams.AggregationGroup != nil {
+		localVarQueryParams.Add("aggregationGroup", common.ParameterToString(*optionalParams.AggregationGroup, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
