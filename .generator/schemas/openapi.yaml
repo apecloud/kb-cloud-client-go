@@ -12082,7 +12082,7 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /admin/v1/license:
+  /api/v1/license:
     get:
       tags:
         - license

@@ -29,7 +29,7 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 	apiInfo := common.APIInfo{
 		Tag:         "license",
 		OperationID: "getLicense",
-		Path:        "/admin/v1/license",
+		Path:        "/api/v1/license",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,7 @@ func (a *LicenseApi) GetLicense(ctx _context.Context) (License, *_nethttp.Respon
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/license"
+	localVarPath := localBasePath + "/api/v1/license"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
