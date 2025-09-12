@@ -83,6 +83,7 @@
 //   - [classTypesApi.getClassTypes]
 //   - [clusterApi.createCluster]
 //   - [clusterApi.deleteCluster]
+//   - [clusterApi.deleteInstance]
 //   - [clusterApi.describeClusterHaHistory]
 //   - [clusterApi.getCluster]
 //   - [clusterApi.getClusterByID]

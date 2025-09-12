@@ -1800,6 +1800,44 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}:
+    delete:
+      operationId: deleteInstance
+      summary: Delete instance of cluster
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: delete instance of cluster successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
     get:
       operationId: listInstanceEvents
@@ -2685,7 +2723,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Returned when project is deleted successfully.
+          description: Returned when database is deleted successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -3457,7 +3495,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Returned when project is deleted successfully.
+          description: Get autohealing job list
           content:
             application/json:
               schema:
