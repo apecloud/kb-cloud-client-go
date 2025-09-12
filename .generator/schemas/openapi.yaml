@@ -12082,6 +12082,26 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/license:
+    get:
+      tags:
+        - license
+      summary: Get license
+      description: Get license
+      operationId: getLicense
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/license'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
 components:
   securitySchemes:
     BearerToken:
@@ -22070,6 +22090,25 @@ components:
       enum:
         - pause
         - resume
+    license:
+      description: License info
+      type: object
+      required:
+        - clusterID
+        - notAfter
+        - notBefore
+      properties:
+        clusterID:
+          type: string
+          description: The kubernetes cluster ID
+        notAfter:
+          type: string
+          format: date-time
+          description: The license expiration time
+        notBefore:
+          type: string
+          format: date-time
+          description: The license start time
   responses:
     '400':
       content:

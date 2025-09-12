@@ -215,6 +215,7 @@
 //   - [kafkaApi.setKafkaTopicConfig]
 //   - [kafkaApi.updateKafkaBrokerConfig]
 //   - [keyApi.listKeys]
+//   - [licenseApi.getLicense]
 //   - [llmApi.ListLLMForOrg]
 //   - [llmApi.addLLMForOrg]
 //   - [llmApi.checkAPIKeyForOrg]
