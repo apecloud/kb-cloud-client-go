@@ -1738,6 +1738,44 @@ paths:
       tags:
         - cluster
         - shared
+  /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}:
+    delete:
+      operationId: deleteInstance
+      summary: Delete instance of cluster
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: delete instance of cluster successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
     get:
       operationId: listInstanceEvents
@@ -2348,7 +2386,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Returned when project is deleted successfully.
+          description: Returned when database is deleted successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -2378,7 +2416,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Returned when project is deleted successfully.
+          description: Get autohealing job list
           content:
             application/json:
               schema:
@@ -2997,6 +3035,12 @@ paths:
           in: query
           name: parameterName
           required: false
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: true
           schema:
             type: string
       responses:
@@ -10761,238 +10805,11 @@ paths:
       tags:
         - feature
         - shared
-  /admin/v1/organizations/{orgName}/inspections:
-    get:
-      tags:
-        - inspection
-        - shared
-      operationId: listInspections
-      summary: list inspections
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: list tasks for the specified cluster
-          in: query
-          name: clusterID
-          schema:
-            type: string
-        - description: list task details if specified
-          in: query
-          name: taskID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/inspection'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - inspection
-        - shared
-      operationId: updateInspection
-      summary: Update inspection
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/inspection'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inspection'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/autoInspection:
-    get:
-      tags:
-        - inspection
-        - shared
-      operationId: listAutoInspection
-      summary: list auto inspection
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autoInspection'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - inspection
-        - shared
-      operationId: createAutoInspection
-      summary: Create auto inspection
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/autoInspection'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autoInspection'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    patch:
-      tags:
-        - inspection
-        - shared
-      operationId: updateAutoInspection
-      summary: Update auto inspection
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/autoInspection'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/autoInspection'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-  /admin/v1/organizations/{orgName}/inspectionScripts:
-    get:
-      tags:
-        - inspection
-      operationId: listInspectionScripts
-      summary: list inspection scripts
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: query by, such as "node"/"mysql"
-          in: query
-          name: engine
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/inspectionScriptV2'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-    post:
-      tags:
-        - inspection
-        - shared
-      operationId: createInspectionScript
-      summary: Create inspection script
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/inspectionScriptV2'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inspectionScript'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
   /admin/v1/inspectionScripts:
     get:
       tags:
         - inspection
-      operationId: listInspectionScriptsV2
+      operationId: listInspectionScripts
       summary: list inspection scripts
       parameters:
         - description: name of the Org, multiple orgs separated by ',', if not provided, return all scripts
@@ -11014,7 +10831,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionScriptV2'
+                  $ref: '#/components/schemas/inspectionScript'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11024,13 +10841,13 @@ paths:
     post:
       tags:
         - inspection
-      operationId: createInspectionScriptV2
+      operationId: createInspectionScript
       summary: Create inspection script
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScriptV2'
+              $ref: '#/components/schemas/inspectionScript'
         required: true
       responses:
         '200':
@@ -11038,7 +10855,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScriptV2'
+                $ref: '#/components/schemas/inspectionScript'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11062,7 +10879,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScriptV2'
+              $ref: '#/components/schemas/inspectionScript'
         required: true
       responses:
         '200':
@@ -11070,7 +10887,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScriptV2'
+                $ref: '#/components/schemas/inspectionScript'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11103,13 +10920,13 @@ paths:
     post:
       tags:
         - inspection
-      operationId: createAutoInspectionV2
+      operationId: createAutoInspection
       summary: Create inspection cron job
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/autoInspectionV2'
+              $ref: '#/components/schemas/autoInspection'
         required: true
       responses:
         '200':
@@ -11117,7 +10934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/autoInspectionV2'
+                $ref: '#/components/schemas/autoInspection'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11127,7 +10944,7 @@ paths:
     get:
       tags:
         - inspection
-      operationId: getAutoInspectionV2
+      operationId: getAutoInspection
       summary: get auto inspection
       parameters:
         - description: name of the Org
@@ -11148,7 +10965,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/autoInspectionV2'
+                $ref: '#/components/schemas/autoInspection'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11159,7 +10976,7 @@ paths:
     patch:
       tags:
         - inspection
-      operationId: updateAutoInspectionV2
+      operationId: updateAutoInspection
       summary: update auto inspection
       parameters:
         - description: id of the auto inspection
@@ -11172,7 +10989,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/autoInspectionV2'
+              $ref: '#/components/schemas/autoInspection'
         required: true
       responses:
         '200':
@@ -11180,7 +10997,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/autoInspectionV2'
+                $ref: '#/components/schemas/autoInspection'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11190,7 +11007,7 @@ paths:
     delete:
       tags:
         - inspection
-      operationId: deleteAutoInspectionV2
+      operationId: deleteAutoInspection
       summary: delete auto inspection
       parameters:
         - description: id of the auto inspection
@@ -11235,7 +11052,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionTaskV2'
+                  $ref: '#/components/schemas/inspectionTask'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11258,7 +11075,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionTaskV2'
+              $ref: '#/components/schemas/inspectionTask'
         required: true
       responses:
         '204':
@@ -11301,7 +11118,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionTaskV2'
+                $ref: '#/components/schemas/inspectionTask'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11334,7 +11151,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionTaskV2'
+                  $ref: '#/components/schemas/inspectionTask'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -11357,7 +11174,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionTaskV2'
+              $ref: '#/components/schemas/inspectionTask'
         required: true
       responses:
         '204':
@@ -11402,7 +11219,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/inspectionTaskItemV2'
+                  $ref: '#/components/schemas/inspectionTaskItem'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -15674,7 +15491,7 @@ paths:
       summary: Get the environment pricing
       deprecated: true
       parameters:
-        - description: name of the environment
+        - description: name of the environment (if provided, returns a list with one item; if omitted, returns all environment prices)
           in: query
           name: environmentName
           schema:
@@ -15684,8 +15501,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/environmentPricing'
-          description: Retrieve the price of one environment
+                $ref: '#/components/schemas/environmentPricingList'
+          description: Retrieve the price of environment(s) as a list
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -15867,6 +15684,11 @@ paths:
           name: aggregationTime
           schema:
             $ref: '#/components/schemas/aggregationTimeType'
+        - description: The type of aggregation group
+          in: query
+          name: aggregationGroup
+          schema:
+            $ref: '#/components/schemas/aggregationGroupType'
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
       responses:
@@ -19302,6 +19124,8 @@ components:
           type: array
           items:
             type: string
+        currentVersion:
+          type: string
         versions:
           type: array
           items:
@@ -23686,14 +23510,25 @@ components:
       required:
         - configSpecName
         - templateRef
+        - configFileName
+        - format
       type: object
       properties:
         configSpecName:
           type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+          description: name of config spec, included in configSpecs
         templateRef:
           type: string
-          description: name of the referenced configuration template configMap object, equal to componentDefinition.configs[x].templateRef
+          description: name of the referenced configuration template file name, all files in parameter template fold under stores
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
@@ -25483,92 +25318,7 @@ components:
       required:
         - items
       type: object
-    inspection:
-      description: inspection
-      properties:
-        id:
-          type: integer
-        orgName:
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        creator:
-          type: string
-        clusterID:
-          type: string
-        clusterName:
-          type: string
-        clusterEngine:
-          type: string
-        result:
-          type: string
-        severity:
-          type: string
-        status:
-          type: string
-        isAuto:
-          type: boolean
-        scriptID:
-          type: integer
-        scriptName:
-          type: string
-        scriptCategory:
-          type: string
-        description:
-          type: string
-        unit:
-          type: string
-      type: object
-    autoInspectionRunUnit:
-      type: string
-      description: Specifies the unit of time for the auto inspection schedule.
-      enum:
-        - hour
-        - day
-        - week
-        - month
-    autoInspection:
-      properties:
-        id:
-          type: integer
-        orgName:
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        creator:
-          type: string
-        schedule:
-          type: string
-        runEvery:
-          $ref: '#/components/schemas/autoInspectionRunUnit'
-        daysOfWeek:
-          type: array
-          items:
-            type: integer
-        daysOfMonth:
-          type: array
-          items:
-            type: integer
-        hour:
-          type: integer
-        minute:
-          type: integer
-        savedDays:
-          type: integer
-        nextRunTime:
-          format: date-time
-          type: string
-        enabled:
-          type: boolean
-    inspectionScriptCategoryV2:
+    inspectionScriptCategory:
       type: string
       description: Specifies the category of the inspection script.
       enum:
@@ -25577,7 +25327,7 @@ components:
         - security
         - backup
         - other
-    inspectionScriptV2:
+    inspectionScript:
       required:
         - name
         - engine
@@ -25588,7 +25338,7 @@ components:
         - enabled
       properties:
         id:
-          type: integer
+          type: string
         name:
           pattern: ^[a-zA-Z0-9_]{1,64}$
           type: string
@@ -25601,7 +25351,7 @@ components:
           description: The type of the script, such as "promQL"
           type: string
         category:
-          $ref: '#/components/schemas/inspectionScriptCategoryV2'
+          $ref: '#/components/schemas/inspectionScriptCategory'
         description:
           $ref: '#/components/schemas/localizedDescription'
         scriptExpr:
@@ -25627,37 +25377,7 @@ components:
         updatedAt:
           description: Timestamp of update time
           type: integer
-    inspectionScript:
-      required:
-        - enabled
-      properties:
-        id:
-          type: integer
-        engine:
-          type: string
-        name:
-          type: string
-        category:
-          type: string
-        type:
-          type: string
-        scriptType:
-          type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        scriptName:
-          type: string
-        script:
-          type: string
-        statusCheckName:
-          type: string
-        statusCheck:
-          type: string
-        unit:
-          type: string
-    autoInspectionResourceTypeV2:
+    autoInspectionResourceType:
       type: string
       description: Specifies the type of the resource for the auto inspection.
       enum:
@@ -25665,7 +25385,15 @@ components:
         - cluster
         - environment
         - environment_node
-    autoInspectionV2:
+    autoInspectionRunUnit:
+      type: string
+      description: Specifies the unit of time for the auto inspection schedule.
+      enum:
+        - hour
+        - day
+        - week
+        - month
+    autoInspection:
       required:
         - resourceType
         - resourceName
@@ -25673,9 +25401,9 @@ components:
         - enabled
       properties:
         id:
-          type: integer
+          type: string
         resourceType:
-          $ref: '#/components/schemas/autoInspectionResourceTypeV2'
+          $ref: '#/components/schemas/autoInspectionResourceType'
         resourceID:
           type: string
         resourceName:
@@ -25705,7 +25433,7 @@ components:
           type: string
         enabled:
           type: boolean
-    inspectionSupportedEnginesV2:
+    inspectionSupportedEngines:
       type: string
       description: Specifies the supported engines for the inspection task.
       enum:
@@ -25713,14 +25441,14 @@ components:
         - mysql
         - redis
         - damengdb
-    inspectionTaskItemV2:
+    inspectionTaskItem:
       properties:
         id:
-          type: integer
+          type: string
         taskID:
-          type: integer
+          type: string
         scriptID:
-          type: integer
+          type: string
         scriptName:
           $ref: '#/components/schemas/localizedDescription'
         scriptDescription:
@@ -25747,16 +25475,16 @@ components:
         updatedAt:
           format: date-time
           type: string
-    inspectionTaskV2:
+    inspectionTask:
       properties:
         id:
-          type: integer
+          type: string
         creator:
           type: string
         status:
           type: string
         engine:
-          $ref: '#/components/schemas/inspectionSupportedEnginesV2'
+          $ref: '#/components/schemas/inspectionSupportedEngines'
         orgName:
           type: string
         clusterID:
@@ -25778,7 +25506,7 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/inspectionTaskItemV2'
+            $ref: '#/components/schemas/inspectionTaskItem'
         createdAt:
           format: date-time
           type: string
@@ -25821,7 +25549,7 @@ components:
         tasks:
           type: array
           items:
-            $ref: '#/components/schemas/inspectionTaskV2'
+            $ref: '#/components/schemas/inspectionTask'
     aggregateTaskResultList:
       type: object
       properties:
@@ -27895,6 +27623,10 @@ components:
       type: object
       description: the information of environment pricing
       properties:
+        envID:
+          description: The environment ID
+          type: string
+          nullable: true
         envName:
           description: The environment name
           type: string
@@ -27911,6 +27643,17 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+    environmentPricingList:
+      type: object
+      description: list of information with environment pricing
+      properties:
+        items:
+          description: Items is the list of environment pricing information
+          items:
+            $ref: '#/components/schemas/environmentPricing'
+          type: array
+      required:
+        - items
     currencyUnitType:
       description: The currency uint for display in bill query
       enum:
@@ -27968,6 +27711,7 @@ components:
         - global
         - organization
         - project
+        - cluster
       type: string
       nullable: true
     BasicBill:
@@ -28010,30 +27754,42 @@ components:
           description: The ID of cluster
           type: string
           nullable: true
+          x-omitempty: true
         clusterName:
           description: The Name of cluster
           type: string
           nullable: true
+          x-omitempty: true
+        clusterDisplayName:
+          description: The Display Name of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
         engine:
           description: Cluster Application Engine
           type: string
           nullable: true
+          x-omitempty: true
         version:
           description: Cluster Application Version
           type: string
           nullable: true
+          x-omitempty: true
         mode:
           description: Cluster topology mode
           type: string
           nullable: true
+          x-omitempty: true
         orgName:
           description: The Name of organization
           type: string
           nullable: true
+          x-omitempty: true
         projectName:
           description: The Name of project
           type: string
           nullable: true
+          x-omitempty: true
     BillDetailList:
       type: object
       description: list price details in date range

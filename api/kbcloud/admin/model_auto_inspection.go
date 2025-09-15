@@ -5,18 +5,20 @@
 package admin
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
 type AutoInspection struct {
-	Id        *int32     `json:"id,omitempty"`
-	OrgName   *string    `json:"orgName,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Creator   *string    `json:"creator,omitempty"`
-	Schedule  *string    `json:"schedule,omitempty"`
+	Id *string `json:"id,omitempty"`
+	// Specifies the type of the resource for the auto inspection.
+	ResourceType AutoInspectionResourceType `json:"resourceType"`
+	ResourceId   *string                    `json:"resourceID,omitempty"`
+	ResourceName string                     `json:"resourceName"`
+	Creator      string                     `json:"creator"`
+	Schedule     *string                    `json:"schedule,omitempty"`
 	// Specifies the unit of time for the auto inspection schedule.
 	RunEvery    *AutoInspectionRunUnit `json:"runEvery,omitempty"`
 	DaysOfWeek  []int32                `json:"daysOfWeek,omitempty"`
@@ -25,7 +27,7 @@ type AutoInspection struct {
 	Minute      *int32                 `json:"minute,omitempty"`
 	SavedDays   *int32                 `json:"savedDays,omitempty"`
 	NextRunTime *time.Time             `json:"nextRunTime,omitempty"`
-	Enabled     *bool                  `json:"enabled,omitempty"`
+	Enabled     bool                   `json:"enabled"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -35,8 +37,12 @@ type AutoInspection struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewAutoInspection() *AutoInspection {
+func NewAutoInspection(resourceType AutoInspectionResourceType, resourceName string, creator string, enabled bool) *AutoInspection {
 	this := AutoInspection{}
+	this.ResourceType = resourceType
+	this.ResourceName = resourceName
+	this.Creator = creator
+	this.Enabled = enabled
 	return &this
 }
 
@@ -49,9 +55,9 @@ func NewAutoInspectionWithDefaults() *AutoInspection {
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *AutoInspection) GetId() int32 {
+func (o *AutoInspection) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -59,7 +65,7 @@ func (o *AutoInspection) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AutoInspection) GetIdOk() (*int32, bool) {
+func (o *AutoInspection) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -71,121 +77,106 @@ func (o *AutoInspection) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *AutoInspection) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *AutoInspection) SetId(v string) {
 	o.Id = &v
 }
 
-// GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *AutoInspection) GetOrgName() string {
-	if o == nil || o.OrgName == nil {
+// GetResourceType returns the ResourceType field value.
+func (o *AutoInspection) GetResourceType() AutoInspectionResourceType {
+	if o == nil {
+		var ret AutoInspectionResourceType
+		return ret
+	}
+	return o.ResourceType
+}
+
+// GetResourceTypeOk returns a tuple with the ResourceType field value
+// and a boolean to check if the value has been set.
+func (o *AutoInspection) GetResourceTypeOk() (*AutoInspectionResourceType, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ResourceType, true
+}
+
+// SetResourceType sets field value.
+func (o *AutoInspection) SetResourceType(v AutoInspectionResourceType) {
+	o.ResourceType = v
+}
+
+// GetResourceId returns the ResourceId field value if set, zero value otherwise.
+func (o *AutoInspection) GetResourceId() string {
+	if o == nil || o.ResourceId == nil {
 		var ret string
 		return ret
 	}
-	return *o.OrgName
+	return *o.ResourceId
 }
 
-// GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
+// GetResourceIdOk returns a tuple with the ResourceId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AutoInspection) GetOrgNameOk() (*string, bool) {
-	if o == nil || o.OrgName == nil {
+func (o *AutoInspection) GetResourceIdOk() (*string, bool) {
+	if o == nil || o.ResourceId == nil {
 		return nil, false
 	}
-	return o.OrgName, true
+	return o.ResourceId, true
 }
 
-// HasOrgName returns a boolean if a field has been set.
-func (o *AutoInspection) HasOrgName() bool {
-	return o != nil && o.OrgName != nil
+// HasResourceId returns a boolean if a field has been set.
+func (o *AutoInspection) HasResourceId() bool {
+	return o != nil && o.ResourceId != nil
 }
 
-// SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *AutoInspection) SetOrgName(v string) {
-	o.OrgName = &v
+// SetResourceId gets a reference to the given string and assigns it to the ResourceId field.
+func (o *AutoInspection) SetResourceId(v string) {
+	o.ResourceId = &v
 }
 
-// GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *AutoInspection) GetUpdatedAt() time.Time {
-	if o == nil || o.UpdatedAt == nil {
-		var ret time.Time
+// GetResourceName returns the ResourceName field value.
+func (o *AutoInspection) GetResourceName() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
-	return *o.UpdatedAt
+	return o.ResourceName
 }
 
-// GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
+// GetResourceNameOk returns a tuple with the ResourceName field value
 // and a boolean to check if the value has been set.
-func (o *AutoInspection) GetUpdatedAtOk() (*time.Time, bool) {
-	if o == nil || o.UpdatedAt == nil {
+func (o *AutoInspection) GetResourceNameOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.UpdatedAt, true
+	return &o.ResourceName, true
 }
 
-// HasUpdatedAt returns a boolean if a field has been set.
-func (o *AutoInspection) HasUpdatedAt() bool {
-	return o != nil && o.UpdatedAt != nil
+// SetResourceName sets field value.
+func (o *AutoInspection) SetResourceName(v string) {
+	o.ResourceName = v
 }
 
-// SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *AutoInspection) SetUpdatedAt(v time.Time) {
-	o.UpdatedAt = &v
-}
-
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *AutoInspection) GetCreatedAt() time.Time {
-	if o == nil || o.CreatedAt == nil {
-		var ret time.Time
-		return ret
-	}
-	return *o.CreatedAt
-}
-
-// GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AutoInspection) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || o.CreatedAt == nil {
-		return nil, false
-	}
-	return o.CreatedAt, true
-}
-
-// HasCreatedAt returns a boolean if a field has been set.
-func (o *AutoInspection) HasCreatedAt() bool {
-	return o != nil && o.CreatedAt != nil
-}
-
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *AutoInspection) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
-}
-
-// GetCreator returns the Creator field value if set, zero value otherwise.
+// GetCreator returns the Creator field value.
 func (o *AutoInspection) GetCreator() string {
-	if o == nil || o.Creator == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Creator
+	return o.Creator
 }
 
-// GetCreatorOk returns a tuple with the Creator field value if set, nil otherwise
+// GetCreatorOk returns a tuple with the Creator field value
 // and a boolean to check if the value has been set.
 func (o *AutoInspection) GetCreatorOk() (*string, bool) {
-	if o == nil || o.Creator == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Creator, true
+	return &o.Creator, true
 }
 
-// HasCreator returns a boolean if a field has been set.
-func (o *AutoInspection) HasCreator() bool {
-	return o != nil && o.Creator != nil
-}
-
-// SetCreator gets a reference to the given string and assigns it to the Creator field.
+// SetCreator sets field value.
 func (o *AutoInspection) SetCreator(v string) {
-	o.Creator = &v
+	o.Creator = v
 }
 
 // GetSchedule returns the Schedule field value if set, zero value otherwise.
@@ -412,32 +403,27 @@ func (o *AutoInspection) SetNextRunTime(v time.Time) {
 	o.NextRunTime = &v
 }
 
-// GetEnabled returns the Enabled field value if set, zero value otherwise.
+// GetEnabled returns the Enabled field value.
 func (o *AutoInspection) GetEnabled() bool {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		var ret bool
 		return ret
 	}
-	return *o.Enabled
+	return o.Enabled
 }
 
-// GetEnabledOk returns a tuple with the Enabled field value if set, nil otherwise
+// GetEnabledOk returns a tuple with the Enabled field value
 // and a boolean to check if the value has been set.
 func (o *AutoInspection) GetEnabledOk() (*bool, bool) {
-	if o == nil || o.Enabled == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Enabled, true
+	return &o.Enabled, true
 }
 
-// HasEnabled returns a boolean if a field has been set.
-func (o *AutoInspection) HasEnabled() bool {
-	return o != nil && o.Enabled != nil
-}
-
-// SetEnabled gets a reference to the given bool and assigns it to the Enabled field.
+// SetEnabled sets field value.
 func (o *AutoInspection) SetEnabled(v bool) {
-	o.Enabled = &v
+	o.Enabled = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -449,26 +435,12 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
 	}
-	if o.OrgName != nil {
-		toSerialize["orgName"] = o.OrgName
+	toSerialize["resourceType"] = o.ResourceType
+	if o.ResourceId != nil {
+		toSerialize["resourceID"] = o.ResourceId
 	}
-	if o.UpdatedAt != nil {
-		if o.UpdatedAt.Nanosecond() == 0 {
-			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["updatedAt"] = o.UpdatedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
-	if o.CreatedAt != nil {
-		if o.CreatedAt.Nanosecond() == 0 {
-			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05Z07:00")
-		} else {
-			toSerialize["createdAt"] = o.CreatedAt.Format("2006-01-02T15:04:05.000Z07:00")
-		}
-	}
-	if o.Creator != nil {
-		toSerialize["creator"] = o.Creator
-	}
+	toSerialize["resourceName"] = o.ResourceName
+	toSerialize["creator"] = o.Creator
 	if o.Schedule != nil {
 		toSerialize["schedule"] = o.Schedule
 	}
@@ -497,9 +469,7 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 			toSerialize["nextRunTime"] = o.NextRunTime.Format("2006-01-02T15:04:05.000Z07:00")
 		}
 	}
-	if o.Enabled != nil {
-		toSerialize["enabled"] = o.Enabled
-	}
+	toSerialize["enabled"] = o.Enabled
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -510,37 +480,53 @@ func (o AutoInspection) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32                 `json:"id,omitempty"`
-		OrgName     *string                `json:"orgName,omitempty"`
-		UpdatedAt   *time.Time             `json:"updatedAt,omitempty"`
-		CreatedAt   *time.Time             `json:"createdAt,omitempty"`
-		Creator     *string                `json:"creator,omitempty"`
-		Schedule    *string                `json:"schedule,omitempty"`
-		RunEvery    *AutoInspectionRunUnit `json:"runEvery,omitempty"`
-		DaysOfWeek  []int32                `json:"daysOfWeek,omitempty"`
-		DaysOfMonth []int32                `json:"daysOfMonth,omitempty"`
-		Hour        *int32                 `json:"hour,omitempty"`
-		Minute      *int32                 `json:"minute,omitempty"`
-		SavedDays   *int32                 `json:"savedDays,omitempty"`
-		NextRunTime *time.Time             `json:"nextRunTime,omitempty"`
-		Enabled     *bool                  `json:"enabled,omitempty"`
+		Id           *string                     `json:"id,omitempty"`
+		ResourceType *AutoInspectionResourceType `json:"resourceType"`
+		ResourceId   *string                     `json:"resourceID,omitempty"`
+		ResourceName *string                     `json:"resourceName"`
+		Creator      *string                     `json:"creator"`
+		Schedule     *string                     `json:"schedule,omitempty"`
+		RunEvery     *AutoInspectionRunUnit      `json:"runEvery,omitempty"`
+		DaysOfWeek   []int32                     `json:"daysOfWeek,omitempty"`
+		DaysOfMonth  []int32                     `json:"daysOfMonth,omitempty"`
+		Hour         *int32                      `json:"hour,omitempty"`
+		Minute       *int32                      `json:"minute,omitempty"`
+		SavedDays    *int32                      `json:"savedDays,omitempty"`
+		NextRunTime  *time.Time                  `json:"nextRunTime,omitempty"`
+		Enabled      *bool                       `json:"enabled"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
+	if all.ResourceType == nil {
+		return fmt.Errorf("required field resourceType missing")
+	}
+	if all.ResourceName == nil {
+		return fmt.Errorf("required field resourceName missing")
+	}
+	if all.Creator == nil {
+		return fmt.Errorf("required field creator missing")
+	}
+	if all.Enabled == nil {
+		return fmt.Errorf("required field enabled missing")
+	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "orgName", "updatedAt", "createdAt", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "resourceType", "resourceID", "resourceName", "creator", "schedule", "runEvery", "daysOfWeek", "daysOfMonth", "hour", "minute", "savedDays", "nextRunTime", "enabled"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.Id = all.Id
-	o.OrgName = all.OrgName
-	o.UpdatedAt = all.UpdatedAt
-	o.CreatedAt = all.CreatedAt
-	o.Creator = all.Creator
+	if !all.ResourceType.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.ResourceType = *all.ResourceType
+	}
+	o.ResourceId = all.ResourceId
+	o.ResourceName = *all.ResourceName
+	o.Creator = *all.Creator
 	o.Schedule = all.Schedule
 	if all.RunEvery != nil && !all.RunEvery.IsValid() {
 		hasInvalidField = true
@@ -553,7 +539,7 @@ func (o *AutoInspection) UnmarshalJSON(bytes []byte) (err error) {
 	o.Minute = all.Minute
 	o.SavedDays = all.SavedDays
 	o.NextRunTime = all.NextRunTime
-	o.Enabled = all.Enabled
+	o.Enabled = *all.Enabled
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

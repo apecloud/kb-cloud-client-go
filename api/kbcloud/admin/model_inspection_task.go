@@ -10,50 +10,50 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type InspectionTaskV2 struct {
-	Id      *int32  `json:"id,omitempty"`
+type InspectionTask struct {
+	Id      *string `json:"id,omitempty"`
 	Creator *string `json:"creator,omitempty"`
 	Status  *string `json:"status,omitempty"`
 	// Specifies the supported engines for the inspection task.
-	Engine      *InspectionSupportedEnginesV2 `json:"engine,omitempty"`
-	OrgName     *string                       `json:"orgName,omitempty"`
-	ClusterId   *string                       `json:"clusterID,omitempty"`
-	ClusterName *string                       `json:"clusterName,omitempty"`
-	EnvName     *string                       `json:"envName,omitempty"`
-	EnvId       *string                       `json:"envID,omitempty"`
-	NodeName    *string                       `json:"nodeName,omitempty"`
-	IsAuto      *bool                         `json:"isAuto,omitempty"`
-	Score       *int32                        `json:"score,omitempty"`
-	Result      *string                       `json:"result,omitempty"`
-	Items       []InspectionTaskItemV2        `json:"items,omitempty"`
-	CreatedAt   *time.Time                    `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time                    `json:"updatedAt,omitempty"`
+	Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
+	OrgName     *string                     `json:"orgName,omitempty"`
+	ClusterId   *string                     `json:"clusterID,omitempty"`
+	ClusterName *string                     `json:"clusterName,omitempty"`
+	EnvName     *string                     `json:"envName,omitempty"`
+	EnvId       *string                     `json:"envID,omitempty"`
+	NodeName    *string                     `json:"nodeName,omitempty"`
+	IsAuto      *bool                       `json:"isAuto,omitempty"`
+	Score       *int32                      `json:"score,omitempty"`
+	Result      *string                     `json:"result,omitempty"`
+	Items       []InspectionTaskItem        `json:"items,omitempty"`
+	CreatedAt   *time.Time                  `json:"createdAt,omitempty"`
+	UpdatedAt   *time.Time                  `json:"updatedAt,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewInspectionTaskV2 instantiates a new InspectionTaskV2 object.
+// NewInspectionTask instantiates a new InspectionTask object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInspectionTaskV2() *InspectionTaskV2 {
-	this := InspectionTaskV2{}
+func NewInspectionTask() *InspectionTask {
+	this := InspectionTask{}
 	return &this
 }
 
-// NewInspectionTaskV2WithDefaults instantiates a new InspectionTaskV2 object.
+// NewInspectionTaskWithDefaults instantiates a new InspectionTask object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewInspectionTaskV2WithDefaults() *InspectionTaskV2 {
-	this := InspectionTaskV2{}
+func NewInspectionTaskWithDefaults() *InspectionTask {
+	this := InspectionTask{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetId() int32 {
+func (o *InspectionTask) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -61,7 +61,7 @@ func (o *InspectionTaskV2) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetIdOk() (*int32, bool) {
+func (o *InspectionTask) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -69,17 +69,17 @@ func (o *InspectionTaskV2) GetIdOk() (*int32, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasId() bool {
+func (o *InspectionTask) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *InspectionTaskV2) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *InspectionTask) SetId(v string) {
 	o.Id = &v
 }
 
 // GetCreator returns the Creator field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetCreator() string {
+func (o *InspectionTask) GetCreator() string {
 	if o == nil || o.Creator == nil {
 		var ret string
 		return ret
@@ -89,7 +89,7 @@ func (o *InspectionTaskV2) GetCreator() string {
 
 // GetCreatorOk returns a tuple with the Creator field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetCreatorOk() (*string, bool) {
+func (o *InspectionTask) GetCreatorOk() (*string, bool) {
 	if o == nil || o.Creator == nil {
 		return nil, false
 	}
@@ -97,17 +97,17 @@ func (o *InspectionTaskV2) GetCreatorOk() (*string, bool) {
 }
 
 // HasCreator returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasCreator() bool {
+func (o *InspectionTask) HasCreator() bool {
 	return o != nil && o.Creator != nil
 }
 
 // SetCreator gets a reference to the given string and assigns it to the Creator field.
-func (o *InspectionTaskV2) SetCreator(v string) {
+func (o *InspectionTask) SetCreator(v string) {
 	o.Creator = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetStatus() string {
+func (o *InspectionTask) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -117,7 +117,7 @@ func (o *InspectionTaskV2) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetStatusOk() (*string, bool) {
+func (o *InspectionTask) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -125,19 +125,19 @@ func (o *InspectionTaskV2) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasStatus() bool {
+func (o *InspectionTask) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *InspectionTaskV2) SetStatus(v string) {
+func (o *InspectionTask) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetEngine() InspectionSupportedEnginesV2 {
+func (o *InspectionTask) GetEngine() InspectionSupportedEngines {
 	if o == nil || o.Engine == nil {
-		var ret InspectionSupportedEnginesV2
+		var ret InspectionSupportedEngines
 		return ret
 	}
 	return *o.Engine
@@ -145,7 +145,7 @@ func (o *InspectionTaskV2) GetEngine() InspectionSupportedEnginesV2 {
 
 // GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetEngineOk() (*InspectionSupportedEnginesV2, bool) {
+func (o *InspectionTask) GetEngineOk() (*InspectionSupportedEngines, bool) {
 	if o == nil || o.Engine == nil {
 		return nil, false
 	}
@@ -153,17 +153,17 @@ func (o *InspectionTaskV2) GetEngineOk() (*InspectionSupportedEnginesV2, bool) {
 }
 
 // HasEngine returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasEngine() bool {
+func (o *InspectionTask) HasEngine() bool {
 	return o != nil && o.Engine != nil
 }
 
-// SetEngine gets a reference to the given InspectionSupportedEnginesV2 and assigns it to the Engine field.
-func (o *InspectionTaskV2) SetEngine(v InspectionSupportedEnginesV2) {
+// SetEngine gets a reference to the given InspectionSupportedEngines and assigns it to the Engine field.
+func (o *InspectionTask) SetEngine(v InspectionSupportedEngines) {
 	o.Engine = &v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetOrgName() string {
+func (o *InspectionTask) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
 		var ret string
 		return ret
@@ -173,7 +173,7 @@ func (o *InspectionTaskV2) GetOrgName() string {
 
 // GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetOrgNameOk() (*string, bool) {
+func (o *InspectionTask) GetOrgNameOk() (*string, bool) {
 	if o == nil || o.OrgName == nil {
 		return nil, false
 	}
@@ -181,17 +181,17 @@ func (o *InspectionTaskV2) GetOrgNameOk() (*string, bool) {
 }
 
 // HasOrgName returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasOrgName() bool {
+func (o *InspectionTask) HasOrgName() bool {
 	return o != nil && o.OrgName != nil
 }
 
 // SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *InspectionTaskV2) SetOrgName(v string) {
+func (o *InspectionTask) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetClusterId() string {
+func (o *InspectionTask) GetClusterId() string {
 	if o == nil || o.ClusterId == nil {
 		var ret string
 		return ret
@@ -201,7 +201,7 @@ func (o *InspectionTaskV2) GetClusterId() string {
 
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetClusterIdOk() (*string, bool) {
+func (o *InspectionTask) GetClusterIdOk() (*string, bool) {
 	if o == nil || o.ClusterId == nil {
 		return nil, false
 	}
@@ -209,17 +209,17 @@ func (o *InspectionTaskV2) GetClusterIdOk() (*string, bool) {
 }
 
 // HasClusterId returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasClusterId() bool {
+func (o *InspectionTask) HasClusterId() bool {
 	return o != nil && o.ClusterId != nil
 }
 
 // SetClusterId gets a reference to the given string and assigns it to the ClusterId field.
-func (o *InspectionTaskV2) SetClusterId(v string) {
+func (o *InspectionTask) SetClusterId(v string) {
 	o.ClusterId = &v
 }
 
 // GetClusterName returns the ClusterName field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetClusterName() string {
+func (o *InspectionTask) GetClusterName() string {
 	if o == nil || o.ClusterName == nil {
 		var ret string
 		return ret
@@ -229,7 +229,7 @@ func (o *InspectionTaskV2) GetClusterName() string {
 
 // GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetClusterNameOk() (*string, bool) {
+func (o *InspectionTask) GetClusterNameOk() (*string, bool) {
 	if o == nil || o.ClusterName == nil {
 		return nil, false
 	}
@@ -237,17 +237,17 @@ func (o *InspectionTaskV2) GetClusterNameOk() (*string, bool) {
 }
 
 // HasClusterName returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasClusterName() bool {
+func (o *InspectionTask) HasClusterName() bool {
 	return o != nil && o.ClusterName != nil
 }
 
 // SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
-func (o *InspectionTaskV2) SetClusterName(v string) {
+func (o *InspectionTask) SetClusterName(v string) {
 	o.ClusterName = &v
 }
 
 // GetEnvName returns the EnvName field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetEnvName() string {
+func (o *InspectionTask) GetEnvName() string {
 	if o == nil || o.EnvName == nil {
 		var ret string
 		return ret
@@ -257,7 +257,7 @@ func (o *InspectionTaskV2) GetEnvName() string {
 
 // GetEnvNameOk returns a tuple with the EnvName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetEnvNameOk() (*string, bool) {
+func (o *InspectionTask) GetEnvNameOk() (*string, bool) {
 	if o == nil || o.EnvName == nil {
 		return nil, false
 	}
@@ -265,17 +265,17 @@ func (o *InspectionTaskV2) GetEnvNameOk() (*string, bool) {
 }
 
 // HasEnvName returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasEnvName() bool {
+func (o *InspectionTask) HasEnvName() bool {
 	return o != nil && o.EnvName != nil
 }
 
 // SetEnvName gets a reference to the given string and assigns it to the EnvName field.
-func (o *InspectionTaskV2) SetEnvName(v string) {
+func (o *InspectionTask) SetEnvName(v string) {
 	o.EnvName = &v
 }
 
 // GetEnvId returns the EnvId field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetEnvId() string {
+func (o *InspectionTask) GetEnvId() string {
 	if o == nil || o.EnvId == nil {
 		var ret string
 		return ret
@@ -285,7 +285,7 @@ func (o *InspectionTaskV2) GetEnvId() string {
 
 // GetEnvIdOk returns a tuple with the EnvId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetEnvIdOk() (*string, bool) {
+func (o *InspectionTask) GetEnvIdOk() (*string, bool) {
 	if o == nil || o.EnvId == nil {
 		return nil, false
 	}
@@ -293,17 +293,17 @@ func (o *InspectionTaskV2) GetEnvIdOk() (*string, bool) {
 }
 
 // HasEnvId returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasEnvId() bool {
+func (o *InspectionTask) HasEnvId() bool {
 	return o != nil && o.EnvId != nil
 }
 
 // SetEnvId gets a reference to the given string and assigns it to the EnvId field.
-func (o *InspectionTaskV2) SetEnvId(v string) {
+func (o *InspectionTask) SetEnvId(v string) {
 	o.EnvId = &v
 }
 
 // GetNodeName returns the NodeName field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetNodeName() string {
+func (o *InspectionTask) GetNodeName() string {
 	if o == nil || o.NodeName == nil {
 		var ret string
 		return ret
@@ -313,7 +313,7 @@ func (o *InspectionTaskV2) GetNodeName() string {
 
 // GetNodeNameOk returns a tuple with the NodeName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetNodeNameOk() (*string, bool) {
+func (o *InspectionTask) GetNodeNameOk() (*string, bool) {
 	if o == nil || o.NodeName == nil {
 		return nil, false
 	}
@@ -321,17 +321,17 @@ func (o *InspectionTaskV2) GetNodeNameOk() (*string, bool) {
 }
 
 // HasNodeName returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasNodeName() bool {
+func (o *InspectionTask) HasNodeName() bool {
 	return o != nil && o.NodeName != nil
 }
 
 // SetNodeName gets a reference to the given string and assigns it to the NodeName field.
-func (o *InspectionTaskV2) SetNodeName(v string) {
+func (o *InspectionTask) SetNodeName(v string) {
 	o.NodeName = &v
 }
 
 // GetIsAuto returns the IsAuto field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetIsAuto() bool {
+func (o *InspectionTask) GetIsAuto() bool {
 	if o == nil || o.IsAuto == nil {
 		var ret bool
 		return ret
@@ -341,7 +341,7 @@ func (o *InspectionTaskV2) GetIsAuto() bool {
 
 // GetIsAutoOk returns a tuple with the IsAuto field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetIsAutoOk() (*bool, bool) {
+func (o *InspectionTask) GetIsAutoOk() (*bool, bool) {
 	if o == nil || o.IsAuto == nil {
 		return nil, false
 	}
@@ -349,17 +349,17 @@ func (o *InspectionTaskV2) GetIsAutoOk() (*bool, bool) {
 }
 
 // HasIsAuto returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasIsAuto() bool {
+func (o *InspectionTask) HasIsAuto() bool {
 	return o != nil && o.IsAuto != nil
 }
 
 // SetIsAuto gets a reference to the given bool and assigns it to the IsAuto field.
-func (o *InspectionTaskV2) SetIsAuto(v bool) {
+func (o *InspectionTask) SetIsAuto(v bool) {
 	o.IsAuto = &v
 }
 
 // GetScore returns the Score field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetScore() int32 {
+func (o *InspectionTask) GetScore() int32 {
 	if o == nil || o.Score == nil {
 		var ret int32
 		return ret
@@ -369,7 +369,7 @@ func (o *InspectionTaskV2) GetScore() int32 {
 
 // GetScoreOk returns a tuple with the Score field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetScoreOk() (*int32, bool) {
+func (o *InspectionTask) GetScoreOk() (*int32, bool) {
 	if o == nil || o.Score == nil {
 		return nil, false
 	}
@@ -377,17 +377,17 @@ func (o *InspectionTaskV2) GetScoreOk() (*int32, bool) {
 }
 
 // HasScore returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasScore() bool {
+func (o *InspectionTask) HasScore() bool {
 	return o != nil && o.Score != nil
 }
 
 // SetScore gets a reference to the given int32 and assigns it to the Score field.
-func (o *InspectionTaskV2) SetScore(v int32) {
+func (o *InspectionTask) SetScore(v int32) {
 	o.Score = &v
 }
 
 // GetResult returns the Result field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetResult() string {
+func (o *InspectionTask) GetResult() string {
 	if o == nil || o.Result == nil {
 		var ret string
 		return ret
@@ -397,7 +397,7 @@ func (o *InspectionTaskV2) GetResult() string {
 
 // GetResultOk returns a tuple with the Result field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetResultOk() (*string, bool) {
+func (o *InspectionTask) GetResultOk() (*string, bool) {
 	if o == nil || o.Result == nil {
 		return nil, false
 	}
@@ -405,19 +405,19 @@ func (o *InspectionTaskV2) GetResultOk() (*string, bool) {
 }
 
 // HasResult returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasResult() bool {
+func (o *InspectionTask) HasResult() bool {
 	return o != nil && o.Result != nil
 }
 
 // SetResult gets a reference to the given string and assigns it to the Result field.
-func (o *InspectionTaskV2) SetResult(v string) {
+func (o *InspectionTask) SetResult(v string) {
 	o.Result = &v
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetItems() []InspectionTaskItemV2 {
+func (o *InspectionTask) GetItems() []InspectionTaskItem {
 	if o == nil || o.Items == nil {
-		var ret []InspectionTaskItemV2
+		var ret []InspectionTaskItem
 		return ret
 	}
 	return o.Items
@@ -425,7 +425,7 @@ func (o *InspectionTaskV2) GetItems() []InspectionTaskItemV2 {
 
 // GetItemsOk returns a tuple with the Items field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetItemsOk() (*[]InspectionTaskItemV2, bool) {
+func (o *InspectionTask) GetItemsOk() (*[]InspectionTaskItem, bool) {
 	if o == nil || o.Items == nil {
 		return nil, false
 	}
@@ -433,17 +433,17 @@ func (o *InspectionTaskV2) GetItemsOk() (*[]InspectionTaskItemV2, bool) {
 }
 
 // HasItems returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasItems() bool {
+func (o *InspectionTask) HasItems() bool {
 	return o != nil && o.Items != nil
 }
 
-// SetItems gets a reference to the given []InspectionTaskItemV2 and assigns it to the Items field.
-func (o *InspectionTaskV2) SetItems(v []InspectionTaskItemV2) {
+// SetItems gets a reference to the given []InspectionTaskItem and assigns it to the Items field.
+func (o *InspectionTask) SetItems(v []InspectionTaskItem) {
 	o.Items = v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetCreatedAt() time.Time {
+func (o *InspectionTask) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
 		var ret time.Time
 		return ret
@@ -453,7 +453,7 @@ func (o *InspectionTaskV2) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetCreatedAtOk() (*time.Time, bool) {
+func (o *InspectionTask) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || o.CreatedAt == nil {
 		return nil, false
 	}
@@ -461,17 +461,17 @@ func (o *InspectionTaskV2) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasCreatedAt() bool {
+func (o *InspectionTask) HasCreatedAt() bool {
 	return o != nil && o.CreatedAt != nil
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *InspectionTaskV2) SetCreatedAt(v time.Time) {
+func (o *InspectionTask) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *InspectionTaskV2) GetUpdatedAt() time.Time {
+func (o *InspectionTask) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
 		var ret time.Time
 		return ret
@@ -481,7 +481,7 @@ func (o *InspectionTaskV2) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskV2) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *InspectionTask) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil || o.UpdatedAt == nil {
 		return nil, false
 	}
@@ -489,17 +489,17 @@ func (o *InspectionTaskV2) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // HasUpdatedAt returns a boolean if a field has been set.
-func (o *InspectionTaskV2) HasUpdatedAt() bool {
+func (o *InspectionTask) HasUpdatedAt() bool {
 	return o != nil && o.UpdatedAt != nil
 }
 
 // SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *InspectionTaskV2) SetUpdatedAt(v time.Time) {
+func (o *InspectionTask) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o InspectionTaskV2) MarshalJSON() ([]byte, error) {
+func (o InspectionTask) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -568,24 +568,24 @@ func (o InspectionTaskV2) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *InspectionTaskV2) UnmarshalJSON(bytes []byte) (err error) {
+func (o *InspectionTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id          *int32                        `json:"id,omitempty"`
-		Creator     *string                       `json:"creator,omitempty"`
-		Status      *string                       `json:"status,omitempty"`
-		Engine      *InspectionSupportedEnginesV2 `json:"engine,omitempty"`
-		OrgName     *string                       `json:"orgName,omitempty"`
-		ClusterId   *string                       `json:"clusterID,omitempty"`
-		ClusterName *string                       `json:"clusterName,omitempty"`
-		EnvName     *string                       `json:"envName,omitempty"`
-		EnvId       *string                       `json:"envID,omitempty"`
-		NodeName    *string                       `json:"nodeName,omitempty"`
-		IsAuto      *bool                         `json:"isAuto,omitempty"`
-		Score       *int32                        `json:"score,omitempty"`
-		Result      *string                       `json:"result,omitempty"`
-		Items       []InspectionTaskItemV2        `json:"items,omitempty"`
-		CreatedAt   *time.Time                    `json:"createdAt,omitempty"`
-		UpdatedAt   *time.Time                    `json:"updatedAt,omitempty"`
+		Id          *string                     `json:"id,omitempty"`
+		Creator     *string                     `json:"creator,omitempty"`
+		Status      *string                     `json:"status,omitempty"`
+		Engine      *InspectionSupportedEngines `json:"engine,omitempty"`
+		OrgName     *string                     `json:"orgName,omitempty"`
+		ClusterId   *string                     `json:"clusterID,omitempty"`
+		ClusterName *string                     `json:"clusterName,omitempty"`
+		EnvName     *string                     `json:"envName,omitempty"`
+		EnvId       *string                     `json:"envID,omitempty"`
+		NodeName    *string                     `json:"nodeName,omitempty"`
+		IsAuto      *bool                       `json:"isAuto,omitempty"`
+		Score       *int32                      `json:"score,omitempty"`
+		Result      *string                     `json:"result,omitempty"`
+		Items       []InspectionTaskItem        `json:"items,omitempty"`
+		CreatedAt   *time.Time                  `json:"createdAt,omitempty"`
+		UpdatedAt   *time.Time                  `json:"updatedAt,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

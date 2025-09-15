@@ -10,10 +10,10 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-type InspectionTaskItemV2 struct {
-	Id                *int32                `json:"id,omitempty"`
-	TaskId            *int32                `json:"taskID,omitempty"`
-	ScriptId          *int32                `json:"scriptID,omitempty"`
+type InspectionTaskItem struct {
+	Id                *string               `json:"id,omitempty"`
+	TaskId            *string               `json:"taskID,omitempty"`
+	ScriptId          *string               `json:"scriptID,omitempty"`
 	ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
 	ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
 	ScriptCategory    *string               `json:"scriptCategory,omitempty"`
@@ -31,27 +31,27 @@ type InspectionTaskItemV2 struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewInspectionTaskItemV2 instantiates a new InspectionTaskItemV2 object.
+// NewInspectionTaskItem instantiates a new InspectionTaskItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewInspectionTaskItemV2() *InspectionTaskItemV2 {
-	this := InspectionTaskItemV2{}
+func NewInspectionTaskItem() *InspectionTaskItem {
+	this := InspectionTaskItem{}
 	return &this
 }
 
-// NewInspectionTaskItemV2WithDefaults instantiates a new InspectionTaskItemV2 object.
+// NewInspectionTaskItemWithDefaults instantiates a new InspectionTaskItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewInspectionTaskItemV2WithDefaults() *InspectionTaskItemV2 {
-	this := InspectionTaskItemV2{}
+func NewInspectionTaskItemWithDefaults() *InspectionTaskItem {
+	this := InspectionTaskItem{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetId() int32 {
+func (o *InspectionTaskItem) GetId() string {
 	if o == nil || o.Id == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.Id
@@ -59,7 +59,7 @@ func (o *InspectionTaskItemV2) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetIdOk() (*int32, bool) {
+func (o *InspectionTaskItem) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -67,19 +67,19 @@ func (o *InspectionTaskItemV2) GetIdOk() (*int32, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasId() bool {
+func (o *InspectionTaskItem) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
-// SetId gets a reference to the given int32 and assigns it to the Id field.
-func (o *InspectionTaskItemV2) SetId(v int32) {
+// SetId gets a reference to the given string and assigns it to the Id field.
+func (o *InspectionTaskItem) SetId(v string) {
 	o.Id = &v
 }
 
 // GetTaskId returns the TaskId field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetTaskId() int32 {
+func (o *InspectionTaskItem) GetTaskId() string {
 	if o == nil || o.TaskId == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.TaskId
@@ -87,7 +87,7 @@ func (o *InspectionTaskItemV2) GetTaskId() int32 {
 
 // GetTaskIdOk returns a tuple with the TaskId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetTaskIdOk() (*int32, bool) {
+func (o *InspectionTaskItem) GetTaskIdOk() (*string, bool) {
 	if o == nil || o.TaskId == nil {
 		return nil, false
 	}
@@ -95,19 +95,19 @@ func (o *InspectionTaskItemV2) GetTaskIdOk() (*int32, bool) {
 }
 
 // HasTaskId returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasTaskId() bool {
+func (o *InspectionTaskItem) HasTaskId() bool {
 	return o != nil && o.TaskId != nil
 }
 
-// SetTaskId gets a reference to the given int32 and assigns it to the TaskId field.
-func (o *InspectionTaskItemV2) SetTaskId(v int32) {
+// SetTaskId gets a reference to the given string and assigns it to the TaskId field.
+func (o *InspectionTaskItem) SetTaskId(v string) {
 	o.TaskId = &v
 }
 
 // GetScriptId returns the ScriptId field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetScriptId() int32 {
+func (o *InspectionTaskItem) GetScriptId() string {
 	if o == nil || o.ScriptId == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.ScriptId
@@ -115,7 +115,7 @@ func (o *InspectionTaskItemV2) GetScriptId() int32 {
 
 // GetScriptIdOk returns a tuple with the ScriptId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetScriptIdOk() (*int32, bool) {
+func (o *InspectionTaskItem) GetScriptIdOk() (*string, bool) {
 	if o == nil || o.ScriptId == nil {
 		return nil, false
 	}
@@ -123,17 +123,17 @@ func (o *InspectionTaskItemV2) GetScriptIdOk() (*int32, bool) {
 }
 
 // HasScriptId returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasScriptId() bool {
+func (o *InspectionTaskItem) HasScriptId() bool {
 	return o != nil && o.ScriptId != nil
 }
 
-// SetScriptId gets a reference to the given int32 and assigns it to the ScriptId field.
-func (o *InspectionTaskItemV2) SetScriptId(v int32) {
+// SetScriptId gets a reference to the given string and assigns it to the ScriptId field.
+func (o *InspectionTaskItem) SetScriptId(v string) {
 	o.ScriptId = &v
 }
 
 // GetScriptName returns the ScriptName field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetScriptName() LocalizedDescription {
+func (o *InspectionTaskItem) GetScriptName() LocalizedDescription {
 	if o == nil || o.ScriptName == nil {
 		var ret LocalizedDescription
 		return ret
@@ -143,7 +143,7 @@ func (o *InspectionTaskItemV2) GetScriptName() LocalizedDescription {
 
 // GetScriptNameOk returns a tuple with the ScriptName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetScriptNameOk() (*LocalizedDescription, bool) {
+func (o *InspectionTaskItem) GetScriptNameOk() (*LocalizedDescription, bool) {
 	if o == nil || o.ScriptName == nil {
 		return nil, false
 	}
@@ -151,17 +151,17 @@ func (o *InspectionTaskItemV2) GetScriptNameOk() (*LocalizedDescription, bool) {
 }
 
 // HasScriptName returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasScriptName() bool {
+func (o *InspectionTaskItem) HasScriptName() bool {
 	return o != nil && o.ScriptName != nil
 }
 
 // SetScriptName gets a reference to the given LocalizedDescription and assigns it to the ScriptName field.
-func (o *InspectionTaskItemV2) SetScriptName(v LocalizedDescription) {
+func (o *InspectionTaskItem) SetScriptName(v LocalizedDescription) {
 	o.ScriptName = &v
 }
 
 // GetScriptDescription returns the ScriptDescription field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetScriptDescription() LocalizedDescription {
+func (o *InspectionTaskItem) GetScriptDescription() LocalizedDescription {
 	if o == nil || o.ScriptDescription == nil {
 		var ret LocalizedDescription
 		return ret
@@ -171,7 +171,7 @@ func (o *InspectionTaskItemV2) GetScriptDescription() LocalizedDescription {
 
 // GetScriptDescriptionOk returns a tuple with the ScriptDescription field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetScriptDescriptionOk() (*LocalizedDescription, bool) {
+func (o *InspectionTaskItem) GetScriptDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.ScriptDescription == nil {
 		return nil, false
 	}
@@ -179,17 +179,17 @@ func (o *InspectionTaskItemV2) GetScriptDescriptionOk() (*LocalizedDescription, 
 }
 
 // HasScriptDescription returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasScriptDescription() bool {
+func (o *InspectionTaskItem) HasScriptDescription() bool {
 	return o != nil && o.ScriptDescription != nil
 }
 
 // SetScriptDescription gets a reference to the given LocalizedDescription and assigns it to the ScriptDescription field.
-func (o *InspectionTaskItemV2) SetScriptDescription(v LocalizedDescription) {
+func (o *InspectionTaskItem) SetScriptDescription(v LocalizedDescription) {
 	o.ScriptDescription = &v
 }
 
 // GetScriptCategory returns the ScriptCategory field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetScriptCategory() string {
+func (o *InspectionTaskItem) GetScriptCategory() string {
 	if o == nil || o.ScriptCategory == nil {
 		var ret string
 		return ret
@@ -199,7 +199,7 @@ func (o *InspectionTaskItemV2) GetScriptCategory() string {
 
 // GetScriptCategoryOk returns a tuple with the ScriptCategory field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetScriptCategoryOk() (*string, bool) {
+func (o *InspectionTaskItem) GetScriptCategoryOk() (*string, bool) {
 	if o == nil || o.ScriptCategory == nil {
 		return nil, false
 	}
@@ -207,17 +207,17 @@ func (o *InspectionTaskItemV2) GetScriptCategoryOk() (*string, bool) {
 }
 
 // HasScriptCategory returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasScriptCategory() bool {
+func (o *InspectionTaskItem) HasScriptCategory() bool {
 	return o != nil && o.ScriptCategory != nil
 }
 
 // SetScriptCategory gets a reference to the given string and assigns it to the ScriptCategory field.
-func (o *InspectionTaskItemV2) SetScriptCategory(v string) {
+func (o *InspectionTaskItem) SetScriptCategory(v string) {
 	o.ScriptCategory = &v
 }
 
 // GetResourceType returns the ResourceType field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetResourceType() string {
+func (o *InspectionTaskItem) GetResourceType() string {
 	if o == nil || o.ResourceType == nil {
 		var ret string
 		return ret
@@ -227,7 +227,7 @@ func (o *InspectionTaskItemV2) GetResourceType() string {
 
 // GetResourceTypeOk returns a tuple with the ResourceType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetResourceTypeOk() (*string, bool) {
+func (o *InspectionTaskItem) GetResourceTypeOk() (*string, bool) {
 	if o == nil || o.ResourceType == nil {
 		return nil, false
 	}
@@ -235,17 +235,17 @@ func (o *InspectionTaskItemV2) GetResourceTypeOk() (*string, bool) {
 }
 
 // HasResourceType returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasResourceType() bool {
+func (o *InspectionTaskItem) HasResourceType() bool {
 	return o != nil && o.ResourceType != nil
 }
 
 // SetResourceType gets a reference to the given string and assigns it to the ResourceType field.
-func (o *InspectionTaskItemV2) SetResourceType(v string) {
+func (o *InspectionTaskItem) SetResourceType(v string) {
 	o.ResourceType = &v
 }
 
 // GetResourceId returns the ResourceId field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetResourceId() string {
+func (o *InspectionTaskItem) GetResourceId() string {
 	if o == nil || o.ResourceId == nil {
 		var ret string
 		return ret
@@ -255,7 +255,7 @@ func (o *InspectionTaskItemV2) GetResourceId() string {
 
 // GetResourceIdOk returns a tuple with the ResourceId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetResourceIdOk() (*string, bool) {
+func (o *InspectionTaskItem) GetResourceIdOk() (*string, bool) {
 	if o == nil || o.ResourceId == nil {
 		return nil, false
 	}
@@ -263,17 +263,17 @@ func (o *InspectionTaskItemV2) GetResourceIdOk() (*string, bool) {
 }
 
 // HasResourceId returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasResourceId() bool {
+func (o *InspectionTaskItem) HasResourceId() bool {
 	return o != nil && o.ResourceId != nil
 }
 
 // SetResourceId gets a reference to the given string and assigns it to the ResourceId field.
-func (o *InspectionTaskItemV2) SetResourceId(v string) {
+func (o *InspectionTaskItem) SetResourceId(v string) {
 	o.ResourceId = &v
 }
 
 // GetResourceName returns the ResourceName field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetResourceName() string {
+func (o *InspectionTaskItem) GetResourceName() string {
 	if o == nil || o.ResourceName == nil {
 		var ret string
 		return ret
@@ -283,7 +283,7 @@ func (o *InspectionTaskItemV2) GetResourceName() string {
 
 // GetResourceNameOk returns a tuple with the ResourceName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetResourceNameOk() (*string, bool) {
+func (o *InspectionTaskItem) GetResourceNameOk() (*string, bool) {
 	if o == nil || o.ResourceName == nil {
 		return nil, false
 	}
@@ -291,17 +291,17 @@ func (o *InspectionTaskItemV2) GetResourceNameOk() (*string, bool) {
 }
 
 // HasResourceName returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasResourceName() bool {
+func (o *InspectionTaskItem) HasResourceName() bool {
 	return o != nil && o.ResourceName != nil
 }
 
 // SetResourceName gets a reference to the given string and assigns it to the ResourceName field.
-func (o *InspectionTaskItemV2) SetResourceName(v string) {
+func (o *InspectionTaskItem) SetResourceName(v string) {
 	o.ResourceName = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetStatus() string {
+func (o *InspectionTaskItem) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -311,7 +311,7 @@ func (o *InspectionTaskItemV2) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetStatusOk() (*string, bool) {
+func (o *InspectionTaskItem) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -319,17 +319,17 @@ func (o *InspectionTaskItemV2) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasStatus() bool {
+func (o *InspectionTaskItem) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *InspectionTaskItemV2) SetStatus(v string) {
+func (o *InspectionTaskItem) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetResult returns the Result field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetResult() string {
+func (o *InspectionTaskItem) GetResult() string {
 	if o == nil || o.Result == nil {
 		var ret string
 		return ret
@@ -339,7 +339,7 @@ func (o *InspectionTaskItemV2) GetResult() string {
 
 // GetResultOk returns a tuple with the Result field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetResultOk() (*string, bool) {
+func (o *InspectionTaskItem) GetResultOk() (*string, bool) {
 	if o == nil || o.Result == nil {
 		return nil, false
 	}
@@ -347,17 +347,17 @@ func (o *InspectionTaskItemV2) GetResultOk() (*string, bool) {
 }
 
 // HasResult returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasResult() bool {
+func (o *InspectionTaskItem) HasResult() bool {
 	return o != nil && o.Result != nil
 }
 
 // SetResult gets a reference to the given string and assigns it to the Result field.
-func (o *InspectionTaskItemV2) SetResult(v string) {
+func (o *InspectionTaskItem) SetResult(v string) {
 	o.Result = &v
 }
 
 // GetSeverity returns the Severity field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetSeverity() string {
+func (o *InspectionTaskItem) GetSeverity() string {
 	if o == nil || o.Severity == nil {
 		var ret string
 		return ret
@@ -367,7 +367,7 @@ func (o *InspectionTaskItemV2) GetSeverity() string {
 
 // GetSeverityOk returns a tuple with the Severity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetSeverityOk() (*string, bool) {
+func (o *InspectionTaskItem) GetSeverityOk() (*string, bool) {
 	if o == nil || o.Severity == nil {
 		return nil, false
 	}
@@ -375,17 +375,17 @@ func (o *InspectionTaskItemV2) GetSeverityOk() (*string, bool) {
 }
 
 // HasSeverity returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasSeverity() bool {
+func (o *InspectionTaskItem) HasSeverity() bool {
 	return o != nil && o.Severity != nil
 }
 
 // SetSeverity gets a reference to the given string and assigns it to the Severity field.
-func (o *InspectionTaskItemV2) SetSeverity(v string) {
+func (o *InspectionTaskItem) SetSeverity(v string) {
 	o.Severity = &v
 }
 
 // GetUnit returns the Unit field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetUnit() string {
+func (o *InspectionTaskItem) GetUnit() string {
 	if o == nil || o.Unit == nil {
 		var ret string
 		return ret
@@ -395,7 +395,7 @@ func (o *InspectionTaskItemV2) GetUnit() string {
 
 // GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetUnitOk() (*string, bool) {
+func (o *InspectionTaskItem) GetUnitOk() (*string, bool) {
 	if o == nil || o.Unit == nil {
 		return nil, false
 	}
@@ -403,17 +403,17 @@ func (o *InspectionTaskItemV2) GetUnitOk() (*string, bool) {
 }
 
 // HasUnit returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasUnit() bool {
+func (o *InspectionTaskItem) HasUnit() bool {
 	return o != nil && o.Unit != nil
 }
 
 // SetUnit gets a reference to the given string and assigns it to the Unit field.
-func (o *InspectionTaskItemV2) SetUnit(v string) {
+func (o *InspectionTaskItem) SetUnit(v string) {
 	o.Unit = &v
 }
 
 // GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetCreatedAt() time.Time {
+func (o *InspectionTaskItem) GetCreatedAt() time.Time {
 	if o == nil || o.CreatedAt == nil {
 		var ret time.Time
 		return ret
@@ -423,7 +423,7 @@ func (o *InspectionTaskItemV2) GetCreatedAt() time.Time {
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetCreatedAtOk() (*time.Time, bool) {
+func (o *InspectionTaskItem) GetCreatedAtOk() (*time.Time, bool) {
 	if o == nil || o.CreatedAt == nil {
 		return nil, false
 	}
@@ -431,17 +431,17 @@ func (o *InspectionTaskItemV2) GetCreatedAtOk() (*time.Time, bool) {
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasCreatedAt() bool {
+func (o *InspectionTaskItem) HasCreatedAt() bool {
 	return o != nil && o.CreatedAt != nil
 }
 
 // SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
-func (o *InspectionTaskItemV2) SetCreatedAt(v time.Time) {
+func (o *InspectionTaskItem) SetCreatedAt(v time.Time) {
 	o.CreatedAt = &v
 }
 
 // GetUpdatedAt returns the UpdatedAt field value if set, zero value otherwise.
-func (o *InspectionTaskItemV2) GetUpdatedAt() time.Time {
+func (o *InspectionTaskItem) GetUpdatedAt() time.Time {
 	if o == nil || o.UpdatedAt == nil {
 		var ret time.Time
 		return ret
@@ -451,7 +451,7 @@ func (o *InspectionTaskItemV2) GetUpdatedAt() time.Time {
 
 // GetUpdatedAtOk returns a tuple with the UpdatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InspectionTaskItemV2) GetUpdatedAtOk() (*time.Time, bool) {
+func (o *InspectionTaskItem) GetUpdatedAtOk() (*time.Time, bool) {
 	if o == nil || o.UpdatedAt == nil {
 		return nil, false
 	}
@@ -459,17 +459,17 @@ func (o *InspectionTaskItemV2) GetUpdatedAtOk() (*time.Time, bool) {
 }
 
 // HasUpdatedAt returns a boolean if a field has been set.
-func (o *InspectionTaskItemV2) HasUpdatedAt() bool {
+func (o *InspectionTaskItem) HasUpdatedAt() bool {
 	return o != nil && o.UpdatedAt != nil
 }
 
 // SetUpdatedAt gets a reference to the given time.Time and assigns it to the UpdatedAt field.
-func (o *InspectionTaskItemV2) SetUpdatedAt(v time.Time) {
+func (o *InspectionTaskItem) SetUpdatedAt(v time.Time) {
 	o.UpdatedAt = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o InspectionTaskItemV2) MarshalJSON() ([]byte, error) {
+func (o InspectionTaskItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -535,11 +535,11 @@ func (o InspectionTaskItemV2) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *InspectionTaskItemV2) UnmarshalJSON(bytes []byte) (err error) {
+func (o *InspectionTaskItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id                *int32                `json:"id,omitempty"`
-		TaskId            *int32                `json:"taskID,omitempty"`
-		ScriptId          *int32                `json:"scriptID,omitempty"`
+		Id                *string               `json:"id,omitempty"`
+		TaskId            *string               `json:"taskID,omitempty"`
+		ScriptId          *string               `json:"scriptID,omitempty"`
 		ScriptName        *LocalizedDescription `json:"scriptName,omitempty"`
 		ScriptDescription *LocalizedDescription `json:"scriptDescription,omitempty"`
 		ScriptCategory    *string               `json:"scriptCategory,omitempty"`

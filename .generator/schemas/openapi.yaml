@@ -1800,6 +1800,44 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}:
+    delete:
+      operationId: deleteInstance
+      summary: Delete instance of cluster
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the Cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          content: {}
+          description: delete instance of cluster successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/events:
     get:
       operationId: listInstanceEvents
@@ -2685,7 +2723,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: Returned when project is deleted successfully.
+          description: Returned when database is deleted successfully.
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -3457,7 +3495,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Returned when project is deleted successfully.
+          description: Get autohealing job list
           content:
             application/json:
               schema:
@@ -4676,6 +4714,12 @@ paths:
           in: query
           name: parameterName
           required: false
+          schema:
+            type: string
+        - description: component type
+          in: query
+          name: component
+          required: true
           schema:
             type: string
       responses:
@@ -12082,137 +12126,226 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/inspectionScripts:
+  /api/v1/license:
     get:
       tags:
-        - inspection
-      operationId: listInspectionScripts
-      summary: list inspection scripts
+        - license
+      summary: Get license
+      description: Get license
+      operationId: getLicense
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/license'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/pricing:
+    get:
+      operationId: getEnvironmentPricing
+      summary: Get the environment pricing
+      deprecated: true
       parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: query by, such as "node"/"mysql"
+        - description: name of the environment (if provided, returns a list with one item; if omitted, returns all environment prices)
           in: query
-          name: engine
+          name: environmentName
           schema:
             type: string
       responses:
         '200':
-          description: A successful response.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/inspectionScriptV2'
+                $ref: '#/components/schemas/environmentPricingList'
+          description: Retrieve the price of environment(s) as a list
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - pricing
     post:
-      tags:
-        - inspection
-        - shared
-      operationId: createInspectionScript
-      summary: Create inspection script
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
+      operationId: saveEnvironmentPricing
+      summary: Save the environment pricing
+      deprecated: true
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/inspectionScriptV2'
-        required: true
+              $ref: '#/components/schemas/environmentPricing'
       responses:
-        '200':
-          description: A successful response.
+        '204':
+          description: Returned when information of pricing save successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inspectionScript'
-        '401':
-          $ref: '#/components/responses/401'
+                type: object
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
-  /api/v1/organizations/{orgName}/inspectionScripts/{scriptId}:
-    patch:
       tags:
-        - inspection
-      operationId: updateInspectionScript
-      summary: Update inspection script
-      parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: script id
-          in: path
-          name: scriptId
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/inspectionScriptV2'
-        required: true
-      responses:
-        '200':
-          description: A successful response.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/inspectionScriptV2'
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
+        - pricing
     delete:
-      tags:
-        - inspection
-      operationId: deleteInspectionScript
-      summary: Delete inspection script
+      operationId: deleteEnvironmentPricing
+      summary: Delete the environment pricing
+      deprecated: true
       parameters:
-        - description: name of the Org
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-        - description: script id
-          in: path
-          name: scriptId
+        - description: name of the environment
+          in: query
+          name: environmentName
           required: true
           schema:
             type: string
       responses:
         '204':
-          description: No content.
-          content: {}
+          description: Returned when pricing deleted successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+  /api/v1/pricing/global:
+    get:
+      operationId: getGlobalPricing
+      summary: Get the global information of pricing
+      deprecated: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/globalPricing'
+          description: Retrieve the global information of pricing
         '401':
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+      tags:
+        - pricing
+    post:
+      operationId: saveGlobalPricing
+      summary: Save the global information of pricing
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/globalPricing'
+      responses:
+        '204':
+          description: Returned when global information of pricing save successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - pricing
+  /api/v1/billing/overview:
+    get:
+      operationId: queryBillOverview
+      summary: Query bills of all environments and organizations
+      deprecated: true
+      parameters:
+        - description: The type of aggregation time
+          in: query
+          name: aggregationTime
+          schema:
+            $ref: '#/components/schemas/aggregationTimeType'
+        - description: The type of aggregation group
+          in: query
+          name: aggregationGroup
+          schema:
+            $ref: '#/components/schemas/aggregationGroupType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicBillList'
+          description: Retrieve the price of all environments
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
+  /api/v1/billing/detail:
+    get:
+      operationId: queryBillDetail
+      summary: Query bill details
+      deprecated: true
+      parameters:
+        - description: The ID of the bill
+          in: query
+          name: billID
+          schema:
+            type: string
+        - description: The ID of the cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
+        - description: name of the organization
+          in: query
+          name: orgName
+          schema:
+            type: string
+        - description: name of the project
+          in: query
+          name: projectName
+          schema:
+            type: string
+        - description: The type of aggregation time
+          in: query
+          name: aggregationTime
+          schema:
+            $ref: '#/components/schemas/aggregationTimeType'
+        - description: The type of aggregation group
+          in: query
+          name: aggregationGroup
+          schema:
+            $ref: '#/components/schemas/aggregationGroupType'
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDetailList'
+          description: Retrieve the price detail
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - billing
 components:
   securitySchemes:
     BearerToken:
@@ -15013,6 +15146,8 @@ components:
           type: array
           items:
             type: string
+        currentVersion:
+          type: string
         versions:
           type: array
           items:
@@ -18043,14 +18178,25 @@ components:
       required:
         - configSpecName
         - templateRef
+        - configFileName
+        - format
       type: object
       properties:
         configSpecName:
           type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+          description: name of config spec, included in configSpecs
         templateRef:
           type: string
-          description: name of the referenced configuration template configMap object, equal to componentDefinition.configs[x].templateRef
+          description: name of the referenced configuration template file name, all files in parameter template fold under stores
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
@@ -22138,95 +22284,197 @@ components:
       enum:
         - pause
         - resume
-    inspectionScriptCategoryV2:
-      type: string
-      description: Specifies the category of the inspection script.
+    license:
+      description: License info
+      type: object
+      required:
+        - clusterID
+        - notAfter
+        - notBefore
+      properties:
+        clusterID:
+          type: string
+          description: The kubernetes cluster ID
+        notAfter:
+          type: string
+          format: date-time
+          description: The license expiration time
+        notBefore:
+          type: string
+          format: date-time
+          description: The license start time
+    environmentPricing:
+      type: object
+      description: the information of environment pricing
+      properties:
+        envID:
+          description: The environment ID
+          type: string
+          nullable: true
+        envName:
+          description: The environment name
+          type: string
+          nullable: true
+        cpuPrice:
+          description: The price of CPU, the unit is 'Core'
+          type: string
+          nullable: true
+        memoryPrice:
+          description: The price of Memory, the unit is 'GB'
+          type: string
+          nullable: true
+        storagePrice:
+          description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+    environmentPricingList:
+      type: object
+      description: list of information with environment pricing
+      properties:
+        items:
+          description: Items is the list of environment pricing information
+          items:
+            $ref: '#/components/schemas/environmentPricing'
+          type: array
+      required:
+        - items
+    currencyUnitType:
+      description: The currency uint for display in bill query
       enum:
-        - performance
-        - availability
-        - security
-        - backup
-        - other
-    inspectionScriptV2:
-      required:
-        - name
-        - engine
-        - type
-        - category
-        - scriptExpr
-        - scopeType
-        - enabled
+        - RMB
+      type: string
+      nullable: true
+    globalPricing:
+      type: object
+      description: the global information of pricing
       properties:
-        id:
-          type: integer
-        name:
-          pattern: ^[a-zA-Z0-9_]{1,64}$
-          type: string
-        displayName:
-          $ref: '#/components/schemas/localizedDescription'
-        engine:
-          description: The engine type this script is applicable to, such as cluster, mysql, node
-          type: string
-        type:
-          description: The type of the script, such as "promQL"
-          type: string
-        category:
-          $ref: '#/components/schemas/inspectionScriptCategoryV2'
-        description:
-          $ref: '#/components/schemas/localizedDescription'
-        scriptExpr:
-          type: string
-        checkExpr:
-          type: string
-        scopeType:
-          description: scope type, such as "system"/"global"/"org"
-          type: string
-        scopeID:
-          description: The identifier of the scope, such as org_id
-          type: string
-        scopeName:
-          description: The identifier of the scope, such as org_name
-          type: string
         enabled:
+          description: Enable global pricing
           type: boolean
-        unit:
+          x-omitempty: false
+        currencyUnit:
+          $ref: '#/components/schemas/currencyUnitType'
+        billScheduleTime:
+          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM
           type: string
-        createdAt:
-          description: Timestamp of creation time
-          type: integer
-        updatedAt:
-          description: Timestamp of update time
-          type: integer
-    inspectionScript:
-      required:
-        - enabled
+          nullable: true
+        cpuPrice:
+          description: The price of CPU, the unit is 'Core'
+          type: string
+          nullable: true
+        memoryPrice:
+          description: The price of Memory, the unit is 'GB'
+          type: string
+          nullable: true
+        storagePrice:
+          description: The price of Storage, the unit is 'GB'
+          type: string
+          nullable: true
+    aggregationTimeType:
+      description: The type of aggregation time
+      enum:
+        - yearly
+        - monthly
+        - quarterly
+        - daily
+      type: string
+      nullable: true
+    aggregationGroupType:
+      description: The type of aggregation group
+      enum:
+        - global
+        - organization
+        - project
+        - cluster
+      type: string
+      nullable: true
+    BasicBill:
+      type: object
+      description: Basic bill information
       properties:
-        id:
+        aggregationGroupName:
+          description: The name of aggregationGroupType
+          type: string
+        dataTime:
+          description: The timestamp of data
           type: integer
+          format: int64
+        price:
+          description: The total price
+          type: string
+    BasicBillList:
+      type: object
+      description: list price in date range
+      properties:
+        items:
+          description: Items of the bill
+          items:
+            $ref: '#/components/schemas/BasicBill'
+          type: array
+      required:
+        - items
+    BillDetail:
+      type: object
+      description: Task information
+      properties:
+        dataTime:
+          description: The timestamp of data
+          type: integer
+          format: int64
+        price:
+          description: The total price
+          type: string
+        clusterID:
+          description: The ID of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        clusterName:
+          description: The Name of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
+        clusterDisplayName:
+          description: The Display Name of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
         engine:
+          description: Cluster Application Engine
           type: string
-        name:
+          nullable: true
+          x-omitempty: true
+        version:
+          description: Cluster Application Version
           type: string
-        category:
+          nullable: true
+          x-omitempty: true
+        mode:
+          description: Cluster topology mode
           type: string
-        type:
+          nullable: true
+          x-omitempty: true
+        orgName:
+          description: The Name of organization
           type: string
-        scriptType:
+          nullable: true
+          x-omitempty: true
+        projectName:
+          description: The Name of project
           type: string
-        description:
-          type: string
-        enabled:
-          type: boolean
-        scriptName:
-          type: string
-        script:
-          type: string
-        statusCheckName:
-          type: string
-        statusCheck:
-          type: string
-        unit:
-          type: string
+          nullable: true
+          x-omitempty: true
+    BillDetailList:
+      type: object
+      description: list price details in date range
+      properties:
+        items:
+          description: Items of the price
+          items:
+            $ref: '#/components/schemas/BillDetail'
+          type: array
+      required:
+        - items
   responses:
     '400':
       content:

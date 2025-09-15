@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
 import (
 	"context"
@@ -29,7 +29,7 @@ func (a *PricingApi) DeleteEnvironmentPricing(ctx _context.Context, environmentN
 	apiInfo := common.APIInfo{
 		Tag:         "pricing",
 		OperationID: "deleteEnvironmentPricing",
-		Path:        "/admin/v1/pricing",
+		Path:        "/api/v1/pricing",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -39,7 +39,7 @@ func (a *PricingApi) DeleteEnvironmentPricing(ctx _context.Context, environmentN
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/pricing"
+	localVarPath := localBasePath + "/api/v1/pricing"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -133,7 +133,7 @@ func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnviron
 	apiInfo := common.APIInfo{
 		Tag:         "pricing",
 		OperationID: "getEnvironmentPricing",
-		Path:        "/admin/v1/pricing",
+		Path:        "/api/v1/pricing",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -143,7 +143,7 @@ func (a *PricingApi) GetEnvironmentPricing(ctx _context.Context, o ...GetEnviron
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/pricing"
+	localVarPath := localBasePath + "/api/v1/pricing"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -214,7 +214,7 @@ func (a *PricingApi) GetGlobalPricing(ctx _context.Context) (GlobalPricing, *_ne
 	apiInfo := common.APIInfo{
 		Tag:         "pricing",
 		OperationID: "getGlobalPricing",
-		Path:        "/admin/v1/pricing/global",
+		Path:        "/api/v1/pricing/global",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -224,7 +224,7 @@ func (a *PricingApi) GetGlobalPricing(ctx _context.Context) (GlobalPricing, *_ne
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/pricing/global"
+	localVarPath := localBasePath + "/api/v1/pricing/global"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -317,7 +317,7 @@ func (a *PricingApi) SaveEnvironmentPricing(ctx _context.Context, o ...SaveEnvir
 	apiInfo := common.APIInfo{
 		Tag:         "pricing",
 		OperationID: "saveEnvironmentPricing",
-		Path:        "/admin/v1/pricing",
+		Path:        "/api/v1/pricing",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -327,7 +327,7 @@ func (a *PricingApi) SaveEnvironmentPricing(ctx _context.Context, o ...SaveEnvir
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/pricing"
+	localVarPath := localBasePath + "/api/v1/pricing"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -425,7 +425,7 @@ func (a *PricingApi) SaveGlobalPricing(ctx _context.Context, o ...SaveGlobalPric
 	apiInfo := common.APIInfo{
 		Tag:         "pricing",
 		OperationID: "saveGlobalPricing",
-		Path:        "/admin/v1/pricing/global",
+		Path:        "/api/v1/pricing/global",
 		Version:     "",
 	}
 	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
@@ -435,7 +435,7 @@ func (a *PricingApi) SaveGlobalPricing(ctx _context.Context, o ...SaveGlobalPric
 		return localVarReturnValue, nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/admin/v1/pricing/global"
+	localVarPath := localBasePath + "/api/v1/pricing/global"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
