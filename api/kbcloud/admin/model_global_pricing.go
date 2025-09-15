@@ -11,7 +11,7 @@ type GlobalPricing struct {
 	// Enable global pricing
 	Enabled *bool `json:"enabled,omitempty"`
 	// The currency uint for display in bill query
-	CurrencyUnit NullableCurrencyUnitType `json:"currencyUnit,omitempty"`
+	CurrencyUnit common.NullableString `json:"currencyUnit,omitempty"`
 	// Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM
 	BillScheduleTime common.NullableString `json:"billScheduleTime,omitempty"`
 	// The price of CPU, the unit is 'Core'
@@ -71,9 +71,9 @@ func (o *GlobalPricing) SetEnabled(v bool) {
 }
 
 // GetCurrencyUnit returns the CurrencyUnit field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *GlobalPricing) GetCurrencyUnit() CurrencyUnitType {
+func (o *GlobalPricing) GetCurrencyUnit() string {
 	if o == nil || o.CurrencyUnit.Get() == nil {
-		var ret CurrencyUnitType
+		var ret string
 		return ret
 	}
 	return *o.CurrencyUnit.Get()
@@ -82,7 +82,7 @@ func (o *GlobalPricing) GetCurrencyUnit() CurrencyUnitType {
 // GetCurrencyUnitOk returns a tuple with the CurrencyUnit field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *GlobalPricing) GetCurrencyUnitOk() (*CurrencyUnitType, bool) {
+func (o *GlobalPricing) GetCurrencyUnitOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -94,8 +94,8 @@ func (o *GlobalPricing) HasCurrencyUnit() bool {
 	return o != nil && o.CurrencyUnit.IsSet()
 }
 
-// SetCurrencyUnit gets a reference to the given NullableCurrencyUnitType and assigns it to the CurrencyUnit field.
-func (o *GlobalPricing) SetCurrencyUnit(v CurrencyUnitType) {
+// SetCurrencyUnit gets a reference to the given common.NullableString and assigns it to the CurrencyUnit field.
+func (o *GlobalPricing) SetCurrencyUnit(v string) {
 	o.CurrencyUnit.Set(&v)
 }
 
@@ -299,12 +299,12 @@ func (o GlobalPricing) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *GlobalPricing) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Enabled          *bool                    `json:"enabled,omitempty"`
-		CurrencyUnit     NullableCurrencyUnitType `json:"currencyUnit,omitempty"`
-		BillScheduleTime common.NullableString    `json:"billScheduleTime,omitempty"`
-		CpuPrice         common.NullableString    `json:"cpuPrice,omitempty"`
-		MemoryPrice      common.NullableString    `json:"memoryPrice,omitempty"`
-		StoragePrice     common.NullableString    `json:"storagePrice,omitempty"`
+		Enabled          *bool                 `json:"enabled,omitempty"`
+		CurrencyUnit     common.NullableString `json:"currencyUnit,omitempty"`
+		BillScheduleTime common.NullableString `json:"billScheduleTime,omitempty"`
+		CpuPrice         common.NullableString `json:"cpuPrice,omitempty"`
+		MemoryPrice      common.NullableString `json:"memoryPrice,omitempty"`
+		StoragePrice     common.NullableString `json:"storagePrice,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -315,14 +315,8 @@ func (o *GlobalPricing) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
 	o.Enabled = all.Enabled
-	if all.CurrencyUnit.Get() != nil && !all.CurrencyUnit.Get().IsValid() {
-		hasInvalidField = true
-	} else {
-		o.CurrencyUnit = all.CurrencyUnit
-	}
+	o.CurrencyUnit = all.CurrencyUnit
 	o.BillScheduleTime = all.BillScheduleTime
 	o.CpuPrice = all.CpuPrice
 	o.MemoryPrice = all.MemoryPrice
@@ -330,10 +324,6 @@ func (o *GlobalPricing) UnmarshalJSON(bytes []byte) (err error) {
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

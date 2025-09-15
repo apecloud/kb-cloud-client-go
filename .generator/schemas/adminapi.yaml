@@ -15599,9 +15599,9 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - pricing
-  /admin/v1/billing/refresh:
+  /admin/v1/bills/refresh:
     post:
-      operationId: refreshBill
+      operationId: refreshBills
       summary: Refresh bill
       deprecated: true
       parameters:
@@ -15620,43 +15620,10 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
-  /admin/v1/billing/overview:
+  /admin/v1/bills:
     get:
-      operationId: queryBillOverview
-      summary: Query bills of all environments and organizations
-      deprecated: true
-      parameters:
-        - description: The type of aggregation time
-          in: query
-          name: aggregationTime
-          schema:
-            $ref: '#/components/schemas/aggregationTimeType'
-        - description: The type of aggregation group
-          in: query
-          name: aggregationGroup
-          schema:
-            $ref: '#/components/schemas/aggregationGroupType'
-        - $ref: '#/components/parameters/startTime'
-        - $ref: '#/components/parameters/endTime'
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BasicBillList'
-          description: Retrieve the price of all environments
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-        '404':
-          $ref: '#/components/responses/404'
-      tags:
-        - billing
-  /admin/v1/billing/detail:
-    get:
-      operationId: queryBillDetail
-      summary: Query bill details
+      operationId: listBills
+      summary: List bills
       deprecated: true
       parameters:
         - description: The ID of the bill
@@ -15696,8 +15663,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BillDetailList'
-          description: Retrieve the price detail
+                $ref: '#/components/schemas/BillList'
+          description: List bill details
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -27654,12 +27621,6 @@ components:
           type: array
       required:
         - items
-    currencyUnitType:
-      description: The currency uint for display in bill query
-      enum:
-        - RMB
-      type: string
-      nullable: true
     globalPricing:
       type: object
       description: the global information of pricing
@@ -27669,7 +27630,9 @@ components:
           type: boolean
           x-omitempty: false
         currencyUnit:
-          $ref: '#/components/schemas/currencyUnitType'
+          description: The currency uint for display in bill query
+          type: string
+          nullable: true
         billScheduleTime:
           description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM
           type: string
@@ -27714,32 +27677,7 @@ components:
         - cluster
       type: string
       nullable: true
-    BasicBill:
-      type: object
-      description: Basic bill information
-      properties:
-        aggregationGroupName:
-          description: The name of aggregationGroupType
-          type: string
-        dataTime:
-          description: The timestamp of data
-          type: integer
-          format: int64
-        price:
-          description: The total price
-          type: string
-    BasicBillList:
-      type: object
-      description: list price in date range
-      properties:
-        items:
-          description: Items of the bill
-          items:
-            $ref: '#/components/schemas/BasicBill'
-          type: array
-      required:
-        - items
-    BillDetail:
+    Bill:
       type: object
       description: Task information
       properties:
@@ -27790,14 +27728,14 @@ components:
           type: string
           nullable: true
           x-omitempty: true
-    BillDetailList:
+    BillList:
       type: object
       description: list price details in date range
       properties:
         items:
           description: Items of the price
           items:
-            $ref: '#/components/schemas/BillDetail'
+            $ref: '#/components/schemas/Bill'
           type: array
       required:
         - items
