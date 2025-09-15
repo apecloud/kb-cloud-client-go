@@ -69,7 +69,6 @@ func (r *ListBillsOptionalParameters) WithAggregationGroup(aggregationGroup Aggr
 }
 
 // ListBills List bills.
-// Deprecated: This API is deprecated.
 func (a *BillingApi) ListBills(ctx _context.Context, start int64, end int64, o ...ListBillsOptionalParameters) (BillList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet

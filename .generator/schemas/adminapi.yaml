@@ -15483,7 +15483,6 @@ paths:
     get:
       operationId: getEnvironmentPricing
       summary: Get the environment pricing
-      deprecated: true
       parameters:
         - description: name of the environment (if provided, returns a list with one item; if omitted, returns all environment prices)
           in: query
@@ -15508,7 +15507,6 @@ paths:
     post:
       operationId: saveEnvironmentPricing
       summary: Save the environment pricing
-      deprecated: true
       requestBody:
         content:
           application/json:
@@ -15530,7 +15528,6 @@ paths:
     delete:
       operationId: deleteEnvironmentPricing
       summary: Delete the environment pricing
-      deprecated: true
       parameters:
         - description: name of the environment
           in: query
@@ -15555,7 +15552,6 @@ paths:
     get:
       operationId: getGlobalPricing
       summary: Get the global information of pricing
-      deprecated: true
       responses:
         '200':
           content:
@@ -15574,7 +15570,6 @@ paths:
     post:
       operationId: saveGlobalPricing
       summary: Save the global information of pricing
-      deprecated: true
       requestBody:
         content:
           application/json:
@@ -15597,7 +15592,6 @@ paths:
     post:
       operationId: refreshBills
       summary: Refresh bill
-      deprecated: true
       parameters:
         - $ref: '#/components/parameters/startTime'
         - $ref: '#/components/parameters/endTime'
@@ -15618,7 +15612,6 @@ paths:
     get:
       operationId: listBills
       summary: List bills
-      deprecated: true
       parameters:
         - description: The ID of the bill
           in: query
@@ -27636,10 +27629,6 @@ components:
       type: object
       description: the information of environment pricing
       properties:
-        envID:
-          description: The environment ID
-          type: string
-          nullable: true
         envName:
           description: The environment name
           type: string
