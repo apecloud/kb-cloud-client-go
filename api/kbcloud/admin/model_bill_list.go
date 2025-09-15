@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -10,37 +10,37 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// BillDetailList list price details in date range
-type BillDetailList struct {
+// BillList list price details in date range
+type BillList struct {
 	// Items of the price
-	Items []BillDetail `json:"items"`
+	Items []Bill `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewBillDetailList instantiates a new BillDetailList object.
+// NewBillList instantiates a new BillList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBillDetailList(items []BillDetail) *BillDetailList {
-	this := BillDetailList{}
+func NewBillList(items []Bill) *BillList {
+	this := BillList{}
 	this.Items = items
 	return &this
 }
 
-// NewBillDetailListWithDefaults instantiates a new BillDetailList object.
+// NewBillListWithDefaults instantiates a new BillList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewBillDetailListWithDefaults() *BillDetailList {
-	this := BillDetailList{}
+func NewBillListWithDefaults() *BillList {
+	this := BillList{}
 	return &this
 }
 
 // GetItems returns the Items field value.
-func (o *BillDetailList) GetItems() []BillDetail {
+func (o *BillList) GetItems() []Bill {
 	if o == nil {
-		var ret []BillDetail
+		var ret []Bill
 		return ret
 	}
 	return o.Items
@@ -48,7 +48,7 @@ func (o *BillDetailList) GetItems() []BillDetail {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *BillDetailList) GetItemsOk() (*[]BillDetail, bool) {
+func (o *BillList) GetItemsOk() (*[]Bill, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -56,12 +56,12 @@ func (o *BillDetailList) GetItemsOk() (*[]BillDetail, bool) {
 }
 
 // SetItems sets field value.
-func (o *BillDetailList) SetItems(v []BillDetail) {
+func (o *BillList) SetItems(v []Bill) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o BillDetailList) MarshalJSON() ([]byte, error) {
+func (o BillList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -75,9 +75,9 @@ func (o BillDetailList) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *BillDetailList) UnmarshalJSON(bytes []byte) (err error) {
+func (o *BillList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items *[]BillDetail `json:"items"`
+		Items *[]Bill `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
