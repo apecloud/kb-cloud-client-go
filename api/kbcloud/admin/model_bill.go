@@ -6,8 +6,8 @@ package admin
 
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
-// BillDetail Task information
-type BillDetail struct {
+// Bill Task information
+type Bill struct {
 	// The timestamp of data
 	DataTime *int64 `json:"dataTime,omitempty"`
 	// The total price
@@ -33,25 +33,25 @@ type BillDetail struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewBillDetail instantiates a new BillDetail object.
+// NewBill instantiates a new Bill object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBillDetail() *BillDetail {
-	this := BillDetail{}
+func NewBill() *Bill {
+	this := Bill{}
 	return &this
 }
 
-// NewBillDetailWithDefaults instantiates a new BillDetail object.
+// NewBillWithDefaults instantiates a new Bill object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewBillDetailWithDefaults() *BillDetail {
-	this := BillDetail{}
+func NewBillWithDefaults() *Bill {
+	this := Bill{}
 	return &this
 }
 
 // GetDataTime returns the DataTime field value if set, zero value otherwise.
-func (o *BillDetail) GetDataTime() int64 {
+func (o *Bill) GetDataTime() int64 {
 	if o == nil || o.DataTime == nil {
 		var ret int64
 		return ret
@@ -61,7 +61,7 @@ func (o *BillDetail) GetDataTime() int64 {
 
 // GetDataTimeOk returns a tuple with the DataTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BillDetail) GetDataTimeOk() (*int64, bool) {
+func (o *Bill) GetDataTimeOk() (*int64, bool) {
 	if o == nil || o.DataTime == nil {
 		return nil, false
 	}
@@ -69,17 +69,17 @@ func (o *BillDetail) GetDataTimeOk() (*int64, bool) {
 }
 
 // HasDataTime returns a boolean if a field has been set.
-func (o *BillDetail) HasDataTime() bool {
+func (o *Bill) HasDataTime() bool {
 	return o != nil && o.DataTime != nil
 }
 
 // SetDataTime gets a reference to the given int64 and assigns it to the DataTime field.
-func (o *BillDetail) SetDataTime(v int64) {
+func (o *Bill) SetDataTime(v int64) {
 	o.DataTime = &v
 }
 
 // GetPrice returns the Price field value if set, zero value otherwise.
-func (o *BillDetail) GetPrice() string {
+func (o *Bill) GetPrice() string {
 	if o == nil || o.Price == nil {
 		var ret string
 		return ret
@@ -89,7 +89,7 @@ func (o *BillDetail) GetPrice() string {
 
 // GetPriceOk returns a tuple with the Price field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BillDetail) GetPriceOk() (*string, bool) {
+func (o *Bill) GetPriceOk() (*string, bool) {
 	if o == nil || o.Price == nil {
 		return nil, false
 	}
@@ -97,17 +97,17 @@ func (o *BillDetail) GetPriceOk() (*string, bool) {
 }
 
 // HasPrice returns a boolean if a field has been set.
-func (o *BillDetail) HasPrice() bool {
+func (o *Bill) HasPrice() bool {
 	return o != nil && o.Price != nil
 }
 
 // SetPrice gets a reference to the given string and assigns it to the Price field.
-func (o *BillDetail) SetPrice(v string) {
+func (o *Bill) SetPrice(v string) {
 	o.Price = &v
 }
 
 // GetClusterId returns the ClusterId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetClusterId() string {
+func (o *Bill) GetClusterId() string {
 	if o == nil || o.ClusterId.Get() == nil {
 		var ret string
 		return ret
@@ -118,7 +118,7 @@ func (o *BillDetail) GetClusterId() string {
 // GetClusterIdOk returns a tuple with the ClusterId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetClusterIdOk() (*string, bool) {
+func (o *Bill) GetClusterIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -126,27 +126,27 @@ func (o *BillDetail) GetClusterIdOk() (*string, bool) {
 }
 
 // HasClusterId returns a boolean if a field has been set.
-func (o *BillDetail) HasClusterId() bool {
+func (o *Bill) HasClusterId() bool {
 	return o != nil && o.ClusterId.IsSet()
 }
 
 // SetClusterId gets a reference to the given common.NullableString and assigns it to the ClusterId field.
-func (o *BillDetail) SetClusterId(v string) {
+func (o *Bill) SetClusterId(v string) {
 	o.ClusterId.Set(&v)
 }
 
 // SetClusterIdNil sets the value for ClusterId to be an explicit nil.
-func (o *BillDetail) SetClusterIdNil() {
+func (o *Bill) SetClusterIdNil() {
 	o.ClusterId.Set(nil)
 }
 
 // UnsetClusterId ensures that no value is present for ClusterId, not even an explicit nil.
-func (o *BillDetail) UnsetClusterId() {
+func (o *Bill) UnsetClusterId() {
 	o.ClusterId.Unset()
 }
 
 // GetClusterName returns the ClusterName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetClusterName() string {
+func (o *Bill) GetClusterName() string {
 	if o == nil || o.ClusterName.Get() == nil {
 		var ret string
 		return ret
@@ -157,7 +157,7 @@ func (o *BillDetail) GetClusterName() string {
 // GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetClusterNameOk() (*string, bool) {
+func (o *Bill) GetClusterNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -165,27 +165,27 @@ func (o *BillDetail) GetClusterNameOk() (*string, bool) {
 }
 
 // HasClusterName returns a boolean if a field has been set.
-func (o *BillDetail) HasClusterName() bool {
+func (o *Bill) HasClusterName() bool {
 	return o != nil && o.ClusterName.IsSet()
 }
 
 // SetClusterName gets a reference to the given common.NullableString and assigns it to the ClusterName field.
-func (o *BillDetail) SetClusterName(v string) {
+func (o *Bill) SetClusterName(v string) {
 	o.ClusterName.Set(&v)
 }
 
 // SetClusterNameNil sets the value for ClusterName to be an explicit nil.
-func (o *BillDetail) SetClusterNameNil() {
+func (o *Bill) SetClusterNameNil() {
 	o.ClusterName.Set(nil)
 }
 
 // UnsetClusterName ensures that no value is present for ClusterName, not even an explicit nil.
-func (o *BillDetail) UnsetClusterName() {
+func (o *Bill) UnsetClusterName() {
 	o.ClusterName.Unset()
 }
 
 // GetClusterDisplayName returns the ClusterDisplayName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetClusterDisplayName() string {
+func (o *Bill) GetClusterDisplayName() string {
 	if o == nil || o.ClusterDisplayName.Get() == nil {
 		var ret string
 		return ret
@@ -196,7 +196,7 @@ func (o *BillDetail) GetClusterDisplayName() string {
 // GetClusterDisplayNameOk returns a tuple with the ClusterDisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetClusterDisplayNameOk() (*string, bool) {
+func (o *Bill) GetClusterDisplayNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -204,27 +204,27 @@ func (o *BillDetail) GetClusterDisplayNameOk() (*string, bool) {
 }
 
 // HasClusterDisplayName returns a boolean if a field has been set.
-func (o *BillDetail) HasClusterDisplayName() bool {
+func (o *Bill) HasClusterDisplayName() bool {
 	return o != nil && o.ClusterDisplayName.IsSet()
 }
 
 // SetClusterDisplayName gets a reference to the given common.NullableString and assigns it to the ClusterDisplayName field.
-func (o *BillDetail) SetClusterDisplayName(v string) {
+func (o *Bill) SetClusterDisplayName(v string) {
 	o.ClusterDisplayName.Set(&v)
 }
 
 // SetClusterDisplayNameNil sets the value for ClusterDisplayName to be an explicit nil.
-func (o *BillDetail) SetClusterDisplayNameNil() {
+func (o *Bill) SetClusterDisplayNameNil() {
 	o.ClusterDisplayName.Set(nil)
 }
 
 // UnsetClusterDisplayName ensures that no value is present for ClusterDisplayName, not even an explicit nil.
-func (o *BillDetail) UnsetClusterDisplayName() {
+func (o *Bill) UnsetClusterDisplayName() {
 	o.ClusterDisplayName.Unset()
 }
 
 // GetEngine returns the Engine field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetEngine() string {
+func (o *Bill) GetEngine() string {
 	if o == nil || o.Engine.Get() == nil {
 		var ret string
 		return ret
@@ -235,7 +235,7 @@ func (o *BillDetail) GetEngine() string {
 // GetEngineOk returns a tuple with the Engine field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetEngineOk() (*string, bool) {
+func (o *Bill) GetEngineOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -243,27 +243,27 @@ func (o *BillDetail) GetEngineOk() (*string, bool) {
 }
 
 // HasEngine returns a boolean if a field has been set.
-func (o *BillDetail) HasEngine() bool {
+func (o *Bill) HasEngine() bool {
 	return o != nil && o.Engine.IsSet()
 }
 
 // SetEngine gets a reference to the given common.NullableString and assigns it to the Engine field.
-func (o *BillDetail) SetEngine(v string) {
+func (o *Bill) SetEngine(v string) {
 	o.Engine.Set(&v)
 }
 
 // SetEngineNil sets the value for Engine to be an explicit nil.
-func (o *BillDetail) SetEngineNil() {
+func (o *Bill) SetEngineNil() {
 	o.Engine.Set(nil)
 }
 
 // UnsetEngine ensures that no value is present for Engine, not even an explicit nil.
-func (o *BillDetail) UnsetEngine() {
+func (o *Bill) UnsetEngine() {
 	o.Engine.Unset()
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetVersion() string {
+func (o *Bill) GetVersion() string {
 	if o == nil || o.Version.Get() == nil {
 		var ret string
 		return ret
@@ -274,7 +274,7 @@ func (o *BillDetail) GetVersion() string {
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetVersionOk() (*string, bool) {
+func (o *Bill) GetVersionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -282,27 +282,27 @@ func (o *BillDetail) GetVersionOk() (*string, bool) {
 }
 
 // HasVersion returns a boolean if a field has been set.
-func (o *BillDetail) HasVersion() bool {
+func (o *Bill) HasVersion() bool {
 	return o != nil && o.Version.IsSet()
 }
 
 // SetVersion gets a reference to the given common.NullableString and assigns it to the Version field.
-func (o *BillDetail) SetVersion(v string) {
+func (o *Bill) SetVersion(v string) {
 	o.Version.Set(&v)
 }
 
 // SetVersionNil sets the value for Version to be an explicit nil.
-func (o *BillDetail) SetVersionNil() {
+func (o *Bill) SetVersionNil() {
 	o.Version.Set(nil)
 }
 
 // UnsetVersion ensures that no value is present for Version, not even an explicit nil.
-func (o *BillDetail) UnsetVersion() {
+func (o *Bill) UnsetVersion() {
 	o.Version.Unset()
 }
 
 // GetMode returns the Mode field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetMode() string {
+func (o *Bill) GetMode() string {
 	if o == nil || o.Mode.Get() == nil {
 		var ret string
 		return ret
@@ -313,7 +313,7 @@ func (o *BillDetail) GetMode() string {
 // GetModeOk returns a tuple with the Mode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetModeOk() (*string, bool) {
+func (o *Bill) GetModeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -321,27 +321,27 @@ func (o *BillDetail) GetModeOk() (*string, bool) {
 }
 
 // HasMode returns a boolean if a field has been set.
-func (o *BillDetail) HasMode() bool {
+func (o *Bill) HasMode() bool {
 	return o != nil && o.Mode.IsSet()
 }
 
 // SetMode gets a reference to the given common.NullableString and assigns it to the Mode field.
-func (o *BillDetail) SetMode(v string) {
+func (o *Bill) SetMode(v string) {
 	o.Mode.Set(&v)
 }
 
 // SetModeNil sets the value for Mode to be an explicit nil.
-func (o *BillDetail) SetModeNil() {
+func (o *Bill) SetModeNil() {
 	o.Mode.Set(nil)
 }
 
 // UnsetMode ensures that no value is present for Mode, not even an explicit nil.
-func (o *BillDetail) UnsetMode() {
+func (o *Bill) UnsetMode() {
 	o.Mode.Unset()
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetOrgName() string {
+func (o *Bill) GetOrgName() string {
 	if o == nil || o.OrgName.Get() == nil {
 		var ret string
 		return ret
@@ -352,7 +352,7 @@ func (o *BillDetail) GetOrgName() string {
 // GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetOrgNameOk() (*string, bool) {
+func (o *Bill) GetOrgNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -360,27 +360,27 @@ func (o *BillDetail) GetOrgNameOk() (*string, bool) {
 }
 
 // HasOrgName returns a boolean if a field has been set.
-func (o *BillDetail) HasOrgName() bool {
+func (o *Bill) HasOrgName() bool {
 	return o != nil && o.OrgName.IsSet()
 }
 
 // SetOrgName gets a reference to the given common.NullableString and assigns it to the OrgName field.
-func (o *BillDetail) SetOrgName(v string) {
+func (o *Bill) SetOrgName(v string) {
 	o.OrgName.Set(&v)
 }
 
 // SetOrgNameNil sets the value for OrgName to be an explicit nil.
-func (o *BillDetail) SetOrgNameNil() {
+func (o *Bill) SetOrgNameNil() {
 	o.OrgName.Set(nil)
 }
 
 // UnsetOrgName ensures that no value is present for OrgName, not even an explicit nil.
-func (o *BillDetail) UnsetOrgName() {
+func (o *Bill) UnsetOrgName() {
 	o.OrgName.Unset()
 }
 
 // GetProjectName returns the ProjectName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *BillDetail) GetProjectName() string {
+func (o *Bill) GetProjectName() string {
 	if o == nil || o.ProjectName.Get() == nil {
 		var ret string
 		return ret
@@ -391,7 +391,7 @@ func (o *BillDetail) GetProjectName() string {
 // GetProjectNameOk returns a tuple with the ProjectName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BillDetail) GetProjectNameOk() (*string, bool) {
+func (o *Bill) GetProjectNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -399,27 +399,27 @@ func (o *BillDetail) GetProjectNameOk() (*string, bool) {
 }
 
 // HasProjectName returns a boolean if a field has been set.
-func (o *BillDetail) HasProjectName() bool {
+func (o *Bill) HasProjectName() bool {
 	return o != nil && o.ProjectName.IsSet()
 }
 
 // SetProjectName gets a reference to the given common.NullableString and assigns it to the ProjectName field.
-func (o *BillDetail) SetProjectName(v string) {
+func (o *Bill) SetProjectName(v string) {
 	o.ProjectName.Set(&v)
 }
 
 // SetProjectNameNil sets the value for ProjectName to be an explicit nil.
-func (o *BillDetail) SetProjectNameNil() {
+func (o *Bill) SetProjectNameNil() {
 	o.ProjectName.Set(nil)
 }
 
 // UnsetProjectName ensures that no value is present for ProjectName, not even an explicit nil.
-func (o *BillDetail) UnsetProjectName() {
+func (o *Bill) UnsetProjectName() {
 	o.ProjectName.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o BillDetail) MarshalJSON() ([]byte, error) {
+func (o Bill) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -462,7 +462,7 @@ func (o BillDetail) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *BillDetail) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Bill) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		DataTime           *int64                `json:"dataTime,omitempty"`
 		Price              *string               `json:"price,omitempty"`
