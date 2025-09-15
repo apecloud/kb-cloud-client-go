@@ -19101,6 +19101,8 @@ components:
           type: array
           items:
             type: string
+        currentVersion:
+          type: string
         versions:
           type: array
           items:
