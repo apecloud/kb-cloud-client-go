@@ -10,6 +10,7 @@ type EngineServiceVersions struct {
 	// component type, refer to componentDef and support NamePrefix
 	Component           *string                             `json:"component,omitempty"`
 	UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
+	CurrentVersion      *string                             `json:"currentVersion,omitempty"`
 	Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -89,6 +90,34 @@ func (o *EngineServiceVersions) SetUpgradeableVersions(v []string) {
 	o.UpgradeableVersions = v
 }
 
+// GetCurrentVersion returns the CurrentVersion field value if set, zero value otherwise.
+func (o *EngineServiceVersions) GetCurrentVersion() string {
+	if o == nil || o.CurrentVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.CurrentVersion
+}
+
+// GetCurrentVersionOk returns a tuple with the CurrentVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EngineServiceVersions) GetCurrentVersionOk() (*string, bool) {
+	if o == nil || o.CurrentVersion == nil {
+		return nil, false
+	}
+	return o.CurrentVersion, true
+}
+
+// HasCurrentVersion returns a boolean if a field has been set.
+func (o *EngineServiceVersions) HasCurrentVersion() bool {
+	return o != nil && o.CurrentVersion != nil
+}
+
+// SetCurrentVersion gets a reference to the given string and assigns it to the CurrentVersion field.
+func (o *EngineServiceVersions) SetCurrentVersion(v string) {
+	o.CurrentVersion = &v
+}
+
 // GetVersions returns the Versions field value if set, zero value otherwise.
 func (o *EngineServiceVersions) GetVersions() []EngineServiceVersionsVersionsItem {
 	if o == nil || o.Versions == nil {
@@ -129,6 +158,9 @@ func (o EngineServiceVersions) MarshalJSON() ([]byte, error) {
 	if o.UpgradeableVersions != nil {
 		toSerialize["upgradeableVersions"] = o.UpgradeableVersions
 	}
+	if o.CurrentVersion != nil {
+		toSerialize["currentVersion"] = o.CurrentVersion
+	}
 	if o.Versions != nil {
 		toSerialize["versions"] = o.Versions
 	}
@@ -144,6 +176,7 @@ func (o *EngineServiceVersions) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Component           *string                             `json:"component,omitempty"`
 		UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
+		CurrentVersion      *string                             `json:"currentVersion,omitempty"`
 		Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -151,12 +184,13 @@ func (o *EngineServiceVersions) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "upgradeableVersions", "versions"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "upgradeableVersions", "currentVersion", "versions"})
 	} else {
 		return err
 	}
 	o.Component = all.Component
 	o.UpgradeableVersions = all.UpgradeableVersions
+	o.CurrentVersion = all.CurrentVersion
 	o.Versions = all.Versions
 
 	if len(additionalProperties) > 0 {
