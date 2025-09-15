@@ -27804,6 +27804,11 @@ components:
           type: string
           nullable: true
           x-omitempty: true
+        clusterDisplayName:
+          description: The Display Name of cluster
+          type: string
+          nullable: true
+          x-omitempty: true
         engine:
           description: Cluster Application Engine
           type: string
