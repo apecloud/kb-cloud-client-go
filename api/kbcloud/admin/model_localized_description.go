@@ -4,15 +4,11 @@
 
 package admin
 
-import (
-	"fmt"
-
-	"github.com/apecloud/kb-cloud-client-go/api/common"
-)
+import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type LocalizedDescription struct {
-	ZhCn string `json:"zh-CN"`
-	EnUs string `json:"en-US"`
+	ZhCn *string `json:"zh-CN,omitempty"`
+	EnUs *string `json:"en-US,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -22,10 +18,8 @@ type LocalizedDescription struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewLocalizedDescription(zhCn string, enUs string) *LocalizedDescription {
+func NewLocalizedDescription() *LocalizedDescription {
 	this := LocalizedDescription{}
-	this.ZhCn = zhCn
-	this.EnUs = enUs
 	return &this
 }
 
@@ -37,50 +31,60 @@ func NewLocalizedDescriptionWithDefaults() *LocalizedDescription {
 	return &this
 }
 
-// GetZhCn returns the ZhCn field value.
+// GetZhCn returns the ZhCn field value if set, zero value otherwise.
 func (o *LocalizedDescription) GetZhCn() string {
-	if o == nil {
+	if o == nil || o.ZhCn == nil {
 		var ret string
 		return ret
 	}
-	return o.ZhCn
+	return *o.ZhCn
 }
 
-// GetZhCnOk returns a tuple with the ZhCn field value
+// GetZhCnOk returns a tuple with the ZhCn field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *LocalizedDescription) GetZhCnOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ZhCn == nil {
 		return nil, false
 	}
-	return &o.ZhCn, true
+	return o.ZhCn, true
 }
 
-// SetZhCn sets field value.
+// HasZhCn returns a boolean if a field has been set.
+func (o *LocalizedDescription) HasZhCn() bool {
+	return o != nil && o.ZhCn != nil
+}
+
+// SetZhCn gets a reference to the given string and assigns it to the ZhCn field.
 func (o *LocalizedDescription) SetZhCn(v string) {
-	o.ZhCn = v
+	o.ZhCn = &v
 }
 
-// GetEnUs returns the EnUs field value.
+// GetEnUs returns the EnUs field value if set, zero value otherwise.
 func (o *LocalizedDescription) GetEnUs() string {
-	if o == nil {
+	if o == nil || o.EnUs == nil {
 		var ret string
 		return ret
 	}
-	return o.EnUs
+	return *o.EnUs
 }
 
-// GetEnUsOk returns a tuple with the EnUs field value
+// GetEnUsOk returns a tuple with the EnUs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *LocalizedDescription) GetEnUsOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.EnUs == nil {
 		return nil, false
 	}
-	return &o.EnUs, true
+	return o.EnUs, true
 }
 
-// SetEnUs sets field value.
+// HasEnUs returns a boolean if a field has been set.
+func (o *LocalizedDescription) HasEnUs() bool {
+	return o != nil && o.EnUs != nil
+}
+
+// SetEnUs gets a reference to the given string and assigns it to the EnUs field.
 func (o *LocalizedDescription) SetEnUs(v string) {
-	o.EnUs = v
+	o.EnUs = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -89,8 +93,12 @@ func (o LocalizedDescription) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	toSerialize["zh-CN"] = o.ZhCn
-	toSerialize["en-US"] = o.EnUs
+	if o.ZhCn != nil {
+		toSerialize["zh-CN"] = o.ZhCn
+	}
+	if o.EnUs != nil {
+		toSerialize["en-US"] = o.EnUs
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -101,17 +109,11 @@ func (o LocalizedDescription) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *LocalizedDescription) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		ZhCn *string `json:"zh-CN"`
-		EnUs *string `json:"en-US"`
+		ZhCn *string `json:"zh-CN,omitempty"`
+		EnUs *string `json:"en-US,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
-	}
-	if all.ZhCn == nil {
-		return fmt.Errorf("required field zh-CN missing")
-	}
-	if all.EnUs == nil {
-		return fmt.Errorf("required field en-US missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -119,8 +121,8 @@ func (o *LocalizedDescription) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.ZhCn = *all.ZhCn
-	o.EnUs = *all.EnUs
+	o.ZhCn = all.ZhCn
+	o.EnUs = all.EnUs
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
