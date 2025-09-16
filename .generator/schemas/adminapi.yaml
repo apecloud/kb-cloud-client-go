@@ -19848,14 +19848,13 @@ components:
           description: The organization name
     localizedDescription:
       type: object
-      required:
-        - zh-CN
-        - en-US
       properties:
         zh-CN:
           type: string
+          x-nullable: true
         en-US:
           type: string
+          x-nullable: true
     environmentModule:
       type: object
       description: Single environment module information
