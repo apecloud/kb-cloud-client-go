@@ -17922,14 +17922,10 @@ components:
           type: boolean
         maximum:
           description: The maximum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         minimum:
           description: The minimum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         enum:
           description: The value options of the parameter
           type: array
@@ -25771,14 +25767,10 @@ components:
           items: {}
         maximum:
           description: The maximum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         minimum:
           description: The minimum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean

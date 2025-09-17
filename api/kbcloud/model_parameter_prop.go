@@ -26,9 +26,9 @@ type ParameterProp struct {
 	// Whether the parameter is an immutable parameter, immutable parameters cannot be modified
 	Immutable bool `json:"immutable"`
 	// The maximum value of the parameter
-	Maximum common.NullableFloat64 `json:"maximum,omitempty"`
+	Maximum *string `json:"maximum,omitempty"`
 	// The minimum value of the parameter
-	Minimum common.NullableFloat64 `json:"minimum,omitempty"`
+	Minimum *string `json:"minimum,omitempty"`
 	// The value options of the parameter
 	Enum []interface{} `json:"enum,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -233,82 +233,60 @@ func (o *ParameterProp) SetImmutable(v bool) {
 	o.Immutable = v
 }
 
-// GetMaximum returns the Maximum field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ParameterProp) GetMaximum() float64 {
-	if o == nil || o.Maximum.Get() == nil {
-		var ret float64
+// GetMaximum returns the Maximum field value if set, zero value otherwise.
+func (o *ParameterProp) GetMaximum() string {
+	if o == nil || o.Maximum == nil {
+		var ret string
 		return ret
 	}
-	return *o.Maximum.Get()
+	return *o.Maximum
 }
 
 // GetMaximumOk returns a tuple with the Maximum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ParameterProp) GetMaximumOk() (*float64, bool) {
-	if o == nil {
+func (o *ParameterProp) GetMaximumOk() (*string, bool) {
+	if o == nil || o.Maximum == nil {
 		return nil, false
 	}
-	return o.Maximum.Get(), o.Maximum.IsSet()
+	return o.Maximum, true
 }
 
 // HasMaximum returns a boolean if a field has been set.
 func (o *ParameterProp) HasMaximum() bool {
-	return o != nil && o.Maximum.IsSet()
+	return o != nil && o.Maximum != nil
 }
 
-// SetMaximum gets a reference to the given common.NullableFloat64 and assigns it to the Maximum field.
-func (o *ParameterProp) SetMaximum(v float64) {
-	o.Maximum.Set(&v)
+// SetMaximum gets a reference to the given string and assigns it to the Maximum field.
+func (o *ParameterProp) SetMaximum(v string) {
+	o.Maximum = &v
 }
 
-// SetMaximumNil sets the value for Maximum to be an explicit nil.
-func (o *ParameterProp) SetMaximumNil() {
-	o.Maximum.Set(nil)
-}
-
-// UnsetMaximum ensures that no value is present for Maximum, not even an explicit nil.
-func (o *ParameterProp) UnsetMaximum() {
-	o.Maximum.Unset()
-}
-
-// GetMinimum returns the Minimum field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ParameterProp) GetMinimum() float64 {
-	if o == nil || o.Minimum.Get() == nil {
-		var ret float64
+// GetMinimum returns the Minimum field value if set, zero value otherwise.
+func (o *ParameterProp) GetMinimum() string {
+	if o == nil || o.Minimum == nil {
+		var ret string
 		return ret
 	}
-	return *o.Minimum.Get()
+	return *o.Minimum
 }
 
 // GetMinimumOk returns a tuple with the Minimum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ParameterProp) GetMinimumOk() (*float64, bool) {
-	if o == nil {
+func (o *ParameterProp) GetMinimumOk() (*string, bool) {
+	if o == nil || o.Minimum == nil {
 		return nil, false
 	}
-	return o.Minimum.Get(), o.Minimum.IsSet()
+	return o.Minimum, true
 }
 
 // HasMinimum returns a boolean if a field has been set.
 func (o *ParameterProp) HasMinimum() bool {
-	return o != nil && o.Minimum.IsSet()
+	return o != nil && o.Minimum != nil
 }
 
-// SetMinimum gets a reference to the given common.NullableFloat64 and assigns it to the Minimum field.
-func (o *ParameterProp) SetMinimum(v float64) {
-	o.Minimum.Set(&v)
-}
-
-// SetMinimumNil sets the value for Minimum to be an explicit nil.
-func (o *ParameterProp) SetMinimumNil() {
-	o.Minimum.Set(nil)
-}
-
-// UnsetMinimum ensures that no value is present for Minimum, not even an explicit nil.
-func (o *ParameterProp) UnsetMinimum() {
-	o.Minimum.Unset()
+// SetMinimum gets a reference to the given string and assigns it to the Minimum field.
+func (o *ParameterProp) SetMinimum(v string) {
+	o.Minimum = &v
 }
 
 // GetEnum returns the Enum field value if set, zero value otherwise.
@@ -358,11 +336,11 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 	}
 	toSerialize["needRestart"] = o.NeedRestart
 	toSerialize["immutable"] = o.Immutable
-	if o.Maximum.IsSet() {
-		toSerialize["maximum"] = o.Maximum.Get()
+	if o.Maximum != nil {
+		toSerialize["maximum"] = o.Maximum
 	}
-	if o.Minimum.IsSet() {
-		toSerialize["minimum"] = o.Minimum.Get()
+	if o.Minimum != nil {
+		toSerialize["minimum"] = o.Minimum
 	}
 	if o.Enum != nil {
 		toSerialize["enum"] = o.Enum
@@ -377,16 +355,16 @@ func (o ParameterProp) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ParameterProp) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        *string                `json:"name"`
-		Description *string                `json:"description,omitempty"`
-		Type        *string                `json:"type"`
-		Value       interface{}            `json:"value,omitempty"`
-		Default     interface{}            `json:"default,omitempty"`
-		NeedRestart *bool                  `json:"needRestart"`
-		Immutable   *bool                  `json:"immutable"`
-		Maximum     common.NullableFloat64 `json:"maximum,omitempty"`
-		Minimum     common.NullableFloat64 `json:"minimum,omitempty"`
-		Enum        []interface{}          `json:"enum,omitempty"`
+		Name        *string       `json:"name"`
+		Description *string       `json:"description,omitempty"`
+		Type        *string       `json:"type"`
+		Value       interface{}   `json:"value,omitempty"`
+		Default     interface{}   `json:"default,omitempty"`
+		NeedRestart *bool         `json:"needRestart"`
+		Immutable   *bool         `json:"immutable"`
+		Maximum     *string       `json:"maximum,omitempty"`
+		Minimum     *string       `json:"minimum,omitempty"`
+		Enum        []interface{} `json:"enum,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
