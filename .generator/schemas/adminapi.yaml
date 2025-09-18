@@ -27849,7 +27849,8 @@ components:
       name: sortDesc
       in: query
       description: Specifies the sorting direction. `true` for descending, `false` for ascending.
-      type: boolean
+      schema:
+        type: boolean
       required: false
       default: true
 x-tagGroups:
