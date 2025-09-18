@@ -20,7 +20,7 @@ type LlmApi common.Service
 // ListLLMForOrg List available LLM for org.
 // available
 // Deprecated: This API is deprecated.
-func (a *LlmApi) ListLLMForOrg(ctx _context.Context) (LlmList, *_nethttp.Response, error) {
+func (a *LlmApi) ListLLMForOrg(ctx _context.Context, orgName string) (LlmList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -42,6 +42,7 @@ func (a *LlmApi) ListLLMForOrg(ctx _context.Context) (LlmList, *_nethttp.Respons
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -99,7 +100,7 @@ func (a *LlmApi) ListLLMForOrg(ctx _context.Context) (LlmList, *_nethttp.Respons
 // AddLLMForOrg add LLM for org.
 // add LLM for org
 // Deprecated: This API is deprecated.
-func (a *LlmApi) AddLLMForOrg(ctx _context.Context, body Llm) (*_nethttp.Response, error) {
+func (a *LlmApi) AddLLMForOrg(ctx _context.Context, orgName string, body Llm) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodPost
 		localVarPostBody   interface{}
@@ -120,6 +121,7 @@ func (a *LlmApi) AddLLMForOrg(ctx _context.Context, body Llm) (*_nethttp.Respons
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -171,7 +173,7 @@ func (a *LlmApi) AddLLMForOrg(ctx _context.Context, body Llm) (*_nethttp.Respons
 // CheckAPIKeyForOrg check apikey available for org.
 // check apikey available for org
 // Deprecated: This API is deprecated.
-func (a *LlmApi) CheckAPIKeyForOrg(ctx _context.Context, body CheckAPIKey) (bool, *_nethttp.Response, error) {
+func (a *LlmApi) CheckAPIKeyForOrg(ctx _context.Context, orgName string, body CheckAPIKey) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
@@ -193,6 +195,7 @@ func (a *LlmApi) CheckAPIKeyForOrg(ctx _context.Context, body CheckAPIKey) (bool
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/check"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -252,7 +255,7 @@ func (a *LlmApi) CheckAPIKeyForOrg(ctx _context.Context, body CheckAPIKey) (bool
 
 // DeleteLLM Delete LLM.
 // Deprecated: This API is deprecated.
-func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response, error) {
+func (a *LlmApi) DeleteLLM(ctx _context.Context, orgName string, id string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod = _nethttp.MethodDelete
 		localVarPostBody   interface{}
@@ -273,6 +276,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -321,7 +325,7 @@ func (a *LlmApi) DeleteLLM(ctx _context.Context, id string) (*_nethttp.Response,
 
 // GetLLMByIDInOrg Get LLM by ID in org.
 // Deprecated: This API is deprecated.
-func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethttp.Response, error) {
+func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, orgName string, id string) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -343,6 +347,7 @@ func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethtt
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -399,7 +404,7 @@ func (a *LlmApi) GetLLMByIDInOrg(ctx _context.Context, id string) (Llm, *_nethtt
 }
 
 // ListAvailableModelInOrg List available model in org.
-func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_nethttp.Response, error) {
+func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context, orgName string) ([]string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
@@ -421,6 +426,7 @@ func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_neth
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/models"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -477,7 +483,7 @@ func (a *LlmApi) ListAvailableModelInOrg(ctx _context.Context) ([]string, *_neth
 
 // UpdateLLM Update LLM.
 // Deprecated: This API is deprecated.
-func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body Llm) (Llm, *_nethttp.Response, error) {
+func (a *LlmApi) UpdateLLM(ctx _context.Context, orgName string, id string, body Llm) (Llm, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
@@ -499,6 +505,7 @@ func (a *LlmApi) UpdateLLM(ctx _context.Context, id string, body Llm) (Llm, *_ne
 	}
 
 	localVarPath := localBasePath + "/api/v1/organizations/{orgName}/llm/{id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", _neturl.PathEscape(common.ParameterToString(id, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)

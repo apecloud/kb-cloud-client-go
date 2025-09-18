@@ -10818,7 +10818,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: available llm list
@@ -10845,7 +10846,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -10874,7 +10876,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
         - description: ID of the LLM
           in: path
           name: id
@@ -10906,7 +10909,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
         - description: ID of the LLM
           in: path
           name: id
@@ -10941,7 +10945,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
         - description: ID of the LLM
           in: path
           name: id
@@ -10968,7 +10973,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -11000,7 +11006,8 @@ paths:
         - name: orgName
           in: path
           required: true
-          type: string
+          schema:
+            type: string
       responses:
         '200':
           description: A successful response.
@@ -22558,7 +22565,8 @@ components:
       name: sortDesc
       in: query
       description: Specifies the sorting direction. `true` for descending, `false` for ascending.
-      type: boolean
+      schema:
+        type: boolean
       required: false
       default: true
 x-tagGroups:
