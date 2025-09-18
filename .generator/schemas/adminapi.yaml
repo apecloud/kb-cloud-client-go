@@ -27668,7 +27668,7 @@ components:
           type: string
           nullable: true
         billScheduleTime:
-          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM, the timezone is the configured timezone
+          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM, use the configured timezone
           type: string
           nullable: true
           example: '01:00:00'

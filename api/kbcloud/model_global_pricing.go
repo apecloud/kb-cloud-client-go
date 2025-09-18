@@ -16,7 +16,7 @@ type GlobalPricing struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	// The currency uint for display in bill query
 	CurrencyUnit common.NullableString `json:"currencyUnit,omitempty"`
-	// Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM, the timezone is the configured timezone
+	// Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM, use the configured timezone
 	BillScheduleTime common.NullableString `json:"billScheduleTime,omitempty"`
 	// The last billing time in RFC3339 format (e.g., '2025-09-01T00:00:00Z' or '2025-09-01T00:00:00+08:00').
 	// This timestamp represents when the end time of the latest bill.
