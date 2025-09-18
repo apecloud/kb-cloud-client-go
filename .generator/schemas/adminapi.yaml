@@ -12244,6 +12244,12 @@ paths:
       summary: List task
       description: List tasks
       operationId: listTask
+      parameters:
+        - name: taskType
+          in: query
+          description: Filter by task type
+          schema:
+            $ref: '#/components/schemas/taskType'
       responses:
         '200':
           description: Current task list
@@ -12251,6 +12257,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/taskList'
+        '400':
+          $ref: '#/components/responses/400'
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -20490,6 +20498,8 @@ components:
     taskType:
       type: string
       enum:
+        - RefreshBills
+        - PreCheck
         - ScaleOut
         - ScaleIn
         - DeleteDisasterRecoveryCluster

@@ -20385,6 +20385,8 @@ components:
     taskType:
       type: string
       enum:
+        - RefreshBills
+        - PreCheck
         - ScaleOut
         - ScaleIn
         - DeleteDisasterRecoveryCluster
