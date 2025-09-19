@@ -17,7 +17,7 @@ type Task struct {
 	// Name of the task
 	TaskName string `json:"taskName"`
 	// Type of task operation
-	TaskType TaskType `json:"taskType"`
+	TaskType string `json:"taskType"`
 	// Current status of the task
 	Status TaskStatus `json:"status"`
 	// Timestamp when the task was created
@@ -52,7 +52,7 @@ type Task struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewTask(taskId string, taskName string, taskType TaskType, status TaskStatus, createdAt time.Time, updatedAt time.Time) *Task {
+func NewTask(taskId string, taskName string, taskType string, status TaskStatus, createdAt time.Time, updatedAt time.Time) *Task {
 	this := Task{}
 	this.TaskId = taskId
 	this.TaskName = taskName
@@ -118,9 +118,9 @@ func (o *Task) SetTaskName(v string) {
 }
 
 // GetTaskType returns the TaskType field value.
-func (o *Task) GetTaskType() TaskType {
+func (o *Task) GetTaskType() string {
 	if o == nil {
-		var ret TaskType
+		var ret string
 		return ret
 	}
 	return o.TaskType
@@ -128,7 +128,7 @@ func (o *Task) GetTaskType() TaskType {
 
 // GetTaskTypeOk returns a tuple with the TaskType field value
 // and a boolean to check if the value has been set.
-func (o *Task) GetTaskTypeOk() (*TaskType, bool) {
+func (o *Task) GetTaskTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -136,7 +136,7 @@ func (o *Task) GetTaskTypeOk() (*TaskType, bool) {
 }
 
 // SetTaskType sets field value.
-func (o *Task) SetTaskType(v TaskType) {
+func (o *Task) SetTaskType(v string) {
 	o.TaskType = v
 }
 
@@ -563,7 +563,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		TaskId         *string            `json:"taskId"`
 		TaskName       *string            `json:"taskName"`
-		TaskType       *TaskType          `json:"taskType"`
+		TaskType       *string            `json:"taskType"`
 		Status         *TaskStatus        `json:"status"`
 		CreatedAt      *time.Time         `json:"createdAt"`
 		UpdatedAt      *time.Time         `json:"updatedAt"`
@@ -609,11 +609,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.TaskId = *all.TaskId
 	o.TaskName = *all.TaskName
-	if !all.TaskType.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.TaskType = *all.TaskType
-	}
+	o.TaskType = *all.TaskType
 	if !all.Status.IsValid() {
 		hasInvalidField = true
 	} else {
