@@ -8,7 +8,7 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type TaskSummary struct {
 	// Type of task operation
-	TaskType *TaskType `json:"taskType,omitempty"`
+	TaskType *string `json:"taskType,omitempty"`
 	// Progress percentage of the task
 	Progress *int32 `json:"progress,omitempty"`
 	// Detailed message about the task status
@@ -36,9 +36,9 @@ func NewTaskSummaryWithDefaults() *TaskSummary {
 }
 
 // GetTaskType returns the TaskType field value if set, zero value otherwise.
-func (o *TaskSummary) GetTaskType() TaskType {
+func (o *TaskSummary) GetTaskType() string {
 	if o == nil || o.TaskType == nil {
-		var ret TaskType
+		var ret string
 		return ret
 	}
 	return *o.TaskType
@@ -46,7 +46,7 @@ func (o *TaskSummary) GetTaskType() TaskType {
 
 // GetTaskTypeOk returns a tuple with the TaskType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TaskSummary) GetTaskTypeOk() (*TaskType, bool) {
+func (o *TaskSummary) GetTaskTypeOk() (*string, bool) {
 	if o == nil || o.TaskType == nil {
 		return nil, false
 	}
@@ -58,8 +58,8 @@ func (o *TaskSummary) HasTaskType() bool {
 	return o != nil && o.TaskType != nil
 }
 
-// SetTaskType gets a reference to the given TaskType and assigns it to the TaskType field.
-func (o *TaskSummary) SetTaskType(v TaskType) {
+// SetTaskType gets a reference to the given string and assigns it to the TaskType field.
+func (o *TaskSummary) SetTaskType(v string) {
 	o.TaskType = &v
 }
 
@@ -144,9 +144,9 @@ func (o TaskSummary) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *TaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskType *TaskType `json:"taskType,omitempty"`
-		Progress *int32    `json:"progress,omitempty"`
-		Message  *string   `json:"message,omitempty"`
+		TaskType *string `json:"taskType,omitempty"`
+		Progress *int32  `json:"progress,omitempty"`
+		Message  *string `json:"message,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -157,22 +157,12 @@ func (o *TaskSummary) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-
-	hasInvalidField := false
-	if all.TaskType != nil && !all.TaskType.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.TaskType = all.TaskType
-	}
+	o.TaskType = all.TaskType
 	o.Progress = all.Progress
 	o.Message = all.Message
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
-	}
-
-	if hasInvalidField {
-		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil

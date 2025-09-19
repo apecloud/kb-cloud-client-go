@@ -166,7 +166,7 @@ func (a *TaskApi) GetTaskLog(ctx _context.Context, taskId string) (*_nethttp.Res
 
 // ListTaskOptionalParameters holds optional parameters for ListTask.
 type ListTaskOptionalParameters struct {
-	TaskType *TaskType
+	TaskType *string
 }
 
 // NewListTaskOptionalParameters creates an empty struct for parameters.
@@ -176,7 +176,7 @@ func NewListTaskOptionalParameters() *ListTaskOptionalParameters {
 }
 
 // WithTaskType sets the corresponding parameter name and returns the struct.
-func (r *ListTaskOptionalParameters) WithTaskType(taskType TaskType) *ListTaskOptionalParameters {
+func (r *ListTaskOptionalParameters) WithTaskType(taskType string) *ListTaskOptionalParameters {
 	r.TaskType = &taskType
 	return r
 }

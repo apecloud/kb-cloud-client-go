@@ -12255,7 +12255,7 @@ paths:
           in: query
           description: Filter by task type
           schema:
-            $ref: '#/components/schemas/taskType'
+            type: string
       responses:
         '200':
           description: Current task list
@@ -20514,17 +20514,6 @@ components:
           description: Default SSH configuration for all nodes. Individual node SSH config will override this
           $ref: '#/components/schemas/sshConfig'
           x-nullable: true
-    taskType:
-      type: string
-      enum:
-        - RefreshBills
-        - PreCheck
-        - ScaleOut
-        - ScaleIn
-        - DeleteDisasterRecoveryCluster
-        - CreateDisasterRecoveryCluster
-        - PromoteDisasterRecoveryCluster
-      description: Type of task operation
     taskStatus:
       type: string
       enum:
@@ -20619,7 +20608,8 @@ components:
           type: string
           description: Name of the task
         taskType:
-          $ref: '#/components/schemas/taskType'
+          type: string
+          description: Type of task operation
         status:
           $ref: '#/components/schemas/taskStatus'
         createdAt:

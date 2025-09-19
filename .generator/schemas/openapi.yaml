@@ -20328,22 +20328,12 @@ components:
       required:
         - taskId
       type: object
-    taskType:
-      type: string
-      enum:
-        - RefreshBills
-        - PreCheck
-        - ScaleOut
-        - ScaleIn
-        - DeleteDisasterRecoveryCluster
-        - CreateDisasterRecoveryCluster
-        - PromoteDisasterRecoveryCluster
-      description: Type of task operation
     taskSummary:
       type: object
       properties:
         taskType:
-          $ref: '#/components/schemas/taskType'
+          type: string
+          description: Type of task operation
         progress:
           type: integer
           description: Progress percentage of the task
