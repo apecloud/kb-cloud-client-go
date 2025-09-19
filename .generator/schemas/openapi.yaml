@@ -20385,6 +20385,8 @@ components:
     taskType:
       type: string
       enum:
+        - RefreshBills
+        - PreCheck
         - ScaleOut
         - ScaleIn
         - DeleteDisasterRecoveryCluster
@@ -22360,9 +22362,18 @@ components:
           type: string
           nullable: true
         billScheduleTime:
-          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM
+          description: Scheduled production time for daily bills, the format is 'HH:mm:ss', such as '01:00:00' meas every day at 1:00 AM, use the configured timezone
           type: string
           nullable: true
+          example: '01:00:00'
+        lastBillingTime:
+          description: |
+            The last billing time in RFC3339 format (e.g., '2025-09-01T00:00:00Z' or '2025-09-01T00:00:00+08:00').
+            This timestamp represents when the end time of the latest bill.
+          type: string
+          format: date-time
+          nullable: true
+          example: '2025-09-02T00:00:00Z'
         cpuPrice:
           description: The price of CPU, the unit is 'Core'
           type: string
@@ -22375,6 +22386,25 @@ components:
           description: The price of Storage, the unit is 'GB'
           type: string
           nullable: true
+        timezone:
+          description: |
+            The timezone used for billing calculations and time alignment, specified as an IANA timezone identifier.
+
+            This timezone determines:
+            - When daily billing periods start and end (aligned to midnight in this timezone)
+            - How input timestamps are converted and normalized for billing calculations
+            - The timezone context for scheduled billing operations
+
+            Examples of valid timezone values:
+            - "UTC" - Coordinated Universal Time
+            - "Asia/Shanghai" - China Standard Time (CST, UTC+8)
+            - "America/New_York" - Eastern Time (EST/EDT, UTC-5/-4)
+            - "Europe/London" - Greenwich Mean Time/British Summer Time (GMT/BST, UTC+0/+1)
+
+            **The system defaults to UTC and not support to change for now.**
+          type: string
+          nullable: true
+          example: UTC
     aggregationTimeType:
       description: The type of aggregation time
       enum:
@@ -22398,9 +22428,11 @@ components:
       description: Task information
       properties:
         dataTime:
-          description: The timestamp of data
+          description: |
+            The Unix timestamp (seconds since epoch) representing the start of the billing period.
           type: integer
           format: int64
+          example: 1756656000
         price:
           description: The total price
           type: string

@@ -15,6 +15,8 @@ type TaskType string
 
 // List of TaskType.
 const (
+	TaskTypeRefreshBills                   TaskType = "RefreshBills"
+	TaskTypePreCheck                       TaskType = "PreCheck"
 	TaskTypeScaleOut                       TaskType = "ScaleOut"
 	TaskTypeScaleIn                        TaskType = "ScaleIn"
 	TaskTypeDeleteDisasterRecoveryCluster  TaskType = "DeleteDisasterRecoveryCluster"
@@ -23,6 +25,8 @@ const (
 )
 
 var allowedTaskTypeEnumValues = []TaskType{
+	TaskTypeRefreshBills,
+	TaskTypePreCheck,
 	TaskTypeScaleOut,
 	TaskTypeScaleIn,
 	TaskTypeDeleteDisasterRecoveryCluster,

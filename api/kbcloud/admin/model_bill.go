@@ -8,7 +8,8 @@ import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 // Bill Task information
 type Bill struct {
-	// The timestamp of data
+	// The Unix timestamp (seconds since epoch) representing the start of the billing period.
+	//
 	DataTime *int64 `json:"dataTime,omitempty"`
 	// The total price
 	Price *string `json:"price,omitempty"`
