@@ -24,12 +24,8 @@ type ParameterOption struct {
 	DisableHa   *bool    `json:"disableHA,omitempty"`
 	// parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
 	Templates []ParameterTemplate `json:"templates,omitempty"`
-	// parameter constraints, mainly used to verify the correctness of the parameter value.
-	Constraints []ParameterConstraint `json:"constraints,omitempty"`
 	// Parameters to be initialized when cluster is created
 	InitOptions map[string]interface{} `json:"initOptions,omitempty"`
-	// Parameters to be calculated based on the instance specifications
-	ExprParams []ExprParam `json:"exprParams,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -236,34 +232,6 @@ func (o *ParameterOption) SetTemplates(v []ParameterTemplate) {
 	o.Templates = v
 }
 
-// GetConstraints returns the Constraints field value if set, zero value otherwise.
-func (o *ParameterOption) GetConstraints() []ParameterConstraint {
-	if o == nil || o.Constraints == nil {
-		var ret []ParameterConstraint
-		return ret
-	}
-	return o.Constraints
-}
-
-// GetConstraintsOk returns a tuple with the Constraints field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetConstraintsOk() (*[]ParameterConstraint, bool) {
-	if o == nil || o.Constraints == nil {
-		return nil, false
-	}
-	return &o.Constraints, true
-}
-
-// HasConstraints returns a boolean if a field has been set.
-func (o *ParameterOption) HasConstraints() bool {
-	return o != nil && o.Constraints != nil
-}
-
-// SetConstraints gets a reference to the given []ParameterConstraint and assigns it to the Constraints field.
-func (o *ParameterOption) SetConstraints(v []ParameterConstraint) {
-	o.Constraints = v
-}
-
 // GetInitOptions returns the InitOptions field value if set, zero value otherwise.
 func (o *ParameterOption) GetInitOptions() map[string]interface{} {
 	if o == nil || o.InitOptions == nil {
@@ -292,34 +260,6 @@ func (o *ParameterOption) SetInitOptions(v map[string]interface{}) {
 	o.InitOptions = v
 }
 
-// GetExprParams returns the ExprParams field value if set, zero value otherwise.
-func (o *ParameterOption) GetExprParams() []ExprParam {
-	if o == nil || o.ExprParams == nil {
-		var ret []ExprParam
-		return ret
-	}
-	return o.ExprParams
-}
-
-// GetExprParamsOk returns a tuple with the ExprParams field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ParameterOption) GetExprParamsOk() (*[]ExprParam, bool) {
-	if o == nil || o.ExprParams == nil {
-		return nil, false
-	}
-	return &o.ExprParams, true
-}
-
-// HasExprParams returns a boolean if a field has been set.
-func (o *ParameterOption) HasExprParams() bool {
-	return o != nil && o.ExprParams != nil
-}
-
-// SetExprParams gets a reference to the given []ExprParam and assigns it to the ExprParams field.
-func (o *ParameterOption) SetExprParams(v []ExprParam) {
-	o.ExprParams = v
-}
-
 // MarshalJSON serializes the struct using spec logic.
 func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -339,14 +279,8 @@ func (o ParameterOption) MarshalJSON() ([]byte, error) {
 	if o.Templates != nil {
 		toSerialize["templates"] = o.Templates
 	}
-	if o.Constraints != nil {
-		toSerialize["constraints"] = o.Constraints
-	}
 	if o.InitOptions != nil {
 		toSerialize["initOptions"] = o.InitOptions
-	}
-	if o.ExprParams != nil {
-		toSerialize["exprParams"] = o.ExprParams
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -365,9 +299,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 		ConfigSpecs      *[]string              `json:"configSpecs"`
 		DisableHa        *bool                  `json:"disableHA,omitempty"`
 		Templates        []ParameterTemplate    `json:"templates,omitempty"`
-		Constraints      []ParameterConstraint  `json:"constraints,omitempty"`
 		InitOptions      map[string]interface{} `json:"initOptions,omitempty"`
-		ExprParams       []ExprParam            `json:"exprParams,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -386,7 +318,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "constraints", "initOptions", "exprParams"})
+		common.DeleteKeys(additionalProperties, &[]string{"component", "exportTpl", "enableTemplate", "enableRawContent", "configSpecs", "disableHA", "templates", "initOptions"})
 	} else {
 		return err
 	}
@@ -397,9 +329,7 @@ func (o *ParameterOption) UnmarshalJSON(bytes []byte) (err error) {
 	o.ConfigSpecs = *all.ConfigSpecs
 	o.DisableHa = all.DisableHa
 	o.Templates = all.Templates
-	o.Constraints = all.Constraints
 	o.InitOptions = all.InitOptions
-	o.ExprParams = all.ExprParams
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

@@ -4716,6 +4716,12 @@ paths:
           required: false
           schema:
             type: string
+        - description: component type
+          in: query
+          name: component
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           content:
@@ -4793,7 +4799,7 @@ paths:
           in: query
           name: partition
           schema:
-            $ref: '#/components/schemas/paramTplPartition'
+            $ref: '#/components/schemas/parameterTemplatePartition'
         - description: Cluster Application Version
           in: query
           name: version
@@ -4872,7 +4878,7 @@ paths:
           in: query
           name: partition
           schema:
-            $ref: '#/components/schemas/paramTplPartition'
+            $ref: '#/components/schemas/parameterTemplatePartition'
         - description: whether to return the raw template content
           in: query
           name: rawContent
@@ -14004,7 +14010,7 @@ components:
         key:
           type: string
           format: binary
-    paramTplPartition:
+    parameterTemplatePartition:
       enum:
         - default
         - custom
@@ -14024,7 +14030,7 @@ components:
           type: string
           description: id of parameter template
         paramTplPartition:
-          $ref: '#/components/schemas/paramTplPartition'
+          $ref: '#/components/schemas/parameterTemplatePartition'
     paramTpls:
       type: array
       description: Items is the list of parameter template in the list
@@ -16600,14 +16606,10 @@ components:
           type: boolean
         maximum:
           description: The maximum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         minimum:
           description: The minimum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         enum:
           description: The value options of the parameter
           type: array
@@ -16637,10 +16639,20 @@ components:
           type: string
     parameterList:
       description: A list of cluster parameter
+      required:
+        - majorVersion
+        - engine
+        - component
       properties:
-        family:
+        majorVersion:
+          description: 'Major version of database engine, eg: 8.0'
           type: string
-          description: family of parameter template
+        engine:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
+          type: string
         items:
           type: array
           items:
@@ -16661,8 +16673,8 @@ components:
         description:
           description: Description of parameter template
           type: string
-        family:
-          description: 'Name of database with its version, eg: mysql8.0'
+        majorVersion:
+          description: 'Major version of database engine, eg: 8.0'
           type: string
         engine:
           description: Name of database engine
@@ -16689,7 +16701,9 @@ components:
       required:
         - description
         - paramTplID
-        - family
+        - majorVersion
+        - engine
+        - component
         - name
         - partition
       type: object
@@ -16714,8 +16728,14 @@ components:
           maxLength: 128
           minLength: 3
           type: string
-        family:
-          description: 'Name of database with its version, eg: mysql8.0'
+        majorVersion:
+          description: 'Major version of database engine, eg: 8.0'
+          type: string
+        engine:
+          description: Name of database engine
+          type: string
+        component:
+          description: Name of component
           type: string
         name:
           description: Name of parameter template. Name must be unique within an Org
@@ -16727,23 +16747,22 @@ components:
           description: Name of custom parameter template. When set customName, will create a copy of this custom parameter template.
           type: string
         oriPartition:
-          $ref: '#/components/schemas/paramTplPartition'
+          $ref: '#/components/schemas/parameterTemplatePartition'
         isPrivate:
           description: Determines whether the user can see this parameter template
           type: boolean
       required:
         - description
-        - family
+        - majorVersion
+        - engine
+        - component
         - name
       type: object
     paramTplUpdate:
       description: paramTplUpdate is the payload to update a parameter template
       properties:
         specName:
-          description: Specify parameters belongs to which spec
-          type: string
-        configFile:
-          description: Specify parameters belongs to which config file
+          description: Specify parameters belongs to which spec. Currently, only one configuration file corresponds to a specName, so the configuration file name is omitted.
           type: string
         parameters:
           additionalProperties:
@@ -18122,21 +18141,31 @@ components:
       required:
         - configSpecName
         - templateRef
+        - configFileName
+        - format
       type: object
       properties:
         configSpecName:
           type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
+          description: name of config spec, included in configSpecs
         templateRef:
           type: string
-          description: name of the referenced configuration template configMap object, equal to componentDefinition.configs[x].templateRef
+          description: name of the referenced configuration template file name, all files in parameter template fold under stores
+        configFileName:
+          type: string
+          description: name of the configuration file, such as my.cnf, postgresql.conf
+        format:
+          type: string
+          description: format of the configuration file, such as ini, yaml, conf
+        section:
+          type: string
+          description: section of the configuration file, such as mysqld
     parameterTemplate:
       type: object
       required:
         - name
         - description
         - majorVersion
-        - family
         - configs
         - defaultUse
       properties:
@@ -18148,9 +18177,6 @@ components:
         majorVersion:
           type: string
           description: match the major version set in the component
-        family:
-          type: string
-          description: a alias with major version, used to distinguish between different parameter templates
         configs:
           type: array
           description: parameterConfig contains specific configuration templates for each configuration file, primarily consisting of parameter templates and parameter constraints, mainly used by initializing the default template from addon.
@@ -18159,72 +18185,6 @@ components:
         defaultUse:
           type: boolean
           description: whether the default parameter template is used by default, set in componentDefinition.configs, only one default parameter template can be set in certain family.
-        versions:
-          type: array
-          description: deprecated
-          items:
-            type: string
-    parameterConstraint:
-      type: object
-      required:
-        - family
-        - majorVersion
-        - configSpecName
-        - regex
-        - configFileName
-      properties:
-        family:
-          type: string
-          description: a alias with major version, used to distinguish between different parameter templates
-        majorVersion:
-          type: string
-          description: match the major version set in the component
-        versions:
-          type: array
-          description: deprecated
-          items:
-            type: string
-        configSpecName:
-          type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
-        constraintRef:
-          type: string
-          description: used in KB version < 1.0, constraint of the configConstraint, equal to componentDefinition.configs[x].constraintRef
-        regex:
-          type: string
-          description: regular expression of the parameters, mainly used by the frontend for parameter parsing.
-        configFileName:
-          type: string
-          description: name of configuration file
-    exprParam:
-      type: object
-      required:
-        - name
-        - description
-        - configSpecName
-        - validVariables
-        - defaultExpression
-      properties:
-        name:
-          type: string
-          description: name of the parameter
-        description:
-          type: string
-          description: description of each variables and expression
-        configSpecName:
-          type: string
-          description: name of config spec, included in configSpecs, equal to componentDefinition.configs[x].name
-        validVariables:
-          description: valid variables in the expression
-          type: array
-          items:
-            type: string
-        defaultExpression:
-          type: string
-          description: default expression of the parameter
-        unit:
-          type: string
-          description: unit of parameter
     parameterOption:
       type: object
       required:
@@ -18258,22 +18218,12 @@ components:
           description: parameter templates, including default parameter templates for different major versions or default parameter templates for different purposes.
           items:
             $ref: '#/components/schemas/parameterTemplate'
-        constraints:
-          type: array
-          description: parameter constraints, mainly used to verify the correctness of the parameter value.
-          items:
-            $ref: '#/components/schemas/parameterConstraint'
         initOptions:
           type: object
           description: Parameters to be initialized when cluster is created
           additionalProperties:
             type: object
             properties: {}
-        exprParams:
-          type: array
-          description: Parameters to be calculated based on the instance specifications
-          items:
-            $ref: '#/components/schemas/exprParam'
     engineOptionsDisasterRecoverySource:
       type: object
       properties:
@@ -20069,14 +20019,10 @@ components:
           items: {}
         maximum:
           description: The maximum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         minimum:
           description: The minimum value of the parameter
-          format: double
-          type: number
-          nullable: true
+          type: string
         immutable:
           description: Whether the parameter is an immutable parameter, immutable parameters cannot be modified
           type: boolean
