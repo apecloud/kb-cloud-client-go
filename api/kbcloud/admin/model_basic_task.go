@@ -13,7 +13,7 @@ import (
 // BasicTask Task information
 type BasicTask struct {
 	// Task ID
-	TaskId common.NullableInt32 `json:"taskId"`
+	TaskId common.NullableString `json:"taskId"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -23,7 +23,7 @@ type BasicTask struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewBasicTask(taskId common.NullableInt32) *BasicTask {
+func NewBasicTask(taskId common.NullableString) *BasicTask {
 	this := BasicTask{}
 	this.TaskId = taskId
 	return &this
@@ -38,10 +38,10 @@ func NewBasicTaskWithDefaults() *BasicTask {
 }
 
 // GetTaskId returns the TaskId field value.
-// If the value is explicit nil, the zero value for int32 will be returned.
-func (o *BasicTask) GetTaskId() int32 {
+// If the value is explicit nil, the zero value for string will be returned.
+func (o *BasicTask) GetTaskId() string {
 	if o == nil || o.TaskId.Get() == nil {
-		var ret int32
+		var ret string
 		return ret
 	}
 	return *o.TaskId.Get()
@@ -50,7 +50,7 @@ func (o *BasicTask) GetTaskId() int32 {
 // GetTaskIdOk returns a tuple with the TaskId field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *BasicTask) GetTaskIdOk() (*int32, bool) {
+func (o *BasicTask) GetTaskIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,7 +58,7 @@ func (o *BasicTask) GetTaskIdOk() (*int32, bool) {
 }
 
 // SetTaskId sets field value.
-func (o *BasicTask) SetTaskId(v int32) {
+func (o *BasicTask) SetTaskId(v string) {
 	o.TaskId.Set(&v)
 }
 
@@ -79,7 +79,7 @@ func (o BasicTask) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *BasicTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TaskId common.NullableInt32 `json:"taskId"`
+		TaskId common.NullableString `json:"taskId"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

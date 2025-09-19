@@ -164,14 +164,39 @@ func (a *TaskApi) GetTaskLog(ctx _context.Context, taskId string) (*_nethttp.Res
 	return localVarHTTPResponse, nil
 }
 
+// ListTaskOptionalParameters holds optional parameters for ListTask.
+type ListTaskOptionalParameters struct {
+	TaskType *TaskType
+}
+
+// NewListTaskOptionalParameters creates an empty struct for parameters.
+func NewListTaskOptionalParameters() *ListTaskOptionalParameters {
+	this := ListTaskOptionalParameters{}
+	return &this
+}
+
+// WithTaskType sets the corresponding parameter name and returns the struct.
+func (r *ListTaskOptionalParameters) WithTaskType(taskType TaskType) *ListTaskOptionalParameters {
+	r.TaskType = &taskType
+	return r
+}
+
 // ListTask List task.
 // List tasks
-func (a *TaskApi) ListTask(ctx _context.Context) (TaskList, *_nethttp.Response, error) {
+func (a *TaskApi) ListTask(ctx _context.Context, o ...ListTaskOptionalParameters) (TaskList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
 		localVarReturnValue TaskList
+		optionalParams      ListTaskOptionalParameters
 	)
+
+	if len(o) > 1 {
+		return localVarReturnValue, nil, common.ReportError("only one argument of type ListTaskOptionalParameters is allowed")
+	}
+	if len(o) == 1 {
+		optionalParams = o[0]
+	}
 
 	// Add api info to context
 	apiInfo := common.APIInfo{
@@ -192,6 +217,9 @@ func (a *TaskApi) ListTask(ctx _context.Context) (TaskList, *_nethttp.Response, 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if optionalParams.TaskType != nil {
+		localVarQueryParams.Add("taskType", common.ParameterToString(*optionalParams.TaskType, ""))
+	}
 	localVarHeaderParams["Accept"] = "application/json"
 
 	common.SetAuthKeys(
@@ -219,7 +247,7 @@ func (a *TaskApi) ListTask(ctx _context.Context) (TaskList, *_nethttp.Response, 
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 500 {
 			var v APIErrorResponse
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
