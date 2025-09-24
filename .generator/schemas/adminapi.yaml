@@ -11233,7 +11233,7 @@ paths:
       operationId: getAggregateTaskResult
       summary: get aggregate task result
       parameters:
-        - description: name of the Org
+        - description: the type of the aggregate task
           in: query
           name: aggregateType
           required: true
@@ -11242,6 +11242,12 @@ paths:
         - description: the engine of the task
           in: query
           name: engine
+          required: false
+          schema:
+            type: string
+        - description: only show the result of the specific organization or environment
+          in: query
+          name: resourceName
           required: false
           schema:
             type: string
@@ -25482,8 +25488,8 @@ components:
       type: string
       description: Specifies the type of the aggregate meta data.
       enum:
-        - organization
-        - environment
+        - cluster
+        - node
         - all
     aggregateTaskResultType:
       type: string
