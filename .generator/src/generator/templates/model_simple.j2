@@ -328,6 +328,8 @@ func (o *{{ name }}) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	{%- if not isPrimitiveContainer %}
+	{%- set itemsType = get_type(model.get("items", {}), alternative_name=name + "Item") %}
+	{%- if itemsType not in ["interface{}", "map[string]interface{}"] and not itemsType.startswith("[]") and not itemsType.startswith("map[") %}
 
 	if o.Items != nil && len(o.Items) > 0 {
 		for _, v := range o.Items {
@@ -336,6 +338,7 @@ func (o *{{ name }}) UnmarshalJSON(bytes []byte) (err error) {
 			}
 		}
 	}
+	{%- endif %}
 	{%- endif %}
 
 	return nil

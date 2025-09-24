@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // IoQuantity IO Quantity describes IOPS and BPS of a volume
 type IoQuantity struct {

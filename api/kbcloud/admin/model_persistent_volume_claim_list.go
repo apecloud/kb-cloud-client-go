@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // PersistentVolumeClaimList the List stands for stats for persistentvolumeclaims.
 type PersistentVolumeClaimList struct {

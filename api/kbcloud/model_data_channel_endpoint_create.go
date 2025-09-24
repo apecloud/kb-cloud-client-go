@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type DataChannelEndpointCreate struct {
 	EngineName     *string                       `json:"engineName,omitempty"`

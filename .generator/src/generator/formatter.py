@@ -112,6 +112,7 @@ def format_value(value, quotes='"', schema=None):
         index = schema["enum"].index(value)
         enum_varname = get_enum_varname(schema, index)
         name = schema_name(schema)
+        # Include the type name to make constants unique
         return f"{upperfirst(name)}{enum_varname}"
 
     if isinstance(value, str):
@@ -153,7 +154,7 @@ def simple_type(schema, render_nullable=False, render_new=False):
     if type_name == "number":
         return {
             "double": "float64" if not nullable else f"{nullable_prefix}Float64",
-            None: "float" if not nullable else f"{nullable_prefix}Float",
+            None: "float64" if not nullable else f"{nullable_prefix}Float64",
         }[type_format]
 
     if type_name == "string":
@@ -180,7 +181,8 @@ def is_reference(schema, attribute):
     if attribute_schema == {} and schema.get("allOf") is not None:
         for obj in schema["allOf"]:
             if attribute in obj.get("properties", {}):
-                return is_reference(obj, attribute)
+                attribute_schema = obj["properties"][attribute]
+                break
 
     is_nullable = attribute_schema.get("nullable", False)
     if is_nullable:

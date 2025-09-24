@@ -4,14 +4,16 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ImportBooleanField Configuration for a boolean-type field.
 type ImportBooleanField struct {
 	// Field's programmatic name (e.g., 'db_host')
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// User-facing label for UI (e.g., 'Database Host')
-	Label string `json:"label,omitempty"`
+	Label *string `json:"label,omitempty"`
 	// Whether the field is required
 	Required *bool `json:"required,omitempty"`
 	// Whether it contains sensitive information (e.g., password)
@@ -21,7 +23,7 @@ type ImportBooleanField struct {
 	// Placeholder text for the input
 	Placeholder *string `json:"placeholder,omitempty"`
 	// Import field type
-	Type    ImportFieldType     `json:"type,omitempty"`
+	Type    *ImportFieldType    `json:"type,omitempty"`
 	Default common.NullableBool `json:"default,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
@@ -47,7 +49,7 @@ func (o *ImportBooleanField) GetName() string {
 		var ret string
 		return ret
 	}
-	return o.Name
+	return *o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
@@ -56,7 +58,7 @@ func (o *ImportBooleanField) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -66,7 +68,7 @@ func (o *ImportBooleanField) HasName() bool {
 
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *ImportBooleanField) SetName(v string) {
-	o.Name = v
+	o.Name = &v
 }
 
 // GetLabel returns the Label field value if set, zero value otherwise.
@@ -75,7 +77,7 @@ func (o *ImportBooleanField) GetLabel() string {
 		var ret string
 		return ret
 	}
-	return o.Label
+	return *o.Label
 }
 
 // GetLabelOk returns a tuple with the Label field value if set, nil otherwise
@@ -84,7 +86,7 @@ func (o *ImportBooleanField) GetLabelOk() (*string, bool) {
 	if o == nil || o.Label == nil {
 		return nil, false
 	}
-	return &o.Label, true
+	return o.Label, true
 }
 
 // HasLabel returns a boolean if a field has been set.
@@ -94,7 +96,7 @@ func (o *ImportBooleanField) HasLabel() bool {
 
 // SetLabel gets a reference to the given string and assigns it to the Label field.
 func (o *ImportBooleanField) SetLabel(v string) {
-	o.Label = v
+	o.Label = &v
 }
 
 // GetRequired returns the Required field value if set, zero value otherwise.
@@ -215,7 +217,7 @@ func (o *ImportBooleanField) GetType() ImportFieldType {
 		var ret ImportFieldType
 		return ret
 	}
-	return o.Type
+	return *o.Type
 }
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
@@ -224,7 +226,7 @@ func (o *ImportBooleanField) GetTypeOk() (*ImportFieldType, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
-	return &o.Type, true
+	return o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
@@ -234,7 +236,7 @@ func (o *ImportBooleanField) HasType() bool {
 
 // SetType gets a reference to the given ImportFieldType and assigns it to the Type field.
 func (o *ImportBooleanField) SetType(v ImportFieldType) {
-	o.Type = v
+	o.Type = &v
 }
 
 // GetDefault returns the Default field value if set, zero value otherwise.
@@ -315,13 +317,13 @@ func (o ImportBooleanField) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ImportBooleanField) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        string              `json:"name,omitempty"`
-		Label       string              `json:"label,omitempty"`
+		Name        *string             `json:"name,omitempty"`
+		Label       *string             `json:"label,omitempty"`
 		Required    *bool               `json:"required,omitempty"`
 		Sensitive   *bool               `json:"sensitive,omitempty"`
 		Description *string             `json:"description,omitempty"`
 		Placeholder *string             `json:"placeholder,omitempty"`
-		Type        ImportFieldType     `json:"type,omitempty"`
+		Type        *ImportFieldType    `json:"type,omitempty"`
 		Default     common.NullableBool `json:"default,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
