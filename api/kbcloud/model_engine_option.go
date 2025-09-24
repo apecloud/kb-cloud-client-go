@@ -47,8 +47,7 @@ type EngineOption struct {
 	DataReplication  *DataReplicationOption  `json:"dataReplication,omitempty"`
 	Import           *ImportOption           `json:"import,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
-	UnparsedObject       map[string]interface{} `json:"-"`
-	AdditionalProperties map[string]interface{} `json:"-"`
+	UnparsedObject map[string]interface{} `json:"-"`
 }
 
 // NewEngineOption instantiates a new EngineOption object.
@@ -999,10 +998,6 @@ func (o EngineOption) MarshalJSON() ([]byte, error) {
 	if o.Import != nil {
 		toSerialize["import"] = o.Import
 	}
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
 	return common.Marshal(toSerialize)
 }
 
@@ -1097,12 +1092,6 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Parameters == nil {
 		return fmt.Errorf("required field parameters missing")
 	}
-	additionalProperties := make(map[string]interface{})
-	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"engineName", "maturityLevel", "title", "status", "description", "versions", "components", "modes", "account", "database", "dms", "backup", "bench", "endpoints", "networkModes", "promote", "stop", "start", "restart", "hscale", "vscale", "license", "storageExpansion", "rebuildInstance", "upgrade", "metrics", "dashboards", "logs", "parameters", "disasterRecovery", "cdc", "dataReplication", "import"})
-	} else {
-		return err
-	}
 
 	hasInvalidField := false
 	o.EngineName = *all.EngineName
@@ -1175,10 +1164,6 @@ func (o *EngineOption) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.Import = all.Import
-
-	if len(additionalProperties) > 0 {
-		o.AdditionalProperties = additionalProperties
-	}
 
 	if hasInvalidField {
 		return common.Unmarshal(bytes, &o.UnparsedObject)
