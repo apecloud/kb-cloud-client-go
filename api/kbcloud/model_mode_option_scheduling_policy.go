@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type ModeOptionSchedulingPolicy struct {
 	// when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules

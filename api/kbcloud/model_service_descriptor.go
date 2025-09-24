@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ServiceDescriptor serviceDescriptor that will be used in serviceRef. The field definition is in line with kubeblocks.
 type ServiceDescriptor struct {

@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ComponentOptionVersionMajorVersionVersionMappingItem Configure the mapping relationship with the main component's major versions.
 type ComponentOptionVersionMajorVersionVersionMappingItem struct {

@@ -8,7 +8,10 @@ import yaml
 
 from jsonref import JsonRef
 from urllib.parse import urlparse
-from yaml import CSafeLoader
+try:
+    from yaml import CSafeLoader
+except ImportError:
+    from yaml import SafeLoader as CSafeLoader
 
 from . import formatter
 from . import utils
@@ -219,6 +222,10 @@ def child_models(schema, alternative_name=None, seen=None, parent=None):
 
 def models(spec):
     name_to_schema = {}
+
+    if "components" in spec and "schemas" in spec["components"]:
+        for name, schema in spec["components"]["schemas"].items():
+            name_to_schema[name] = schema
 
     for path in spec["paths"]:
         if path.startswith("x-"):

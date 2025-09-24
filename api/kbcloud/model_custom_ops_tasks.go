@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // CustomOpsTasks customOpsTasks is a list of custom ops task. This field is provided when ops is `custom`.
 type CustomOpsTasks struct {

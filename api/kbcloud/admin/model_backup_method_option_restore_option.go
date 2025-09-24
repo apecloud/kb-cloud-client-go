@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type BackupMethodOptionRestoreOption struct {
 	// If this backup needs to be restored on multiple components, the names of those components must be specified.

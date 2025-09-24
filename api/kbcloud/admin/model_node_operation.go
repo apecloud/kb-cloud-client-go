@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type NodeOperation struct {
 	// Node name (e.g. 'MyName',  or 'my.name',  or '123-abc')

@@ -4,6 +4,10 @@
 
 package admin
 
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
 // ImportNumberField Configuration for a number-type field.
 type ImportNumberField struct {
 	// Field's programmatic name (e.g., 'db_host')
@@ -19,8 +23,8 @@ type ImportNumberField struct {
 	// Placeholder text for the input
 	Placeholder *string `json:"placeholder,omitempty"`
 	// Import field type
-	Type    ImportFieldType      `json:"type,omitempty"`
-	Default common.NullableFloat `json:"default,omitempty"`
+	Type    ImportFieldType        `json:"type,omitempty"`
+	Default common.NullableFloat64 `json:"default,omitempty"`
 	// Validation rules for numeric field type
 	Validation *ImportNumericValidation `json:"validation,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -238,9 +242,9 @@ func (o *ImportNumberField) SetType(v ImportFieldType) {
 }
 
 // GetDefault returns the Default field value if set, zero value otherwise.
-func (o *ImportNumberField) GetDefault() float {
+func (o *ImportNumberField) GetDefault() float64 {
 	if o == nil || o.Default.Get() == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Default.Get()
@@ -248,7 +252,7 @@ func (o *ImportNumberField) GetDefault() float {
 
 // GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportNumberField) GetDefaultOk() (*float, bool) {
+func (o *ImportNumberField) GetDefaultOk() (*float64, bool) {
 	if o == nil || o.Default.Get() == nil {
 		return nil, false
 	}
@@ -260,8 +264,8 @@ func (o *ImportNumberField) HasDefault() bool {
 	return o != nil && o.Default.IsSet()
 }
 
-// SetDefault gets a reference to the given common.NullableFloat and assigns it to the Default field.
-func (o *ImportNumberField) SetDefault(v float) {
+// SetDefault gets a reference to the given common.NullableFloat64 and assigns it to the Default field.
+func (o *ImportNumberField) SetDefault(v float64) {
 	o.Default.Set(&v)
 }
 
@@ -353,7 +357,7 @@ func (o *ImportNumberField) UnmarshalJSON(bytes []byte) (err error) {
 		Description *string                  `json:"description,omitempty"`
 		Placeholder *string                  `json:"placeholder,omitempty"`
 		Type        ImportFieldType          `json:"type,omitempty"`
-		Default     common.NullableFloat     `json:"default,omitempty"`
+		Default     common.NullableFloat64   `json:"default,omitempty"`
 		Validation  *ImportNumericValidation `json:"validation,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -378,6 +382,9 @@ func (o *ImportNumberField) UnmarshalJSON(bytes []byte) (err error) {
 		o.Type = all.Type
 	}
 	o.Default = all.Default
+	if all.Validation != nil && all.Validation.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Validation = all.Validation
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

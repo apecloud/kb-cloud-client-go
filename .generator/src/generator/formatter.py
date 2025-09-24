@@ -153,7 +153,7 @@ def simple_type(schema, render_nullable=False, render_new=False):
     if type_name == "number":
         return {
             "double": "float64" if not nullable else f"{nullable_prefix}Float64",
-            None: "float" if not nullable else f"{nullable_prefix}Float",
+            None: "float64" if not nullable else f"{nullable_prefix}Float64",
         }[type_format]
 
     if type_name == "string":

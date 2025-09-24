@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ImportStringField Configuration for a string-type field.
 type ImportStringField struct {
@@ -380,6 +382,9 @@ func (o *ImportStringField) UnmarshalJSON(bytes []byte) (err error) {
 		o.Type = all.Type
 	}
 	o.Default = all.Default
+	if all.Validation != nil && all.Validation.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Validation = all.Validation
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

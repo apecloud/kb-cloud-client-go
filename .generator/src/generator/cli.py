@@ -11,6 +11,60 @@ MODULE = "github.com/apecloud/kb-cloud-client-go"
 COMMON_PACKAGE_NAME = "common"
 
 
+def _model_uses_common_types(model):
+    if not model:
+        return False
+    
+    for attr, schema in model.get("properties", {}).items():
+        if _schema_uses_common_types(schema):
+            return True
+    
+    for subschema in model.get("allOf", []):
+        if _model_uses_common_types(subschema):
+            return True
+    
+    return False
+
+
+def _schema_uses_common_types(schema):
+    if not schema:
+        return False
+    
+    if schema.get("nullable", False):
+        return True
+    
+    for attr, subschema in schema.get("properties", {}).items():
+        if _schema_uses_common_types(subschema):
+            return True
+    
+    if "items" in schema:
+        if _schema_uses_common_types(schema["items"]):
+            return True
+    
+    return False
+
+
+def _schema_references_external_types(schema, models):
+    if not schema:
+        return False
+    
+    if hasattr(schema, "__reference__"):
+        ref_name = schema.__reference__["$ref"].split("/")[-1]
+        if ref_name in models:
+            return True
+    
+    for attr, subschema in schema.get("properties", {}).items():
+        if _schema_references_external_types(subschema, models):
+            return True
+    
+    # Check iems (for arrays)
+    if "items" in schema:
+        if _schema_references_external_types(schema["items"], models):
+            return True
+    
+    return False
+
+
 @click.command()
 @click.argument(
     "specs",
@@ -82,6 +136,15 @@ def cli(specs, output):
 
     all_specs = {}
     all_apis = {}
+    all_models = {}
+    
+    for spec_path in specs:
+        spec = openapi.load(spec_path)
+        spec_name = spec_path.stem
+        models = openapi.models(spec)
+        all_models.update(models)
+        all_specs[spec_name] = spec
+
     for spec_path in specs:
         spec = openapi.load(spec_path)
         spec_name = spec_path.stem
@@ -103,9 +166,25 @@ def cli(specs, output):
             filename = "model_" + formatter.model_filename(name) + ".go"
             model_path = resources_dir / filename
             model_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            imports = set()
+            
+            if _model_uses_common_types(model):
+                imports.add("github.com/apecloud/kb-cloud-client-go/api/common")
+            
+            for attr, schema in model.get("properties", {}).items():
+                if _schema_references_external_types(schema, all_models):
+                    imports.add("github.com/apecloud/kb-cloud-client-go/api/common")
+            
             with model_path.open("w") as fp:
                 print(f"Generating model {name} to {model_path}")
-                fp.write(model_j2.render(name=utils.upperfirst(name), model=model, models=models))
+                fp.write(model_j2.render(
+                    name=utils.upperfirst(name), 
+                    model=model, 
+                    models=all_models,
+                    imports=list(imports),
+                    all_models=all_models
+                ))
 
         all_operations = []
 

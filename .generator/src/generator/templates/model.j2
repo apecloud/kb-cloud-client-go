@@ -5,10 +5,10 @@ import (
 	"github.com/google/uuid"
 	"fmt"
 
-	"github.com/apecloud/kb-cloud-client-go/api"
-{#imports
-	"{{import}}"
-#}
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+{%- for import in imports %}
+	"{{ import }}"
+{%- endfor %}
 )
 
 {# {{ model.description.rstrip()|replace('\n', '\n# ')|indent(2) }}#}

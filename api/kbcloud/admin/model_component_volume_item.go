@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ComponentVolumeItem ComponentVolumeItem is the information of a component volume
 type ComponentVolumeItem struct {

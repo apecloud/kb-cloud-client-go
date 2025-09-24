@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // StorageProvider Storage Provider comprises specifications that provide guidance accessing remote storage.
 type StorageProvider struct {

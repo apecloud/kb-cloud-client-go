@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // StorageCheckResult storageCheck is the result when checking storage connectivity
 type StorageCheckResult struct {

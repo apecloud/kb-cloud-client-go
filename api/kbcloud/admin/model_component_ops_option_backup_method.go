@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ComponentOpsOptionBackupMethod indicate the backup method when inplace is true
 type ComponentOpsOptionBackupMethod struct {

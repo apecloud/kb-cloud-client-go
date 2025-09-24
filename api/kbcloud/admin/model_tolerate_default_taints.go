@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // TolerateDefaultTaints When creating a cluster, add the default tolerations from the bootstrap node to the pods
 type TolerateDefaultTaints struct {

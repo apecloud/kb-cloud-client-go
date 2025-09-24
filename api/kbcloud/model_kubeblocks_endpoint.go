@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type KubeblocksEndpoint struct {
 	EnvironmentId   *string `json:"environmentID,omitempty"`
