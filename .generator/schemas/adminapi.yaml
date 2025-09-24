@@ -24175,6 +24175,7 @@ components:
           description: Engine name for sink/target database
     engineOption:
       type: object
+      additionalProperties: false
       required:
         - engineName
         - title
