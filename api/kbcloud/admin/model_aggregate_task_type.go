@@ -15,14 +15,14 @@ type AggregateTaskType string
 
 // List of AggregateTaskType.
 const (
-	AggregateTaskTypeOrganization AggregateTaskType = "organization"
-	AggregateTaskTypeEnvironment  AggregateTaskType = "environment"
-	AggregateTaskTypeAll          AggregateTaskType = "all"
+	AggregateTaskTypeCluster AggregateTaskType = "cluster"
+	AggregateTaskTypeNode    AggregateTaskType = "node"
+	AggregateTaskTypeAll     AggregateTaskType = "all"
 )
 
 var allowedAggregateTaskTypeEnumValues = []AggregateTaskType{
-	AggregateTaskTypeOrganization,
-	AggregateTaskTypeEnvironment,
+	AggregateTaskTypeCluster,
+	AggregateTaskTypeNode,
 	AggregateTaskTypeAll,
 }
 
