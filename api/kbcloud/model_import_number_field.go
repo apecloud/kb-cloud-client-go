@@ -4,12 +4,16 @@
 
 package kbcloud
 
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
 // ImportNumberField Configuration for a number-type field.
 type ImportNumberField struct {
 	// Field's programmatic name (e.g., 'db_host')
-	Name string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty"`
 	// User-facing label for UI (e.g., 'Database Host')
-	Label string `json:"label,omitempty"`
+	Label *string `json:"label,omitempty"`
 	// Whether the field is required
 	Required *bool `json:"required,omitempty"`
 	// Whether it contains sensitive information (e.g., password)
@@ -19,8 +23,8 @@ type ImportNumberField struct {
 	// Placeholder text for the input
 	Placeholder *string `json:"placeholder,omitempty"`
 	// Import field type
-	Type    ImportFieldType      `json:"type,omitempty"`
-	Default common.NullableFloat `json:"default,omitempty"`
+	Type    *ImportFieldType       `json:"type,omitempty"`
+	Default common.NullableFloat64 `json:"default,omitempty"`
 	// Validation rules for numeric field type
 	Validation *ImportNumericValidation `json:"validation,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -47,7 +51,7 @@ func (o *ImportNumberField) GetName() string {
 		var ret string
 		return ret
 	}
-	return o.Name
+	return *o.Name
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
@@ -56,7 +60,7 @@ func (o *ImportNumberField) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Name, true
 }
 
 // HasName returns a boolean if a field has been set.
@@ -66,7 +70,7 @@ func (o *ImportNumberField) HasName() bool {
 
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *ImportNumberField) SetName(v string) {
-	o.Name = v
+	o.Name = &v
 }
 
 // GetLabel returns the Label field value if set, zero value otherwise.
@@ -75,7 +79,7 @@ func (o *ImportNumberField) GetLabel() string {
 		var ret string
 		return ret
 	}
-	return o.Label
+	return *o.Label
 }
 
 // GetLabelOk returns a tuple with the Label field value if set, nil otherwise
@@ -84,7 +88,7 @@ func (o *ImportNumberField) GetLabelOk() (*string, bool) {
 	if o == nil || o.Label == nil {
 		return nil, false
 	}
-	return &o.Label, true
+	return o.Label, true
 }
 
 // HasLabel returns a boolean if a field has been set.
@@ -94,7 +98,7 @@ func (o *ImportNumberField) HasLabel() bool {
 
 // SetLabel gets a reference to the given string and assigns it to the Label field.
 func (o *ImportNumberField) SetLabel(v string) {
-	o.Label = v
+	o.Label = &v
 }
 
 // GetRequired returns the Required field value if set, zero value otherwise.
@@ -215,7 +219,7 @@ func (o *ImportNumberField) GetType() ImportFieldType {
 		var ret ImportFieldType
 		return ret
 	}
-	return o.Type
+	return *o.Type
 }
 
 // GetTypeOk returns a tuple with the Type field value if set, nil otherwise
@@ -224,7 +228,7 @@ func (o *ImportNumberField) GetTypeOk() (*ImportFieldType, bool) {
 	if o == nil || o.Type == nil {
 		return nil, false
 	}
-	return &o.Type, true
+	return o.Type, true
 }
 
 // HasType returns a boolean if a field has been set.
@@ -234,13 +238,13 @@ func (o *ImportNumberField) HasType() bool {
 
 // SetType gets a reference to the given ImportFieldType and assigns it to the Type field.
 func (o *ImportNumberField) SetType(v ImportFieldType) {
-	o.Type = v
+	o.Type = &v
 }
 
 // GetDefault returns the Default field value if set, zero value otherwise.
-func (o *ImportNumberField) GetDefault() float {
+func (o *ImportNumberField) GetDefault() float64 {
 	if o == nil || o.Default.Get() == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Default.Get()
@@ -248,7 +252,7 @@ func (o *ImportNumberField) GetDefault() float {
 
 // GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportNumberField) GetDefaultOk() (*float, bool) {
+func (o *ImportNumberField) GetDefaultOk() (*float64, bool) {
 	if o == nil || o.Default.Get() == nil {
 		return nil, false
 	}
@@ -260,8 +264,8 @@ func (o *ImportNumberField) HasDefault() bool {
 	return o != nil && o.Default.IsSet()
 }
 
-// SetDefault gets a reference to the given common.NullableFloat and assigns it to the Default field.
-func (o *ImportNumberField) SetDefault(v float) {
+// SetDefault gets a reference to the given common.NullableFloat64 and assigns it to the Default field.
+func (o *ImportNumberField) SetDefault(v float64) {
 	o.Default.Set(&v)
 }
 
@@ -346,14 +350,14 @@ func (o ImportNumberField) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ImportNumberField) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Name        string                   `json:"name,omitempty"`
-		Label       string                   `json:"label,omitempty"`
+		Name        *string                  `json:"name,omitempty"`
+		Label       *string                  `json:"label,omitempty"`
 		Required    *bool                    `json:"required,omitempty"`
 		Sensitive   *bool                    `json:"sensitive,omitempty"`
 		Description *string                  `json:"description,omitempty"`
 		Placeholder *string                  `json:"placeholder,omitempty"`
-		Type        ImportFieldType          `json:"type,omitempty"`
-		Default     common.NullableFloat     `json:"default,omitempty"`
+		Type        *ImportFieldType         `json:"type,omitempty"`
+		Default     common.NullableFloat64   `json:"default,omitempty"`
 		Validation  *ImportNumericValidation `json:"validation,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -378,6 +382,9 @@ func (o *ImportNumberField) UnmarshalJSON(bytes []byte) (err error) {
 		o.Type = all.Type
 	}
 	o.Default = all.Default
+	if all.Validation != nil && all.Validation.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Validation = all.Validation
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

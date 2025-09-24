@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type CdcSettings struct {
 	Config    *CdcClusterConfig   `json:"config,omitempty"`

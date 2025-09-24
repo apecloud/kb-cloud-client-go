@@ -24,6 +24,10 @@ def safe_snake_case(value):
 
 
 def upperfirst(value):
+    if value is None:
+        return None
+    if len(value) == 0:
+        return value
     return value[0].upper() + value[1:]
 
 

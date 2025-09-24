@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type ReplicationObjectTree struct {
 	NodeType          *string                     `json:"nodeType,omitempty"`

@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ClusterTaskProgresses clusterTaskProgresses is a list of task progress detail
 type ClusterTaskProgresses struct {

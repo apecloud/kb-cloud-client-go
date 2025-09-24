@@ -4,7 +4,9 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 // ImportConnectionField - Connection field configuration. Use `oneOf` to enforce strict type-specific properties.
 type ImportConnectionField struct {

@@ -4,7 +4,9 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type StandardResource struct {
 	Limit   common.NullableFloat64 `json:"limit,omitempty"`

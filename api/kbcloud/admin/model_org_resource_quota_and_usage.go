@@ -13,11 +13,11 @@ import (
 // OrgResourceQuotaAndUsage org resource quota
 type OrgResourceQuotaAndUsage struct {
 	// Maximum available vCPU. if set to 0, no limit
-	Cpu float `json:"cpu"`
+	Cpu float64 `json:"cpu"`
 	// Maximum available memory in GB. if set to 0, no limit
-	Memory float `json:"memory"`
+	Memory float64 `json:"memory"`
 	// Maximum available storage in GB. if set to 0, no limit
-	Storage float `json:"storage"`
+	Storage float64 `json:"storage"`
 	// Number of the clusters. key is engine type, values is the maximum number of engine
 	Clusters map[string]int32 `json:"clusters"`
 	// org resource quota
@@ -31,7 +31,7 @@ type OrgResourceQuotaAndUsage struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewOrgResourceQuotaAndUsage(cpu float, memory float, storage float, clusters map[string]int32, usage OrgResourceQuota) *OrgResourceQuotaAndUsage {
+func NewOrgResourceQuotaAndUsage(cpu float64, memory float64, storage float64, clusters map[string]int32, usage OrgResourceQuota) *OrgResourceQuotaAndUsage {
 	this := OrgResourceQuotaAndUsage{}
 	this.Cpu = cpu
 	this.Memory = memory
@@ -50,9 +50,9 @@ func NewOrgResourceQuotaAndUsageWithDefaults() *OrgResourceQuotaAndUsage {
 }
 
 // GetCpu returns the Cpu field value.
-func (o *OrgResourceQuotaAndUsage) GetCpu() float {
+func (o *OrgResourceQuotaAndUsage) GetCpu() float64 {
 	if o == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return o.Cpu
@@ -60,7 +60,7 @@ func (o *OrgResourceQuotaAndUsage) GetCpu() float {
 
 // GetCpuOk returns a tuple with the Cpu field value
 // and a boolean to check if the value has been set.
-func (o *OrgResourceQuotaAndUsage) GetCpuOk() (*float, bool) {
+func (o *OrgResourceQuotaAndUsage) GetCpuOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,14 +68,14 @@ func (o *OrgResourceQuotaAndUsage) GetCpuOk() (*float, bool) {
 }
 
 // SetCpu sets field value.
-func (o *OrgResourceQuotaAndUsage) SetCpu(v float) {
+func (o *OrgResourceQuotaAndUsage) SetCpu(v float64) {
 	o.Cpu = v
 }
 
 // GetMemory returns the Memory field value.
-func (o *OrgResourceQuotaAndUsage) GetMemory() float {
+func (o *OrgResourceQuotaAndUsage) GetMemory() float64 {
 	if o == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return o.Memory
@@ -83,7 +83,7 @@ func (o *OrgResourceQuotaAndUsage) GetMemory() float {
 
 // GetMemoryOk returns a tuple with the Memory field value
 // and a boolean to check if the value has been set.
-func (o *OrgResourceQuotaAndUsage) GetMemoryOk() (*float, bool) {
+func (o *OrgResourceQuotaAndUsage) GetMemoryOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -91,14 +91,14 @@ func (o *OrgResourceQuotaAndUsage) GetMemoryOk() (*float, bool) {
 }
 
 // SetMemory sets field value.
-func (o *OrgResourceQuotaAndUsage) SetMemory(v float) {
+func (o *OrgResourceQuotaAndUsage) SetMemory(v float64) {
 	o.Memory = v
 }
 
 // GetStorage returns the Storage field value.
-func (o *OrgResourceQuotaAndUsage) GetStorage() float {
+func (o *OrgResourceQuotaAndUsage) GetStorage() float64 {
 	if o == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return o.Storage
@@ -106,7 +106,7 @@ func (o *OrgResourceQuotaAndUsage) GetStorage() float {
 
 // GetStorageOk returns a tuple with the Storage field value
 // and a boolean to check if the value has been set.
-func (o *OrgResourceQuotaAndUsage) GetStorageOk() (*float, bool) {
+func (o *OrgResourceQuotaAndUsage) GetStorageOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -114,7 +114,7 @@ func (o *OrgResourceQuotaAndUsage) GetStorageOk() (*float, bool) {
 }
 
 // SetStorage sets field value.
-func (o *OrgResourceQuotaAndUsage) SetStorage(v float) {
+func (o *OrgResourceQuotaAndUsage) SetStorage(v float64) {
 	o.Storage = v
 }
 
@@ -185,9 +185,9 @@ func (o OrgResourceQuotaAndUsage) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *OrgResourceQuotaAndUsage) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Cpu      *float            `json:"cpu"`
-		Memory   *float            `json:"memory"`
-		Storage  *float            `json:"storage"`
+		Cpu      *float64          `json:"cpu"`
+		Memory   *float64          `json:"memory"`
+		Storage  *float64          `json:"storage"`
 		Clusters *map[string]int32 `json:"clusters"`
 		Usage    *OrgResourceQuota `json:"usage"`
 	}{}

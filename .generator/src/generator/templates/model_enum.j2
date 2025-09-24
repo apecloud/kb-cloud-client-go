@@ -6,13 +6,13 @@ type {{ name }} {{ model|simple_type }}
 // List of {{ name }}.
 const (
 	{%- for index, value in enumerate(model.enum) %}
-	{{ value|format_value(schema=model) }} {{ name }} = {{ value|format_value }}
+	{{ name }}{{ value|format_value(schema=model)|replace(name, "")|replace("None", "") }} {{ name }} = {{ value|format_value }}
 {%- endfor %}
 )
 
 var allowed{{ name }}EnumValues = []{{ name }}{
 	{%- for index, value in enumerate(model.enum) %}
-	{{ value|format_value(schema=model) }},
+	{{ name }}{{ value|format_value(schema=model)|replace(name, "")|replace("None", "") }},
 	{%- endfor %}
 }
 

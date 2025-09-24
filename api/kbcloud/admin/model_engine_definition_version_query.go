@@ -4,13 +4,17 @@
 
 package admin
 
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
 type EngineDefinitionVersionQuery struct {
 	// the query to get the version, if not provided, will use inherited query from engine definition
-	Sql    common.NullableString `json:"sql,omitempty"`
-	Column common.NullableString `json:"column,omitempty"`
-	Regex  common.NullableString `json:"regex,omitempty"`
-	Min    common.NullableFloat  `json:"min,omitempty"`
-	Max    common.NullableFloat  `json:"max,omitempty"`
+	Sql    common.NullableString  `json:"sql,omitempty"`
+	Column common.NullableString  `json:"column,omitempty"`
+	Regex  common.NullableString  `json:"regex,omitempty"`
+	Min    common.NullableFloat64 `json:"min,omitempty"`
+	Max    common.NullableFloat64 `json:"max,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -151,9 +155,9 @@ func (o *EngineDefinitionVersionQuery) UnsetRegex() {
 }
 
 // GetMin returns the Min field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EngineDefinitionVersionQuery) GetMin() float {
+func (o *EngineDefinitionVersionQuery) GetMin() float64 {
 	if o == nil || o.Min.Get() == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Min.Get()
@@ -162,7 +166,7 @@ func (o *EngineDefinitionVersionQuery) GetMin() float {
 // GetMinOk returns a tuple with the Min field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *EngineDefinitionVersionQuery) GetMinOk() (*float, bool) {
+func (o *EngineDefinitionVersionQuery) GetMinOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -174,8 +178,8 @@ func (o *EngineDefinitionVersionQuery) HasMin() bool {
 	return o != nil && o.Min.IsSet()
 }
 
-// SetMin gets a reference to the given common.NullableFloat and assigns it to the Min field.
-func (o *EngineDefinitionVersionQuery) SetMin(v float) {
+// SetMin gets a reference to the given common.NullableFloat64 and assigns it to the Min field.
+func (o *EngineDefinitionVersionQuery) SetMin(v float64) {
 	o.Min.Set(&v)
 }
 
@@ -190,9 +194,9 @@ func (o *EngineDefinitionVersionQuery) UnsetMin() {
 }
 
 // GetMax returns the Max field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *EngineDefinitionVersionQuery) GetMax() float {
+func (o *EngineDefinitionVersionQuery) GetMax() float64 {
 	if o == nil || o.Max.Get() == nil {
-		var ret float
+		var ret float64
 		return ret
 	}
 	return *o.Max.Get()
@@ -201,7 +205,7 @@ func (o *EngineDefinitionVersionQuery) GetMax() float {
 // GetMaxOk returns a tuple with the Max field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *EngineDefinitionVersionQuery) GetMaxOk() (*float, bool) {
+func (o *EngineDefinitionVersionQuery) GetMaxOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -213,8 +217,8 @@ func (o *EngineDefinitionVersionQuery) HasMax() bool {
 	return o != nil && o.Max.IsSet()
 }
 
-// SetMax gets a reference to the given common.NullableFloat and assigns it to the Max field.
-func (o *EngineDefinitionVersionQuery) SetMax(v float) {
+// SetMax gets a reference to the given common.NullableFloat64 and assigns it to the Max field.
+func (o *EngineDefinitionVersionQuery) SetMax(v float64) {
 	o.Max.Set(&v)
 }
 
@@ -259,11 +263,11 @@ func (o EngineDefinitionVersionQuery) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineDefinitionVersionQuery) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Sql    common.NullableString `json:"sql,omitempty"`
-		Column common.NullableString `json:"column,omitempty"`
-		Regex  common.NullableString `json:"regex,omitempty"`
-		Min    common.NullableFloat  `json:"min,omitempty"`
-		Max    common.NullableFloat  `json:"max,omitempty"`
+		Sql    common.NullableString  `json:"sql,omitempty"`
+		Column common.NullableString  `json:"column,omitempty"`
+		Regex  common.NullableString  `json:"regex,omitempty"`
+		Min    common.NullableFloat64 `json:"min,omitempty"`
+		Max    common.NullableFloat64 `json:"max,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

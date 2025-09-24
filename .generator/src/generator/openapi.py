@@ -8,7 +8,10 @@ import yaml
 
 from jsonref import JsonRef
 from urllib.parse import urlparse
-from yaml import CSafeLoader
+try:
+    from yaml import CSafeLoader as SafeLoader
+except ImportError:
+    from yaml import SafeLoader
 
 from . import formatter
 from . import utils
@@ -16,7 +19,7 @@ from . import utils
 def load(filename):
     path = pathlib.Path(filename)
     with path.open() as fp:
-        return JsonRef.replace_refs(yaml.load(fp, Loader=CSafeLoader))
+        return JsonRef.replace_refs(yaml.load(fp, Loader=SafeLoader))
 
 
 def get_name(schema):
@@ -220,6 +223,7 @@ def child_models(schema, alternative_name=None, seen=None, parent=None):
 def models(spec):
     name_to_schema = {}
 
+    # First collect models from API paths
     for path in spec["paths"]:
         if path.startswith("x-"):
             continue
@@ -238,6 +242,15 @@ def models(spec):
                 for content in response.get("content", {}).values():
                     if "schema" in content:
                         name_to_schema.update(dict(child_models(content["schema"])))
+
+    # Also collect all schemas from components/schemas to ensure 
+    # we don't miss any referenced types like ImportFieldType, ImportStringValidation, etc.
+    if "components" in spec and "schemas" in spec["components"]:
+        for schema_name, schema_def in spec["components"]["schemas"].items():
+            # Add the schema itself
+            name_to_schema[schema_name] = schema_def
+            # Also collect any child models from this schema
+            name_to_schema.update(dict(child_models(schema_def, alternative_name=schema_name)))
 
     return name_to_schema
 
@@ -473,6 +486,61 @@ def get_type_at_path(operation, attribute_path):
     for attr in attribute_path.split("."):
         content = content["properties"][attr]
     return get_name(content.get("items"))
+
+
+def get_model_imports(model, current_package="kbcloud"):
+    """Get the list of imports required for a model."""
+    imports = set()
+    visited = set()  # Track visited schemas to prevent infinite recursion
+    
+    def check_schema_for_imports(schema, depth=0):
+        if schema is None or depth > 10:  # Limit recursion depth
+            return
+            
+        # Create a schema identifier to track visited schemas
+        schema_id = id(schema)
+        if schema_id in visited:
+            return
+        visited.add(schema_id)
+        
+        try:
+            # Check if this schema uses common types (nullable types)
+            if hasattr(schema, 'get') and schema.get("nullable", False):
+                imports.add("github.com/apecloud/kb-cloud-client-go/api/common")
+                
+            # Check for array items
+            if hasattr(schema, 'get') and "items" in schema:
+                check_schema_for_imports(schema["items"], depth + 1)
+                
+            # Check for object properties
+            if hasattr(schema, 'get') and "properties" in schema:
+                for prop_schema in schema["properties"].values():
+                    check_schema_for_imports(prop_schema, depth + 1)
+                    
+            # Check for allOf, oneOf, anyOf
+            for key in ["allOf", "oneOf", "anyOf"]:
+                if hasattr(schema, 'get') and key in schema:
+                    for sub_schema in schema[key]:
+                        check_schema_for_imports(sub_schema, depth + 1)
+                        
+            # Check for additionalProperties
+            if hasattr(schema, 'get') and "additionalProperties" in schema and schema["additionalProperties"] is not True:
+                check_schema_for_imports(schema["additionalProperties"], depth + 1)
+        except (AttributeError, RecursionError):
+            # Skip problematic schemas
+            pass
+    
+    # Check the main model
+    check_schema_for_imports(model)
+    
+    # For allOf models, check if we need to import from the parent package
+    if hasattr(model, 'get') and "allOf" in model and current_package == "admin":
+        for sub_schema in model["allOf"]:
+            if hasattr(sub_schema, "__reference__"):
+                # This is a reference to another schema, likely in the parent package
+                imports.add("github.com/apecloud/kb-cloud-client-go/api/kbcloud")
+    
+    return list(imports)
 
 
 def generate_value(schema, use_random=False, prefix=None):
