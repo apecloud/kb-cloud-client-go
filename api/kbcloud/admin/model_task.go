@@ -43,6 +43,8 @@ type Task struct {
 	RetryLimit *int32 `json:"retryLimit,omitempty"`
 	// Timeout duration for the task in seconds
 	TimeoutSecond *int32 `json:"timeoutSecond,omitempty"`
+	// The user created the task
+	Operator *string `json:"operator,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -489,6 +491,34 @@ func (o *Task) SetTimeoutSecond(v int32) {
 	o.TimeoutSecond = &v
 }
 
+// GetOperator returns the Operator field value if set, zero value otherwise.
+func (o *Task) GetOperator() string {
+	if o == nil || o.Operator == nil {
+		var ret string
+		return ret
+	}
+	return *o.Operator
+}
+
+// GetOperatorOk returns a tuple with the Operator field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Task) GetOperatorOk() (*string, bool) {
+	if o == nil || o.Operator == nil {
+		return nil, false
+	}
+	return o.Operator, true
+}
+
+// HasOperator returns a boolean if a field has been set.
+func (o *Task) HasOperator() bool {
+	return o != nil && o.Operator != nil
+}
+
+// SetOperator gets a reference to the given string and assigns it to the Operator field.
+func (o *Task) SetOperator(v string) {
+	o.Operator = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Task) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -551,6 +581,9 @@ func (o Task) MarshalJSON() ([]byte, error) {
 	if o.TimeoutSecond != nil {
 		toSerialize["timeoutSecond"] = o.TimeoutSecond
 	}
+	if o.Operator != nil {
+		toSerialize["operator"] = o.Operator
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -577,6 +610,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 		FailurePolicy  *TaskFailurePolicy `json:"failurePolicy,omitempty"`
 		RetryLimit     *int32             `json:"retryLimit,omitempty"`
 		TimeoutSecond  *int32             `json:"timeoutSecond,omitempty"`
+		Operator       *string            `json:"operator,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -601,7 +635,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond"})
+		common.DeleteKeys(additionalProperties, &[]string{"taskId", "taskName", "taskType", "status", "createdAt", "updatedAt", "deletedAt", "startedAt", "completionTime", "message", "progress", "steps", "parallelism", "failurePolicy", "retryLimit", "timeoutSecond", "operator"})
 	} else {
 		return err
 	}
@@ -631,6 +665,7 @@ func (o *Task) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	o.RetryLimit = all.RetryLimit
 	o.TimeoutSecond = all.TimeoutSecond
+	o.Operator = all.Operator
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
