@@ -457,8 +457,9 @@ func (a *InspectionApi) DeleteInspectionScript(ctx _context.Context, scriptId in
 
 // GetAggregateTaskResultOptionalParameters holds optional parameters for GetAggregateTaskResult.
 type GetAggregateTaskResultOptionalParameters struct {
-	Engine     *string
-	ResultType *AggregateTaskResultType
+	Engine       *string
+	ResourceName *string
+	ResultType   *AggregateTaskResultType
 }
 
 // NewGetAggregateTaskResultOptionalParameters creates an empty struct for parameters.
@@ -470,6 +471,12 @@ func NewGetAggregateTaskResultOptionalParameters() *GetAggregateTaskResultOption
 // WithEngine sets the corresponding parameter name and returns the struct.
 func (r *GetAggregateTaskResultOptionalParameters) WithEngine(engine string) *GetAggregateTaskResultOptionalParameters {
 	r.Engine = &engine
+	return r
+}
+
+// WithResourceName sets the corresponding parameter name and returns the struct.
+func (r *GetAggregateTaskResultOptionalParameters) WithResourceName(resourceName string) *GetAggregateTaskResultOptionalParameters {
+	r.ResourceName = &resourceName
 	return r
 }
 
@@ -519,6 +526,9 @@ func (a *InspectionApi) GetAggregateTaskResult(ctx _context.Context, aggregateTy
 	localVarQueryParams.Add("end", common.ParameterToString(end, ""))
 	if optionalParams.Engine != nil {
 		localVarQueryParams.Add("engine", common.ParameterToString(*optionalParams.Engine, ""))
+	}
+	if optionalParams.ResourceName != nil {
+		localVarQueryParams.Add("resourceName", common.ParameterToString(*optionalParams.ResourceName, ""))
 	}
 	if optionalParams.ResultType != nil {
 		localVarQueryParams.Add("resultType", common.ParameterToString(*optionalParams.ResultType, ""))
