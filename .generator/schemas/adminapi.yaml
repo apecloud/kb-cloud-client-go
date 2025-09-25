@@ -20665,6 +20665,10 @@ components:
         timeoutSecond:
           type: integer
           description: Timeout duration for the task in seconds
+        operator:
+          type: string
+          description: The user created the task
+          x-nullable: true
     scaleInType:
       type: string
       enum:
