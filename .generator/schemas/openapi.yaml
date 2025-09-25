@@ -11801,57 +11801,16 @@ paths:
           schema:
             type: string
         - in: query
-          name: logType
-          schema:
-            $ref: '#/components/schemas/logType'
-        - in: query
-          name: startTime
-          required: true
-          schema:
-            type: string
-        - in: query
-          name: endTime
-          required: true
-          schema:
-            type: string
-        - in: query
           name: limit
           schema:
             type: string
-        - in: query
-          name: sortType
-          schema:
-            $ref: '#/components/schemas/sortType'
       responses:
         '200':
           content:
-            application/json:
+            text/plain:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        timestamp:
-                          type: string
-                        log:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
-          description: Successful operation
+                type: string
+          description: OK
         '401':
           $ref: '#/components/responses/401'
         '403':
@@ -21788,6 +21747,8 @@ components:
           type: string
         project:
           type: string
+        kubernetesName:
+          type: string
         standardDefinition:
           type: string
         source:
@@ -22073,14 +22034,6 @@ components:
           type: string
           format: date-time
           nullable: true
-    logType:
-      enum:
-        - runlog
-        - position
-        - sql
-        - monitor
-      type: string
-      description: the type of log
     ImportSupportSourcesResponse:
       description: Response for supported data sources list
       type: object
