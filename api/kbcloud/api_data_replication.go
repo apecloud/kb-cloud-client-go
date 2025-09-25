@@ -770,9 +770,7 @@ func (a *DataReplicationApi) ListDataChannels(ctx _context.Context, orgName stri
 // QueryDataChannelLogsOptionalParameters holds optional parameters for QueryDataChannelLogs.
 type QueryDataChannelLogsOptionalParameters struct {
 	ModuleName *string
-	LogType    *LogType
 	Limit      *string
-	SortType   *SortType
 }
 
 // NewQueryDataChannelLogsOptionalParameters creates an empty struct for parameters.
@@ -787,32 +785,20 @@ func (r *QueryDataChannelLogsOptionalParameters) WithModuleName(moduleName strin
 	return r
 }
 
-// WithLogType sets the corresponding parameter name and returns the struct.
-func (r *QueryDataChannelLogsOptionalParameters) WithLogType(logType LogType) *QueryDataChannelLogsOptionalParameters {
-	r.LogType = &logType
-	return r
-}
-
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *QueryDataChannelLogsOptionalParameters) WithLimit(limit string) *QueryDataChannelLogsOptionalParameters {
 	r.Limit = &limit
 	return r
 }
 
-// WithSortType sets the corresponding parameter name and returns the struct.
-func (r *QueryDataChannelLogsOptionalParameters) WithSortType(sortType SortType) *QueryDataChannelLogsOptionalParameters {
-	r.SortType = &sortType
-	return r
-}
-
 // QueryDataChannelLogs Query data channel logs.
 // Query logs of a data channel
 // Deprecated: This API is deprecated.
-func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName string, channelId string, startTime string, endTime string, o ...QueryDataChannelLogsOptionalParameters) (interface{}, *_nethttp.Response, error) {
+func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName string, channelId string, o ...QueryDataChannelLogsOptionalParameters) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue interface{}
+		localVarReturnValue string
 		optionalParams      QueryDataChannelLogsOptionalParameters
 	)
 
@@ -844,19 +830,11 @@ func (a *DataReplicationApi) QueryDataChannelLogs(ctx _context.Context, orgName 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	localVarQueryParams.Add("startTime", common.ParameterToString(startTime, ""))
-	localVarQueryParams.Add("endTime", common.ParameterToString(endTime, ""))
 	if optionalParams.ModuleName != nil {
 		localVarQueryParams.Add("moduleName", common.ParameterToString(*optionalParams.ModuleName, ""))
 	}
-	if optionalParams.LogType != nil {
-		localVarQueryParams.Add("logType", common.ParameterToString(*optionalParams.LogType, ""))
-	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
-	}
-	if optionalParams.SortType != nil {
-		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

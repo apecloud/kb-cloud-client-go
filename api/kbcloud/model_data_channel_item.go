@@ -17,6 +17,7 @@ type DataChannelItem struct {
 	EnvironmentId      *string                  `json:"environmentID,omitempty"`
 	EnvironmentName    *string                  `json:"environmentName,omitempty"`
 	Project            *string                  `json:"project,omitempty"`
+	KubernetesName     *string                  `json:"kubernetesName,omitempty"`
 	StandardDefinition *string                  `json:"standardDefinition,omitempty"`
 	Source             *DataChannelListEndpoint `json:"source,omitempty"`
 	Target             *DataChannelListEndpoint `json:"target,omitempty"`
@@ -213,6 +214,34 @@ func (o *DataChannelItem) HasProject() bool {
 // SetProject gets a reference to the given string and assigns it to the Project field.
 func (o *DataChannelItem) SetProject(v string) {
 	o.Project = &v
+}
+
+// GetKubernetesName returns the KubernetesName field value if set, zero value otherwise.
+func (o *DataChannelItem) GetKubernetesName() string {
+	if o == nil || o.KubernetesName == nil {
+		var ret string
+		return ret
+	}
+	return *o.KubernetesName
+}
+
+// GetKubernetesNameOk returns a tuple with the KubernetesName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DataChannelItem) GetKubernetesNameOk() (*string, bool) {
+	if o == nil || o.KubernetesName == nil {
+		return nil, false
+	}
+	return o.KubernetesName, true
+}
+
+// HasKubernetesName returns a boolean if a field has been set.
+func (o *DataChannelItem) HasKubernetesName() bool {
+	return o != nil && o.KubernetesName != nil
+}
+
+// SetKubernetesName gets a reference to the given string and assigns it to the KubernetesName field.
+func (o *DataChannelItem) SetKubernetesName(v string) {
+	o.KubernetesName = &v
 }
 
 // GetStandardDefinition returns the StandardDefinition field value if set, zero value otherwise.
@@ -474,6 +503,9 @@ func (o DataChannelItem) MarshalJSON() ([]byte, error) {
 	if o.Project != nil {
 		toSerialize["project"] = o.Project
 	}
+	if o.KubernetesName != nil {
+		toSerialize["kubernetesName"] = o.KubernetesName
+	}
 	if o.StandardDefinition != nil {
 		toSerialize["standardDefinition"] = o.StandardDefinition
 	}
@@ -518,6 +550,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 		EnvironmentId      *string                  `json:"environmentID,omitempty"`
 		EnvironmentName    *string                  `json:"environmentName,omitempty"`
 		Project            *string                  `json:"project,omitempty"`
+		KubernetesName     *string                  `json:"kubernetesName,omitempty"`
 		StandardDefinition *string                  `json:"standardDefinition,omitempty"`
 		Source             *DataChannelListEndpoint `json:"source,omitempty"`
 		Target             *DataChannelListEndpoint `json:"target,omitempty"`
@@ -532,7 +565,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "project", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt", "FinishedAt"})
+		common.DeleteKeys(additionalProperties, &[]string{"channelID", "channelName", "channelStatus", "environmentID", "environmentName", "project", "kubernetesName", "standardDefinition", "source", "target", "replicationObjects", "modules", "events", "createdAt", "FinishedAt"})
 	} else {
 		return err
 	}
@@ -548,6 +581,7 @@ func (o *DataChannelItem) UnmarshalJSON(bytes []byte) (err error) {
 	o.EnvironmentId = all.EnvironmentId
 	o.EnvironmentName = all.EnvironmentName
 	o.Project = all.Project
+	o.KubernetesName = all.KubernetesName
 	o.StandardDefinition = all.StandardDefinition
 	if all.Source != nil && all.Source.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
