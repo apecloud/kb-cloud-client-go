@@ -206,76 +206,6 @@ func (a *ClusterApi) DeleteCluster(ctx _context.Context, orgName string, cluster
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-// DeleteInstance Delete instance of cluster.
-func (a *ClusterApi) DeleteInstance(ctx _context.Context, orgName string, clusterName string, instanceName string) (*_nethttp.Response, error) {
-	var (
-		localVarHTTPMethod = _nethttp.MethodDelete
-		localVarPostBody   interface{}
-	)
-
-	// Add api info to context
-	apiInfo := common.APIInfo{
-		Tag:         "cluster",
-		OperationID: "deleteInstance",
-		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}",
-		Version:     "",
-	}
-	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
-
-	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.DeleteInstance")
-	if err != nil {
-		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}"
-	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"instanceName"+"}", _neturl.PathEscape(common.ParameterToString(instanceName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
-	localVarHeaderParams["Accept"] = "application/json"
-
-	common.SetAuthKeys(
-		ctx,
-		&localVarHeaderParams,
-		[2]string{"BearerToken", "authorization"},
-	)
-	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.Client.CallAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := common.ReadBody(localVarHTTPResponse)
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := common.GenericOpenAPIError{
-			ErrorBody:    localVarBody,
-			ErrorMessage: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
-			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
-
 // DescribeClusterHaHistoryOptionalParameters holds optional parameters for DescribeClusterHaHistory.
 type DescribeClusterHaHistoryOptionalParameters struct {
 	ComponentName *string
@@ -1546,6 +1476,76 @@ func (a *ClusterApi) QueryClusterMetrics(ctx _context.Context, orgName string, c
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+// RestartInstance Restart instance of cluster.
+func (a *ClusterApi) RestartInstance(ctx _context.Context, orgName string, clusterName string, instanceName string) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod = _nethttp.MethodPost
+		localVarPostBody   interface{}
+	)
+
+	// Add api info to context
+	apiInfo := common.APIInfo{
+		Tag:         "cluster",
+		OperationID: "restartInstance",
+		Path:        "/admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart",
+		Version:     "",
+	}
+	ctx = context.WithValue(ctx, common.APIInfoCtxKey, apiInfo)
+
+	localBasePath, err := a.Client.Cfg.ServerURLWithContext(ctx, ".ClusterApi.RestartInstance")
+	if err != nil {
+		return nil, common.GenericOpenAPIError{ErrorMessage: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/admin/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart"
+	localVarPath = strings.Replace(localVarPath, "{"+"orgName"+"}", _neturl.PathEscape(common.ParameterToString(orgName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"clusterName"+"}", _neturl.PathEscape(common.ParameterToString(clusterName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"instanceName"+"}", _neturl.PathEscape(common.ParameterToString(instanceName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	localVarHeaderParams["Accept"] = "application/json"
+
+	common.SetAuthKeys(
+		ctx,
+		&localVarHeaderParams,
+		[2]string{"BearerToken", "authorization"},
+	)
+	req, err := a.Client.PrepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.Client.CallAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := common.ReadBody(localVarHTTPResponse)
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := common.GenericOpenAPIError{
+			ErrorBody:    localVarBody,
+			ErrorMessage: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 || localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+			var v APIErrorResponse
+			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				return localVarHTTPResponse, newErr
+			}
+			newErr.ErrorModel = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }
 
 // ValidateClusterCreation Validate cluster creation.

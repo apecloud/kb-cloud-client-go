@@ -1800,10 +1800,10 @@ paths:
       tags:
         - cluster
         - shared
-  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}:
-    delete:
-      operationId: deleteInstance
-      summary: Delete instance of cluster
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/restart:
+    post:
+      operationId: restartInstance
+      summary: Restart instance of cluster
       parameters:
         - description: name of the Org
           in: path
@@ -1826,7 +1826,7 @@ paths:
       responses:
         '204':
           content: {}
-          description: delete instance of cluster successfully.
+          description: restart instance of cluster successfully.
         '400':
           $ref: '#/components/responses/400'
         '401':
