@@ -11311,35 +11311,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - storage
-    post:
-      operationId: createStorage
-      summary: Create a storage
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/storageCreate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/storage'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - storage
   /api/v1/environments/{environmentName}/storages/{storageName}:
     get:
       operationId: getStorage
@@ -11363,67 +11334,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/storage'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - storage
-    post:
-      operationId: updateStorage
-      summary: Update a storage
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: name of storage
-          in: path
-          name: storageName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/storageUpdate'
-        required: true
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/storage'
-          description: A successful response.
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - storage
-    delete:
-      operationId: deleteStorage
-      summary: Delete a storage
-      parameters:
-        - description: name of the environment
-          in: path
-          name: environmentName
-          required: true
-          schema:
-            type: string
-        - description: name of the storage
-          in: path
-          name: storageName
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          content: {}
           description: A successful response.
         '401':
           $ref: '#/components/responses/401'
@@ -21624,55 +21534,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/storage'
-    storageCreate:
-      description: storageCreate is the schema for the storage create request
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the storage
-        storageProvider:
-          type: string
-          description: Name of the storage provider
-        params:
-          type: object
-          description: the parameters to create the storage
-          additionalProperties:
-            type: string
-        clusterID:
-          type: string
-          description: the id of cluster that storage used
-        tags:
-          type: object
-          description: the tags for the storage
-          additionalProperties:
-            type: string
-        engines:
-          type: array
-          items:
-            type: string
-    storageUpdate:
-      description: storageUpdate is the schema for storage update request
-      type: object
-      properties:
-        params:
-          type: object
-          description: the parameters to create the storage
-          additionalProperties:
-            type: string
-        tags:
-          type: object
-          description: the tags for the storage
-          additionalProperties:
-            type: string
-        engines:
-          type: array
-          items:
-            type: string
-        storageName:
-          type: string
-        envName:
-          type: string
     channelStatus:
       enum:
         - Pending
