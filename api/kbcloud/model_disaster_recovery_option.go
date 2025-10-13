@@ -11,9 +11,11 @@ import (
 )
 
 type DisasterRecoveryOption struct {
-	Enabled       bool                                 `json:"enabled"`
-	InstanceLimit *int32                               `json:"instanceLimit,omitempty"`
-	Status        *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
+	Enabled       bool   `json:"enabled"`
+	InstanceLimit *int32 `json:"instanceLimit,omitempty"`
+	// referenced cluster's mode, default is the primary cluster's mode
+	Mode   common.NullableString                `json:"mode,omitempty"`
+	Status *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -92,6 +94,45 @@ func (o *DisasterRecoveryOption) SetInstanceLimit(v int32) {
 	o.InstanceLimit = &v
 }
 
+// GetMode returns the Mode field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DisasterRecoveryOption) GetMode() string {
+	if o == nil || o.Mode.Get() == nil {
+		var ret string
+		return ret
+	}
+	return *o.Mode.Get()
+}
+
+// GetModeOk returns a tuple with the Mode field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *DisasterRecoveryOption) GetModeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Mode.Get(), o.Mode.IsSet()
+}
+
+// HasMode returns a boolean if a field has been set.
+func (o *DisasterRecoveryOption) HasMode() bool {
+	return o != nil && o.Mode.IsSet()
+}
+
+// SetMode gets a reference to the given common.NullableString and assigns it to the Mode field.
+func (o *DisasterRecoveryOption) SetMode(v string) {
+	o.Mode.Set(&v)
+}
+
+// SetModeNil sets the value for Mode to be an explicit nil.
+func (o *DisasterRecoveryOption) SetModeNil() {
+	o.Mode.Set(nil)
+}
+
+// UnsetMode ensures that no value is present for Mode, not even an explicit nil.
+func (o *DisasterRecoveryOption) UnsetMode() {
+	o.Mode.Unset()
+}
+
 // GetStatus returns the Status field value if set, zero value otherwise.
 func (o *DisasterRecoveryOption) GetStatus() EngineOptionsDisasterRecoveryStatus {
 	if o == nil || o.Status == nil {
@@ -130,6 +171,9 @@ func (o DisasterRecoveryOption) MarshalJSON() ([]byte, error) {
 	if o.InstanceLimit != nil {
 		toSerialize["instanceLimit"] = o.InstanceLimit
 	}
+	if o.Mode.IsSet() {
+		toSerialize["mode"] = o.Mode.Get()
+	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
@@ -145,6 +189,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Enabled       *bool                                `json:"enabled"`
 		InstanceLimit *int32                               `json:"instanceLimit,omitempty"`
+		Mode          common.NullableString                `json:"mode,omitempty"`
 		Status        *EngineOptionsDisasterRecoveryStatus `json:"status,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
@@ -155,7 +200,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"enabled", "instanceLimit", "status"})
+		common.DeleteKeys(additionalProperties, &[]string{"enabled", "instanceLimit", "mode", "status"})
 	} else {
 		return err
 	}
@@ -163,6 +208,7 @@ func (o *DisasterRecoveryOption) UnmarshalJSON(bytes []byte) (err error) {
 	hasInvalidField := false
 	o.Enabled = *all.Enabled
 	o.InstanceLimit = all.InstanceLimit
+	o.Mode = all.Mode
 	if all.Status != nil && all.Status.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}

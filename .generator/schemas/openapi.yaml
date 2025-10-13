@@ -17675,6 +17675,10 @@ components:
                     type: string
                   targetValue:
                     description: Can be any type (string, number, boolean, object, etc.)
+        hideOnCreate:
+          type: boolean
+          description: whether the mode is hidden for creation
+          nullable: true
     accountOption:
       type: object
       required:
@@ -18204,6 +18208,10 @@ components:
         instanceLimit:
           type: integer
           default: 8
+        mode:
+          type: string
+          description: referenced cluster's mode, default is the primary cluster's mode
+          nullable: true
         status:
           $ref: '#/components/schemas/engineOptionsDisasterRecoveryStatus'
     cdcClusterConfig:
