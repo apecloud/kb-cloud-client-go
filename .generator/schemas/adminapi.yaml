@@ -2789,7 +2789,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/haHistoryResponse'
+                $ref: '#/components/schemas/haHistoryList'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -17750,32 +17750,59 @@ components:
           description: Items is the list of whitelist objects in the Cluster
           items:
             $ref: '#/components/schemas/ipWhitelist'
-    haHistoryResponse:
-      description: hahistory is the payload to get ha history of a KubeBlocks cluster
+    haHistory:
+      type: object
+      description: HA history is the records of HA operations, include `switchover` and `failover`
       properties:
         componentName:
           type: string
-        records:
-          items:
-            properties:
-              StartAt:
-                type: integer
-              EndAt:
-                type: integer
-              OldPrimary:
-                type: string
-              NewPrimary:
-                type: string
-              Reason:
-                type: string
-              UserID:
-                type: string
-              UserName:
-                type: string
-            required:
-              - StartAt
-          type: array
+        type:
+          type: string
+        oldPrimary:
+          type: string
+        newPrimary:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+        operatorID:
+          type: string
+        operatorName:
+          type: string
+        opsrequestName:
+          type: string
+        opsrequestNamespace:
+          type: string
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - componentName
+        - type
+        - oldPrimary
+        - newPrimary
+        - status
+        - message
+        - startAt
+        - endAt
+        - createdAt
+    haHistoryList:
       type: object
+      description: HA history list
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/haHistory'
+      required:
+        - items
     eventFilterType:
       description: Console do not support orgName.
       type: string
