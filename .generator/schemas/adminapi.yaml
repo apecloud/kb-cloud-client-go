@@ -25414,6 +25414,7 @@ components:
         - mysql
         - redis
         - damengdb
+        - kafka
     inspectionTaskItem:
       properties:
         id:
