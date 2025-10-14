@@ -224,11 +224,11 @@ func (r *DescribeClusterHaHistoryOptionalParameters) WithComponentName(component
 }
 
 // DescribeClusterHaHistory describe cluster HA history.
-func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName string, clusterName string, o ...DescribeClusterHaHistoryOptionalParameters) (HaHistoryResponse, *_nethttp.Response, error) {
+func (a *ClusterApi) DescribeClusterHaHistory(ctx _context.Context, orgName string, clusterName string, o ...DescribeClusterHaHistoryOptionalParameters) (HaHistoryList, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodGet
 		localVarPostBody    interface{}
-		localVarReturnValue HaHistoryResponse
+		localVarReturnValue HaHistoryList
 		optionalParams      DescribeClusterHaHistoryOptionalParameters
 	)
 
