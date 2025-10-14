@@ -1884,6 +1884,51 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/log:
+    get:
+      description: read log of the specified cluster instance
+      summary: Tail cluster instance container log
+      operationId: getInstanceContainerLog
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+        - description: specify container name to get specific container log, if not specified, will return the log of the default container
+          in: query
+          name: contaner
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceLog'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
     get:
       description: read log of the specified cluster instance
@@ -14706,6 +14751,18 @@ components:
       required:
         - items
       type: object
+    instanceLog:
+      type: object
+      description: Instance log is the container log of the specified cluster instance
+      properties:
+        containers:
+          type: array
+          description: containers is all containers of the instance(pod)
+          items:
+            type: string
+        log:
+          type: string
+          description: log is the log of the specified container
     haHistory:
       type: object
       description: HA history is the records of HA operations, include `switchover` and `failover`
