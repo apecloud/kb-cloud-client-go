@@ -108,6 +108,7 @@
 //   - [clusterApi.getClusterByID]
 //   - [clusterApi.getClusterInstanceLog]
 //   - [clusterApi.getInstacesMetrics]
+//   - [clusterApi.getInstanceContainerLog]
 //   - [clusterApi.listCluster]
 //   - [clusterApi.listClusters]
 //   - [clusterApi.listEndpoints]

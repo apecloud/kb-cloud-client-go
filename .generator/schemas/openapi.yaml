@@ -1884,6 +1884,51 @@ paths:
       tags:
         - cluster
         - shared
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/instances/{instanceName}/log:
+    get:
+      description: read log of the specified cluster instance
+      summary: Tail cluster instance container log
+      operationId: getInstanceContainerLog
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: name of the KubeBlocks cluster
+          in: path
+          name: clusterName
+          required: true
+          schema:
+            type: string
+        - description: name of the instance
+          in: path
+          name: instanceName
+          required: true
+          schema:
+            type: string
+        - description: specify container name to get specific container log, if not specified, will return the log of the default container
+          in: query
+          name: contaner
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/instanceLog'
+          description: OK
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - cluster
+        - shared
   /api/v1/organizations/{orgName}/clusters/{clusterName}/workloads/{workloadName}/log:
     get:
       description: read log of the specified cluster instance
@@ -1967,7 +2012,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/haHistoryResponse'
+                $ref: '#/components/schemas/haHistoryList'
           description: Accepted
         '401':
           $ref: '#/components/responses/401'
@@ -14616,32 +14661,71 @@ components:
       required:
         - items
       type: object
-    haHistoryResponse:
-      description: hahistory is the payload to get ha history of a KubeBlocks cluster
+    instanceLog:
+      type: object
+      description: Instance log is the container log of the specified cluster instance
+      properties:
+        containers:
+          type: array
+          description: containers is all containers of the instance(pod)
+          items:
+            type: string
+        log:
+          type: string
+          description: log is the log of the specified container
+    haHistory:
+      type: object
+      description: HA history is the records of HA operations, include `switchover` and `failover`
       properties:
         componentName:
           type: string
-        records:
-          items:
-            properties:
-              StartAt:
-                type: integer
-              EndAt:
-                type: integer
-              OldPrimary:
-                type: string
-              NewPrimary:
-                type: string
-              Reason:
-                type: string
-              UserID:
-                type: string
-              UserName:
-                type: string
-            required:
-              - StartAt
-          type: array
+        type:
+          type: string
+        oldPrimary:
+          type: string
+        newPrimary:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+        operatorID:
+          type: string
+        operatorName:
+          type: string
+        opsrequestName:
+          type: string
+        opsrequestNamespace:
+          type: string
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - componentName
+        - type
+        - oldPrimary
+        - newPrimary
+        - status
+        - message
+        - startAt
+        - endAt
+        - createdAt
+    haHistoryList:
       type: object
+      description: HA history list
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/haHistory'
+      required:
+        - items
     sortType:
       description: Represents the type of sorting.
       enum:
