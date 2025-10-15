@@ -966,33 +966,6 @@ paths:
           $ref: '#/components/responses/403'
       tags:
         - organizationResourceQuota
-    post:
-      operationId: resourceQuota
-      summary: Batch update parameters of an organization
-      description: Batch update parameters of an organization
-      parameters:
-        - description: The name of the organization
-          in: path
-          name: orgName
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/orgResourceQuota'
-        required: true
-      responses:
-        '204':
-          content: {}
-          description: OK
-        '401':
-          $ref: '#/components/responses/401'
-        '403':
-          $ref: '#/components/responses/403'
-      tags:
-        - organizationResourceQuota
   /api/v1/organizations/{orgName}/environments:
     get:
       operationId: listEnvironment
