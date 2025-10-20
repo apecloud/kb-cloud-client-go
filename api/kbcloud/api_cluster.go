@@ -691,7 +691,7 @@ func (a *ClusterApi) GetInstacesMetrics(ctx _context.Context, orgName string, cl
 
 // GetInstanceContainerLogOptionalParameters holds optional parameters for GetInstanceContainerLog.
 type GetInstanceContainerLogOptionalParameters struct {
-	Contaner *string
+	Container *string
 }
 
 // NewGetInstanceContainerLogOptionalParameters creates an empty struct for parameters.
@@ -700,9 +700,9 @@ func NewGetInstanceContainerLogOptionalParameters() *GetInstanceContainerLogOpti
 	return &this
 }
 
-// WithContaner sets the corresponding parameter name and returns the struct.
-func (r *GetInstanceContainerLogOptionalParameters) WithContaner(contaner string) *GetInstanceContainerLogOptionalParameters {
-	r.Contaner = &contaner
+// WithContainer sets the corresponding parameter name and returns the struct.
+func (r *GetInstanceContainerLogOptionalParameters) WithContainer(container string) *GetInstanceContainerLogOptionalParameters {
+	r.Container = &container
 	return r
 }
 
@@ -745,8 +745,8 @@ func (a *ClusterApi) GetInstanceContainerLog(ctx _context.Context, orgName strin
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if optionalParams.Contaner != nil {
-		localVarQueryParams.Add("contaner", common.ParameterToString(*optionalParams.Contaner, ""))
+	if optionalParams.Container != nil {
+		localVarQueryParams.Add("container", common.ParameterToString(*optionalParams.Container, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 

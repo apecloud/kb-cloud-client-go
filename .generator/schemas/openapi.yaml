@@ -1883,7 +1883,7 @@ paths:
             type: string
         - description: specify container name to get specific container log, if not specified, will return the log of the default container
           in: query
-          name: contaner
+          name: container
           schema:
             type: string
       responses:
