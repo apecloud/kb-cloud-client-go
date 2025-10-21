@@ -13082,6 +13082,15 @@ components:
           items:
             $ref: '#/components/schemas/storageClassInfo'
       type: object
+    loadBalancerStatus:
+      description: Status of the load balancer
+      type: string
+      enum:
+        - Enabling
+        - Enabled
+        - Disabling
+        - Disabled
+        - Failed
     loadBalancerAvailableType:
       description: Whether the loadbalancer is available in the environment.
       type: string
@@ -13090,13 +13099,35 @@ components:
         - Unavailable
         - Checking
         - Unknown
+    loadBalancerIpamStatus:
+      description: Whether the ipam is enabled.
+      type: string
+      enum:
+        - Enabled
+        - Disabled
     loadBalancer:
       description: The load balancer info
       properties:
+        version:
+          description: Version of the load balancer
+          type: string
+        type:
+          description: Type of the load balancer
+          type: string
+        status:
+          $ref: '#/components/schemas/loadBalancerStatus'
         available:
           $ref: '#/components/schemas/loadBalancerAvailableType'
+        class:
+          description: Class of the load balancer, only available on public cloud.
+          type: string
+        chargeType:
+          description: Charge type of the load balancer, only available on public cloud.
+          type: string
+        ipam:
+          $ref: '#/components/schemas/loadBalancerIpamStatus'
       required:
-        - available
+        - status
       type: object
     vipPool:
       description: VIP Pool
