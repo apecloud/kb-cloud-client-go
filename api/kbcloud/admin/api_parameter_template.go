@@ -363,6 +363,7 @@ type ListParameterTemplatesOptionalParameters struct {
 	Version    *string
 	Component  *string
 	EngineName *string
+	EngineMode *string
 }
 
 // NewListParameterTemplatesOptionalParameters creates an empty struct for parameters.
@@ -398,6 +399,12 @@ func (r *ListParameterTemplatesOptionalParameters) WithComponent(component strin
 // WithEngineName sets the corresponding parameter name and returns the struct.
 func (r *ListParameterTemplatesOptionalParameters) WithEngineName(engineName string) *ListParameterTemplatesOptionalParameters {
 	r.EngineName = &engineName
+	return r
+}
+
+// WithEngineMode sets the corresponding parameter name and returns the struct.
+func (r *ListParameterTemplatesOptionalParameters) WithEngineMode(engineMode string) *ListParameterTemplatesOptionalParameters {
+	r.EngineMode = &engineMode
 	return r
 }
 
@@ -450,6 +457,9 @@ func (a *ParameterTemplateApi) ListParameterTemplates(ctx _context.Context, o ..
 	}
 	if optionalParams.EngineName != nil {
 		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
+	}
+	if optionalParams.EngineMode != nil {
+		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
