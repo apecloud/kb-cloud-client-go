@@ -3135,6 +3135,11 @@ paths:
           name: engineName
           schema:
             type: string
+        - description: engine mode
+          in: query
+          name: engineMode
+          schema:
+            type: string
       responses:
         '200':
           content:
