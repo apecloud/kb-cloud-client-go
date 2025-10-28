@@ -17716,6 +17716,9 @@ components:
         resetRootPassword:
           type: boolean
           x-omitempty: false
+        supportMutipleComponent:
+          type: boolean
+          default: false
     databaseOption:
       type: object
       required:
