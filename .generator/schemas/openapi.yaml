@@ -3971,6 +3971,11 @@ paths:
           required: true
           schema:
             type: string
+        - description: name of the component
+          in: query
+          name: component
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -17939,6 +17944,11 @@ components:
       properties:
         defaultMethod:
           type: string
+        defaultComponent:
+          type: string
+          description: |
+            If set, the default backup method will be applied to the specified component.
+            If not set, the default backup method will be applied to all components.
         restoreOption:
           type: object
           properties:

@@ -12,7 +12,11 @@ import (
 
 // BackupOption If present, it must be set defaultMethod and fullMethod
 type BackupOption struct {
-	DefaultMethod     string                     `json:"defaultMethod"`
+	DefaultMethod string `json:"defaultMethod"`
+	// If set, the default backup method will be applied to the specified component.
+	// If not set, the default backup method will be applied to all components.
+	//
+	DefaultComponent  *string                    `json:"defaultComponent,omitempty"`
 	RestoreOption     *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
 	FullMethod        []BackupMethodOption       `json:"fullMethod"`
 	IncrementalMethod []BackupMethodOption       `json:"incrementalMethod,omitempty"`
@@ -62,6 +66,34 @@ func (o *BackupOption) GetDefaultMethodOk() (*string, bool) {
 // SetDefaultMethod sets field value.
 func (o *BackupOption) SetDefaultMethod(v string) {
 	o.DefaultMethod = v
+}
+
+// GetDefaultComponent returns the DefaultComponent field value if set, zero value otherwise.
+func (o *BackupOption) GetDefaultComponent() string {
+	if o == nil || o.DefaultComponent == nil {
+		var ret string
+		return ret
+	}
+	return *o.DefaultComponent
+}
+
+// GetDefaultComponentOk returns a tuple with the DefaultComponent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BackupOption) GetDefaultComponentOk() (*string, bool) {
+	if o == nil || o.DefaultComponent == nil {
+		return nil, false
+	}
+	return o.DefaultComponent, true
+}
+
+// HasDefaultComponent returns a boolean if a field has been set.
+func (o *BackupOption) HasDefaultComponent() bool {
+	return o != nil && o.DefaultComponent != nil
+}
+
+// SetDefaultComponent gets a reference to the given string and assigns it to the DefaultComponent field.
+func (o *BackupOption) SetDefaultComponent(v string) {
+	o.DefaultComponent = &v
 }
 
 // GetRestoreOption returns the RestoreOption field value if set, zero value otherwise.
@@ -178,6 +210,9 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["defaultMethod"] = o.DefaultMethod
+	if o.DefaultComponent != nil {
+		toSerialize["defaultComponent"] = o.DefaultComponent
+	}
 	if o.RestoreOption != nil {
 		toSerialize["restoreOption"] = o.RestoreOption
 	}
@@ -199,6 +234,7 @@ func (o BackupOption) MarshalJSON() ([]byte, error) {
 func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		DefaultMethod     *string                    `json:"defaultMethod"`
+		DefaultComponent  *string                    `json:"defaultComponent,omitempty"`
 		RestoreOption     *BackupOptionRestoreOption `json:"restoreOption,omitempty"`
 		FullMethod        *[]BackupMethodOption      `json:"fullMethod"`
 		IncrementalMethod []BackupMethodOption       `json:"incrementalMethod,omitempty"`
@@ -215,13 +251,14 @@ func (o *BackupOption) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "restoreOption", "fullMethod", "incrementalMethod", "continuousMethod"})
+		common.DeleteKeys(additionalProperties, &[]string{"defaultMethod", "defaultComponent", "restoreOption", "fullMethod", "incrementalMethod", "continuousMethod"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
 	o.DefaultMethod = *all.DefaultMethod
+	o.DefaultComponent = all.DefaultComponent
 	if all.RestoreOption != nil && all.RestoreOption.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
