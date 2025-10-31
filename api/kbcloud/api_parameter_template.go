@@ -358,9 +358,11 @@ func (a *ParameterTemplateApi) GetClusterParameterTemplate(ctx _context.Context,
 
 // ListParameterTemplatesOptionalParameters holds optional parameters for ListParameterTemplates.
 type ListParameterTemplatesOptionalParameters struct {
-	Partition *ParameterTemplatePartition
-	Version   *string
-	Component *string
+	Partition  *ParameterTemplatePartition
+	Version    *string
+	Component  *string
+	EngineName *string
+	EngineMode *string
 }
 
 // NewListParameterTemplatesOptionalParameters creates an empty struct for parameters.
@@ -384,6 +386,18 @@ func (r *ListParameterTemplatesOptionalParameters) WithVersion(version string) *
 // WithComponent sets the corresponding parameter name and returns the struct.
 func (r *ListParameterTemplatesOptionalParameters) WithComponent(component string) *ListParameterTemplatesOptionalParameters {
 	r.Component = &component
+	return r
+}
+
+// WithEngineName sets the corresponding parameter name and returns the struct.
+func (r *ListParameterTemplatesOptionalParameters) WithEngineName(engineName string) *ListParameterTemplatesOptionalParameters {
+	r.EngineName = &engineName
+	return r
+}
+
+// WithEngineMode sets the corresponding parameter name and returns the struct.
+func (r *ListParameterTemplatesOptionalParameters) WithEngineMode(engineMode string) *ListParameterTemplatesOptionalParameters {
+	r.EngineMode = &engineMode
 	return r
 }
 
@@ -431,6 +445,12 @@ func (a *ParameterTemplateApi) ListParameterTemplates(ctx _context.Context, orgN
 	}
 	if optionalParams.Component != nil {
 		localVarQueryParams.Add("component", common.ParameterToString(*optionalParams.Component, ""))
+	}
+	if optionalParams.EngineName != nil {
+		localVarQueryParams.Add("engineName", common.ParameterToString(*optionalParams.EngineName, ""))
+	}
+	if optionalParams.EngineMode != nil {
+		localVarQueryParams.Add("engineMode", common.ParameterToString(*optionalParams.EngineMode, ""))
 	}
 	localVarHeaderParams["Accept"] = "application/json"
 
