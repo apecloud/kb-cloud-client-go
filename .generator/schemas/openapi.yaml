@@ -2022,6 +2022,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: startTime
           required: true
           schema:
@@ -2044,30 +2048,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        message:
-                          type: string
-                        timestamp:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -2125,42 +2106,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        client:
-                          type: string
-                        command:
-                          type: string
-                        dbName:
-                          type: string
-                        executionTime:
-                          type: integer
-                        extra:
-                          additionalProperties:
-                            type: string
-                          type: object
-                        timestamp:
-                          type: string
-                        user:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -2218,42 +2164,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        client:
-                          type: string
-                        command:
-                          type: string
-                        dbName:
-                          type: string
-                        executionTime:
-                          type: integer
-                        extra:
-                          additionalProperties:
-                            type: string
-                          type: object
-                        timestamp:
-                          type: string
-                        user:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -2289,6 +2200,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: startTime
           required: true
           schema:
@@ -2311,30 +2226,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        message:
-                          type: string
-                        timestamp:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -2370,6 +2262,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: startTime
           required: true
           schema:
@@ -2392,30 +2288,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        message:
-                          type: string
-                        timestamp:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -14751,6 +14624,72 @@ components:
         - asc
         - desc
       type: string
+    clusterRawLogItem:
+      type: object
+      description: Cluster raw log item represents a single log entry
+      properties:
+        message:
+          type: string
+        timestamp:
+          type: integer
+    clusterLogPagination:
+      type: object
+      description: Cluster log pagination is the pagination of the cluster log
+      properties:
+        endTime:
+          type: string
+        limit:
+          type: string
+        nextEndTime:
+          type: string
+        nextStartTime:
+          type: string
+        startTime:
+          type: string
+    clusterRawLogResponse:
+      type: object
+      description: Cluster raw log is the raw log of the cluster
+      properties:
+        filenames:
+          type: array
+          items:
+            type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterRawLogItem'
+        pagination:
+          $ref: '#/components/schemas/clusterLogPagination'
+    clusterExecutionLogItem:
+      type: object
+      description: Cluster execution log item represents a single log entry
+      properties:
+        client:
+          type: string
+        command:
+          type: string
+        dbName:
+          type: string
+        executionTime:
+          type: number
+          format: double
+        extra:
+          additionalProperties: {}
+          type: object
+        timestamp:
+          type: integer
+        user:
+          type: string
+    clusterExecutionLog:
+      type: object
+      description: Cluster execution log is the execution log of the cluster
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/clusterExecutionLogItem'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/clusterLogPagination'
     accountListRoleType:
       description: The user role name, should be one of [ROOT, SUPERUSER, BASICUSER].
       enum:
