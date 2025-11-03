@@ -24091,7 +24091,7 @@ components:
           type: string
           description: Field's programmatic name (e.g., 'db_host')
         label:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: User-facing label for UI (e.g., 'Database Host')
         required:
           type: boolean
@@ -24102,7 +24102,7 @@ components:
           description: Whether it contains sensitive information (e.g., password)
           default: false
         description:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: Detailed usage instructions for the field
         placeholder:
           type: string
@@ -24241,10 +24241,10 @@ components:
           type: string
           description: Display name
         description:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: Description
         guide:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: Usage guide
         supported:
           type: boolean
@@ -24258,7 +24258,7 @@ components:
         requirements:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/localizedDescription'
           description: List of usage requirements
         connectionFields:
           type: array

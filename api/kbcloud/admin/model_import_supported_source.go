@@ -17,17 +17,15 @@ type ImportSupportedSource struct {
 	// Data source category
 	Category ImportSourceCategory `json:"category"`
 	// Display name
-	Name string `json:"name"`
-	// Description
-	Description *string `json:"description,omitempty"`
-	// Usage guide
-	Guide *string `json:"guide,omitempty"`
+	Name        string                `json:"name"`
+	Description *LocalizedDescription `json:"description,omitempty"`
+	Guide       *LocalizedDescription `json:"guide,omitempty"`
 	// Whether supported
 	Supported bool `json:"supported"`
 	// List of supported capabilities
 	Capabilities []ImportCapabilityType `json:"capabilities,omitempty"`
 	// List of usage requirements
-	Requirements []string `json:"requirements,omitempty"`
+	Requirements []LocalizedDescription `json:"requirements,omitempty"`
 	// Connection field configuration
 	ConnectionFields []ImportConnectionField `json:"connectionFields,omitempty"`
 	// List of supported versions
@@ -130,9 +128,9 @@ func (o *ImportSupportedSource) SetName(v string) {
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *ImportSupportedSource) GetDescription() string {
+func (o *ImportSupportedSource) GetDescription() LocalizedDescription {
 	if o == nil || o.Description == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Description
@@ -140,7 +138,7 @@ func (o *ImportSupportedSource) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportSupportedSource) GetDescriptionOk() (*string, bool) {
+func (o *ImportSupportedSource) GetDescriptionOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -152,15 +150,15 @@ func (o *ImportSupportedSource) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *ImportSupportedSource) SetDescription(v string) {
+// SetDescription gets a reference to the given LocalizedDescription and assigns it to the Description field.
+func (o *ImportSupportedSource) SetDescription(v LocalizedDescription) {
 	o.Description = &v
 }
 
 // GetGuide returns the Guide field value if set, zero value otherwise.
-func (o *ImportSupportedSource) GetGuide() string {
+func (o *ImportSupportedSource) GetGuide() LocalizedDescription {
 	if o == nil || o.Guide == nil {
-		var ret string
+		var ret LocalizedDescription
 		return ret
 	}
 	return *o.Guide
@@ -168,7 +166,7 @@ func (o *ImportSupportedSource) GetGuide() string {
 
 // GetGuideOk returns a tuple with the Guide field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportSupportedSource) GetGuideOk() (*string, bool) {
+func (o *ImportSupportedSource) GetGuideOk() (*LocalizedDescription, bool) {
 	if o == nil || o.Guide == nil {
 		return nil, false
 	}
@@ -180,8 +178,8 @@ func (o *ImportSupportedSource) HasGuide() bool {
 	return o != nil && o.Guide != nil
 }
 
-// SetGuide gets a reference to the given string and assigns it to the Guide field.
-func (o *ImportSupportedSource) SetGuide(v string) {
+// SetGuide gets a reference to the given LocalizedDescription and assigns it to the Guide field.
+func (o *ImportSupportedSource) SetGuide(v LocalizedDescription) {
 	o.Guide = &v
 }
 
@@ -237,9 +235,9 @@ func (o *ImportSupportedSource) SetCapabilities(v []ImportCapabilityType) {
 }
 
 // GetRequirements returns the Requirements field value if set, zero value otherwise.
-func (o *ImportSupportedSource) GetRequirements() []string {
+func (o *ImportSupportedSource) GetRequirements() []LocalizedDescription {
 	if o == nil || o.Requirements == nil {
-		var ret []string
+		var ret []LocalizedDescription
 		return ret
 	}
 	return o.Requirements
@@ -247,7 +245,7 @@ func (o *ImportSupportedSource) GetRequirements() []string {
 
 // GetRequirementsOk returns a tuple with the Requirements field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportSupportedSource) GetRequirementsOk() (*[]string, bool) {
+func (o *ImportSupportedSource) GetRequirementsOk() (*[]LocalizedDescription, bool) {
 	if o == nil || o.Requirements == nil {
 		return nil, false
 	}
@@ -259,8 +257,8 @@ func (o *ImportSupportedSource) HasRequirements() bool {
 	return o != nil && o.Requirements != nil
 }
 
-// SetRequirements gets a reference to the given []string and assigns it to the Requirements field.
-func (o *ImportSupportedSource) SetRequirements(v []string) {
+// SetRequirements gets a reference to the given []LocalizedDescription and assigns it to the Requirements field.
+func (o *ImportSupportedSource) SetRequirements(v []LocalizedDescription) {
 	o.Requirements = v
 }
 
@@ -361,11 +359,11 @@ func (o *ImportSupportedSource) UnmarshalJSON(bytes []byte) (err error) {
 		Type              *string                 `json:"type"`
 		Category          *ImportSourceCategory   `json:"category"`
 		Name              *string                 `json:"name"`
-		Description       *string                 `json:"description,omitempty"`
-		Guide             *string                 `json:"guide,omitempty"`
+		Description       *LocalizedDescription   `json:"description,omitempty"`
+		Guide             *LocalizedDescription   `json:"guide,omitempty"`
 		Supported         *bool                   `json:"supported"`
 		Capabilities      []ImportCapabilityType  `json:"capabilities,omitempty"`
-		Requirements      []string                `json:"requirements,omitempty"`
+		Requirements      []LocalizedDescription  `json:"requirements,omitempty"`
 		ConnectionFields  []ImportConnectionField `json:"connectionFields,omitempty"`
 		SupportedVersions []string                `json:"supportedVersions,omitempty"`
 	}{}
@@ -399,7 +397,13 @@ func (o *ImportSupportedSource) UnmarshalJSON(bytes []byte) (err error) {
 		o.Category = *all.Category
 	}
 	o.Name = *all.Name
+	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Description = all.Description
+	if all.Guide != nil && all.Guide.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
 	o.Guide = all.Guide
 	o.Supported = *all.Supported
 	o.Capabilities = all.Capabilities

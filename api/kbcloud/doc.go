@@ -192,6 +192,7 @@
 //   - [importApi.getImportTask]
 //   - [importApi.importPreflight]
 //   - [importApi.listImportTask]
+//   - [importApi.queryImportObjects]
 //   - [importApi.updateImportTaskOps]
 //   - [ipWhitelistApi.createIPWhitelist]
 //   - [ipWhitelistApi.deleteIPWhiteList]

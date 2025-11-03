@@ -11802,7 +11802,7 @@ paths:
         - import
         - shared
       summary: Data source preflight check
-      description: Initiates async preflight validation and returns task ID for later result querying
+      description: Initiates async validation with the selected source configuration; the generated task captures the metadata tree and connection context that will be reused when querying import objects.
       operationId: importPreflight
       parameters:
         - name: orgName
@@ -11837,6 +11837,50 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/objects:
+    post:
+      tags:
+        - import
+        - shared
+      summary: Query replication objects for import
+      description: |
+        Enumerates replication objects (databases, schemas, tables, etc.) for the requested node. The metadata levels depend on the source engine (for example MySQL uses `database -> table`, PostgreSQL uses `schema -> table`).
+      operationId: queryImportObjects
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Preflight configuration and current object tree position
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportQueryObjectsRequest'
+      responses:
+        '200':
+          description: Object tree nodes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/replicationObjectTree'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          description: Data source does not support DMS operations
   /api/v1/organizations/{orgName}/clusters/{clusterName}/import:
     get:
       tags:
@@ -18635,7 +18679,7 @@ components:
           type: string
           description: Field's programmatic name (e.g., 'db_host')
         label:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: User-facing label for UI (e.g., 'Database Host')
         required:
           type: boolean
@@ -18646,7 +18690,7 @@ components:
           description: Whether it contains sensitive information (e.g., password)
           default: false
         description:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: Detailed usage instructions for the field
         placeholder:
           type: string
@@ -18785,10 +18829,10 @@ components:
           type: string
           description: Display name
         description:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: Description
         guide:
-          type: string
+          $ref: '#/components/schemas/localizedDescription'
           description: Usage guide
         supported:
           type: boolean
@@ -18802,7 +18846,7 @@ components:
         requirements:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/localizedDescription'
           description: List of usage requirements
         connectionFields:
           type: array
@@ -22050,6 +22094,24 @@ components:
             sslMode: disable
         objectSelection:
           $ref: '#/components/schemas/dataChannelObject'
+    ImportQueryObjectsRequest:
+      description: Request payload for querying import data source objects.
+      type: object
+      required:
+        - preflight
+      properties:
+        preflight:
+          $ref: '#/components/schemas/ImportPreflightRequest'
+          description: Preflight configuration to build connection context.
+        nodeType:
+          type: string
+          description: Current node type in the replication object tree.
+        nodeValue:
+          type: string
+          description: Encoded node value of the current tree node.
+        queryNodeType:
+          type: string
+          description: Target node type to enumerate for the next level.
     ImportTaskStatus:
       type: string
       description: Import task status
