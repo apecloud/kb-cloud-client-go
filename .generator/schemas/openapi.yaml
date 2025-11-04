@@ -20500,9 +20500,10 @@ components:
       type: string
       nullable: true
     disasterRecoveryStatus:
-      default: Unknown
-      description: 'the status of promote event, support values: [Succeed, Failed, Running, Unknown]'
+      default: Pending
+      description: 'the status of promote event, support values: [Pending, Succeed, Failed, Running, Unknown]'
       enum:
+        - Pending
         - Succeed
         - Failed
         - Running
