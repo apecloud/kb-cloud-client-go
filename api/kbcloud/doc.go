@@ -188,7 +188,6 @@
 //   - [featureApi.readFeature]
 //   - [importApi.createImportTask]
 //   - [importApi.deleteImportTask]
-//   - [importApi.getImportSupportSources]
 //   - [importApi.getImportTask]
 //   - [importApi.importPreflight]
 //   - [importApi.listImportTask]

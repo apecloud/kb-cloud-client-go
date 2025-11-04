@@ -2829,6 +2829,8 @@ paths:
           name: componentName
           schema:
             type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
       responses:
         '200':
           content:
@@ -4248,6 +4250,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: startTime
           required: true
           schema:
@@ -4270,30 +4276,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        message:
-                          type: string
-                        timestamp:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -4329,6 +4312,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: startTime
           required: true
           schema:
@@ -4351,30 +4338,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        message:
-                          type: string
-                        timestamp:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -4432,42 +4396,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        client:
-                          type: string
-                        command:
-                          type: string
-                        dbName:
-                          type: string
-                        executionTime:
-                          type: integer
-                        extra:
-                          additionalProperties:
-                            type: string
-                          type: object
-                        timestamp:
-                          type: string
-                        user:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -4525,42 +4454,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        client:
-                          type: string
-                        command:
-                          type: string
-                        dbName:
-                          type: string
-                        executionTime:
-                          type: integer
-                        extra:
-                          additionalProperties:
-                            type: string
-                          type: object
-                        timestamp:
-                          type: string
-                        user:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterExecutionLog'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -4596,6 +4490,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: filename
+          schema:
+            type: string
+        - in: query
           name: startTime
           required: true
           schema:
@@ -4618,30 +4516,7 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  items:
-                    items:
-                      properties:
-                        message:
-                          type: string
-                        timestamp:
-                          type: string
-                      type: object
-                    type: array
-                  pagination:
-                    properties:
-                      endTime:
-                        type: string
-                      limit:
-                        type: string
-                      nextEndTime:
-                        type: string
-                      nextStartTime:
-                        type: string
-                      startTime:
-                        type: string
-                    type: object
-                type: object
+                $ref: '#/components/schemas/clusterRawLogResponse'
           description: Successful operation
         '401':
           $ref: '#/components/responses/401'
@@ -15554,6 +15429,288 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight:
+    post:
+      tags:
+        - import
+        - shared
+      summary: Data source preflight check
+      description: Initiates async validation with the selected source configuration
+      operationId: importPreflight
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Data source connection configuration and selection rules
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportPreflightRequest'
+      responses:
+        '200':
+          description: Preflight initiated successfully, returns task ID for querying results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preCheckTaskResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/objects:
+    post:
+      tags:
+        - import
+        - shared
+      summary: Query replication objects for import
+      description: |
+        Enumerates replication objects (databases, schemas, tables, etc.) for the requested node. The metadata levels depend on the source engine (for example MySQL uses `database -> table`, PostgreSQL uses `schema -> table`).
+      operationId: queryImportObjects
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Connection configuration and current object tree position
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportQueryObjectsRequest'
+      responses:
+        '200':
+          description: Object tree nodes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/replicationObjectTree'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '501':
+          description: Data source does not support DMS operations
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import:
+    get:
+      tags:
+        - import
+        - shared
+      summary: Query import task list
+      description: Gets import task list for specified cluster, supports filtering by status and pagination
+      operationId: listImportTask
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully returns task list with pagination info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportTaskListResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - import
+        - shared
+      summary: Create import task
+      description: Creates new data import task based on data source configuration and import options
+      operationId: createImportTask
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Import task configuration including data source connection, object selection and import options
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportTaskCreateRequest'
+      responses:
+        '201':
+          description: Task created successfully, returns basic task information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportTaskResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '409':
+          $ref: '#/components/responses/409'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}:
+    get:
+      tags:
+        - import
+        - shared
+      summary: Get import task details
+      description: Gets detailed information about a specific import task by its ID
+      operationId: getImportTask
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Import task ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully returns import task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportTaskResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - import
+        - shared
+      summary: Delete import task
+      description: Stops and deletes specified import task, will clean up related Kubernetes resources
+      operationId: deleteImportTask
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Import task ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Task deleted successfully
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/{id}/ops/{opsType}:
+    patch:
+      tags:
+        - import
+        - shared
+      summary: Create a import task operation
+      description: Performs pause or resume operation on import task based on opsType parameter
+      operationId: updateImportTaskOps
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Import task ID
+          required: true
+          schema:
+            type: string
+        - name: opsType
+          in: path
+          description: Operation type
+          required: true
+          schema:
+            $ref: '#/components/schemas/ImportOpsType'
+      responses:
+        '200':
+          description: Import task operation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportTaskResponse'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /admin/v1/pricing:
     get:
       operationId: getEnvironmentPricing
@@ -18992,6 +19149,79 @@ components:
         - asc
         - desc
       type: string
+    clusterRawLogItem:
+      type: object
+      description: Cluster raw log item represents a single log entry
+      properties:
+        message:
+          type: string
+        timestamp:
+          type: integer
+    clusterLogPagination:
+      type: object
+      description: Cluster log pagination is the pagination of the cluster log
+      properties:
+        endTime:
+          type: string
+        limit:
+          type: string
+        nextEndTime:
+          type: string
+        nextStartTime:
+          type: string
+        startTime:
+          type: string
+    clusterRawLogResponse:
+      type: object
+      description: Cluster raw log is the raw log of the cluster
+      properties:
+        filenames:
+          type: array
+          items:
+            type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/clusterRawLogItem'
+        pagination:
+          $ref: '#/components/schemas/clusterLogPagination'
+    clusterExecutionLogItem:
+      type: object
+      description: Cluster execution log item represents a single log entry
+      properties:
+        client:
+          type: string
+          x-omitempty: false
+        command:
+          type: string
+          x-omitempty: false
+        dbName:
+          type: string
+          x-omitempty: false
+        executionTime:
+          type: number
+          format: double
+          x-omitempty: false
+        extra:
+          additionalProperties: {}
+          type: object
+          x-omitempty: false
+        timestamp:
+          type: integer
+          x-omitempty: false
+        user:
+          type: string
+          x-omitempty: false
+    clusterExecutionLog:
+      type: object
+      description: Cluster execution log is the execution log of the cluster
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/clusterExecutionLogItem'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/clusterLogPagination'
     reconfigureCreate:
       description: ReconfigureCreate is the payload to reconfigure a KubeBlocks cluster
       properties:
@@ -21861,6 +22091,9 @@ components:
         backupMethod:
           description: specified the backup method
           type: string
+        component:
+          description: component of the cluster to back up
+          type: string
       type: object
       required:
         - backupMethod
@@ -23187,7 +23420,7 @@ components:
         resetRootPassword:
           type: boolean
           x-omitempty: false
-        supportMutipleComponent:
+        supportMultipleComponent:
           type: boolean
           default: false
     databaseOption:
@@ -24072,216 +24305,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/standardDefinition'
-    ImportSourceCategory:
-      type: string
-      description: Data source category
-      enum:
-        - engine
-    ImportCapabilityType:
-      type: string
-      description: Import capability type
-      enum:
-        - structure
-        - snapshot
-        - cdc
-    ImportBaseField:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Field's programmatic name (e.g., 'db_host')
-        label:
-          $ref: '#/components/schemas/localizedDescription'
-          description: User-facing label for UI (e.g., 'Database Host')
-        required:
-          type: boolean
-          description: Whether the field is required
-          default: false
-        sensitive:
-          type: boolean
-          description: Whether it contains sensitive information (e.g., password)
-          default: false
-        description:
-          $ref: '#/components/schemas/localizedDescription'
-          description: Detailed usage instructions for the field
-        placeholder:
-          type: string
-          description: Placeholder text for the input
-      required:
-        - name
-        - label
-    ImportFieldType:
-      type: string
-      description: Import field type
-      enum:
-        - string
-        - integer
-        - number
-        - boolean
-        - enum
-    ImportStringValidation:
-      description: Validation rules for string field type
-      type: object
-      properties:
-        minLength:
-          type: integer
-          description: Minimum length
-        maxLength:
-          type: integer
-          description: Maximum length
-        pattern:
-          type: string
-          description: Regex pattern
-    ImportStringField:
-      description: Configuration for a string-type field.
-      allOf:
-        - $ref: '#/components/schemas/ImportBaseField'
-        - type: object
-          properties:
-            type:
-              $ref: '#/components/schemas/ImportFieldType'
-            default:
-              type: string
-              nullable: true
-            validation:
-              $ref: '#/components/schemas/ImportStringValidation'
-          required:
-            - type
-    ImportNumericValidation:
-      description: Validation rules for numeric field type
-      type: object
-      properties:
-        min:
-          type: number
-          description: Minimum value
-        max:
-          type: number
-          description: Maximum value
-    ImportIntegerField:
-      description: Configuration for an integer-type field.
-      allOf:
-        - $ref: '#/components/schemas/ImportBaseField'
-        - type: object
-          properties:
-            type:
-              $ref: '#/components/schemas/ImportFieldType'
-            default:
-              type: integer
-              nullable: true
-            validation:
-              $ref: '#/components/schemas/ImportNumericValidation'
-          required:
-            - type
-    ImportNumberField:
-      description: Configuration for a number-type field.
-      allOf:
-        - $ref: '#/components/schemas/ImportBaseField'
-        - type: object
-          properties:
-            type:
-              $ref: '#/components/schemas/ImportFieldType'
-            default:
-              type: number
-              nullable: true
-            validation:
-              $ref: '#/components/schemas/ImportNumericValidation'
-          required:
-            - type
-    ImportBooleanField:
-      description: Configuration for a boolean-type field.
-      allOf:
-        - $ref: '#/components/schemas/ImportBaseField'
-        - type: object
-          properties:
-            type:
-              $ref: '#/components/schemas/ImportFieldType'
-            default:
-              type: boolean
-              nullable: true
-          required:
-            - type
-    ImportEnumField:
-      description: Configuration for an enum-type field.
-      allOf:
-        - $ref: '#/components/schemas/ImportBaseField'
-        - type: object
-          properties:
-            type:
-              $ref: '#/components/schemas/ImportFieldType'
-            options:
-              type: array
-              items:
-                type: string
-              description: List of available options for the enum.
-              minItems: 1
-            default:
-              type: string
-              nullable: true
-          required:
-            - type
-            - options
-    ImportConnectionField:
-      description: Connection field configuration. Use `oneOf` to enforce strict type-specific properties.
-      oneOf:
-        - $ref: '#/components/schemas/ImportStringField'
-        - $ref: '#/components/schemas/ImportIntegerField'
-        - $ref: '#/components/schemas/ImportNumberField'
-        - $ref: '#/components/schemas/ImportBooleanField'
-        - $ref: '#/components/schemas/ImportEnumField'
-    ImportSupportedSource:
-      description: Supported data source information
-      type: object
-      properties:
-        type:
-          type: string
-          description: Data source type
-        category:
-          $ref: '#/components/schemas/ImportSourceCategory'
-        name:
-          type: string
-          description: Display name
-        description:
-          $ref: '#/components/schemas/localizedDescription'
-          description: Description
-        guide:
-          $ref: '#/components/schemas/localizedDescription'
-          description: Usage guide
-        supported:
-          type: boolean
-          description: Whether supported
-          default: true
-        capabilities:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImportCapabilityType'
-          description: List of supported capabilities
-        requirements:
-          type: array
-          items:
-            $ref: '#/components/schemas/localizedDescription'
-          description: List of usage requirements
-        connectionFields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ImportConnectionField'
-          description: Connection field configuration
-        supportedVersions:
-          type: array
-          items:
-            type: string
-          description: List of supported versions
-      required:
-        - type
-        - category
-        - name
-        - supported
     importOption:
       type: object
       properties:
         supportedSources:
           type: array
           items:
-            $ref: '#/components/schemas/ImportSupportedSource'
+            type: object
+            additionalProperties: true
           description: List of supported data sources for import
         sinkEngineName:
           type: string
@@ -27691,6 +27722,211 @@ components:
       required:
         - items
       type: object
+    dataChannelObject:
+      type: object
+      properties:
+        includeObjects:
+          type: array
+          items:
+            type: string
+        excludeObjects:
+          type: array
+          items:
+            type: string
+          nullable: true
+    ImportPreflightRequest:
+      description: Data source preflight request
+      type: object
+      required:
+        - sourceType
+        - connectionConfig
+      properties:
+        sourceType:
+          type: string
+          description: Data source type
+        connectionConfig:
+          type: object
+          description: Connection configuration parameters that vary by data source type
+          example:
+            host: mysql-source.example.com
+            port: 3306
+            username: migration_user
+            password: secret123
+            sslMode: disable
+        objectSelection:
+          $ref: '#/components/schemas/dataChannelObject'
+    preCheckTaskResponse:
+      type: object
+      properties:
+        taskId:
+          type: string
+    ImportSourceType:
+      type: string
+      description: Import source type
+      enum:
+        - mysql
+    ImportQueryObjectsRequest:
+      description: Request payload for querying import data source objects.
+      type: object
+      required:
+        - sourceType
+        - connectionConfig
+      properties:
+        sourceType:
+          $ref: '#/components/schemas/ImportSourceType'
+          description: Data source type to query objects from.
+        connectionConfig:
+          type: object
+          description: Connection configuration parameters that vary by data source type.
+          example:
+            host: mysql-source.example.com
+            port: 3306
+            username: migration_user
+            password: secret123
+            sslMode: disable
+        nodeType:
+          type: string
+          description: Current node type in the replication object tree.
+        nodeValue:
+          type: string
+          description: Encoded node value of the current tree node.
+        queryNodeType:
+          type: string
+          description: Target node type to enumerate for the next level.
+    replicationObjectNode:
+      type: object
+      properties:
+        nodeName:
+          type: string
+        nodeValue:
+          type: string
+    replicationObjectTree:
+      type: object
+      properties:
+        nodeType:
+          type: string
+        nodeValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/replicationObjectNode'
+        childrenNodeTypes:
+          type: array
+          nullable: true
+          items:
+            type: string
+    ImportTaskStatus:
+      type: string
+      description: Import task status
+      enum:
+        - Pending
+        - Initializing
+        - Finished
+        - Failed
+        - Deleting
+    ImportTaskResponse:
+      description: Import task response
+      type: object
+      properties:
+        id:
+          type: string
+          description: Import task ID
+        name:
+          type: string
+          description: Import name
+        status:
+          $ref: '#/components/schemas/ImportTaskStatus'
+        sourceEndpoint:
+          type: string
+          description: Source endpoint address
+        targetClusterName:
+          type: string
+          description: Target cluster name
+        progress:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          default: 0
+          description: Overall progress
+        sourceType:
+          type: string
+          description: Data source type
+        targetEngine:
+          type: string
+          description: Target engine type
+        syncTimestamp:
+          type: string
+          format: date-time
+          description: Sync timestamp
+          nullable: true
+        delaySecond:
+          type: integer
+          description: Delay seconds
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Creation time
+        updatedAt:
+          type: string
+          format: date-time
+          description: Update time
+        finishedAt:
+          type: string
+          format: date-time
+          description: Finish time
+          nullable: true
+        message:
+          type: string
+          description: Operation result message
+          nullable: true
+      required:
+        - id
+        - name
+        - status
+        - sourceEndpoint
+        - targetClusterName
+        - progress
+        - sourceType
+        - targetEngine
+        - createdAt
+        - updatedAt
+        - message
+    ImportTaskListResponse:
+      description: Import task list response
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImportTaskResponse'
+          description: Task list
+      required:
+        - items
+    ImportTaskCreateRequest:
+      description: Create import task request
+      type: object
+      required:
+        - name
+        - sourceType
+        - connectionConfig
+      properties:
+        name:
+          type: string
+          description: Import name
+        sourceType:
+          $ref: '#/components/schemas/ImportSourceType'
+        connectionConfig:
+          type: object
+          description: Connection configuration
+        objectSelection:
+          $ref: '#/components/schemas/dataChannelObject'
+    ImportOpsType:
+      type: string
+      description: Import task operation type
+      enum:
+        - pause
+        - resume
     environmentPricing:
       type: object
       description: the information of environment pricing
