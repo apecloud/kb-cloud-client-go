@@ -14666,20 +14666,27 @@ components:
       properties:
         client:
           type: string
+          x-omitempty: false
         command:
           type: string
+          x-omitempty: false
         dbName:
           type: string
+          x-omitempty: false
         executionTime:
           type: number
           format: double
+          x-omitempty: false
         extra:
           additionalProperties: {}
           type: object
+          x-omitempty: false
         timestamp:
           type: integer
+          x-omitempty: false
         user:
           type: string
+          x-omitempty: false
     clusterExecutionLog:
       type: object
       description: Cluster execution log is the execution log of the cluster
