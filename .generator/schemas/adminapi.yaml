@@ -2829,6 +2829,8 @@ paths:
           name: componentName
           schema:
             type: string
+        - $ref: '#/components/parameters/startTime'
+        - $ref: '#/components/parameters/endTime'
       responses:
         '200':
           content:
