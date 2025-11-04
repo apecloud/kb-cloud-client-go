@@ -16025,6 +16025,9 @@ components:
         backupMethod:
           description: specified the backup method
           type: string
+        component:
+          description: component of the cluster to back up
+          type: string
       type: object
       required:
         - backupMethod
