@@ -23294,6 +23294,8 @@ components:
         - portName
         - type
         - port
+        - protocol
+        - targetPort
       properties:
         title:
           $ref: '#/components/schemas/localizedDescription'
@@ -23301,13 +23303,17 @@ components:
           type: string
         portName:
           type: string
+        port:
+          type: integer
+          format: int32
+        protocol:
+          type: string
+        targetPort:
+          type: string
         type:
           type: array
           items:
             type: string
-        port:
-          type: integer
-          format: int32
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
