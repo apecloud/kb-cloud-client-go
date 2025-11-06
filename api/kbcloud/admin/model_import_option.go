@@ -4,11 +4,13 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type ImportOption struct {
 	// List of supported data sources for import
-	SupportedSources []map[string]interface{} `json:"supportedSources,omitempty"`
+	SupportedSources []ImportSupportedSource `json:"supportedSources,omitempty"`
 	// Engine name for sink/target database
 	SinkEngineName *string `json:"sinkEngineName,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
@@ -34,9 +36,9 @@ func NewImportOptionWithDefaults() *ImportOption {
 }
 
 // GetSupportedSources returns the SupportedSources field value if set, zero value otherwise.
-func (o *ImportOption) GetSupportedSources() []map[string]interface{} {
+func (o *ImportOption) GetSupportedSources() []ImportSupportedSource {
 	if o == nil || o.SupportedSources == nil {
-		var ret []map[string]interface{}
+		var ret []ImportSupportedSource
 		return ret
 	}
 	return o.SupportedSources
@@ -44,7 +46,7 @@ func (o *ImportOption) GetSupportedSources() []map[string]interface{} {
 
 // GetSupportedSourcesOk returns a tuple with the SupportedSources field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ImportOption) GetSupportedSourcesOk() (*[]map[string]interface{}, bool) {
+func (o *ImportOption) GetSupportedSourcesOk() (*[]ImportSupportedSource, bool) {
 	if o == nil || o.SupportedSources == nil {
 		return nil, false
 	}
@@ -56,8 +58,8 @@ func (o *ImportOption) HasSupportedSources() bool {
 	return o != nil && o.SupportedSources != nil
 }
 
-// SetSupportedSources gets a reference to the given []map[string]interface{} and assigns it to the SupportedSources field.
-func (o *ImportOption) SetSupportedSources(v []map[string]interface{}) {
+// SetSupportedSources gets a reference to the given []ImportSupportedSource and assigns it to the SupportedSources field.
+func (o *ImportOption) SetSupportedSources(v []ImportSupportedSource) {
 	o.SupportedSources = v
 }
 
@@ -111,8 +113,8 @@ func (o ImportOption) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *ImportOption) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		SupportedSources []map[string]interface{} `json:"supportedSources,omitempty"`
-		SinkEngineName   *string                  `json:"sinkEngineName,omitempty"`
+		SupportedSources []ImportSupportedSource `json:"supportedSources,omitempty"`
+		SinkEngineName   *string                 `json:"sinkEngineName,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err

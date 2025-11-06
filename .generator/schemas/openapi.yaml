@@ -17847,6 +17847,8 @@ components:
         - portName
         - type
         - port
+        - protocol
+        - targetPort
       properties:
         title:
           $ref: '#/components/schemas/localizedDescription'
@@ -17854,13 +17856,17 @@ components:
           type: string
         portName:
           type: string
+        port:
+          type: integer
+          format: int32
+        protocol:
+          type: string
+        targetPort:
+          type: string
         type:
           type: array
           items:
             type: string
-        port:
-          type: integer
-          format: int32
         supportsSystemUse:
           type: boolean
           description: whether the endpoint supports system use, such as health check, dms, databases & accounts management etc.
@@ -18576,14 +18582,158 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/standardDefinition'
+    ImportSourceType:
+      type: string
+      description: Import source type
+      enum:
+        - mysql
+    ImportSourceCategory:
+      type: string
+      description: Data source category
+      enum:
+        - engine
+    ImportCapabilityType:
+      type: string
+      description: Import capability type
+      enum:
+        - structure
+        - snapshot
+        - cdc
+    ImportBaseField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Field's programmatic name (e.g., 'db_host')
+        label:
+          $ref: '#/components/schemas/localizedDescription'
+          description: User-facing label for UI (e.g., 'Database Host')
+        required:
+          type: boolean
+          description: Whether the field is required
+          default: false
+        sensitive:
+          type: boolean
+          description: Whether it contains sensitive information (e.g., password)
+          default: false
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Detailed usage instructions for the field
+        placeholder:
+          type: string
+          description: Placeholder text for the input
+      required:
+        - name
+        - label
+    ImportFieldType:
+      type: string
+      description: Import field type
+      enum:
+        - string
+        - integer
+        - number
+        - boolean
+        - enum
+    ImportConnectionField:
+      description: Connection field configuration. Use optional attributes to describe type-specific properties.
+      allOf:
+        - $ref: '#/components/schemas/ImportBaseField'
+        - type: object
+          properties:
+            type:
+              $ref: '#/components/schemas/ImportFieldType'
+              description: Field data type.
+            default:
+              description: Default value applied when the field is omitted. Coerced according to `type`.
+              nullable: true
+              oneOf:
+                - type: string
+                - type: integer
+                - type: number
+                - type: boolean
+            options:
+              type: array
+              description: Enumerated options when the field type is enum.
+              items:
+                type: string
+            validation:
+              type: object
+              description: Additional validation constraints (e.g., `min`, `max`, `pattern`).
+              additionalProperties: true
+          required:
+            - type
+    ImportReplicationMetadata:
+      type: object
+      description: Replication metadata tree definition for import object selection.
+      properties:
+        metadataType:
+          type: string
+          description: Metadata node type identifier (e.g. database, table).
+        children:
+          type: array
+          description: Child metadata nodes.
+          items:
+            $ref: '#/components/schemas/ImportReplicationMetadata'
+      required:
+        - metadataType
+    ImportSupportedSource:
+      type: object
+      description: Supported data source definition for an import capability.
+      properties:
+        type:
+          $ref: '#/components/schemas/ImportSourceType'
+          description: Source engine type identifier (for example, "mysql").
+        category:
+          $ref: '#/components/schemas/ImportSourceCategory'
+          description: Classification of the data source.
+        name:
+          type: string
+          description: Display name of the supported source.
+        supported:
+          type: boolean
+          description: Whether the source is currently supported.
+        description:
+          $ref: '#/components/schemas/localizedDescription'
+          description: General description of the source.
+        guide:
+          $ref: '#/components/schemas/localizedDescription'
+          description: Usage guide for enabling the source.
+        capabilities:
+          type: array
+          description: Supported import capabilities.
+          items:
+            $ref: '#/components/schemas/ImportCapabilityType'
+        requirements:
+          type: array
+          description: Prerequisite steps for enabling the source.
+          items:
+            $ref: '#/components/schemas/localizedDescription'
+        connectionFields:
+          type: array
+          description: Required connection parameters for the source.
+          items:
+            $ref: '#/components/schemas/ImportConnectionField'
+        supportedVersions:
+          type: array
+          description: Compatible source version patterns.
+          items:
+            type: string
+        replicationMetadata:
+          $ref: '#/components/schemas/ImportReplicationMetadata'
+          description: Hierarchical metadata layout supported by the source.
+      required:
+        - type
+        - category
+        - name
+        - supported
+        - connectionFields
     importOption:
       type: object
       properties:
         supportedSources:
           type: array
           items:
-            type: object
-            additionalProperties: true
+            $ref: '#/components/schemas/ImportSupportedSource'
           description: List of supported data sources for import
         sinkEngineName:
           type: string
@@ -21794,11 +21944,6 @@ components:
             sslMode: disable
         objectSelection:
           $ref: '#/components/schemas/dataChannelObject'
-    ImportSourceType:
-      type: string
-      description: Import source type
-      enum:
-        - mysql
     ImportQueryObjectsRequest:
       description: Request payload for querying import data source objects.
       type: object
