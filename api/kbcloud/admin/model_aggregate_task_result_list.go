@@ -7,7 +7,8 @@ package admin
 import "github.com/apecloud/kb-cloud-client-go/api/common"
 
 type AggregateTaskResultList struct {
-	Items []AggregateTaskResult `json:"items,omitempty"`
+	Summary *AggregateTaskResultSummary `json:"summary,omitempty"`
+	Items   []AggregateTaskResult       `json:"items,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -28,6 +29,34 @@ func NewAggregateTaskResultList() *AggregateTaskResultList {
 func NewAggregateTaskResultListWithDefaults() *AggregateTaskResultList {
 	this := AggregateTaskResultList{}
 	return &this
+}
+
+// GetSummary returns the Summary field value if set, zero value otherwise.
+func (o *AggregateTaskResultList) GetSummary() AggregateTaskResultSummary {
+	if o == nil || o.Summary == nil {
+		var ret AggregateTaskResultSummary
+		return ret
+	}
+	return *o.Summary
+}
+
+// GetSummaryOk returns a tuple with the Summary field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *AggregateTaskResultList) GetSummaryOk() (*AggregateTaskResultSummary, bool) {
+	if o == nil || o.Summary == nil {
+		return nil, false
+	}
+	return o.Summary, true
+}
+
+// HasSummary returns a boolean if a field has been set.
+func (o *AggregateTaskResultList) HasSummary() bool {
+	return o != nil && o.Summary != nil
+}
+
+// SetSummary gets a reference to the given AggregateTaskResultSummary and assigns it to the Summary field.
+func (o *AggregateTaskResultList) SetSummary(v AggregateTaskResultSummary) {
+	o.Summary = &v
 }
 
 // GetItems returns the Items field value if set, zero value otherwise.
@@ -64,6 +93,9 @@ func (o AggregateTaskResultList) MarshalJSON() ([]byte, error) {
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
+	if o.Summary != nil {
+		toSerialize["summary"] = o.Summary
+	}
 	if o.Items != nil {
 		toSerialize["items"] = o.Items
 	}
@@ -77,21 +109,32 @@ func (o AggregateTaskResultList) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *AggregateTaskResultList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []AggregateTaskResult `json:"items,omitempty"`
+		Summary *AggregateTaskResultSummary `json:"summary,omitempty"`
+		Items   []AggregateTaskResult       `json:"items,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"items"})
+		common.DeleteKeys(additionalProperties, &[]string{"summary", "items"})
 	} else {
 		return err
 	}
+
+	hasInvalidField := false
+	if all.Summary != nil && all.Summary.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.Summary = all.Summary
 	o.Items = all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
+	}
+
+	if hasInvalidField {
+		return common.Unmarshal(bytes, &o.UnparsedObject)
 	}
 
 	return nil
