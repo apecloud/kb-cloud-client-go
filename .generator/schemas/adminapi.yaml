@@ -25566,19 +25566,21 @@ components:
         - green
         - yellow
         - red
+    aggregateTaskResultSummary:
+      type: object
+      properties:
+        error:
+          type: integer
+        warning:
+          type: integer
+        normal:
+          type: integer
     aggregateTaskResult:
       properties:
         engine:
           type: string
         summary:
-          type: object
-          properties:
-            error:
-              type: integer
-            warning:
-              type: integer
-            normal:
-              type: integer
+          $ref: '#/components/schemas/aggregateTaskResultSummary'
         tasks:
           type: array
           items:
@@ -25586,6 +25588,8 @@ components:
     aggregateTaskResultList:
       type: object
       properties:
+        summary:
+          $ref: '#/components/schemas/aggregateTaskResultSummary'
         items:
           type: array
           items:
