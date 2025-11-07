@@ -4330,6 +4330,10 @@ paths:
           schema:
             type: string
         - in: query
+          name: query
+          schema:
+            type: string
+        - in: query
           name: sortType
           schema:
             $ref: '#/components/schemas/sortType'
@@ -4381,6 +4385,10 @@ paths:
             type: string
         - in: query
           name: instanceName
+          schema:
+            type: string
+        - in: query
+          name: query
           schema:
             type: string
         - in: query
@@ -4501,6 +4509,10 @@ paths:
         - in: query
           name: endTime
           required: true
+          schema:
+            type: string
+        - in: query
+          name: query
           schema:
             type: string
         - in: query
