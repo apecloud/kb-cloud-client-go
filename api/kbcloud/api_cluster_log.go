@@ -162,6 +162,7 @@ type QueryErrorLogsOptionalParameters struct {
 	ComponentName *string
 	InstanceName  *string
 	Filename      *string
+	Query         *string
 	Limit         *string
 	SortType      *SortType
 }
@@ -187,6 +188,12 @@ func (r *QueryErrorLogsOptionalParameters) WithInstanceName(instanceName string)
 // WithFilename sets the corresponding parameter name and returns the struct.
 func (r *QueryErrorLogsOptionalParameters) WithFilename(filename string) *QueryErrorLogsOptionalParameters {
 	r.Filename = &filename
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QueryErrorLogsOptionalParameters) WithQuery(query string) *QueryErrorLogsOptionalParameters {
+	r.Query = &query
 	return r
 }
 
@@ -250,6 +257,9 @@ func (a *ClusterLogApi) QueryErrorLogs(ctx _context.Context, orgName string, clu
 	}
 	if optionalParams.Filename != nil {
 		localVarQueryParams.Add("filename", common.ParameterToString(*optionalParams.Filename, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
@@ -463,6 +473,7 @@ type QueryRunningLogsOptionalParameters struct {
 	InstanceName  *string
 	Filename      *string
 	Limit         *string
+	Query         *string
 	SortType      *SortType
 }
 
@@ -493,6 +504,12 @@ func (r *QueryRunningLogsOptionalParameters) WithFilename(filename string) *Quer
 // WithLimit sets the corresponding parameter name and returns the struct.
 func (r *QueryRunningLogsOptionalParameters) WithLimit(limit string) *QueryRunningLogsOptionalParameters {
 	r.Limit = &limit
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QueryRunningLogsOptionalParameters) WithQuery(query string) *QueryRunningLogsOptionalParameters {
+	r.Query = &query
 	return r
 }
 
@@ -554,6 +571,9 @@ func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, c
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
 	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
+	}
 	if optionalParams.SortType != nil {
 		localVarQueryParams.Add("sortType", common.ParameterToString(*optionalParams.SortType, ""))
 	}
@@ -611,6 +631,7 @@ func (a *ClusterLogApi) QueryRunningLogs(ctx _context.Context, orgName string, c
 type QuerySlowLogsOptionalParameters struct {
 	ComponentName *string
 	InstanceName  *string
+	Query         *string
 	Limit         *string
 	SortType      *SortType
 }
@@ -630,6 +651,12 @@ func (r *QuerySlowLogsOptionalParameters) WithComponentName(componentName string
 // WithInstanceName sets the corresponding parameter name and returns the struct.
 func (r *QuerySlowLogsOptionalParameters) WithInstanceName(instanceName string) *QuerySlowLogsOptionalParameters {
 	r.InstanceName = &instanceName
+	return r
+}
+
+// WithQuery sets the corresponding parameter name and returns the struct.
+func (r *QuerySlowLogsOptionalParameters) WithQuery(query string) *QuerySlowLogsOptionalParameters {
+	r.Query = &query
 	return r
 }
 
@@ -690,6 +717,9 @@ func (a *ClusterLogApi) QuerySlowLogs(ctx _context.Context, orgName string, clus
 	}
 	if optionalParams.InstanceName != nil {
 		localVarQueryParams.Add("instanceName", common.ParameterToString(*optionalParams.InstanceName, ""))
+	}
+	if optionalParams.Query != nil {
+		localVarQueryParams.Add("query", common.ParameterToString(*optionalParams.Query, ""))
 	}
 	if optionalParams.Limit != nil {
 		localVarQueryParams.Add("limit", common.ParameterToString(*optionalParams.Limit, ""))
