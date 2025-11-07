@@ -18775,10 +18775,7 @@ components:
           description: Hierarchical metadata layout supported by the source.
       required:
         - type
-        - category
         - name
-        - supported
-        - connectionFields
     importOption:
       type: object
       properties:

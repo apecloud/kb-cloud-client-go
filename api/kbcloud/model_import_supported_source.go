@@ -15,11 +15,11 @@ type ImportSupportedSource struct {
 	// Import source type
 	Type ImportSourceType `json:"type"`
 	// Data source category
-	Category ImportSourceCategory `json:"category"`
+	Category *ImportSourceCategory `json:"category,omitempty"`
 	// Display name of the supported source.
 	Name string `json:"name"`
 	// Whether the source is currently supported.
-	Supported   bool                  `json:"supported"`
+	Supported   *bool                 `json:"supported,omitempty"`
 	Description *LocalizedDescription `json:"description,omitempty"`
 	Guide       *LocalizedDescription `json:"guide,omitempty"`
 	// Supported import capabilities.
@@ -27,7 +27,7 @@ type ImportSupportedSource struct {
 	// Prerequisite steps for enabling the source.
 	Requirements []LocalizedDescription `json:"requirements,omitempty"`
 	// Required connection parameters for the source.
-	ConnectionFields []ImportConnectionField `json:"connectionFields"`
+	ConnectionFields []ImportConnectionField `json:"connectionFields,omitempty"`
 	// Compatible source version patterns.
 	SupportedVersions []string `json:"supportedVersions,omitempty"`
 	// Replication metadata tree definition for import object selection.
@@ -41,13 +41,10 @@ type ImportSupportedSource struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewImportSupportedSource(typeVar ImportSourceType, category ImportSourceCategory, name string, supported bool, connectionFields []ImportConnectionField) *ImportSupportedSource {
+func NewImportSupportedSource(typeVar ImportSourceType, name string) *ImportSupportedSource {
 	this := ImportSupportedSource{}
 	this.Type = typeVar
-	this.Category = category
 	this.Name = name
-	this.Supported = supported
-	this.ConnectionFields = connectionFields
 	return &this
 }
 
@@ -82,27 +79,32 @@ func (o *ImportSupportedSource) SetType(v ImportSourceType) {
 	o.Type = v
 }
 
-// GetCategory returns the Category field value.
+// GetCategory returns the Category field value if set, zero value otherwise.
 func (o *ImportSupportedSource) GetCategory() ImportSourceCategory {
-	if o == nil {
+	if o == nil || o.Category == nil {
 		var ret ImportSourceCategory
 		return ret
 	}
-	return o.Category
+	return *o.Category
 }
 
-// GetCategoryOk returns a tuple with the Category field value
+// GetCategoryOk returns a tuple with the Category field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ImportSupportedSource) GetCategoryOk() (*ImportSourceCategory, bool) {
-	if o == nil {
+	if o == nil || o.Category == nil {
 		return nil, false
 	}
-	return &o.Category, true
+	return o.Category, true
 }
 
-// SetCategory sets field value.
+// HasCategory returns a boolean if a field has been set.
+func (o *ImportSupportedSource) HasCategory() bool {
+	return o != nil && o.Category != nil
+}
+
+// SetCategory gets a reference to the given ImportSourceCategory and assigns it to the Category field.
 func (o *ImportSupportedSource) SetCategory(v ImportSourceCategory) {
-	o.Category = v
+	o.Category = &v
 }
 
 // GetName returns the Name field value.
@@ -128,27 +130,32 @@ func (o *ImportSupportedSource) SetName(v string) {
 	o.Name = v
 }
 
-// GetSupported returns the Supported field value.
+// GetSupported returns the Supported field value if set, zero value otherwise.
 func (o *ImportSupportedSource) GetSupported() bool {
-	if o == nil {
+	if o == nil || o.Supported == nil {
 		var ret bool
 		return ret
 	}
-	return o.Supported
+	return *o.Supported
 }
 
-// GetSupportedOk returns a tuple with the Supported field value
+// GetSupportedOk returns a tuple with the Supported field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ImportSupportedSource) GetSupportedOk() (*bool, bool) {
-	if o == nil {
+	if o == nil || o.Supported == nil {
 		return nil, false
 	}
-	return &o.Supported, true
+	return o.Supported, true
 }
 
-// SetSupported sets field value.
+// HasSupported returns a boolean if a field has been set.
+func (o *ImportSupportedSource) HasSupported() bool {
+	return o != nil && o.Supported != nil
+}
+
+// SetSupported gets a reference to the given bool and assigns it to the Supported field.
 func (o *ImportSupportedSource) SetSupported(v bool) {
-	o.Supported = v
+	o.Supported = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
@@ -263,25 +270,30 @@ func (o *ImportSupportedSource) SetRequirements(v []LocalizedDescription) {
 	o.Requirements = v
 }
 
-// GetConnectionFields returns the ConnectionFields field value.
+// GetConnectionFields returns the ConnectionFields field value if set, zero value otherwise.
 func (o *ImportSupportedSource) GetConnectionFields() []ImportConnectionField {
-	if o == nil {
+	if o == nil || o.ConnectionFields == nil {
 		var ret []ImportConnectionField
 		return ret
 	}
 	return o.ConnectionFields
 }
 
-// GetConnectionFieldsOk returns a tuple with the ConnectionFields field value
+// GetConnectionFieldsOk returns a tuple with the ConnectionFields field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ImportSupportedSource) GetConnectionFieldsOk() (*[]ImportConnectionField, bool) {
-	if o == nil {
+	if o == nil || o.ConnectionFields == nil {
 		return nil, false
 	}
 	return &o.ConnectionFields, true
 }
 
-// SetConnectionFields sets field value.
+// HasConnectionFields returns a boolean if a field has been set.
+func (o *ImportSupportedSource) HasConnectionFields() bool {
+	return o != nil && o.ConnectionFields != nil
+}
+
+// SetConnectionFields gets a reference to the given []ImportConnectionField and assigns it to the ConnectionFields field.
 func (o *ImportSupportedSource) SetConnectionFields(v []ImportConnectionField) {
 	o.ConnectionFields = v
 }
@@ -349,9 +361,13 @@ func (o ImportSupportedSource) MarshalJSON() ([]byte, error) {
 		return common.Marshal(o.UnparsedObject)
 	}
 	toSerialize["type"] = o.Type
-	toSerialize["category"] = o.Category
+	if o.Category != nil {
+		toSerialize["category"] = o.Category
+	}
 	toSerialize["name"] = o.Name
-	toSerialize["supported"] = o.Supported
+	if o.Supported != nil {
+		toSerialize["supported"] = o.Supported
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -364,7 +380,9 @@ func (o ImportSupportedSource) MarshalJSON() ([]byte, error) {
 	if o.Requirements != nil {
 		toSerialize["requirements"] = o.Requirements
 	}
-	toSerialize["connectionFields"] = o.ConnectionFields
+	if o.ConnectionFields != nil {
+		toSerialize["connectionFields"] = o.ConnectionFields
+	}
 	if o.SupportedVersions != nil {
 		toSerialize["supportedVersions"] = o.SupportedVersions
 	}
@@ -382,14 +400,14 @@ func (o ImportSupportedSource) MarshalJSON() ([]byte, error) {
 func (o *ImportSupportedSource) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Type                *ImportSourceType          `json:"type"`
-		Category            *ImportSourceCategory      `json:"category"`
+		Category            *ImportSourceCategory      `json:"category,omitempty"`
 		Name                *string                    `json:"name"`
-		Supported           *bool                      `json:"supported"`
+		Supported           *bool                      `json:"supported,omitempty"`
 		Description         *LocalizedDescription      `json:"description,omitempty"`
 		Guide               *LocalizedDescription      `json:"guide,omitempty"`
 		Capabilities        []ImportCapabilityType     `json:"capabilities,omitempty"`
 		Requirements        []LocalizedDescription     `json:"requirements,omitempty"`
-		ConnectionFields    *[]ImportConnectionField   `json:"connectionFields"`
+		ConnectionFields    []ImportConnectionField    `json:"connectionFields,omitempty"`
 		SupportedVersions   []string                   `json:"supportedVersions,omitempty"`
 		ReplicationMetadata *ImportReplicationMetadata `json:"replicationMetadata,omitempty"`
 	}{}
@@ -399,17 +417,8 @@ func (o *ImportSupportedSource) UnmarshalJSON(bytes []byte) (err error) {
 	if all.Type == nil {
 		return fmt.Errorf("required field type missing")
 	}
-	if all.Category == nil {
-		return fmt.Errorf("required field category missing")
-	}
 	if all.Name == nil {
 		return fmt.Errorf("required field name missing")
-	}
-	if all.Supported == nil {
-		return fmt.Errorf("required field supported missing")
-	}
-	if all.ConnectionFields == nil {
-		return fmt.Errorf("required field connectionFields missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -424,13 +433,13 @@ func (o *ImportSupportedSource) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		o.Type = *all.Type
 	}
-	if !all.Category.IsValid() {
+	if all.Category != nil && !all.Category.IsValid() {
 		hasInvalidField = true
 	} else {
-		o.Category = *all.Category
+		o.Category = all.Category
 	}
 	o.Name = *all.Name
-	o.Supported = *all.Supported
+	o.Supported = all.Supported
 	if all.Description != nil && all.Description.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
 	}
@@ -441,7 +450,7 @@ func (o *ImportSupportedSource) UnmarshalJSON(bytes []byte) (err error) {
 	o.Guide = all.Guide
 	o.Capabilities = all.Capabilities
 	o.Requirements = all.Requirements
-	o.ConnectionFields = *all.ConnectionFields
+	o.ConnectionFields = all.ConnectionFields
 	o.SupportedVersions = all.SupportedVersions
 	if all.ReplicationMetadata != nil && all.ReplicationMetadata.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
