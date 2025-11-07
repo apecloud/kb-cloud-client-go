@@ -257,6 +257,7 @@
 //   - [imageRegistryApi.patchImageRegistry]
 //   - [importApi.createImportTask]
 //   - [importApi.deleteImportTask]
+//   - [importApi.getImportPreflightTask]
 //   - [importApi.getImportTask]
 //   - [importApi.importPreflight]
 //   - [importApi.listImportTask]

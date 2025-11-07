@@ -11678,6 +11678,46 @@ paths:
           $ref: '#/components/responses/403'
         '404':
           $ref: '#/components/responses/404'
+  /api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight/{taskId}:
+    get:
+      tags:
+        - import
+        - shared
+      summary: Get preflight task details
+      description: Retrieves detailed information about a specific data import preflight task by its ID
+      operationId: getImportPreflightTask
+      parameters:
+        - name: orgName
+          in: path
+          description: Organization name
+          required: true
+          schema:
+            type: string
+        - name: clusterName
+          in: path
+          description: Cluster name
+          required: true
+          schema:
+            type: string
+        - name: taskId
+          in: path
+          description: Preflight task ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully returns preflight task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/preCheckTaskDetail'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/import/objects:
     post:
       tags:
