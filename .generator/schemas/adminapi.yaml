@@ -20364,6 +20364,13 @@ components:
         - ValidateOnly
         - ForbiddenExecute
       default: ValidateOnly
+    environmentArchitecture:
+      title: EnvironmentArchitecture
+      type: string
+      description: Architecture of the environment nodes (arm64 or amd64)
+      enum:
+        - arm64
+        - amd64
     environment:
       type: object
       description: Environment info
@@ -20443,6 +20450,8 @@ components:
           $ref: '#/components/schemas/environmentDeletePolicy'
         clusterValidationPolicy:
           $ref: '#/components/schemas/clusterValidationPolicy'
+        architecture:
+          $ref: '#/components/schemas/environmentArchitecture'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
