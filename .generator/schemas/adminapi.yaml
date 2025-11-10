@@ -23175,6 +23175,9 @@ components:
         - title
         - order
       properties:
+        cloudShellType:
+          type: string
+          description: cloud shell type
         name:
           type: string
           description: component type
