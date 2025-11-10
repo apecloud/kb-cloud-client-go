@@ -12820,6 +12820,14 @@ components:
         - ValidateOnly
         - ForbiddenExecute
       default: ValidateOnly
+    environmentArchitecture:
+      title: EnvironmentArchitecture
+      type: string
+      description: Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
+      enum:
+        - arm64
+        - amd64
+        - multiarch
     environment:
       description: Environment info
       properties:
@@ -12895,6 +12903,8 @@ components:
           description: the default storageClass for the environment
         clusterValidationPolicy:
           $ref: '#/components/schemas/clusterValidationPolicy'
+        architecture:
+          $ref: '#/components/schemas/environmentArchitecture'
       required:
         - provider
         - region
