@@ -18964,6 +18964,13 @@ components:
         import:
           $ref: '#/components/schemas/importOption'
           nullable: true
+        architectures:
+          type: array
+          items:
+            type: string
+          description: |
+            List of CPU architectures supported by this engine. If not set, all architectures are supported.
+          nullable: true
     engineOptionList:
       required:
         - items
