@@ -53,7 +53,7 @@ type Environment struct {
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// Cluster operation validation policy, such as create, hscale, vscale, etc.
 	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
-	// Architecture of the environment nodes (arm64 or amd64)
+	// Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
 	Architecture *EnvironmentArchitecture `json:"architecture,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`

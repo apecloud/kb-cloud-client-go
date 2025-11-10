@@ -2,39 +2,45 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package admin
+package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
-type EngineServiceVersionsVersionsItem struct {
+type EngineServiceVersionsItem struct {
 	Default             *bool    `json:"default,omitempty"`
 	DefaultMinorVersion *string  `json:"defaultMinorVersion,omitempty"`
 	MajorVersion        *string  `json:"majorVersion,omitempty"`
 	MinorVersions       []string `json:"minorVersions,omitempty"`
+	// Architecture support configuration for this component versions.
+	// If not set, the component versions support all architectures.
+	//
+	Architecture NullableComponentVersionArchitecture `json:"architecture,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewEngineServiceVersionsVersionsItem instantiates a new EngineServiceVersionsVersionsItem object.
+// NewEngineServiceVersionsItem instantiates a new EngineServiceVersionsItem object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewEngineServiceVersionsVersionsItem() *EngineServiceVersionsVersionsItem {
-	this := EngineServiceVersionsVersionsItem{}
+func NewEngineServiceVersionsItem() *EngineServiceVersionsItem {
+	this := EngineServiceVersionsItem{}
 	return &this
 }
 
-// NewEngineServiceVersionsVersionsItemWithDefaults instantiates a new EngineServiceVersionsVersionsItem object.
+// NewEngineServiceVersionsItemWithDefaults instantiates a new EngineServiceVersionsItem object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewEngineServiceVersionsVersionsItemWithDefaults() *EngineServiceVersionsVersionsItem {
-	this := EngineServiceVersionsVersionsItem{}
+func NewEngineServiceVersionsItemWithDefaults() *EngineServiceVersionsItem {
+	this := EngineServiceVersionsItem{}
 	return &this
 }
 
 // GetDefault returns the Default field value if set, zero value otherwise.
-func (o *EngineServiceVersionsVersionsItem) GetDefault() bool {
+func (o *EngineServiceVersionsItem) GetDefault() bool {
 	if o == nil || o.Default == nil {
 		var ret bool
 		return ret
@@ -44,7 +50,7 @@ func (o *EngineServiceVersionsVersionsItem) GetDefault() bool {
 
 // GetDefaultOk returns a tuple with the Default field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineServiceVersionsVersionsItem) GetDefaultOk() (*bool, bool) {
+func (o *EngineServiceVersionsItem) GetDefaultOk() (*bool, bool) {
 	if o == nil || o.Default == nil {
 		return nil, false
 	}
@@ -52,17 +58,17 @@ func (o *EngineServiceVersionsVersionsItem) GetDefaultOk() (*bool, bool) {
 }
 
 // HasDefault returns a boolean if a field has been set.
-func (o *EngineServiceVersionsVersionsItem) HasDefault() bool {
+func (o *EngineServiceVersionsItem) HasDefault() bool {
 	return o != nil && o.Default != nil
 }
 
 // SetDefault gets a reference to the given bool and assigns it to the Default field.
-func (o *EngineServiceVersionsVersionsItem) SetDefault(v bool) {
+func (o *EngineServiceVersionsItem) SetDefault(v bool) {
 	o.Default = &v
 }
 
 // GetDefaultMinorVersion returns the DefaultMinorVersion field value if set, zero value otherwise.
-func (o *EngineServiceVersionsVersionsItem) GetDefaultMinorVersion() string {
+func (o *EngineServiceVersionsItem) GetDefaultMinorVersion() string {
 	if o == nil || o.DefaultMinorVersion == nil {
 		var ret string
 		return ret
@@ -72,7 +78,7 @@ func (o *EngineServiceVersionsVersionsItem) GetDefaultMinorVersion() string {
 
 // GetDefaultMinorVersionOk returns a tuple with the DefaultMinorVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineServiceVersionsVersionsItem) GetDefaultMinorVersionOk() (*string, bool) {
+func (o *EngineServiceVersionsItem) GetDefaultMinorVersionOk() (*string, bool) {
 	if o == nil || o.DefaultMinorVersion == nil {
 		return nil, false
 	}
@@ -80,17 +86,17 @@ func (o *EngineServiceVersionsVersionsItem) GetDefaultMinorVersionOk() (*string,
 }
 
 // HasDefaultMinorVersion returns a boolean if a field has been set.
-func (o *EngineServiceVersionsVersionsItem) HasDefaultMinorVersion() bool {
+func (o *EngineServiceVersionsItem) HasDefaultMinorVersion() bool {
 	return o != nil && o.DefaultMinorVersion != nil
 }
 
 // SetDefaultMinorVersion gets a reference to the given string and assigns it to the DefaultMinorVersion field.
-func (o *EngineServiceVersionsVersionsItem) SetDefaultMinorVersion(v string) {
+func (o *EngineServiceVersionsItem) SetDefaultMinorVersion(v string) {
 	o.DefaultMinorVersion = &v
 }
 
 // GetMajorVersion returns the MajorVersion field value if set, zero value otherwise.
-func (o *EngineServiceVersionsVersionsItem) GetMajorVersion() string {
+func (o *EngineServiceVersionsItem) GetMajorVersion() string {
 	if o == nil || o.MajorVersion == nil {
 		var ret string
 		return ret
@@ -100,7 +106,7 @@ func (o *EngineServiceVersionsVersionsItem) GetMajorVersion() string {
 
 // GetMajorVersionOk returns a tuple with the MajorVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineServiceVersionsVersionsItem) GetMajorVersionOk() (*string, bool) {
+func (o *EngineServiceVersionsItem) GetMajorVersionOk() (*string, bool) {
 	if o == nil || o.MajorVersion == nil {
 		return nil, false
 	}
@@ -108,17 +114,17 @@ func (o *EngineServiceVersionsVersionsItem) GetMajorVersionOk() (*string, bool) 
 }
 
 // HasMajorVersion returns a boolean if a field has been set.
-func (o *EngineServiceVersionsVersionsItem) HasMajorVersion() bool {
+func (o *EngineServiceVersionsItem) HasMajorVersion() bool {
 	return o != nil && o.MajorVersion != nil
 }
 
 // SetMajorVersion gets a reference to the given string and assigns it to the MajorVersion field.
-func (o *EngineServiceVersionsVersionsItem) SetMajorVersion(v string) {
+func (o *EngineServiceVersionsItem) SetMajorVersion(v string) {
 	o.MajorVersion = &v
 }
 
 // GetMinorVersions returns the MinorVersions field value if set, zero value otherwise.
-func (o *EngineServiceVersionsVersionsItem) GetMinorVersions() []string {
+func (o *EngineServiceVersionsItem) GetMinorVersions() []string {
 	if o == nil || o.MinorVersions == nil {
 		var ret []string
 		return ret
@@ -128,7 +134,7 @@ func (o *EngineServiceVersionsVersionsItem) GetMinorVersions() []string {
 
 // GetMinorVersionsOk returns a tuple with the MinorVersions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineServiceVersionsVersionsItem) GetMinorVersionsOk() (*[]string, bool) {
+func (o *EngineServiceVersionsItem) GetMinorVersionsOk() (*[]string, bool) {
 	if o == nil || o.MinorVersions == nil {
 		return nil, false
 	}
@@ -136,17 +142,56 @@ func (o *EngineServiceVersionsVersionsItem) GetMinorVersionsOk() (*[]string, boo
 }
 
 // HasMinorVersions returns a boolean if a field has been set.
-func (o *EngineServiceVersionsVersionsItem) HasMinorVersions() bool {
+func (o *EngineServiceVersionsItem) HasMinorVersions() bool {
 	return o != nil && o.MinorVersions != nil
 }
 
 // SetMinorVersions gets a reference to the given []string and assigns it to the MinorVersions field.
-func (o *EngineServiceVersionsVersionsItem) SetMinorVersions(v []string) {
+func (o *EngineServiceVersionsItem) SetMinorVersions(v []string) {
 	o.MinorVersions = v
 }
 
+// GetArchitecture returns the Architecture field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *EngineServiceVersionsItem) GetArchitecture() ComponentVersionArchitecture {
+	if o == nil || o.Architecture.Get() == nil {
+		var ret ComponentVersionArchitecture
+		return ret
+	}
+	return *o.Architecture.Get()
+}
+
+// GetArchitectureOk returns a tuple with the Architecture field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned.
+func (o *EngineServiceVersionsItem) GetArchitectureOk() (*ComponentVersionArchitecture, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Architecture.Get(), o.Architecture.IsSet()
+}
+
+// HasArchitecture returns a boolean if a field has been set.
+func (o *EngineServiceVersionsItem) HasArchitecture() bool {
+	return o != nil && o.Architecture.IsSet()
+}
+
+// SetArchitecture gets a reference to the given NullableComponentVersionArchitecture and assigns it to the Architecture field.
+func (o *EngineServiceVersionsItem) SetArchitecture(v ComponentVersionArchitecture) {
+	o.Architecture.Set(&v)
+}
+
+// SetArchitectureNil sets the value for Architecture to be an explicit nil.
+func (o *EngineServiceVersionsItem) SetArchitectureNil() {
+	o.Architecture.Set(nil)
+}
+
+// UnsetArchitecture ensures that no value is present for Architecture, not even an explicit nil.
+func (o *EngineServiceVersionsItem) UnsetArchitecture() {
+	o.Architecture.Unset()
+}
+
 // MarshalJSON serializes the struct using spec logic.
-func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
+func (o EngineServiceVersionsItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -163,6 +208,9 @@ func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
 	if o.MinorVersions != nil {
 		toSerialize["minorVersions"] = o.MinorVersions
 	}
+	if o.Architecture.IsSet() {
+		toSerialize["architecture"] = o.Architecture.Get()
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -171,19 +219,20 @@ func (o EngineServiceVersionsVersionsItem) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *EngineServiceVersionsVersionsItem) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EngineServiceVersionsItem) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Default             *bool    `json:"default,omitempty"`
-		DefaultMinorVersion *string  `json:"defaultMinorVersion,omitempty"`
-		MajorVersion        *string  `json:"majorVersion,omitempty"`
-		MinorVersions       []string `json:"minorVersions,omitempty"`
+		Default             *bool                                `json:"default,omitempty"`
+		DefaultMinorVersion *string                              `json:"defaultMinorVersion,omitempty"`
+		MajorVersion        *string                              `json:"majorVersion,omitempty"`
+		MinorVersions       []string                             `json:"minorVersions,omitempty"`
+		Architecture        NullableComponentVersionArchitecture `json:"architecture,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"default", "defaultMinorVersion", "majorVersion", "minorVersions"})
+		common.DeleteKeys(additionalProperties, &[]string{"default", "defaultMinorVersion", "majorVersion", "minorVersions", "architecture"})
 	} else {
 		return err
 	}
@@ -191,6 +240,7 @@ func (o *EngineServiceVersionsVersionsItem) UnmarshalJSON(bytes []byte) (err err
 	o.DefaultMinorVersion = all.DefaultMinorVersion
 	o.MajorVersion = all.MajorVersion
 	o.MinorVersions = all.MinorVersions
+	o.Architecture = all.Architecture
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

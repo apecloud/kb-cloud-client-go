@@ -10,18 +10,20 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// EnvironmentArchitecture Architecture of the environment nodes (arm64 or amd64)
+// EnvironmentArchitecture Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
 type EnvironmentArchitecture string
 
 // List of EnvironmentArchitecture.
 const (
-	EnvironmentArchitectureArm64 EnvironmentArchitecture = "arm64"
-	EnvironmentArchitectureAmd64 EnvironmentArchitecture = "amd64"
+	EnvironmentArchitectureArm64     EnvironmentArchitecture = "arm64"
+	EnvironmentArchitectureAmd64     EnvironmentArchitecture = "amd64"
+	EnvironmentArchitectureMultiarch EnvironmentArchitecture = "multiarch"
 )
 
 var allowedEnvironmentArchitectureEnumValues = []EnvironmentArchitecture{
 	EnvironmentArchitectureArm64,
 	EnvironmentArchitectureAmd64,
+	EnvironmentArchitectureMultiarch,
 }
 
 // GetAllowedValues returns the list of possible values.
