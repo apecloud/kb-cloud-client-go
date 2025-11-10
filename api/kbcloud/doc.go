@@ -125,6 +125,7 @@
 //   - [dataReplicationApi.getDataChannel]
 //   - [dataReplicationApi.getPreCheck]
 //   - [dataReplicationApi.listDataChannelEvents]
+//   - [dataReplicationApi.listDataChannelParameters]
 //   - [dataReplicationApi.listDataChannels]
 //   - [dataReplicationApi.queryDataChannelLogs]
 //   - [dataReplicationApi.queryReplicationObject]

@@ -11649,6 +11649,49 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - dataReplication
+  /api/v1/organizations/{orgName}/replication/channel/parameters:
+    get:
+      deprecated: true
+      operationId: listDataChannelParameters
+      summary: List Data Channel Parameters
+      description: Retrieve a list of data channel parameters.
+      parameters:
+        - description: The Name of the organization
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+        - description: The name of the standard definition
+          in: query
+          name: standardName
+          schema:
+            type: string
+        - description: The ID of the data channel
+          in: query
+          name: channelID
+          schema:
+            type: string
+        - description: The module name
+          in: query
+          name: moduleName
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dataReplicationParametersResponse'
+          description: A list of data channel parameters.
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+      tags:
+        - dataReplication
   /api/v1/organizations/{orgName}/clusters/{clusterName}/import/preflight:
     post:
       tags:
@@ -18599,6 +18642,33 @@ components:
           type: number
           format: double
           nullable: true
+    parameterValueType:
+      enum:
+        - string
+        - integer
+      type: string
+    dataChannelParameter:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataChannelParameterOption:
+      type: object
+      description: module parameter template, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataChannelParameter'
     standardDefinition:
       type: object
       properties:
@@ -18618,6 +18688,9 @@ components:
         memory:
           $ref: '#/components/schemas/standardResource'
           description: memory resource, the unit is Gi
+        parameterTemplate:
+          $ref: '#/components/schemas/dataChannelParameterOption'
+          nullable: true
     dataReplicationOption:
       type: object
       properties:
@@ -21761,6 +21834,16 @@ components:
           additionalProperties:
             type: string
           nullable: true
+    dataChannelParameterKeyValue:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+        - key
+        - value
     dataReplicationCreate:
       type: object
       properties:
@@ -21787,6 +21870,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/eventObject'
+        parameters:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/dataChannelParameterKeyValue'
+          nullable: true
     dataChannelResponse:
       type: object
       properties:
@@ -21978,6 +22068,30 @@ components:
           type: string
           format: date-time
           nullable: true
+    dataReplicationParametersResponseDetail:
+      type: object
+      properties:
+        displayName:
+          type: string
+        desc:
+          $ref: '#/components/schemas/internationalDesc'
+        key:
+          type: string
+        defaultValue:
+          type: string
+        value:
+          type: string
+        valueType:
+          $ref: '#/components/schemas/parameterValueType'
+      required:
+        - key
+    dataReplicationParametersResponse:
+      type: object
+      description: the parameters of the data channel, the key is the module name, the value is the parameter template
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/dataReplicationParametersResponseDetail'
     ImportPreflightRequest:
       description: Data source preflight request
       type: object
