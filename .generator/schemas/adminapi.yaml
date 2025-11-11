@@ -19468,6 +19468,46 @@ components:
         - version
         - component
       type: object
+    componentVersionArchitecture:
+      type: object
+      description: |
+        Architecture support configuration for this component versions.
+        If not set, the component versions support all architectures.
+      nullable: true
+      properties:
+        amd64:
+          type: array
+          items:
+            type: string
+          description: |
+            List of versions that support amd64 architecture.
+            Supports version patterns: exact version "8.0.33", major version "8.0", version range ">=8.0.30", etc.
+            If not set, all versions support amd64.
+          nullable: true
+        arm64:
+          type: array
+          items:
+            type: string
+          description: |
+            List of versions that support arm64 architecture.
+            Supports version patterns: exact version "8.0.33", major version "8.0", version range ">=8.0.30", etc.
+            If not set, all versions support arm64.
+          nullable: true
+    engineServiceVersionsItem:
+      type: object
+      properties:
+        default:
+          type: boolean
+        defaultMinorVersion:
+          type: string
+        majorVersion:
+          type: string
+        minorVersions:
+          type: array
+          items:
+            type: string
+        architecture:
+          $ref: '#/components/schemas/componentVersionArchitecture'
     engineServiceVersions:
       type: object
       properties:
@@ -19483,18 +19523,7 @@ components:
         versions:
           type: array
           items:
-            type: object
-            properties:
-              default:
-                type: boolean
-              defaultMinorVersion:
-                type: string
-              majorVersion:
-                type: string
-              minorVersions:
-                type: array
-                items:
-                  type: string
+            $ref: '#/components/schemas/engineServiceVersionsItem'
     opsVolumeExpand:
       description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
       properties:
@@ -20364,6 +20393,14 @@ components:
         - ValidateOnly
         - ForbiddenExecute
       default: ValidateOnly
+    environmentArchitecture:
+      title: EnvironmentArchitecture
+      type: string
+      description: Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
+      enum:
+        - arm64
+        - amd64
+        - multiarch
     environment:
       type: object
       description: Environment info
@@ -20443,6 +20480,8 @@ components:
           $ref: '#/components/schemas/environmentDeletePolicy'
         clusterValidationPolicy:
           $ref: '#/components/schemas/clusterValidationPolicy'
+        architecture:
+          $ref: '#/components/schemas/environmentArchitecture'
     environmentList:
       description: EnvironmentList is a list of Environments
       properties:
@@ -23200,6 +23239,8 @@ components:
                         description: major versions of the current component
                         items:
                           type: string
+            architecture:
+              $ref: '#/components/schemas/componentVersionArchitecture'
         main:
           description: Main component flag
           type: boolean
@@ -23231,7 +23272,7 @@ components:
     serviceDescriptorAddressStyle:
       type: string
       description: |
-        specify the style that will be used in servicedescriptor. 
+        specify the style that will be used in servicedescriptor.
         "hostport" will ask user to provide both host and port.
         "endpoint" will ask user to provide an endpoint.
         When using a serviceSelector, this option will not be effective.
@@ -23246,7 +23287,7 @@ components:
         - service
         - port
       description: |
-        This definition of component/service/port is in line with kubeblocks api 
+        This definition of component/service/port is in line with kubeblocks api
         appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
       properties:
         mode:
@@ -23377,7 +23418,7 @@ components:
               type: array
               minItems: 1
               description: |
-                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules 
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
                 applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
               items:
                 type: string
@@ -23554,7 +23595,7 @@ components:
             restoreOnComponents:
               type: array
               description: |
-                If this backup needs to be restored on multiple components, the names of those components must be specified. 
+                If this backup needs to be restored on multiple components, the names of those components must be specified.
                 If the restore is only required on the backed-up component itself, then no configuration is needed.
               items:
                 type: string
@@ -24664,6 +24705,13 @@ components:
           nullable: true
         import:
           $ref: '#/components/schemas/importOption'
+          nullable: true
+        architectures:
+          type: array
+          items:
+            type: string
+          description: |
+            List of CPU architectures supported by this engine. If not set, all architectures are supported.
           nullable: true
     engineOptionList:
       required:

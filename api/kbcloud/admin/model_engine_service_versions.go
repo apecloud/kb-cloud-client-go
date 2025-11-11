@@ -4,14 +4,16 @@
 
 package admin
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
 
 type EngineServiceVersions struct {
 	// component type, refer to componentDef and support NamePrefix
-	Component           *string                             `json:"component,omitempty"`
-	UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
-	CurrentVersion      *string                             `json:"currentVersion,omitempty"`
-	Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
+	Component           *string                     `json:"component,omitempty"`
+	UpgradeableVersions []string                    `json:"upgradeableVersions,omitempty"`
+	CurrentVersion      *string                     `json:"currentVersion,omitempty"`
+	Versions            []EngineServiceVersionsItem `json:"versions,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -119,9 +121,9 @@ func (o *EngineServiceVersions) SetCurrentVersion(v string) {
 }
 
 // GetVersions returns the Versions field value if set, zero value otherwise.
-func (o *EngineServiceVersions) GetVersions() []EngineServiceVersionsVersionsItem {
+func (o *EngineServiceVersions) GetVersions() []EngineServiceVersionsItem {
 	if o == nil || o.Versions == nil {
-		var ret []EngineServiceVersionsVersionsItem
+		var ret []EngineServiceVersionsItem
 		return ret
 	}
 	return o.Versions
@@ -129,7 +131,7 @@ func (o *EngineServiceVersions) GetVersions() []EngineServiceVersionsVersionsIte
 
 // GetVersionsOk returns a tuple with the Versions field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EngineServiceVersions) GetVersionsOk() (*[]EngineServiceVersionsVersionsItem, bool) {
+func (o *EngineServiceVersions) GetVersionsOk() (*[]EngineServiceVersionsItem, bool) {
 	if o == nil || o.Versions == nil {
 		return nil, false
 	}
@@ -141,8 +143,8 @@ func (o *EngineServiceVersions) HasVersions() bool {
 	return o != nil && o.Versions != nil
 }
 
-// SetVersions gets a reference to the given []EngineServiceVersionsVersionsItem and assigns it to the Versions field.
-func (o *EngineServiceVersions) SetVersions(v []EngineServiceVersionsVersionsItem) {
+// SetVersions gets a reference to the given []EngineServiceVersionsItem and assigns it to the Versions field.
+func (o *EngineServiceVersions) SetVersions(v []EngineServiceVersionsItem) {
 	o.Versions = v
 }
 
@@ -174,10 +176,10 @@ func (o EngineServiceVersions) MarshalJSON() ([]byte, error) {
 // UnmarshalJSON deserializes the given payload.
 func (o *EngineServiceVersions) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Component           *string                             `json:"component,omitempty"`
-		UpgradeableVersions []string                            `json:"upgradeableVersions,omitempty"`
-		CurrentVersion      *string                             `json:"currentVersion,omitempty"`
-		Versions            []EngineServiceVersionsVersionsItem `json:"versions,omitempty"`
+		Component           *string                     `json:"component,omitempty"`
+		UpgradeableVersions []string                    `json:"upgradeableVersions,omitempty"`
+		CurrentVersion      *string                     `json:"currentVersion,omitempty"`
+		Versions            []EngineServiceVersionsItem `json:"versions,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
