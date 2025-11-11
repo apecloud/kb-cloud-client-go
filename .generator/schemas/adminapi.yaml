@@ -15680,7 +15680,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '501':
-          description: Data source does not support DMS operations
+          $ref: '#/components/responses/501'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/import:
     get:
       tags:
@@ -28453,6 +28453,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Internal server error
+    '501':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Not Implemented
   parameters:
     startTime:
       name: start
