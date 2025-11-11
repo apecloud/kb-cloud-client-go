@@ -53,6 +53,8 @@ type Environment struct {
 	DeletePolicy *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 	// Cluster operation validation policy, such as create, hscale, vscale, etc.
 	ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+	// Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
+	Architecture *EnvironmentArchitecture `json:"architecture,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -595,6 +597,34 @@ func (o *Environment) SetClusterValidationPolicy(v ClusterValidationPolicy) {
 	o.ClusterValidationPolicy = &v
 }
 
+// GetArchitecture returns the Architecture field value if set, zero value otherwise.
+func (o *Environment) GetArchitecture() EnvironmentArchitecture {
+	if o == nil || o.Architecture == nil {
+		var ret EnvironmentArchitecture
+		return ret
+	}
+	return *o.Architecture
+}
+
+// GetArchitectureOk returns a tuple with the Architecture field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Environment) GetArchitectureOk() (*EnvironmentArchitecture, bool) {
+	if o == nil || o.Architecture == nil {
+		return nil, false
+	}
+	return o.Architecture, true
+}
+
+// HasArchitecture returns a boolean if a field has been set.
+func (o *Environment) HasArchitecture() bool {
+	return o != nil && o.Architecture != nil
+}
+
+// SetArchitecture gets a reference to the given EnvironmentArchitecture and assigns it to the Architecture field.
+func (o *Environment) SetArchitecture(v EnvironmentArchitecture) {
+	o.Architecture = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Environment) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -645,6 +675,9 @@ func (o Environment) MarshalJSON() ([]byte, error) {
 	if o.ClusterValidationPolicy != nil {
 		toSerialize["clusterValidationPolicy"] = o.ClusterValidationPolicy
 	}
+	if o.Architecture != nil {
+		toSerialize["architecture"] = o.Architecture
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -675,6 +708,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		ExtraInfo               *string                  `json:"extraInfo,omitempty"`
 		DeletePolicy            *EnvironmentDeletePolicy `json:"deletePolicy,omitempty"`
 		ClusterValidationPolicy *ClusterValidationPolicy `json:"clusterValidationPolicy,omitempty"`
+		Architecture            *EnvironmentArchitecture `json:"architecture,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -717,7 +751,7 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy"})
+		common.DeleteKeys(additionalProperties, &[]string{"provider", "region", "availabilityZones", "schedulingConfig", "networkConfig", "description", "displayName", "id", "name", "organizations", "metricsMonitorEnabled", "state", "type", "provisionConfig", "autohealingConfig", "createdAt", "updatedAt", "extraInfo", "deletePolicy", "clusterValidationPolicy", "architecture"})
 	} else {
 		return err
 	}
@@ -770,6 +804,11 @@ func (o *Environment) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	} else {
 		o.ClusterValidationPolicy = all.ClusterValidationPolicy
+	}
+	if all.Architecture != nil && !all.Architecture.IsValid() {
+		hasInvalidField = true
+	} else {
+		o.Architecture = all.Architecture
 	}
 
 	if len(additionalProperties) > 0 {

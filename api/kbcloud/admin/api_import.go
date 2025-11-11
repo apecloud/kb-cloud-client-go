@@ -527,7 +527,7 @@ func (a *ImportApi) QueryImportObjects(ctx _context.Context, orgName string, clu
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	localVarHeaderParams["Content-Type"] = "application/json"
-	localVarHeaderParams["Accept"] = "*/*"
+	localVarHeaderParams["Accept"] = "application/json"
 
 	// body params
 	localVarPostBody = &body
@@ -556,17 +556,8 @@ func (a *ImportApi) QueryImportObjects(ctx _context.Context, orgName string, clu
 			ErrorBody:    localVarBody,
 			ErrorMessage: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 {
+		if localVarHTTPResponse.StatusCode == 401 || localVarHTTPResponse.StatusCode == 403 || localVarHTTPResponse.StatusCode == 404 || localVarHTTPResponse.StatusCode == 501 {
 			var v APIErrorResponse
-			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.ErrorModel = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 501 {
-			var v None
 			err = a.Client.Decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				return localVarReturnValue, localVarHTTPResponse, newErr
