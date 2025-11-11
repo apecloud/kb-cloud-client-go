@@ -1530,6 +1530,39 @@ paths:
       tags:
         - cluster
         - shared
+      x-codegen-request-body-name: body
+  /admin/v1/organizations/{orgName}/clusters/batch:
+    post:
+      operationId: batchUpdateClusters
+      summary: Batch update clusters
+      description: Update multiple clusters with the same update information (displayName and/or maintainceWindow) in a single request
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterBatchUpdate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when clusters are updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /admin/v1/organizations/{orgName}/clusters/validate:
     post:
       operationId: validateClusterCreation
@@ -15565,7 +15598,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '501':
-          description: Data source does not support DMS operations
+          $ref: '#/components/responses/501'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/import:
     get:
       tags:
@@ -17277,6 +17310,34 @@ components:
         maintainceWindow:
           $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster details
+    clusterBatchUpdateData:
+      type: object
+      properties:
+        displayName:
+          description: Display name of cluster. This will be applied to all clusters in the batch.
+          type: string
+          nullable: true
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
+          description: Maintenance window. This will be applied to all clusters in the batch.
+      description: ClusterBatchUpdateData contains the update information to be applied to all clusters in the batch
+    clusterBatchUpdate:
+      type: object
+      required:
+        - names
+        - update
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+          description: List of cluster names to update
+          minItems: 1
+          maxItems: 50
+        update:
+          $ref: '#/components/schemas/clusterBatchUpdateData'
+          description: Update information to be applied to all clusters
+      description: ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
     clusterUpdate:
       type: object
       properties:
@@ -28489,6 +28550,12 @@ components:
           schema:
             $ref: '#/components/schemas/APIErrorResponse'
       description: Internal server error
+    '501':
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/APIErrorResponse'
+      description: Not Implemented
   parameters:
     startTime:
       name: start
