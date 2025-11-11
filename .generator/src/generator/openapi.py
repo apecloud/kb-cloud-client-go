@@ -148,16 +148,19 @@ def child_models(schema, alternative_name=None, seen=None, parent=None):
         schema["parent"] = parent
 
     has_sub_models = False
+    has_oneof_or_anyof = False
     if "allOf" in schema:
         has_sub_models = True
         for index in range(len(schema["allOf"])):
             yield from child_models(schema["allOf"][index], seen=seen, parent=schema)
     if "oneOf" in schema:
         has_sub_models = True
+        has_oneof_or_anyof = True
         for index in range(len(schema["oneOf"])):
             yield from child_models(schema["oneOf"][index], seen=seen, parent=schema)
     if "anyOf" in schema:
         has_sub_models = True
+        has_oneof_or_anyof = True
         for index in range(len(schema["anyOf"])):
             yield from child_models(schema["anyOf"][index], seen=seen, parent=schema)
 
@@ -174,6 +177,22 @@ def child_models(schema, alternative_name=None, seen=None, parent=None):
             seen=seen,
             parent=schema,
         )
+
+    # Check if this is a pure oneOf/anyOf schema without type or properties
+    # (e.g., default field with oneOf: [string, integer, number, boolean])
+    is_pure_oneof_anyof = (
+        has_oneof_or_anyof
+        and schema.get("type") is None
+        and "properties" not in schema
+    )
+
+    # For pure oneOf/anyOf schemas, yield them as separate models but DON'T return early
+    # We still need to process sub-schemas
+    if is_pure_oneof_anyof and name is not None and name not in seen:
+        seen.add(name)
+        yield name, schema
+        # Continue to process oneOf/anyOf sub-schemas (already done above)
+        return  # But we're done with this schema after yielding it
 
     if (schema.get("type") == "object" or "properties" in schema or has_sub_models) and (
         not (schema.get("additionalProperties") and not schema.get("properties"))
@@ -192,6 +211,7 @@ def child_models(schema, alternative_name=None, seen=None, parent=None):
             seen.add(name)
             yield name, schema
 
+        # Process properties from the schema itself
         for key in schema.get("properties", {}):
             yield from child_models(
                 schema["properties"][key],
@@ -199,6 +219,17 @@ def child_models(schema, alternative_name=None, seen=None, parent=None):
                 seen=seen,
                 # parent=schema,
             )
+
+        # Also process properties from allOf sub-schemas to catch nested types like oneOf
+        if "allOf" in schema:
+            for subschema in schema["allOf"]:
+                for key in subschema.get("properties", {}):
+                    yield from child_models(
+                        subschema["properties"][key],
+                        alternative_name=name + utils.upperfirst(key),
+                        seen=seen,
+                        # parent=schema,
+                    )
 
     if "enum" in schema:
         if name is None:
@@ -243,7 +274,7 @@ def models(spec):
                     if "schema" in content:
                         name_to_schema.update(dict(child_models(content["schema"])))
 
-    # Also collect all schemas from components/schemas to ensure 
+    # Also collect all schemas from components/schemas to ensure
     # we don't miss any referenced types like ImportFieldType, ImportStringValidation, etc.
     if "components" in spec and "schemas" in spec["components"]:
         for schema_name, schema_def in spec["components"]["schemas"].items():
@@ -492,54 +523,54 @@ def get_model_imports(model, current_package="kbcloud"):
     """Get the list of imports required for a model."""
     imports = set()
     visited = set()  # Track visited schemas to prevent infinite recursion
-    
+
     def check_schema_for_imports(schema, depth=0):
         if schema is None or depth > 10:  # Limit recursion depth
             return
-            
+
         # Create a schema identifier to track visited schemas
         schema_id = id(schema)
         if schema_id in visited:
             return
         visited.add(schema_id)
-        
+
         try:
             # Check if this schema uses common types (nullable types)
             if hasattr(schema, 'get') and schema.get("nullable", False):
                 imports.add("github.com/apecloud/kb-cloud-client-go/api/common")
-                
+
             # Check for array items
             if hasattr(schema, 'get') and "items" in schema:
                 check_schema_for_imports(schema["items"], depth + 1)
-                
+
             # Check for object properties
             if hasattr(schema, 'get') and "properties" in schema:
                 for prop_schema in schema["properties"].values():
                     check_schema_for_imports(prop_schema, depth + 1)
-                    
+
             # Check for allOf, oneOf, anyOf
             for key in ["allOf", "oneOf", "anyOf"]:
                 if hasattr(schema, 'get') and key in schema:
                     for sub_schema in schema[key]:
                         check_schema_for_imports(sub_schema, depth + 1)
-                        
+
             # Check for additionalProperties
             if hasattr(schema, 'get') and "additionalProperties" in schema and schema["additionalProperties"] is not True:
                 check_schema_for_imports(schema["additionalProperties"], depth + 1)
         except (AttributeError, RecursionError):
             # Skip problematic schemas
             pass
-    
+
     # Check the main model
     check_schema_for_imports(model)
-    
+
     # For allOf models, check if we need to import from the parent package
     if hasattr(model, 'get') and "allOf" in model and current_package == "admin":
         for sub_schema in model["allOf"]:
             if hasattr(sub_schema, "__reference__"):
                 # This is a reference to another schema, likely in the parent package
                 imports.add("github.com/apecloud/kb-cloud-client-go/api/kbcloud")
-    
+
     return list(imports)
 
 
