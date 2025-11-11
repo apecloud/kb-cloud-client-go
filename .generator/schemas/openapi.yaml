@@ -14126,6 +14126,22 @@ components:
         region:
           type: string
           description: region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
+    clusterMaintainceWindow:
+      type: object
+      properties:
+        startHour:
+          type: integer
+          description: start hour, must be 0-23, use UTC timezone
+          x-omitempty: false
+        endHour:
+          type: integer
+          description: end hour, must be 0-23 and greater than start hour, use UTC timezone
+          x-omitempty: false
+        weekdays:
+          type: string
+          x-omitempty: false
+          description: weekdays, comma separated values of 1-7
+      description: the maintenance window for a cluster
     clusterCreate:
       required:
         - engine
@@ -14220,6 +14236,8 @@ components:
             $ref: '#/components/schemas/serviceRef'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -14446,6 +14464,8 @@ components:
             $ref: '#/components/schemas/serviceRef'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster details
     clusterUpdate:
       type: object
@@ -14456,6 +14476,8 @@ components:
           description: Display name of cluster.
           type: string
           nullable: true
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information

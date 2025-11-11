@@ -14,6 +14,8 @@ type ClusterUpdate struct {
 	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 	// Display name of cluster.
 	DisplayName common.NullableString `json:"displayName,omitempty"`
+	// the maintenance window for a cluster
+	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -107,6 +109,34 @@ func (o *ClusterUpdate) UnsetDisplayName() {
 	o.DisplayName.Unset()
 }
 
+// GetMaintainceWindow returns the MaintainceWindow field value if set, zero value otherwise.
+func (o *ClusterUpdate) GetMaintainceWindow() ClusterMaintainceWindow {
+	if o == nil || o.MaintainceWindow == nil {
+		var ret ClusterMaintainceWindow
+		return ret
+	}
+	return *o.MaintainceWindow
+}
+
+// GetMaintainceWindowOk returns a tuple with the MaintainceWindow field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterUpdate) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool) {
+	if o == nil || o.MaintainceWindow == nil {
+		return nil, false
+	}
+	return o.MaintainceWindow, true
+}
+
+// HasMaintainceWindow returns a boolean if a field has been set.
+func (o *ClusterUpdate) HasMaintainceWindow() bool {
+	return o != nil && o.MaintainceWindow != nil
+}
+
+// SetMaintainceWindow gets a reference to the given ClusterMaintainceWindow and assigns it to the MaintainceWindow field.
+func (o *ClusterUpdate) SetMaintainceWindow(v ClusterMaintainceWindow) {
+	o.MaintainceWindow = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -118,6 +148,9 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 	}
 	if o.DisplayName.IsSet() {
 		toSerialize["displayName"] = o.DisplayName.Get()
+	}
+	if o.MaintainceWindow != nil {
+		toSerialize["maintainceWindow"] = o.MaintainceWindow
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -131,13 +164,14 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
 		DisplayName       common.NullableString     `json:"displayName,omitempty"`
+		MaintainceWindow  *ClusterMaintainceWindow  `json:"maintainceWindow,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName"})
+		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow"})
 	} else {
 		return err
 	}
@@ -149,6 +183,10 @@ func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
 		o.TerminationPolicy = all.TerminationPolicy
 	}
 	o.DisplayName = all.DisplayName
+	if all.MaintainceWindow != nil && all.MaintainceWindow.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.MaintainceWindow = all.MaintainceWindow
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
