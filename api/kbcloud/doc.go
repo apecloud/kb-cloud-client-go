@@ -277,6 +277,7 @@
 //   - [parameterTemplateApi.readParameterTemplate]
 //   - [parameterTemplateApi.updateClusterParameterTemplate]
 //   - [platformParameterApi.getPlatformParameter]
+//   - [platformParameterApi.listPlatformParameters]
 //   - [pricingApi.deleteEnvironmentPricing]
 //   - [pricingApi.getEnvironmentPricing]
 //   - [pricingApi.getGlobalPricing]
