@@ -35,11 +35,11 @@ func (r *CreateRedisAccountOptionalParameters) WithComponent(component string) *
 }
 
 // CreateRedisAccount create redis account.
-func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ACLUser, o ...CreateRedisAccountOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
+func (a *RedisApi) CreateRedisAccount(ctx _context.Context, orgName string, clusterName string, body ACLUser, o ...CreateRedisAccountOptionalParameters) (EventTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPost
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
+		localVarReturnValue EventTask
 		optionalParams      CreateRedisAccountOptionalParameters
 	)
 
@@ -145,11 +145,11 @@ func (r *DeleteRedisAccountOptionalParameters) WithComponent(component string) *
 }
 
 // DeleteRedisAccount delete redis account.
-func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, o ...DeleteRedisAccountOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
+func (a *RedisApi) DeleteRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, o ...DeleteRedisAccountOptionalParameters) (EventTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodDelete
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
+		localVarReturnValue EventTask
 		optionalParams      DeleteRedisAccountOptionalParameters
 	)
 
@@ -360,11 +360,11 @@ func (r *UpdateRedisAccountOptionalParameters) WithComponent(component string) *
 }
 
 // UpdateRedisAccount update redis account.
-func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body ACLUser, o ...UpdateRedisAccountOptionalParameters) (ClusterTask, *_nethttp.Response, error) {
+func (a *RedisApi) UpdateRedisAccount(ctx _context.Context, orgName string, clusterName string, accountName string, body ACLUser, o ...UpdateRedisAccountOptionalParameters) (EventTask, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod  = _nethttp.MethodPatch
 		localVarPostBody    interface{}
-		localVarReturnValue ClusterTask
+		localVarReturnValue EventTask
 		optionalParams      UpdateRedisAccountOptionalParameters
 	)
 

@@ -4,71 +4,68 @@
 
 package kbcloud
 
-import "github.com/apecloud/kb-cloud-client-go/api/common"
+import (
+	"fmt"
 
-// ClusterTaskDetails taskConditions is a list of task condition
-type ClusterTaskDetails struct {
-	// Items is the list of task condition in the list
-	Items []ClusterTaskDetail `json:"items,omitempty"`
+	"github.com/apecloud/kb-cloud-client-go/api/common"
+)
+
+// PlatformParameterList platformParameter list
+type PlatformParameterList struct {
+	Items []PlatformParameter `json:"items"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewClusterTaskDetails instantiates a new ClusterTaskDetails object.
+// NewPlatformParameterList instantiates a new PlatformParameterList object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterTaskDetails() *ClusterTaskDetails {
-	this := ClusterTaskDetails{}
+func NewPlatformParameterList(items []PlatformParameter) *PlatformParameterList {
+	this := PlatformParameterList{}
+	this.Items = items
 	return &this
 }
 
-// NewClusterTaskDetailsWithDefaults instantiates a new ClusterTaskDetails object.
+// NewPlatformParameterListWithDefaults instantiates a new PlatformParameterList object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewClusterTaskDetailsWithDefaults() *ClusterTaskDetails {
-	this := ClusterTaskDetails{}
+func NewPlatformParameterListWithDefaults() *PlatformParameterList {
+	this := PlatformParameterList{}
 	return &this
 }
 
-// GetItems returns the Items field value if set, zero value otherwise.
-func (o *ClusterTaskDetails) GetItems() []ClusterTaskDetail {
-	if o == nil || o.Items == nil {
-		var ret []ClusterTaskDetail
+// GetItems returns the Items field value.
+func (o *PlatformParameterList) GetItems() []PlatformParameter {
+	if o == nil {
+		var ret []PlatformParameter
 		return ret
 	}
 	return o.Items
 }
 
-// GetItemsOk returns a tuple with the Items field value if set, nil otherwise
+// GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *ClusterTaskDetails) GetItemsOk() (*[]ClusterTaskDetail, bool) {
-	if o == nil || o.Items == nil {
+func (o *PlatformParameterList) GetItemsOk() (*[]PlatformParameter, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Items, true
 }
 
-// HasItems returns a boolean if a field has been set.
-func (o *ClusterTaskDetails) HasItems() bool {
-	return o != nil && o.Items != nil
-}
-
-// SetItems gets a reference to the given []ClusterTaskDetail and assigns it to the Items field.
-func (o *ClusterTaskDetails) SetItems(v []ClusterTaskDetail) {
+// SetItems sets field value.
+func (o *PlatformParameterList) SetItems(v []PlatformParameter) {
 	o.Items = v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ClusterTaskDetails) MarshalJSON() ([]byte, error) {
+func (o PlatformParameterList) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
 	}
-	if o.Items != nil {
-		toSerialize["items"] = o.Items
-	}
+	toSerialize["items"] = o.Items
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -77,12 +74,15 @@ func (o ClusterTaskDetails) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ClusterTaskDetails) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PlatformParameterList) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Items []ClusterTaskDetail `json:"items,omitempty"`
+		Items *[]PlatformParameter `json:"items"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
+	}
+	if all.Items == nil {
+		return fmt.Errorf("required field items missing")
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
@@ -90,7 +90,7 @@ func (o *ClusterTaskDetails) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
-	o.Items = all.Items
+	o.Items = *all.Items
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

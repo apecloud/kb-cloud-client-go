@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"fmt"
@@ -11,8 +11,8 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ClusterTask task is the information of the operation
-type ClusterTask struct {
+// EventTask event task is the information of the operation event
+type EventTask struct {
 	// ID of the task
 	Id *string `json:"id,omitempty"`
 	// Name of the task
@@ -21,18 +21,22 @@ type ClusterTask struct {
 	Namespace string `json:"namespace"`
 	// OrgName of the task
 	OrgName *string `json:"orgName,omitempty"`
-	// ClusterName of the task
-	ClusterName *string `json:"clusterName,omitempty"`
+	// ResourceType of the task
+	ResourceType *string `json:"resourceType,omitempty"`
+	// ResourceId of the task
+	ResourceId *string `json:"resourceId,omitempty"`
+	// ResourceName of the task
+	ResourceName *string `json:"resourceName,omitempty"`
 	// status of the task
 	Status string `json:"status"`
 	// task type
 	TaskType string `json:"taskType"`
 	// progress of the task
 	Progress string `json:"progress"`
-	// clusterTaskProgresses is a list of task progress detail
-	TaskProgresses *ClusterTaskProgresses `json:"taskProgresses,omitempty"`
-	// taskConditions is a list of task condition
-	TaskDetails *ClusterTaskDetails `json:"taskDetails,omitempty"`
+	// eventTaskProgresses is a list of event task progress detail
+	TaskProgresses *EventTaskProgresses `json:"taskProgresses,omitempty"`
+	// eventTaskDetails is a list of event task detail
+	TaskDetails *EventTaskDetails `json:"taskDetails,omitempty"`
 	// pod log of the custom task
 	OpsLog *string `json:"opsLog,omitempty"`
 	// description of the custom task
@@ -41,17 +45,19 @@ type ClusterTask struct {
 	StartTime *time.Time `json:"startTime,omitempty"`
 	// Time when the task completed or failed
 	CompletionTime common.NullableTime `json:"completionTime,omitempty"`
+	// Same as `id`. Frontend can ignore this field.
+	EventTaskId *string `json:"eventTaskId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewClusterTask instantiates a new ClusterTask object.
+// NewEventTask instantiates a new EventTask object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterTask(name string, namespace string, status string, taskType string, progress string) *ClusterTask {
-	this := ClusterTask{}
+func NewEventTask(name string, namespace string, status string, taskType string, progress string) *EventTask {
+	this := EventTask{}
 	this.Name = name
 	this.Namespace = namespace
 	this.Status = status
@@ -60,16 +66,16 @@ func NewClusterTask(name string, namespace string, status string, taskType strin
 	return &this
 }
 
-// NewClusterTaskWithDefaults instantiates a new ClusterTask object.
+// NewEventTaskWithDefaults instantiates a new EventTask object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewClusterTaskWithDefaults() *ClusterTask {
-	this := ClusterTask{}
+func NewEventTaskWithDefaults() *EventTask {
+	this := EventTask{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *ClusterTask) GetId() string {
+func (o *EventTask) GetId() string {
 	if o == nil || o.Id == nil {
 		var ret string
 		return ret
@@ -79,7 +85,7 @@ func (o *ClusterTask) GetId() string {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetIdOk() (*string, bool) {
+func (o *EventTask) GetIdOk() (*string, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -87,17 +93,17 @@ func (o *ClusterTask) GetIdOk() (*string, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *ClusterTask) HasId() bool {
+func (o *EventTask) HasId() bool {
 	return o != nil && o.Id != nil
 }
 
 // SetId gets a reference to the given string and assigns it to the Id field.
-func (o *ClusterTask) SetId(v string) {
+func (o *EventTask) SetId(v string) {
 	o.Id = &v
 }
 
 // GetName returns the Name field value.
-func (o *ClusterTask) GetName() string {
+func (o *EventTask) GetName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -107,7 +113,7 @@ func (o *ClusterTask) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetNameOk() (*string, bool) {
+func (o *EventTask) GetNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -115,12 +121,12 @@ func (o *ClusterTask) GetNameOk() (*string, bool) {
 }
 
 // SetName sets field value.
-func (o *ClusterTask) SetName(v string) {
+func (o *EventTask) SetName(v string) {
 	o.Name = v
 }
 
 // GetNamespace returns the Namespace field value.
-func (o *ClusterTask) GetNamespace() string {
+func (o *EventTask) GetNamespace() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -130,7 +136,7 @@ func (o *ClusterTask) GetNamespace() string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetNamespaceOk() (*string, bool) {
+func (o *EventTask) GetNamespaceOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -138,12 +144,12 @@ func (o *ClusterTask) GetNamespaceOk() (*string, bool) {
 }
 
 // SetNamespace sets field value.
-func (o *ClusterTask) SetNamespace(v string) {
+func (o *EventTask) SetNamespace(v string) {
 	o.Namespace = v
 }
 
 // GetOrgName returns the OrgName field value if set, zero value otherwise.
-func (o *ClusterTask) GetOrgName() string {
+func (o *EventTask) GetOrgName() string {
 	if o == nil || o.OrgName == nil {
 		var ret string
 		return ret
@@ -153,7 +159,7 @@ func (o *ClusterTask) GetOrgName() string {
 
 // GetOrgNameOk returns a tuple with the OrgName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetOrgNameOk() (*string, bool) {
+func (o *EventTask) GetOrgNameOk() (*string, bool) {
 	if o == nil || o.OrgName == nil {
 		return nil, false
 	}
@@ -161,45 +167,101 @@ func (o *ClusterTask) GetOrgNameOk() (*string, bool) {
 }
 
 // HasOrgName returns a boolean if a field has been set.
-func (o *ClusterTask) HasOrgName() bool {
+func (o *EventTask) HasOrgName() bool {
 	return o != nil && o.OrgName != nil
 }
 
 // SetOrgName gets a reference to the given string and assigns it to the OrgName field.
-func (o *ClusterTask) SetOrgName(v string) {
+func (o *EventTask) SetOrgName(v string) {
 	o.OrgName = &v
 }
 
-// GetClusterName returns the ClusterName field value if set, zero value otherwise.
-func (o *ClusterTask) GetClusterName() string {
-	if o == nil || o.ClusterName == nil {
+// GetResourceType returns the ResourceType field value if set, zero value otherwise.
+func (o *EventTask) GetResourceType() string {
+	if o == nil || o.ResourceType == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClusterName
+	return *o.ResourceType
 }
 
-// GetClusterNameOk returns a tuple with the ClusterName field value if set, nil otherwise
+// GetResourceTypeOk returns a tuple with the ResourceType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetClusterNameOk() (*string, bool) {
-	if o == nil || o.ClusterName == nil {
+func (o *EventTask) GetResourceTypeOk() (*string, bool) {
+	if o == nil || o.ResourceType == nil {
 		return nil, false
 	}
-	return o.ClusterName, true
+	return o.ResourceType, true
 }
 
-// HasClusterName returns a boolean if a field has been set.
-func (o *ClusterTask) HasClusterName() bool {
-	return o != nil && o.ClusterName != nil
+// HasResourceType returns a boolean if a field has been set.
+func (o *EventTask) HasResourceType() bool {
+	return o != nil && o.ResourceType != nil
 }
 
-// SetClusterName gets a reference to the given string and assigns it to the ClusterName field.
-func (o *ClusterTask) SetClusterName(v string) {
-	o.ClusterName = &v
+// SetResourceType gets a reference to the given string and assigns it to the ResourceType field.
+func (o *EventTask) SetResourceType(v string) {
+	o.ResourceType = &v
+}
+
+// GetResourceId returns the ResourceId field value if set, zero value otherwise.
+func (o *EventTask) GetResourceId() string {
+	if o == nil || o.ResourceId == nil {
+		var ret string
+		return ret
+	}
+	return *o.ResourceId
+}
+
+// GetResourceIdOk returns a tuple with the ResourceId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventTask) GetResourceIdOk() (*string, bool) {
+	if o == nil || o.ResourceId == nil {
+		return nil, false
+	}
+	return o.ResourceId, true
+}
+
+// HasResourceId returns a boolean if a field has been set.
+func (o *EventTask) HasResourceId() bool {
+	return o != nil && o.ResourceId != nil
+}
+
+// SetResourceId gets a reference to the given string and assigns it to the ResourceId field.
+func (o *EventTask) SetResourceId(v string) {
+	o.ResourceId = &v
+}
+
+// GetResourceName returns the ResourceName field value if set, zero value otherwise.
+func (o *EventTask) GetResourceName() string {
+	if o == nil || o.ResourceName == nil {
+		var ret string
+		return ret
+	}
+	return *o.ResourceName
+}
+
+// GetResourceNameOk returns a tuple with the ResourceName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventTask) GetResourceNameOk() (*string, bool) {
+	if o == nil || o.ResourceName == nil {
+		return nil, false
+	}
+	return o.ResourceName, true
+}
+
+// HasResourceName returns a boolean if a field has been set.
+func (o *EventTask) HasResourceName() bool {
+	return o != nil && o.ResourceName != nil
+}
+
+// SetResourceName gets a reference to the given string and assigns it to the ResourceName field.
+func (o *EventTask) SetResourceName(v string) {
+	o.ResourceName = &v
 }
 
 // GetStatus returns the Status field value.
-func (o *ClusterTask) GetStatus() string {
+func (o *EventTask) GetStatus() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -209,7 +271,7 @@ func (o *ClusterTask) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetStatusOk() (*string, bool) {
+func (o *EventTask) GetStatusOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -217,12 +279,12 @@ func (o *ClusterTask) GetStatusOk() (*string, bool) {
 }
 
 // SetStatus sets field value.
-func (o *ClusterTask) SetStatus(v string) {
+func (o *EventTask) SetStatus(v string) {
 	o.Status = v
 }
 
 // GetTaskType returns the TaskType field value.
-func (o *ClusterTask) GetTaskType() string {
+func (o *EventTask) GetTaskType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -232,7 +294,7 @@ func (o *ClusterTask) GetTaskType() string {
 
 // GetTaskTypeOk returns a tuple with the TaskType field value
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetTaskTypeOk() (*string, bool) {
+func (o *EventTask) GetTaskTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -240,12 +302,12 @@ func (o *ClusterTask) GetTaskTypeOk() (*string, bool) {
 }
 
 // SetTaskType sets field value.
-func (o *ClusterTask) SetTaskType(v string) {
+func (o *EventTask) SetTaskType(v string) {
 	o.TaskType = v
 }
 
 // GetProgress returns the Progress field value.
-func (o *ClusterTask) GetProgress() string {
+func (o *EventTask) GetProgress() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -255,7 +317,7 @@ func (o *ClusterTask) GetProgress() string {
 
 // GetProgressOk returns a tuple with the Progress field value
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetProgressOk() (*string, bool) {
+func (o *EventTask) GetProgressOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -263,14 +325,14 @@ func (o *ClusterTask) GetProgressOk() (*string, bool) {
 }
 
 // SetProgress sets field value.
-func (o *ClusterTask) SetProgress(v string) {
+func (o *EventTask) SetProgress(v string) {
 	o.Progress = v
 }
 
 // GetTaskProgresses returns the TaskProgresses field value if set, zero value otherwise.
-func (o *ClusterTask) GetTaskProgresses() ClusterTaskProgresses {
+func (o *EventTask) GetTaskProgresses() EventTaskProgresses {
 	if o == nil || o.TaskProgresses == nil {
-		var ret ClusterTaskProgresses
+		var ret EventTaskProgresses
 		return ret
 	}
 	return *o.TaskProgresses
@@ -278,7 +340,7 @@ func (o *ClusterTask) GetTaskProgresses() ClusterTaskProgresses {
 
 // GetTaskProgressesOk returns a tuple with the TaskProgresses field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetTaskProgressesOk() (*ClusterTaskProgresses, bool) {
+func (o *EventTask) GetTaskProgressesOk() (*EventTaskProgresses, bool) {
 	if o == nil || o.TaskProgresses == nil {
 		return nil, false
 	}
@@ -286,19 +348,19 @@ func (o *ClusterTask) GetTaskProgressesOk() (*ClusterTaskProgresses, bool) {
 }
 
 // HasTaskProgresses returns a boolean if a field has been set.
-func (o *ClusterTask) HasTaskProgresses() bool {
+func (o *EventTask) HasTaskProgresses() bool {
 	return o != nil && o.TaskProgresses != nil
 }
 
-// SetTaskProgresses gets a reference to the given ClusterTaskProgresses and assigns it to the TaskProgresses field.
-func (o *ClusterTask) SetTaskProgresses(v ClusterTaskProgresses) {
+// SetTaskProgresses gets a reference to the given EventTaskProgresses and assigns it to the TaskProgresses field.
+func (o *EventTask) SetTaskProgresses(v EventTaskProgresses) {
 	o.TaskProgresses = &v
 }
 
 // GetTaskDetails returns the TaskDetails field value if set, zero value otherwise.
-func (o *ClusterTask) GetTaskDetails() ClusterTaskDetails {
+func (o *EventTask) GetTaskDetails() EventTaskDetails {
 	if o == nil || o.TaskDetails == nil {
-		var ret ClusterTaskDetails
+		var ret EventTaskDetails
 		return ret
 	}
 	return *o.TaskDetails
@@ -306,7 +368,7 @@ func (o *ClusterTask) GetTaskDetails() ClusterTaskDetails {
 
 // GetTaskDetailsOk returns a tuple with the TaskDetails field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetTaskDetailsOk() (*ClusterTaskDetails, bool) {
+func (o *EventTask) GetTaskDetailsOk() (*EventTaskDetails, bool) {
 	if o == nil || o.TaskDetails == nil {
 		return nil, false
 	}
@@ -314,17 +376,17 @@ func (o *ClusterTask) GetTaskDetailsOk() (*ClusterTaskDetails, bool) {
 }
 
 // HasTaskDetails returns a boolean if a field has been set.
-func (o *ClusterTask) HasTaskDetails() bool {
+func (o *EventTask) HasTaskDetails() bool {
 	return o != nil && o.TaskDetails != nil
 }
 
-// SetTaskDetails gets a reference to the given ClusterTaskDetails and assigns it to the TaskDetails field.
-func (o *ClusterTask) SetTaskDetails(v ClusterTaskDetails) {
+// SetTaskDetails gets a reference to the given EventTaskDetails and assigns it to the TaskDetails field.
+func (o *EventTask) SetTaskDetails(v EventTaskDetails) {
 	o.TaskDetails = &v
 }
 
 // GetOpsLog returns the OpsLog field value if set, zero value otherwise.
-func (o *ClusterTask) GetOpsLog() string {
+func (o *EventTask) GetOpsLog() string {
 	if o == nil || o.OpsLog == nil {
 		var ret string
 		return ret
@@ -334,7 +396,7 @@ func (o *ClusterTask) GetOpsLog() string {
 
 // GetOpsLogOk returns a tuple with the OpsLog field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetOpsLogOk() (*string, bool) {
+func (o *EventTask) GetOpsLogOk() (*string, bool) {
 	if o == nil || o.OpsLog == nil {
 		return nil, false
 	}
@@ -342,17 +404,17 @@ func (o *ClusterTask) GetOpsLogOk() (*string, bool) {
 }
 
 // HasOpsLog returns a boolean if a field has been set.
-func (o *ClusterTask) HasOpsLog() bool {
+func (o *EventTask) HasOpsLog() bool {
 	return o != nil && o.OpsLog != nil
 }
 
 // SetOpsLog gets a reference to the given string and assigns it to the OpsLog field.
-func (o *ClusterTask) SetOpsLog(v string) {
+func (o *EventTask) SetOpsLog(v string) {
 	o.OpsLog = &v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *ClusterTask) GetDescription() string {
+func (o *EventTask) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -362,7 +424,7 @@ func (o *ClusterTask) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetDescriptionOk() (*string, bool) {
+func (o *EventTask) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -370,17 +432,17 @@ func (o *ClusterTask) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *ClusterTask) HasDescription() bool {
+func (o *EventTask) HasDescription() bool {
 	return o != nil && o.Description != nil
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *ClusterTask) SetDescription(v string) {
+func (o *EventTask) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetStartTime returns the StartTime field value if set, zero value otherwise.
-func (o *ClusterTask) GetStartTime() time.Time {
+func (o *EventTask) GetStartTime() time.Time {
 	if o == nil || o.StartTime == nil {
 		var ret time.Time
 		return ret
@@ -390,7 +452,7 @@ func (o *ClusterTask) GetStartTime() time.Time {
 
 // GetStartTimeOk returns a tuple with the StartTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTask) GetStartTimeOk() (*time.Time, bool) {
+func (o *EventTask) GetStartTimeOk() (*time.Time, bool) {
 	if o == nil || o.StartTime == nil {
 		return nil, false
 	}
@@ -398,17 +460,17 @@ func (o *ClusterTask) GetStartTimeOk() (*time.Time, bool) {
 }
 
 // HasStartTime returns a boolean if a field has been set.
-func (o *ClusterTask) HasStartTime() bool {
+func (o *EventTask) HasStartTime() bool {
 	return o != nil && o.StartTime != nil
 }
 
 // SetStartTime gets a reference to the given time.Time and assigns it to the StartTime field.
-func (o *ClusterTask) SetStartTime(v time.Time) {
+func (o *EventTask) SetStartTime(v time.Time) {
 	o.StartTime = &v
 }
 
 // GetCompletionTime returns the CompletionTime field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterTask) GetCompletionTime() time.Time {
+func (o *EventTask) GetCompletionTime() time.Time {
 	if o == nil || o.CompletionTime.Get() == nil {
 		var ret time.Time
 		return ret
@@ -419,7 +481,7 @@ func (o *ClusterTask) GetCompletionTime() time.Time {
 // GetCompletionTimeOk returns a tuple with the CompletionTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterTask) GetCompletionTimeOk() (*time.Time, bool) {
+func (o *EventTask) GetCompletionTimeOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -427,27 +489,55 @@ func (o *ClusterTask) GetCompletionTimeOk() (*time.Time, bool) {
 }
 
 // HasCompletionTime returns a boolean if a field has been set.
-func (o *ClusterTask) HasCompletionTime() bool {
+func (o *EventTask) HasCompletionTime() bool {
 	return o != nil && o.CompletionTime.IsSet()
 }
 
 // SetCompletionTime gets a reference to the given common.NullableTime and assigns it to the CompletionTime field.
-func (o *ClusterTask) SetCompletionTime(v time.Time) {
+func (o *EventTask) SetCompletionTime(v time.Time) {
 	o.CompletionTime.Set(&v)
 }
 
 // SetCompletionTimeNil sets the value for CompletionTime to be an explicit nil.
-func (o *ClusterTask) SetCompletionTimeNil() {
+func (o *EventTask) SetCompletionTimeNil() {
 	o.CompletionTime.Set(nil)
 }
 
 // UnsetCompletionTime ensures that no value is present for CompletionTime, not even an explicit nil.
-func (o *ClusterTask) UnsetCompletionTime() {
+func (o *EventTask) UnsetCompletionTime() {
 	o.CompletionTime.Unset()
 }
 
+// GetEventTaskId returns the EventTaskId field value if set, zero value otherwise.
+func (o *EventTask) GetEventTaskId() string {
+	if o == nil || o.EventTaskId == nil {
+		var ret string
+		return ret
+	}
+	return *o.EventTaskId
+}
+
+// GetEventTaskIdOk returns a tuple with the EventTaskId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventTask) GetEventTaskIdOk() (*string, bool) {
+	if o == nil || o.EventTaskId == nil {
+		return nil, false
+	}
+	return o.EventTaskId, true
+}
+
+// HasEventTaskId returns a boolean if a field has been set.
+func (o *EventTask) HasEventTaskId() bool {
+	return o != nil && o.EventTaskId != nil
+}
+
+// SetEventTaskId gets a reference to the given string and assigns it to the EventTaskId field.
+func (o *EventTask) SetEventTaskId(v string) {
+	o.EventTaskId = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
-func (o ClusterTask) MarshalJSON() ([]byte, error) {
+func (o EventTask) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -460,8 +550,14 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 	if o.OrgName != nil {
 		toSerialize["orgName"] = o.OrgName
 	}
-	if o.ClusterName != nil {
-		toSerialize["clusterName"] = o.ClusterName
+	if o.ResourceType != nil {
+		toSerialize["resourceType"] = o.ResourceType
+	}
+	if o.ResourceId != nil {
+		toSerialize["resourceId"] = o.ResourceId
+	}
+	if o.ResourceName != nil {
+		toSerialize["resourceName"] = o.ResourceName
 	}
 	toSerialize["status"] = o.Status
 	toSerialize["taskType"] = o.TaskType
@@ -488,6 +584,9 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 	if o.CompletionTime.IsSet() {
 		toSerialize["completionTime"] = o.CompletionTime.Get()
 	}
+	if o.EventTaskId != nil {
+		toSerialize["eventTaskId"] = o.EventTaskId
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -496,22 +595,25 @@ func (o ClusterTask) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EventTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		Id             *string                `json:"id,omitempty"`
-		Name           *string                `json:"name"`
-		Namespace      *string                `json:"namespace"`
-		OrgName        *string                `json:"orgName,omitempty"`
-		ClusterName    *string                `json:"clusterName,omitempty"`
-		Status         *string                `json:"status"`
-		TaskType       *string                `json:"taskType"`
-		Progress       *string                `json:"progress"`
-		TaskProgresses *ClusterTaskProgresses `json:"taskProgresses,omitempty"`
-		TaskDetails    *ClusterTaskDetails    `json:"taskDetails,omitempty"`
-		OpsLog         *string                `json:"opsLog,omitempty"`
-		Description    *string                `json:"description,omitempty"`
-		StartTime      *time.Time             `json:"startTime,omitempty"`
-		CompletionTime common.NullableTime    `json:"completionTime,omitempty"`
+		Id             *string              `json:"id,omitempty"`
+		Name           *string              `json:"name"`
+		Namespace      *string              `json:"namespace"`
+		OrgName        *string              `json:"orgName,omitempty"`
+		ResourceType   *string              `json:"resourceType,omitempty"`
+		ResourceId     *string              `json:"resourceId,omitempty"`
+		ResourceName   *string              `json:"resourceName,omitempty"`
+		Status         *string              `json:"status"`
+		TaskType       *string              `json:"taskType"`
+		Progress       *string              `json:"progress"`
+		TaskProgresses *EventTaskProgresses `json:"taskProgresses,omitempty"`
+		TaskDetails    *EventTaskDetails    `json:"taskDetails,omitempty"`
+		OpsLog         *string              `json:"opsLog,omitempty"`
+		Description    *string              `json:"description,omitempty"`
+		StartTime      *time.Time           `json:"startTime,omitempty"`
+		CompletionTime common.NullableTime  `json:"completionTime,omitempty"`
+		EventTaskId    *string              `json:"eventTaskId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -533,7 +635,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "orgName", "clusterName", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "description", "startTime", "completionTime"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "name", "namespace", "orgName", "resourceType", "resourceId", "resourceName", "status", "taskType", "progress", "taskProgresses", "taskDetails", "opsLog", "description", "startTime", "completionTime", "eventTaskId"})
 	} else {
 		return err
 	}
@@ -543,7 +645,9 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.Name = *all.Name
 	o.Namespace = *all.Namespace
 	o.OrgName = all.OrgName
-	o.ClusterName = all.ClusterName
+	o.ResourceType = all.ResourceType
+	o.ResourceId = all.ResourceId
+	o.ResourceName = all.ResourceName
 	o.Status = *all.Status
 	o.TaskType = *all.TaskType
 	o.Progress = *all.Progress
@@ -559,6 +663,7 @@ func (o *ClusterTask) UnmarshalJSON(bytes []byte) (err error) {
 	o.Description = all.Description
 	o.StartTime = all.StartTime
 	o.CompletionTime = all.CompletionTime
+	o.EventTaskId = all.EventTaskId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

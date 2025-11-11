@@ -16,8 +16,8 @@ type DisasterRecoveryTask struct {
 	LogicalInstanceId common.NullableString `json:"logicalInstanceID,omitempty"`
 	// Task ID
 	TaskId common.NullableString `json:"taskId"`
-	// Cluster task ID
-	ClusterTaskId common.NullableString `json:"clusterTaskId,omitempty"`
+	// Event task ID
+	EventTaskId common.NullableString `json:"eventTaskId,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -105,43 +105,43 @@ func (o *DisasterRecoveryTask) SetTaskId(v string) {
 	o.TaskId.Set(&v)
 }
 
-// GetClusterTaskId returns the ClusterTaskId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *DisasterRecoveryTask) GetClusterTaskId() string {
-	if o == nil || o.ClusterTaskId.Get() == nil {
+// GetEventTaskId returns the EventTaskId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DisasterRecoveryTask) GetEventTaskId() string {
+	if o == nil || o.EventTaskId.Get() == nil {
 		var ret string
 		return ret
 	}
-	return *o.ClusterTaskId.Get()
+	return *o.EventTaskId.Get()
 }
 
-// GetClusterTaskIdOk returns a tuple with the ClusterTaskId field value if set, nil otherwise
+// GetEventTaskIdOk returns a tuple with the EventTaskId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *DisasterRecoveryTask) GetClusterTaskIdOk() (*string, bool) {
+func (o *DisasterRecoveryTask) GetEventTaskIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ClusterTaskId.Get(), o.ClusterTaskId.IsSet()
+	return o.EventTaskId.Get(), o.EventTaskId.IsSet()
 }
 
-// HasClusterTaskId returns a boolean if a field has been set.
-func (o *DisasterRecoveryTask) HasClusterTaskId() bool {
-	return o != nil && o.ClusterTaskId.IsSet()
+// HasEventTaskId returns a boolean if a field has been set.
+func (o *DisasterRecoveryTask) HasEventTaskId() bool {
+	return o != nil && o.EventTaskId.IsSet()
 }
 
-// SetClusterTaskId gets a reference to the given common.NullableString and assigns it to the ClusterTaskId field.
-func (o *DisasterRecoveryTask) SetClusterTaskId(v string) {
-	o.ClusterTaskId.Set(&v)
+// SetEventTaskId gets a reference to the given common.NullableString and assigns it to the EventTaskId field.
+func (o *DisasterRecoveryTask) SetEventTaskId(v string) {
+	o.EventTaskId.Set(&v)
 }
 
-// SetClusterTaskIdNil sets the value for ClusterTaskId to be an explicit nil.
-func (o *DisasterRecoveryTask) SetClusterTaskIdNil() {
-	o.ClusterTaskId.Set(nil)
+// SetEventTaskIdNil sets the value for EventTaskId to be an explicit nil.
+func (o *DisasterRecoveryTask) SetEventTaskIdNil() {
+	o.EventTaskId.Set(nil)
 }
 
-// UnsetClusterTaskId ensures that no value is present for ClusterTaskId, not even an explicit nil.
-func (o *DisasterRecoveryTask) UnsetClusterTaskId() {
-	o.ClusterTaskId.Unset()
+// UnsetEventTaskId ensures that no value is present for EventTaskId, not even an explicit nil.
+func (o *DisasterRecoveryTask) UnsetEventTaskId() {
+	o.EventTaskId.Unset()
 }
 
 // MarshalJSON serializes the struct using spec logic.
@@ -154,8 +154,8 @@ func (o DisasterRecoveryTask) MarshalJSON() ([]byte, error) {
 		toSerialize["logicalInstanceID"] = o.LogicalInstanceId.Get()
 	}
 	toSerialize["taskId"] = o.TaskId.Get()
-	if o.ClusterTaskId.IsSet() {
-		toSerialize["clusterTaskId"] = o.ClusterTaskId.Get()
+	if o.EventTaskId.IsSet() {
+		toSerialize["eventTaskId"] = o.EventTaskId.Get()
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -169,7 +169,7 @@ func (o *DisasterRecoveryTask) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		LogicalInstanceId common.NullableString `json:"logicalInstanceID,omitempty"`
 		TaskId            common.NullableString `json:"taskId"`
-		ClusterTaskId     common.NullableString `json:"clusterTaskId,omitempty"`
+		EventTaskId       common.NullableString `json:"eventTaskId,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -179,13 +179,13 @@ func (o *DisasterRecoveryTask) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"logicalInstanceID", "taskId", "clusterTaskId"})
+		common.DeleteKeys(additionalProperties, &[]string{"logicalInstanceID", "taskId", "eventTaskId"})
 	} else {
 		return err
 	}
 	o.LogicalInstanceId = all.LogicalInstanceId
 	o.TaskId = all.TaskId
-	o.ClusterTaskId = all.ClusterTaskId
+	o.EventTaskId = all.EventTaskId
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

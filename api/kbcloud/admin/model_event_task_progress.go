@@ -2,7 +2,7 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"time"
@@ -10,21 +10,21 @@ import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ClusterTaskProgress clusterTaskProgress is the information of the task progress
-type ClusterTaskProgress struct {
+// EventTaskProgress eventTaskProgress is the information of the event task progress
+type EventTaskProgress struct {
 	// conponent name
 	Name *string `json:"name,omitempty"`
 	// group name
 	Group *string `json:"group,omitempty"`
-	// the instance name
+	// the resource name
 	ObjectKey common.NullableString `json:"objectKey,omitempty"`
 	// message of the task progress
 	Message *string `json:"message,omitempty"`
 	// status of the task progress
 	Status *string `json:"status,omitempty"`
-	// start time of the task progress
+	// start time of the event task progress
 	StartTime common.NullableTime `json:"startTime,omitempty"`
-	// end time of the task progress
+	// end time of the event task progress
 	EndTime common.NullableTime `json:"endTime,omitempty"`
 	// Indicates the name of an OpsAction, Either `objectKey` or `customOpsName` must be provided. This field is provided when ops is `custom`.
 	CustomOpsName common.NullableString `json:"customOpsName,omitempty"`
@@ -35,25 +35,25 @@ type ClusterTaskProgress struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewClusterTaskProgress instantiates a new ClusterTaskProgress object.
+// NewEventTaskProgress instantiates a new EventTaskProgress object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterTaskProgress() *ClusterTaskProgress {
-	this := ClusterTaskProgress{}
+func NewEventTaskProgress() *EventTaskProgress {
+	this := EventTaskProgress{}
 	return &this
 }
 
-// NewClusterTaskProgressWithDefaults instantiates a new ClusterTaskProgress object.
+// NewEventTaskProgressWithDefaults instantiates a new EventTaskProgress object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewClusterTaskProgressWithDefaults() *ClusterTaskProgress {
-	this := ClusterTaskProgress{}
+func NewEventTaskProgressWithDefaults() *EventTaskProgress {
+	this := EventTaskProgress{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *ClusterTaskProgress) GetName() string {
+func (o *EventTaskProgress) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -63,7 +63,7 @@ func (o *ClusterTaskProgress) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTaskProgress) GetNameOk() (*string, bool) {
+func (o *EventTaskProgress) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -71,17 +71,17 @@ func (o *ClusterTaskProgress) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasName() bool {
+func (o *EventTaskProgress) HasName() bool {
 	return o != nil && o.Name != nil
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *ClusterTaskProgress) SetName(v string) {
+func (o *EventTaskProgress) SetName(v string) {
 	o.Name = &v
 }
 
 // GetGroup returns the Group field value if set, zero value otherwise.
-func (o *ClusterTaskProgress) GetGroup() string {
+func (o *EventTaskProgress) GetGroup() string {
 	if o == nil || o.Group == nil {
 		var ret string
 		return ret
@@ -91,7 +91,7 @@ func (o *ClusterTaskProgress) GetGroup() string {
 
 // GetGroupOk returns a tuple with the Group field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTaskProgress) GetGroupOk() (*string, bool) {
+func (o *EventTaskProgress) GetGroupOk() (*string, bool) {
 	if o == nil || o.Group == nil {
 		return nil, false
 	}
@@ -99,17 +99,17 @@ func (o *ClusterTaskProgress) GetGroupOk() (*string, bool) {
 }
 
 // HasGroup returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasGroup() bool {
+func (o *EventTaskProgress) HasGroup() bool {
 	return o != nil && o.Group != nil
 }
 
 // SetGroup gets a reference to the given string and assigns it to the Group field.
-func (o *ClusterTaskProgress) SetGroup(v string) {
+func (o *EventTaskProgress) SetGroup(v string) {
 	o.Group = &v
 }
 
 // GetObjectKey returns the ObjectKey field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterTaskProgress) GetObjectKey() string {
+func (o *EventTaskProgress) GetObjectKey() string {
 	if o == nil || o.ObjectKey.Get() == nil {
 		var ret string
 		return ret
@@ -120,7 +120,7 @@ func (o *ClusterTaskProgress) GetObjectKey() string {
 // GetObjectKeyOk returns a tuple with the ObjectKey field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterTaskProgress) GetObjectKeyOk() (*string, bool) {
+func (o *EventTaskProgress) GetObjectKeyOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -128,27 +128,27 @@ func (o *ClusterTaskProgress) GetObjectKeyOk() (*string, bool) {
 }
 
 // HasObjectKey returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasObjectKey() bool {
+func (o *EventTaskProgress) HasObjectKey() bool {
 	return o != nil && o.ObjectKey.IsSet()
 }
 
 // SetObjectKey gets a reference to the given common.NullableString and assigns it to the ObjectKey field.
-func (o *ClusterTaskProgress) SetObjectKey(v string) {
+func (o *EventTaskProgress) SetObjectKey(v string) {
 	o.ObjectKey.Set(&v)
 }
 
 // SetObjectKeyNil sets the value for ObjectKey to be an explicit nil.
-func (o *ClusterTaskProgress) SetObjectKeyNil() {
+func (o *EventTaskProgress) SetObjectKeyNil() {
 	o.ObjectKey.Set(nil)
 }
 
 // UnsetObjectKey ensures that no value is present for ObjectKey, not even an explicit nil.
-func (o *ClusterTaskProgress) UnsetObjectKey() {
+func (o *EventTaskProgress) UnsetObjectKey() {
 	o.ObjectKey.Unset()
 }
 
 // GetMessage returns the Message field value if set, zero value otherwise.
-func (o *ClusterTaskProgress) GetMessage() string {
+func (o *EventTaskProgress) GetMessage() string {
 	if o == nil || o.Message == nil {
 		var ret string
 		return ret
@@ -158,7 +158,7 @@ func (o *ClusterTaskProgress) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTaskProgress) GetMessageOk() (*string, bool) {
+func (o *EventTaskProgress) GetMessageOk() (*string, bool) {
 	if o == nil || o.Message == nil {
 		return nil, false
 	}
@@ -166,17 +166,17 @@ func (o *ClusterTaskProgress) GetMessageOk() (*string, bool) {
 }
 
 // HasMessage returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasMessage() bool {
+func (o *EventTaskProgress) HasMessage() bool {
 	return o != nil && o.Message != nil
 }
 
 // SetMessage gets a reference to the given string and assigns it to the Message field.
-func (o *ClusterTaskProgress) SetMessage(v string) {
+func (o *EventTaskProgress) SetMessage(v string) {
 	o.Message = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *ClusterTaskProgress) GetStatus() string {
+func (o *EventTaskProgress) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -186,7 +186,7 @@ func (o *ClusterTaskProgress) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTaskProgress) GetStatusOk() (*string, bool) {
+func (o *EventTaskProgress) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -194,17 +194,17 @@ func (o *ClusterTaskProgress) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasStatus() bool {
+func (o *EventTaskProgress) HasStatus() bool {
 	return o != nil && o.Status != nil
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *ClusterTaskProgress) SetStatus(v string) {
+func (o *EventTaskProgress) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetStartTime returns the StartTime field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterTaskProgress) GetStartTime() time.Time {
+func (o *EventTaskProgress) GetStartTime() time.Time {
 	if o == nil || o.StartTime.Get() == nil {
 		var ret time.Time
 		return ret
@@ -215,7 +215,7 @@ func (o *ClusterTaskProgress) GetStartTime() time.Time {
 // GetStartTimeOk returns a tuple with the StartTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterTaskProgress) GetStartTimeOk() (*time.Time, bool) {
+func (o *EventTaskProgress) GetStartTimeOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -223,27 +223,27 @@ func (o *ClusterTaskProgress) GetStartTimeOk() (*time.Time, bool) {
 }
 
 // HasStartTime returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasStartTime() bool {
+func (o *EventTaskProgress) HasStartTime() bool {
 	return o != nil && o.StartTime.IsSet()
 }
 
 // SetStartTime gets a reference to the given common.NullableTime and assigns it to the StartTime field.
-func (o *ClusterTaskProgress) SetStartTime(v time.Time) {
+func (o *EventTaskProgress) SetStartTime(v time.Time) {
 	o.StartTime.Set(&v)
 }
 
 // SetStartTimeNil sets the value for StartTime to be an explicit nil.
-func (o *ClusterTaskProgress) SetStartTimeNil() {
+func (o *EventTaskProgress) SetStartTimeNil() {
 	o.StartTime.Set(nil)
 }
 
 // UnsetStartTime ensures that no value is present for StartTime, not even an explicit nil.
-func (o *ClusterTaskProgress) UnsetStartTime() {
+func (o *EventTaskProgress) UnsetStartTime() {
 	o.StartTime.Unset()
 }
 
 // GetEndTime returns the EndTime field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterTaskProgress) GetEndTime() time.Time {
+func (o *EventTaskProgress) GetEndTime() time.Time {
 	if o == nil || o.EndTime.Get() == nil {
 		var ret time.Time
 		return ret
@@ -254,7 +254,7 @@ func (o *ClusterTaskProgress) GetEndTime() time.Time {
 // GetEndTimeOk returns a tuple with the EndTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterTaskProgress) GetEndTimeOk() (*time.Time, bool) {
+func (o *EventTaskProgress) GetEndTimeOk() (*time.Time, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -262,27 +262,27 @@ func (o *ClusterTaskProgress) GetEndTimeOk() (*time.Time, bool) {
 }
 
 // HasEndTime returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasEndTime() bool {
+func (o *EventTaskProgress) HasEndTime() bool {
 	return o != nil && o.EndTime.IsSet()
 }
 
 // SetEndTime gets a reference to the given common.NullableTime and assigns it to the EndTime field.
-func (o *ClusterTaskProgress) SetEndTime(v time.Time) {
+func (o *EventTaskProgress) SetEndTime(v time.Time) {
 	o.EndTime.Set(&v)
 }
 
 // SetEndTimeNil sets the value for EndTime to be an explicit nil.
-func (o *ClusterTaskProgress) SetEndTimeNil() {
+func (o *EventTaskProgress) SetEndTimeNil() {
 	o.EndTime.Set(nil)
 }
 
 // UnsetEndTime ensures that no value is present for EndTime, not even an explicit nil.
-func (o *ClusterTaskProgress) UnsetEndTime() {
+func (o *EventTaskProgress) UnsetEndTime() {
 	o.EndTime.Unset()
 }
 
 // GetCustomOpsName returns the CustomOpsName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterTaskProgress) GetCustomOpsName() string {
+func (o *EventTaskProgress) GetCustomOpsName() string {
 	if o == nil || o.CustomOpsName.Get() == nil {
 		var ret string
 		return ret
@@ -293,7 +293,7 @@ func (o *ClusterTaskProgress) GetCustomOpsName() string {
 // GetCustomOpsNameOk returns a tuple with the CustomOpsName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterTaskProgress) GetCustomOpsNameOk() (*string, bool) {
+func (o *EventTaskProgress) GetCustomOpsNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -301,27 +301,27 @@ func (o *ClusterTaskProgress) GetCustomOpsNameOk() (*string, bool) {
 }
 
 // HasCustomOpsName returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasCustomOpsName() bool {
+func (o *EventTaskProgress) HasCustomOpsName() bool {
 	return o != nil && o.CustomOpsName.IsSet()
 }
 
 // SetCustomOpsName gets a reference to the given common.NullableString and assigns it to the CustomOpsName field.
-func (o *ClusterTaskProgress) SetCustomOpsName(v string) {
+func (o *EventTaskProgress) SetCustomOpsName(v string) {
 	o.CustomOpsName.Set(&v)
 }
 
 // SetCustomOpsNameNil sets the value for CustomOpsName to be an explicit nil.
-func (o *ClusterTaskProgress) SetCustomOpsNameNil() {
+func (o *EventTaskProgress) SetCustomOpsNameNil() {
 	o.CustomOpsName.Set(nil)
 }
 
 // UnsetCustomOpsName ensures that no value is present for CustomOpsName, not even an explicit nil.
-func (o *ClusterTaskProgress) UnsetCustomOpsName() {
+func (o *EventTaskProgress) UnsetCustomOpsName() {
 	o.CustomOpsName.Unset()
 }
 
 // GetCustomOpsTasks returns the CustomOpsTasks field value if set, zero value otherwise.
-func (o *ClusterTaskProgress) GetCustomOpsTasks() CustomOpsTasks {
+func (o *EventTaskProgress) GetCustomOpsTasks() CustomOpsTasks {
 	if o == nil || o.CustomOpsTasks == nil {
 		var ret CustomOpsTasks
 		return ret
@@ -331,7 +331,7 @@ func (o *ClusterTaskProgress) GetCustomOpsTasks() CustomOpsTasks {
 
 // GetCustomOpsTasksOk returns a tuple with the CustomOpsTasks field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterTaskProgress) GetCustomOpsTasksOk() (*CustomOpsTasks, bool) {
+func (o *EventTaskProgress) GetCustomOpsTasksOk() (*CustomOpsTasks, bool) {
 	if o == nil || o.CustomOpsTasks == nil {
 		return nil, false
 	}
@@ -339,17 +339,17 @@ func (o *ClusterTaskProgress) GetCustomOpsTasksOk() (*CustomOpsTasks, bool) {
 }
 
 // HasCustomOpsTasks returns a boolean if a field has been set.
-func (o *ClusterTaskProgress) HasCustomOpsTasks() bool {
+func (o *EventTaskProgress) HasCustomOpsTasks() bool {
 	return o != nil && o.CustomOpsTasks != nil
 }
 
 // SetCustomOpsTasks gets a reference to the given CustomOpsTasks and assigns it to the CustomOpsTasks field.
-func (o *ClusterTaskProgress) SetCustomOpsTasks(v CustomOpsTasks) {
+func (o *EventTaskProgress) SetCustomOpsTasks(v CustomOpsTasks) {
 	o.CustomOpsTasks = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
+func (o EventTaskProgress) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
@@ -389,7 +389,7 @@ func (o ClusterTaskProgress) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ClusterTaskProgress) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EventTaskProgress) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
 		Name           *string               `json:"name,omitempty"`
 		Group          *string               `json:"group,omitempty"`
