@@ -102,6 +102,8 @@ tags:
     description: Data Replication APIs
   - name: import
     description: Data Import APIs
+  - name: SLA
+    description: SLA APIs
 paths:
   /api/v1/user:
     get:
@@ -1565,6 +1567,39 @@ paths:
       tags:
         - cluster
         - shared
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/batch:
+    post:
+      operationId: batchUpdateClusters
+      summary: Batch update clusters
+      description: Update multiple clusters with the same update information (displayName and/or maintainceWindow) in a single request
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterBatchUpdate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when clusters are updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/validate:
     post:
       operationId: validateClusterCreation
@@ -11165,6 +11200,25 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/platformParameters:
+    get:
+      tags:
+        - platformParameter
+      operationId: listPlatformParameters
+      summary: list platformParameters
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformParameterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/platformParameters/{platformParameterName}:
     get:
       tags:
@@ -11773,7 +11827,7 @@ paths:
         '404':
           $ref: '#/components/responses/404'
         '501':
-          description: Data source does not support DMS operations
+          $ref: '#/components/responses/501'
   /api/v1/organizations/{orgName}/clusters/{clusterName}/import:
     get:
       tags:
@@ -12152,6 +12206,68 @@ paths:
           $ref: '#/components/responses/404'
       tags:
         - billing
+  /api/v1/organizations/{orgName}/sla:
+    get:
+      summary: Calculate SLA for a organization
+      description: Calculate SLA for a organization
+      operationId: CalculateSLAInOrg
+      tags:
+        - SLA
+      parameters:
+        - name: orgName
+          in: path
+          description: name of the organization
+          required: true
+          schema:
+            type: string
+        - name: environmentName
+          in: query
+          description: name of the environment
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: clusterID
+          in: query
+          description: id of the cluster
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: engine
+          in: query
+          description: database engine type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: startTime
+          in: query
+          description: UTC timestamp of the start time to calculate SLA, unit is second
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: SLA calculated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAList'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
 components:
   securitySchemes:
     BearerToken:
@@ -12820,6 +12936,14 @@ components:
         - ValidateOnly
         - ForbiddenExecute
       default: ValidateOnly
+    environmentArchitecture:
+      title: EnvironmentArchitecture
+      type: string
+      description: Architecture of the environment data plane nodes (arm64, amd64, or multiarch for multiple architectures)
+      enum:
+        - arm64
+        - amd64
+        - multiarch
     environment:
       description: Environment info
       properties:
@@ -12895,6 +13019,8 @@ components:
           description: the default storageClass for the environment
         clusterValidationPolicy:
           $ref: '#/components/schemas/clusterValidationPolicy'
+        architecture:
+          $ref: '#/components/schemas/environmentArchitecture'
       required:
         - provider
         - region
@@ -14116,6 +14242,22 @@ components:
         region:
           type: string
           description: region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
+    clusterMaintainceWindow:
+      type: object
+      properties:
+        startHour:
+          type: integer
+          description: start hour, must be 0-23, use UTC timezone
+          x-omitempty: false
+        endHour:
+          type: integer
+          description: end hour, must be 0-23 and greater than start hour, use UTC timezone
+          x-omitempty: false
+        weekdays:
+          type: string
+          x-omitempty: false
+          description: weekdays, comma separated values of 1-7
+      description: the maintenance window for a cluster
     clusterCreate:
       required:
         - engine
@@ -14210,6 +14352,8 @@ components:
             $ref: '#/components/schemas/serviceRef'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -14436,7 +14580,37 @@ components:
             $ref: '#/components/schemas/serviceRef'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster details
+    clusterBatchUpdateData:
+      type: object
+      properties:
+        displayName:
+          description: Display name of cluster. This will be applied to all clusters in the batch.
+          type: string
+          nullable: true
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
+          description: Maintenance window. This will be applied to all clusters in the batch.
+      description: ClusterBatchUpdateData contains the update information to be applied to all clusters in the batch
+    clusterBatchUpdate:
+      type: object
+      required:
+        - names
+        - update
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+          description: List of cluster names to update
+          minItems: 1
+          maxItems: 50
+        update:
+          $ref: '#/components/schemas/clusterBatchUpdateData'
+          description: Update information to be applied to all clusters
+      description: ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
     clusterUpdate:
       type: object
       properties:
@@ -14446,6 +14620,8 @@ components:
           description: Display name of cluster.
           type: string
           nullable: true
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
@@ -15083,6 +15259,46 @@ components:
         - version
         - component
       type: object
+    componentVersionArchitecture:
+      type: object
+      description: |
+        Architecture support configuration for this component versions.
+        If not set, the component versions support all architectures.
+      nullable: true
+      properties:
+        amd64:
+          type: array
+          items:
+            type: string
+          description: |
+            List of versions that support amd64 architecture.
+            Supports version patterns: exact version "8.0.33", major version "8.0", version range ">=8.0.30", etc.
+            If not set, all versions support amd64.
+          nullable: true
+        arm64:
+          type: array
+          items:
+            type: string
+          description: |
+            List of versions that support arm64 architecture.
+            Supports version patterns: exact version "8.0.33", major version "8.0", version range ">=8.0.30", etc.
+            If not set, all versions support arm64.
+          nullable: true
+    engineServiceVersionsItem:
+      type: object
+      properties:
+        default:
+          type: boolean
+        defaultMinorVersion:
+          type: string
+        majorVersion:
+          type: string
+        minorVersions:
+          type: array
+          items:
+            type: string
+        architecture:
+          $ref: '#/components/schemas/componentVersionArchitecture'
     engineServiceVersions:
       type: object
       properties:
@@ -15098,18 +15314,7 @@ components:
         versions:
           type: array
           items:
-            type: object
-            properties:
-              default:
-                type: boolean
-              defaultMinorVersion:
-                type: string
-              majorVersion:
-                type: string
-              minorVersions:
-                type: array
-                items:
-                  type: string
+            $ref: '#/components/schemas/engineServiceVersionsItem'
     opsVolumeExpand:
       description: OpsVolumeExpand is the payload to expand volume for a KubeBlocks cluster
       properties:
@@ -17471,6 +17676,8 @@ components:
                         description: major versions of the current component
                         items:
                           type: string
+            architecture:
+              $ref: '#/components/schemas/componentVersionArchitecture'
         main:
           description: Main component flag
           type: boolean
@@ -17502,7 +17709,7 @@ components:
     serviceDescriptorAddressStyle:
       type: string
       description: |
-        specify the style that will be used in servicedescriptor. 
+        specify the style that will be used in servicedescriptor.
         "hostport" will ask user to provide both host and port.
         "endpoint" will ask user to provide an endpoint.
         When using a serviceSelector, this option will not be effective.
@@ -17517,7 +17724,7 @@ components:
         - service
         - port
       description: |
-        This definition of component/service/port is in line with kubeblocks api 
+        This definition of component/service/port is in line with kubeblocks api
         appsv1.ServiceRefServiceSelector. Read kubeblocks documentation for more information.
       properties:
         mode:
@@ -17648,7 +17855,7 @@ components:
               type: array
               minItems: 1
               description: |
-                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules 
+                when component names are specified in componentAntiAffinity, those components will be scheduled with anti-affinity rules
                 applied to ensure they are spread across different nodes, especially when resource dispersion is enabled.
               items:
                 type: string
@@ -17825,7 +18032,7 @@ components:
             restoreOnComponents:
               type: array
               description: |
-                If this backup needs to be restored on multiple components, the names of those components must be specified. 
+                If this backup needs to be restored on multiple components, the names of those components must be specified.
                 If the restore is only required on the backed-up component itself, then no configuration is needed.
               items:
                 type: string
@@ -18935,6 +19142,13 @@ components:
           nullable: true
         import:
           $ref: '#/components/schemas/importOption'
+          nullable: true
+        architectures:
+          type: array
+          items:
+            type: string
+          description: |
+            List of CPU architectures supported by this engine. If not set, all architectures are supported.
           nullable: true
     engineOptionList:
       required:
@@ -21567,6 +21781,16 @@ components:
           description: platformParameter value
         description:
           $ref: '#/components/schemas/localizedDescription'
+    platformParameterList:
+      description: platformParameter list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/platformParameter'
+      required:
+        - items
     storage:
       type: object
       description: Storage is a specification that provides guidance accessing remote storage.
@@ -22328,6 +22552,78 @@ components:
           type: array
       required:
         - items
+    OutageRecord:
+      type: object
+      description: Records the outage events of a cluster for SLA calculation. It is designed to ensure that for any given cluster, there can be at most one active outage record at any time.
+      required:
+        - clusterID
+      properties:
+        id:
+          type: string
+          description: The unique identifier for the outage record.
+        clusterID:
+          type: string
+          description: The id of cluster.
+        outageStartTime:
+          type: integer
+          format: int64
+          description: The Unix timestamp (in seconds) when the outage began (UTC).
+        outageEndTime:
+          type: integer
+          format: int64
+          nullable: true
+          description: The Unix timestamp (in seconds) when the outage was resolved (UTC). A null value indicates that the outage is still ongoing.
+        lastFailureReason:
+          type: string
+          nullable: true
+          description: The error message from the last failed probe.
+        failureCount:
+          type: integer
+          format: int32
+          nullable: true
+          description: The number of consecutive failures in this outage event.
+          default: 1
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp when the record was created.
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          description: The timestamp when the record was last updated.
+          readOnly: true
+    OutageRecordList:
+      type: array
+      description: A list of outage records.
+      items:
+        $ref: '#/components/schemas/OutageRecord'
+    SLA:
+      type: object
+      description: The SLA (Service Level Agreement) for a cluster.
+      properties:
+        cluster:
+          type: object
+          $ref: '#/components/schemas/clusterListItem'
+        detail:
+          type: object
+          $ref: '#/components/schemas/OutageRecordList'
+        sla:
+          type: number
+          description: The SLA value for the cluster.
+        totalDuration:
+          type: integer
+          format: int64
+          description: The total duration of the outage records.
+        totalDowntime:
+          type: integer
+          format: int64
+          description: The total downtime duration of the outage records.
+    SLAList:
+      type: array
+      description: A list of SLA records.
+      items:
+        $ref: '#/components/schemas/SLA'
   responses:
     '400':
       content:

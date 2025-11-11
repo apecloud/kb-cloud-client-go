@@ -2,17 +2,15 @@
 // This product includes software developed at ApeCloud (https://www.apecloud.com/).
 // Copyright 2022-Present ApeCloud Co., Ltd
 
-package kbcloud
+package admin
 
 import (
 	"github.com/apecloud/kb-cloud-client-go/api/common"
 )
 
-// ClusterUpdate ClusterUpdate is the payload to update a KubeBlocks cluster
-type ClusterUpdate struct {
-	// The termination policy of cluster.
-	TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-	// Display name of cluster.
+// ClusterBatchUpdateData ClusterBatchUpdateData contains the update information to be applied to all clusters in the batch
+type ClusterBatchUpdateData struct {
+	// Display name of cluster. This will be applied to all clusters in the batch.
 	DisplayName common.NullableString `json:"displayName,omitempty"`
 	// the maintenance window for a cluster
 	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
@@ -21,57 +19,25 @@ type ClusterUpdate struct {
 	AdditionalProperties map[string]interface{} `json:"-"`
 }
 
-// NewClusterUpdate instantiates a new ClusterUpdate object.
+// NewClusterBatchUpdateData instantiates a new ClusterBatchUpdateData object.
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed.
-func NewClusterUpdate() *ClusterUpdate {
-	this := ClusterUpdate{}
-	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
-	this.TerminationPolicy = &terminationPolicy
+func NewClusterBatchUpdateData() *ClusterBatchUpdateData {
+	this := ClusterBatchUpdateData{}
 	return &this
 }
 
-// NewClusterUpdateWithDefaults instantiates a new ClusterUpdate object.
+// NewClusterBatchUpdateDataWithDefaults instantiates a new ClusterBatchUpdateData object.
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set.
-func NewClusterUpdateWithDefaults() *ClusterUpdate {
-	this := ClusterUpdate{}
-	var terminationPolicy ClusterTerminationPolicy = ClusterTerminationPolicyDelete
-	this.TerminationPolicy = &terminationPolicy
+func NewClusterBatchUpdateDataWithDefaults() *ClusterBatchUpdateData {
+	this := ClusterBatchUpdateData{}
 	return &this
-}
-
-// GetTerminationPolicy returns the TerminationPolicy field value if set, zero value otherwise.
-func (o *ClusterUpdate) GetTerminationPolicy() ClusterTerminationPolicy {
-	if o == nil || o.TerminationPolicy == nil {
-		var ret ClusterTerminationPolicy
-		return ret
-	}
-	return *o.TerminationPolicy
-}
-
-// GetTerminationPolicyOk returns a tuple with the TerminationPolicy field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ClusterUpdate) GetTerminationPolicyOk() (*ClusterTerminationPolicy, bool) {
-	if o == nil || o.TerminationPolicy == nil {
-		return nil, false
-	}
-	return o.TerminationPolicy, true
-}
-
-// HasTerminationPolicy returns a boolean if a field has been set.
-func (o *ClusterUpdate) HasTerminationPolicy() bool {
-	return o != nil && o.TerminationPolicy != nil
-}
-
-// SetTerminationPolicy gets a reference to the given ClusterTerminationPolicy and assigns it to the TerminationPolicy field.
-func (o *ClusterUpdate) SetTerminationPolicy(v ClusterTerminationPolicy) {
-	o.TerminationPolicy = &v
 }
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ClusterUpdate) GetDisplayName() string {
+func (o *ClusterBatchUpdateData) GetDisplayName() string {
 	if o == nil || o.DisplayName.Get() == nil {
 		var ret string
 		return ret
@@ -82,7 +48,7 @@ func (o *ClusterUpdate) GetDisplayName() string {
 // GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned.
-func (o *ClusterUpdate) GetDisplayNameOk() (*string, bool) {
+func (o *ClusterBatchUpdateData) GetDisplayNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -90,27 +56,27 @@ func (o *ClusterUpdate) GetDisplayNameOk() (*string, bool) {
 }
 
 // HasDisplayName returns a boolean if a field has been set.
-func (o *ClusterUpdate) HasDisplayName() bool {
+func (o *ClusterBatchUpdateData) HasDisplayName() bool {
 	return o != nil && o.DisplayName.IsSet()
 }
 
 // SetDisplayName gets a reference to the given common.NullableString and assigns it to the DisplayName field.
-func (o *ClusterUpdate) SetDisplayName(v string) {
+func (o *ClusterBatchUpdateData) SetDisplayName(v string) {
 	o.DisplayName.Set(&v)
 }
 
 // SetDisplayNameNil sets the value for DisplayName to be an explicit nil.
-func (o *ClusterUpdate) SetDisplayNameNil() {
+func (o *ClusterBatchUpdateData) SetDisplayNameNil() {
 	o.DisplayName.Set(nil)
 }
 
 // UnsetDisplayName ensures that no value is present for DisplayName, not even an explicit nil.
-func (o *ClusterUpdate) UnsetDisplayName() {
+func (o *ClusterBatchUpdateData) UnsetDisplayName() {
 	o.DisplayName.Unset()
 }
 
 // GetMaintainceWindow returns the MaintainceWindow field value if set, zero value otherwise.
-func (o *ClusterUpdate) GetMaintainceWindow() ClusterMaintainceWindow {
+func (o *ClusterBatchUpdateData) GetMaintainceWindow() ClusterMaintainceWindow {
 	if o == nil || o.MaintainceWindow == nil {
 		var ret ClusterMaintainceWindow
 		return ret
@@ -120,7 +86,7 @@ func (o *ClusterUpdate) GetMaintainceWindow() ClusterMaintainceWindow {
 
 // GetMaintainceWindowOk returns a tuple with the MaintainceWindow field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ClusterUpdate) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool) {
+func (o *ClusterBatchUpdateData) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool) {
 	if o == nil || o.MaintainceWindow == nil {
 		return nil, false
 	}
@@ -128,23 +94,20 @@ func (o *ClusterUpdate) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool)
 }
 
 // HasMaintainceWindow returns a boolean if a field has been set.
-func (o *ClusterUpdate) HasMaintainceWindow() bool {
+func (o *ClusterBatchUpdateData) HasMaintainceWindow() bool {
 	return o != nil && o.MaintainceWindow != nil
 }
 
 // SetMaintainceWindow gets a reference to the given ClusterMaintainceWindow and assigns it to the MaintainceWindow field.
-func (o *ClusterUpdate) SetMaintainceWindow(v ClusterMaintainceWindow) {
+func (o *ClusterBatchUpdateData) SetMaintainceWindow(v ClusterMaintainceWindow) {
 	o.MaintainceWindow = &v
 }
 
 // MarshalJSON serializes the struct using spec logic.
-func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
+func (o ClusterBatchUpdateData) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.UnparsedObject != nil {
 		return common.Marshal(o.UnparsedObject)
-	}
-	if o.TerminationPolicy != nil {
-		toSerialize["terminationPolicy"] = o.TerminationPolicy
 	}
 	if o.DisplayName.IsSet() {
 		toSerialize["displayName"] = o.DisplayName.Get()
@@ -160,28 +123,22 @@ func (o ClusterUpdate) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON deserializes the given payload.
-func (o *ClusterUpdate) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClusterBatchUpdateData) UnmarshalJSON(bytes []byte) (err error) {
 	all := struct {
-		TerminationPolicy *ClusterTerminationPolicy `json:"terminationPolicy,omitempty"`
-		DisplayName       common.NullableString     `json:"displayName,omitempty"`
-		MaintainceWindow  *ClusterMaintainceWindow  `json:"maintainceWindow,omitempty"`
+		DisplayName      common.NullableString    `json:"displayName,omitempty"`
+		MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"terminationPolicy", "displayName", "maintainceWindow"})
+		common.DeleteKeys(additionalProperties, &[]string{"displayName", "maintainceWindow"})
 	} else {
 		return err
 	}
 
 	hasInvalidField := false
-	if all.TerminationPolicy != nil && !all.TerminationPolicy.IsValid() {
-		hasInvalidField = true
-	} else {
-		o.TerminationPolicy = all.TerminationPolicy
-	}
 	o.DisplayName = all.DisplayName
 	if all.MaintainceWindow != nil && all.MaintainceWindow.UnparsedObject != nil && o.UnparsedObject == nil {
 		hasInvalidField = true
