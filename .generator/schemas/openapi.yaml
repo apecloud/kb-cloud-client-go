@@ -1644,6 +1644,39 @@ paths:
       tags:
         - cluster
         - shared
+      x-codegen-request-body-name: body
+  /api/v1/organizations/{orgName}/clusters/batch:
+    post:
+      operationId: batchUpdateClusters
+      summary: Batch update clusters
+      description: Update multiple clusters with the same update information (displayName and/or maintainceWindow) in a single request
+      parameters:
+        - description: name of the Org
+          in: path
+          name: orgName
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/clusterBatchUpdate'
+        required: true
+      responses:
+        '204':
+          content: {}
+          description: Returned when clusters are updated successfully.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+      tags:
+        - cluster
+        - shared
+      x-codegen-request-body-name: body
   /api/v1/organizations/{orgName}/clusters/validate:
     post:
       operationId: validateClusterCreation
@@ -14346,6 +14379,22 @@ components:
         region:
           type: string
           description: region to use. If using a s3-compatible service that does not require a region (like minio), leave it blank.
+    clusterMaintainceWindow:
+      type: object
+      properties:
+        startHour:
+          type: integer
+          description: start hour, must be 0-23, use UTC timezone
+          x-omitempty: false
+        endHour:
+          type: integer
+          description: end hour, must be 0-23 and greater than start hour, use UTC timezone
+          x-omitempty: false
+        weekdays:
+          type: string
+          x-omitempty: false
+          description: weekdays, comma separated values of 1-7
+      description: the maintenance window for a cluster
     clusterCreate:
       required:
         - engine
@@ -14440,6 +14489,8 @@ components:
             $ref: '#/components/schemas/serviceRef'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster information
     componentItem:
       type: object
@@ -14666,7 +14717,37 @@ components:
             $ref: '#/components/schemas/serviceRef'
         objectStorageConfig:
           $ref: '#/components/schemas/clusterObjectStorageConfig'
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: KubeBlocks cluster details
+    clusterBatchUpdateData:
+      type: object
+      properties:
+        displayName:
+          description: Display name of cluster. This will be applied to all clusters in the batch.
+          type: string
+          nullable: true
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
+          description: Maintenance window. This will be applied to all clusters in the batch.
+      description: ClusterBatchUpdateData contains the update information to be applied to all clusters in the batch
+    clusterBatchUpdate:
+      type: object
+      required:
+        - names
+        - update
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+          description: List of cluster names to update
+          minItems: 1
+          maxItems: 50
+        update:
+          $ref: '#/components/schemas/clusterBatchUpdateData'
+          description: Update information to be applied to all clusters
+      description: ClusterBatchUpdate is the payload for batch updating multiple clusters with the same update information
     clusterUpdate:
       type: object
       properties:
@@ -14676,6 +14757,8 @@ components:
           description: Display name of cluster.
           type: string
           nullable: true
+        maintainceWindow:
+          $ref: '#/components/schemas/clusterMaintainceWindow'
       description: ClusterUpdate is the payload to update a KubeBlocks cluster
     instanceStorageItem:
       description: Instance storage information
