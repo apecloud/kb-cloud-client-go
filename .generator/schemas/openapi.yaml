@@ -11165,6 +11165,25 @@ paths:
           $ref: '#/components/responses/401'
         '403':
           $ref: '#/components/responses/403'
+  /api/v1/platformParameters:
+    get:
+      tags:
+        - platformParameter
+      operationId: listPlatformParameters
+      summary: list platformParameters
+      responses:
+        '200':
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platformParameterList'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
   /api/v1/platformParameters/{platformParameterName}:
     get:
       tags:
@@ -21615,6 +21634,16 @@ components:
           description: platformParameter value
         description:
           $ref: '#/components/schemas/localizedDescription'
+    platformParameterList:
+      description: platformParameter list
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/platformParameter'
+      required:
+        - items
     storage:
       type: object
       description: Storage is a specification that provides guidance accessing remote storage.
