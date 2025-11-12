@@ -20270,7 +20270,7 @@ components:
           type: number
           format: double
         replicas:
-          description: the replicas of core componment, such as kubeblocks and gemini
+          description: the replicas of core component, such as kubeblocks and gemini
           type: integer
           minimum: 1
           default: 1
