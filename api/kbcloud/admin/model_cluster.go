@@ -94,6 +94,8 @@ type Cluster struct {
 	ReferencedBy []ServiceRef `json:"referencedBy,omitempty"`
 	// Specify the object storage config for cluster like starrocks
 	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+	// the maintenance window for a cluster
+	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -1378,6 +1380,34 @@ func (o *Cluster) SetObjectStorageConfig(v ClusterObjectStorageConfig) {
 	o.ObjectStorageConfig = &v
 }
 
+// GetMaintainceWindow returns the MaintainceWindow field value if set, zero value otherwise.
+func (o *Cluster) GetMaintainceWindow() ClusterMaintainceWindow {
+	if o == nil || o.MaintainceWindow == nil {
+		var ret ClusterMaintainceWindow
+		return ret
+	}
+	return *o.MaintainceWindow
+}
+
+// GetMaintainceWindowOk returns a tuple with the MaintainceWindow field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Cluster) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool) {
+	if o == nil || o.MaintainceWindow == nil {
+		return nil, false
+	}
+	return o.MaintainceWindow, true
+}
+
+// HasMaintainceWindow returns a boolean if a field has been set.
+func (o *Cluster) HasMaintainceWindow() bool {
+	return o != nil && o.MaintainceWindow != nil
+}
+
+// SetMaintainceWindow gets a reference to the given ClusterMaintainceWindow and assigns it to the MaintainceWindow field.
+func (o *Cluster) SetMaintainceWindow(v ClusterMaintainceWindow) {
+	o.MaintainceWindow = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o Cluster) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -1512,6 +1542,9 @@ func (o Cluster) MarshalJSON() ([]byte, error) {
 	if o.ObjectStorageConfig != nil {
 		toSerialize["objectStorageConfig"] = o.ObjectStorageConfig
 	}
+	if o.MaintainceWindow != nil {
+		toSerialize["maintainceWindow"] = o.MaintainceWindow
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -1564,6 +1597,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		ServiceRefs            []ServiceRef                `json:"serviceRefs,omitempty"`
 		ReferencedBy           []ServiceRef                `json:"referencedBy,omitempty"`
 		ObjectStorageConfig    *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+		MaintainceWindow       *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -1579,7 +1613,7 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig"})
+		common.DeleteKeys(additionalProperties, &[]string{"id", "parentId", "parentName", "parentDisplayName", "clusterType", "delay", "orgName", "cloudProvider", "environmentId", "environmentName", "environmentType", "cloudRegion", "project", "name", "hash", "engine", "license", "paramTpls", "version", "terminationPolicy", "tlsEnabled", "nodePortEnabled", "status", "createdAt", "updatedAt", "mode", "proxyEnabled", "components", "extra", "initOptions", "singleZone", "availabilityZones", "podAntiAffinityEnabled", "backup", "nodeGroup", "codeShort", "displayName", "static", "networkMode", "serviceRefs", "referencedBy", "objectStorageConfig", "maintainceWindow"})
 	} else {
 		return err
 	}
@@ -1648,6 +1682,10 @@ func (o *Cluster) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ObjectStorageConfig = all.ObjectStorageConfig
+	if all.MaintainceWindow != nil && all.MaintainceWindow.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.MaintainceWindow = all.MaintainceWindow
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties

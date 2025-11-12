@@ -57,6 +57,8 @@ type ClusterCreate struct {
 	ServiceRefs []ServiceRef `json:"serviceRefs,omitempty"`
 	// Specify the object storage config for cluster like starrocks
 	ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+	// the maintenance window for a cluster
+	MaintainceWindow *ClusterMaintainceWindow `json:"maintainceWindow,omitempty"`
 	// UnparsedObject contains the raw value of the object if there was an error when deserializing into the struct
 	UnparsedObject       map[string]interface{} `json:"-"`
 	AdditionalProperties map[string]interface{} `json:"-"`
@@ -788,6 +790,34 @@ func (o *ClusterCreate) SetObjectStorageConfig(v ClusterObjectStorageConfig) {
 	o.ObjectStorageConfig = &v
 }
 
+// GetMaintainceWindow returns the MaintainceWindow field value if set, zero value otherwise.
+func (o *ClusterCreate) GetMaintainceWindow() ClusterMaintainceWindow {
+	if o == nil || o.MaintainceWindow == nil {
+		var ret ClusterMaintainceWindow
+		return ret
+	}
+	return *o.MaintainceWindow
+}
+
+// GetMaintainceWindowOk returns a tuple with the MaintainceWindow field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ClusterCreate) GetMaintainceWindowOk() (*ClusterMaintainceWindow, bool) {
+	if o == nil || o.MaintainceWindow == nil {
+		return nil, false
+	}
+	return o.MaintainceWindow, true
+}
+
+// HasMaintainceWindow returns a boolean if a field has been set.
+func (o *ClusterCreate) HasMaintainceWindow() bool {
+	return o != nil && o.MaintainceWindow != nil
+}
+
+// SetMaintainceWindow gets a reference to the given ClusterMaintainceWindow and assigns it to the MaintainceWindow field.
+func (o *ClusterCreate) SetMaintainceWindow(v ClusterMaintainceWindow) {
+	o.MaintainceWindow = &v
+}
+
 // MarshalJSON serializes the struct using spec logic.
 func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
@@ -860,6 +890,9 @@ func (o ClusterCreate) MarshalJSON() ([]byte, error) {
 	if o.ObjectStorageConfig != nil {
 		toSerialize["objectStorageConfig"] = o.ObjectStorageConfig
 	}
+	if o.MaintainceWindow != nil {
+		toSerialize["maintainceWindow"] = o.MaintainceWindow
+	}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -894,6 +927,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		NetworkMode         *NetworkMode                `json:"networkMode,omitempty"`
 		ServiceRefs         []ServiceRef                `json:"serviceRefs,omitempty"`
 		ObjectStorageConfig *ClusterObjectStorageConfig `json:"objectStorageConfig,omitempty"`
+		MaintainceWindow    *ClusterMaintainceWindow    `json:"maintainceWindow,omitempty"`
 	}{}
 	if err = common.Unmarshal(bytes, &all); err != nil {
 		return err
@@ -909,7 +943,7 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 	}
 	additionalProperties := make(map[string]interface{})
 	if err = common.Unmarshal(bytes, &additionalProperties); err == nil {
-		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig"})
+		common.DeleteKeys(additionalProperties, &[]string{"parentId", "clusterType", "orgName", "environmentName", "project", "name", "engine", "license", "paramTpls", "version", "terminationPolicy", "mode", "components", "extra", "initOptions", "singleZone", "availabilityZones", "backup", "nodeGroup", "displayName", "static", "networkMode", "serviceRefs", "objectStorageConfig", "maintainceWindow"})
 	} else {
 		return err
 	}
@@ -960,6 +994,10 @@ func (o *ClusterCreate) UnmarshalJSON(bytes []byte) (err error) {
 		hasInvalidField = true
 	}
 	o.ObjectStorageConfig = all.ObjectStorageConfig
+	if all.MaintainceWindow != nil && all.MaintainceWindow.UnparsedObject != nil && o.UnparsedObject == nil {
+		hasInvalidField = true
+	}
+	o.MaintainceWindow = all.MaintainceWindow
 
 	if len(additionalProperties) > 0 {
 		o.AdditionalProperties = additionalProperties
