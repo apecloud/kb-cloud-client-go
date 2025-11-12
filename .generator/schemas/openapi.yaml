@@ -4063,6 +4063,11 @@ paths:
           required: true
           schema:
             type: string
+        - description: id of the Cluster
+          in: query
+          name: clusterID
+          schema:
+            type: string
       responses:
         '200':
           content:
